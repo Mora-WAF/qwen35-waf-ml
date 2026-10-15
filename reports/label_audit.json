@@ -1,6 +1,6 @@
 {
- "reviewed": 19602,
- "items": 19602,
+ "reviewed": 23662,
+ "items": 23662,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
@@ -16,16 +16,27 @@
    "agreement": 0.71
   },
   "benign_standard_traffic": {
-   "agree": 2856,
-   "insufficient": 191,
-   "disagree": 259,
-   "agreement": 0.92
+   "agree": 4031,
+   "insufficient": 209,
+   "disagree": 264,
+   "agreement": 0.94
+  },
+  "bfla_admin_function_probing": {
+   "agree": 576,
+   "insufficient": 0,
+   "agreement": 1.0
   },
   "bola_idor_enumeration": {
    "agree": 848,
    "insufficient": 4,
    "disagree": 8,
    "agreement": 0.99
+  },
+  "bopla_mass_assignment": {
+   "agree": 575,
+   "insufficient": 0,
+   "disagree": 1,
+   "agreement": 1.0
   },
   "crlf_header_injection": {
    "agree": 9,
@@ -74,6 +85,18 @@
    "disagree": 12,
    "agreement": 0.99
   },
+  "malicious_file_upload_webshell": {
+   "agree": 568,
+   "insufficient": 13,
+   "disagree": 8,
+   "agreement": 0.99
+  },
+  "mcp_agentic_tool_abuse": {
+   "agree": 572,
+   "insufficient": 8,
+   "disagree": 4,
+   "agreement": 0.99
+  },
   "nosqli": {
    "agree": 9,
    "insufficient": 1,
@@ -95,6 +118,11 @@
    "insufficient": 3,
    "disagree": 7,
    "agreement": 0.99
+  },
+  "race_condition_toctou_burst": {
+   "agree": 576,
+   "insufficient": 0,
+   "agreement": 1.0
   },
   "rce_cmd_injection": {
    "agree": 19,
@@ -190,14 +218,14 @@
    36
   ],
   [
+   "benign_standard_traffic",
    "benign_hard_negative_dev",
-   "csv_formula_injection",
    33
   ],
   [
-   "benign_standard_traffic",
    "benign_hard_negative_dev",
-   30
+   "csv_formula_injection",
+   33
   ],
   [
    "graphql_abuse",
@@ -255,5 +283,5 @@
    10
   ]
  ],
- "quarantined": 4599
+ "quarantined": 4651
 }

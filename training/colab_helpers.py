@@ -72,3 +72,50 @@ def generate_label(model, tok, messages, max_new_tokens=24):
     ids = tok(prompt, return_tensors="pt", add_special_tokens=False).to("cuda")
     gen = model.generate(**ids, max_new_tokens=max_new_tokens, do_sample=False, eos_token_id=tok.eos_token_id)
     return tok.decode(gen[0, ids["input_ids"].shape[1]:], skip_special_tokens=True).strip()
+
+
+# ---- calibrated scoring (spec §10): log P(completion | prompt) for every allowed class ------------------------
+def candidate_suffixes(tok, classes):
+    """Token ids of each class's full assistant completion (JSON + end of turn), as the training target renders it.
+    The prompt/completion boundary is template-fixed, so a dummy prompt gives the same suffixes for every record."""
+    msgs = [{"role": "system", "content": "s"}, {"role": "user", "content": "u"}]
+    p = tok(tok.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True, enable_thinking=False),
+            add_special_tokens=False)["input_ids"]
+    eos, out = tok.convert_tokens_to_ids(tok.eos_token), []
+    for c in classes:
+        tgt = json.dumps({"threat_type": c}, separators=(",", ":"))
+        f = tok(tok.apply_chat_template(msgs + [{"role": "assistant", "content": tgt}], tokenize=False),
+                add_special_tokens=False)["input_ids"]
+        assert f[:len(p)] == p, "template prefix mismatch"
+        s = f[len(p):]
+        out.append(s[:max(i for i, t in enumerate(s) if t == eos) + 1])  # through <|im_end|>, as supervised
+    return out
+
+
+@torch.no_grad()
+def class_logprobs(model, tok, messages, suffixes):
+    """Summed completion log-probs, one per class: one prefill of prompt + the shared candidate prefix
+    ({"threat_type":" ...), then all class suffixes in one batch from a replicated cache."""
+    p = tok(tok.apply_chat_template(messages[:2], tokenize=False, add_generation_prompt=True, enable_thinking=False),
+            add_special_tokens=False)["input_ids"]
+    k = 0
+    while all(len(s) > k + 1 and s[k] == suffixes[0][k] for s in suffixes):
+        k += 1  # shared prefix: identical for every class, kept in the sum so scores are full log P(completion)
+    ctx = torch.tensor([p + suffixes[0][:k]], device="cuda")
+    out = model(input_ids=ctx, use_cache=True)
+    lp = torch.log_softmax(out.logits[0, len(p) - 1:].float(), -1)  # predicts ctx[len(p):] then the first suffix token
+    shared = sum(lp[i, t].item() for i, t in enumerate(suffixes[0][:k]))
+    first = lp[-1]
+    rest = [s[k:] for s in suffixes]
+    n, L = len(rest), max(len(r) for r in rest)
+    cache = out.past_key_values
+    cache.reorder_cache(torch.zeros(n, dtype=torch.long, device="cuda"))  # batch-replicate (linear-attn states too)
+    ids = torch.full((n, L), tok.pad_token_id, device="cuda")
+    for i, r in enumerate(rest):
+        ids[i, :len(r)] = torch.tensor(r, device="cuda")  # right padding: causal, never seen by real tokens
+    nxt = torch.log_softmax(model(input_ids=ids, past_key_values=cache, use_cache=True).logits.float(), -1)
+    scores = []
+    for i, r in enumerate(rest):
+        s = first[r[0]].item() + sum(nxt[i, j - 1, r[j]].item() for j in range(1, len(r)))
+        scores.append(shared + s)
+    return scores

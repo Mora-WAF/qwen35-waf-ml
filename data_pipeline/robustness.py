@@ -1,4 +1,4 @@
-"""Robustness set (spec §8): outside the 35-class core, never in the confusion matrix.
+"""Robustness set (spec §8): outside the core taxonomy, never in the confusion matrix.
 
 Four kinds, each with its published expected policy behaviour:
   insufficient_context  quality-rejected seeds (too short / no attack syntax) in requests -> must not intervene

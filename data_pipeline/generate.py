@@ -414,6 +414,13 @@ FLOW_PROFILES = {
                                 syn_frac=(0.02, 0.08), bytes_per_pkt=(400, 1400), dst_fanout=(1, 1),
                                 ja4=True,
                                     variants=[dict(name="short_handshake_burst", dur=(0.2, 3), pkts=(8, 40)), dict(name="long_session", dur=(60, 900), pkts=(200, 3000))]),
+    # synthetic only (no observed source records HTTP/2 frames): stream floods over few established connections
+    "http2_rapid_reset_continuation": dict(fwd_frac=(0.55, 0.85), ports=[443, 8443], window="fixed_window", dur=(4, 6), pkts=(5000, 80000), proto="tcp",
+                                           syn_frac=(0.0, 0.01), bytes_per_pkt=(60, 400), dst_fanout=(1, 1), h2_rst=(0.85, 1.0), h2_cont=(0, 2),
+                                    variants=[dict(name="continuation_flood", pkts=(300, 6000), bytes_per_pkt=(900, 1460), fwd_frac=(0.85, 1.0), h2_rst=(0.0, 0.1), h2_cont=(40, 20000)),
+                                              dict(name="mixed_reset", h2_rst=(0.45, 0.85)),  # overlaps legitimate stream cancellation
+                                              dict(name="low_rate_reset", pkts=(800, 5000), bytes_per_pkt=(200, 900)),
+                                              dict(name="multi_connection", conn=(20, 200))]),
     "benign_standard_traffic": dict(fwd_frac=(0.25, 0.6), ports=[443, 80, 8080, 22, 993, 5432], window="full_flow", dur=(1, 120), pkts=(10, 500), proto="tcp",
                                     syn_frac=(0.01, 0.05), bytes_per_pkt=(400, 1400), dst_fanout=(1, 2),
                                     variants=[  # benign UDP/DNS/QUIC/NTP so protocol and port are not attack-only
@@ -430,7 +437,9 @@ FLOW_PROFILES = {
                                         dict(name="metrics_push", ports=[443, 4317, 9090], window="full_flow", dur=(300, 3600), pkts=(60, 400), bytes_per_pkt=(300, 1200), fwd_frac=(0.55, 0.75), syn_frac=(0.02, 0.08), iat_cv=(0.16, 0.5)),  # periodic low-rate agent: ordinary traffic, not high-rate
                                         dict(name="keepalive_long_poll", ports=[443, 8443], window="full_flow", dur=(600, 3600), pkts=(30, 160), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.6), syn_frac=(0.01, 0.06), iat_cv=(0.2, 0.6)),  # periodic low-rate agent: ordinary traffic, not high-rate
                                         dict(name="mobile_push_channel", ports=[443, 5223], window="full_flow", dur=(900, 3600), pkts=(20, 120), bytes_per_pkt=(120, 700), fwd_frac=(0.35, 0.55), syn_frac=(0.01, 0.05), iat_cv=(0.25, 0.8)),  # periodic low-rate agent: ordinary traffic, not high-rate
-                                        dict(name="large_download_https", ports=[443, 80], dur=(10, 600), pkts=(1000, 40000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01))]),
+                                        dict(name="large_download_https", ports=[443, 80], dur=(10, 600), pkts=(1000, 40000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
+                                        dict(name="h2_large_headers", ports=[443], dur=(1, 60), pkts=(10, 300), h2_rst=(0.0, 0.2), h2_cont=(2, 30)),  # big cookies / JWTs split over CONTINUATION
+                                        dict(name="h2_browser_navigation", ports=[443], dur=(1, 120), pkts=(30, 800), h2_rst=(0.15, 0.6), h2_cont=(0, 2))]),  # cancelled prefetch / media seeks
     "benign_high_rate_legit": dict(fwd_frac=(0.3, 0.6), ports=[443, 80], window="fixed_window", dur=(4, 6), pkts=(2000, 15000), proto="tcp",
                                    syn_frac=(0.02, 0.08), bytes_per_pkt=(500, 1400), dst_fanout=(1, 3),
                                    variants=[  # hard negatives against floods, amplification and beacons
@@ -444,7 +453,10 @@ FLOW_PROFILES = {
                                        # sibling download regimes: no benign behaviour rests on a single variant
                                        dict(name="backup_restore_download", ports=[443, 22], window="full_flow", dur=(300, 3600), pkts=(20000, 500000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
                                        dict(name="mirror_sync_pull", ports=[80, 443, 873], window="full_flow", dur=(600, 3600), pkts=(50000, 900000), bytes_per_pkt=(1300, 1460), fwd_frac=(0.04, 0.15), syn_frac=(0.0, 0.01)),
-                                       dict(name="dataset_fetch_windowed", ports=[443], pkts=(3000, 15000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.02))]),
+                                       dict(name="dataset_fetch_windowed", ports=[443], pkts=(3000, 15000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.02)),
+                                       # legitimate high stream-cancel rates: the lookalike of rapid reset
+                                       dict(name="grpc_stream_cancel", ports=[443, 8443], pkts=(2000, 30000), bytes_per_pkt=(120, 700), fwd_frac=(0.45, 0.7), syn_frac=(0.0, 0.01), h2_rst=(0.2, 0.7), h2_cont=(0, 2), conn=(1, 8)),
+                                       dict(name="h2_api_gateway_fanin", ports=[443], pkts=(4000, 40000), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.65), syn_frac=(0.0, 0.01), h2_rst=(0.0, 0.3), h2_cont=(0, 6), conn=(1, 6))]),
 }
 # Window evidence per class: (connections to the same dst host+port in the minute, distinct dst ports on that host).
 # None for ports = follow the profile's dst_fanout. Variants may override with "conn" / "dports".
@@ -453,6 +465,7 @@ WINDOW_EVIDENCE = {
     "slowloris_slowhttp": ((60, 1200), (1, 1)), "port_scan_recon": ((1, 3), None),
     "credential_stuffing_bruteforce": ((40, 900), (1, 2)), "c2_beaconing_anomaly": ((1, 3), (1, 1)),
     "dns_tunneling_exfil": ((1, 6), (1, 1)), "tls_ja4_ua_spoofing": ((1, 12), (1, 1)),
+    "http2_rapid_reset_continuation": ((1, 30), (1, 1)),
     "benign_standard_traffic": ((1, 12), (1, 3)), "benign_high_rate_legit": ((1, 40), (1, 3)),
 }
 
@@ -503,7 +516,13 @@ def tls_context(r, kind):
 # Overlapping on purpose (CIC-Bell-DNS-EXF-2021, observed: exfil qname length 25 / entropy 2.44 vs benign 18.5 / 2.50):
 # entropy alone does not separate real exfil; tunnels range from short low-entropy labels to long encoded ones,
 # and benign includes high-entropy names (CDN hashes, DKIM, telemetry). Volume and rate carry the evidence.
-DNS_NORMAL, DNS_TUNNEL = ((8, 34), (2.0, 3.9)), ((20, 120), (2.2, 4.5))
+# (qname_len_mean, entropy, parent_domain_top_share). Real CIC-Bell-DNS-EXF-2021 60 s windows (p10-p90): qname length
+# benign 17.5-20, exfil 24.9-26; top share benign 0.19-0.29, exfil 0.51-0.62; entropy does not separate them.
+# Synthetic ranges bracket the real ones with a small overlap; wider benign ranges contradicted observed exfil records.
+DNS_NORMAL, DNS_TUNNEL = ((8, 24), (2.0, 3.9), (0.05, 0.45)), ((23, 120), (2.2, 4.5), (0.42, 0.98))
+
+
+H2_NORMAL = ((0.0, 0.15), (0, 3))  # (RST_STREAM/HEADERS ratio, CONTINUATION frames) for ordinary HTTP/2 traffic
 
 
 def sig(x, n=6):
@@ -543,13 +562,21 @@ def synth_flow(cls, idx):
     elif pr["window"] == "full_flow" and r.random() < 0.4:
         feats["iat_cv"] = round(r.uniform(0.4, 2.5), 4)
     if pr.get("dns") or (feats["dst_port"] == 53 and pr["proto"] == "udp"):
-        (ln, ent) = DNS_TUNNEL if cls == "dns_tunneling_exfil" else DNS_NORMAL
+        (ln, ent, top) = DNS_TUNNEL if cls == "dns_tunneling_exfil" else DNS_NORMAL
         feats["qname_len_mean"] = round(r.uniform(*ln), 2)
         feats["qname_entropy_bits_per_char"] = round(r.uniform(*ent), 3)
+        feats["parent_domain_top_share"] = round(r.uniform(*top), 3)
     if pr.get("ja4"):
         feats["ja4_ua_consistent"] = 0.0  # measured mismatch; mapping justified in metadata
     elif pr["proto"] == "tcp" and feats["dst_port"] in (443, 8443) and r.random() < 0.4:
         feats["ja4_ua_consistent"] = 1.0
+    # HTTP/2 frame counters: on any TLS flow that carried application data (not SYN floods or scans), so the
+    # keys are not a label; the h2 class and the benign lookalike variants set their own ranges
+    if "h2_rst" in pr or (pr["proto"] == "tcp" and feats["dst_port"] in (443, 8443)
+                          and cls not in ("syn_flood_ddos", "port_scan_recon") and r.random() < 0.5):
+        lo, hi = pr.get("h2_cont", H2_NORMAL[1])
+        feats["h2_rst_stream_ratio"] = round(r.uniform(*pr.get("h2_rst", H2_NORMAL[0])), 3)
+        feats["h2_continuation_frames"] = _log_uniform(r, lo, hi) if lo else r.randint(lo, hi)
     conn_rng, port_rng = WINDOW_EVIDENCE[cls]
     conn_rng = pr.get("conn", conn_rng)
     port_rng = pr.get("dports", port_rng or pr.get("dst_fanout", (1, 1)))
@@ -695,7 +722,8 @@ def gen_observed_flow(entries):
     """Observed flow rows (data_pipeline.flows pool) -> records. Label from the source dataset."""
     out = []
     for e in entries:
-        rec_id = f"obs:{e['source']}:{e['original_id']}".replace(" ", "_")[:128]
+        # schema id charset is [A-Za-z0-9_.:~-]; source ids may carry '@', '/', spaces (CIC-DDoS2019 flow id + timestamp)
+        rec_id = re.sub(r"[^A-Za-z0-9_.:~-]", "_", f"obs:{e['source']}:{e['original_id']}")[:128]
         out.append(assemble(rec_id, e["cls"], e["telemetry"], "observed",
                             {"method": "source_annotation", "source_label": e["original_label"]},
                             {"source": e["source"], "source_revision": e["source_revision"],

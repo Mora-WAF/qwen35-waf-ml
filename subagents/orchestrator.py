@@ -24,7 +24,9 @@ OUT = JOBS / "out"
 # L7 classes with no line-seed source -> scenario fixtures from a Haiku worker.
 GAP_L7 = ["ssrf_cloud_metadata", "graphql_abuse", "jwt_auth_bypass", "bola_idor_enumeration",
           "websocket_grpc_abuse", "llm_prompt_injection", "prototype_pollution",
-          "web_cache_poisoning", "deserialization", "csv_formula_injection"]
+          "web_cache_poisoning", "deserialization", "csv_formula_injection",
+          "bopla_mass_assignment", "bfla_admin_function_probing", "race_condition_toctou_burst",
+          "malicious_file_upload_webshell", "mcp_agentic_tool_abuse"]
 GAP_BENIGN = ["benign_hard_negative_dev", "benign_hard_negative_search"]
 GAP = GAP_L7 + GAP_BENIGN
 EXTRA_INGEST = ["benign_standard_traffic"]  # context-matched benign counterparts (v1 file)
@@ -70,6 +72,12 @@ CONTEXT_SCHEMA = {
     "web_cache_poisoning": ["context.cache_config", "context.unkeyed_input", "context.cache_status_samples"],
     "deserialization": ["context.parser_context", "context.fetch_behavior"],
     "csv_formula_injection": ["context.sink_context"],
+    "bopla_mass_assignment": ["context.object_schema", "context.caller_role", "context.write_result"],
+    "bfla_admin_function_probing": ["context.caller_role", "context.route_required_role", "history.prior_requests", "history.window_s"],
+    "race_condition_toctou_burst": ["context.route_semantics", "history.burst_window_ms", "history.same_request_count",
+                                    "history.distinct_idempotency_keys", "history.response_outcomes"],
+    "malicious_file_upload_webshell": ["context.upload_handler", "context.storage_path_policy", "context.content_inspection"],
+    "mcp_agentic_tool_abuse": ["context.tool_manifest", "context.trust_boundary", "context.agent_task", "context.tool_call"],
     "benign_hard_negative_dev": [], "benign_hard_negative_search": [],
 }
 

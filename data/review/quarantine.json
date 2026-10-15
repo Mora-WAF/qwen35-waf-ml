@@ -41389,5 +41389,473 @@
   "reviewer": "benign_standard_traffic",
   "sufficient": false,
   "note": "Anonymous fee-schedule PUT; no attack payload, auth gap outside taxonomy."
+ },
+ {
+  "rid": "n20114",
+  "label": "bopla_mass_assignment",
+  "ref": "bopla_mass_assignment.vn6w05.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "bola_idor_enumeration",
+  "sufficient": true,
+  "note": "Caller subject differs from resource owner; read-only limits also persisted"
+ },
+ {
+  "rid": "n21378",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "EJS template import from admin authoring feature; not web-served, intent ambiguous"
+ },
+ {
+  "rid": "n21379",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "EJS template import in admin notice editor; include syntax is authoring content"
+ },
+ {
+  "rid": "n21380",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:50",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Admin notice-template import with plain EJS binding; not web-served, no payload"
+ },
+ {
+  "rid": "n21381",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:51",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "njk template import from admin authoring feature; not web-served, intent ambiguous"
+ },
+ {
+  "rid": "n21383",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:53",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Notice template with EJS include from admin authoring feature; no executable match"
+ },
+ {
+  "rid": "n21384",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:54",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "admin notice template upload is EJS variable reference, no exploit payload"
+ },
+ {
+  "rid": "n21385",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:55",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "notice template upload; njk syntax is authoring content, no exec payload"
+ },
+ {
+  "rid": "n21387",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:57",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "Shell script uploaded as CSV into exec-enabled inbox; cron execution of upload not shown."
+ },
+ {
+  "rid": "n21388",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "Shell script into cron-run spool; no payload and no caller role context"
+ },
+ {
+  "rid": "n21393",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:63",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "bash script in cron-run inbox; bare shebang, no payload shown"
+ },
+ {
+  "rid": "n21424",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w00.jsonl:94",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "PNG-prefixed PHP polyglot named .pht; handler mapping covers only *.php*"
+ },
+ {
+  "rid": "n21542",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w02.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "Perl script, double extension, into integrations dir; admin hook feature plausible"
+ },
+ {
+  "rid": "n21566",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w02.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "Perl hook uploaded to executable integrations root; admin intent unclear"
+ },
+ {
+  "rid": "n21590",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w02.jsonl:68",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "Perl script in web-served exec root; handler maps only cgi and sh, ambiguous"
+ },
+ {
+  "rid": "n21614",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w02.jsonl:92",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "admin integration hook .pl upload; handler maps only .cgi and .sh"
+ },
+ {
+  "rid": "n21622",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w03.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "PHP .user.ini auto_prepend override in PHP upload dir; directive value empty"
+ },
+ {
+  "rid": "n21721",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w04.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "Python script homework upload in CGI-executable web-served dir; no payload or role context"
+ },
+ {
+  "rid": "n21843",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w05.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "PHP payload in .gif; no handler maps .gif, execution unproven"
+ },
+ {
+  "rid": "n21876",
+  "label": "malicious_file_upload_webshell",
+  "ref": "malicious_file_upload_webshell.vn6w05.jsonl:66",
+  "kind": "telemetry",
+  "reviewer": "malicious_file_upload_webshell",
+  "sufficient": false,
+  "note": "WAR uploaded to autoDeploy webapps root; only zip header visible, no script content"
+ },
+ {
+  "rid": "n22024",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w01.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "$(whoami) is literal footer text; plain_text template, no exec scope granted."
+ },
+ {
+  "rid": "n22036",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w01.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Template-only plain-text footer with shell-like string; no exec path, ambiguous injection"
+ },
+ {
+  "rid": "n22060",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w01.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Backtick substitution in footer from clinician note; template-only render, inert, in-scope"
+ },
+ {
+  "rid": "n22072",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w01.jsonl:70",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Tool-result-seeded shell substitution in footer; template-only render, no exec path shown."
+ },
+ {
+  "rid": "n22084",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w01.jsonl:82",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Shell substitution in footer from clinician note; template-only render, inert, in-scope"
+ },
+ {
+  "rid": "n22096",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w01.jsonl:94",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "In-scope template_only render; backticked hostname footer is literal plain text"
+ },
+ {
+  "rid": "n22162",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w02.jsonl:64",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "in-scope tenant audit export; filter ';' lookalike, no out-of-scope target"
+ },
+ {
+  "rid": "n22165",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w02.jsonl:67",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Export filter seeded from tool result carries backtick substitution; tenant in scope, grammar invalid"
+ },
+ {
+  "rid": "n22166",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w02.jsonl:68",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Export filter appends && env; tenant in scope, filter grammar invalid"
+ },
+ {
+  "rid": "n22167",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w02.jsonl:69",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Tenant in scope; filter carries stray newline token from tool-seeded args, intent unclear."
+ },
+ {
+  "rid": "n22169",
+  "label": "mcp_agentic_tool_abuse",
+  "ref": "mcp_agentic_tool_abuse.vn6w02.jsonl:71",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Encoded ;whoami in filter of in-scope export; tool and tenant in scope"
+ },
+ {
+  "rid": "n22539",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vn6w01_bfla_admin_function_probing.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Integration_admin guard executed; patient-mobile unattested client makes context ambiguous"
+ },
+ {
+  "rid": "n22566",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vn6w01_mcp_agentic_tool_abuse.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Write payout from read-only listing task; provenance of IBAN and reference unclear."
+ },
+ {
+  "rid": "n22641",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vn6w03_bfla_admin_function_probing.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Template admin edits CMS footer; template syntax is intended authoring content."
+ },
+ {
+  "rid": "n22668",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vn6w03_mcp_agentic_tool_abuse.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Allowlisted webhook, but args seeded by untrusted scene description"
+ },
+ {
+  "rid": "n22691",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vn6w04_bfla_admin_function_probing.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Role check passed on tax admin route; header tenant differs from token tenant, unexplained"
+ },
+ {
+  "rid": "n22845",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6001_deserialization.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Plain JSON, no gadget types, no outbound fetch; anonymous write with no auth context."
+ },
+ {
+  "rid": "n22846",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6001_deserialization.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Plain JSON fee schedule, no gadget types; anonymous write, auth context absent."
+ },
+ {
+  "rid": "n22857",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6002_bopla_mass_assignment.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Writable cart sku, plain JSON; earlier 404s on other carts are ambiguous, no attack payload."
+ },
+ {
+  "rid": "n22862",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6002_bopla_mass_assignment.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Own order gift_message write is clean; cross-order GET history with 200/404 is ambiguous."
+ },
+ {
+  "rid": "n22902",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6002_bopla_mass_assignment.jsonl:50",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Own-owner nickname write; prior 200 reads of other account IDs, owner of those unclear."
+ },
+ {
+  "rid": "n22916",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6002_bopla_mass_assignment.jsonl:64",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Writable card field by cardholder; earlier 404/200 card-ID probes, no owner field to confirm."
+ },
+ {
+  "rid": "n22924",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6002_bopla_mass_assignment.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Writable alias on account; several distinct account reads before write; ownership not shown."
+ },
+ {
+  "rid": "n23005",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6003_bopla_mass_assignment.jsonl:67",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Writable payout schedule only; owner field names the object not the subject, ownership unclear."
+ },
+ {
+  "rid": "n23047",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6004_bfla_admin_function_probing.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "fraud_ops claim matches route, but customer-app client and short token leave role evidence thin."
+ },
+ {
+  "rid": "n23141",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6005_bfla_admin_function_probing.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Internal ledger route on public listener; role matches, reversal intent unconfirmed."
+ },
+ {
+  "rid": "n23146",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6005_bfla_admin_function_probing.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "integration_admin role matches route, but unattested patient client makes role evidence ambiguous."
+ },
+ {
+  "rid": "n23510",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6010_mcp_agentic_tool_abuse.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Balance read within ledger:read:own scope, but no owner-match field; ownership unverified"
+ },
+ {
+  "rid": "n23535",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6010_mcp_agentic_tool_abuse.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Statement resource read in granted scope; account id source not shown, no injection."
+ },
+ {
+  "rid": "n23559",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6010_mcp_agentic_tool_abuse.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Statement resource read in granted scope; account id source not shown, no injection."
+ },
+ {
+  "rid": "n23626",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6011_mcp_agentic_tool_abuse.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Same dry-run MCP call with --since flag; fixed argv, batch:reconcile scope granted."
+ },
+ {
+  "rid": "n23659",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtn6011_mcp_agentic_tool_abuse.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Dry-run batch tool call with CLI-style extra_flags; fixed argv, scope granted, no separators."
  }
 ]

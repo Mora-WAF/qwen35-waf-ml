@@ -1,8 +1,8 @@
 """Baselines the fine-tuned model has to beat, on the same model input (the serialized telemetry):
 
-  1. tfidf_svm: char 3-5-gram TF-IDF + linear SVM, trained on the train split (35 classes).
+  1. tfidf_svm: char 3-5-gram TF-IDF + linear SVM, trained on the train split (all taxonomy classes).
   2. crs_pl1:   OWASP CRS paranoia-level-1 rule regexes (eval.crs_oracle), attack if any rule fires;
-                HTTP records only, attack-vs-benign only (CRS has no 35-class output).
+                HTTP records only, attack-vs-benign only (CRS has no per-class output).
 
 Scored on test (random lineage groups) and test_unseen (held-out families/variants). A baseline near 100%
 on test but not on test_unseen means the split rewards memorised templates.

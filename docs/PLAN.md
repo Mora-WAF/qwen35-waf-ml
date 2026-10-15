@@ -2,9 +2,9 @@
 
 Reviewed: 15 October 2026. This document replaces the original specification. It is a plan for implementation, not a claim that the datasets, notebook, or model have been built or tested.
 
-## Implementation progress (updated 15 October 2026, 11:00)
+## Implementation progress (updated 15 October 2026, 20:15)
 
-**Achieved state: pilot data-ready (v2 build); notebook smoke-tested on Colab T4 — see `reports/gpu_smoke_test.json`.** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
+**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Taxonomy expansion to 41 classes in progress (build v4, see below).** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
 
 ### Phase status
 
@@ -12,7 +12,7 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 |---|---|---|
 | A — environment and source contracts | Done, with exclusions | `reports/compatibility.json`, `config/sources.yaml`, `reports/source_audit.json` |
 | B — end-to-end pilot | Done: data v2 + clean GPU smoke test | `reports/pre_colab_gate.json`, `reports/gpu_smoke_test.json`, `reports/gpu_smoke_partA_clean_run.ipynb` |
-| C — scale, freeze, package | Started: generation rounds v3/v4 with families + twins; scale build not run | `reports/coverage.json`, `reports/label_audit.json` |
+| C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
 | D — train and evaluate | Not started (no paid GPU balance) | notebook + bundle ready: `colab/` |
 
 ### GPU smoke test (Colab T4, 15 GB, fp16) — clean run 15 October 10:04–11:00
@@ -46,6 +46,48 @@ v6e-1 was rejected for the account (no entitlement). Decision: train on CUDA (T4
 TPU trainer was removed. Lesson: the CLI's 120 s HTTP timeout made a TPU request look failed while the
 runtime was assigned later (an orphan runtime); `colab sessions` lists server assignments the CLI did not record.
 
+### Fast build v3 (`datasets_ready/fast_*.jsonl`) — 15 October, evening
+
+- Records: 37,336 (all 35 classes, no quota deficits at `--quota-frac 0.25`; 73 exact duplicates and 78 token-overflow records dropped). Splits: train 27,352; val_select / val_calib / val_policy 1,748 / 870 / 829; test 4,457; **test_unseen** 2,080 (held-out families and flow variants, never in train).
+- Provenance: synthetic 24,659, hybrid 9,500, observed 3,177. Tokens per sequence: median 550, p95 918, max 2,041 (budget 2,048).
+- Gate (`reports/pre_colab_gate.json`): passed, 0 failures, zero cross-split overlap (exact input hash + lineage group). The previous fast build failed it with 2,190 errors, all CIC-DDoS2019 record IDs containing `@`, spaces and colons; `generate.gen_observed_flow` now maps IDs to `[A-Za-z0-9_.:~-]`.
+- Shortcut audit: 35-class 42.9% (majority 24.9%, chance 2.9%), attack vs benign 56.7%. `concentrated_structural_tokens` is no longer near-empty: Haiku context keys per class (`ctx=cache_config` web cache poisoning 844 / benign 245, `ctx=fetch_behavior`, CSV `hist=*`) with matched benign twins, plus header names a single worker used (≤48 records each). Context keys name the domain, not the verdict; the twins carry the same keys.
+- Baselines (`reports/baselines.json`, char 3–5-gram TF-IDF + linear SVM; CRS PL1 regexes): SVM test accuracy 71.1% (macro-F1 0.886; recall 9% on brute force and port scan and 24% on slowloris, cause not yet analysed), test_unseen 92.0% (macro-F1 0.925, benign FPR 11.1%); CRS PL1 attack-vs-benign 62.7% on test HTTP, 49.5% on test_unseen (benign FPR 19.8% / 16.5%). Previous build: SVM test 95.7%, test_unseen 92.8%. A fine-tuned model has to beat these on test_unseen.
+
+### Data work since the pilot (15 October)
+
+1. **Scale.** Haiku rounds s1, s2 and twin rounds run as Workflow queues (in-session Haiku agents, no paid API) until every class reached the fast-30k proportion.
+2. **Held-out split.** `test_unseen` holds whole families and flow variants out of training, so a score there measures generalisation, not template recall. Baseline macro-F1 is averaged over the classes present in a split.
+3. **Window evidence.** `conn_count_60s` and `distinct_dst_ports_60s` (CIC: counted from timestamps per source → host per minute; synthetic: from the scenario). Observed brute-force and port-scan records need them (`NEEDS_WINDOW`): one flow cannot show either attack.
+4. **TLS spoofing context.** JA4 + claimed client family + User-Agent + a 10-minute client window (UA rotation, request rate), plus benign proxy records with a legitimate JA4/UA mismatch. Mismatch alone is not malicious.
+5. **Other context.** `route.query_backend` for SQLi/NoSQL/LDAP; periodic agents moved from `benign_high_rate_legit` to `benign_standard_traffic`; download siblings for high-rate benign.
+6. **Seeds.** FuzzDB (pinned `5656ab2`) added SQLi and LFI payloads. Classic-SQLi list seeds are URL-decoded once (`normalize.sqli_seed_plain`: the lists ship query-string-encoded payloads, and the generator encodes per location itself). Seeds with an encoding layer left after that (nested `%XX`, `\xNN`, long `0x` hex, `CHAR(n)`, keyword-splitting or versioned comments, mixed-case keywords) go to `sqli_obfuscated` (`normalize.is_obfuscated_sql`). Result: sqli_classic 869 seeds (805 clusters), sqli_obfuscated 34 (it had 11). A first version routed raw `%20` seeds to obfuscated; the fixed-class re-check read those records as classic, because one server decode leaves plain SQL. The taxonomy now states that the single URL-encoding that carries a payload in a path, query or cookie is transport, not obfuscation.
+7. **New observed flow sources** (all CIC licence: redistribution allowed with citation, see Sources): CIC-IDS2018 slow-HTTP days, CIC-DDoS2019 (byte prefix of each per-attack CSV), CIC-Bell-DNS-EXF-2021 (60 s windows of the stateless CSVs). The build round-robins over sources and matches observed benign flows 1:1 per source with that source's attack flows, so a source's feature set does not reveal the label (NF-ToN benign excluded for the same reason).
+8. **Label consistency of observed flows** (`flows.CONSISTENT`, counts in `reports/flow_ingest.json` → `label_inconsistent_dropped`). A source label is kept only when the measured telemetry can show it:
+   - CIC-DDoS2019 `Syn`: SYN Flag Count is 0 on every sampled row (ACK only, random destination ports), so the flows look like a scan. All 3,000 dropped; **syn_flood_ddos is synthetic-only again.**
+   - CIC-DDoS2019 `DrDoS_*`: 677 of 3,000 sampled flows are TCP and zero-byte (labelled by time window, not reflection). The UDP rest is one-way: no response packets, source ports 564/634/900 rather than 53/123/389, ~62k victim ports per minute. That shows no request-response asymmetry, and both reviewers read it as a port scan (48% agreement after the TCP fix). **All dropped (user decision): udp_amplification now requires both directions and is synthetic-only.**
+   - CIC-IDS2018 `DoS attacks-SlowHTTPTest`: all 1,500 go to port 21 with no payload (FTP traffic). Dropped.
+   - NF-ToN `password` flows over UDP/53: 4 dropped.
+9. **DNS exfiltration evidence.** On the real CIC-Bell windows, query length and entropy barely separate exfiltration from benign (entropy p50 2.44 vs 2.50). The share of a window's queries that go to its most-queried parent domain does: p10–p90 0.51–0.62 for exfil, 0.19–0.29 for benign. New feature `parent_domain_top_share` on observed and synthetic DNS records; the synthetic ranges overlap (benign 0.05–0.6, exfil 0.35–0.98), so no single cut-off works. Caveat: the benign captures mix a whole network's queries, which inflates the gap.
+
+### Cross-model label review (Codex `gpt-6.1-sol` medium + Gemini 3.8 Flash High, run concurrently)
+
+How: `subagents.review export_xmodel` → `XM_TAG=<tag> subagents.xmodel_run both` → `score_xmodel`. Each reviewer runs in an empty temporary directory (Gemini with `--sandbox`, Codex read-only), and the answer keys are unreadable while it runs. The first Gemini run, started in the repo, read the answer key (13 of 14 batches at exactly 100%); that run was discarded. Reviewer agreement filters noise; it is not ground truth.
+
+| Round | Items | Codex 35-class / attack-vs-benign | Gemini 35-class / attack-vs-benign |
+|---|---|---|---|
+| First audit (all classes) | 1,400 | 88.9% / 91.5% | 94.7% / 96.7% (isolated rerun) |
+| Final re-check, 12 weak classes (`final`) | 600 | 83.8% / 93.5% | 85.2% / 96.4% (500 answered) |
+| Fixed classes (`fix`: DNS, UDP, SYN, sqli_classic, sqli_obfuscated, slowloris) | 300 | 76.7% / 89.0% | 76.0% / 88.7% |
+
+Per class in the `final` round (Codex / Gemini): TLS spoofing 100/100 (was 30% before the context fix), port scan 100/100, brute force 100/98, benign high-rate 98/98, hard negatives dev 96/95 and search 100/97, LDAP 88/98, slowloris 92/87, sqli_classic 68/74, syn flood 72/72, UDP amplification 48/62, DNS exfil 44/43. All the weak classes were traced to items 8 and 9 above and the SQLi routing in item 6. Results after the fix (`fix`, Codex / Gemini): sqli_classic 100/98, syn flood 100/90, slowloris 90/90, sqli_obfuscated 78/84 (scored before the `%20` routing fix reached the build; rescore pending), UDP amplification 48/48, DNS exfil 44/46. 61 items contested by both reviewers: DNS 27 and UDP 26, where both read real CIC-Bell exfiltration windows and synthetic reflection as benign; labels kept (source labels plus the window evidence in item 9), the model's test_unseen and observed-only scores will show whether the evidence is learnable.
+
+Hard-negative relabel (`export_hn` / `apply_hn`, 44 batches): Codex relabelled 242 records within the benign classes and quarantined 2 (`data/review/relabel.json`); Gemini backfill _TBD_.
+
+### Colab dry run on the fast bundle (T4)
+
+Bundle `colab_bundle_fast.zip` (built 19:00, before the SQLi/DNS/UDP data fixes; the run tests the notebook, not the final data): 6.9 MiB, sha `beb2ec03…`. Part A (`MODE=fast`, `DRY_RUN_STEPS=25`, session `fastdry`): 198 tokens/s excluding warm-up, peak 10.66 GB, train loss 0.40 → 0.07, eval loss 0.194 → 0.033 → 0.041 (steps 10/20/25); 60 diagnostic predictions: 100% valid JSON, 91.7% correct, p50 latency 1.48 s. Part B after a verified restart: reload 5/5 with matching chat-template fingerprint (fp16 weights); continuation test (20 steps straight vs 10 + checkpoint reload + 10) identical losses, max diff 0.0; `passed: true` (`reports/dryrun_fast_report.json`, notebooks `reports/dryrun_fast_part{A,B}.ipynb`). Estimated full fast run from the measured throughput: ~23.7 h on a T4, ~6–8 h on an L4. Session stopped; none left running.
+
 ### Pilot dataset v2 (`datasets_ready/pilot_*.jsonl`)
 
 - 2,886 records, all 35 classes in train, test and each validation sub-partition; 2,063 lineage groups. Splits: train 2,310; val_select 132, val_calib 102, val_policy 70; test 272 (2–35 per class: still too small for per-class claims).
@@ -67,23 +109,31 @@ Shortcut audit (surface features, no payload values), v1 → v2: 35-class 49.0% 
 
 - Payload seeds at pinned commits: payload-box lists, 47 SecLists files, PayloadsAllTheThings LDAP/XPATH/NoSQL docs (fenced payload examples only). 15,072 accepted seeds in 14,475 near-duplicate clusters; 587 rejected with reasons.
 - OWASP CRS regression fixtures (families 930/932/941/942, positive tests): 1,609 converted; only review-agreed fixtures enter the build. CRS rule files (921/930–934/941/942/944) at the same commit feed `eval.crs_oracle` only (`coreruleset_rules`, disabled for bulk ingest).
-- Observed flows: CIC-IDS2017 flow table and NF-ToN-IoT-v2 train, mapped only where the source label names a class.
+- Observed flows, mapped only where the source label names a class and the telemetry agrees (`flows.CONSISTENT`):
+  - CIC-IDS2017 flow table and NF-ToN-IoT-v2 train.
+  - CSE-CIC-IDS2018 (`cic_ids2018`, public S3 bucket; Thursday 15 and Friday 16 February: Slowloris and SlowHTTPTest days).
+  - CIC-DDoS2019 (`cic_ddos2019_mirror`, Hugging Face mirror, pinned revision, first 96 MB of each per-attack CSV: Syn and DrDoS_*).
+  - CIC-Bell-DNS-EXF-2021 (`cic_bell_dns_exf2021`, downloaded through a browser from cicresearch.ca: 10 zips, sizes and hashes in `MANIFEST.json`; features from the stateless CSVs).
+  - The three CIC datasets allow redistribution with a citation to the dataset and its paper; cite them in any release (texts in `config/sources.yaml`).
+- FuzzDB attack lists at `5656ab2` (SQLi, LFI, LDAP, XPath, NoSQL, OS command, XSS); FuzzDB asks to be cited in publications.
 - Excluded: UNSW-NB15 (academic-use terms), `xss-payload-list` (no license), CSIC 2010 (no attributable distribution). libinjection was not usable (no wheel; building needs Python headers).
 - Generation and review: Claude Haiku subagents spawned from the Claude Code session, no paid API (user decision).
 
 ### Open issues
 
-1. Scale: Haiku classes hold 46–80 accepted attack records each, against quotas of 1,500–10,000 (fast 30k needs ~30% of quota). One round (12 workers) adds ~380 accepted attack records + ~315 twins; ~20 rounds reach the fast-30k proportion. Deterministic classes can scale now (15k seeds).
-2. Review is still same-family (Haiku reviews Haiku); CRS is the only independent signal and covers payload classes only. A cross-model review (e.g. Gemini via the installed `agy`) is not done.
-3. Each CIC attack class is a single campaign; L4 attack classes other than port scan, slowloris and brute force are synthetic only (candidate observed sources: CIC-DDoS2019, CIC-Bell-DNS-EXF-2021, CTU-13; licences to check).
-4. Class balance: twins make benign_standard_traffic 33% of the pilot.
-5. Not built: calibration and evaluation code, base-model and baseline comparisons, scale build (`train_fast_30k`, `val_10k`, …), learning curve.
+1. `syn_flood_ddos` and `udp_amplification` have no observed flows: CIC-DDoS2019 fails the label-consistency check for both (no SYN flag recorded; one-way UDP with no reflection evidence). Candidates: a DDoS source with working flag counts and both flow directions, or own testbed captures.
+2. DNS exfiltration: the CIC-Bell benign captures mix a network's queries while the attack captures are one tool's, so `parent_domain_top_share` may separate the observed records more easily than it would per client in deployment. Check on the model's test_unseen and observed-only scores.
+3. Flow records carry no source port, which the taxonomy lists as UDP amplification evidence. CIC-DDoS2019 would not have supplied it (its reflection flows use ports 564/634/900).
+4. LDAP/XPath injection has few real seeds; reviewer agreement 88–98%.
+5. All labels besides the observed flows and CRS fixtures rest on generator intent plus LLM review agreement (Haiku, Codex, Gemini). That is noise filtering, not ground truth.
+6. Not built: calibration (§10), the full 100k build and the 5k/15k/30k learning curve.
 
 ### Next steps
 
-1. Buy compute (100 CU) and run on L4: Part A/B smoke on the new bundle, then a `causal_conv1d` speed check.
-2. More Haiku rounds (`orchestrator jobs_v2 32 8 vN` → review → build), then a scale build and a 5k/15k/30k learning curve on L4 before committing to 100k.
-3. Calibration (§10) and the evaluation harness, tested on the pilot.
+1. Finish the 41-class v4 build (Haiku generation + review for the five new L7 classes, rebuild, gate, audits, baselines), rescore sqli_obfuscated, rebuild the bundle.
+2. Fast 30k run on an L4 (~6–8 h, see the time table); Drive checkpoints for resume.
+3. Evaluate on test and test_unseen against the baselines; then decide on the full 100k build (A100, or L4 with resume).
+4. Gemini backfill of the hard-negative relabel (`XM_TAG=hn`), then `apply_hn` for Gemini-confirmed relabels.
 
 ## What changed and why
 

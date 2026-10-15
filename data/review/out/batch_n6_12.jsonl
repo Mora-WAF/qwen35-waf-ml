@@ -1,0 +1,118 @@
+{"rid": "n22305", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Upstream tool description injects instruction to send member DOB list to external URL."}
+{"rid": "n21714", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "elevation_v2.php.jpg body is PHP; libmagic text/x-php in web-served exec upload root."}
+{"rid": "n20225", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "retail_customer calls kyc_reviewer GetFile route; role check not executed, prior 403s."}
+{"rid": "n20817", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "14 identical store-credit debits in 197ms, no idempotency key, balance driven negative."}
+{"rid": "n21291", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "10 gift sends in 277ms, no idempotency key; 9 delivered versus 3-per-day limit."}
+{"rid": "n21083", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "5 unlock_once commands in 77ms on single-use grant, four queued, no idempotency key."}
+{"rid": "n21172", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "28 voucher redemptions in 672ms against max one; 26 succeeded, no idempotency."}
+{"rid": "n22148", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Agent resources/read URI traverses out of tenant settings template; not matching granted template."}
+{"rid": "n20406", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "claims_clerk DELETE on claims_supervisor reserve-admin route; role check not executed."}
+{"rid": "n22110", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool-result-seeded fetch to internal 192.168.44.8 outside egress allowlist."}
+{"rid": "n20984", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Four redeem calls in 37ms on usage limit one, two redeemed, no idempotency key."}
+{"rid": "n22724", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Four submissions share one enforced idempotency key; replays return 202, one open claim."}
+{"rid": "n21845", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "thumb-large.jspx carries JSP root content in web-served exec upload root, JspServlet mapped."}
+{"rid": "n20979", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Six trial-extension POSTs in 26ms, one allowed per tenant, no idempotency key."}
+{"rid": "n21630", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "PHP body in firmware .bin upload; libmagic text/x-php; web-served PHP exec root."}
+{"rid": "n22605", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary GIF89a image upload; no embedded markers; declared and detected types match."}
+{"rid": "n22022", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "write_discharge_packet path escapes granted root via traversal taken from tool result."}
+{"rid": "n20912", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "20 refund POSTs in 684ms, no idempotency key; refunded total exceeds captured amount."}
+{"rid": "n21150", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "18 fee payments in 252ms against one-payment-per-invoice; 15 succeeded, no idempotency key."}
+{"rid": "n20956", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "14 quota increments in 289ms against one per ticket; six applied, no idempotency key."}
+{"rid": "n21985", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Chat-session agent calls unlisted adjust_balance; ledger:write scope not granted."}
+{"rid": "n20009", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Member sets read-only group_owner and membership_source on own membership; persisted."}
+{"rid": "n20598", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "vendor_user PUT on procurement_admin route; role check not executed."}
+{"rid": "n20415", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "product_manager PATCH on ops_admin flag route; role guard not evaluated."}
+{"rid": "n22091", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Unsigned upstream tool listing injects instruction to run export_all_ledgers first."}
+{"rid": "n20492", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "device_operator broadcast command on site_admin route; role check not evaluated."}
+{"rid": "n20317", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "lab_partner_api replays EHR job on integration_admin route; role check not executed."}
+{"rid": "n22176", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Plugin tool listing tells agent to fetch tenant secrets; secrets scopes ungranted."}
+{"rid": "n19636", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Customer writes read-only amount_paid on own checkout session; field persisted."}
+{"rid": "n21583", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "report-tpl.png.jspx carries JSP; Tomcat executes jspx in web-served upload root."}
+{"rid": "n21881", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "hero.jspx.png JSP root body in web-served Jetty covers; JspServlet maps jspx."}
+{"rid": "n20495", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "auditor PATCHes iam_admin role definition adding fleet:admin; role check skipped."}
+{"rid": "n22290", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Agent read_file targets payroll path outside granted active-case root."}
+{"rid": "n19629", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Merchant listing PATCH sets read-only verified and featured fields; persisted."}
+{"rid": "n22098", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Agent read_document path traverses outside claims docs root, seeded by model output."}
+{"rid": "n22473", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Upstream tool listing adds read_tenant_secret absent from manifest, instructs credential export."}
+{"rid": "n21924", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Chat-session export tool called for account owned by a different customer."}
+{"rid": "n19941", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Gateway viewer writes read-only mqtt_acl_mode on runtime config; field persisted."}
+{"rid": "n22255", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool-result-seeded import from internal host 10.44.3.30, not allowlisted."}
+{"rid": "n19952", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Fleet viewer persists read-only channel_owner_tenant on firmware channel."}
+{"rid": "n21180", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Five tranche releases in 70ms against limit one; no idempotency key."}
+{"rid": "n21744", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "thesis-draft.phps.pdf body is PHP; libmagic text/x-php; web-served PHP exec root."}
+{"rid": "n22170", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Plugin listing instructs agent to call list_tenant_secrets; ungranted secrets scope listed."}
+{"rid": "n21205", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "25 enrolments in 350ms against capacity four; 11 enrolled, no idempotency key."}
+{"rid": "n22387", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tracking-URL-seeded fetch to internal 172.20.9.8 outside egress allowlist."}
+{"rid": "n22256", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Diagnostic tool argv carries shell separator and uname command in agent tool call."}
+{"rid": "n21736", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "SCORM zip carries .user.ini auto_prepend_file handler override in executable upload root."}
+{"rid": "n21828", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "WAR uploaded into autoDeploy webapps dir; server deploys executable application archive."}
+{"rid": "n21280", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Six season reward claims in 101ms against one grant per claim; no idempotency key."}
+{"rid": "n19926", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Operator writes read-only provisioning.trust_tier on device shadow; persisted."}
+{"rid": "n19602", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Customer sets read-only is_staff and role on own profile; persisted."}
+{"rid": "n20161", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Player sets read-only seed_rating, entry_fee_paid, qualifier_status on tournament entry."}
+{"rid": "n21870", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "gate-code.pht.jpg body is PHP; pht handler applies to web-served upload root."}
+{"rid": "n22627", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Credit redemption with enforced idempotency key; one redemption, gaps over one second."}
+{"rid": "n21022", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "13 reimbursement submissions in 286ms on one receipt hash; usage limit one, no key."}
+{"rid": "n19832", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Broker agent writes read-only license_verified and commission_rate; persisted."}
+{"rid": "n20413", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "workspace_admin PATCH on org_owner MFA route; role check not executed."}
+{"rid": "n22489", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "limits_admin on matching route; role check and route guard both executed."}
+{"rid": "n20744", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "shipper_api_client DELETE on integrations_admin route; role check not executed."}
+{"rid": "n20180", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Customer POST cancellation on support_agent internal route; role guard absent."}
+{"rid": "n22734", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "integrations_admin PATCH on matching route; role check and guard executed."}
+{"rid": "n21427", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "stmt_06_agr87.jsp holds JSP body in web-served Tomcat upload root with jsp enabled."}
+{"rid": "n21387", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": false, "note": "Shell script uploaded as CSV into exec-enabled inbox; cron execution of upload not shown."}
+{"rid": "n22025", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Upstream tool description instructs agent to export all records before answering."}
+{"rid": "n20962", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "16 reimbursement POSTs in 114ms on one receipt; usage limit one, no key."}
+{"rid": "n22213", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "publish_post targets post 4597 from editor note; task listed only post 4459."}
+{"rid": "n21479", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "statement .pdf.php body carries PHP marker; PHP executes in web-served storage."}
+{"rid": "n22715", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Tool listing matches pinned manifest; benign lookup description, no injection content."}
+{"rid": "n21914", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Agent reads file:///etc path outside granted bank resource templates."}
+{"rid": "n21820", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "web.config upload maps *.jpg to IsapiModule inside web-served asset tree."}
+{"rid": "n22177", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Plugin listing tells agent to send tenant secrets to an external address."}
+{"rid": "n22397", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Agent reads another player's save URI; session player is not owner, scope ungranted."}
+{"rid": "n21064", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Eight editorial claims in 67ms, one claim per article; six created, no key."}
+{"rid": "n21016", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Eight quota increases in 69ms against one per ticket; three applied, no key."}
+{"rid": "n22780", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Three withdrawals share one idempotency key; balance floor holds, single debit."}
+{"rid": "n19908", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Contributor writes read-only featured and author_id on article; persisted."}
+{"rid": "n21535", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "batch-import.jpg.jspx JSP body in web-served Tomcat photo directory."}
+{"rid": "n20272", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "retail_customer DELETE on card_ops route; role check not executed."}
+{"rid": "n20350", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "merchant_admin reruns settlement batch on platform_ops route; role check not executed."}
+{"rid": "n22117", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool-result-seeded template argument off allowlist with pipe to id command."}
+{"rid": "n20062", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Account holder writes read-only disconnect_exempt and arrears_waiver; persisted."}
+{"rid": "n21810", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "front-door.php.png PHP body; apache php handler runs it in web-served upload root."}
+{"rid": "n20727", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "team_captain CSV export on tournament_director route; role check skipped."}
+{"rid": "n22412", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool-result-seeded command chains cat of worker key via shell metacharacter."}
+{"rid": "n20908", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Nine access-grant POSTs in 428ms against max two; three created, no key."}
+{"rid": "n22185", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Support agent resets MFA for tenant admin not in task; scope ungranted, ticket-seeded."}
+{"rid": "n22081", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Ticket-seeded fetch to internal lab host outside egress allowlist."}
+{"rid": "n22218", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Model-seeded read_file traverses to AWS credentials outside granted firmware root."}
+{"rid": "n20238", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Customer calls catalog admin import route; role check not executed, dry_run only."}
+{"rid": "n20946", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Ten payouts in 166ms against one per claim; nine issued, no idempotency key."}
+{"rid": "n21450", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "vzwvc.php.png body is PHP; web-served PHP exec upload directory."}
+{"rid": "n20388", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "workspace_member DELETE on platform_admin tenant route; role check skipped."}
+{"rid": "n20736", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "player_verified restarts servers on live_ops_admin route; role check skipped."}
+{"rid": "n20143", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Player sets read-only is_moderator on own profile; persisted."}
+{"rid": "n22431", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Listed tool export_chat_logs absent from manifest; description steers chat export."}
+{"rid": "n22641", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Template admin edits CMS footer; template syntax is intended authoring content."}
+{"rid": "n22644", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Fleet viewer writes only writable contact_email; persisted fields match."}
+{"rid": "n21560", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "adjuster-note.gif.aspx ASP.NET body in IIS web-served upload path."}
+{"rid": "n21312", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "Six crate opens in 272ms with eight conflicts, no idempotency key, two per grant."}
+{"rid": "n20549", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "verified_reader DELETE on trust_safety_admin MFA route; role check skipped."}
+{"rid": "n21782", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "final_week4_notes.jspx JSP root body in Tomcat web-served dropbox."}
+{"rid": "n19878", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Claimant writes read-only reserve_amount on own claim; field persisted."}
+{"rid": "n20530", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "tenant_owner DELETE on platform_admin retention route; role check skipped."}
+{"rid": "n19690", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "company_viewer creates membership with read-only role company_admin; persisted."}
+{"rid": "n19624", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Customer writes read-only owner_id and customer_id on own order; persisted."}
+{"rid": "n20733", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "freight_forwarder posts broker credentials on customs_admin route; role check skipped."}
+{"rid": "n20713", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "community_mod device unban on trust_safety_admin route; role check skipped."}
+{"rid": "n20400", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "workspace_member restores tenant on platform_admin route; role check skipped."}
+{"rid": "n19780", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Patient writes read-only clinician_reviewed and released_to_patient; persisted."}
+{"rid": "n20965", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "11 token mints in 250ms against quota five; nine created, no key."}
+{"rid": "n22010", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Template-seeded write_discharge_packet escapes granted root toward keys directory."}
+{"rid": "n21103", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": true, "note": "19 transfers in 137ms, distinct keys, one-pending limit; 17 recorded."}
+{"rid": "n20287", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "patient_guardian reads practitioner grants on portal_admin route; role check skipped."}
+{"rid": "n22292", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Ticket-seeded argv chains cat of full export via && outside allowlist."}
+{"rid": "n22269", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Encoder-note-seeded transcode args append shell separator and hostname."}
+{"rid": "n21797", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "old_web.config handler override uploaded to web-served IIS avatars directory."}
+{"rid": "n20560", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "staff_editor adds owner member on site_owner route; role check not evaluated."}
+{"rid": "n20204", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Customer cancels orders via support_agent internal route; role guard unexecuted."}

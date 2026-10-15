@@ -33,8 +33,11 @@ def finite(o):
 def main(prefix, min_lineage=20):
     data = ROOT / "datasets_ready"
     tax = yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
-    rec_s = json.load(open(ROOT / "schemas/record.schema.json"))
-    tel_s = json.load(open(ROOT / "schemas/telemetry.schema.json"))
+    # one validator per schema: jsonschema.validate() re-checks the schema on every call (~20 ms/record)
+    rec_v, tel_v = (jsonschema.validators.validator_for(s)(s) for s in (
+        json.load(open(ROOT / f"schemas/{n}.schema.json")) for n in ("record", "telemetry")))
+    for v in (rec_v, tel_v):
+        type(v).check_schema(v.schema)
     manifest = json.load(open(data / "manifest.json"))
     tok = P.load_tokenizer()
     ctrl = P.control_strings(tok)
@@ -58,7 +61,7 @@ def main(prefix, min_lineage=20):
             where = f"{fname}:{ln}"
             try:
                 r = json.loads(line)
-                jsonschema.validate(r, rec_s)
+                rec_v.validate(r)
                 m, msgs = r["metadata"], r["messages"]
                 cls = m["threat_type"]
                 if r["id"] in ids:
@@ -72,7 +75,7 @@ def main(prefix, min_lineage=20):
                 if msgs[0]["content"] != sysp:
                     fails.append(f"system prompt hash drift {where}")
                 tel = P.deserialize_telemetry(msgs[1]["content"])
-                jsonschema.validate(tel, tel_s)
+                tel_v.validate(tel)
                 if tel["mode"] not in tax[cls]["input_modes"]:
                     fails.append(f"mode {tel['mode']} not permitted for {cls} {where}")
                 if not finite(tel):

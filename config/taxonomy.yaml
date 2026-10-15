@@ -1,7 +1,7 @@
 version: 1
 input_modes: [L7_HTTP, L4_FLOW, HYBRID_CTX]
 domains: [L7_INJECTION, L7_API_PROTOCOL, L7_AI_MODERN, L4_NETWORK_FLOW, BENIGN]
-total_quota: 120000
+total_quota: 132000
 aliases:            # source-migration only
   benign_standard_web: benign_standard_traffic
 classes:
@@ -10,7 +10,7 @@ classes:
     quota: 4000
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Classic SQL injection: quote, boolean, UNION or comment tokens altering a query in plain form."
+    scope: "Classic SQL injection: quote, boolean, UNION or comment tokens altering a query in plain form. The one URL-encoding layer that carries it in a path, query or cookie is transport, not obfuscation."
     exclusions: ["Encoded or obfuscated SQL belongs to sqli_obfuscated", "Operator injection into document stores belongs to nosqli", "SQL keywords in prose or docs with no query-bound input"]
     required_evidence: ["Request parameter or body field carrying the payload", "Observed SQL syntax tokens in a query-bound parameter", "Route context showing a database-backed input"]
     precedence: {over: [], rule: "Yields to sqli_obfuscated when encoding or obfuscation layers are present."}
@@ -21,7 +21,7 @@ classes:
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
     scope: "SQL injection hidden through encoding, inline comments, case or whitespace tricks, or nested decoding."
-    exclusions: ["Plain unencoded SQL belongs to sqli_classic", "Header framing tricks belong to http_request_smuggling"]
+    exclusions: ["Plain unencoded SQL belongs to sqli_classic", "Plain SQL whose only encoding is the transport URL-encoding of a path, query or cookie belongs to sqli_classic", "Header framing tricks belong to http_request_smuggling"]
     required_evidence: ["Raw and decoded parameter views with decoder and depth recorded", "Obfuscation pattern such as nested encoding or inline SQL comments", "Database-bound parameter context"]
     precedence: {over: [sqli_classic], rule: "Wins over sqli_classic when obfuscation is needed to form the injection."}
     benign_counterexamples: ["Base64 image data in an upload field with no SQL tokens", "URL-encoded search with an apostrophe in a product name"]
@@ -61,7 +61,7 @@ classes:
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
     scope: "Command separators or substitution injected into input passed to a shell or process execution."
-    exclusions: ["Traversal without command syntax belongs to path_traversal_lfi", "Template expression evaluation belongs to ssti", "Command text in help pages or docs"]
+    exclusions: ["Traversal without command syntax belongs to path_traversal_lfi", "Template expression evaluation belongs to ssti", "Command text in help pages or docs", "Executable files delivered by upload belong to malicious_file_upload_webshell", "Shell commands in an AI agent tool call belong to mcp_agentic_tool_abuse"]
     required_evidence: ["Input field reaching a shell or exec sink per trusted app context", "Command separator or substitution tokens in the raw value", "Observed execution output or timing when available"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Git commit message with a pipe character in prose", "CI webhook payload quoting a shell command in a changelog field"]
@@ -125,13 +125,23 @@ classes:
     required_evidence: ["Field value starting with a formula trigger such as equals, plus, minus, or at", "Export or downstream spreadsheet consumption context", "Stored field and export pipeline identity"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Product name starting with a minus sign and a number", "Finance export note starting with plus where escaping is applied"]
+  malicious_file_upload_webshell:
+    domain: L7_INJECTION
+    quota: 2000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Uploads that place server-executable content (script files, double-extension or content-type-mismatched files, handler-override configs) where the server can execute it."
+    exclusions: ["Uploaded HTML or SVG with client-side script belongs to xss_reflected_stored", "Entity declarations in uploaded XML or office files belong to xxe", "Source files uploaded to a code store that serves them as non-executable text"]
+    required_evidence: ["Multipart part with filename, declared content type and leading content bytes", "Upload handler and storage-path policy from trusted configuration", "Content inspection result such as detected type versus declared type"]
+    precedence: {over: [rce_cmd_injection], rule: "Wins over rce_cmd_injection when the executable content arrives as an uploaded file."}
+    benign_counterexamples: ["Developer pushing a PHP source file to a repository browser that serves it as text", "Photo upload whose EXIF comment contains a code-like string, stored outside the web root"]
   path_traversal_lfi:
     domain: L7_API_PROTOCOL
     quota: 4000
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
     scope: "Directory traversal or local file inclusion that reads or includes files outside the intended path."
-    exclusions: ["Command execution after traversal belongs to rce_cmd_injection", "Relative paths that stay inside the allowed root"]
+    exclusions: ["Command execution after traversal belongs to rce_cmd_injection", "Relative paths that stay inside the allowed root", "Traversal in an AI agent tool call belongs to mcp_agentic_tool_abuse"]
     required_evidence: ["Path-bearing parameter with traversal sequences in raw and decoded views", "Target file or include context in server path handling", "Response or error evidence when available"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Package request with dot segments normalized to an allowed root", "Relative asset path such as ./images/logo.png"]
@@ -141,7 +151,7 @@ classes:
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
     scope: "Server-side fetch targets pointing at internal networks or cloud metadata addresses."
-    exclusions: ["Redirect parameters that only send users to external sites belong to open_redirect_cors", "XML entity fetches with no fetch target belong to xxe"]
+    exclusions: ["Redirect parameters that only send users to external sites belong to open_redirect_cors", "XML entity fetches with no fetch target belong to xxe", "Internal fetch targets in an AI agent tool call belong to mcp_agentic_tool_abuse"]
     required_evidence: ["URL-bearing parameter consumed by a server-side fetch", "Target host resolving to an internal or metadata address range", "Fetch behavior or parser context from trusted app config"]
     precedence: {over: [open_redirect_cors], rule: "Wins over open_redirect_cors when a fetch target reaches internal or cloud metadata addresses."}
     benign_counterexamples: ["Webhook registration to a public HTTPS URL", "Image proxy request for a public CDN host"]
@@ -181,7 +191,7 @@ classes:
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
     scope: "Sequential or guessed object identifiers used to reach resources that belong to other subjects."
-    exclusions: ["Sequential IDs alone with no authorization context", "Credential guessing belongs to credential_stuffing_bruteforce"]
+    exclusions: ["Sequential IDs alone with no authorization context", "Credential guessing belongs to credential_stuffing_bruteforce", "Writing unauthorized properties of the caller's own object belongs to bopla_mass_assignment", "Calling functions above the caller's role belongs to bfla_admin_function_probing"]
     required_evidence: ["Trusted subject identity and resource ownership context", "Authorization policy or access-check configuration", "Request sequence with differing object IDs under one subject"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Paginated listing by numeric ID of the requester's own records", "Public catalog item pages visited in ID order"]
@@ -205,13 +215,43 @@ classes:
     required_evidence: ["Upgrade or gRPC framing fields preserved from the raw stream", "Message rate or size measured against a documented baseline", "Origin or authorization context for the stream"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Live dashboard WebSocket pushing updates at a steady rate", "gRPC health-check stream from a known monitoring client"]
+  bopla_mass_assignment:
+    domain: L7_API_PROTOCOL
+    quota: 2000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Object-property authorization abuse: a create or update request sets properties the caller may not write (role, owner, price, balance, verification flags) through mass assignment."
+    exclusions: ["Access to another subject's whole object by identifier belongs to bola_idor_enumeration", "Calling an endpoint reserved for a higher role belongs to bfla_admin_function_probing", "Writes to fields the object schema marks writable for the caller's role"]
+    required_evidence: ["Request body with the submitted property set", "Object schema or allow-list of properties writable by the caller's role", "Caller role or subject context from the gateway"]
+    precedence: {over: [], rule: "Wins over bola_idor_enumeration when the caller's own object is targeted and the abuse is in which properties are written."}
+    benign_counterexamples: ["Admin console updating a user's role with an admin session", "Profile update that sends only the fields the schema marks writable"]
+  bfla_admin_function_probing:
+    domain: L7_API_PROTOCOL
+    quota: 2000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Function-level authorization abuse: a caller with a lower role invokes or probes administrative or privileged functions (admin routes, management methods, internal operations)."
+    exclusions: ["Same-role access to another subject's object belongs to bola_idor_enumeration", "Privileged properties smuggled into an allowed write belong to bopla_mass_assignment", "Admin routes called by a caller whose role permits them"]
+    required_evidence: ["Caller role from the gateway or token claims", "Role the route or method requires, from trusted route configuration", "Request sequence or method change showing the privileged function attempt"]
+    precedence: {over: [], rule: "Wins over bola_idor_enumeration when the route or method itself is above the caller's role."}
+    benign_counterexamples: ["Support agent with an admin role opening the user-management console", "Regular user's client fetching the public configuration endpoint under /admin/public"]
+  race_condition_toctou_burst:
+    domain: L7_API_PROTOCOL
+    quota: 2000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Near-simultaneous bursts of the same state-changing request (redeem, transfer, vote, withdraw, apply-discount) timed to win a check-then-act race."
+    exclusions: ["Bursts against read-only or idempotent routes, or requests sharing one idempotency key", "Login attempts across many accounts belong to credential_stuffing_bruteforce", "Sustained high-rate traffic with no single repeated state change"]
+    required_evidence: ["Route semantics showing a state-changing, non-idempotent operation", "Burst window with the count of identical requests and their spacing", "Per-request outcomes or resulting state counters for the burst"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Client retrying a payment with the same idempotency key after a timeout", "Dashboard firing a burst of parallel read-only GET requests on page load"]
   llm_prompt_injection:
     domain: L7_AI_MODERN
     quota: 4000
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
     scope: "Untrusted input that tries to override an LLM's instructions, leak its system prompt, or hijack tool use."
-    exclusions: ["Quoted security discussion or research text is benign", "Ordinary user questions with no instruction override"]
+    exclusions: ["Quoted security discussion or research text is benign", "Ordinary user questions with no instruction override", "Agent tool calls, tool descriptions or tool results belong to mcp_agentic_tool_abuse"]
     required_evidence: ["Task description and intended model role", "Trust-boundary context showing which text is untrusted input", "Instruction-override phrasing located in an untrusted field"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Security blog post quoting an injection example for education", "Support message asking the bot to ignore a typo in a previous reply"]
@@ -235,13 +275,23 @@ classes:
     required_evidence: ["Cache configuration and cache-key definition from trusted deployment context", "Unkeyed header or parameter reflected into body or headers", "Cache-status evidence from repeated requests"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Language header varying the response by a documented Vary key", "Cache-buster query string added by a CI test client"]
+  mcp_agentic_tool_abuse:
+    domain: L7_AI_MODERN
+    quota: 2000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Abuse of an AI agent's tool layer (MCP JSON-RPC or similar): tool calls whose arguments leave the granted scope (files, internal URLs, shell), poisoned tool descriptions, or tool output that steers the agent into unrequested calls."
+    exclusions: ["Untrusted text that only tries to override the model's instructions, with no tool call or tool metadata, belongs to llm_prompt_injection", "Tool calls inside the manifest's granted scope for the user's task", "Traversal, SSRF or command payloads sent to an ordinary HTTP endpoint with no agent tool layer"]
+    required_evidence: ["Tool call or tool listing as sent over the agent protocol", "Tool manifest with granted scopes or allowed resources", "Agent task or trust-boundary context showing where the argument text came from"]
+    precedence: {over: [path_traversal_lfi, ssrf_cloud_metadata, rce_cmd_injection, llm_prompt_injection], rule: "Wins when the payload arrives as an agent tool call, tool description or tool result."}
+    benign_counterexamples: ["Coding agent reading a file inside its granted workspace", "Agent fetching a public documentation URL allowed by its manifest"]
   syn_flood_ddos:
     domain: L4_NETWORK_FLOW
     quota: 4000
     is_benign: false
     input_modes: [L4_FLOW, HYBRID_CTX]
     scope: "SYN-dominant bursts and half-open connection patterns aimed at exhausting a target."
-    exclusions: ["Normal bursts with completed handshakes", "Sweeps across many destinations belong to port_scan_recon"]
+    exclusions: ["Normal bursts with completed handshakes", "Sweeps across many destinations belong to port_scan_recon", "Stream resets or CONTINUATION floods over few established connections belong to http2_rapid_reset_continuation"]
     required_evidence: ["Flow records with TCP flag bitmasks and flag counts", "Packet or flow rates validated against duration and direction", "Repeated timestamped observations of the burst window"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Load-balancer health checks opening many short handshakes", "Download surge after a scheduled software update"]
@@ -315,6 +365,16 @@ classes:
     required_evidence: ["Measured JA4 or TLS fingerprint from the observed handshake", "Justified mapping from fingerprint to claimed client", "User agent string preserved as received", "Client behaviour in the window (user-agent rotation, request rate)"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Corporate proxy re-encrypting traffic with a different TLS stack", "Enterprise SDK sending a generic user agent"]
+  http2_rapid_reset_continuation:
+    domain: L4_NETWORK_FLOW
+    quota: 2000
+    is_benign: false
+    input_modes: [L4_FLOW, HYBRID_CTX]
+    scope: "HTTP/2 stream-level floods over few connections: streams opened and immediately reset (rapid reset), or long CONTINUATION frame sequences that never end the header block."
+    exclusions: ["SYN-dominant bursts across many connections belong to syn_flood_ddos", "Browsers cancelling a few streams on navigation or media seeking", "Slow partial requests that hold connections open belong to slowloris_slowhttp"]
+    required_evidence: ["HTTP/2 frame counters for the window: RST_STREAM to HEADERS ratio and CONTINUATION frame count", "Stream and packet rates validated against duration over few connections", "Window connection count to the same destination"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["gRPC client cancelling superseded streaming calls", "Large-cookie request split over a few CONTINUATION frames"]
   benign_standard_traffic:
     domain: BENIGN
     quota: 10000

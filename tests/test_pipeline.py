@@ -146,7 +146,8 @@ def test_request_builder_round_trip():
 def test_observed_and_synthetic_share_core_names():
     core = {"duration_s", "pkts_total", "bytes_total", "pkts_fwd", "pkts_bwd", "bytes_fwd", "bytes_bwd",
             "pkts_per_s", "bytes_per_s", "pkt_len_min", "pkt_len_max", "tcp_flags_bitmask", "dst_port", "ip_proto"}
-    extras = {"iat_cv", "qname_len_mean", "qname_entropy_bits_per_char", "ja4_ua_consistent",
+    extras = {"iat_cv", "qname_len_mean", "qname_entropy_bits_per_char", "parent_domain_top_share", "ja4_ua_consistent",
+              "h2_rst_stream_ratio", "h2_continuation_frames",
               "conn_count_60s", "distinct_dst_ports_60s"}  # window aggregates: CIC has them too (from timestamps)
     for cls in G.FLOW_PROFILES:
         assert set(G.synth_flow(cls, 0)[0]["flow"]["features"]) - core <= extras, cls
@@ -218,3 +219,38 @@ def test_ids2018_row_maps_through_cic_features():
     f, why = cic_features(r)
     assert why is None and f["duration_s"] == 2.0 and f["pkts_total"] == 4 and f["dst_port"] == 80
     assert f["tcp_flags_bitmask"] == 2 and f["ip_proto"] == 6 and "conn_count_60s" not in f  # no IPs -> no window count
+
+
+def test_obfuscated_sql_seed_routing():
+    from data_pipeline.normalize import is_obfuscated_sql
+    for t in ("\\x27UNION SELECT", "'OR%0b1=1--", "x 0x730065006c00 exec(@q)", "UnIoN SeLeCt 1", "UN/**/ION SEL/**/ECT",
+              "' or char(65)=char(65)"):
+        assert is_obfuscated_sql(t), t
+    for t in ('" OR "1"="1', "' or 1=1 --", "' UNION SELECT null--", "admin' -- ", "1 Union Select 1"):
+        assert not is_obfuscated_sql(t), t
+    from data_pipeline.normalize import sqli_seed_plain
+    assert not is_obfuscated_sql(sqli_seed_plain("'))%20waitfor%20delay%20'0:0:20'%20--"))  # transport only
+    assert is_obfuscated_sql(sqli_seed_plain("or%25201=1"))  # nested: a layer survives one decode
+
+
+def test_flow_label_consistency():
+    from data_pipeline.flows import CONSISTENT
+    assert not CONSISTENT["syn_flood_ddos"]({"ip_proto": 6, "tcp_flags_bitmask": 16})  # ACK-only CIC-DDoS2019 "Syn"
+    assert CONSISTENT["syn_flood_ddos"]({"ip_proto": 6, "tcp_flags_bitmask": 2})
+    assert not CONSISTENT["udp_amplification"]({"ip_proto": 6})
+    assert not CONSISTENT["udp_amplification"]({"ip_proto": 17, "pkts_fwd": 2, "pkts_bwd": 0})  # one-way spray
+    assert not CONSISTENT["slowloris_slowhttp"]({"ip_proto": 6, "dst_port": 21})
+
+
+def test_calibration_recovers_temperature_and_respects_hn_constraint():
+    import numpy as np
+    from eval.calibration import choose_tau, fit_temperature, softmax
+    rng = np.random.default_rng(0)
+    n, k, T_true = 4000, 6, 3.0
+    logits = rng.normal(0, 2, (n, k))
+    y = np.array([rng.choice(k, p=softmax(l)) for l in logits])
+    assert abs(fit_temperature(logits * T_true, y) - T_true) < 0.25  # overconfident scores -> T near 3
+    benign = np.array([True, True, False, False, False, False])
+    hard_neg = np.array([False, True, False, False, False, False])
+    tau, r = choose_tau(softmax(logits), y, benign, hard_neg, 0.01)
+    assert r["hard_negative_false_intervention"] <= 0.01 and 0 <= tau <= 1

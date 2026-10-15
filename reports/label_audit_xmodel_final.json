@@ -1,0 +1,909 @@
+{
+ "models": [
+  "codex",
+  "gemini"
+ ],
+ "items": 600,
+ "answered": {
+  "codex": 600,
+  "gemini": 500
+ },
+ "agreement_35class": {
+  "codex": 0.838,
+  "gemini": 0.852
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 0.935,
+  "gemini": 0.964
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {
+   "codex": 0.96,
+   "gemini": 0.95
+  },
+  "benign_hard_negative_search": {
+   "codex": 1.0,
+   "gemini": 0.97
+  },
+  "benign_high_rate_legit": {
+   "codex": 0.98,
+   "gemini": 0.98
+  },
+  "benign_standard_traffic": {},
+  "bola_idor_enumeration": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {
+   "codex": 1.0,
+   "gemini": 0.98
+  },
+  "crlf_header_injection": {},
+  "csv_formula_injection": {},
+  "deserialization": {},
+  "dns_tunneling_exfil": {
+   "codex": 0.44,
+   "gemini": 0.43
+  },
+  "graphql_abuse": {},
+  "http_request_smuggling": {},
+  "jwt_auth_bypass": {},
+  "ldap_xpath_injection": {
+   "codex": 0.88,
+   "gemini": 0.98
+  },
+  "llm_prompt_injection": {},
+  "nosqli": {},
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {},
+  "port_scan_recon": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "prototype_pollution": {},
+  "rce_cmd_injection": {},
+  "slowloris_slowhttp": {
+   "codex": 0.92,
+   "gemini": 0.87
+  },
+  "sqli_classic": {
+   "codex": 0.68,
+   "gemini": 0.74
+  },
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {},
+  "syn_flood_ddos": {
+   "codex": 0.72,
+   "gemini": 0.72
+  },
+  "tls_ja4_ua_spoofing": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "udp_amplification": {
+   "codex": 0.48,
+   "gemini": 0.62
+  },
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {},
+  "xss_dom_polyglot": {},
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 67,
+ "contested_by_class": {
+  "dns_tunneling_exfil": 25,
+  "udp_amplification": 14,
+  "syn_flood_ddos": 13,
+  "sqli_classic": 11,
+  "benign_hard_negative_dev": 2,
+  "ldap_xpath_injection": 1,
+  "slowloris_slowhttp": 1
+ },
+ "contested": [
+  {
+   "rid": "g00013",
+   "label": "benign_hard_negative_dev",
+   "id": "haiku:benign_hard_negative_dev:000887",
+   "provenance": "synthetic",
+   "generator": "haiku-5.5",
+   "haiku_review": "agreed",
+   "votes": {
+    "codex": "benign_hard_negative_search",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00023",
+   "label": "benign_hard_negative_dev",
+   "id": "haiku:benign_hard_negative_dev:003265",
+   "provenance": "synthetic",
+   "generator": "haiku-5.5",
+   "haiku_review": "agreed",
+   "votes": {
+    "codex": "benign_hard_negative_search",
+    "gemini": "benign_hard_negative_search"
+   }
+  },
+  {
+   "rid": "g00202",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_exe.pcap.csv:w4",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00203",
+   "label": "dns_tunneling_exfil",
+   "id": "gen:flow:dns_tunneling_exfil:000047",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00205",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_video.pcap.csv:w12",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00209",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_exe.pcap.csv:w7",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00210",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_exe.pcap.csv:w8",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00212",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_exe.pcap.csv:w5",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00213",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_text.pcap.csv:w11",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00215",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_audio.pcap.csv:w17",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00217",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_image.pcap.csv:w9",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00222",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_audio.pcap.csv:w12",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00224",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_exe.pcap.csv:w13",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00225",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_video.pcap.csv:w19",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00226",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_compressed.pcap.csv:w15",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00228",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_compressed.pcap.csv:w12",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00229",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_video.pcap.csv:w10",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00232",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_compressed.pcap.csv:w15",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00233",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_video.pcap.csv:w3",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00234",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_compressed.pcap.csv:w18",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00235",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_image.pcap.csv:w21",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00236",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_compressed.pcap.csv:w20",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00237",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_exe.pcap.csv:w11",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00243",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_exe.pcap.csv:w10",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00244",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_compressed.pcap.csv:w9",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00246",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_Light_Benign/Attacks:stateless_features-light_compressed.pcap.csv:w11",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00249",
+   "label": "dns_tunneling_exfil",
+   "id": "obs:cic_bell_dns_exf2021:dnsexf:CSV/Attack_heavy_Benign/Attacks:stateless_features-heavy_video.pcap.csv:w17",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00279",
+   "label": "ldap_xpath_injection",
+   "id": "seclists:ldap_xpath_injection:e340d13874054b10~2",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_hard_negative_search",
+    "gemini": "benign_hard_negative_search"
+   }
+  },
+  {
+   "rid": "g00396",
+   "label": "slowloris_slowhttp",
+   "id": "obs:cic_ids2018:Friday-16-02-2018:1038384",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00402",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:cd287a6f999095f7~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00403",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:8982da71d6442cdc~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00412",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:7e7c2cab280a21e3~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00414",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:fdbdebc0304ec49f~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00417",
+   "label": "sqli_classic",
+   "id": "sql_injection_payload_list:sqli_classic:00ce5aea71785de0~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00421",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:c0604ede41f26404~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00424",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:313a5a02c5a610d1~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00431",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:08e426254947fa6f~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00445",
+   "label": "sqli_classic",
+   "id": "sql_injection_payload_list:sqli_classic:7885c98a6476f9af~1",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00446",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:2a8cd117a86f1bf7~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00447",
+   "label": "sqli_classic",
+   "id": "fuzzdb:sqli_classic:6d8b7dca1af31fee~0",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "sqli_obfuscated",
+    "gemini": "sqli_obfuscated"
+   }
+  },
+  {
+   "rid": "g00450",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-59670-60821-6@2018-12-01_13:30:52.671097",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00451",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-20301-10253-6@2018-12-01_13:30:34.163057",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00456",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-5466-19989-6@2018-12-01_13:30:42.742447",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00462",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-17763-41325-6@2018-12-01_13:30:33.743914",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00464",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-35482-35482-6@2018-12-01_13:30:32.863657",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00468",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-24839-21073-6@2018-12-01_13:30:46.194042",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00476",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-46530-46530-6@2018-12-01_13:30:44.309577",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00481",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-14987-14987-6@2018-12-01_13:30:34.650400",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00482",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-13566-13566-6@2018-12-01_13:30:35.461645",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00483",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-64687-50152-6@2018-12-01_13:30:31.457351",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00484",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-11155-11155-6@2018-12-01_13:30:41.679909",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00485",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-29049-32727-6@2018-12-01_13:30:58.918117",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00486",
+   "label": "syn_flood_ddos",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-61313-57307-6@2018-12-01_13:30:52.975217",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00553",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-52171-80-6@2018-12-01_09:56:10.796293",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00555",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-641-35691-17@2018-12-01_10:36:53.696904",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00558",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-49393-36275-17@2018-12-01_11:37:25.483081",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00562",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-862-54767-17@2018-12-01_11:22:54.346356",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00570",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-793-7919-17@2018-12-01_11:32:35.458798",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00572",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-15629-61850-17@2018-12-01_11:49:15.539680",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00575",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-605-12060-17@2018-12-01_12:00:32.035974",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00584",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-902-51327-17@2018-12-01_10:36:56.314504",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00585",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-60234-565-17@2018-12-01_12:01:02.315625",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00587",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-868-4071-17@2018-12-01_11:51:08.069745",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00591",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-892-27802-17@2018-12-01_11:06:17.618309",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00593",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-51626-80-6@2018-12-01_09:47:06.102601",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00594",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-574-43103-17@2018-12-01_11:50:58.379742",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  },
+  {
+   "rid": "g00597",
+   "label": "udp_amplification",
+   "id": "obs:cic_ddos2019_mirror:172.16.0.5-192.168.50.1-51381-21962-17@2018-12-01_11:37:35.578456",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "port_scan_recon",
+    "gemini": "port_scan_recon"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

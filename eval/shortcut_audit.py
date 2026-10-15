@@ -103,7 +103,8 @@ def nb_predict(model, feats):
 
 def main(prefix):
     import yaml
-    benign = {k for k, v in yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"].items() if v["is_benign"]}
+    classes = yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
+    benign = {k for k, v in classes.items() if v["is_benign"]}
     recs = load(prefix)
     train = [(f, y) for f, y, s, _ in recs if s == "train"]
     held = [(f, y) for f, y, s, _ in recs if s != "train"]
@@ -124,9 +125,9 @@ def main(prefix):
         per_class[y][0] += p == y
         per_class[y][1] += 1
     rep = {"prefix": prefix, "n_train": len(train), "n_heldout": len(held),
-           "surface_only_nb_accuracy_35class": round(acc, 3),
+           "surface_only_nb_accuracy_multiclass": round(acc, 3),
            "surface_only_nb_accuracy_attack_vs_benign": round(bin_acc, 3),
-           "chance_35class": round(1 / 35, 3), "majority_baseline": round(maj, 3),
+           "n_classes": len(classes), "chance_multiclass": round(1 / len(classes), 3), "majority_baseline": round(maj, 3),
            "per_feature_majority_accuracy": dict(sorted(per_feat.items(), key=lambda x: -x[1])),
            "per_class_surface_recall": {c: round(a / n, 2) for c, (a, n) in sorted(
                per_class.items(), key=lambda x: -x[1][0] / x[1][1])},

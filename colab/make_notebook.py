@@ -16,7 +16,7 @@ Two parts. **Part A** trains, predicts and exports, then stops. **Restart the ru
 only evidence that counts for the *Notebook smoke-tested* state. Run `MODE="smoke"` first.
 
 - Input: `colab_bundle_*.zip` (data + helpers + manifests) made by `training/make_bundle.py`.
-- Training target: `{"threat_type": "<one of 35 keys>"}` only. Loss on the answer + `<|im_end|>` only.
+- Training target: `{"threat_type": "<one of the taxonomy keys>"}` only. Loss on the answer + `<|im_end|>` only.
 - 16-bit LoRA (rsLoRA r=16, alpha=32). QLoRA is deliberately not used (Unsloth: not recommended for Qwen3.5).
 - Nothing is uploaded or published automatically. Package pins below are **candidates**: this exact set
   has not yet been run together; the smoke report records what actually got installed."""),

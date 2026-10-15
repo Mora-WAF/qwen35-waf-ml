@@ -1,68 +1,72 @@
 {
  "prefix": "fast_",
- "n_train": 27205,
- "n_heldout": 8486,
- "surface_only_nb_accuracy_35class": 0.532,
- "surface_only_nb_accuracy_attack_vs_benign": 0.652,
+ "n_train": 27352,
+ "n_heldout": 9984,
+ "surface_only_nb_accuracy_35class": 0.429,
+ "surface_only_nb_accuracy_attack_vs_benign": 0.567,
  "chance_35class": 0.029,
- "majority_baseline": 0.197,
+ "majority_baseline": 0.249,
  "per_feature_majority_accuracy": {
-  "context_keys": 0.48,
-  "header_names": 0.313,
-  "endpoint": 0.283,
-  "stage": 0.247,
-  "sinks": 0.236,
-  "ctype": 0.224,
-  "flow_keys": 0.22,
-  "observed_until": 0.212,
-  "window": 0.212,
+  "context_keys": 0.433,
+  "header_names": 0.293,
+  "endpoint": 0.267,
+  "stage": 0.251,
+  "sinks": 0.228,
+  "observed_until": 0.225,
+  "window": 0.225,
+  "ctype": 0.22,
+  "flow_keys": 0.213,
   "protocol": 0.21,
   "method": 0.209,
-  "has_views": 0.207,
-  "host": 0.207,
-  "n_headers": 0.207,
-  "ua": 0.207,
-  "has_history": 0.195,
-  "mode": 0.186
+  "has_history": 0.208,
+  "has_views": 0.208,
+  "host": 0.208,
+  "mode": 0.208,
+  "n_headers": 0.208,
+  "ua": 0.208
  },
  "per_class_surface_recall": {
   "websocket_grpc_abuse": 1.0,
-  "http_request_smuggling": 1.0,
   "dns_tunneling_exfil": 1.0,
   "tls_ja4_ua_spoofing": 1.0,
-  "web_cache_poisoning": 0.99,
-  "benign_hard_negative_search": 0.96,
-  "graphql_abuse": 0.92,
-  "llm_prompt_injection": 0.9,
-  "prototype_pollution": 0.88,
-  "ssrf_cloud_metadata": 0.87,
-  "csv_formula_injection": 0.83,
-  "c2_beaconing_anomaly": 0.83,
+  "http_request_smuggling": 0.97,
+  "web_cache_poisoning": 0.97,
+  "graphql_abuse": 0.95,
+  "benign_hard_negative_search": 0.94,
+  "ssrf_cloud_metadata": 0.93,
+  "jwt_auth_bypass": 0.9,
+  "prototype_pollution": 0.89,
+  "bola_idor_enumeration": 0.88,
+  "llm_prompt_injection": 0.87,
+  "csv_formula_injection": 0.85,
   "benign_hard_negative_dev": 0.82,
-  "jwt_auth_bypass": 0.81,
-  "bola_idor_enumeration": 0.8,
-  "syn_flood_ddos": 0.78,
-  "deserialization": 0.62,
-  "path_traversal_lfi": 0.49,
-  "benign_standard_traffic": 0.33,
-  "udp_amplification": 0.25,
-  "xxe": 0.16,
-  "benign_high_rate_legit": 0.11,
-  "ssti": 0.03,
-  "sqli_classic": 0.02,
-  "sqli_obfuscated": 0.02,
-  "crlf_header_injection": 0.01,
-  "xss_reflected_stored": 0.01,
-  "nosqli": 0.01,
+  "benign_high_rate_legit": 0.82,
+  "c2_beaconing_anomaly": 0.75,
+  "deserialization": 0.61,
+  "path_traversal_lfi": 0.59,
+  "xxe": 0.45,
+  "sqli_classic": 0.18,
+  "benign_standard_traffic": 0.14,
+  "sqli_obfuscated": 0.11,
+  "nosqli": 0.11,
+  "ssti": 0.06,
+  "xss_reflected_stored": 0.04,
   "xss_dom_polyglot": 0.0,
   "rce_cmd_injection": 0.0,
+  "crlf_header_injection": 0.0,
   "ldap_xpath_injection": 0.0,
   "open_redirect_cors": 0.0,
+  "syn_flood_ddos": 0.0,
+  "udp_amplification": 0.0,
   "slowloris_slowhttp": 0.0,
   "port_scan_recon": 0.0,
   "credential_stuffing_bruteforce": 0.0
  },
  "concentrated_structural_tokens": {
+  "ctx=cache_status_samples": {
+   "web_cache_poisoning": 844,
+   "benign_standard_traffic": 245
+  },
   "ctx=unkeyed_input": {
    "web_cache_poisoning": 844,
    "benign_standard_traffic": 245
@@ -71,19 +75,15 @@
    "web_cache_poisoning": 844,
    "benign_standard_traffic": 245
   },
-  "ctx=cache_status_samples": {
-   "web_cache_poisoning": 844,
-   "benign_standard_traffic": 245
-  },
   "ctx=fetch_behavior": {
    "deserialization": 491,
    "benign_standard_traffic": 159
   },
-  "hist=writes_to_field_24h": {
+  "hist=export_runs_observed_7d": {
    "csv_formula_injection": 361,
    "benign_standard_traffic": 120
   },
-  "hist=export_runs_observed_7d": {
+  "hist=writes_to_field_24h": {
    "csv_formula_injection": 361,
    "benign_standard_traffic": 120
   },
@@ -91,11 +91,11 @@
    "csv_formula_injection": 361,
    "benign_standard_traffic": 120
   },
-  "ctx=parsed_key_count": {
+  "ctx=parser_config": {
    "prototype_pollution": 128,
    "benign_standard_traffic": 40
   },
-  "ctx=parser_config": {
+  "ctx=parsed_key_count": {
    "prototype_pollution": 128,
    "benign_standard_traffic": 40
   },
@@ -111,11 +111,11 @@
    "ssrf_cloud_metadata": 95,
    "benign_standard_traffic": 10
   },
-  "hist=client_requests_5m": {
+  "hist=distinct_targets_5m": {
    "ssrf_cloud_metadata": 94,
    "benign_standard_traffic": 10
   },
-  "hist=distinct_targets_5m": {
+  "hist=client_requests_5m": {
    "ssrf_cloud_metadata": 94,
    "benign_standard_traffic": 10
   },
@@ -135,11 +135,11 @@
    "web_cache_poisoning": 75,
    "benign_standard_traffic": 12
   },
-  "hist=auth_failures_last_1h": {
+  "hist=requests_last_60s": {
    "jwt_auth_bypass": 78,
    "benign_standard_traffic": 6
   },
-  "hist=requests_last_60s": {
+  "hist=auth_failures_last_1h": {
    "jwt_auth_bypass": 78,
    "benign_standard_traffic": 6
   },
@@ -202,24 +202,16 @@
   "hdr=x-course-id": {
    "bola_idor_enumeration": 15
   },
-  "hist=unary_calls_last_min": {
-   "websocket_grpc_abuse": 11,
-   "benign_standard_traffic": 3
-  },
   "hdr=x-export-name": {
    "web_cache_poisoning": 12,
    "benign_standard_traffic": 2
   },
+  "hist=unary_calls_last_min": {
+   "websocket_grpc_abuse": 11,
+   "benign_standard_traffic": 3
+  },
   "hdr=x-forwarded-scheme": {
    "web_cache_poisoning": 12
-  },
-  "hdr=x-banner-variant": {
-   "web_cache_poisoning": 8,
-   "benign_standard_traffic": 2
-  },
-  "hdr=x-accessibility-mode": {
-   "web_cache_poisoning": 8,
-   "benign_standard_traffic": 2
   },
   "hdr=sec-websocket-protocol": {
    "websocket_grpc_abuse": 8,
@@ -229,11 +221,19 @@
    "web_cache_poisoning": 8,
    "benign_standard_traffic": 2
   },
-  "ctx=allowlist": {
+  "hdr=x-banner-variant": {
+   "web_cache_poisoning": 8,
+   "benign_standard_traffic": 2
+  },
+  "hdr=x-accessibility-mode": {
+   "web_cache_poisoning": 8,
+   "benign_standard_traffic": 2
+  },
+  "ctx=site": {
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
-  "ctx=site": {
+  "ctx=allowlist": {
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
@@ -241,8 +241,16 @@
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-account-ref": {
+  "hdr=x-app-install": {
    "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-courier-zone": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-scheme": {
+   "web_cache_poisoning": 8,
    "benign_standard_traffic": 1
   },
   "hdr=x-doc-class": {
@@ -257,26 +265,15 @@
    "websocket_grpc_abuse": 8,
    "benign_standard_traffic": 1
   },
+  "hdr=x-account-ref": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
   "hdr=x-agency-id": {
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-courier-zone": {
-   "llm_prompt_injection": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-app-install": {
-   "llm_prompt_injection": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-scheme": {
-   "web_cache_poisoning": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-console-debug": {
-   "jwt_auth_bypass": 8
-  },
-  "hdr=x-admin-session": {
+  "hdr=x-forwarded-user": {
    "jwt_auth_bypass": 8
   },
   "hdr=x-council-code": {
@@ -293,32 +290,35 @@
   "hist=validate_failures_last_60s": {
    "websocket_grpc_abuse": 8
   },
-  "hdr=x-asset-base": {
+  "hdr=x-picker-note": {
+   "llm_prompt_injection": 8
+  },
+  "hdr=x-backend-host": {
    "web_cache_poisoning": 8
   },
-  "hdr=x-widget-state": {
-   "deserialization": 8
+  "hdr=x-asset-base": {
+   "web_cache_poisoning": 8
   },
   "hdr=x-upload-resume": {
    "deserialization": 8
   },
+  "hdr=x-provider-code": {
+   "csv_formula_injection": 8
+  },
   "hdr=x-locale-override": {
    "web_cache_poisoning": 8
   },
-  "hdr=x-forwarded-user": {
+  "hdr=x-console-debug": {
+   "jwt_auth_bypass": 8
+  },
+  "hdr=x-admin-session": {
    "jwt_auth_bypass": 8
   },
   "hdr=:protocol": {
    "websocket_grpc_abuse": 7,
    "benign_standard_traffic": 1
   },
-  "hdr=x-picker-note": {
-   "llm_prompt_injection": 8
-  },
   "hdr=true-client-ip": {
-   "web_cache_poisoning": 8
-  },
-  "hdr=x-backend-host": {
    "web_cache_poisoning": 8
   },
   "hdr=x-forwarded-uri": {
@@ -327,8 +327,8 @@
   "hdr=x-draft-state": {
    "deserialization": 8
   },
-  "hdr=x-provider-code": {
-   "csv_formula_injection": 8
+  "hdr=x-widget-state": {
+   "deserialization": 8
   }
  },
  "interpretation": "surface features exclude payload values; accuracy well above chance means labels are partly predictable from generator/source artefacts (shortcuts). Flow mode is inherently class-informative (L4 classes only exist as flows)."

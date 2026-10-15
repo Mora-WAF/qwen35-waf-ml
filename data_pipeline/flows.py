@@ -127,6 +127,23 @@ IDS2018_MAP = {"Benign": "benign_standard_traffic", "DoS attacks-Slowloris": "sl
                "DoS attacks-SlowHTTPTest": "slowloris_slowhttp"}
 DDOS2019_MAP = {"BENIGN": "benign_standard_traffic", "Syn": "syn_flood_ddos",
                 **{f"DrDoS_{k}": "udp_amplification" for k in ("DNS", "NTP", "SSDP", "LDAP", "SNMP", "NetBIOS", "MSSQL")}}
+# A source label is kept only when the measured telemetry can show it (label-consistency; the Codex+Gemini final
+# re-check marked these flows port scans). Measured on the sampled pool, 2026-10-15:
+#   CIC-DDoS2019 "Syn": SYN Flag Count is 0 on every row (ACK only, random dst ports) -> no SYN evidence;
+#   CIC-DDoS2019 DrDoS_*: 677 of 3,000 sampled flows are TCP, zero-byte (time-window labelling, not reflection); the
+#     UDP rest is one-way (no response packets, source ports 564/634/900, not 53/123/389): no request-response
+#     asymmetry to see, and both external reviewers read them as port scans. Dropped by user decision 2026-10-15;
+#     udp_amplification is synthetic-only until a source shows both directions;
+#   CIC-IDS2018 "DoS attacks-SlowHTTPTest": all dst port 21, zero payload (FTP traffic, not slow HTTP).
+WEB_PORTS = {80, 443, 8000, 8080, 8443}
+CONSISTENT = {
+    "syn_flood_ddos": lambda f: f.get("ip_proto") == 6 and bool((f.get("tcp_flags_bitmask") or 0) & 2),
+    "udp_amplification": lambda f: f.get("ip_proto") == 17 and (f.get("pkts_bwd") or 0) > 0,  # both directions seen
+    "slowloris_slowhttp": lambda f: f.get("ip_proto") == 6 and f.get("dst_port") in WEB_PORTS,
+    "credential_stuffing_bruteforce": lambda f: f.get("ip_proto") == 6,
+    "port_scan_recon": lambda f: f.get("ip_proto") in (6, 17),
+    "dns_tunneling_exfil": lambda f: f.get("dst_port") == 53,
+}
 IDS2018_RENAME = {"Dst Port": "destination_port", "Protocol": "protocol", "Tot Fwd Pkts": "Total Fwd Packets",
                   "Tot Bwd Pkts": "Total Backward Packets", "TotLen Fwd Pkts": "Total Length of Fwd Packets",
                   "TotLen Bwd Pkts": "Total Length of Bwd Packets", "Pkt Len Min": "Min Packet Length",
@@ -236,7 +253,9 @@ def ingest_dns_exf(srcs, cap, seed, window_s=60):
                     span = (d["t"].max() - d["t"].min()).total_seconds()
                     feats = {"pkts_total": int(len(d)), "dst_port": 53, "ip_proto": 17,
                              "qname_len_mean": round(float(d["FQDN_count"].mean()), 2),
-                             "qname_entropy_bits_per_char": round(float(d["entropy"].mean()), 3)}
+                             "qname_entropy_bits_per_char": round(float(d["entropy"].mean()), 3),
+                             # repeated queries to one parent domain (taxonomy required evidence); the CSV's sld column
+                             "parent_domain_top_share": round(float(d["sld"].astype(str).value_counts().iloc[0] / len(d)), 3)}
                     if span > 0:
                         feats["duration_s"] = sig(span)
                         feats["pkts_per_s"] = sig(len(d) / span)
@@ -340,6 +359,14 @@ def ingest(cap=3000, seed=1337):
             pool += got
             report[name] = rep
 
+    kept, dropped = [], Counter()
+    for x in pool:
+        if CONSISTENT.get(x["cls"], lambda f: True)(x["telemetry"]["flow"]["features"]):
+            kept.append(x)
+        else:
+            dropped[f'{x["source"]}:{x["original_label"]}'] += 1
+    pool = kept
+    report["label_inconsistent_dropped"] = dict(dropped)
     tmp = OUT / "observed_pool.jsonl.part"
     with open(tmp, "w") as fh:
         for x in pool:

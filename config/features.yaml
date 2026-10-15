@@ -2,7 +2,7 @@
 # synthetic, so the feature *names* do not reveal the source (and through it the label).
 # Unavailable -> key absent. Never a fabricated zero.
 # CORE = the fields BOTH observed sources provide; every flow record (observed or synthetic) uses only
-# these, plus the synthetic-only evidence fields a class requires (iat_cv, qname_*, ja4_ua_consistent).
+# these, plus the synthetic-only evidence fields a class requires (iat_cv, qname_*, ja4_ua_consistent, h2_*).
 # Dropped for source-parity (shortcut audit, 2026-10-15): pkt_len_mean, iat_*, init_win, ttl_*, retrans.
 version: 1
 features:
@@ -24,7 +24,10 @@ features:
   iat_cv:            {type: float, note: "synthetic only: coefficient of variation of beacon intervals"}
   qname_len_mean:    {type: float, unit: chars, note: "synthetic only"}
   qname_entropy_bits_per_char: {type: float, note: "synthetic only; Shannon entropy over qname bytes"}
+  parent_domain_top_share: {type: float, range: [0, 1], note: "share of a DNS window's queries to its most queried parent domain (CIC-Bell-DNS-EXF sld; synthetic)"}
   ja4_ua_consistent: {type: int, range: [0, 1], note: "synthetic only; mismatch alone is not malicious"}
+  h2_rst_stream_ratio: {type: float, range: [0, 1], note: "synthetic only; RST_STREAM frames / HEADERS frames in the window (HTTP/2 over TLS)"}
+  h2_continuation_frames: {type: int, range: [0, null], note: "synthetic only; CONTINUATION frames in the window"}
   # window aggregates (CIC: measured from timestamps per clock minute; synthetic: from the scenario; NF-ToN-IoT-v2
   # has no timestamps -> absent). Evidence for brute force, scans and slow-HTTP floods that one flow cannot show.
   conn_count_60s:         {type: int, range: [1, null], note: "connections source->same dst host+port in the same minute"}

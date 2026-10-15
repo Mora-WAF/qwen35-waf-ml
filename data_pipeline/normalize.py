@@ -94,6 +94,27 @@ def deobfuscate(payload):
     return re.sub(r"/\*.*?\*/", "", unquote(unquote(payload)))
 
 
+OBFUSCATION = re.compile(
+    r"%[0-9a-f]{2}|\\x[0-9a-f]{2}|\\u00[0-9a-f]{2}|\b0x[0-9a-f]{6,}"   # an encoding layer inside the payload itself
+    r"|\b(?:n?char|chr)\s*\(\s*\d+"                                     # char-code string building
+    r"|\w/\*.*?\*/\w|/\*!\d*",                                           # keyword-splitting / versioned comments
+    re.I)
+MIXED_CASE_KW = re.compile(r"\b(select|union|where|sleep|waitfor|insert|from)\b", re.I)
+
+
+def sqli_seed_plain(payload):
+    from urllib.parse import unquote
+    return unquote(payload) if re.search(r"%[0-9a-f]{2}", payload, re.I) else payload
+
+
+def is_obfuscated_sql(payload):
+    """Taxonomy: sqli_obfuscated wins when an encoding or obfuscation layer is needed to form the injection.
+    Applied after sqli_seed_plain to seeds a list files under classic SQLi (FuzzDB/SecLists mix both); a %XX
+    left after one decode is a nested encoding layer."""
+    return bool(OBFUSCATION.search(payload)) or any(
+        not (w.islower() or w.isupper() or w.istitle()) for w in MIXED_CASE_KW.findall(payload))
+
+
 def canon(payload):
     """Near-duplicate key: case, whitespace and digit runs folded."""
     return re.sub(r"\d+", "#", re.sub(r"\s+", " ", payload.strip().lower()))
@@ -136,15 +157,22 @@ def iter_seeds(root=ROOT, rejects=None):
                     REJECTED.append({"class": rule["class"], "reason": why, "payload": payload,
                                      "source": src["id"], "source_file": rel})
                     continue
-                sid = seed_id(src["id"], rule["class"], payload)
+                cls = rule["class"]
+                if cls == "sqli_classic":
+                    # list payloads come pre-URL-encoded for a query string; the generator re-encodes per location,
+                    # so decode once and route on the layers that remain (re-check: raw %20 in a URL read as classic)
+                    payload = sqli_seed_plain(payload)
+                    if is_obfuscated_sql(payload):
+                        cls = "sqli_obfuscated"
+                sid = seed_id(src["id"], cls, payload)
                 if sid in seen:  # exact-dup across files/rules
                     continue
                 seen.add(sid)
-                yield {"id": sid, "class": rule["class"], "payload": payload,
+                yield {"id": sid, "class": cls, "payload": payload,
                        "provenance": "observed", "parser": rule["parser"],
                        "source": src["id"], "source_revision": src["revision"],
                        "source_file": rel, "license_ref": src["license_spdx"],
-                       "cluster": f"{rule['class']}:" + hashlib.sha256(canon(payload).encode()).hexdigest()[:16]}
+                       "cluster": f"{cls}:" + hashlib.sha256(canon(payload).encode()).hexdigest()[:16]}
 
 
 def build(root=ROOT):

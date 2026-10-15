@@ -1,0 +1,110 @@
+{"rid": "n23150", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Identity admin role change on authorized route; role guard executed; no attack content."}
+{"rid": "n22982", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Patient updates own writable preference fields; object owner matches caller."}
+{"rid": "n22921", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cardholder toggles own card's writable control fields; ordinary request."}
+{"rid": "n23213", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Repeated purchase shares one idempotency key; one unit recorded; per-customer limit held."}
+{"rid": "n23042", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "PUT price by merchandiser role matching route policy; role guard executed."}
+{"rid": "n23152", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Portal admin GET on admin route with required role; guard executed; no lookalike content."}
+{"rid": "n23654", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "MCP reply_in_thread within granted scope; manifest found; recipient on file; ordinary body."}
+{"rid": "n23380", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RMA photo upload is real JPEG, non-executable storage, filename rewritten, no script handler."}
+{"rid": "n22978", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cardholder creates own card with writable fields only; no attack content."}
+{"rid": "n22988", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Webhook URL is a schema-writable field for caller role; plain https value."}
+{"rid": "n23296", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single refund request, no burst; refunds stay within charge limit; no attack content."}
+{"rid": "n23526", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Delivery assistant calls cart read tool allowed for task; benign shopper question."}
+{"rid": "n22883", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Customer sets own writable currency preference; ordinary request."}
+{"rid": "n23258", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Redeem retries share one idempotency key; single debit; ledger balance enforced."}
+{"rid": "n23627", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "MCP list_payouts read within granted payouts:read scope; no write tool used."}
+{"rid": "n23072", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Limits admin role matches admin route guard; high amount but authorized role."}
+{"rid": "n23354", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Logo upload real JPEG magic, non-executable storage, filename rewritten."}
+{"rid": "n23408", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Real PDF payslip upload, no script objects, non-web-served storage, no executable handler."}
+{"rid": "n23461", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "PNG logo with real magic bytes, no handler mapping, filename rewritten, not web served."}
+{"rid": "n22798", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Host is the allowlisted own host, reflected escaped; no injection content."}
+{"rid": "n23630", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Fetch tool destination allowlisted partner host; net:egress granted; agent task matches."}
+{"rid": "n23206", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cheque deposit retries share one idempotency key; single credit posted; limit respected."}
+{"rid": "n23506", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Resize tool call within media scope; argv-only single-token benign filename; task-requested."}
+{"rid": "n23107", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Platform ops role matches rerun route guard; ops ticket present; no attack content."}
+{"rid": "n23361", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Gift card artwork real JPEG, non-executable static storage, filename rewritten."}
+{"rid": "n23164", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Portal admin grants read on guarded route with matching required role; no lookalike content."}
+{"rid": "n23024", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Limits admin GET on route requiring limits_admin; guard executed; benign headers."}
+{"rid": "n23073", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Batch operator cancel passes route guard; cert-OU role mapping noted but no attack evidence."}
+{"rid": "n23437", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Receipt logo real PNG, non-web-served storage, no handler mapping; ordinary merchant upload."}
+{"rid": "n22975", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Guardian adds care-team member; writable fields only; ordinary JSON values."}
+{"rid": "n23415", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Avatar real GIF magic, static non-executable storage, no script markers."}
+{"rid": "n23251", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Checkout hold retries share one idempotency key; single hold; stock not negative."}
+{"rid": "n23539", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "read_file path resolves under granted catalog root; scope fs:read; task-requested."}
+{"rid": "n23580", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Customer-entered coupon via apply_coupon within granted scope; review text benign."}
+{"rid": "n22983", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Patient requests appointment; only writable visit_mode persisted; no attack content."}
+{"rid": "n23441", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "DICOM octet-stream import with DICM marker; non-web storage; no executable content."}
+{"rid": "n22880", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Customer updates writable shipping method and welcome coupon; ordinary checkout."}
+{"rid": "n22859", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Customer sets writable gift message on own order; plain form text."}
+{"rid": "n22789", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Host is allowlisted own host, reflected escaped; metadata HEAD only."}
+{"rid": "n23520", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Customer-entered WELCOME5 via apply_coupon within granted scope; no injection."}
+{"rid": "n23456", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Profile photo real PNG magic, non-web-served storage, filename rewritten."}
+{"rid": "n23134", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Replay by integration_admin with route guard executed; device attested; retries after sync."}
+{"rid": "n23529", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Pinned third-party tool manifest, plain description, catalog:read scope only; no injection."}
+{"rid": "n23257", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Gift card retries share one idempotency key; single application; balance not negative."}
+{"rid": "n23444", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Patient imaging upload real PNG magic; non-web-served storage; filename rewritten."}
+{"rid": "n23172", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Lab director release on route requiring lab_director; guard executed; idempotency key present."}
+{"rid": "n23119", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Platform ops rerun passes route guard; single ticketed ops action; no attack content."}
+{"rid": "n23139", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Payments risk admin limit write matches route role; guard executed; ordinary values."}
+{"rid": "n23065", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Catalog admin dry-run import matches route role; guard executed; ordinary JSON."}
+{"rid": "n22886", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Customer updates own writable preferences; owner matches caller; ordinary values."}
+{"rid": "n22948", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Patient updates own writable medication frequency text; owner matches caller."}
+{"rid": "n23592", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Reconcile tool in granted scope, fixed argv exec mode; extra flag is a date filter."}
+{"rid": "n23183", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cashback claim retries share one idempotency key; one credit; per-transaction limit held."}
+{"rid": "n22974", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Patient sets writable reading language on own report; ordinary request."}
+{"rid": "n22925", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Writable metadata color on account; caller owner matches; 404s on probes are not successful access."}
+{"rid": "n23037", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Batch operator accrual run passes route guard; scheduled job names; no attack content."}
+{"rid": "n22795", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Server is allowlisted own host, reflected escaped; ordinary preview GET."}
+{"rid": "n23364", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Gift card art real JPEG magic; static non-executable storage; no script handler."}
+{"rid": "n22829", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Original-URL equals allowlisted request path; reflected escaped; no privilege change."}
+{"rid": "n22850", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain YAML parsed with Psych safe_load, no classes permitted, no outbound fetch."}
+{"rid": "n22970", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Patient updates writable preferred language and channel on own record."}
+{"rid": "n23140", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Portal admin grants read on guarded route with matching required role; guard executed."}
+{"rid": "n23171", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "BIN table write by issuing_admin matches route policy; guard executed; ordinary values."}
+{"rid": "n23495", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Statement PDF upload with real magic bytes; non-web-served storage; filename rewritten."}
+{"rid": "n23385", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Reconciliation CSV upload with plain CSV content; non-web-served inbox; no handler."}
+{"rid": "n23643", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "MCP reply_in_thread within granted scope; recipient on file; ordinary summary text."}
+{"rid": "n23421", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Lab results CSV upload, declared and detected text/csv; non-web-served storage."}
+{"rid": "n23166", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Practice manager grant on route requiring that role; guard executed; ordinary scope values."}
+{"rid": "n23425", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Merchant logo real PNG magic; non-web-served storage; filename rewritten."}
+{"rid": "n23644", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Signed tool manifest refresh with plain description; no tool invocation or extra scope."}
+{"rid": "n23056", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Override header on a POST route with method override disabled; marketing_admin guard executed."}
+{"rid": "n22823", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Rewrite-URL equals allowlisted same path, reflected escaped; metadata HEAD only."}
+{"rid": "n22891", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Customer updates own writable phone and branch; owner matches caller."}
+{"rid": "n23087", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Card ops role matches PUT route policy; guard executed; own card control toggle."}
+{"rid": "n23604", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "MCP list_payouts read within payouts:read scope; manifest found; no write tool."}
+{"rid": "n23233", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Gift card retries share one idempotency key; single debit; balance not negative."}
+{"rid": "n23645", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ledger export path normalised under granted exports root; task-requested month-end close."}
+{"rid": "n23340", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single access grant creation within active-grant max; ordinary app request."}
+{"rid": "n23558", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Balance read tool within ledger:read:own scope answering the signed-in customer's question."}
+{"rid": "n22913", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Beneficiary creation writes writable iban field for own customer; test IBAN, no attack."}
+{"rid": "n23005", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Writable payout schedule only; owner field names the object not the subject, ownership unclear."}
+{"rid": "n23322", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single FX quote execution, within per-quote max; ordinary request."}
+{"rid": "n22976", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Merchant analyst updates writable webhook and support email; ordinary values."}
+{"rid": "n23189", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Flash order retries share one idempotency key; one unit recorded; per-customer limit held."}
+{"rid": "n23076", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "KYC reviewer role matches GetFile route guard; reviewing a customer document is the role's job."}
+{"rid": "n23002", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cardholder creates own card with writable fields only; ordinary request."}
+{"rid": "n23085", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Batch cancel passes route guard; cert-OU role mapping noted; no attack evidence."}
+{"rid": "n23549", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Webhook setup matches user request; destination host on tool egress allowlist; scope granted."}
+{"rid": "n23263", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Inventory hold retries share one idempotency key; one hold; stock not negative."}
+{"rid": "n23100", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "KYC reviewer role matches GetFile route guard; reviewer access to customer document is role-appropriate."}
+{"rid": "n23525", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Webhook tool call allowlisted destination within granted scope; matches the user's stated request."}
+{"rid": "n22953", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Customer updates writable statement frequency on own wallet; owner field matches object."}
+{"rid": "n22968", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Developer creates payment link; only writable expiry persisted; idempotency key present."}
+{"rid": "n23376", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Returns photo JPEG real magic; web-served but no script handler; filename rewritten."}
+{"rid": "n23502", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cart summary read is in task allowed tools and within cart:read scope."}
+{"rid": "n23589", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ledger export path normalised under granted exports root; task-requested close file."}
+{"rid": "n23436", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Receipt upload carries real JPEG magic despite extension check; non-web-served storage."}
+{"rid": "n23518", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Resize tool with argv-only single-token filename inside granted media scope; task-requested."}
+{"rid": "n22916", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Writable card field by cardholder; earlier 404/200 card-ID probes, no owner field to confirm."}
+{"rid": "n23284", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single refund, no burst, within refundable amount; ticket metadata; ordinary request."}
+{"rid": "n23162", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Identity admin role change on route requiring identity_admin; guard executed."}
+{"rid": "n23330", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single p2p transfer with sufficient balance; ordinary user action; no retry burst."}
+{"rid": "n23349", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Vendor asset real JPEG magic; web-served static storage with no script handler."}
+{"rid": "n22902", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Own-owner nickname write; prior 200 reads of other account IDs, owner of those unclear."}
+{"rid": "n23359", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Gift card artwork real PNG magic; static storage; no script handler mapped."}
+{"rid": "n22924", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Writable alias on account; several distinct account reads before write; ownership not shown."}
+{"rid": "n22868", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Merchant updates writable listing fields; owner matches caller; marketplace reads ordinary."}
+{"rid": "n22812", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Rewrite-URL equals allowlisted same path, reflected escaped; cached audit filter page."}
+{"rid": "n23533", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Statement export tool with owner match to session customer; read scope own; benign request."}
+{"rid": "n23651", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Visit note tool with patient_id matching granted subject; read scope self; ordinary question."}
