@@ -1,33 +1,29 @@
 {
- "reviewed": 13830,
- "items": 13950,
+ "reviewed": 16122,
+ "items": 16122,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
-   "agree": 1589,
-   "insufficient": 71,
-   "disagree": 1162,
-   "missing": 25,
+   "agree": 2373,
+   "insufficient": 88,
+   "disagree": 1747,
    "agreement": 0.58
   },
   "benign_hard_negative_search": {
-   "agree": 1144,
+   "agree": 1334,
    "insufficient": 3,
-   "disagree": 295,
-   "missing": 9,
-   "agreement": 0.79
+   "disagree": 306,
+   "agreement": 0.81
   },
   "benign_standard_traffic": {
-   "agree": 1360,
-   "insufficient": 85,
-   "disagree": 129,
-   "missing": 11,
-   "agreement": 0.91
+   "agree": 1429,
+   "insufficient": 88,
+   "disagree": 131,
+   "agreement": 0.92
   },
   "bola_idor_enumeration": {
-   "agree": 841,
+   "agree": 848,
    "insufficient": 4,
-   "missing": 7,
    "disagree": 8,
    "agreement": 0.99
   },
@@ -38,24 +34,21 @@
    "agreement": 0.9
   },
   "csv_formula_injection": {
-   "agree": 460,
+   "agree": 465,
    "insufficient": 21,
    "disagree": 7,
-   "missing": 5,
    "agreement": 0.99
   },
   "deserialization": {
-   "agree": 569,
+   "agree": 576,
    "insufficient": 67,
    "disagree": 16,
-   "missing": 7,
    "agreement": 0.97
   },
   "graphql_abuse": {
-   "agree": 734,
-   "insufficient": 125,
-   "disagree": 112,
-   "missing": 10,
+   "agree": 913,
+   "insufficient": 183,
+   "disagree": 135,
    "agreement": 0.87
   },
   "http_request_smuggling": {
@@ -64,11 +57,10 @@
    "agreement": 1.0
   },
   "jwt_auth_bypass": {
-   "agree": 705,
-   "insufficient": 145,
-   "disagree": 142,
-   "missing": 9,
-   "agreement": 0.83
+   "agree": 976,
+   "insufficient": 180,
+   "disagree": 168,
+   "agreement": 0.85
   },
   "ldap_xpath_injection": {
    "agree": 8,
@@ -77,10 +69,9 @@
    "agreement": 0.8
   },
   "llm_prompt_injection": {
-   "agree": 1053,
+   "agree": 1060,
    "insufficient": 6,
    "disagree": 12,
-   "missing": 7,
    "agreement": 0.99
   },
   "nosqli": {
@@ -100,10 +91,9 @@
    "agreement": 1.0
   },
   "prototype_pollution": {
-   "agree": 866,
+   "agree": 873,
    "insufficient": 3,
    "disagree": 7,
-   "missing": 7,
    "agreement": 0.99
   },
   "rce_cmd_injection": {
@@ -124,10 +114,9 @@
    "agreement": 1.0
   },
   "ssrf_cloud_metadata": {
-   "agree": 1119,
+   "agree": 1129,
    "insufficient": 6,
    "disagree": 15,
-   "missing": 10,
    "agreement": 0.99
   },
   "ssti": {
@@ -136,18 +125,16 @@
    "agreement": 1.0
   },
   "web_cache_poisoning": {
-   "agree": 834,
+   "agree": 845,
    "insufficient": 2,
-   "missing": 11,
    "disagree": 11,
    "agreement": 0.99
   },
   "websocket_grpc_abuse": {
-   "agree": 402,
-   "insufficient": 44,
-   "disagree": 68,
-   "missing": 2,
-   "agreement": 0.86
+   "agree": 492,
+   "insufficient": 60,
+   "disagree": 76,
+   "agreement": 0.87
   },
   "xss_dom_polyglot": {
    "agree": 10,
@@ -170,37 +157,42 @@
   [
    "benign_hard_negative_dev",
    "benign_standard_traffic",
-   784
+   1169
   ],
   [
    "benign_hard_negative_dev",
    "benign_hard_negative_search",
-   289
+   473
   ],
   [
    "benign_hard_negative_search",
    "benign_standard_traffic",
-   279
+   290
   ],
   [
    "jwt_auth_bypass",
    "benign_standard_traffic",
-   133
+   159
   ],
   [
    "graphql_abuse",
    "benign_high_rate_legit",
-   77
+   93
   ],
   [
    "websocket_grpc_abuse",
    "benign_standard_traffic",
-   29
+   36
   ],
   [
    "benign_hard_negative_dev",
    "csv_formula_injection",
-   27
+   32
+  ],
+  [
+   "graphql_abuse",
+   "benign_standard_traffic",
+   26
   ],
   [
    "benign_standard_traffic",
@@ -213,24 +205,19 @@
    23
   ],
   [
-   "graphql_abuse",
-   "benign_standard_traffic",
-   19
-  ],
-  [
    "benign_hard_negative_dev",
    "path_traversal_lfi",
-   18
-  ],
-  [
-   "websocket_grpc_abuse",
-   "benign_high_rate_legit",
-   15
+   23
   ],
   [
    "benign_standard_traffic",
    "jwt_auth_bypass",
-   15
+   17
+  ],
+  [
+   "websocket_grpc_abuse",
+   "benign_high_rate_legit",
+   16
   ],
   [
    "benign_standard_traffic",
@@ -258,15 +245,15 @@
    9
   ],
   [
+   "benign_hard_negative_dev",
+   "xss_reflected_stored",
+   8
+  ],
+  [
    "benign_standard_traffic",
    "graphql_abuse",
    7
-  ],
-  [
-   "deserialization",
-   "benign_standard_traffic",
-   7
   ]
  ],
- "quarantined": 2408
+ "quarantined": 3156
 }

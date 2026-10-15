@@ -2,85 +2,31 @@
  "mode": "fast",
  "per_class": 40,
  "quota_fraction": 0.25,
- "total": 25247,
+ "total": 33364,
  "dropped_exact_dup": 332,
  "rejected_token_overflow": {
-  "graphql_abuse": 14,
-  "websocket_grpc_abuse": 4
+  "graphql_abuse": 67,
+  "jwt_auth_bypass": 8,
+  "websocket_grpc_abuse": 3
  },
  "files": {
   "fast_train.jsonl": {
-   "records": 19942,
-   "sha256": "01536c4e5a5c89e841b0e6da0311f95d6da4df7c1df075f118cedacaa779f975"
+   "records": 26761,
+   "sha256": "9ce6634e2e33c966ce189de571576f55a358522df149790dd17577f9875083b2"
   },
   "fast_val.jsonl": {
-   "records": 2825,
-   "sha256": "30a00efc5d5cb47d386460f181781e47f1324357a7ab9f99252c194e9bf3cf78"
+   "records": 3256,
+   "sha256": "ec5e3f29b3bdd969fd50bb1289c768298acf2b03e42810e9d986f008af24ce11"
   },
   "fast_test.jsonl": {
-   "records": 2480,
-   "sha256": "3343a83c3510083283d9afe38f90cfd9143787bcd3c2843ef7f31989e7d46f28"
+   "records": 3347,
+   "sha256": "766a586ea8c6b1eae40cc03f571b6c1eaccab8a33f16f3b4c2f251c01363e9c0"
   }
  },
  "deficits": {
-  "deserialization": {
-   "have": 288,
-   "target": 500,
-   "reason": "insufficient independent seeds"
-  },
-  "csv_formula_injection": {
-   "have": 276,
-   "target": 375,
-   "reason": "insufficient independent seeds"
-  },
-  "ssrf_cloud_metadata": {
-   "have": 760,
-   "target": 1000,
-   "reason": "insufficient independent seeds"
-  },
-  "graphql_abuse": {
-   "have": 271,
-   "target": 750,
-   "reason": "insufficient independent seeds"
-  },
-  "jwt_auth_bypass": {
-   "have": 270,
-   "target": 750,
-   "reason": "insufficient independent seeds"
-  },
-  "bola_idor_enumeration": {
-   "have": 184,
-   "target": 750,
-   "reason": "insufficient independent seeds"
-  },
-  "websocket_grpc_abuse": {
-   "have": 277,
-   "target": 375,
-   "reason": "insufficient independent seeds"
-  },
-  "llm_prompt_injection": {
-   "have": 304,
-   "target": 1000,
-   "reason": "insufficient independent seeds"
-  },
-  "prototype_pollution": {
-   "have": 304,
-   "target": 750,
-   "reason": "insufficient independent seeds"
-  },
-  "web_cache_poisoning": {
-   "have": 280,
-   "target": 750,
-   "reason": "insufficient independent seeds"
-  },
   "benign_hard_negative_dev": {
-   "have": 243,
+   "have": 2351,
    "target": 2500,
-   "reason": "insufficient independent seeds"
-  },
-  "benign_hard_negative_search": {
-   "have": 186,
-   "target": 1250,
    "reason": "insufficient independent seeds"
   },
   "_mixed_observed_synthetic": {
@@ -109,81 +55,81 @@
  "haiku_jobs": {
   "ssrf_cloud_metadata": {
    "status": "ok",
-   "accepted": 760,
+   "accepted": 1123,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 21
   },
   "graphql_abuse": {
    "status": "ok",
-   "accepted": 271,
+   "accepted": 785,
    "rejected": 0,
-   "quarantined_by_review": 9
+   "quarantined_by_review": 263
   },
   "jwt_auth_bypass": {
    "status": "ok",
-   "accepted": 270,
+   "accepted": 811,
    "rejected": 0,
-   "quarantined_by_review": 10
+   "quarantined_by_review": 333
   },
   "bola_idor_enumeration": {
    "status": "ok",
-   "accepted": 184,
+   "accepted": 846,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 10
   },
   "websocket_grpc_abuse": {
    "status": "ok",
-   "accepted": 277,
+   "accepted": 447,
    "rejected": 0,
-   "quarantined_by_review": 3
+   "quarantined_by_review": 121
   },
   "llm_prompt_injection": {
    "status": "ok",
-   "accepted": 304,
+   "accepted": 1055,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 17
   },
   "prototype_pollution": {
    "status": "ok",
-   "accepted": 304,
+   "accepted": 871,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 9
   },
   "web_cache_poisoning": {
    "status": "ok",
-   "accepted": 280,
+   "accepted": 844,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 12
   },
   "deserialization": {
    "status": "ok",
-   "accepted": 288,
+   "accepted": 509,
    "rejected": 0,
-   "quarantined_by_review": 16
+   "quarantined_by_review": 83
   },
   "csv_formula_injection": {
    "status": "ok",
-   "accepted": 276,
+   "accepted": 445,
    "rejected": 0,
-   "quarantined_by_review": 4
+   "quarantined_by_review": 27
   },
   "benign_hard_negative_dev": {
    "status": "ok",
-   "accepted": 243,
+   "accepted": 2351,
    "rejected": 0,
-   "quarantined_by_review": 7
+   "quarantined_by_review": 1769
   },
   "benign_hard_negative_search": {
    "status": "ok",
-   "accepted": 186,
+   "accepted": 1333,
    "rejected": 0,
-   "quarantined_by_review": 14
+   "quarantined_by_review": 307
   },
   "benign_standard_traffic": {
    "status": "ok",
-   "accepted": 1018,
+   "accepted": 1418,
    "rejected": 0,
-   "quarantined_by_review": 52
+   "quarantined_by_review": 142
   }
  },
  "cross_split_overlap": 0,
