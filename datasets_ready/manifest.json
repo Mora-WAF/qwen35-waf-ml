@@ -1,0 +1,214 @@
+{
+ "mode": "fast",
+ "per_class": 40,
+ "quota_fraction": 0.25,
+ "total": 43146,
+ "dropped_exact_dup": 73,
+ "rejected_token_overflow": {
+  "graphql_abuse": 68,
+  "jwt_auth_bypass": 8,
+  "websocket_grpc_abuse": 3,
+  "benign_standard_traffic": 39,
+  "benign_high_rate_legit": 2
+ },
+ "files": {
+  "fast_train.jsonl": {
+   "records": 31583,
+   "sha256": "84bb9da2c0e74cda3f43ee53ca91a76d944592dd5055e52fa55a684059ed9044"
+  },
+  "fast_val.jsonl": {
+   "records": 3974,
+   "sha256": "0c979140f103a909126f037bad2615cb1a8b651ade65ba768093545ab169c34d"
+  },
+  "fast_test.jsonl": {
+   "records": 3723,
+   "sha256": "b3a1f812b86542680f5dc66fdfbd9193438f32024f28fb037340ebf7760640d5"
+  },
+  "fast_test_unseen.jsonl": {
+   "records": 3866,
+   "sha256": "7a82b4b4c699289952b814acf168ae1936bee8f6c741abc6596d1a0557cd4690"
+  }
+ },
+ "deficits": {
+  "_mixed_observed_synthetic": {
+   "slowloris_slowhttp": {
+    "observed_groups": 2,
+    "observed": 375,
+    "synthetic": 375,
+    "per_source": {
+     "cic_ids2017_mirror": 188,
+     "cic_ids2018": 187
+    }
+   },
+   "port_scan_recon": {
+    "observed_groups": 1,
+    "observed": 500,
+    "synthetic": 500,
+    "per_source": {
+     "cic_ids2017_mirror": 500
+    }
+   },
+   "credential_stuffing_bruteforce": {
+    "observed_groups": 1,
+    "observed": 500,
+    "synthetic": 500,
+    "per_source": {
+     "cic_ids2017_mirror": 500
+    }
+   },
+   "dns_tunneling_exfil": {
+    "observed_groups": 12,
+    "observed": 250,
+    "synthetic": 250,
+    "per_source": {
+     "cic_bell_dns_exf2021": 250
+    }
+   },
+   "benign_standard_traffic": {
+    "observed_groups": 7283,
+    "observed": 1625,
+    "synthetic": 833,
+    "matched_per_source": {
+     "cic_ids2017_mirror": 1188,
+     "cic_ids2018": 187,
+     "cic_bell_dns_exf2021": 250
+    }
+   }
+  }
+ },
+ "haiku_jobs": {
+  "ssrf_cloud_metadata": {
+   "status": "ok",
+   "accepted": 1162,
+   "rejected": 0,
+   "quarantined_by_review": 22
+  },
+  "graphql_abuse": {
+   "status": "ok",
+   "accepted": 785,
+   "rejected": 0,
+   "quarantined_by_review": 263
+  },
+  "jwt_auth_bypass": {
+   "status": "ok",
+   "accepted": 811,
+   "rejected": 0,
+   "quarantined_by_review": 333
+  },
+  "bola_idor_enumeration": {
+   "status": "ok",
+   "accepted": 886,
+   "rejected": 0,
+   "quarantined_by_review": 10
+  },
+  "websocket_grpc_abuse": {
+   "status": "ok",
+   "accepted": 447,
+   "rejected": 0,
+   "quarantined_by_review": 121
+  },
+  "llm_prompt_injection": {
+   "status": "ok",
+   "accepted": 1095,
+   "rejected": 0,
+   "quarantined_by_review": 17
+  },
+  "prototype_pollution": {
+   "status": "ok",
+   "accepted": 871,
+   "rejected": 0,
+   "quarantined_by_review": 9
+  },
+  "web_cache_poisoning": {
+   "status": "ok",
+   "accepted": 844,
+   "rejected": 0,
+   "quarantined_by_review": 12
+  },
+  "deserialization": {
+   "status": "ok",
+   "accepted": 509,
+   "rejected": 0,
+   "quarantined_by_review": 83
+  },
+  "csv_formula_injection": {
+   "status": "ok",
+   "accepted": 445,
+   "rejected": 0,
+   "quarantined_by_review": 27
+  },
+  "bopla_mass_assignment": {
+   "status": "ok",
+   "accepted": 615,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "bfla_admin_function_probing": {
+   "status": "ok",
+   "accepted": 616,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "race_condition_toctou_burst": {
+   "status": "ok",
+   "accepted": 576,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "malicious_file_upload_webshell": {
+   "status": "ok",
+   "accepted": 597,
+   "rejected": 0,
+   "quarantined_by_review": 19
+  },
+  "mcp_agentic_tool_abuse": {
+   "status": "ok",
+   "accepted": 605,
+   "rejected": 0,
+   "quarantined_by_review": 11
+  },
+  "benign_hard_negative_dev": {
+   "status": "ok",
+   "accepted": 3280,
+   "rejected": 0,
+   "quarantined_by_review": 1240
+  },
+  "benign_hard_negative_search": {
+   "status": "ok",
+   "accepted": 1363,
+   "rejected": 0,
+   "quarantined_by_review": 277
+  },
+  "benign_standard_traffic": {
+   "status": "ok",
+   "accepted": 4538,
+   "rejected": 0,
+   "quarantined_by_review": 420
+  },
+  "xss_reflected_stored": {
+   "status": "ok",
+   "accepted": 40,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "xxe": {
+   "status": "ok",
+   "accepted": 40,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "benign_high_rate_legit": {
+   "status": "ok",
+   "accepted": 100,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  }
+ },
+ "cross_split_overlap": 0,
+ "lineage_overlap": 0,
+ "limitations": [
+  "CIC-IDS2017 attack classes are single campaigns (one lineage group each); they land wholly in one split, test coverage for those classes comes from NF-ToN or synthetic",
+  "synthetic flow/benign/haiku records are independent draws (own lineage group) but share per-class template families across splits; no unseen-family holdout in pilot",
+  "near-duplicate (non-exact) seed variants not yet clustered"
+ ]
+}

@@ -4,7 +4,7 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 
 ## Implementation progress (updated 15 October 2026, 20:15)
 
-**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Fast build v4 (41 classes): gate passed (see below).** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
+**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Fast build v6 (41 classes, hard twins, confuser sets, wider test_unseen): gate passed (see below); bundle rebuilt.** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
 
 ### Phase status
 
@@ -64,7 +64,72 @@ Six classes added, all **synthetic-only** (no live capture, no traffic generator
 - Shortcut audit: multiclass 45.1% (majority 24.9%, chance 2.4%), attack vs benign 54.0%. 139 concentrated structural tokens; the new ones are header and context names a single worker invented (e.g. `ctx=route_binding` bopla 95 / benign 10), concentrated because each worker file's first round twinned only 10 lines. Same pattern as v3; a twin round over worker files w02–w05 would remove most.
 - Baselines: SVM test 72.9% (macro-F1 0.895), test_unseen 91.7% (macro-F1 0.921, benign FPR 12.0%); CRS PL1 attack-vs-benign 61.8% test, 47.8% test_unseen. **The SVM reaches 100% test_unseen recall on all five new L7 classes** (HTTP/2 0.67): their records are separable at the character level, so a high model score there does not show understanding. Next data step: hard twins one evidence value away and confuser sets between neighbouring classes (bola/bopla/bfla; mcp/prompt injection/SSRF).
 - Bundle `colab_bundle_fast.zip` rebuilt on v4 (8.8 MiB); the 41-label system prompt changes its fingerprint.
-- Cross-model review `n6` (Codex + Gemini; six new classes, sqli_obfuscated rescore, benign sample; 400 items): _TBD_.
+- Cross-model review `n6` (400 items: six new classes, sqli_obfuscated rescore, benign sample). Codex answered 400, Gemini 300: its first run failed (prompts above `agy-delegate`'s ~128 KB argument limit), the 50-item rerun hung twice on the last two half-batches and was stopped (user decision: skip them). Agreement Codex / Gemini: bfla, bopla, race, HTTP/2 100/100; upload and mcp 98/100; sqli_obfuscated **88/93** (78/84 before the `%20` routing fix); benign sample 90/92; overall 96.8% / 98.3%, attack vs benign 98.8% / 99.7%.
+- Colab T4 dry run on the v4 bundle (`reports/dryrun_v4_t4_partA.json`, Part A only, 12 steps, `BATCH = 2` forced to exercise the batch > 1 path): 150 tokens/s, peak 10.7 GB (batch 1 on the T4 measured 198 tokens/s, so the GPU-memory tiers keep the T4 at batch 1); 60 predictions all valid JSON; time-based checkpoints written (checkpoint-7 came from the 2-minute timer) with `COMPLETE` markers. The first attempt crashed: transformers 5.17 removed `group_by_length` (now `train_sampling_strategy`), found by this run and independently by a Codex review; a unit test now checks every `TrainingArguments` keyword against the pinned version.
+- Notebook: per-device batch from GPU memory (T4 1, L4 2, A100-40 4, 80 GB 8; effective batch stays 16; a non-divisor is refused); a checkpoint every `SAVE_EVERY_MIN` (20) minutes on top of `save_steps`; Drive keeps the newest 2 complete copies; resume refuses a checkpoint trained with a different per-device batch (the sampler and skip-ahead depend on it), so resume on the same GPU type. **The real fast run is planned on an A100** (user); its batch-4 throughput is unmeasured until the first A100 dry run.
+
+### test_unseen covers more classes (`dedup_and_split.holdout_unseen`)
+
+Before: only Haiku scenario families (>= 3 per class) and synthetic flow variants (>= 3) could be held out, so 22 of 41
+classes had no test_unseen records (every seeded L7 class and the two-variant flow classes). Now:
+- flow classes with 2 variants hold one out (the base profile stays in training);
+- seeded or observed classes with >= 2 sources hold out their smallest source with >= 10% of the class (payloads or
+  captures from a source training never saw: e.g. sql_injection_payload_list for SQLi, the CIC-IDS2018 slowloris
+  capture), skipped when near-duplicate seed clusters spanning sources would pull > 25% of the class out of training.
+Dry run on v5 records: 30 of 41 classes get test_unseen (3,776 records). Still none: single-source seeded classes
+(CRLF, smuggling, open redirect, LFI, RCE, SSTI, XSS reflected, XXE: their test split is seed-disjoint) and nosqli,
+LDAP/XPath, xss_dom (source holdout over the 25% cap). Takes effect at the next rebuild.
+
+### Calibration wired into the notebook (spec §10)
+
+Part B cell **B1s** scores every record of val_calib, val_policy, test, test_unseen and the robustness set with
+`colab_helpers.class_logprobs` (one prefill, all 41 class completions from a replicated cache) and writes
+`/content/SCORES_<mode>.jsonl`; dry runs and smoke score 20 per split. Each run checks the cached scorer against a
+full forward pass on 3 records and asserts the gap is < 0.05. Locally: `python -m eval.calibration reports/SCORES_fast.jsonl
+--write-policy` fits T on val_calib and tau on val_policy and freezes both into `config/policy.yaml`. The bundle now
+carries `robustness_pilot.jsonl` (scored, never trained on).
+T4 end-to-end check (v5 bundle, 4 training steps, then restart and B1/B1s; `reports/scorer_t4_check.log`): reload 5/5 with
+matching fingerprint; scorer vs full forward pass max |Δ log-prob| 0.002; 2.5 s per record on a T4, so scoring all
+~9,500 eval records needs ~6.7 h there; on the A100 it has to be measured (cap the test splits if it is slow); the
+local calibration ran on the 80 scored records (numbers meaningless after 4 steps, report discarded).
+
+### Hard twins and confuser sets (round `ht`/`cf`, Codex `gpt-6.1-sol` medium as generator)
+
+Because the SVM separates the new L7 classes perfectly, two kinds of harder records were generated by Codex workers (16 jobs, workspace-write sandbox; prompts `subagents/prompts/hard_twins_v1.md`, `confusers_v1.md`) and blind-reviewed by Haiku:
+- **Hard twins** (500): the attack-looking request is kept and only the deciding evidence flips (caller holds the required role; the role may write the fields; idempotency enforced with a single effect; script file in a developer store served as text; sensitive-looking tool call inside the granted scope). Review agreement: bopla 100/100, upload 98/100, bfla 58/100, mcp 25/100, race 19/100. Most disagreements chose another *benign* class: race twins read as `benign_high_rate_legit` (the taxonomy sends legitimate rate lookalikes there, so the generator's label rule was wrong) and in-scope mcp calls with ordinary arguments as `benign_standard_traffic`. Records the reviewer read as an attack (bfla 16, mcp 28, race 10) are quarantined; 3 upload twins with annotation text in a context field are quarantined by hand.
+- **Confuser triplets** (360): same application and request, three neighbouring attack classes that differ only in the separating evidence: bola / bopla / bfla; mcp / prompt injection / SSRF; upload webshell / stored XSS / XXE. Review agreement 359/360. XSS and XXE records from this round enter through `orchestrator.EXTRA_INGEST`; Codex records carry `generator: codex-gpt-6.1-sol`.
+- **Decisions (user, 15 October):** (1) a benign→benign relabel is accepted from a single reviewer when that reviewer itself chose the benign class with sufficient evidence; ingest now lets such a relabel outrank the Haiku quarantine (81 hard twins moved; it also recovers 55 earlier hard negatives where Codex's relabel matched Haiku's own choice but the record had been dropped). (2) The taxonomy now says it: legitimate request bursts with a single effect belong to `benign_high_rate_legit`; an in-scope agent tool call with ordinary arguments is `benign_standard_traffic`, one with lookalike content is `benign_hard_negative_dev`.
+
+
+### Fast build v6 (`datasets_ready/fast_*.jsonl`) — current
+
+v5 + hard twins for seven older Haiku classes (round `ht2`, 684 Codex records: jwt, graphql, web cache, prototype
+pollution, deserialization, CSV, WebSocket/gRPC) + the hard-negative review outcomes + the new test_unseen holdout.
+- Hard-negative relabels (`hn`, Codex 4,117 / Gemini Flash Medium 3,480 of 4,313 answered; Gemini stopped on the last
+  17 half-batches, user decision): a Codex relabel stays only when Gemini chose the same class. 76 confirmed, 126 reverted
+  (Gemini sided with the original label 125 times), 4 quarantined (Gemini read an attack); 833 without a Gemini answer
+  keep their label. The hard twins (`hn2`, 378, Codex + Gemini 16/16 each): both agree with the label 92%; 25 moved
+  where both chose the same other benign class; none read as an attack.
+- Haiku review of the 684 `ht2` twins: jwt 84/84, prototype pollution 100/100, deserialization 88, graphql 87,
+  web cache 85, WebSocket 66 (34 moved to benign_standard_traffic: rate within the client's baseline), **CSV 58/100**
+  (42 still read as formula injection and are quarantined: leading = / + / @ values stay too formula-like).
+  `benign_high_rate_legit` files are now ingested (`EXTRA_INGEST`); they were silently skipped before.
+- Records 43,146; tokens median 617, p95 1,018, max 2,039. **Gate passed, 0 failures**; 39 tests pass.
+- test_unseen: 30 of 41 classes, 3,866 records (held-out seed sources, capture sources, families and variants).
+- Baselines: SVM test 94.6% (macro-F1 0.948), test_unseen 88.4% (macro-F1 0.894, benign FPR 13.8%, attack miss 6.1%);
+  CRS PL1 attack-vs-benign 60.1% / 51.4%. The test jump from v5 is a split-composition change (held-out sources and
+  variants left test), not an improvement. On test_unseen the SVM reaches 0.61 on sqli_classic (unseen payload list),
+  0.80 on sqli_obfuscated and 0.71 on slowloris (unseen CIC-IDS2018 capture): the generalisation gap the model must close.
+- Shortcut audit: multiclass 47.9%, attack vs benign 61.0% (v5: 44.2%, 52.7%; its held-out slice changed with the
+  splits, so not like for like; watch it), concentrated structural tokens 107.
+- Bundle `colab_bundle_fast.zip` (9.3 MiB, sha `49c972b8…`): v6 data, robustness set, notebook with B1s scorer.
+
+### Fast build v5 (`datasets_ready/fast_*.jsonl`) — v4 + hard twins and confuser sets
+
+- Records: 42,565 (41 classes, no deficits); tokens median 615, p95 1,013, max 2,042. **Gate passed, 0 failures**; 38 unit tests pass.
+- Shortcut audit: multiclass 44.2%, attack vs benign 52.7%, concentrated structural tokens 125 (v4: 45.1%, 54.0%, 139).
+- Baselines: SVM test 73.3% (macro-F1 0.890, benign FPR 6.6%), test_unseen 91.0% (macro-F1 0.916, benign FPR 13.5%); CRS PL1 attack-vs-benign 59.6% / 48.5%. Attack recall on the new classes is still 1.0, but the benign side got harder: test_unseen recall benign_standard_traffic 0.68, benign_high_rate_legit 0.50. The hard twins share the attack surface, so a surface model now confuses them with attacks; the fine-tuned model has to read the deciding evidence to beat it.
+- Bundle `colab_bundle_fast.zip` rebuilt on v5 (9.0 MiB, sha `af1b394f…`).
 
 ### Data work since the pilot (15 October)
 

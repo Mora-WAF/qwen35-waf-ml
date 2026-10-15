@@ -77,23 +77,52 @@ def holdout_unit(rec):
     return var if var and var != "base" and m["provenance"] == "synthetic" else None
 
 
-def holdout_unseen(records, frac=0.12):
-    """Pick whole families/variants per class for a test slice never seen in training (spec §8: reserve a
-    scenario family unseen during training). Returns the lineage groups to hold out; a group goes out when
-    any member's unit is held out, so benign twins leave with their attack record."""
-    units = defaultdict(set)
+def source_unit(rec):
+    """Seed or capture source of a deterministic (seeded / observed) record, e.g. 'src:fuzzdb'."""
+    m = rec["metadata"]
+    if m["generator"] != "deterministic":
+        return None
+    src = next((t.split(":", 1)[1] for t in m["mechanism_tags"] if t.startswith("src:")), None)
+    return None if src in (None, "generated", "coreruleset") else f"src:{src}"
+
+
+def holdout_unseen(records, frac=0.12, min_source_share=0.10, max_source_out=0.25):
+    """Pick whole units per class for a test slice never seen in training (spec §8: reserve a scenario family
+    unseen during training). Units: Haiku scenario families (>= 3 per class) and synthetic flow variants (>= 2), and for
+    seeded / observed classes with >= 2 sources the smallest source holding >= min_source_share of the class
+    (payloads or captures from a source training never saw). Returns the lineage groups to hold out; a group goes
+    out when any member's unit is held out, so benign twins leave with their attack record."""
+    units, src_n, n = defaultdict(set), defaultdict(lambda: defaultdict(int)), defaultdict(int)
+    has_family = set()
     for r in records:
+        c = r["metadata"]["threat_type"]
+        n[c] += 1
         u = holdout_unit(r)
         if u:
-            units[r["metadata"]["threat_type"]].add(u)
+            units[c].add(u)
+            has_family |= {c} if r["metadata"]["generator"].startswith("haiku") else set()
+        su = source_unit(r)
+        if su:
+            src_n[c][su] += 1
     chosen = set()
     for cls, us in units.items():
-        if len(us) < 3:
-            continue
+        if len(us) < (3 if cls in has_family else 2):  # 1 of 2 families would be half the class; flow variants
+            continue                                      # sit on top of the base profile, so 1 of 2 is fine
         ranked = sorted(us, key=lambda u: hashlib.sha256(f"{cls}|{u}".encode()).hexdigest())
         chosen |= {(cls, u) for u in ranked[:max(1, int(len(us) * frac))]}
-    return {r["metadata"]["lineage_group"] for r in records
-            if (r["metadata"]["threat_type"], holdout_unit(r)) in chosen}
+    def out_groups(ch):
+        return {r["metadata"]["lineage_group"] for r in records
+                if (r["metadata"]["threat_type"], holdout_unit(r)) in ch or (r["metadata"]["threat_type"], source_unit(r)) in ch}
+    for cls, by in src_n.items():
+        big = sorted((k for k, v in by.items() if v >= min_source_share * n[cls]), key=lambda k: (by[k], k))
+        if len(big) < 2 or cls.startswith("benign"):
+            continue
+        # ponytail: one source per class, skipped when near-dup seed clusters spanning sources would pull more
+        # than max_source_out of the class out of training
+        groups = out_groups(chosen | {(cls, big[0])})
+        if sum(r["metadata"]["threat_type"] == cls and r["metadata"]["lineage_group"] in groups for r in records) <= max_source_out * n[cls]:
+            chosen.add((cls, big[0]))
+    return out_groups(chosen)
 
 
 def split_counts(records):

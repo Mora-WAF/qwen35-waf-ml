@@ -1,0 +1,117 @@
+{"rid": "n24796", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Valid RS256 telemetry token in query and header, signature passed, scoped read"}
+{"rid": "n25003", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Referer reflection is keyed via Vary; same-client hits only, no shared-cache poisoning"}
+{"rid": "n24966", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Original-URL is in the cache key; reflection not shared across keys"}
+{"rid": "n25029", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Field starts with plus, exported unescaped to spreadsheet; no formula syntax"}
+{"rid": "n24940", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "X-Rewrite-URL reflected unescaped but response uncacheable (ttl 0, BYPASS)"}
+{"rid": "n24589", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key bound as JSONB snapshot; no merge path, no property writes"}
+{"rid": "n24717", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized filter stored raw; unserialize_on_read false, no deserializer"}
+{"rid": "n24849", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "GraphQL depth 13 cost 715 under documented limits 15/1000"}
+{"rid": "n24932", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Host is in Vary so keyed; no shared-cache poisoning"}
+{"rid": "n24928", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "X-Original-URL reflected unescaped but response no-store, BYPASS"}
+{"rid": "n24738", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Console gRPC call with verified RS256 signature, issuer and audience checks passed"}
+{"rid": "n24828", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "GraphQL depth 12 cost 684 under documented limits"}
+{"rid": "n24614", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype key stored as instrument catalog JSONB; no traversal"}
+{"rid": "n24855", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Alias batch 35 under alias limit 40, cost 210, ordinary lookup"}
+{"rid": "n24986", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Prefix in cache key; reflection keyed per prefix"}
+{"rid": "n24775", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Publish-purpose token verified; rollback to a named release"}
+{"rid": "n25040", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Remark starts with equals, exported unescaped to compliance spreadsheet; no formula syntax"}
+{"rid": "n25056", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Note starts with at-sign, exported unescaped to claims spreadsheet; no formula syntax"}
+{"rid": "n24700", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Binary blob stored for hex-view inspector only; object decoder none"}
+{"rid": "n24743", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Audit export gRPC with verified signature, issuer and audience checks passed"}
+{"rid": "n24988", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Host reflection in non-cacheable response; no injection content"}
+{"rid": "n24611", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Field name string bound as single value; no path parser"}
+{"rid": "n24847", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Public introspection enabled; depth 4 cost 320 within limits"}
+{"rid": "n25035", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Note starts with at-sign, exported unescaped to treasury workbook; no formula syntax"}
+{"rid": "n24634", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Ruby object tag stored verbatim in diagnostic bundle; no deserializer; anonymous"}
+{"rid": "n24987", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Host reflection keyed by host in cache key; no shared poisoning"}
+{"rid": "n24522", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Example JSON with __proto__ stored as text; never applied to draft"}
+{"rid": "n24645", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Base64 Java stream token recorded verbatim; decoder none; anonymous internal route"}
+{"rid": "n24749", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Debug header disabled; RS256 signature verified, valid console token"}
+{"rid": "n24605", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Labels JSON tokenized into rows; no deep assignment"}
+{"rid": "n24593", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Whole body archived as JSONB snapshot; never used for merge"}
+{"rid": "n24653", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "PHP serialized text saved as diagnostic attachment; no unserialize; anonymous"}
+{"rid": "n25082", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading dash in ordinary invoice text; dash prefixes excluded from csv class"}
+{"rid": "n24909", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "X-Forwarded-Server reflected unescaped but origin cache-control private, ttl 0"}
+{"rid": "n24889", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Alias query cost 6000 under limit 6500, depth 5 within max"}
+{"rid": "n24968", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Original-URL is in cache key; reflection keyed per value"}
+{"rid": "n24580", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ sample stored as payload text; no campaign execution reader"}
+{"rid": "n24641", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Java XML object stream kept as debug file; no deserializer; anonymous"}
+{"rid": "n24840", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "39 aliases under limit 40, cost 195 under 2000"}
+{"rid": "n25049", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Plus-led phone text exported unescaped to clinic spreadsheet; no formula syntax"}
+{"rid": "n24609", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Labels parsed into null-prototype dicts; editor-only store, no merge"}
+{"rid": "n25091", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "At-led text exported unescaped to claims triage sheet; no formula syntax"}
+{"rid": "n24890", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 13 under max 14, cost 1450 under 1600, no aliases"}
+{"rid": "n24953", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Host is in Vary so keyed; no shared-cache poisoning"}
+{"rid": "n24853", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Admin GraphQL depth 4, 24 aliases, 48 directives all under limits"}
+{"rid": "n24860", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Read-only OrgTree depth 10 cost 1800 under limits; repeated reads, no state effect"}
+{"rid": "n24658", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "PHP serialized bytes kept for integration capture; no loader; anonymous"}
+{"rid": "n24755", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Billing-admin RS256 token verified, issuer and audience checked, read-only GET"}
+{"rid": "n24848", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "ClaimDocs cost 24722 under limit 25000, depth 6, read query"}
+{"rid": "n24753", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Verified billing-admin token, read-only refunds listing"}
+{"rid": "n25088", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "At-led text exported unescaped to claims triage sheet; no formula syntax"}
+{"rid": "n24943", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Path is in Vary so keyed; no shared-cache poisoning"}
+{"rid": "n24765", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Publish-purpose token verified; ordinary release publish"}
+{"rid": "n24957", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Host in Vary so keyed; no shared-cache poisoning"}
+{"rid": "n24735", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "SCIM provisioner token verified with scope check; ordinary user create"}
+{"rid": "n24663", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Java object stream stored as attachment cache entry; no hydration; anonymous"}
+{"rid": "n25038", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Equals-led prose exported unescaped to treasury workbook; no formula syntax"}
+{"rid": "n24971", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Asset-Host in cache key; reflection keyed per host value"}
+{"rid": "n24891", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "14 aliases under limit 16, cost 140, read query"}
+{"rid": "n24604", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ bound as JSONB example document; site labels read typed rows only"}
+{"rid": "n25058", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Dash-led reserve note text; dash prefixes excluded from csv class"}
+{"rid": "n24845", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 13 and cost 1222 at but not over limits 13 and 1250"}
+{"rid": "n24868", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 10 cost 1100 under limits 12 and 1400, read query"}
+{"rid": "n24711", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "RelayState Java stream text kept for migration comparison; zero object readers"}
+{"rid": "n24896", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 10 cost 1000, at cost limit, not over; read query"}
+{"rid": "n24815", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 15 and cost 1470 at or under limits 15 and 1500"}
+{"rid": "n25022", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Plus-led reason text exported unescaped to chargeback workbook; no formula syntax"}
+{"rid": "n24558", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype stored as schema source text; JSON nesting only"}
+{"rid": "n24649", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Java stream token copied to developer log; no object input stream; anonymous"}
+{"rid": "n24687", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Ruby YAML tag kept as developer source artifact; YAML loader none"}
+{"rid": "n24922", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "X-Forwarded-Host reflected unescaped but response private, ttl 0, BYPASS"}
+{"rid": "n24748", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Debug header honored only in development; verified RS256 console token"}
+{"rid": "n24699", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Binary body kept in callback debug spool; byte-export-only, no decoder"}
+{"rid": "n24677", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Header blob is a client compatibility fixture; source-download-only consumers"}
+{"rid": "n25046", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Equals-led prose exported unescaped to compliance register; no formula syntax"}
+{"rid": "n24792", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Untrusted identity header ignored; token subject verified, ordinary upload"}
+{"rid": "n24805", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Telemetry read token in query and header, signature passed, scoped read"}
+{"rid": "n24856", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 12 at limit, cost 2400 under 3000, read query"}
+{"rid": "n25059", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Equals-led prose exported unescaped to claims reserve sheet; no formula syntax"}
+{"rid": "n24984", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Prefix is in Vary so keyed; no shared-cache poisoning"}
+{"rid": "n24991", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Host header is in cache key; reflection keyed per host value"}
+{"rid": "n24704", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Binary payload archived as migration sample; object decoder none"}
+{"rid": "n24632", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Ruby YAML tag archived as raw file; no YAML loader; anonymous"}
+{"rid": "n24900", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 9 at limit, cost 600 under 900, read query"}
+{"rid": "n24538", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype stringified into example asset; no merge into object"}
+{"rid": "n24636", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Ruby YAML tag saved as golden fixture; no loader; anonymous"}
+{"rid": "n25063", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "At-led label exported unescaped to claims audit workbook; no formula syntax"}
+{"rid": "n25044", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Equals-led prose exported unescaped to compliance register; no formula syntax"}
+{"rid": "n24789", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Access token verified with aud and token_use checks; ordinary schedule update"}
+{"rid": "n24811", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "33 aliases under limit 40, cost 165; admin read query"}
+{"rid": "n24681", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Form-value serialized note kept as fixture; byte-download-only, deserializer none"}
+{"rid": "n24852", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Batch of 35 under max batch 36, cost 875 under 2000"}
+{"rid": "n24877", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "20 aliases at limit 20, cost 300 under 1200, same member read; ops CLI"}
+{"rid": "n24851", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "UsersExport cost 174960 under max 175000; admin export, single request"}
+{"rid": "n25023", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Equals-led prose exported unescaped to chargeback workbook; no formula syntax"}
+{"rid": "n24606", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype stored as JSONB contractor document; no object conversion"}
+{"rid": "n24813", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "UsersExport cost 144277 under max 150000; admin export, single request"}
+{"rid": "n24824", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Directives 36 under 40, aliases 18 under 20, cost 180"}
+{"rid": "n25092", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Dash-led recovery label text; dash prefixes excluded from csv class"}
+{"rid": "n24830", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "36 aliases at limit, cost 180; admin audit read"}
+{"rid": "n24858", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single introspection by console client, enabled in config; cost 150"}
+{"rid": "n24959", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Host in cache key; reflection keyed per value"}
+{"rid": "n24945", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Host in cache key; no shared-cache poisoning"}
+{"rid": "n24667", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Java object attachment saved as opaque artifact; no readers; anonymous"}
+{"rid": "n24921", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Host is in Vary so keyed; no shared-cache poisoning"}
+{"rid": "n24897", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "13 aliases under limit 14, cost 130; read-only asset lookup"}
+{"rid": "n25098", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Dash-led recovery text; dash prefixes excluded from csv class"}
+{"rid": "n24902", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "11 aliases under limit 12, cost 330; read-only rendition query"}
+{"rid": "n24729", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Adjuster token verified with signature, issuer and audience checks; ordinary intake"}
+{"rid": "n24660", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Java object attachment_meta stored as opaque artifact; no hydration; anonymous"}
+{"rid": "n24843", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Tenant batch of 33 under max 40, cost 825 under 2000"}
+{"rid": "n24761", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Verified devmgmt token with numeric exp; read-only certificate listing"}
+{"rid": "n24983", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Forwarded-Prefix in cache key; reflection keyed per value"}
+{"rid": "n24536", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype stored as editor revision source blob; no publish"}
+{"rid": "n24741", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "gRPC webhooks list with verified RS256 signature and audience checks"}
+{"rid": "n24752", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Billing-admin token verified under retained rotation key; read-only listing"}
+{"rid": "n24787", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Telemetry read token in query and header, signature passed"}

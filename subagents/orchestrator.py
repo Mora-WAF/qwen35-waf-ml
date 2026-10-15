@@ -30,7 +30,8 @@ GAP_L7 = ["ssrf_cloud_metadata", "graphql_abuse", "jwt_auth_bypass", "bola_idor_
 GAP_BENIGN = ["benign_hard_negative_dev", "benign_hard_negative_search"]
 GAP = GAP_L7 + GAP_BENIGN
 EXTRA_INGEST = ["benign_standard_traffic",  # context-matched benign counterparts (v1 file)
-                "xss_reflected_stored", "xxe"]  # confuser-set records next to the seeded ones (prompt confusers_v1.md)
+                "xss_reflected_stored", "xxe",  # confuser-set records next to the seeded ones (prompt confusers_v1.md)
+                "benign_high_rate_legit"]  # hard twins of rate-lookalike classes (prompt hard_twins_v1.md)
 GENERIC_HEADERS = {"host", "user-agent", "accept", "accept-language", "accept-encoding", "connection",
                    "dnt", "upgrade-insecure-requests"}  # + sec-fetch-* / sec-ch-ua*
 

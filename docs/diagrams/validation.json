@@ -1,0 +1,118 @@
+{
+  "checked_date": "2026-10-15",
+  "diagram_type": "architecture",
+  "method": "Direct Archify renderer followed by separate artifact checker; CLI child-process spawn denied (EPERM).",
+  "atomic_delivery": "unavailable; no successful CLI deliver receipt",
+  "specification": {
+    "path": "pipeline.architecture.json",
+    "sha256": "5d62201f4e39c9c424d9823ca196027c7612489e9808d09ab009be0c22e41a3c",
+    "bytes": 3675
+  },
+  "artifact": {
+    "path": "pipeline.html",
+    "sha256": "81281fd6de7bdf10154edf498a2b94dd48635be35d0b771f36d25b6b0736b131",
+    "bytes": 710905
+  },
+  "artifact_check": {
+    "ok": true,
+    "checks": [
+      {
+        "name": "single_svg",
+        "ok": true,
+        "details": [
+          "found 1 <svg> block(s)"
+        ]
+      },
+      {
+        "name": "finite_svg",
+        "ok": true,
+        "details": []
+      },
+      {
+        "name": "orthogonal_arrows",
+        "ok": true,
+        "details": []
+      },
+      {
+        "name": "label_route_clearance",
+        "ok": true,
+        "details": []
+      },
+      {
+        "name": "relationship_crossings",
+        "ok": true,
+        "details": []
+      },
+      {
+        "name": "relationship_corridors",
+        "ok": true,
+        "details": []
+      },
+      {
+        "name": "container_border_runs",
+        "ok": true,
+        "details": []
+      },
+      {
+        "name": "route_rhythm",
+        "ok": true,
+        "details": []
+      },
+      {
+        "name": "legend_clearance",
+        "ok": true,
+        "details": []
+      }
+    ],
+    "composition": {
+      "schemaVersion": 1,
+      "profile": "showcase",
+      "status": "pass",
+      "summary": {
+        "errors": 0,
+        "warnings": 0
+      },
+      "metrics": {
+        "properCrossings": 0,
+        "ambiguousCorridors": 0,
+        "containerBorderRuns": 0,
+        "labelRouteClearanceIssues": 0,
+        "minLabelRouteClearance": 152.2,
+        "desktopReadabilityIssues": 0,
+        "minProjectedNodeTextPx": null,
+        "maxBends": 0,
+        "routesOverSuggestedBends": 0,
+        "maxStretch": 1,
+        "routesOverSuggestedStretch": 0,
+        "minSegmentPx": 120,
+        "minInteriorSegmentPx": null,
+        "shortSegmentCount": 0,
+        "shortEndpointSegmentCount": 0,
+        "shortInteriorSegmentCount": 0,
+        "microSegmentCount": 0
+      },
+      "suggestedLimits": {
+        "bendsPerRelationship": 2,
+        "stretch": 1.35,
+        "segmentPx": 16,
+        "microSegmentPx": 8
+      },
+      "issues": []
+    }
+  },
+  "browser_visual_check": {
+    "status": "unavailable in this environment",
+    "command_exit_code": 1,
+    "reason": "Chrome crashed with SIGTRAP: setsockopt Operation not permitted.",
+    "visual_review": "pending",
+    "receipt": "pipeline.visual-check.json"
+  },
+  "teaching_visuals": {
+    "status": "PNG renderings visually inspected; SVG XML accessibility checked separately",
+    "files": [
+      "../assets/dataset-snapshot.svg",
+      "../assets/loss-mask.svg",
+      "../assets/minimal-pairs.svg"
+    ]
+  }
+}

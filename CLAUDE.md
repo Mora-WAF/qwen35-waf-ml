@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v4 (`fast_*`, 41 classes, 41,824 records), gate passed (`reports/pre_colab_gate.json`); notebook
+Current state: fast build v6 (`fast_*`, 41 classes, 43,146 records, hard twins + confuser sets, test_unseen on 30 classes), gate passed (`reports/pre_colab_gate.json`); notebook
 smoke-tested on a Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the v3 fast bundle (`reports/dryrun_fast_report.json`);
 no model evaluated. The real fast run is planned on an A100 (see the progress log). A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
@@ -64,6 +64,9 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
 - **External review runs Codex and Gemini together** (`xmodel_run both`), never one alone (user decision).
   Gemini goes through `agy-delegate`, which passes the prompt as one argument: above ~128 KB it fails with
   `Argument list too long`. Keep xmodel batches small enough (the v4 classes needed 50-item batches).
+  Codex (ChatGPT login) with ~16 parallel `codex exec` calls invalidated the refresh token mid-run
+  (`refresh_token_invalidated`, then 401 on every call): keep Codex at ~4 parallel workers. Gemini Flash calls
+  sometimes hang far past the usual ~7 min; the 22-min timeout retries them, or stop and score what came back.
 - **Lineage** decides splits. Assign whole groups, globally (one attacker host can span classes).
   Templated worker output and seed variants share a group via near-dup keys; each CIC attack class
   is one campaign, so its test coverage comes from NF-ToN or synthetic records.

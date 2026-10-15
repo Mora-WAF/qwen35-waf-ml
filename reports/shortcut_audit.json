@@ -1,98 +1,82 @@
 {
  "prefix": "fast_",
- "n_train": 30553,
- "n_heldout": 11271,
- "surface_only_nb_accuracy_multiclass": 0.451,
- "surface_only_nb_accuracy_attack_vs_benign": 0.54,
+ "n_train": 31583,
+ "n_heldout": 11563,
+ "surface_only_nb_accuracy_multiclass": 0.479,
+ "surface_only_nb_accuracy_attack_vs_benign": 0.61,
  "n_classes": 41,
  "chance_multiclass": 0.024,
- "majority_baseline": 0.249,
+ "majority_baseline": 0.244,
  "per_feature_majority_accuracy": {
-  "context_keys": 0.451,
-  "header_names": 0.281,
-  "endpoint": 0.265,
-  "stage": 0.258,
-  "flow_keys": 0.236,
-  "observed_until": 0.234,
-  "sinks": 0.228,
-  "window": 0.228,
-  "ctype": 0.227,
-  "method": 0.214,
-  "protocol": 0.214,
-  "has_history": 0.212,
-  "has_views": 0.212,
-  "host": 0.212,
-  "mode": 0.212,
-  "n_headers": 0.212,
-  "ua": 0.212
+  "context_keys": 0.478,
+  "header_names": 0.288,
+  "endpoint": 0.287,
+  "stage": 0.28,
+  "flow_keys": 0.259,
+  "observed_until": 0.258,
+  "sinks": 0.252,
+  "window": 0.252,
+  "ctype": 0.249,
+  "protocol": 0.239,
+  "method": 0.237,
+  "has_history": 0.236,
+  "has_views": 0.236,
+  "host": 0.236,
+  "mode": 0.236,
+  "n_headers": 0.236,
+  "ua": 0.236
  },
  "per_class_surface_recall": {
-  "websocket_grpc_abuse": 1.0,
   "race_condition_toctou_burst": 1.0,
+  "syn_flood_ddos": 1.0,
   "dns_tunneling_exfil": 1.0,
   "tls_ja4_ua_spoofing": 1.0,
+  "websocket_grpc_abuse": 0.97,
   "web_cache_poisoning": 0.96,
-  "benign_hard_negative_search": 0.96,
-  "malicious_file_upload_webshell": 0.96,
-  "http_request_smuggling": 0.94,
-  "bopla_mass_assignment": 0.91,
-  "mcp_agentic_tool_abuse": 0.9,
-  "ssrf_cloud_metadata": 0.9,
-  "benign_hard_negative_dev": 0.87,
-  "graphql_abuse": 0.86,
-  "llm_prompt_injection": 0.85,
-  "prototype_pollution": 0.85,
-  "benign_high_rate_legit": 0.82,
-  "bola_idor_enumeration": 0.8,
-  "c2_beaconing_anomaly": 0.78,
-  "csv_formula_injection": 0.69,
-  "jwt_auth_bypass": 0.57,
-  "bfla_admin_function_probing": 0.54,
+  "http_request_smuggling": 0.95,
+  "benign_hard_negative_search": 0.94,
+  "malicious_file_upload_webshell": 0.92,
+  "c2_beaconing_anomaly": 0.9,
+  "bopla_mass_assignment": 0.87,
+  "llm_prompt_injection": 0.86,
+  "ssrf_cloud_metadata": 0.84,
+  "mcp_agentic_tool_abuse": 0.83,
+  "benign_hard_negative_dev": 0.81,
+  "bola_idor_enumeration": 0.77,
+  "graphql_abuse": 0.69,
+  "csv_formula_injection": 0.68,
+  "prototype_pollution": 0.66,
+  "jwt_auth_bypass": 0.51,
+  "bfla_admin_function_probing": 0.46,
   "path_traversal_lfi": 0.43,
-  "deserialization": 0.41,
-  "benign_standard_traffic": 0.27,
-  "sqli_classic": 0.14,
-  "sqli_obfuscated": 0.07,
-  "xxe": 0.03,
+  "benign_standard_traffic": 0.3,
+  "deserialization": 0.29,
+  "benign_high_rate_legit": 0.21,
+  "udp_amplification": 0.2,
+  "xxe": 0.09,
   "xss_reflected_stored": 0.03,
-  "nosqli": 0.01,
+  "sqli_obfuscated": 0.0,
+  "sqli_classic": 0.0,
+  "nosqli": 0.0,
   "xss_dom_polyglot": 0.0,
   "rce_cmd_injection": 0.0,
   "ssti": 0.0,
   "crlf_header_injection": 0.0,
   "ldap_xpath_injection": 0.0,
   "open_redirect_cors": 0.0,
-  "syn_flood_ddos": 0.0,
-  "udp_amplification": 0.0,
   "slowloris_slowhttp": 0.0,
   "port_scan_recon": 0.0,
   "credential_stuffing_bruteforce": 0.0,
   "http2_rapid_reset_continuation": 0.0
  },
  "concentrated_structural_tokens": {
-  "ctx=stored_field": {
-   "csv_formula_injection": 361,
-   "benign_standard_traffic": 120
-  },
-  "hist=export_runs_observed_7d": {
-   "csv_formula_injection": 361,
-   "benign_standard_traffic": 120
-  },
-  "hist=writes_to_field_24h": {
-   "csv_formula_injection": 361,
-   "benign_standard_traffic": 120
-  },
-  "ctx=parser_config": {
-   "prototype_pollution": 128,
-   "benign_standard_traffic": 40
-  },
   "ctx=parsed_key_count": {
    "prototype_pollution": 128,
    "benign_standard_traffic": 40
   },
-  "hdr=grpc-accept-encoding": {
-   "websocket_grpc_abuse": 119,
-   "benign_standard_traffic": 38
+  "ctx=parser_config": {
+   "prototype_pollution": 128,
+   "benign_standard_traffic": 40
   },
   "ctx=response": {
    "bola_idor_enumeration": 96,
@@ -126,41 +110,25 @@
    "llm_prompt_injection": 94,
    "benign_standard_traffic": 10
   },
-  "ctx=response_observation": {
-   "web_cache_poisoning": 95,
-   "benign_standard_traffic": 7
-  },
-  "hdr=x-forwarded-prefix": {
-   "web_cache_poisoning": 75,
-   "benign_standard_traffic": 21
-  },
   "ctx=auth_context": {
    "deserialization": 84,
    "benign_standard_traffic": 7
-  },
-  "hist=requests_last_60s": {
-   "jwt_auth_bypass": 78,
-   "benign_standard_traffic": 6
   },
   "hist=auth_failures_last_1h": {
    "jwt_auth_bypass": 78,
    "benign_standard_traffic": 6
   },
-  "hdr=x-host": {
-   "web_cache_poisoning": 48,
-   "benign_standard_traffic": 15
+  "hist=requests_last_60s": {
+   "jwt_auth_bypass": 78,
+   "benign_standard_traffic": 6
+  },
+  "ctx=route_configuration": {
+   "bfla_admin_function_probing": 40,
+   "bopla_mass_assignment": 20
   },
   "ctx=client_scope": {
    "graphql_abuse": 49,
    "benign_standard_traffic": 9
-  },
-  "hdr=x-original-url": {
-   "web_cache_poisoning": 43,
-   "benign_standard_traffic": 13
-  },
-  "hdr=x-rewrite-url": {
-   "web_cache_poisoning": 44,
-   "benign_standard_traffic": 12
   },
   "hist=prior_tool_results": {
    "mcp_agentic_tool_abuse": 38,
@@ -178,28 +146,8 @@
    "bola_idor_enumeration": 32,
    "benign_standard_traffic": 2
   },
-  "hdr=prefer": {
-   "bfla_admin_function_probing": 29,
-   "benign_standard_traffic": 5
-  },
   "hdr=": {
    "http_request_smuggling": 34
-  },
-  "hdr=x-idp-session-tier": {
-   "bfla_admin_function_probing": 28,
-   "benign_standard_traffic": 1
-  },
-  "hdr=grpc-encoding": {
-   "websocket_grpc_abuse": 21,
-   "benign_standard_traffic": 5
-  },
-  "hist=prior_tool_calls": {
-   "mcp_agentic_tool_abuse": 24,
-   "benign_standard_traffic": 2
-  },
-  "hist=session_id": {
-   "mcp_agentic_tool_abuse": 24,
-   "benign_standard_traffic": 2
   },
   "feat=conn_count": {
    "ssrf_cloud_metadata": 23,
@@ -209,31 +157,42 @@
    "web_cache_poisoning": 23,
    "benign_standard_traffic": 1
   },
+  "ctx=identity_source": {
+   "bfla_admin_function_probing": 20
+  },
+  "ctx=resource": {
+   "bfla_admin_function_probing": 20
+  },
+  "ctx=submitted_properties": {
+   "bfla_admin_function_probing": 20
+  },
   "hdr=x-trace-id": {
    "race_condition_toctou_burst": 18,
    "benign_standard_traffic": 2
   },
-  "hdr=x-course-context": {
-   "mcp_agentic_tool_abuse": 16,
-   "benign_standard_traffic": 1
+  "ctx=rendering_configuration": {
+   "xss_reflected_stored": 20
   },
-  "hdr=x-ops-console": {
-   "bfla_admin_function_probing": 14,
+  "ctx=rendering_policy": {
+   "xss_reflected_stored": 20
+  },
+  "ctx=xml_parser_configuration": {
+   "xxe": 20
+  },
+  "ctx=xml_processing": {
+   "xxe": 20
+  },
+  "hdr=x-forwarded-scheme": {
+   "web_cache_poisoning": 12,
    "benign_standard_traffic": 2
-  },
-  "hdr=x-asset-host": {
-   "web_cache_poisoning": 16
-  },
-  "hist=unary_calls_last_min": {
-   "websocket_grpc_abuse": 11,
-   "benign_standard_traffic": 3
   },
   "hdr=x-export-name": {
    "web_cache_poisoning": 12,
    "benign_standard_traffic": 2
   },
-  "hdr=x-forwarded-scheme": {
-   "web_cache_poisoning": 12
+  "hdr=x-workspace-id": {
+   "race_condition_toctou_burst": 10,
+   "benign_high_rate_legit": 3
   },
   "hdr=sec-websocket-protocol": {
    "websocket_grpc_abuse": 8,
@@ -247,154 +206,39 @@
    "web_cache_poisoning": 8,
    "benign_standard_traffic": 2
   },
-  "hdr=x-accessibility-mode": {
-   "web_cache_poisoning": 8,
+  "hdr=x-request-ua-hash": {
+   "bfla_admin_function_probing": 8,
    "benign_standard_traffic": 2
   },
   "hdr=x-site-scope": {
    "bfla_admin_function_probing": 9,
    "benign_standard_traffic": 1
   },
-  "hdr=x-workspace-id": {
-   "race_condition_toctou_burst": 10
+  "hdr=x-registry-tenant": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 2
   },
-  "hdr=x-portal-channel": {
-   "bfla_admin_function_probing": 9,
+  "hdr=x-agency-code": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 2
+  },
+  "hdr=x-accessibility-mode": {
+   "web_cache_poisoning": 8,
+   "benign_standard_traffic": 2
+  },
+  "hdr=x-security-ticket": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 2
+  },
+  "hdr=x-user-agent": {
+   "websocket_grpc_abuse": 8,
    "benign_standard_traffic": 1
   },
   "ctx=allowlist": {
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
-  "ctx=site": {
-   "llm_prompt_injection": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-agency-id": {
-   "llm_prompt_injection": 8,
-   "benign_standard_traffic": 1
-  },
   "hdr=x-broker-id": {
-   "llm_prompt_injection": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-scheme": {
-   "web_cache_poisoning": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-doc-class": {
-   "csv_formula_injection": 7,
-   "benign_standard_traffic": 2
-  },
-  "hdr=x-request-ua-hash": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-game-build": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "ctx=shard": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "ctx=broker_region": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-filing-office": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "ctx=carrier_account": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-carrier-scope": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "ctx=depot_site": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-depot-code": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-shipper-id": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "ctx=shipper_tier": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "ctx=planning_zone": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-driver-app": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "ctx=queue_name": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-carrier-account": {
-   "race_condition_toctou_burst": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-region": {
-   "race_condition_toctou_burst": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-ledger-region": {
-   "race_condition_toctou_burst": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-site": {
-   "race_condition_toctou_burst": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-device-serial": {
-   "race_condition_toctou_burst": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-case-ref": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-registry-tenant": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-caseworker-office": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-instructor-ref": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "ctx=event_series": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-club-id": {
-   "bfla_admin_function_probing": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-agency-code": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-user-agent": {
-   "websocket_grpc_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-courier-zone": {
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
@@ -406,11 +250,19 @@
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-request-ref": {
+  "hdr=x-agency-id": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-scheme": {
+   "web_cache_poisoning": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-carrier-scope": {
    "bfla_admin_function_probing": 8,
    "benign_standard_traffic": 1
   },
-  "ctx=mod_queue": {
+  "ctx=carrier_account": {
    "bfla_admin_function_probing": 8,
    "benign_standard_traffic": 1
   },
@@ -418,7 +270,15 @@
    "bfla_admin_function_probing": 8,
    "benign_standard_traffic": 1
   },
+  "ctx=mod_queue": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
   "hdr=x-client-ver": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-store-front": {
    "bfla_admin_function_probing": 8,
    "benign_standard_traffic": 1
   },
@@ -426,7 +286,79 @@
    "bfla_admin_function_probing": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-store-front": {
+  "hdr=x-depot-code": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=depot_site": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-filing-office": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=broker_region": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-site": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-device-serial": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-warehouse-code": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-carrier-account": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-club-id": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=event_series": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=site": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-courier-zone": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=shipper_tier": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-shipper-id": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-driver-app": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=planning_zone": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=queue_name": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-game-build": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=shard": {
    "bfla_admin_function_probing": 8,
    "benign_standard_traffic": 1
   },
@@ -438,7 +370,7 @@
    "race_condition_toctou_burst": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-warehouse-code": {
+  "hdr=x-ledger-region": {
    "race_condition_toctou_burst": 8,
    "benign_standard_traffic": 1
   },
@@ -450,44 +382,11 @@
    "mcp_agentic_tool_abuse": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-applicant-type": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-forum-tenant": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-lti-deployment": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-campus": {
-   "mcp_agentic_tool_abuse": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-console-debug": {
-   "jwt_auth_bypass": 8
-  },
-  "hdr=x-admin-session": {
-   "jwt_auth_bypass": 8
-  },
-  "hist=distinct_channels_requested": {
-   "websocket_grpc_abuse": 7,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-role": {
-   "websocket_grpc_abuse": 7,
-   "benign_standard_traffic": 1
-  },
-  "hist=validate_failures_last_60s": {
-   "websocket_grpc_abuse": 8
+  "hdr=x-council-code": {
+   "bola_idor_enumeration": 8
   },
   "hdr=x-picker-note": {
    "llm_prompt_injection": 8
-  },
-  "hdr=true-client-ip": {
-   "web_cache_poisoning": 8
   },
   "hdr=x-backend-host": {
    "web_cache_poisoning": 8
@@ -495,70 +394,17 @@
   "hdr=x-asset-base": {
    "web_cache_poisoning": 8
   },
-  "hdr=x-upload-resume": {
-   "deserialization": 8
-  },
-  "hdr=x-provider-code": {
-   "csv_formula_injection": 8
-  },
-  "hdr=x-editor-build": {
-   "bopla_mass_assignment": 7,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-batch-id": {
-   "bopla_mass_assignment": 7,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-security-ticket": {
-   "bfla_admin_function_probing": 8
-  },
-  "hdr=x-client-cert-fp": {
-   "bfla_admin_function_probing": 7,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-service-name": {
-   "race_condition_toctou_burst": 8
-  },
-  "hdr=x-reviewer-ref": {
-   "mcp_agentic_tool_abuse": 8
-  },
-  "hdr=x-review-queue": {
-   "mcp_agentic_tool_abuse": 8
-  },
-  "hdr=x-lms-tenant": {
-   "mcp_agentic_tool_abuse": 8
-  },
-  "hdr=x-locale-override": {
-   "web_cache_poisoning": 8
-  },
-  "hdr=x-legacy-client": {
-   "bfla_admin_function_probing": 7,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-forwarded-user": {
-   "jwt_auth_bypass": 8
-  },
-  "hdr=x-council-code": {
-   "bola_idor_enumeration": 8
-  },
-  "hdr=:protocol": {
-   "websocket_grpc_abuse": 7,
-   "benign_standard_traffic": 1
-  },
   "hdr=x-forwarded-uri": {
    "web_cache_poisoning": 8
   },
-  "hdr=x-draft-state": {
+  "hdr=x-upload-resume": {
    "deserialization": 8
   },
-  "hdr=x-widget-state": {
-   "deserialization": 8
-  },
-  "hdr=x-rule-source": {
+  "hdr=x-client-platform": {
    "bopla_mass_assignment": 7,
    "benign_standard_traffic": 1
   },
-  "hdr=x-client-platform": {
+  "hdr=x-rule-source": {
    "bopla_mass_assignment": 7,
    "benign_standard_traffic": 1
   },
@@ -566,32 +412,62 @@
    "bfla_admin_function_probing": 7,
    "benign_standard_traffic": 1
   },
+  "hdr=x-season-cohort": {
+   "race_condition_toctou_burst": 8
+  },
+  "hdr=x-guild-shard": {
+   "race_condition_toctou_burst": 8
+  },
+  "hdr=x-lms-tenant": {
+   "mcp_agentic_tool_abuse": 8
+  },
+  "hdr=x-locale-override": {
+   "web_cache_poisoning": 8
+  },
+  "hdr=x-admin-session": {
+   "jwt_auth_bypass": 8
+  },
+  "hist=validate_failures_last_60s": {
+   "websocket_grpc_abuse": 8
+  },
+  "hdr=true-client-ip": {
+   "web_cache_poisoning": 8
+  },
+  "hdr=x-widget-state": {
+   "deserialization": 8
+  },
+  "hdr=x-batch-id": {
+   "bopla_mass_assignment": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-editor-build": {
+   "bopla_mass_assignment": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-client-cert-fp": {
+   "bfla_admin_function_probing": 7,
+   "benign_standard_traffic": 1
+  },
   "hdr=x-preview-token": {
    "bfla_admin_function_probing": 7,
    "benign_standard_traffic": 1
   },
-  "hdr=x-leaderboard-view": {
-   "bfla_admin_function_probing": 8
-  },
-  "hdr=x-sdk-version": {
-   "bfla_admin_function_probing": 8
-  },
   "ctx=season_state": {
    "bfla_admin_function_probing": 8
   },
-  "ctx=flag_namespace": {
+  "hdr=x-leaderboard-view": {
    "bfla_admin_function_probing": 8
   },
   "hdr=x-config-etag": {
    "bfla_admin_function_probing": 8
   },
+  "ctx=flag_namespace": {
+   "bfla_admin_function_probing": 8
+  },
   "hdr=x-guild-id": {
    "bfla_admin_function_probing": 8
   },
-  "hdr=x-season-cohort": {
-   "race_condition_toctou_burst": 8
-  },
-  "hdr=x-guild-shard": {
+  "hdr=x-service-name": {
    "race_condition_toctou_burst": 8
   }
  },

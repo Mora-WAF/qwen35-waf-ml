@@ -1,0 +1,31 @@
+[colab] Parsing notebook 'partB.ipynb'...
+[colab] Executing cell 1/2 - be729166...
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+Unsloth: xformers is installed but cannot load with torch 2.11.0+cu130 (it was built for 2.10.0+cu128), so PyTorch attention is used instead.
+To install a matching xformers, run `unsloth install-kernels xformers`, or `pip uninstall xformers` to hide this. UNSLOTH_ENABLE_LOGGING=1 shows the full error.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+==((====))==  Unsloth 2026.10.5: Fast Qwen3_5 patching. Transformers: 5.17.0.
+   \\   /|    Tesla T4. Num GPUs = 1. Max memory: 14.563 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.11.0+cu130. CUDA: 7.5. CUDA Toolkit: 13.0. Triton: 3.6.0
+\        /    Bfloat16 = FALSE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Unsloth: Using float16 precision for qwen3_5 won't work! Using float32.
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+`causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+`causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+{'reload_match': 5, 'of': 5, 'fingerprint_match': True, 'weights_dtype': 'torch.float16'}
+[colab] Executing cell 2/2 - 77173321...
+{
+ "n": 80,
+ "per_split": {
+  "test": 20,
+  "test_unseen": 20,
+  "val_policy": 20,
+  "val_calib": 20
+ },
+ "s_per_record": 2.533,
+ "max_abs_diff_vs_bruteforce": 0.0020923436459270306,
+ "file": "/content/SCORES_fast.jsonl"
+}
+[colab] Saving notebook with outputs to 'partB_output.ipynb'...

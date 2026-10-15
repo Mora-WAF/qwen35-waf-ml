@@ -1,0 +1,201 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Qwen3.5 WAF: from evidence to an offline decision",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1320,
+      690
+    ]
+  },
+  "components": [
+    {
+      "id": "evidence",
+      "type": "external",
+      "label": "1. Source evidence",
+      "sublabel": "Pinned seeds + captures",
+      "pos": [
+        40,
+        110
+      ],
+      "size": [
+        200,
+        84
+      ]
+    },
+    {
+      "id": "prepare",
+      "type": "backend",
+      "label": "2. Prepare + review",
+      "sublabel": "Normalize / flows / scenarios",
+      "pos": [
+        370,
+        110
+      ],
+      "size": [
+        220,
+        84
+      ]
+    },
+    {
+      "id": "dataset",
+      "type": "database",
+      "label": "3. Build datasets",
+      "sublabel": "Dedup + lineage splits",
+      "pos": [
+        720,
+        110
+      ],
+      "size": [
+        210,
+        84
+      ]
+    },
+    {
+      "id": "gate",
+      "type": "security",
+      "label": "4. Pre-Colab gate",
+      "sublabel": "Schema / tokens / hashes",
+      "pos": [
+        1060,
+        110
+      ],
+      "size": [
+        220,
+        84
+      ]
+    },
+    {
+      "id": "bundle",
+      "type": "database",
+      "label": "5. Frozen bundle",
+      "sublabel": "Data + runtime helpers",
+      "pos": [
+        1060,
+        460
+      ],
+      "size": [
+        220,
+        84
+      ]
+    },
+    {
+      "id": "train",
+      "type": "cloud",
+      "label": "6. Colab rsLoRA",
+      "sublabel": "Part A train / B reload + score",
+      "pos": [
+        710,
+        460
+      ],
+      "size": [
+        230,
+        84
+      ]
+    },
+    {
+      "id": "calibrate",
+      "type": "backend",
+      "label": "7. Calibrate scores",
+      "sublabel": "val_calib / val_policy",
+      "pos": [
+        370,
+        460
+      ],
+      "size": [
+        220,
+        84
+      ]
+    },
+    {
+      "id": "policy",
+      "type": "security",
+      "label": "8. Offline policy",
+      "sublabel": "Recommend or ABSTAIN",
+      "pos": [
+        40,
+        460
+      ],
+      "size": [
+        210,
+        84
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "source-preparation",
+      "from": "evidence",
+      "to": "prepare",
+      "label": "ingest"
+    },
+    {
+      "id": "accepted-records",
+      "from": "prepare",
+      "to": "dataset",
+      "label": "accept"
+    },
+    {
+      "id": "validate-build",
+      "from": "dataset",
+      "to": "gate",
+      "label": "validate"
+    },
+    {
+      "id": "gate-package",
+      "from": "gate",
+      "to": "bundle",
+      "label": "pass only",
+      "labelAt": [
+        1170,
+        325
+      ]
+    },
+    {
+      "id": "train-bundle",
+      "from": "bundle",
+      "to": "train",
+      "label": "upload"
+    },
+    {
+      "id": "score-export",
+      "from": "train",
+      "to": "calibrate",
+      "label": "scores"
+    },
+    {
+      "id": "frozen-policy",
+      "from": "calibrate",
+      "to": "policy",
+      "label": "T + threshold"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Evidence boundary",
+      "items": [
+        "Labels and rationale stay outside telemetry.",
+        "Whole lineage groups stay in one split."
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Training boundary",
+      "items": [
+        "Only train updates adapter weights.",
+        "Restart the kernel before Part B."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Decision boundary",
+      "items": [
+        "No live traffic enforcement exists here.",
+        "Unfitted policy stays in shadow mode."
+      ]
+    }
+  ]
+}

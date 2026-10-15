@@ -1,13 +1,13 @@
 {
- "reviewed": 24522,
- "items": 24522,
+ "reviewed": 25206,
+ "items": 25206,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
-   "agree": 3151,
-   "insufficient": 177,
+   "agree": 3351,
+   "insufficient": 189,
    "disagree": 2800,
-   "agreement": 0.53
+   "agreement": 0.54
   },
   "benign_hard_negative_search": {
    "agree": 1365,
@@ -15,11 +15,17 @@
    "disagree": 569,
    "agreement": 0.71
   },
+  "benign_high_rate_legit": {
+   "agree": 66,
+   "insufficient": 0,
+   "disagree": 34,
+   "agreement": 0.66
+  },
   "benign_standard_traffic": {
-   "agree": 4234,
-   "insufficient": 259,
-   "disagree": 361,
-   "agreement": 0.92
+   "agree": 4555,
+   "insufficient": 300,
+   "disagree": 424,
+   "agreement": 0.91
   },
   "bfla_admin_function_probing": {
    "agree": 616,
@@ -215,7 +221,17 @@
   [
    "benign_standard_traffic",
    "benign_high_rate_legit",
-   75
+   82
+  ],
+  [
+   "benign_standard_traffic",
+   "csv_formula_injection",
+   66
+  ],
+  [
+   "benign_standard_traffic",
+   "benign_hard_negative_dev",
+   38
   ],
   [
    "websocket_grpc_abuse",
@@ -223,9 +239,9 @@
    36
   ],
   [
+   "benign_high_rate_legit",
    "benign_standard_traffic",
-   "benign_hard_negative_dev",
-   33
+   34
   ],
   [
    "benign_hard_negative_dev",
@@ -253,11 +269,6 @@
    25
   ],
   [
-   "benign_standard_traffic",
-   "csv_formula_injection",
-   24
-  ],
-  [
    "benign_hard_negative_dev",
    "path_traversal_lfi",
    23
@@ -265,7 +276,7 @@
   [
    "benign_standard_traffic",
    "graphql_abuse",
-   18
+   22
   ],
   [
    "websocket_grpc_abuse",
@@ -276,12 +287,7 @@
    "benign_standard_traffic",
    "bfla_admin_function_probing",
    16
-  ],
-  [
-   "benign_standard_traffic",
-   "llm_prompt_injection",
-   11
   ]
  ],
- "quarantined": 4852
+ "quarantined": 4968
 }

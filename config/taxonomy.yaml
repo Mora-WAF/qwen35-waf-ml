@@ -390,8 +390,8 @@ classes:
     quota: 10000
     is_benign: true
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Benign requests whose body or parameters carry attack-lookalike content (SQL, script or markup, shell, template syntax, paths, encoded blobs, payload text) as the intended content of a developer-, admin- or content-authoring feature: code review, CI, API consoles, reporting queries, documentation and CMS editors, snippet stores, support tickets quoting code."
-    exclusions: ["Requests carrying real exploit payloads aimed at a sink belong to the matching attack class", "Requests without attack-lookalike content belong to benign_standard_traffic, even when sent by a developer tool", "Lookalike text typed into an end-user search or filter box belongs to benign_hard_negative_search"]
+    scope: "Benign requests whose body or parameters carry attack-lookalike content (SQL, script or markup, shell, template syntax, paths, encoded blobs, payload text) as the intended content of a developer-, admin- or content-authoring feature: code review, CI, API consoles, reporting queries, documentation and CMS editors, snippet stores, support tickets quoting code, AI coding-agent tool calls inside their granted scope."
+    exclusions: ["Requests carrying real exploit payloads aimed at a sink belong to the matching attack class", "Requests without attack-lookalike content belong to benign_standard_traffic, even when sent by a developer tool or an AI agent (an in-scope tool call with ordinary arguments is standard traffic)", "Lookalike text typed into an end-user search or filter box belongs to benign_hard_negative_search"]
     required_evidence: ["Developer context such as IDE, CI, or API client identity", "Payload syntax matched to a documented developer feature", "Trusted endpoint purpose context"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["API client sending a SQL query to a documented reporting endpoint", "Git client pushing a commit whose message contains shell syntax"]
@@ -410,7 +410,7 @@ classes:
     quota: 5000
     is_benign: true
     input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
-    scope: "High-rate legitimate flows such as CDN, backup, sync, streaming, and load-test traffic that resemble flood or scan patterns."
+    scope: "High-rate legitimate flows such as CDN, backup, sync, streaming, and load-test traffic that resemble flood or scan patterns, and legitimate HTTP request bursts that resemble a race or flood (parallel reads, client retries under one enforced idempotency key, batch jobs) with a single effect on state."
     exclusions: ["Sustained floods with no legitimate service identity belong to syn_flood_ddos or udp_amplification", "Sweeps across unrelated hosts belong to port_scan_recon"]
     required_evidence: ["Known service identity and destination population from trusted context", "Rates validated against duration and direction", "Repeated timestamped observations showing the expected pattern"]
     precedence: {over: [], rule: "none"}

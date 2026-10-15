@@ -43666,5 +43666,1049 @@
   "reviewer": "benign_high_rate_legit",
   "sufficient": true,
   "note": "26 repeats share one idempotency key; per-assignment grant limit enforced; no race."
+ },
+ {
+  "rid": "n24632",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Ruby YAML tag archived as raw file; no YAML loader; anonymous"
+ },
+ {
+  "rid": "n24634",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Ruby object tag stored verbatim in diagnostic bundle; no deserializer; anonymous"
+ },
+ {
+  "rid": "n24636",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Ruby YAML tag saved as golden fixture; no loader; anonymous"
+ },
+ {
+  "rid": "n24641",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Java XML object stream kept as debug file; no deserializer; anonymous"
+ },
+ {
+  "rid": "n24645",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Base64 Java stream token recorded verbatim; decoder none; anonymous internal route"
+ },
+ {
+  "rid": "n24649",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Java stream token copied to developer log; no object input stream; anonymous"
+ },
+ {
+  "rid": "n24653",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "PHP serialized text saved as diagnostic attachment; no unserialize; anonymous"
+ },
+ {
+  "rid": "n24658",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "PHP serialized bytes kept for integration capture; no loader; anonymous"
+ },
+ {
+  "rid": "n24660",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Java object attachment_meta stored as opaque artifact; no hydration; anonymous"
+ },
+ {
+  "rid": "n24661",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Java stream blob in truncated attachment; deserializer none, raw spool"
+ },
+ {
+  "rid": "n24663",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Java object stream stored as attachment cache entry; no hydration; anonymous"
+ },
+ {
+  "rid": "n24667",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht18_deserialization.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Java object attachment saved as opaque artifact; no readers; anonymous"
+ },
+ {
+  "rid": "n24814",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht12_graphql_abuse.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "57-operation batch within max batch 64 and cost limits; admin batch pattern."
+ },
+ {
+  "rid": "n24820",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht12_graphql_abuse.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "AuditFanout 40 aliases under max 48, cost 205; batch of audit reads."
+ },
+ {
+  "rid": "n24846",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht12_graphql_abuse.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "58-alias claim lookup within max 60 aliases and cost 348; batch-style, no abuse."
+ },
+ {
+  "rid": "n24850",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht12_graphql_abuse.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Admin console TypeMap introspection within alias limit 20 and cost 2000"
+ },
+ {
+  "rid": "n24857",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Device-shadow sync batch of 22 aliases within limit 24; cost 330; sync client."
+ },
+ {
+  "rid": "n24861",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Repeated same console read 12 times in 60s, depth and cost within limits"
+ },
+ {
+  "rid": "n24863",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Console introspection enabled in config, within cost limits; tooling with two repeats."
+ },
+ {
+  "rid": "n24872",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "graphql_abuse",
+  "sufficient": false,
+  "note": "Anonymous repeated introspection of one type, 7 times in 60s; introspection enabled"
+ },
+ {
+  "rid": "n24876",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "graphql_abuse",
+  "sufficient": false,
+  "note": "Anonymous __schema type listing with introspection enabled; single request"
+ },
+ {
+  "rid": "n24882",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Repeated installer query 12 times in 60s; cost 540 under 600"
+ },
+ {
+  "rid": "n24892",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "graphql_abuse",
+  "sufficient": true,
+  "note": "Anonymous full __schema dump with introspection enabled, repeated in 60s"
+ },
+ {
+  "rid": "n24894",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Editor-bot alias batch, 16 aliases under limit 18, cost 160; repeated legit reads."
+ },
+ {
+  "rid": "n24898",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht13_graphql_abuse.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "graphql_abuse",
+  "sufficient": false,
+  "note": "Nine repeated __type probes from a python script; introspection enabled, cost 70."
+ },
+ {
+  "rid": "n24909",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht14_web_cache_poisoning.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "X-Forwarded-Server reflected unescaped but origin cache-control private, ttl 0"
+ },
+ {
+  "rid": "n24922",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht14_web_cache_poisoning.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "X-Forwarded-Host reflected unescaped but response private, ttl 0, BYPASS"
+ },
+ {
+  "rid": "n24928",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht14_web_cache_poisoning.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "X-Original-URL reflected unescaped but response no-store, BYPASS"
+ },
+ {
+  "rid": "n24940",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht14_web_cache_poisoning.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "X-Rewrite-URL reflected unescaped but response uncacheable (ttl 0, BYPASS)"
+ },
+ {
+  "rid": "n24965",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Unkeyed X-Original-URL admin path reflected only in no-store response; no attack class fits"
+ },
+ {
+  "rid": "n24967",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Unkeyed override header in no-store response; probe, no attack class fits"
+ },
+ {
+  "rid": "n24988",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Host reflection in non-cacheable response; no injection content"
+ },
+ {
+  "rid": "n24995",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "xss_reflected_stored",
+  "sufficient": true,
+  "note": "Unescaped markup in alert query reflected into banner; response cached per URL."
+ },
+ {
+  "rid": "n24996",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Unkeyed markup in no-store alert query; no script; ambiguous lookalike"
+ },
+ {
+  "rid": "n24997",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "xss_reflected_stored",
+  "sufficient": true,
+  "note": "Markup u tags in alert query reflected unescaped into banner body"
+ },
+ {
+  "rid": "n24998",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Unkeyed markup in no-store alert query; no script; ambiguous lookalike"
+ },
+ {
+  "rid": "n24999",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "xss_reflected_stored",
+  "sufficient": true,
+  "note": "Markup in alert query reflected unescaped into banner body"
+ },
+ {
+  "rid": "n25000",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "xss_reflected_stored",
+  "sufficient": true,
+  "note": "Unescaped markup in alert query reflected into banner; response uncached, no-store."
+ },
+ {
+  "rid": "n25001",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Keyed cacheable query markup in notice banner; no script, no poisoning; ambiguous lookalike"
+ },
+ {
+  "rid": "n25002",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht15_web_cache_poisoning.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "xss_reflected_stored",
+  "sufficient": true,
+  "note": "Unescaped markup in alert query reflected into banner; uncached, no-store."
+ },
+ {
+  "rid": "n25006",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading equals in stored nickname exported to spreadsheet with escaping disabled"
+ },
+ {
+  "rid": "n25010",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Equals-prefix nickname exported unescaped to spreadsheet; prose, no executable formula."
+ },
+ {
+  "rid": "n25017",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading equals ledger memo exported to statement workbook, escaping disabled"
+ },
+ {
+  "rid": "n25018",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading equals dispute text exported to chargebacks workbook with escaping disabled"
+ },
+ {
+  "rid": "n25021",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading equals dispute reason exported to analyst workbook, escaping disabled"
+ },
+ {
+  "rid": "n25022",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Plus-led reason text exported unescaped to chargeback workbook; no formula syntax"
+ },
+ {
+  "rid": "n25023",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Equals-led prose exported unescaped to chargeback workbook; no formula syntax"
+ },
+ {
+  "rid": "n25025",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading plus merchant name exported to partner sheet with escaping disabled"
+ },
+ {
+  "rid": "n25028",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading equals merchant name exported to partner sheet, escaping disabled"
+ },
+ {
+  "rid": "n25029",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Field starts with plus, exported unescaped to spreadsheet; no formula syntax"
+ },
+ {
+  "rid": "n25032",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading equals counterparty note exported to Treasury workbook, cell escaping disabled"
+ },
+ {
+  "rid": "n25033",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Plus-prefixed numeric-looking note exported with escaping disabled; weak formula evidence"
+ },
+ {
+  "rid": "n25035",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Note starts with at-sign, exported unescaped to treasury workbook; no formula syntax"
+ },
+ {
+  "rid": "n25038",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Equals-led prose exported unescaped to treasury workbook; no formula syntax"
+ },
+ {
+  "rid": "n25040",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Remark starts with equals, exported unescaped to compliance spreadsheet; no formula syntax"
+ },
+ {
+  "rid": "n25044",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Equals-led prose exported unescaped to compliance register; no formula syntax"
+ },
+ {
+  "rid": "n25045",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading plus KYC remark exported to case register, cell escaping disabled"
+ },
+ {
+  "rid": "n25046",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Equals-led prose exported unescaped to compliance register; no formula syntax"
+ },
+ {
+  "rid": "n25048",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Equals-prefix reason text exported unescaped; prose only, no executable formula."
+ },
+ {
+  "rid": "n25049",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Plus-led phone text exported unescaped to clinic spreadsheet; no formula syntax"
+ },
+ {
+  "rid": "n25052",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Equals-prefix appointment reason exported unescaped; prose, no executable formula."
+ },
+ {
+  "rid": "n25053",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht20_csv_formula_injection.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Plus-prefix then prose exported unescaped; no executable formula syntax."
+ },
+ {
+  "rid": "n25056",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Note starts with at-sign, exported unescaped to claims spreadsheet; no formula syntax"
+ },
+ {
+  "rid": "n25059",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Equals-led prose exported unescaped to claims reserve sheet; no formula syntax"
+ },
+ {
+  "rid": "n25062",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-prefix note exported unescaped to spreadsheet; prose, no executable formula."
+ },
+ {
+  "rid": "n25063",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-led label exported unescaped to claims audit workbook; no formula syntax"
+ },
+ {
+  "rid": "n25066",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "Leading equals document label exported to audit workbook, escaping disabled"
+ },
+ {
+  "rid": "n25068",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-prefix document label exported unescaped; prose, no executable formula."
+ },
+ {
+  "rid": "n25069",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "At-sign label exported to claims audit workbook with escaping disabled"
+ },
+ {
+  "rid": "n25076",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-prefix memo exported unescaped to spreadsheet; prose only, no executable formula."
+ },
+ {
+  "rid": "n25077",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "At-sign memo exported to underwriting workbook with escaping disabled"
+ },
+ {
+  "rid": "n25081",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-prefix line description exported unescaped; prose, no executable formula."
+ },
+ {
+  "rid": "n25084",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-prefix prose exported unescaped to finance spreadsheet; no executable formula."
+ },
+ {
+  "rid": "n25088",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-led text exported unescaped to claims triage sheet; no formula syntax"
+ },
+ {
+  "rid": "n25091",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-led text exported unescaped to claims triage sheet; no formula syntax"
+ },
+ {
+  "rid": "n25093",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Plus-prefix prose exported unescaped to spreadsheet; no formula syntax to execute."
+ },
+ {
+  "rid": "n25094",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-prefix label exported unescaped; prose, no executable formula content."
+ },
+ {
+  "rid": "n25095",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "At-sign recovery label exported to finance pivot, escaping disabled"
+ },
+ {
+  "rid": "n25100",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "At-sign display name exported to customer directory, escaping disabled"
+ },
+ {
+  "rid": "n25103",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": true,
+  "note": "At-sign name exported to customer directory workbook, escaping disabled"
+ },
+ {
+  "rid": "n25104",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-prefix display name exported unescaped; handle text, no executable formula."
+ },
+ {
+  "rid": "n25105",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht21_csv_formula_injection.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "At-prefix display name exported unescaped to spreadsheet; handle text, no formula."
+ },
+ {
+  "rid": "n25107",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Treasury position feed within registered route and stream cap; rate near baseline."
+ },
+ {
+  "rid": "n25109",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Metadata bulk under limits; scoped token; documented regional slot cache profile; no injection content."
+ },
+ {
+  "rid": "n25112",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Registered credentialed origin, own notification channel, rate near baseline."
+ },
+ {
+  "rid": "n25115",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Treasury risk feed within entitlement and stream cap; mTLS verified; rate near baseline."
+ },
+ {
+  "rid": "n25117",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Metadata bulk within limits and scoped token; documented routing manifest profile; no injection content."
+ },
+ {
+  "rid": "n25120",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Registered credentialed origin, own notification channel only; rate near baseline."
+ },
+ {
+  "rid": "n25125",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Metadata header bulk under limits, scoped token, documented prefetch profile; no injection content."
+ },
+ {
+  "rid": "n25127",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Registered credentialed origin with session-scoped channels; rate near baseline; no attack content."
+ },
+ {
+  "rid": "n25130",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Partner mTLS feed, registered route, rate near baseline, no payload or lookalike content."
+ },
+ {
+  "rid": "n25131",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Subject ref within care-team assignment; watch rate below baseline; clinician role verified."
+ },
+ {
+  "rid": "n25133",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Metadata bulk under limits; scoped token; documented translation gateway profile; no injection content."
+ },
+ {
+  "rid": "n25135",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Registered credentialed origin, own notification channel, rate below baseline."
+ },
+ {
+  "rid": "n25141",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Registered credentialed origin, own notification channel, rate below baseline; no attack content."
+ },
+ {
+  "rid": "n25142",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ordinary chat sync within channel grant, origin allowlisted, rate near baseline."
+ },
+ {
+  "rid": "n25147",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Metadata bulk under limits; scoped token; documented catalog replica profile; no injection content."
+ },
+ {
+  "rid": "n25150",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Registered credentialed origin, session-scoped own channel; rate near baseline."
+ },
+ {
+  "rid": "n25153",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht22_websocket_grpc_abuse.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Subject ref within care-team assignment; watch rate below baseline; clinician role verified."
+ },
+ {
+  "rid": "n25157",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Mirror origin in allowlist with registered dashboard configuration; own channel; rate at baseline."
+ },
+ {
+  "rid": "n25158",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Wildcard audit subscription within grant; origin allowlisted; exporter rate at baseline."
+ },
+ {
+  "rid": "n25161",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Owner role header matches token; expected RPC and channel; exporter rate at baseline."
+ },
+ {
+  "rid": "n25166",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Mirror origin exact-matched in SSO origin registry; own channel; rate at baseline."
+ },
+ {
+  "rid": "n25167",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Wildcard audit subscription matches grant; origin allowlisted; compliance reader rate at baseline."
+ },
+ {
+  "rid": "n25173",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Mirror origin is explicitly allowlisted with registration; exact own channel; rate at baseline."
+ },
+ {
+  "rid": "n25174",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Audit wildcard within granted scope; warehouse ingestion profile; rate at baseline."
+ },
+ {
+  "rid": "n25177",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Owner role header matches verified token; expected RPC and channels; rate at baseline."
+ },
+ {
+  "rid": "n25182",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Exact origin registration found; own channel; wallboard rate at baseline."
+ },
+ {
+  "rid": "n25183",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Wildcard audit subscription present in token grant; origin allowlisted; rate at baseline."
+ },
+ {
+  "rid": "n25186",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Owner role header matches verified token; expected RPC; rate at baseline."
+ },
+ {
+  "rid": "n25191",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Mirror origin exact allowlist entry; own channel; DR dashboard rate at baseline."
+ },
+ {
+  "rid": "n25192",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Audit subscription pattern equals granted pattern; origin allowlisted; rate at baseline."
+ },
+ {
+  "rid": "n25195",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Owner role header equals verified token role; expected RPC; rate at baseline."
+ },
+ {
+  "rid": "n25200",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Mirror origin exact-matched to registered web origin; own channel; rate at baseline."
+ },
+ {
+  "rid": "n25201",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Audit subscription matches grant pattern; origin allowlisted; audit lake connector at baseline."
+ },
+ {
+  "rid": "n25204",
+  "label": "benign_high_rate_legit",
+  "ref": "benign_high_rate_legit.vht23_websocket_grpc_abuse.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Owner role header matches verified token; expected RPC and channel; backup rate at baseline."
  }
 ]

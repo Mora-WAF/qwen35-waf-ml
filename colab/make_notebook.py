@@ -223,7 +223,47 @@ got = [H.generate_label(m, tok, x["messages"]) for x in sample]
 RELOAD = {"reload_match": sum(g == x["expect"] for g, x in zip(got, sample)), "of": len(sample),
           "fingerprint_match": P.sha256(tok.chat_template) == PART_A["fingerprint"]["chat_template_sha256"],
           "weights_dtype": str(next(m.parameters()).dtype)}
-print(RELOAD)
+print(RELOAD)"""),
+(PY, """# ---- B1s: candidate scores for calibration (spec §10): summed completion log-prob of every class ----
+# val_calib fits the temperature, val_policy the threshold (both offline: python -m eval.calibration SCORES --write-policy);
+# test / test_unseen / robustness are only reported. Dry runs and smoke score SCORE_CAP records per split.
+import glob, yaml
+SCORE_CAP = 20 if (MODE == "smoke" or PART_A.get("dry_run_steps")) else None
+WANT = ("val_calib", "val_policy", "test", "test_unseen", "robustness")
+classes = list(yaml.safe_load(open(f"{B}/config/taxonomy.yaml"))["classes"])
+suf = H.candidate_suffixes(tok, classes)
+prefix = PART_A["train_file"].split("train")[0]
+recs, per = [], {}
+for fn in sorted(glob.glob(f"{B}/datasets_ready/{prefix}*.jsonl")) + [f"{B}/datasets_ready/robustness_pilot.jsonl"]:
+    if not os.path.exists(fn) or fn.endswith(PART_A["train_file"]):
+        continue
+    for line in open(fn):
+        r = json.loads(line); sp = r["metadata"]["split"]
+        if sp in WANT and (SCORE_CAP is None or per.get(sp, 0) < SCORE_CAP):
+            per[sp] = per.get(sp, 0) + 1; recs.append(r)
+
+@torch.no_grad()
+def brute(msgs, i):  # reference without the cache trick: full forward pass of prompt + one class completion
+    p = tok(tok.apply_chat_template(msgs[:2], tokenize=False, add_generation_prompt=True, enable_thinking=False),
+            add_special_tokens=False)["input_ids"]
+    lp = torch.log_softmax(m(input_ids=torch.tensor([p + suf[i]], device="cuda")).logits[0].float(), -1)
+    return sum(lp[len(p) - 1 + j, t].item() for j, t in enumerate(suf[i]))
+
+out_path, t0, diffs = f"/content/SCORES_{MODE}.jsonl", time.time(), []
+with open(out_path, "w") as fh:
+    fh.write(json.dumps({"classes": classes, "mode": MODE, "fingerprint": PART_A["fingerprint"]}) + "\\n")
+    for n, r in enumerate(recs):
+        s = H.class_logprobs(m, tok, r["messages"], suf)
+        if n < 3:  # equivalence check of the replicated-cache scorer on the true and the top class
+            for i in {classes.index(r["metadata"]["threat_type"]) if r["metadata"]["threat_type"] in classes else 0,
+                      max(range(len(s)), key=s.__getitem__)}:
+                diffs.append(abs(brute(r["messages"], i) - s[i]))
+        fh.write(json.dumps({"id": r["id"], "split": r["metadata"]["split"], "label": r["metadata"]["threat_type"],
+                             "kind": r["metadata"].get("robustness_kind"), "scores": s}) + "\\n")
+SCORES = {"n": len(recs), "per_split": per, "s_per_record": round((time.time() - t0) / max(1, len(recs)), 3),
+          "max_abs_diff_vs_bruteforce": max(diffs), "file": out_path}
+print(json.dumps(SCORES, indent=1))
+assert SCORES["max_abs_diff_vs_bruteforce"] < 0.05, "cached scorer disagrees with the full forward pass"
 del m; gc.collect(); torch.cuda.empty_cache()"""),
 (PY, """# ---- B2: continuation test (smoke only): 20 steps straight vs 10 + save/reload + 10 ----------
 RESUME = None
@@ -260,7 +300,7 @@ if MODE == "smoke" or PART_A.get("dry_run_steps"):
               "tolerance": 0.05, "pass": bool(steps) and diff <= 0.05}
     print(json.dumps(RESUME, indent=1))"""),
 (PY, """# ---- B3: smoke report (the evidence for 'Notebook smoke-tested') -------------------------------
-REPORT = {**PART_A, "reload": RELOAD, "resume_test": RESUME}
+REPORT = {**PART_A, "reload": RELOAD, "resume_test": RESUME, "scores": SCORES}
 REPORT["passed"] = bool(PART_A["train"]["global_steps"] >= 20
                         and all(math.isfinite(l) for _, l in PART_A["train"]["losses"])
                         and RELOAD["reload_match"] == RELOAD["of"] and RELOAD["fingerprint_match"]
@@ -269,7 +309,8 @@ name = ("gpu_smoke_test.json" if MODE == "smoke" else f"dryrun_{MODE}_report.jso
         else f"train_{MODE}_report.json")
 json.dump(REPORT, open(f"/content/{name}", "w"), indent=1, default=str)
 shutil.make_archive(f"/content/export_{MODE}", "zip", EXP)
-print("passed:", REPORT["passed"], "->", name, "(download it into reports/)")"""),
+print("passed:", REPORT["passed"], "->", name, f"and {SCORES['file']} (download both into reports/; then locally:",
+      f"python -m eval.calibration reports/{os.path.basename(SCORES['file'])} --write-policy)")"""),
 ]
 
 nb = nbformat.v4.new_notebook()

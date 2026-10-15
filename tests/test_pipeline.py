@@ -268,3 +268,14 @@ def test_make_args_builds_on_pinned_transformers(monkeypatch, tmp_path):
         kw = H.make_args(str(tmp_path), 25, 10, smoke=True, per_device=b)
         assert set(kw) <= real, set(kw) - real
         assert kw["per_device_train_batch_size"] * kw["gradient_accumulation_steps"] == H.EFFECTIVE_BATCH
+
+
+def test_unseen_source_holdout_smallest_big_source():
+    from data_pipeline.dedup_and_split import holdout_unseen
+    def rec(src, grp):
+        return {"metadata": {"threat_type": "nosqli", "template_family": "nosqli_httpwrap", "generator": "deterministic",
+                             "lineage_group": grp, "mechanism_tags": [f"src:{src}"], "provenance": "hybrid"}}
+    recs = [rec("a", f"a{i}") for i in range(70)] + [rec("b", f"b{i}") for i in range(25)] + [rec("c", f"c{i}") for i in range(5)]
+    out = holdout_unseen(recs)
+    assert out == {f"b{i}" for i in range(25)}  # smallest source with >= 10% share; 'c' is too small to stand alone
+    assert holdout_unseen(recs, max_source_out=0.2) == set()  # would pull 25% of the class: skipped

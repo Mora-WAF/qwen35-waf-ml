@@ -25,6 +25,8 @@ def main(prefix, allow_failed):
         raise SystemExit(f"pre-Colab gate failed ({gate['n_fail']} failures); refusing to bundle")
     manifest = json.load(open(ROOT / "datasets_ready/manifest.json"))
     data = [f"datasets_ready/{f}" for f in manifest["files"] if f.startswith(prefix)]
+    if (ROOT / "datasets_ready/robustness_pilot.jsonl").exists():  # scored (never trained on) by the notebook's B1s cell
+        data.append("datasets_ready/robustness_pilot.jsonl")
     out = ROOT / "colab" / f"colab_bundle_{prefix.rstrip('_') or 'full'}.zip"
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
         for rel in CODE + data:

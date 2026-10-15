@@ -1,0 +1,117 @@
+{"rid": "n24919", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Path reflected, but response is no-store with TTL 0, so not cacheable poisoning"}
+{"rid": "n24727", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Query access token is a configured source; RS256 signature, issuer and audience verified against pinned JWKS"}
+{"rid": "n24682", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized-object text in a dev debug capture; deserializer null, text-download only, no unserialize"}
+{"rid": "n24590", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype is data in a documented provisioning write; merge sink has no prototype lookup"}
+{"rid": "n24970", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Original-URL reflected but response private no-store TTL 0; no cacheable poisoning"}
+{"rid": "n24870", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Introspection enabled by schema config; depth 4 and cost 120 within limits; low repeat rate"}
+{"rid": "n24816", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "43 aliases under max 50 and cost 258 under 1000; documented limits respected"}
+{"rid": "n24771", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bearer JWT RS256 verified against allowlisted JWKS, kid match, expiry parsed; ordinary CSR request"}
+{"rid": "n25013", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading dash is ordinary text, no formula syntax; exclusion for dashes in ordinary text applies"}
+{"rid": "n24639", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Java XML class stub in fixture mode; deserializer none, copied to raw BLOB, never parsed"}
+{"rid": "n24807", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "35 aliases under max 48 and cost 216 under 1000; within documented limits"}
+{"rid": "n25008", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading dash is ordinary text in a nickname, no formula syntax; not CSV injection"}
+{"rid": "n25039", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Negative amount in ordinary note text, no formula syntax; exclusion for negative numbers applies"}
+{"rid": "n24718", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized filter in admin schedule migration evidence; unserialize_on_read false, text-download only"}
+{"rid": "n24724", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Query access token signature, issuer and audience verified; configured token source, adjuster export"}
+{"rid": "n24555", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in billing schema authoring; JSON.stringify sink, handler writes no contact tables"}
+{"rid": "n24812", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Admin console introspection within depth, alias and cost limits; introspection enabled by config"}
+{"rid": "n24662", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Java stream bytes in integration-test fixture recorder; deserializer none, stored opaquely"}
+{"rid": "n24975", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed X-Asset-Host reflected but response no-store TTL 0; not cacheable poisoning"}
+{"rid": "n24671", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "msgpack ext bytes in developer oximeter fixture collector; no consumer, download-only, never unpacked"}
+{"rid": "n24703", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Encoded blob in dev diagnostic bundle upload; object decoder none, byte-copy only"}
+{"rid": "n24719", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized filter in developer repro bundle; deserializer null, byte-export only, no consumer"}
+{"rid": "n24562", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype key in document archive schema editor; no extension into doc.meta"}
+{"rid": "n24530", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in webhook schema editor sample; JSON.stringify sink, no subscription config write"}
+{"rid": "n24533", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in branding schema designer; JSON.stringify sink, preview uses textContent"}
+{"rid": "n25050", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading dash is ordinary visit-reason text, no formula syntax; exclusion for dashes applies"}
+{"rid": "n24715", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized filter in schedule debug attachment; deserializer null, byte-download only"}
+{"rid": "n24912", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Forwarded host reflected but keyed via Vary; clean copy served to other requests, no poisoning"}
+{"rid": "n24745", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bearer RS256 verified against pinned JWKS, issuer and audience pass; debug header dev-only, no bypass"}
+{"rid": "n24618", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype key in calibration builder form; Map representation, no JavaScript constructor lookup"}
+{"rid": "n25087", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading @ precedes an ordinary sentence, no formula function or command; not a live spreadsheet payload"}
+{"rid": "n24627", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Java stream in payout integration debugger BLOB; deserializer none, no readObject, copied only"}
+{"rid": "n24926", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Forwarded server reflected but included in cache key; clean copies served to other requests"}
+{"rid": "n24726", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Query access token signature, issuer and audience verified; configured token source, adjuster statement export"}
+{"rid": "n24951", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Scheme reflected but response no-store TTL 0; not cacheable poisoning"}
+{"rid": "n24708", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized-looking RelayState in dev federation wire archive; no object readers, byte-copy only"}
+{"rid": "n25096", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading = precedes ordinary prose with no function or cell reference; not an executable formula"}
+{"rid": "n24612", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key written as raw JSON text in calibration schema examples; typed execution separate"}
+{"rid": "n24525", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in developer console saved-query example; preview textContent, directory.query not called"}
+{"rid": "n24875", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 11 and estimated cost 5600 under limits 12 and 6000; introspection disabled; low repeat"}
+{"rid": "n24689", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Ruby-tagged YAML in dev rating fixture import; YAML loader none, source-export-only, never parsed"}
+{"rid": "n24866", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Introspection enabled by config; depth 3 and cost 90 under limits; low repeat rate"}
+{"rid": "n24914", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed forwarded host reflected but origin private TTL 0; not cacheable poisoning"}
+{"rid": "n24884", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Schema queryType introspection, cost 30 under limit 600, enabled by config; low repeat"}
+{"rid": "n24535", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype key in note schema authoring; BSON example, read only by source viewer"}
+{"rid": "n24955", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Forwarded prefix reflected but included in cache key; clean copy served to other requests"}
+{"rid": "n24527", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in document schema admin editor; JSON.stringify sink, doc.meta not used"}
+{"rid": "n24688", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Ruby-tagged YAML in dev rate-import debug attachment; YAML loader none, raw copy only"}
+{"rid": "n24783", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bearer RS256 verified, issuer and scope exact match publish, legitimate CMS publish"}
+{"rid": "n24865", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Read-only alias lookups under limits (18 aliases, cost 180, max 800); rate modest, no state change"}
+{"rid": "n24556", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in branding HTML-field schema editor; JSON.stringify to revisions, textContent preview only"}
+{"rid": "n24613", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ path written as literal segments into documentation member index; no deep-set call"}
+{"rid": "n24908", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed forwarded host reflected but origin no-store TTL 0; not cacheable poisoning"}
+{"rid": "n25102", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading @ before a plain display name, no formula function or command; not executable"}
+{"rid": "n24893", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Depth 9 and cost 8200 under limits 10 and 9000; introspection disabled; single request"}
+{"rid": "n24691", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Ruby-tagged YAML in dev migration input archive; YAML loader none, byte-download only"}
+{"rid": "n24978", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Asset host reflected but keyed in cache key; cached copy matches only same header value"}
+{"rid": "n24599", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Dotted constructor.prototype key as literal column value in admin alert editor; no traversal"}
+{"rid": "n25065", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading dash precedes ordinary receipt label text, no formula syntax; dashes exclusion applies"}
+{"rid": "n24942", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed X-Host is part of the cache key; HEAD catalog request, no cross-user poisoning"}
+{"rid": "n25070", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading dash precedes ordinary premium memo text, no formula syntax; dashes exclusion applies"}
+{"rid": "n24537", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype keys in provider schema playground; Map-backed tree, text-only preview"}
+{"rid": "n24674", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized-looking draft header in dev repro attachment; deserializer none, raw-download only"}
+{"rid": "n24841", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Admin console introspection within depth, alias and cost limits; introspection enabled by config"}
+{"rid": "n24581", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ token text in OTA documentation token catalog; streaming tokenizer, no object reconstruction"}
+{"rid": "n24723", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Query access token signature, issuer and audience verified; configured token source, adjuster xlsx export"}
+{"rid": "n24644", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Java stream in developer context inspector query value; deserializer none, no ObjectInputStream read"}
+{"rid": "n24698", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Encoded blob in callback developer artifact store; object decoder none, raw-download only"}
+{"rid": "n24598", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype.trusted in rule-builder catalog example; JSONB bind, no merge into rule options"}
+{"rid": "n24993", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Host reflected but keyed in cache key; cached copy only served to same host value"}
+{"rid": "n24795", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bearer RS256 verified, purpose claim exact match publish, scheduled CMS release"}
+{"rid": "n24821", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Admin console introspection with 18 aliases, cost 216 under 2000; enabled by config; low repeat"}
+{"rid": "n24587", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Dotted constructor.prototype key stored as alias text in OTA field-alias developer feature; no path interpretation"}
+{"rid": "n25079", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading plus precedes ordinary surcharge text, no formula syntax; dashes-style exclusion applies"}
+{"rid": "n24710", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized-looking RelayState in dev browser reproduction bundle; object readers zero, raw export only"}
+{"rid": "n24744", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bearer RS256 verified; x-console-debug header disabled in this config, no bypass effect"}
+{"rid": "n25051", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading @ precedes an ordinary sentence, no formula function or command; not executable"}
+{"rid": "n24678", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Opaque serialized-looking draft header in dev diagnostic bundle ingest; deserializer none, byte-copy only"}
+{"rid": "n24910", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Host reflected but keyed in cache key; cached copy only served to same host value"}
+{"rid": "n24684", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized-looking note in dev cache inspector entry; deserializer null, literal preview only"}
+{"rid": "n24626", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized file retained as opaque chargeback support attachment; object decoding absent on path"}
+{"rid": "n24917", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Forwarded host reflected but included in cache key; clean copy served to other requests"}
+{"rid": "n24938", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Forwarded host reflected but keyed via Vary; cached copy only served to same header value"}
+{"rid": "n24596", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in alert schema editor sample; raw JSON stored, typed rules table drives evaluator"}
+{"rid": "n24714", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized filter in dev cache inspector string; deserializer null, literal preview only"}
+{"rid": "n24864", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Read-only campaign query depth 9 and cost 900 under limits 10 and 1000; introspection disabled"}
+{"rid": "n24794", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bearer RS256 verified, three-segment JWS, media:write scope, ordinary license metadata update"}
+{"rid": "n25036", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading equals precedes ordinary prose with no function or reference; not an executable formula"}
+{"rid": "n24709", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized-looking RelayState in dev SSO cache inspector; object readers zero, literal preview only"}
+{"rid": "n24827", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cost estimate 63553 under max 65536, depth 6, introspection disabled; within documented limits"}
+{"rid": "n24584", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key shown in OTA role schema example pane; execution reads separate typed table"}
+{"rid": "n24569", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in intake schema gallery sample JSON text; draft intake not written"}
+{"rid": "n25009", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading @ precedes plain handle text in nickname, no formula syntax; not executable"}
+{"rid": "n24826", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Read-only claim lookup, 42 aliases under max 64, cost 258 under 1000; low repeat"}
+{"rid": "n24637", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Object-stream XML kept as opaque FX diagnostic snapshot; deserializer none, no fromXML on dispatch"}
+{"rid": "n24925", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Forwarded prefix reflected but included in cache key via Vary; clean copy served otherwise"}
+{"rid": "n24696", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Type-name JSON key in dev bulk-adjustment capture; type_name_handling None, binder none, byte-download only"}
+{"rid": "n24541", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "constructor.prototype key in SSO attribute schema editor sample; path-set utility unused"}
+{"rid": "n24838", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Fragment chain depth 12 under max 13, cost 480 under 1000, introspection disabled; within limits"}
+{"rid": "n24643", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Object-stream XML saved as developer artifact without parsing; no XStream consumer attached"}
+{"rid": "n24592", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key in provisioning range schema example; AST nodes only, no evaluation"}
+{"rid": "n24844", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Directives 36 under 48, aliases 18 under 24, cost 180 under 2000; within documented limits"}
+{"rid": "n24779", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bearer RS256 verified with token_use access, exact audience; ordinary OTA status read"}
+{"rid": "n25031", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading dash precedes ordinary merchant name text, no formula syntax; dashes exclusion applies"}
+{"rid": "n24524", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "__proto__ key as field-name cell in endorsement schema designer; destination schema nodes, not doc"}
+{"rid": "n24656", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized intake state in developer cache inspector; deserializer none, opaque cache namespace"}
+{"rid": "n25024", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading equals precedes a merchant brand name, no formula function or reference; not executable"}
+{"rid": "n24992", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed Host reflected but response no-store TTL 0; not cacheable poisoning"}
+{"rid": "n24705", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized-looking RelayState in dev SSO developer trace; object readers zero, download only"}
+{"rid": "n24972", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed asset host reflected but response private no-store; not cacheable poisoning"}
+{"rid": "n24642", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Object-stream XML appended to opaque AUD sample archive; deserializer none, no materialization"}
+{"rid": "n25020", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading @ precedes plain reason text in dispute evidence, no formula syntax; not executable"}
+{"rid": "n24969", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Original-URL is part of the cache key via Vary; cached copies only served to same value"}
+{"rid": "n24804", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bearer RS256 verified, purpose claim exact match publish, ordinary CMS freeze request"}
+{"rid": "n24823", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Batch of 60 simple tenant reads at max batch 60, cost 1500 under 2000; within documented limits"}
+{"rid": "n24713", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Serialized filter in dev schedule artifact; deserializer null, raw export only, no scheduler consumer"}
+{"rid": "n24819", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Deep admin query depth 14 under 16, cost 1498 under 2000, introspection off for path; within limits"}
