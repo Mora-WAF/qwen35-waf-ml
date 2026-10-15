@@ -31,8 +31,8 @@ def encode(tok, recs):
     ctrl = P.control_strings(tok)
     rows = []
     for r in recs:
-        P.check_record(tok, r, ctrl)  # turns, escapes, mask, budget
         ids, labels = P.tokenize_with_mask(tok, r["messages"])
+        P.check_record(tok, r, ctrl, (ids, labels))  # turns, escapes, mask, budget
         rows.append({"input_ids": ids, "labels": labels})
     return rows
 

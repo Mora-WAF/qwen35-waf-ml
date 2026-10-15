@@ -9,8 +9,9 @@ format, and before reporting status: it holds the spec and the progress log.
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
 Current state: fast build v7 (`fast_*`, 41 classes, 44,155 records, hard twins + confuser sets, test_unseen on all 41 classes), gate passed (`reports/pre_colab_gate.json`); notebook
-smoke-tested on a Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the v3 fast bundle (`reports/dryrun_fast_report.json`);
-no model evaluated. The real fast run is planned on an A100 (see the progress log). A failed gate or target is a recorded
+smoke-tested on a Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the v7 fast bundle on an A100
+(`reports/colab_a100dry/dryrun_fast_report.json`, passed, 2,548 tokens/s); no model evaluated. Next: the real fast run
+on an A100 (~3.5 h, see the progress log). A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
 ## Pipeline order
@@ -38,9 +39,14 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
 
 - The notebook has two parts: **Part A** trains and exports, **Part B** must run after a kernel restart
   (a second 4B model does not fit beside the training kernel on a 15 GB T4).
-- Run it as `colab new -s NAME --gpu T4` → `colab upload` the bundle → `colab exec -f partA.ipynb` →
-  `colab restart-kernel` → `colab exec -f partB.ipynb` → `colab download` → `colab stop`. Wrap each
-  long call in a local `timeout`: after a restart the CLI once waited 4.5 h on a dead connection.
+- Run it with `colab/run_colab.sh NAME GPU MODE [DRY_RUN_STEPS]` (new → upload → drivemount → Part A → verified
+  restart → Part B → download into `reports/colab_NAME/` → stop; rerun the same line to resume). It wraps every call in
+  `timeout`: after a restart the CLI once waited 4.5 h on a dead connection. `colab exec -f nb.ipynb` runs the
+  remaining cells after a failed one and exits 0, so success is judged by the files each part writes.
+- **Drive needs a browser grant per VM**: `colab drivemount -s NAME` in a real terminal (open URL, approve, Enter).
+  An agent has no TTY: the driver waits up to 15 min for the user to do it. Never run a headless `drivemount`
+  beside the user's: its pending auth prompt blocks the kernel and theirs queues behind it.
+- Notebook config comes from `WAF_MODE`, `WAF_DRY_RUN_STEPS`, `WAF_DRIVE_ROOT` (`colab exec --env`), not edited copies.
 - `restart-kernel` can time out silently: before Part B, exec a probe that `torch` is not in `sys.modules`
   and `nvidia-smi` shows 0 MiB. `colab exec` defaults to a 30 s timeout: pass `--timeout`.
 - Free-tier T4 can return "Service Unavailable" after a few GPU-hours; retry later rather than in a loop.

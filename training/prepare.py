@@ -76,13 +76,13 @@ def tokenize_with_mask(tok, messages):
     return f_ids, labels
 
 
-def check_record(tok, rec, controls):
-    """Pre-Colab per-record checks; returns token length or raises."""
+def check_record(tok, rec, controls, encoded=None):
+    """Pre-Colab per-record checks; returns token length or raises. `encoded`: tokenize_with_mask output to reuse."""
     msgs = rec["messages"]
     assert [m["role"] for m in msgs] == ["system", "user", "assistant"]
     for c in controls:
         assert c not in msgs[1]["content"], f"unescaped control string {c!r}"
-    ids, labels = tokenize_with_mask(tok, msgs)
+    ids, labels = encoded or tokenize_with_mask(tok, msgs)
     im_start = tok.convert_tokens_to_ids("<|im_start|>")
     assert ids.count(im_start) == 3, "user content created extra turns"
     sup = tok.decode([t for t, l in zip(ids, labels) if l != IGNORE])

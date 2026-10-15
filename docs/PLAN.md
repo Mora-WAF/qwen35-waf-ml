@@ -2,7 +2,7 @@
 
 Reviewed: 15 October 2026. This document replaces the original specification. It is a plan for implementation, not a claim that the datasets, notebook, or model have been built or tested.
 
-## Implementation progress (updated 15 October 2026, 20:15)
+## Implementation progress (updated 16 October 2026, 00:50)
 
 **Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Fast build v7 (41 classes, hard twins, confuser sets, test_unseen on all 41 classes): gate passed (see below); bundle rebuilt.** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
 
@@ -14,6 +14,25 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 | B — end-to-end pilot | Done: data v2 + clean GPU smoke test | `reports/pre_colab_gate.json`, `reports/gpu_smoke_test.json`, `reports/gpu_smoke_partA_clean_run.ipynb` |
 | C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
 | D — train and evaluate | Not started (no paid GPU balance) | notebook + bundle ready: `colab/` |
+
+### A100 dry run on the v7 fast bundle — 16 October 00:29–00:47 (`reports/colab_a100dry/`) — passed
+
+Run with `colab/run_colab.sh a100dry A100 fast 25` (bundle `b750c924…`: v7 data, helper code below). A100-SXM4-40GB, bf16.
+- **Speed fix:** `fla-core==0.5.2` (Triton gated-delta-rule kernels; installed only on sm80+) replaces the PyTorch reference
+  loop transformers falls back to without it. Training **2,548 tokens/s** excl. warmup (T4: 198, 12.9×), batch 4 × accum 4,
+  peak **10.75 GB** of 40; 25 steps in 289 s; train loss 0.14, eval loss 0.172 → 0.092 → 0.093.
+- 60 val_select predictions: 100% valid JSON, 95.0% correct (25 steps, not a model claim), p50 latency 0.94 s.
+- Part B after a verified restart: reload 5/5, fingerprint match (bf16 weights); cached scorer vs brute force max |Δ| 1.7e-5;
+  scoring **0.311 s/record** (T4 2.5 s); continuation test max loss diff 1.1e-7. `passed: true`.
+- Drive: progress heartbeat (`progress.json`), `train_log.jsonl`, checkpoints (newest 2), Part A/B reports and the adapter go
+  to `MyDrive/qwen35_waf/<mode>[_dry]_<bundle sha8>/`; a real run with the same bundle resumes from there.
+- Estimate for the real fast run on this A100: setup ~10 min, training 2,025 steps ≈ 2.3 h plus 8 interim evals, 500 diagnostic
+  predictions ~8 min, Part B scoring of ~9,930 records ≈ 51 min → **≈ 3.5 h, ~19 CU** at 5.4 CU/h.
+- Not changed, untested: peak memory leaves room for batch 8 or 16 on the A100 (could raise throughput; needs its own short run);
+  `causal-conv1d` (source-only build) not installed; xformers 0.0.35 cannot load on torch 2.11 (SDPA is used, as on the T4).
+- Incident: the first attempt died on a syntax error in the generated trainer cell (`colab exec` ran the remaining cells and
+  exited 0); the driver detected the missing `part_a.json` and stopped the VM (~7 A100-min lost). `make_notebook.py` now
+  compiles every code cell before writing.
 
 ### GPU smoke test (Colab T4, 15 GB, fp16) — clean run 15 October 10:04–11:00
 

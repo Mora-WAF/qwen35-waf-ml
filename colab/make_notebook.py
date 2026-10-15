@@ -20,15 +20,18 @@ only evidence that counts for the *Notebook smoke-tested* state. Run `MODE="smok
 - 16-bit LoRA (rsLoRA r=16, alpha=32). QLoRA is deliberately not used (Unsloth: not recommended for Qwen3.5).
 - Nothing is uploaded or published automatically. Package pins below are **candidates**: this exact set
   has not yet been run together; the smoke report records what actually got installed."""),
-(PY, """# ---- configuration ---------------------------------------------------------------------------
-MODE = "smoke"            # "smoke" (>=20 optimizer steps) | "fast" (30k subset) | "full" (100k)
-DRY_RUN_STEPS = None      # e.g. 25 with MODE="fast": start-check on the real bundle (ckpt+eval every 10 steps,
+(PY, """# ---- configuration (WAF_* env vars override, e.g. `colab exec --env WAF_MODE=fast`) ------------
+import os
+MODE = os.environ.get("WAF_MODE", "smoke")   # "smoke" (>=20 optimizer steps) | "fast" (30k subset) | "full" (100k)
+DRY_RUN_STEPS = int(os.environ.get("WAF_DRY_RUN_STEPS", 0)) or None
+                          # e.g. 25 with MODE="fast": start-check on the real bundle (ckpt+eval every 10 steps,
                           # 60 predictions, Part B continuation test, full-run time estimate); None = real run
 BUNDLE = f"/content/colab_bundle_{'pilot' if MODE == 'smoke' else MODE}.zip"   # upload via the Files pane, or Drive
-DRIVE_DIR = None          # e.g. "/content/drive/MyDrive/qwen35_waf/run1" -> checkpoints copied here (newest 2 kept);
-                          # set it for any real run on a session that can disconnect (free tier, long runs)
-SAVE_EVERY_MIN = 20       # also checkpoint when this many minutes passed since the last save (disconnect loss cap)
-BATCH = None              # per-device batch; None = from GPU memory (T4 1, L4 2, A100-40 4, 80 GB 8), effective 16
+DRIVE_ROOT = os.environ.get("WAF_DRIVE_ROOT", "/content/drive/MyDrive/qwen35_waf")  # "" = no Drive
+                          # run dir = DRIVE_ROOT/<mode>[_dry]_<bundle sha8>: progress.json, train_log.jsonl,
+                          # checkpoints (newest 2), Part A/B reports, adapter. Same bundle + mode resumes from it.
+SAVE_EVERY_MIN = 20      # also checkpoint when this many minutes passed since the last save (disconnect loss cap)
+BATCH = int(os.environ.get("WAF_BATCH", 0)) or None  # per-device batch; None = from GPU memory (T4 1, L4 2, A100-40 4, 80 GB 8), effective 16
 RUN_RESUME_TEST = True    # smoke only: compare uninterrupted vs save/reload continuation
 SEED = 3407
 MODEL_ID = "unsloth/Qwen3.5-4B"
@@ -38,6 +41,11 @@ EVAL_SUBSET = 1000        # interim evals use the first N val_select rows (a ful
 (PY, """# ---- pinned stack (tested on Colab T4, torch 2.11.0+cu130, 2026-10-15). unsloth 2026.10.5 caps
 # transformers<=5.17.0, trl<=1.15.0, datasets<5.0; torch pinned so xformers cannot swap the CUDA build
 !pip install -q "torch==2.11.0" "unsloth==2026.10.5" "unsloth_zoo==2026.10.5" "transformers==5.17.0" "trl==1.15.0" "peft==0.21.2" "accelerate==1.15.0" "bitsandbytes==0.50.2" "datasets==4.8.5" "xformers==0.0.35" "torchao==0.18.0" pyyaml jsonschema
+# Triton kernels for Qwen3.5's gated-delta-rule layers; without them transformers runs the PyTorch reference loop.
+# fla-core only (no fla.models, which tracks other transformers versions). ponytail: sm80+ only, untested on T4.
+import subprocess
+if float(subprocess.run(["nvidia-smi", "--query-gpu=compute_cap", "--format=csv,noheader"], capture_output=True, text=True).stdout.split()[0]) >= 8:
+    !pip install -q "fla-core==0.5.2"
 # If pip reports a torch / CUDA conflict: Runtime -> Restart session, then run from the next cell."""),
 (PY, """import json, os, shutil, subprocess, sys, time, math, hashlib, zipfile, platform, random
 import torch
@@ -48,7 +56,7 @@ ENV = {"gpu": props.name, "gpu_mem_gb": round(props.total_memory / 2**30, 1),
        "capability": f"{props.major}.{props.minor}", "dtype": "bfloat16" if BF16 else "float16",
        "disk_free_gb": shutil.disk_usage("/content").free // 2**30, "python": platform.python_version(),
        "torch": torch.__version__, "cuda": torch.version.cuda}
-for pkg in ["unsloth", "unsloth_zoo", "transformers", "trl", "peft", "accelerate", "bitsandbytes", "datasets"]:
+for pkg in ["unsloth", "unsloth_zoo", "transformers", "trl", "peft", "accelerate", "bitsandbytes", "datasets", "fla"]:
     try:
         ENV[pkg] = __import__(pkg).__version__
     except Exception as e:
@@ -57,8 +65,15 @@ print(json.dumps(ENV, indent=1))
 if ENV["gpu_mem_gb"] < 14:
     print("WARNING: <14 GB VRAM. Unsloth cites ~10 GB for 4B bf16 LoRA; 2048-token batches may OOM.")"""),
 (PY, """# ---- bundle: unpack + verify checksums, counts, gate ---------------------------------------
-if DRIVE_DIR or BUNDLE.startswith("/content/drive"):
-    from google.colab import drive; drive.mount("/content/drive")
+if (DRIVE_ROOT or BUNDLE.startswith("/content/drive")) and not os.path.ismount("/content/drive"):
+    from google.colab import drive; drive.mount("/content/drive")  # CLI: `colab drivemount -s NAME` first (exec has no auth UI)
+BUNDLE_SHA = hashlib.sha256(open(BUNDLE, "rb").read()).hexdigest()
+DRIVE_DIR = f"{DRIVE_ROOT}/{MODE}{'_dry' if DRY_RUN_STEPS else ''}_{BUNDLE_SHA[:8]}" if DRIVE_ROOT else None
+if DRIVE_DIR and DRY_RUN_STEPS:
+    shutil.rmtree(DRIVE_DIR, ignore_errors=True)  # a dry run always starts fresh; real runs resume from here
+if DRIVE_DIR:
+    os.makedirs(DRIVE_DIR, exist_ok=True)
+print("bundle sha256", BUNDLE_SHA[:12], "| Drive run dir:", DRIVE_DIR)
 B = "/content/bundle"
 shutil.rmtree(B, ignore_errors=True)
 zipfile.ZipFile(BUNDLE).extractall(B)
@@ -98,7 +113,9 @@ n_train, n_all = sum(n for _, n in trainable), sum(p.numel() for p in model.para
 assert not any("visual" in n or "vision" in n for n, _ in trainable), "vision params are trainable"
 ENV["weights_dtype"] = str(next(p for n, p in model.named_parameters() if "lora" not in n).dtype)
 print(f"trainable {n_train:,} / {n_all:,} ({100*n_train/n_all:.2f}%) in {len(trainable)} tensors | base weights {ENV['weights_dtype']}")
-print("sample trainable modules:", sorted({n.split('.lora')[0].split('.')[-1] for n, _ in trainable}))"""),
+print("sample trainable modules:", sorted({n.split('.lora')[0].split('.')[-1] for n, _ in trainable}))
+ENV["fla_kernels"] = "fla.ops.gated_delta_rule" in sys.modules  # False = PyTorch reference loop (slow)
+print("fla gated-delta-rule kernels:", ENV["fla_kernels"])"""),
 (PY, """# ---- data: render with the checkpoint template, mask, verify ---------------------------------
 train_recs = H.load_records(B, FILES[MODE])
 val_recs = H.load_records(B, VAL, {"val_select"})          # model selection partition ONLY
@@ -115,7 +132,7 @@ from datasets import Dataset
 collate = H.make_collate(tok.pad_token_id)
 
 class Meter(TrainerCallback):
-    \"\"\"Token throughput excluding warmup steps; finite-loss check; complete-checkpoint copies to Drive.\"\"\"
+    \"\"\"Token throughput excluding warmup steps; finite-loss check; progress + complete-checkpoint copies to Drive.\"\"\"
     def __init__(self, tokens_per_step, warmup=2):
         self.tps, self.warm, self.t0, self.losses, self.tokens = tokens_per_step, warmup, None, [], 0
         self.last_save = time.time()
@@ -128,6 +145,14 @@ class Meter(TrainerCallback):
         if logs and "loss" in logs:
             assert math.isfinite(logs["loss"]), f"non-finite loss at step {state.global_step}"
             self.losses.append((state.global_step, logs["loss"]))
+        if logs:  # heartbeat: survives a dead VM on Drive; `colab download` reads the /content copy
+            tps = self.throughput()
+            prog = {**logs, "step": state.global_step, "max_steps": state.max_steps, "tokens_per_s": tps,
+                    "eta_h": (state.max_steps - state.global_step) * self.tps / tps / 3600 if tps else None,
+                    "peak_mem_gb": round(torch.cuda.max_memory_allocated() / 2**30, 2), "time": time.strftime("%F %T")}
+            for d in filter(None, ["/content", DRIVE_DIR]):
+                open(f"{d}/train_log.jsonl", "a").write(json.dumps(prog) + "\\n")
+                json.dump(prog, open(f"{d}/progress.json.tmp", "w")); os.replace(f"{d}/progress.json.tmp", f"{d}/progress.json")
     def on_save(self, args, state, control, **kw):
         ck = f"{args.output_dir}/checkpoint-{state.global_step}"
         self.last_save = time.time()
@@ -135,7 +160,8 @@ class Meter(TrainerCallback):
         if DRIVE_DIR:
             os.makedirs(DRIVE_DIR, exist_ok=True)
             dst = f"{DRIVE_DIR}/checkpoint-{state.global_step}"
-            shutil.copytree(ck, dst + ".part", dirs_exist_ok=True); os.replace(dst + ".part", dst)
+            shutil.rmtree(dst + ".part", ignore_errors=True); shutil.copytree(ck, dst + ".part")
+            shutil.rmtree(dst, ignore_errors=True); os.replace(dst + ".part", dst)
             done = sorted((c for c in os.listdir(DRIVE_DIR) if c.startswith("checkpoint-") and not c.endswith(".part")),
                           key=lambda c: int(c.rsplit("-", 1)[1]))
             for old in done[:-2]:  # keep the newest 2 complete copies on Drive
@@ -179,7 +205,7 @@ if MODE != "smoke":  # in a dry run: the full-run estimate on this GPU
 (PY, """# ---- predictions on val_select (diagnostic only; final test is a separate frozen protocol) ------
 FastLanguageModel.for_inference(model)
 preds = []
-for r in val_recs[: 60 if SHORT else None]:
+for r in val_recs[: 60 if SHORT else 500]:  # ponytail: 500 = +-2% diagnostic; all 1,934 cost ~30 A100-min, B1s scores the rest
     t = time.time()
     raw = H.generate_label(model, tok, r["messages"])
     preds.append({"id": r["id"], "gold": r["metadata"]["threat_type"], "raw": raw,
@@ -198,8 +224,12 @@ json.dump([{"messages": r["messages"][:2], "expect": p["raw"]} for r, p in zip(v
           open("/content/reload_sample.json", "w"))
 PART_A = {"mode": MODE, "dry_run_steps": DRY_RUN_STEPS, "seed": SEED, "model_id": MODEL_ID, "revision": MODEL_REVISION, "env": ENV,
           "fingerprint": fp_now, "trainable_params": n_train, "train": TRAIN, "predictions": PRED,
-          "export_dir": EXP, "bundle_dir": B, "train_file": FILES[MODE]}
+          "export_dir": EXP, "bundle_dir": B, "train_file": FILES[MODE], "bundle_sha256": BUNDLE_SHA, "drive_dir": DRIVE_DIR}
 json.dump(PART_A, open("/content/part_a.json", "w"), indent=1, default=str)
+if DRIVE_DIR:  # Part A results + adapter survive the VM
+    for f in ("part_a.json", "reload_sample.json"):
+        shutil.copy(f"/content/{f}", DRIVE_DIR)
+    shutil.rmtree(f"{DRIVE_DIR}/export", ignore_errors=True); shutil.copytree(EXP, f"{DRIVE_DIR}/export")
 print("Part A complete -> /content/part_a.json. Now: Runtime -> Restart session, then run Part B.")"""),
 (MD, """## Part B — fresh process
 
@@ -309,6 +339,9 @@ name = ("gpu_smoke_test.json" if MODE == "smoke" else f"dryrun_{MODE}_report.jso
         else f"train_{MODE}_report.json")
 json.dump(REPORT, open(f"/content/{name}", "w"), indent=1, default=str)
 shutil.make_archive(f"/content/export_{MODE}", "zip", EXP)
+if PART_A.get("drive_dir"):
+    for f in (f"/content/{name}", SCORES["file"]):
+        shutil.copy(f, PART_A["drive_dir"])
 print("passed:", REPORT["passed"], "->", name, f"and {SCORES['file']} (download both into reports/; then locally:",
       f"python -m eval.calibration reports/{os.path.basename(SCORES['file'])} --write-policy)")"""),
 ]
@@ -318,6 +351,10 @@ nb.metadata = {"accelerator": "GPU", "colab": {"provenance": []},
                "kernelspec": {"name": "python3", "display_name": "Python 3"}}
 nb.cells = [nbformat.v4.new_markdown_cell(s) if t == MD else nbformat.v4.new_code_cell(s) for t, s in CELLS]
 nbformat.validate(nb)
+for c in nb.cells:  # a syntax error must fail here, not after a paid GPU VM has installed everything
+    if c.cell_type == "code":
+        compile("\n".join(l.split("!")[0] + "pass" if l.lstrip().startswith("!") else l for l in c.source.splitlines()),
+                "cell", "exec")
 out = Path(__file__).with_name("Qwen3_5_4B_WAF_FineTune.ipynb")
 nbformat.write(nb, out)
 print(out, len(nb.cells), "cells")
