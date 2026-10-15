@@ -49,7 +49,7 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 
 ### Open issues
 
-1. Clean Part B rerun pending (GPU availability); until then `gpu_smoke_test.json` reports `passed: false`.
+1. Clean Part B rerun pending: free-tier T4 allocation returned "Service Unavailable" at ~08:10, ~08:35 and 09:57 on 15 October (balance 0 compute units). Until a clean run passes, `gpu_smoke_test.json` reports `passed: false`. A Colab Pro balance (paid GPUs get priority) or a later free-tier retry unblocks it.
 2. Remaining shortcuts: context keys, endpoint and flow-key sets still predict class well above chance; request-smuggling records keep a distinct layout.
 3. Each CIC attack class is a single campaign; slowloris has one observed campaign and relies on synthetic top-up.
 4. Haiku-generated classes have 1–4 template families each; review labels come from the same model family.
