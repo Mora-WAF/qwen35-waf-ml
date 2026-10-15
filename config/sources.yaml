@@ -944,3 +944,29 @@ sources:
   label_mapping: null
   accepted_count: null
   rejected_count: null
+- id: coreruleset_rules
+  kind: github
+  upstream_url: https://github.com/coreruleset/coreruleset
+  mirror_of: null
+  revision: d5cb9da4522c1a1e20e0e393bc992b506adb8c55
+  default_branch: main
+  license_spdx: Apache-2.0
+  license_note: 'same pinned commit as coreruleset; rule files only'
+  intended_use: 'Independent, non-LLM label cross-check (eval.crs_oracle): do CRS family regexes fire on a record?'
+  restriction: 'Approximate @rx-only evaluation (no chains, partial transforms); a cross-check signal, never a label'
+  status: available
+  enabled: false
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+  files:
+  - {path: rules/REQUEST-921-PROTOCOL-ATTACK.conf, size_bytes: 24092}
+  - {path: rules/REQUEST-930-APPLICATION-ATTACK-LFI.conf, size_bytes: 9554}
+  - {path: rules/REQUEST-931-APPLICATION-ATTACK-RFI.conf, size_bytes: 9752}
+  - {path: rules/REQUEST-932-APPLICATION-ATTACK-RCE.conf, size_bytes: 216266}
+  - {path: rules/REQUEST-933-APPLICATION-ATTACK-PHP.conf, size_bytes: 71147}
+  - {path: rules/REQUEST-934-APPLICATION-ATTACK-GENERIC.conf, size_bytes: 27262}
+  - {path: rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf, size_bytes: 55892}
+  - {path: rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf, size_bytes: 99237}
+  - {path: rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf, size_bytes: 23742}

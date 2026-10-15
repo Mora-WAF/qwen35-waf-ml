@@ -1,0 +1,2065 @@
+{
+ "prefix": "pilot_",
+ "rules_compiled": {
+  "921": 12,
+  "930": 2,
+  "931": 4,
+  "932": 30,
+  "933": 13,
+  "934": 10,
+  "941": 28,
+  "942": 41,
+  "944": 3
+ },
+ "rules_skipped": 3,
+ "attack_family_hit_rate": {
+  "crlf_header_injection": 0.55,
+  "deserialization": 0.21,
+  "http_request_smuggling": 1.0,
+  "nosqli": 1.0,
+  "path_traversal_lfi": 0.15,
+  "prototype_pollution": 0.68,
+  "rce_cmd_injection": 0.75,
+  "sqli_classic": 0.97,
+  "sqli_obfuscated": 0.8,
+  "ssti": 0.75,
+  "xss_dom_polyglot": 1.0,
+  "xss_reflected_stored": 1.0
+ },
+ "benign_any_rule_fire_rate": {
+  "benign_hard_negative_dev": 0.63,
+  "benign_hard_negative_search": 0.02,
+  "benign_standard_traffic": 0.09
+ },
+ "benign_fires_by_family": {
+  "942": 26,
+  "941": 16,
+  "934": 5,
+  "933": 5,
+  "932": 25,
+  "930": 12,
+  "921": 58
+ },
+ "benign_top_rules": [
+  [
+   "921150",
+   58
+  ],
+  [
+   "921190",
+   58
+  ],
+  [
+   "942190",
+   18
+  ],
+  [
+   "932235",
+   14
+  ],
+  [
+   "941130",
+   12
+  ],
+  [
+   "930110",
+   12
+  ],
+  [
+   "932130",
+   11
+  ],
+  [
+   "930100",
+   10
+  ],
+  [
+   "921120",
+   7
+  ],
+  [
+   "934200",
+   5
+  ]
+ ],
+ "attack_records_crs_silent": [
+  {
+   "id": "haiku:prototype_pollution:000074",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000105",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000024",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000027",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000046",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000072",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000100",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000110",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "command_injection_payload_list:rce_cmd_injection:665eee4698b2b434~0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:34b91073c32d445c~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:bb9233e74f34387f~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:ca4560e323073aa0~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crs:930120-2-0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:c4773bfe2d6fed64~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:c92db6429e5518e8~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "haiku:prototype_pollution:000005",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000007",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000011",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000017",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000019",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000023",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000025",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000026",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000030",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000033",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000039",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000040",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000043",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000048",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000050",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000051",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000053",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000069",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000072",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000073",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000075",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000081",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000085",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000089",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000093",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000097",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000101",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000109",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000002",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000003",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000004",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000006",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000008",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000010",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000012",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000014",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000015",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000016",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000018",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000022",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000028",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000030",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000031",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000033",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000035",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000036",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000037",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000038",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000039",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000040",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000041",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000047",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000048",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000049",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000050",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000051",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000052",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000053",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000054",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000055",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000065",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000066",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000067",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000068",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000069",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000070",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000071",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000073",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000074",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000075",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000076",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000077",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000078",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000080",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000082",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000083",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000084",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000085",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000087",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000092",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000093",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000094",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000095",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000103",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000105",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000106",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000107",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000108",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000109",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000111",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "sql_injection_payload_list:sqli_classic:587a3114c7f60804~0",
+   "class": "sqli_classic",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "derived:sqli_obfuscated:a9032e9dffb66731~0",
+   "class": "sqli_obfuscated",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "derived:sqli_obfuscated:ae17b54fcc5ea63d~0",
+   "class": "sqli_obfuscated",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "derived:sqli_obfuscated:40cf9050e1bbce87~0",
+   "class": "sqli_obfuscated",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "derived:sqli_obfuscated:c2b39d85433c1313~0",
+   "class": "sqli_obfuscated",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "derived:sqli_obfuscated:486e6b1af6818bcf~0",
+   "class": "sqli_obfuscated",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "derived:sqli_obfuscated:8a870996a1ba91d2~0",
+   "class": "sqli_obfuscated",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crs:932120-1-0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crs:932200-1-0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "command_injection_payload_list:rce_cmd_injection:9255e7993f776caf~0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "command_injection_payload_list:rce_cmd_injection:5fcf1c70bcf1d66d~0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "command_injection_payload_list:rce_cmd_injection:2c7c859c5caab504~0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "command_injection_payload_list:rce_cmd_injection:cb6e359482efa9df~0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "command_injection_payload_list:rce_cmd_injection:ef817c4525675138~0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:99b21b792a1f4c81~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:b2a7f243c132f31a~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:35543612fdd59e3e~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:f22273efb36c20da~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:22eb8f0afffc11b6~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:2aa578eb2d90bf04~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:df03f98e7d3810be~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:f2fdd22b0718efaf~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "ssti_advanced_payload_list:ssti:264a72e0483cafad~0",
+   "class": "ssti",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:ce318ab44926f2cb~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:1c5bcaa314e6b842~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:5e8a189c1e195a43~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:9cffee98e4ca358a~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:8b920e478bf3e7f0~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:fd4969a1b6ef5aa1~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:20fe8d381648bd06~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:06ea0af05c069991~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:543764ae5a168337~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:d9bf9a788eb19700~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:632ef76494f44792~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:c09fedfc9f53ffd3~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:6104812c9062e379~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:3c4f70d5bd7fa768~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:c1cca20c7e57cee3~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crs:930100-3-0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crs:930100-5-0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:7b5ddf499844cf05~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:6e2d75e85f3baa44~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:6d82960b3c933296~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:75cb1b73573ef48c~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:6a60af5b8b11a404~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:21fc82d502331b09~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:8c2db010ad96298e~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:07823ee399a2046e~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:d1e19e2a0efa21d5~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:b7cecd73e9f0aca8~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:eb594045b38155a2~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:2e53c62da065fc80~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:29e9dab10d5647cc~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:cf54dfacf32eec1c~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:09e8335ba2ee1686~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:a4ebe083e7d80060~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:15fe3357cdd967ef~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:bb2c5f77d9435515~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:217817df14a198bd~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:4a666ea3a3b04a24~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:ec082fa8b7f86c10~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:42a8f49687a4265b~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:0752c2e482603fb9~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:47caebc8049dd142~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:60f3bc9d7ed1b94d~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:42074394b4bcc3e1~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "haiku:prototype_pollution:000001",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000013",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000037",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000049",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000057",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:prototype_pollution:000061",
+   "class": "prototype_pollution",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000007",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000011",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000019",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000023",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000029",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000064",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000079",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "haiku:deserialization:000104",
+   "class": "deserialization",
+   "provenance": "synthetic"
+  },
+  {
+   "id": "derived:sqli_obfuscated:cc71514d08b88828~0",
+   "class": "sqli_obfuscated",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "derived:sqli_obfuscated:dda7399072305726~0",
+   "class": "sqli_obfuscated",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "command_injection_payload_list:rce_cmd_injection:ab29f35cfdd76d00~0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "command_injection_payload_list:rce_cmd_injection:a9ccdeaf3c87ecd5~0",
+   "class": "rce_cmd_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "crlf_injection_payload_list:crlf_header_injection:96e8bb754c73f1d3~0",
+   "class": "crlf_header_injection",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:74acf31844532670~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:b371fb5c4f668480~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  },
+  {
+   "id": "seclists:path_traversal_lfi:0ec73d3f585e2db9~0",
+   "class": "path_traversal_lfi",
+   "provenance": "hybrid"
+  }
+ ],
+ "benign_records_crs_fires": [
+  {
+   "id": "haiku:benign_hard_negative_dev:000000",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000003",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "941130"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000071",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "934200"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000080",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "933135"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000085",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "932235"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000087",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "932235"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_search:000035",
+   "class": "benign_hard_negative_search",
+   "rules": [
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000244",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942290"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000284",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000286",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000322",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000323",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000331",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000534",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:seclists:xss_reflected_stored:25407f42e792e122~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:command_injection_payload_list:rce_cmd_injection:3b44d68aa233ef10~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190",
+    "932235"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:ddbb55b98a74be55~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921120",
+    "921150",
+    "921190",
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:eb722eb38daa0c57~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921120",
+    "921150",
+    "921190",
+    "941130"
+   ]
+  },
+  {
+   "id": "gen:http:benign_standard_traffic:000007",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000002",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190",
+    "942270"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000004",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000006",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932370"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000008",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000009",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "941110",
+    "941160"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000010",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "933135"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000012",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000013",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000014",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "941120",
+    "941160",
+    "941390"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000017",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "921150",
+    "921190",
+    "932370"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000018",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000024",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000026",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190",
+    "942230"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000027",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000032",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000034",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000035",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000037",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "934200"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000050",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000051",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000054",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000056",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000057",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000058",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000059",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "942190",
+    "942270"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000062",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000063",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000068",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "934200"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000069",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "934200"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000070",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "934200"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000072",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932235"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000074",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932235"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000076",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "941110",
+    "941160"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000077",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "941160"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000079",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932230",
+    "932250",
+    "932370"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000081",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "933135"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000082",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "933135"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000083",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "933135"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000086",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "932235",
+    "932260"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_search:000038",
+   "class": "benign_hard_negative_search",
+   "rules": [
+    "932235",
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000022",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942140"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000080",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942140"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000104",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000113",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000117",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942140"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000245",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942290"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000246",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942290"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000247",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942290"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000287",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000320",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000328",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000329",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000330",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000484",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942140"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000529",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000530",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000531",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000532",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000533",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000535",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000552",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000555",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000628",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000629",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000630",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000631",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000644",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000645",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000646",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000647",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:derived:sqli_obfuscated:63e49b935e5a0148~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:derived:sqli_obfuscated:40cf9050e1bbce87~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190",
+    "932235"
+   ]
+  },
+  {
+   "id": "twin:seclists:nosqli:3852ffa2e6755566~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:seclists:xss_reflected_stored:e43af99629cffa4a~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:seclists:xss_reflected_stored:53e9423b5c70f2b3~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:command_injection_payload_list:rce_cmd_injection:ae0d9c5cd0b65ae6~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190",
+    "932235"
+   ]
+  },
+  {
+   "id": "twin:ssti_advanced_payload_list:ssti:7e7301a32384c498~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:ssti_advanced_payload_list:ssti:0062e82490e8301d~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:ssti_advanced_payload_list:ssti:5817afe843d5d782~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:ssti_advanced_payload_list:ssti:8ec5f2c8db4de65a~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:80cb276b995237d2~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:6128a248aab056e5~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921120",
+    "921150",
+    "921190",
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:d630ad93a3c4b33e~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:3c0062a62de2557f~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:363171b7a268ce9a~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:c9bb20f4e62d1734~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921120",
+    "921150",
+    "921190",
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:45135dbf35b61bf5~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:2b187b84a5cb7c2f~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921120",
+    "921150",
+    "921190",
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:7e156c93bac29028~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921120",
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:xxe_injection_payload_list:xxe:35f17c57967c7188~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "941130"
+   ]
+  },
+  {
+   "id": "twin:payloadsallthethings:ldap_xpath_injection:f5a0714774e7d38e~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "gen:http:benign_standard_traffic:000003",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "gen:http:benign_standard_traffic:000011",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "gen:http:benign_standard_traffic:000014",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000011",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932235",
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000033",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000060",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000061",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "930100",
+    "930110"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000075",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932235"
+   ]
+  },
+  {
+   "id": "haiku:benign_hard_negative_dev:000084",
+   "class": "benign_hard_negative_dev",
+   "rules": [
+    "932130",
+    "932235"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000013",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "932235"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000160",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000321",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000528",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000553",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "haiku:benign_standard_traffic:000554",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "942190"
+   ]
+  },
+  {
+   "id": "twin:derived:sqli_obfuscated:4e4a1c08e87ff834~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "twin:open_redirect_payload_list:open_redirect_cors:e8cc07587ee63fdc~0",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190"
+   ]
+  },
+  {
+   "id": "gen:http:benign_standard_traffic:000009",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921150",
+    "921190",
+    "932370"
+   ]
+  },
+  {
+   "id": "gen:http:benign_standard_traffic:000019",
+   "class": "benign_standard_traffic",
+   "rules": [
+    "921120",
+    "921150",
+    "921190",
+    "932235"
+   ]
+  }
+ ],
+ "caveat": "approximate @rx-only CRS evaluation; silence or firing is a prompt to inspect, not a label. Low hit rates are expected for classes CRS does not target well (context-only evidence)."
+}

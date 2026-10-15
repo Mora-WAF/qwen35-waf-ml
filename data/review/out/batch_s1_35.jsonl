@@ -1,0 +1,120 @@
+{"rid": "n07866", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Host reflected unescaped into cached XML, served on HITs"}
+{"rid": "n07381", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key merged into timesheet entry with prototypes allowed"}
+{"rid": "n08000", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Host reflected in og_url, cached and served to others"}
+{"rid": "n11095", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented fare-alert rule creation with prefix wildcard from mobile app"}
+{"rid": "n05724", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Stream subscribed to six channels, only one authorized, at 13x baseline rate"}
+{"rid": "n13094", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Product search with pipe character as ordinary user text"}
+{"rid": "n02582", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Rule fetch to RFC1918 host with private ranges allowed and no DNS caching"}
+{"rid": "n09811", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "CI tool sets deploy-window variable with a shell-style expression string"}
+{"rid": "n06385", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Untrusted note tells support assistant to impersonate staff and refund"}
+{"rid": "n06646", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "HTML comment in buyer question instructs assistant to reveal internal notes"}
+{"rid": "n09765", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Boolean candidate search query from scheduled reporting job"}
+{"rid": "n05147", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential label reprints; owner mismatch with owner check not executed"}
+{"rid": "n07259", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key passed to lodash merge into event store"}
+{"rid": "n07587", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed ref_title reflected unescaped in title; cache HITs mismatch input"}
+{"rid": "n13554", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Valid RS256 JWT with kid resolved; ordinary gateway reboot command"}
+{"rid": "n05347", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential folio reads; resolved owner differs from subject, check not bound"}
+{"rid": "n12471", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Expense report search with apostrophe in ordinary user text"}
+{"rid": "n02193", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Eligibility fetch to IPv6 cloud metadata address, private ranges allowed"}
+{"rid": "n04165", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "gRPC claims accepted with signature verification not run; forgery not shown"}
+{"rid": "n13795", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary directory question to internal staff assistant"}
+{"rid": "n12968", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Inventory search with percent and plus operators as user text"}
+{"rid": "n11058", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Documented fare filter with boolean operators from comparison widget"}
+{"rid": "n13236", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain SKU list in form body; no payload suggests unserialize abuse"}
+{"rid": "n02078", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Feed import URL is decimal-encoded link-local metadata address"}
+{"rid": "n05321", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential token metadata reads; owner dev-3356 differs, check not run"}
+{"rid": "n10273", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Analytics SDK event with escaped label, ordinary banner view"}
+{"rid": "n10770", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Moodle REST course lookup with scoped token, ordinary parameters"}
+{"rid": "n11072", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Partner CLI relative path; gateway confirms resolution within root"}
+{"rid": "n12462", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Course search containing colon and text, ordinary user input"}
+{"rid": "n11181", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "OAuth authorize with exact registered redirect base and PKCE"}
+{"rid": "n09671", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented reporting SQL predicate from registered BI exporter"}
+{"rid": "n11493", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Staging supplier product feed upload with escaped entities"}
+{"rid": "n05593", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Unsolicited pong flood at 585/s against 0.2/s ping baseline"}
+{"rid": "n11789", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Ops console diagnostic with documented post-filter and exact template match"}
+{"rid": "n09117", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "Field starting with @ exported to spreadsheet with escaping disabled"}
+{"rid": "n11260", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Manifest path with dot segments resolves within partner root"}
+{"rid": "n03316", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Query depth 15 exceeds configured max 8; same operation 25x per minute"}
+{"rid": "n05295", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential pipeline log reads; owner differs, owner check not executed"}
+{"rid": "n13869", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary roaming status question to assistant, no injection markers"}
+{"rid": "n08471", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Java serialization magic in attachment metadata sent to ObjectInputStream"}
+{"rid": "n12780", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Contract search with OR operator from authenticated partner"}
+{"rid": "n04835", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential telehealth note reads; owner differs, no ownership check"}
+{"rid": "n05747", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Cross-origin WebSocket origin not in allowlist, enforced and rejected"}
+{"rid": "n03082", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Attachment fetch to decimal-encoded metadata address, redirects followed"}
+{"rid": "n06893", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key merged into FHIR resource via deepExtend"}
+{"rid": "n12900", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Username profile lookup with at-sign, ordinary search"}
+{"rid": "n06690", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Applicant note orders triage model to approve document, privileged tool requested"}
+{"rid": "n07037", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "constructor.prototype key written into SSO connector mapping"}
+{"rid": "n10045", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Trade fills report filter with SQL-like predicate via documented SDK"}
+{"rid": "n10502", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Intake answer with angle brackets, output HTML-entity encoded"}
+{"rid": "n07869", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Host reflected in cached unsubscribe link"}
+{"rid": "n09011", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "Leading plus in invoice description exported to Excel, escaping disabled"}
+{"rid": "n07062", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "constructor.prototype key written through JSON merge patch"}
+{"rid": "n03596", "predicted_class": "graphql_abuse", "evidence_sufficient": false, "note": "Small query repeated 145 times per minute; abuse not clearly shown"}
+{"rid": "n12588", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Route search with OR operator text, ordinary user query"}
+{"rid": "n02499", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Mirror fetch to RFC1918 Consul KV endpoint with redirects followed"}
+{"rid": "n06674", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Buyer message tells advisor to drop role and act unrestricted"}
+{"rid": "n06742", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Supplier description injects fake system tag requesting price update"}
+{"rid": "n04091", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Query token export path skips verification; forged token not shown"}
+{"rid": "n09796", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "CI lint of pipeline config containing shell snippet"}
+{"rid": "n03099", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Page capture fetch to loopback actuator endpoint, redirects followed"}
+{"rid": "n02225", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Lab feed URL to private host, deny_private_ranges disabled"}
+{"rid": "n12784", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Contract search with parentheses and text, ordinary user input"}
+{"rid": "n03019", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Statement fetch to private RFC1918 address, dry_run false"}
+{"rid": "n08454", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Java serialized stream in resume query parameter, ObjectInputStream, no filter"}
+{"rid": "n05032", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential comment reads then approval; owner and tenant differ"}
+{"rid": "n02974", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Health check URL to private host over http despite https-only policy"}
+{"rid": "n02326", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Media fetch to localhost agent endpoint, private ranges allowed"}
+{"rid": "n12767", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unauthenticated announcement search with ordinary phrase"}
+{"rid": "n11565", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Documented export filter with negative range in staging"}
+{"rid": "n05133", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential enrolment reads; owner differs, only tenant match checked"}
+{"rid": "n06364", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Recruitment pitch instructs drafting assistant to include admin login details"}
+{"rid": "n08518", "predicted_class": "deserialization", "evidence_sufficient": false, "note": "PHP serialized object to unrestricted unserialize; no gadget evident"}
+{"rid": "n06777", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Partner error text tells triage assistant to ignore rules and disable paging"}
+{"rid": "n12791", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Wholesale SKU search with dimensional terms, ordinary"}
+{"rid": "n09486", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Device shadow JSON patch with valid bearer and documented pointer syntax"}
+{"rid": "n02274", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "SCIM test to link-local metadata address outside allowed hosts"}
+{"rid": "n02547", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Attachment mirror to CGNAT metadata address with redirects followed"}
+{"rid": "n07362", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key merged into salary grid with prototypes allowed"}
+{"rid": "n11715", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Export target validation with dot segment normalizing inside root"}
+{"rid": "n04179", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Retired RS256 key accepted; signature validity of forged token not shown"}
+{"rid": "n02477", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "LTI config fetch to loopback Docker API endpoint"}
+{"rid": "n04693", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential gift card redeems; owner differs, owner check not run"}
+{"rid": "n06111", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Label list item instructs normalizer to add admin permission label"}
+{"rid": "n06696", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Reviewer hint asks to clear watchlist hit and mark PEP-cleared"}
+{"rid": "n08004", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Rewrite-URL reflected in cached breadcrumb, HITs echo it"}
+{"rid": "n07964", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed Host reflected in cached stylesheet link, HITs echo it"}
+{"rid": "n11729", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Admin directory test filter in test scope with wildcard LDAP syntax"}
+{"rid": "n05009", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential draft patches; owner differs, object-level check missing"}
+{"rid": "n09944", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Sandbox pricing expression from CLI tool, documented route owner"}
+{"rid": "n10410", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Translation catalog upload via CI with ICU message syntax"}
+{"rid": "n10314", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HMAC-verified IVR outage callback with ordinary caller note"}
+{"rid": "n04630", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 partner token validates signature, claims and expiry"}
+{"rid": "n09500", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Allowlisted diagnostic command with pipeline from fleet CLI"}
+{"rid": "n08980", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "Note starting with minus exported to spreadsheet, escaping disabled"}
+{"rid": "n08819", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "Reason text starting with plus feeds Sheets import, escaping disabled"}
+{"rid": "n07524", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key merged into loyalty member via deepExtend"}
+{"rid": "n12170", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Fleet group query with boolean operators, documented route"}
+{"rid": "n02157", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Valuation provider URL resolves to RFC1918 host, private allowed"}
+{"rid": "n09855", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Leading minus in export template; sink exposure not shown"}
+{"rid": "n05958", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Customer message tells FX assistant to ignore instructions, set discount"}
+{"rid": "n12383", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Order lookup with colon and parentheses as ordinary text"}
+{"rid": "n05478", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Subscription on revoked session token, inbox topic, origin allowed"}
+{"rid": "n05089", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential HEAD reads; owner differs, only tenant match enforced"}
+{"rid": "n13296", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Forwarded host allowlisted and escaped; ordinary product page"}
+{"rid": "n13495", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Forwarded host allowlisted and escaped, matches own domain"}
+{"rid": "n10999", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Code search with HTML-like text, regex disabled, ordinary query"}
+{"rid": "n11661", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Lab result range filter in documented sandbox, ordinary"}
+{"rid": "n02519", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Basemap import to RFC1918 Consul KV endpoint, redirects followed"}
+{"rid": "n06255", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Forum post tells reply drafter to drop moderator role and delete posts"}
+{"rid": "n13474", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Reserve worksheet merge with plain currency key, schema validated"}
+{"rid": "n10709", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "CI redirect table import with regex rules, validated and compiled"}
+{"rid": "n02407", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Syndication feed to link-local IAM security-credentials path"}
+{"rid": "n10340", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented statement export with jq projection in sandbox"}
+{"rid": "n09406", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "CI rule dry-run with expression syntax, service account"}
+{"rid": "n11317", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Support diagnostic log path with dot segments, within root"}
+{"rid": "n10616", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Escalation draft with regex text about seat-code validation"}
+{"rid": "n03226", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Query depth 13 exceeds configured max 8; same operation 20x per minute"}
+{"rid": "n09772", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Role title JSONPath filter from engineering script, scoped read"}
+{"rid": "n05393", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential loyalty member reads; owner differs, route not bound to check"}

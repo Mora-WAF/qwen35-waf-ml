@@ -76,6 +76,31 @@ def export_crs(per_class=10):
     print(len(rows), "CRS items -> batch_crs.jsonl")
 
 
+def export_new(tag):
+    """Additive review round for Haiku output lines not yet in the key (new vN files, benign twins).
+    Earlier batches and answers stay valid; rids continue the key."""
+    from subagents.orchestrator import EXTRA_INGEST, GAP, OUT
+    key = json.loads(KEY.read_text())
+    seen = {k["ref"] for k in key.values()}
+    rows = []
+    for cls in GAP + EXTRA_INGEST:
+        for fp in sorted(OUT.glob(f"{cls}.jsonl")) + sorted(OUT.glob(f"{cls}.v*.jsonl")):
+            for i, line in enumerate(open(fp)):
+                ref = f"{fp.name}:{i}"
+                if line.strip() and ref not in seen:
+                    rid = f"n{len(key):05d}"
+                    key[rid] = {"label": cls, "ref": ref, "kind": "telemetry"}
+                    rows.append({"rid": rid, "kind": "telemetry", "item": json.loads(line)["telemetry"]})
+    random.Random(13).shuffle(rows)
+    n_b = max(1, (len(rows) + 119) // 120)  # ~120 items per reviewer batch
+    for b in range(n_b):
+        with open(RV / f"batch_{tag}_{b}.jsonl", "w") as fh:
+            for row in rows[b::n_b]:
+                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    KEY.write_text(json.dumps(key))
+    print(len(rows), "new items ->", n_b, f"batch_{tag}_*.jsonl")
+
+
 def score():
     key = json.loads(KEY.read_text())
     got = {}
@@ -120,8 +145,14 @@ def status():
     if not (RV / "quarantine.json").exists():
         return {}
     q = {x["ref"] for x in json.loads((RV / "quarantine.json").read_text())}
-    return {k["ref"]: ("quarantined" if k["ref"] in q else "agreed") for k in json.loads(KEY.read_text()).values()}
+    answered = {json.loads(line)["rid"] for fp in (RV / "out").glob("batch_*.jsonl") for line in open(fp) if line.strip()}
+    # an exported item without a reviewer answer is NOT agreed: it stays not_reviewed (needs_review at ingest)
+    return {k["ref"]: ("quarantined" if k["ref"] in q else "agreed" if rid in answered else "not_reviewed")
+            for rid, k in json.loads(KEY.read_text()).items()}
 
 
 if __name__ == "__main__":
-    {"export": export, "export_crs": export_crs, "score": score}[sys.argv[1]]()
+    if sys.argv[1] == "export_new":
+        export_new(sys.argv[2])
+    else:
+        {"export": export, "export_crs": export_crs, "score": score}[sys.argv[1]]()

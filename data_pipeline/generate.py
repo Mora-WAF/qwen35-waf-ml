@@ -36,13 +36,14 @@ def system_prompt():
 # ---- HTTP wrapping (seeded L7 attack classes) ------------------------------------------------
 # Label-shortcut hostnames (spec §8): seeds say "evil.com"/"attacker.example"; a model would
 # learn the hostname, not the mechanism. Replace with neutral domains that benign traffic uses too.
-SHORTCUT_HOST = re.compile(r"[A-Za-z0-9.-]*(?:evil|attacker|malicious|hacker)[A-Za-z0-9-]*(?:\.[A-Za-z]{2,})+", re.I)
+SHORTCUT_HOST = re.compile(r"[A-Za-z0-9.-]*(?:evil|attacker|malicious|hacker|vulnerable|victim|exploit)"
+                           r"[A-Za-z0-9-]*(?:\.[A-Za-z]{2,})+", re.I)
 NEUTRAL_HOSTS = ["cdn-static.net", "files.partner-site.org", "img.example.org", "assets.shopfront.io",
                  "status.vendor-portal.com", "media.newsdesk.net"]
 
 
-# Class-name tokens that appear in seeds by convention only (XXE entity names are arbitrary).
-CLASS_TOKEN = re.compile(r"\bxxe\b", re.I)
+# Class-name tokens that appear in seeds by convention only (XXE entity names, smuggling probe headers).
+CLASS_TOKEN = re.compile(r"\bxxe\b|smuggl\w*", re.I)
 NEUTRAL_ENTITIES = ["ent", "doc", "ext", "item", "ref"]
 
 
@@ -57,37 +58,69 @@ def neutralize_hosts(text, r):
 # Shared request vocabulary (spec §8 counterbalancing): attack AND benign requests draw endpoint,
 # host, header profile, locale and parameter names from the SAME pools, so none of them carries
 # label signal. Only the parameter VALUE differs.
-ENDPOINTS = ["/api/v1/search", "/search", "/products", "/products/view", "/user/profile", "/login",
-             "/api/v1/orders", "/comments", "/upload", "/render", "/admin/report", "/redirect",
-             "/download", "/api/v2/items", "/feedback", "/export", "/account/settings", "/docs/view"]
-HOSTS = ["app.example.test", "shop.example.test", "api.example.test", "portal.example.test"]
-PARAMS = ["q", "id", "name", "next", "file", "page", "sort", "lang", "template", "url", "ref",
-          "filter", "user", "path", "query", "redirect_to"]
-LOCALES = ["en-US,en;q=0.9", "de-DE,de;q=0.8", "ja-JP", "es-ES,es;q=0.9", "ar-SA", "fr-FR", "pt-BR", "zh-CN"]
-HEADER_PROFILES = {
-    "chrome": [["User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0 Safari/537.36"],
-               ["Accept", "text/html,application/xhtml+xml,*/*;q=0.8"], ["Sec-Fetch-Mode", "navigate"],
-               ["Sec-Fetch-Site", "same-origin"], ["Accept-Encoding", "gzip, deflate, br"]],
-    "firefox": [["User-Agent", "Mozilla/5.0 (X11; Linux x86_64; rv:139.0) Gecko/20100101 Firefox/139.0"],
-                ["Accept", "text/html,application/xhtml+xml,*/*;q=0.8"], ["Accept-Encoding", "gzip, deflate, br"],
-                ["Connection", "keep-alive"]],
-    "safari_ios": [["User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 Version/18.0 Mobile/15E148 Safari/604.1"],
-                   ["Accept", "*/*"], ["Accept-Encoding", "gzip, deflate, br"]],
-    "curl": [["User-Agent", "curl/8.7.1"], ["Accept", "*/*"]],
-    "python": [["User-Agent", "python-requests/2.32.3"], ["Accept-Encoding", "gzip, deflate"], ["Accept", "*/*"],
-               ["Connection", "keep-alive"]],
-    "okhttp": [["User-Agent", "okhttp/4.12.0"], ["Accept-Encoding", "gzip"], ["Connection", "Keep-Alive"]],
-    "go": [["User-Agent", "Go-http-client/2.0"], ["Accept-Encoding", "gzip"]],
-    "axios": [["User-Agent", "axios/1.7.7"], ["Accept", "application/json, text/plain, */*"],
-              ["Accept-Encoding", "gzip, compress, deflate, br"]],
+_RES = ["products", "orders", "items", "users", "accounts", "invoices", "reports", "files", "comments",
+        "articles", "tickets", "projects", "customers", "carts", "messages", "events", "assets", "teams"]
+ENDPOINTS = sorted({"/search", "/login", "/logout", "/upload", "/render", "/redirect", "/download", "/feedback",
+                    "/export", "/import", "/preview", "/callback", "/oauth/authorize", "/sso/return", "/checkout",
+                    "/account/settings", "/user/profile", "/docs/view", "/admin/report", "/admin/users",
+                    "/help/article", "/blog/post", "/contact", "/newsletter/subscribe", "/cart/add",
+                    "/index.php", "/view.php", "/cgi-bin/status", "/wp-admin/admin-ajax.php", "/servlet/report",
+                    "/api/search", "/api/v1/search", "/api/v2/search", "/rest/v1/query", "/internal/health"}
+                   | {f"/api/{v}/{res}" for v in ("v1", "v2") for res in _RES}
+                   | {f"/{res}" for res in _RES} | {f"/{res}/view" for res in _RES[:10]})
+HOSTS = ["app.example.test", "shop.example.test", "api.example.test", "portal.example.test", "www.example.test",
+         "m.example.test", "admin.example.test", "store.example.test", "docs.example.test", "help.example.test",
+         "billing.example.test", "auth.example.test", "cdn.example.test", "intranet.corp.test", "crm.corp.test",
+         "erp.corp.test", "git.corp.test", "wiki.corp.test", "api.partner.test", "status.partner.test"]
+PARAMS = ["q", "id", "name", "next", "file", "page", "sort", "lang", "template", "url", "ref", "filter", "user",
+          "path", "query", "redirect_to", "search", "keyword", "term", "category", "cat", "item", "pid", "uid",
+          "order", "dir", "view", "type", "format", "callback", "return", "returnUrl", "dest", "target", "doc",
+          "title", "comment", "message", "email", "username", "action", "mode", "theme", "locale", "region",
+          "from", "to", "limit", "offset", "fields", "include", "expand", "token_hint", "session_hint"]
+LOCALES = ["en-US,en;q=0.9", "en-GB,en;q=0.8", "de-DE,de;q=0.8", "ja-JP", "es-ES,es;q=0.9", "ar-SA", "fr-FR",
+           "pt-BR", "zh-CN", "ko-KR", "ru-RU", "it-IT", "nl-NL", "tr-TR", "hi-IN", "pl-PL", "sv-SE", "fa-IR"]
+# User-agent families x versions: ~20 families, hundreds of strings; shared by every class.
+_BROWSER_ACCEPT = ["Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"]
+UA_FAMILIES = {
+    "chrome_win": lambda r: f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{r.randint(118, 142)}.0.0.0 Safari/537.36",
+    "chrome_mac": lambda r: f"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{r.randint(118, 142)}.0.0.0 Safari/537.36",
+    "chrome_android": lambda r: f"Mozilla/5.0 (Linux; Android {r.randint(11, 16)}; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{r.randint(118, 142)}.0.0.0 Mobile Safari/537.36",
+    "edge": lambda r: f"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{(v := r.randint(118, 142))}.0.0.0 Safari/537.36 Edg/{v}.0.0.0",
+    "firefox_linux": lambda r: f"Mozilla/5.0 (X11; Linux x86_64; rv:{(v := r.randint(115, 142))}.0) Gecko/20100101 Firefox/{v}.0",
+    "firefox_win": lambda r: f"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:{(v := r.randint(115, 142))}.0) Gecko/20100101 Firefox/{v}.0",
+    "safari_mac": lambda r: f"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/{r.randint(16, 19)}.{r.randint(0, 6)} Safari/605.1.15",
+    "safari_ios": lambda r: f"Mozilla/5.0 (iPhone; CPU iPhone OS {(v := r.randint(16, 19))}_{r.randint(0, 6)} like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/{v}.0 Mobile/15E148 Safari/604.1",
+    "curl": lambda r: f"curl/{r.randint(7, 8)}.{r.randint(50, 88) if r.random() < 0.3 else r.randint(0, 12)}.{r.randint(0, 3)}",
+    "wget": lambda r: f"Wget/1.{r.randint(20, 25)}.{r.randint(0, 3)}",
+    "python_requests": lambda r: f"python-requests/2.{r.randint(25, 33)}.{r.randint(0, 4)}",
+    "httpx": lambda r: f"python-httpx/0.{r.randint(24, 28)}.{r.randint(0, 2)}",
+    "okhttp": lambda r: f"okhttp/{r.choice(['3.14.9', '4.9.3', '4.11.0', '4.12.0', '5.0.0'])}",
+    "go": lambda r: r.choice(["Go-http-client/1.1", "Go-http-client/2.0"]),
+    "axios": lambda r: f"axios/1.{r.randint(4, 9)}.{r.randint(0, 9)}",
+    "node": lambda r: r.choice(["node-fetch/1.0 (+https://github.com/bitinn/node-fetch)", "undici", "node"]),
+    "java": lambda r: f"Java-http-client/{r.choice(['11.0.22', '17.0.12', '21.0.4'])}",
+    "apache_hc": lambda r: f"Apache-HttpClient/{r.choice(['4.5.14', '5.2.1', '5.3.1'])} (Java/{r.choice(['11.0.22', '17.0.12', '21.0.4'])})",
+    "powershell": lambda r: f"Mozilla/5.0 (Windows NT; Windows NT 10.0; en-US) WindowsPowerShell/5.1.{r.randint(17763, 26100)}.1",
+    "postman": lambda r: f"PostmanRuntime/7.{r.randint(32, 43)}.{r.randint(0, 3)}",
+    "dart": lambda r: f"Dart/{r.randint(2, 3)}.{r.randint(0, 9)} (dart:io)",
 }
+_BROWSERS = {"chrome_win", "chrome_mac", "chrome_android", "edge", "firefox_linux", "firefox_win", "safari_mac", "safari_ios"}
+# kept for callers that pick a named profile; values are sampled per record
+HEADER_PROFILES = UA_FAMILIES
 # allowed payload positions per class (where the mechanism can actually be delivered)
-SINKS = {"sqli_classic": ["query", "form", "json", "cookie"], "sqli_obfuscated": ["query", "form", "json", "cookie"],
-         "nosqli": ["json", "query", "form"], "xss_reflected_stored": ["query", "form", "json"],
-         "xss_dom_polyglot": ["query", "form", "json"], "rce_cmd_injection": ["query", "form", "json"],
-         "ssti": ["query", "form", "json"], "xxe": ["xml"], "crlf_header_injection": ["query", "path"],
-         "ldap_xpath_injection": ["query", "form"], "path_traversal_lfi": ["query", "path"],
-         "open_redirect_cors": ["query"]}
+SINKS = {"sqli_classic": ["query", "form", "json", "cookie", "multipart", "referer", "path"],
+         "sqli_obfuscated": ["query", "form", "json", "cookie", "multipart", "referer"],
+         "nosqli": ["json", "query", "form"], "xss_reflected_stored": ["query", "form", "json", "multipart", "referer", "cookie"],
+         "xss_dom_polyglot": ["query", "form", "json", "referer"], "rce_cmd_injection": ["query", "form", "json", "multipart", "cookie"],
+         "ssti": ["query", "form", "json", "multipart"], "xxe": ["xml", "multipart_xml"], "crlf_header_injection": ["query", "path", "referer"],
+         "ldap_xpath_injection": ["query", "form", "json"], "path_traversal_lfi": ["query", "path", "cookie", "multipart"],
+         "open_redirect_cors": ["query", "form"]}
+BENIGN_SINKS = ["query", "query", "form", "json", "cookie", "xml", "multipart", "referer", "path"]
+# extra encoding layer an attacker may add on top of transport encoding (not for SQL: an encoded SQLi
+# is sqli_obfuscated by taxonomy precedence). Applied to benign values at a lower rate so the layer
+# itself is not a label.
+EXTRA_ENCODE = {"xss_reflected_stored", "xss_dom_polyglot", "rce_cmd_injection", "ssti", "path_traversal_lfi",
+                "crlf_header_injection", "ldap_xpath_injection", "nosqli", "open_redirect_cors"}
 BENIGN_VALUES = {
     "q": ["running shoes", "Kaffeemaschine günstig", "東京 ホテル", "zapatos de mujer", "حقيبة ظهر", "O'Brien family history",
           "4k monitor 27\"", "tom & jerry dvd", "C++ primer 5th edition", "100% cotton t-shirt", "<3 valentines gifts"],
@@ -109,8 +142,46 @@ QUOTE_SAFE = "%/:~!$'()*,;@[]"  # an attacker's literal %XX is sent as-is; only 
 
 
 def _headers(r, host):
-    prof = HEADER_PROFILES[r.choice(sorted(HEADER_PROFILES))]
-    return [["Host", host], *[list(h) for h in prof], ["Accept-Language", r.choice(LOCALES)]]
+    fam = r.choice(sorted(UA_FAMILIES))
+    hs = [["User-Agent", UA_FAMILIES[fam](r)]]
+    if fam in _BROWSERS:
+        hs += [list(_BROWSER_ACCEPT), ["Accept-Encoding", r.choice(["gzip, deflate, br", "gzip, deflate, br, zstd"])],
+               ["Accept-Language", r.choice(LOCALES)]]
+        if fam.startswith(("chrome", "edge")) and r.random() < 0.7:
+            hs += [["Sec-Fetch-Mode", r.choice(["navigate", "cors", "same-origin"])],
+                   ["Sec-Fetch-Site", r.choice(["same-origin", "same-site", "none", "cross-site"])]]
+        if r.random() < 0.5:
+            hs.append(["Connection", "keep-alive"])
+    else:
+        hs.append(["Accept", r.choice(["*/*", "application/json", "application/json, text/plain, */*"])])
+        if r.random() < 0.6:
+            hs.append(["Accept-Encoding", r.choice(["gzip", "gzip, deflate", "gzip, deflate, br"])])
+        if r.random() < 0.3:
+            hs.append(["Accept-Language", r.choice(LOCALES)])
+    if r.random() < 0.25:
+        hs.append(["X-Request-Id", "%08x-%04x-%04x-%04x-%012x" % tuple(r.getrandbits(b) for b in (32, 16, 16, 16, 48))])
+    if r.random() < 0.15:
+        hs.append(["X-Forwarded-For", f"{r.randint(1, 223)}.{r.randint(0, 255)}.{r.randint(0, 255)}.{r.randint(1, 254)}"])
+    r.shuffle(hs)  # header order is client/proxy dependent; Host stays first like most clients
+    return [["Host", host], *hs]
+
+
+# Neutral, class-agnostic deployment context: attached to any HTTP record at the same rate so the mere
+# presence of `context` / `history` carries no label signal (shortcut audit: context_keys, has_history).
+def neutral_context(r, tel):
+    if r.random() < 0.45:
+        ctx = tel.setdefault("context", {})
+        ctx.setdefault("edge", {"tls_version": r.choice(["TLSv1.2", "TLSv1.3", "TLSv1.3"]),
+                                "client_asn_type": r.choice(["residential", "mobile", "hosting", "business"]),
+                                "geo": r.choice(["US", "DE", "JP", "BR", "IN", "FR", "GB", "NL", "SG", "ZA"])})
+        if r.random() < 0.5:
+            ctx.setdefault("route", {"auth": r.choice(["none", "session", "bearer", "api_key"]),
+                                     "rate_limit_tier": r.choice(["default", "strict", "partner"])})
+        if tel.get("http") and r.random() < 0.5:
+            tel["mode"] = "HYBRID_CTX"  # mode tag follows the presence of context, not the class
+    if r.random() < 0.3:
+        tel.setdefault("history", {}).setdefault("client_requests_60s", r.choice([1, 2, 3, 5, 8, 13, 21, 40]))
+    return tel
 
 
 def _benign_pairs(r, k):
@@ -118,18 +189,32 @@ def _benign_pairs(r, k):
     return [[key, r.choice(BENIGN_VALUES[key])] for key in keys]
 
 
-def build_request(r, sink, param, value, extra):
+def _json_unicode_escape(s):
+    return "".join(f"\\u{ord(c):04x}" if c in "<>'\"&;`$(){}|/\\" else c for c in s)
+
+
+def build_request(r, sink, param, value, extra, layer=None):
     """One HTTP request with `value` placed at `sink`. raw target = what the client sent;
-    query/body pairs = the server's single-pass decoding; decoded_views only for deeper layers."""
+    query/body pairs = the server's single-pass decoding; decoded_views only for deeper layers.
+    layer: optional extra client-side encoding ("double_url" | "json_unicode"), recorded as a view."""
     from urllib.parse import quote, unquote, unquote_plus
     host, path = r.choice(HOSTS), r.choice(ENDPOINTS)
     headers = _headers(r, host)
     http = {"method": "GET", "target": path, "protocol": r.choice(["HTTP/1.1", "HTTP/1.1", "HTTP/2"]),
             "headers": headers, "query": None, "cookies": None, "body": None, "body_encoding": "none"}
     views, stage = [], "request_headers"
+    orig = value
+    if layer == "double_url" and sink not in ("json", "xml", "multipart_xml"):
+        value = quote(value, safe="")  # the server's first decode yields this; a second decode yields orig
     enc = quote(value, safe=QUOTE_SAFE)
     pairs_raw = [[k, quote(v, safe=QUOTE_SAFE)] for k, v in extra]
-    if sink in ("query", "path"):
+    if sink == "referer":  # reflected-in-logs / analytics sinks read the Referer query
+        headers.append(["Referer", f"https://{r.choice(HOSTS)}{r.choice(ENDPOINTS)}?{param}={enc}"])
+        views.append({"field": "header.referer", "decoder": "url", "depth": 1, "value": value})
+        if extra:
+            http["target"] += "?" + "&".join(f"{k}={v}" for k, v in pairs_raw)
+            http["query"] = [[k, unquote_plus(v)] for k, v in pairs_raw]
+    elif sink in ("query", "path"):
         if sink == "path":
             http["target"] = f"{path.rstrip('/')}/{enc}"
             qs = pairs_raw
@@ -156,88 +241,169 @@ def build_request(r, sink, param, value, extra):
             views.append({"field": f"body.{param}", "decoder": "form", "depth": 1, "value": value})
         elif sink == "json":
             obj = dict(extra)
-            obj[param] = value
-            http["body"] = json.dumps(obj, ensure_ascii=False)
-            headers.append(["Content-Type", "application/json"])
+            if r.random() < 0.4:  # nested objects / arrays are where real APIs carry fields
+                obj[r.choice(["data", "filter", "payload", "input", "params"])] = (
+                    {param: value} if r.random() < 0.7 else [{param: value}])
+            else:
+                obj[param] = value
+            body = json.dumps(obj, ensure_ascii=False)
+            if layer == "json_unicode":
+                body = body.replace(json.dumps(value, ensure_ascii=False)[1:-1], _json_unicode_escape(value), 1)
+                views.append({"field": f"body.{param}", "decoder": "json_unicode", "depth": 1, "value": value})
+            http["body"] = body
+            headers.append(["Content-Type", r.choice(["application/json", "application/json; charset=utf-8"])])
+        elif sink in ("multipart", "multipart_xml"):
+            b = "----WebKitFormBoundary" + "".join(r.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") for _ in range(16))
+            parts = [f'--{b}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n' for k, v in extra]
+            if sink == "multipart_xml":
+                fname = r.choice(["import.xml", "feed.xml", "settings.xml", "data.svg", "report.docx.xml"])
+                parts.append(f'--{b}\r\nContent-Disposition: form-data; name="file"; filename="{fname}"\r\n'
+                             f'Content-Type: {"image/svg+xml" if fname.endswith(".svg") else "application/xml"}\r\n\r\n{value}\r\n')
+            else:
+                parts.append(f'--{b}\r\nContent-Disposition: form-data; name="{param}"\r\n\r\n{value}\r\n')
+            r.shuffle(parts)
+            http["body"] = "".join(parts) + f"--{b}--\r\n"
+            headers.append(["Content-Type", f"multipart/form-data; boundary={b}"])
         elif sink == "xml":
             http["body"] = value
             headers.append(["Content-Type", r.choice(["application/xml", "text/xml; charset=utf-8"])])
         http["body_encoding"] = "utf8"
-        headers.append(["Content-Length", str(len(http["body"].encode()))])
+        if r.random() < 0.12:  # legitimate chunked uploads: Transfer-Encoding is not a smuggling-only header
+            data = http["body"]
+            http["body"] = f"{len(data.encode()):x}\r\n{data}\r\n0\r\n\r\n"
+            headers.append(["Transfer-Encoding", "chunked"])
+            views.append({"field": "body", "decoder": "chunked", "depth": 1, "value": data})
+        else:
+            headers.append(["Content-Length", str(len(http["body"].encode()))])
     # second decoding layer (double-encoded input): record it as a view, never replace the original
     for k, v in (http["query"] or []):
         if "%" in v and unquote(v) != v:
             views.append({"field": f"query.{k}", "decoder": "url", "depth": 2, "value": unquote(v)})
+    if layer == "double_url" and sink in ("form", "cookie", "multipart", "referer", "path"):
+        views.append({"field": f"{sink}.{param}", "decoder": "url", "depth": 2, "value": orig})
     if views:
         http["decoded_views"] = views
-    return {"schema_version": 1, "mode": "L7_HTTP", "decision_stage": stage,
-            "observed_until": "request_received", "truncated": False, "http": http}
+    tel = {"schema_version": 1, "mode": "L7_HTTP", "decision_stage": stage,
+           "observed_until": "request_received", "truncated": False, "http": http}
+    return neutral_context(r, tel)
 
 
 def wrap_http_raw(seed):
-    """Smuggling fixture: preserve the raw request block verbatim (exact framing, duplicate
-    headers). First request line -> method/target/protocol; its headers kept in order; the
-    entire raw block stays in body. This is a fixture, not proof of a successful desync (§5)."""
-    raw, _ = neutralize_hosts(seed["payload"], rng_for(seed["id"]))
-    lines = raw.split("\n")
+    """Smuggling fixture: keep the framing headers (CL/TE, duplicates, obfuscation) and the body bytes
+    verbatim, in order. The outer request line's path and Host come from the shared pools and the
+    client's ordinary headers are interleaved, so layout/host/path carry no label signal. `body` is
+    what follows the header block (it may contain a smuggled prefix). A fixture, not proof of a desync (§5)."""
+    r = rng_for(seed["id"])
+    raw, _ = neutralize_hosts(seed["payload"], r)
+    head, _, body = raw.partition("\n\n")
+    lines = head.split("\n")
     first = lines[0].split(" ")
-    method = first[0] if first else "POST"
-    target = first[1] if len(first) > 1 else "/"
+    method = first[0] if first and first[0] else "POST"
     proto = first[2] if len(first) > 2 else "HTTP/1.1"
-    headers = []
+    host = r.choice(HOSTS)
+    framing = []
     for ln in lines[1:]:
-        if ln.strip() == "":
-            break
         if ":" in ln:
             k, v = ln.split(":", 1)
-            headers.append([k.strip(), v.strip()])
-    http = {"method": method, "target": target, "protocol": proto, "headers": headers,
-            "query": None, "cookies": None, "body": raw, "body_encoding": "utf8"}
+            if k.strip().lower() != "host":
+                framing.append([k.strip(), v.strip()])
+    client = [h for h in _headers(r, host)[1:] if h[0].lower() not in {k.lower() for k, _ in framing}]
+    merged = list(framing)
+    for h in client:  # interleave client headers without reordering the framing headers
+        merged.insert(r.randint(0, len(merged)), h)
+    http = {"method": method, "target": r.choice(ENDPOINTS), "protocol": proto, "headers": [["Host", host], *merged],
+            "query": None, "cookies": None, "body": body, "body_encoding": "utf8"}
     tel = {"schema_version": 1, "mode": "L7_HTTP", "decision_stage": "request_headers_body",
            "observed_until": "request_received", "truncated": False, "http": http}
-    return tel, "hybrid"
+    return neutral_context(r, tel), "hybrid"
 
 
-def wrap_http(seed):
+GENERIC_BENIGN = ["summer sale", "8812", "true", "2026-10-01", "blue", "John Smith", "monthly", "home",
+                  "a7f3c9e1", "release notes", "Größe 42", "café crème", "#fff", "v2", "draft", "42",
+                  "new arrivals", "support", "ok", "user@example.test", "1,2,3", "Q3 report"]
+REDIRECT_BENIGN = ["/account", "/cart?step=2", "/orders/88", "https://app.example.test/home",
+                   "/dashboard#billing", "https://shop.example.test/products/77"]
+REDIRECT_PARAMS = {"next", "url", "redirect_to", "ref", "return", "returnUrl", "dest", "target", "callback"}
+
+
+def benign_value(param, r):
+    if param in REDIRECT_PARAMS:
+        return r.choice(REDIRECT_BENIGN)
+    return r.choice(BENIGN_VALUES.get(param) or GENERIC_BENIGN)
+
+
+def wrap_http(seed, twin=False):
+    """Seed -> request. twin=True: the SAME request (host, path, headers, sink, param, extra fields,
+    encoding layer) carrying an ordinary value instead of the payload -> a minimal-pair benign record."""
     if seed["class"] == "http_request_smuggling":
         return wrap_http_raw(seed)
     r = rng_for(seed["id"])
     cls = seed["class"]
     p, _ = neutralize_hosts(seed["payload"], r)
     sink = r.choice(SINKS[cls])
-    param = r.choice(["next", "url", "redirect_to", "ref"]) if cls == "open_redirect_cors" else r.choice(PARAMS)
+    param = r.choice(sorted(REDIRECT_PARAMS)) if cls == "open_redirect_cors" else r.choice(PARAMS)
     extra = _benign_pairs(r, r.choice([0, 0, 1, 2]))
     extra = [kv for kv in extra if kv[0] != param]
-    return build_request(r, sink, param, p, extra), "hybrid"
+    layer = None
+    if cls in EXTRA_ENCODE and r.random() < 0.2:
+        layer = "json_unicode" if sink == "json" else "double_url"
+    if twin:
+        tr = rng_for("twin:" + seed["id"])
+        p = tr.choice(BENIGN_XML) if sink in ("xml", "multipart_xml") else benign_value(param, tr)
+    return build_request(r, sink, param, p, extra, layer), "hybrid"
 
 
 # ---- Flow synthesis (L4 classes) -------------------------------------------------------------
 # Each profile derives a consistent aggregate from a bounded scenario. Rates = counts/duration.
 FLOW_PROFILES = {
     "syn_flood_ddos": dict(fwd_frac=(0.97, 1.0), ports=[80, 443], window="fixed_window", dur=(4, 6), pkts=(8000, 60000), proto="tcp",
-                           syn_frac=(0.95, 1.0), bytes_per_pkt=(40, 60), dst_fanout=(1, 2)),
+                           syn_frac=(0.95, 1.0), bytes_per_pkt=(40, 60), dst_fanout=(1, 2),
+                                    variants=[dict(name="low_rate_pulse", pkts=(1500, 6000), dur=(4, 6)), dict(name="syn_ack_mix", syn_frac=(0.7, 0.9)),
+                                    dict(name="multi_target", dst_fanout=(3, 20), ports=[80, 443, 8080, 8443])]),
     "udp_amplification": dict(fwd_frac=(0.0, 0.05), ports=[53, 123, 1900, 11211], window="fixed_window", dur=(4, 6), pkts=(2000, 20000), proto="udp",
-                              syn_frac=(0, 0), bytes_per_pkt=(800, 4000), dst_fanout=(1, 3)),
+                              syn_frac=(0, 0), bytes_per_pkt=(800, 4000), dst_fanout=(1, 3),
+                                    variants=[dict(name="cldap_chargen", ports=[389, 19]), dict(name="low_volume_reflection", pkts=(600, 2000)),
+                                       dict(name="large_fragments", bytes_per_pkt=(1400, 4000))]),
     "slowloris_slowhttp": dict(fwd_frac=(0.6, 0.8), ports=[80, 443, 8080], window="fixed_window", dur=(20, 60), pkts=(50, 400), proto="tcp",
-                               syn_frac=(0.05, 0.2), bytes_per_pkt=(60, 200), dst_fanout=(1, 1)),
+                               syn_frac=(0.05, 0.2), bytes_per_pkt=(60, 200), dst_fanout=(1, 1),
+                                    variants=[dict(name="slow_post_body", fwd_frac=(0.75, 0.9), bytes_per_pkt=(40, 120)), dict(name="slow_read", fwd_frac=(0.3, 0.45), dur=(60, 300))]),
     "port_scan_recon": dict(fwd_frac=(0.5, 0.65), window="fixed_window", dur=(2, 8), pkts=(500, 5000), proto="tcp",
-                            syn_frac=(0.8, 1.0), bytes_per_pkt=(40, 44), dst_fanout=(200, 2000)),
+                            syn_frac=(0.8, 1.0), bytes_per_pkt=(40, 44), dst_fanout=(200, 2000),
+                                    variants=[dict(name="udp_scan", proto="udp", syn_frac=(0, 0), bytes_per_pkt=(28, 80)), dict(name="slow_scan", dur=(60, 600), pkts=(100, 800), dst_fanout=(50, 300))]),
     "credential_stuffing_bruteforce": dict(fwd_frac=(0.45, 0.6), ports=[21, 22, 443, 3389], window="fixed_window", dur=(10, 60), pkts=(200, 3000),
                                            proto="tcp", syn_frac=(0.1, 0.3), bytes_per_pkt=(300, 900),
-                                           dst_fanout=(1, 2)),
+                                           dst_fanout=(1, 2),
+                                    variants=[dict(name="ssh_bruteforce", ports=[22], bytes_per_pkt=(150, 600)), dict(name="rdp_spray", ports=[3389], dur=(60, 600)),
+                                                    dict(name="web_login_stuffing", ports=[443], pkts=(1000, 8000), bytes_per_pkt=(400, 1200))]),
     "c2_beaconing_anomaly": dict(fwd_frac=(0.45, 0.6), ports=[443, 8443, 80], window="full_flow", dur=(300, 1800), pkts=(20, 120), proto="tcp",
                                  syn_frac=(0.02, 0.1), bytes_per_pkt=(200, 1200), dst_fanout=(1, 1),
-                                 periodic=True),
+                                 periodic=True,
+                                    variants=[dict(name="long_poll_http", ports=[80, 8080], dur=(900, 3600), pkts=(60, 300)), dict(name="sparse_beacon", pkts=(8, 30), dur=(1200, 3600))]),
     "dns_tunneling_exfil": dict(fwd_frac=(0.45, 0.55), ports=[53], window="full_flow", dur=(30, 300), pkts=(200, 3000), proto="udp",
-                                syn_frac=(0, 0), bytes_per_pkt=(120, 300), dst_fanout=(1, 1), dns=True),
+                                syn_frac=(0, 0), bytes_per_pkt=(120, 300), dst_fanout=(1, 1), dns=True,
+                                    variants=[dict(name="txt_bulk", bytes_per_pkt=(300, 600)), dict(name="slow_drip", dur=(600, 3600), pkts=(30, 200))]),
     "tls_ja4_ua_spoofing": dict(fwd_frac=(0.35, 0.55), ports=[443], window="full_flow", dur=(1, 30), pkts=(20, 400), proto="tcp",
                                 syn_frac=(0.02, 0.08), bytes_per_pkt=(400, 1400), dst_fanout=(1, 1),
-                                ja4=True),
-    "benign_standard_traffic": dict(fwd_frac=(0.25, 0.6), ports=[443, 80, 53, 8080, 22], window="full_flow", dur=(1, 120), pkts=(10, 500), proto="tcp",
-                                    syn_frac=(0.01, 0.05), bytes_per_pkt=(400, 1400), dst_fanout=(1, 2)),
+                                ja4=True,
+                                    variants=[dict(name="short_handshake_burst", dur=(0.2, 3), pkts=(8, 40)), dict(name="long_session", dur=(60, 900), pkts=(200, 3000))]),
+    "benign_standard_traffic": dict(fwd_frac=(0.25, 0.6), ports=[443, 80, 8080, 22, 993, 5432], window="full_flow", dur=(1, 120), pkts=(10, 500), proto="tcp",
+                                    syn_frac=(0.01, 0.05), bytes_per_pkt=(400, 1400), dst_fanout=(1, 2),
+                                    variants=[  # benign UDP/DNS/QUIC/NTP so protocol and port are not attack-only
+                                        dict(name="dns_lookup", proto="udp", ports=[53], dur=(0.01, 2), pkts=(2, 12), bytes_per_pkt=(60, 300), fwd_frac=(0.4, 0.6), syn_frac=(0, 0), dns=True),
+                                        dict(name="quic_web", proto="udp", ports=[443], dur=(1, 90), pkts=(20, 900), bytes_per_pkt=(200, 1350), fwd_frac=(0.25, 0.5), syn_frac=(0, 0)),
+                                        dict(name="ntp_sync", proto="udp", ports=[123], dur=(0.01, 1), pkts=(2, 4), bytes_per_pkt=(76, 90), fwd_frac=(0.5, 0.5), syn_frac=(0, 0)),
+                                        dict(name="windowed_web", window="fixed_window", dur=(4, 6), pkts=(5, 300))]),
     "benign_high_rate_legit": dict(fwd_frac=(0.3, 0.6), ports=[443, 80], window="fixed_window", dur=(4, 6), pkts=(2000, 15000), proto="tcp",
-                                   syn_frac=(0.02, 0.08), bytes_per_pkt=(500, 1400), dst_fanout=(1, 3)),
+                                   syn_frac=(0.02, 0.08), bytes_per_pkt=(500, 1400), dst_fanout=(1, 3),
+                                   variants=[  # hard negatives against floods, amplification and beacons
+                                       dict(name="bulk_backup", ports=[22, 443, 873], window="full_flow", dur=(300, 3600), pkts=(50000, 900000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.6, 0.7)),
+                                       dict(name="dns_resolver_burst", proto="udp", ports=[53], pkts=(1500, 12000), bytes_per_pkt=(80, 400), fwd_frac=(0.45, 0.55), syn_frac=(0, 0), dns=True),
+                                       dict(name="video_stream_udp", proto="udp", ports=[443, 3478], pkts=(3000, 20000), bytes_per_pkt=(900, 1350), fwd_frac=(0.05, 0.2), syn_frac=(0, 0)),
+                                       dict(name="health_check_poll", window="full_flow", dur=(300, 1800), pkts=(40, 200), bytes_per_pkt=(150, 600), fwd_frac=(0.45, 0.55), syn_frac=(0.05, 0.12), periodic_benign=True)]),
 }
+# Optional evidence fields appear in every class where the measurement would exist, so their presence
+# is not a label: values carry the evidence (e.g. low iat_cv or high qname entropy), not the key.
+DNS_NORMAL, DNS_TUNNEL = ((10, 32), (2.4, 3.5)), ((40, 120), (3.6, 4.5))
 
 
 def sig(x, n=6):
@@ -248,6 +414,9 @@ def sig(x, n=6):
 def synth_flow(cls, idx):
     r = rng_for(f"flow:{cls}:{idx}")
     pr = FLOW_PROFILES[cls]
+    if pr.get("variants") and r.random() < 0.5:
+        pr = {**pr, **r.choice(pr["variants"])}
+    pr = {"name": "base", **pr}
     dur = round(r.uniform(*pr["dur"]), 3)
     pkts = r.randint(*pr["pkts"])
     bpp = r.randint(*pr["bytes_per_pkt"])
@@ -269,17 +438,24 @@ def synth_flow(cls, idx):
     }
     if pr.get("periodic"):
         feats["iat_cv"] = round(r.uniform(0.0, 0.15), 4)  # low jitter -> beacon-like
-    if pr.get("dns"):
-        feats["qname_len_mean"] = round(r.uniform(40, 120), 2)
-        feats["qname_entropy_bits_per_char"] = round(r.uniform(3.6, 4.5), 3)
+    elif pr.get("periodic_benign"):
+        feats["iat_cv"] = round(r.uniform(0.16, 0.35), 4)  # scheduled health checks: periodic, but jitterier than a beacon
+    elif pr["window"] == "full_flow" and r.random() < 0.4:
+        feats["iat_cv"] = round(r.uniform(0.4, 2.5), 4)
+    if pr.get("dns") or (feats["dst_port"] == 53 and pr["proto"] == "udp"):
+        (ln, ent) = DNS_TUNNEL if cls == "dns_tunneling_exfil" else DNS_NORMAL
+        feats["qname_len_mean"] = round(r.uniform(*ln), 2)
+        feats["qname_entropy_bits_per_char"] = round(r.uniform(*ent), 3)
     if pr.get("ja4"):
         feats["ja4_ua_consistent"] = 0.0  # measured mismatch; mapping justified in metadata
+    elif pr["proto"] == "tcp" and feats["dst_port"] in (443, 8443) and r.random() < 0.4:
+        feats["ja4_ua_consistent"] = 1.0
     tel = {"schema_version": 1, "mode": "L4_FLOW",
            "decision_stage": "flow_complete" if pr["window"] == "full_flow" else "flow_window",
            "observed_until": pr["window"], "truncated": False,
            "flow": {"window": {"kind": pr["window"], "seconds": None if pr["window"] == "full_flow" else dur},
                     "protocol": pr["proto"], "features": feats}}
-    scenario = {"profile": cls, "duration_s": dur, "pkts": pkts, "bytes_per_pkt": bpp,
+    scenario = {"profile": cls, "variant": pr["name"], "duration_s": dur, "pkts": pkts, "bytes_per_pkt": bpp,
                 "syn_fraction_range": pr["syn_frac"], "window_kind": pr["window"]}
     return tel, scenario
 
@@ -289,10 +465,17 @@ def synth_benign_http(cls, idx):
     r = rng_for(f"benign:{cls}:{idx}")
     pairs = _benign_pairs(r, r.choice([1, 1, 2, 3]))
     param, value = pairs[-1]
-    sink = r.choice(["query", "query", "form", "json", "cookie", "xml"])
-    if sink == "xml":  # legitimate XML so the content type alone does not signal XXE
-        value = r.choice(BENIGN_XML)
-    tel = build_request(r, sink, param, value, pairs[:-1])
+    if r.random() < 0.5:  # widen the parameter vocabulary beyond the BENIGN_VALUES keys
+        param = r.choice(PARAMS)
+        value = benign_value(param, r)
+        pairs = [kv for kv in pairs[:-1] if kv[0] != param] + [[param, value]]
+    sink = r.choice(BENIGN_SINKS)
+    if sink == "xml" or (sink == "multipart" and r.random() < 0.3):  # legit XML: content type is not an XXE signal
+        value, sink = r.choice(BENIGN_XML), ("xml" if sink == "xml" else "multipart_xml")
+    layer = None
+    if r.random() < 0.08:
+        layer = "json_unicode" if sink == "json" else "double_url"
+    tel = build_request(r, sink, param, value, pairs[:-1], layer)
     if r.random() < 0.3:  # referrals from the same neutral hosts the attack seeds are rewritten to
         tel["http"]["headers"].append(["Referer", f"https://{r.choice(NEUTRAL_HOSTS)}/"])
     return tel, {"profile": cls, "sink": sink}
@@ -321,7 +504,21 @@ def assemble(rec_id, cls, tel, provenance, evidence, meta_extra):
             "lineage_group": meta_extra["lineage_group"],
             "seed_ids": meta_extra.get("seed_ids", []),
             "license_ref": meta_extra.get("license_ref", "generated-cc0")}
+    from data_pipeline.mechanisms import tags
+    meta["mechanism_tags"] = tags(tel, evidence, meta)
     return {"id": rec_id, "messages": messages, "metadata": meta}
+
+
+TWIN_RATE = 0.3  # share of seeded attack records that get a benign minimal-pair twin
+
+
+def gen_twin(seed, rec_id):
+    """Benign minimal pair: identical request minus the payload. Same lineage group as the attack
+    record, so the pair never straddles a split."""
+    tel, _ = wrap_http({**seed, "id": rec_id}, twin=True)
+    return assemble(f"twin:{rec_id}", "benign_standard_traffic", tel, "synthetic",
+                    {"method": "scenario_oracle", "oracle": "minimal_pair_twin", "twin_of": rec_id},
+                    {"lineage_group": seed.get("cluster", seed["id"]), "template_family": "minimal_pair_twin"})
 
 
 def gen_from_seed(seed, n):
@@ -329,6 +526,8 @@ def gen_from_seed(seed, n):
     out = []
     for i in range(n):
         rec_id = f"{seed['id']}~{i}"
+        if seed["class"] != "http_request_smuggling" and rng_for("twin?" + rec_id).random() < TWIN_RATE:
+            out.append(gen_twin(seed, rec_id))
         tel, prov = wrap_http({**seed, "id": rec_id})
         out.append(assemble(rec_id, seed["class"], tel, prov,
                             {"method": "scenario_oracle", "oracle": "http_wrap",

@@ -1,85 +1,266 @@
 {
- "status": "PARTIAL - Part A passed on a fresh Colab T4; Part B (fresh-process reload + continuation test) passed only on the debug VM; clean Part B rerun blocked: Colab free-tier T4 returned 'Service Unavailable' (2026-10-15 ~08:10)",
- "bundle_sha256": "1bff481f24604fb33e2e61695cbb56e7a2954011d4540066d5ca422f3f727b0b",
- "part_a_clean_run": {
-  "date": "2026-10-15 03:14-03:38",
-  "vm": "fresh Colab T4",
-  "executed_notebook": "reports/gpu_smoke_partA_clean_run.ipynb",
-  "env": {
-   "gpu": "Tesla T4",
-   "gpu_mem_gb": 14.6,
-   "capability": "7.5",
-   "dtype": "float16",
-   "disk_free_gb": 69,
-   "python": "3.13.15",
-   "torch": "2.11.0+cu130",
-   "cuda": "13.0",
-   "unsloth": "2026.10.5",
-   "unsloth_zoo": "2026.10.5",
-   "transformers": "5.17.0",
-   "trl": "1.15.0",
-   "peft": "0.21.2",
-   "accelerate": "1.15.0",
-   "bitsandbytes": "0.50.2",
-   "datasets": "4.8.5"
-  },
-  "trainable_params": 21233664,
-  "total_params": 4560499200,
-  "base_weights_dtype": "torch.float16",
-  "mask_inspection": "5/5 supervised spans == target + <|im_end|>",
-  "train": {
-   "global_steps": 25,
-   "train_loss": 0.18901693962514401,
-   "wall_s": 1104.3,
-   "tokens_per_s_excl_warmup": 251.65303654707512,
-   "peak_mem_gb": 9.8,
-   "eval_losses": [
-    [
-     10,
-     0.32087066769599915
-    ],
-    [
-     20,
-     0.0886417031288147
-    ],
-    [
-     25,
-     0.09871650487184525
-    ]
-   ],
-   "resumed_from": null
-  },
-  "predictions": {
-   "n": 59,
-   "raw_json_valid_rate": 1.0,
-   "accuracy_diagnostic": 0.7457627118644068,
-   "latency_p50_s": 1.2953450679779053
-  }
+ "mode": "smoke",
+ "seed": 3407,
+ "model_id": "unsloth/Qwen3.5-4B",
+ "revision": "3764fa359b9082ea5a1e4a5e3ac3aaf6e9671636",
+ "env": {
+  "gpu": "Tesla T4",
+  "gpu_mem_gb": 14.6,
+  "capability": "7.5",
+  "dtype": "float16",
+  "disk_free_gb": 69,
+  "python": "3.13.15",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "unsloth": "2026.10.5",
+  "unsloth_zoo": "2026.10.5",
+  "transformers": "5.17.0",
+  "trl": "1.15.0",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "bitsandbytes": "0.50.2",
+  "datasets": "4.8.5",
+  "weights_dtype": "torch.float16"
  },
- "part_b_debug_vm": {
-  "date": "2026-10-15 02:44-03:10",
-  "note": "same Part B code; the weights_dtype field was added afterwards",
-  "reload_fresh_process": {
-   "reload_match": 5,
-   "of": 5,
-   "fingerprint_match": true
-  },
-  "continuation_test": {
-   "steps_compared": [
-    11,
-    12,
-    13,
-    14,
-    15,
-    16,
-    17,
-    18,
-    19,
-    20
+ "fingerprint": {
+  "chat_template_sha256": "8452ca85cb1e0ff04304c02f417a53305d5ba17f6eb9d5693343ad8355f985a8",
+  "system_prompt_sha256": "587695e37c2fe48d16385a1194a9e77864da4ca13cecbf23bfef92b9dfbc5950"
+ },
+ "trainable_params": 21233664,
+ "train": {
+  "global_steps": 25,
+  "train_loss": 0.1991667455434799,
+  "wall_s": 1159.0,
+  "tokens_per_s_excl_warmup": 240.9479228194385,
+  "peak_mem_gb": 9.52,
+  "losses": [
+   [
+    1,
+    0.22920586168766022
    ],
-   "max_abs_loss_diff": 0.0,
-   "tolerance": 0.05,
-   "pass": true
+   [
+    2,
+    0.37334322929382324
+   ],
+   [
+    3,
+    0.397403359413147
+   ],
+   [
+    4,
+    0.4066365361213684
+   ],
+   [
+    5,
+    0.2407979518175125
+   ],
+   [
+    6,
+    0.17882393300533295
+   ],
+   [
+    7,
+    0.374423086643219
+   ],
+   [
+    8,
+    0.2400098741054535
+   ],
+   [
+    9,
+    0.23909330368041992
+   ],
+   [
+    10,
+    0.35738763213157654
+   ],
+   [
+    11,
+    0.23016639053821564
+   ],
+   [
+    12,
+    0.14220082759857178
+   ],
+   [
+    13,
+    0.1293826550245285
+   ],
+   [
+    14,
+    0.18545646965503693
+   ],
+   [
+    15,
+    0.11656655371189117
+   ],
+   [
+    16,
+    0.13534310460090637
+   ],
+   [
+    17,
+    0.1973659247159958
+   ],
+   [
+    18,
+    0.17206977307796478
+   ],
+   [
+    19,
+    0.10609228163957596
+   ],
+   [
+    20,
+    0.056792255491018295
+   ],
+   [
+    21,
+    0.05943905934691429
+   ],
+   [
+    22,
+    0.11122540384531021
+   ],
+   [
+    23,
+    0.09055373072624207
+   ],
+   [
+    24,
+    0.06572625786066055
+   ],
+   [
+    25,
+    0.1436631828546524
+   ]
+  ],
+  "eval_losses": [
+   [
+    10,
+    0.1854921579360962
+   ],
+   [
+    20,
+    0.0902247428894043
+   ],
+   [
+    25,
+    0.06553857028484344
+   ]
+  ],
+  "resumed_from": null
+ },
+ "predictions": {
+  "n": 58,
+  "raw_json_valid_rate": 1.0,
+  "accuracy_diagnostic": 0.7931034482758621,
+  "latency_p50_s": 1.375185489654541
+ },
+ "export_dir": "/content/export_smoke",
+ "bundle_dir": "/content/bundle",
+ "train_file": "pilot_train.jsonl",
+ "reload": {
+  "reload_match": 5,
+  "of": 5,
+  "fingerprint_match": true,
+  "weights_dtype": "torch.float16"
+ },
+ "resume_test": {
+  "steps_compared": [
+   11,
+   12,
+   13,
+   14,
+   15,
+   16,
+   17,
+   18,
+   19,
+   20
+  ],
+  "uninterrupted": [
+   0.051069457083940506,
+   0.06165474280714989,
+   0.12097809463739395,
+   0.03902352228760719,
+   0.024151159450411797,
+   0.07411698251962662,
+   0.006833404768258333,
+   0.0026218267157673836,
+   0.013094568625092506,
+   0.00390920415520668
+  ],
+  "continued": [
+   0.051069457083940506,
+   0.06165474280714989,
+   0.12097809463739395,
+   0.03902352228760719,
+   0.024151159450411797,
+   0.07411698251962662,
+   0.006833404768258333,
+   0.0026218267157673836,
+   0.013094568625092506,
+   0.00390920415520668
+  ],
+  "max_abs_loss_diff": 0.0,
+  "tolerance": 0.05,
+  "pass": true
+ },
+ "passed": true,
+ "bundle_sha256": "6a6adf154a7867fea6d4c835eb4734d160fb1d58e915be7e2c7661d73cc35902",
+ "run": {
+  "date": "2026-10-15 10:04-10:58 (Part A 10:04-10:29, verified restart, Part B 10:34-10:58)",
+  "vm": "fresh Colab T4 (free tier)",
+  "executed_notebook": "reports/gpu_smoke_partA_clean_run.ipynb",
+  "throughput_probe": {
+   "avg_train_tokens": 504.58666666666664,
+   "n_train_rows": 1125,
+   "n_val_rows": 58,
+   "val_tokens": 29527,
+   "eval_runs": [
+    {
+     "eval_loss": 0.1854921579360962,
+     "eval_runtime": 65.2264,
+     "eval_samples_per_second": 0.889,
+     "eval_steps_per_second": 0.123,
+     "epoch": 0.14222222222222222,
+     "step": 10
+    },
+    {
+     "eval_loss": 0.0902247428894043,
+     "eval_runtime": 38.6591,
+     "eval_samples_per_second": 1.5,
+     "eval_steps_per_second": 0.207,
+     "epoch": 0.28444444444444444,
+     "step": 20
+    },
+    {
+     "eval_loss": 0.06553857028484344,
+     "eval_runtime": 39.3852,
+     "eval_samples_per_second": 1.473,
+     "eval_steps_per_second": 0.203,
+     "epoch": 0.35555555555555557,
+     "step": 25
+    }
+   ],
+   "train_summary": [
+    {
+     "train_runtime": 1156.856,
+     "train_samples_per_second": 0.346,
+     "train_steps_per_second": 0.022,
+     "total_flos": 4758493250294784.0,
+     "train_loss": 0.1991667455434799,
+     "epoch": 0.35555555555555557,
+     "step": 25
+    }
+   ],
+   "eval_tokens_per_s": [
+    452.68480247261846,
+    763.7787739497297,
+    749.6978560474494
+   ],
+   "per_device_eval_batch_size": 8
   }
  },
  "debug_findings_fixed": [
@@ -89,12 +270,16 @@
   "transformers v5 removed warmup_ratio -> warmup_steps=0.05",
   "own sed edit had commented out optim/max_grad_norm -> fixed and verified on VM",
   "reload subprocess cannot fit next to the training kernel on 15 GB -> Part B runs after a restart (fresh process)",
-  "CLI hung 4.5 h on a dead websocket after kernel restart -> wrap CLI calls in a local timeout"
+  "CLI hung 4.5 h on a dead websocket after kernel restart -> wrap CLI calls in a local timeout",
+  "first restart-kernel timed out silently; Part B's fresh-process assert caught the stale kernel -> verify torch not loaded before Part B"
  ],
- "passed": false,
- "clean_rerun_attempts": [
-  "2026-10-15 08:10 T4 Service Unavailable",
-  "2026-10-15 08:35 T4 Service Unavailable",
-  "2026-10-15 09:57 T4 Service Unavailable"
- ]
+ "previous_attempts": {
+  "part_a_clean_run_03:14": "passed (25 steps, eval 0.321->0.099)",
+  "part_b_debug_vm": "passed (5/5 reload, loss diff 0.0)",
+  "clean_rerun_attempts": [
+   "2026-10-15 08:10 T4 Service Unavailable",
+   "2026-10-15 08:35 T4 Service Unavailable",
+   "2026-10-15 09:57 T4 Service Unavailable"
+  ]
+ }
 }

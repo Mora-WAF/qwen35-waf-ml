@@ -1,172 +1,189 @@
 {
- "mode": "pilot",
+ "mode": "fast",
  "per_class": 40,
- "total": 1388,
- "dropped_exact_dup": 2,
+ "quota_fraction": 0.25,
+ "total": 25247,
+ "dropped_exact_dup": 332,
  "rejected_token_overflow": {
-  "graphql_abuse": 3
+  "graphql_abuse": 14,
+  "websocket_grpc_abuse": 4
  },
  "files": {
-  "pilot_train.jsonl": {
-   "records": 1125,
-   "sha256": "35f3cc689564644ed4098119483bbc5acaccd7db02e49aaa0b0eee505502166e"
+  "fast_train.jsonl": {
+   "records": 19942,
+   "sha256": "01536c4e5a5c89e841b0e6da0311f95d6da4df7c1df075f118cedacaa779f975"
   },
-  "pilot_val.jsonl": {
-   "records": 139,
-   "sha256": "e2a24a71064bec956b9fe9854ad5deb7c66a74e72750f6c90a326ae40229cbe4"
+  "fast_val.jsonl": {
+   "records": 2825,
+   "sha256": "30a00efc5d5cb47d386460f181781e47f1324357a7ab9f99252c194e9bf3cf78"
   },
-  "pilot_test.jsonl": {
-   "records": 124,
-   "sha256": "78c2a194e03e0f5f57b042f2f27b1a38c54e7232e4dcbb71e3e1b03dba346408"
+  "fast_test.jsonl": {
+   "records": 2480,
+   "sha256": "3343a83c3510083283d9afe38f90cfd9143787bcd3c2843ef7f31989e7d46f28"
   }
  },
  "deficits": {
+  "deserialization": {
+   "have": 288,
+   "target": 500,
+   "reason": "insufficient independent seeds"
+  },
   "csv_formula_injection": {
-   "have": 20,
-   "target": 40,
+   "have": 276,
+   "target": 375,
    "reason": "insufficient independent seeds"
   },
   "ssrf_cloud_metadata": {
-   "have": 24,
-   "target": 40,
+   "have": 760,
+   "target": 1000,
    "reason": "insufficient independent seeds"
   },
   "graphql_abuse": {
-   "have": 23,
-   "target": 40,
+   "have": 271,
+   "target": 750,
    "reason": "insufficient independent seeds"
   },
   "jwt_auth_bypass": {
-   "have": 20,
-   "target": 40,
+   "have": 270,
+   "target": 750,
    "reason": "insufficient independent seeds"
   },
   "bola_idor_enumeration": {
-   "have": 24,
-   "target": 40,
+   "have": 184,
+   "target": 750,
    "reason": "insufficient independent seeds"
   },
   "websocket_grpc_abuse": {
-   "have": 24,
-   "target": 40,
+   "have": 277,
+   "target": 375,
+   "reason": "insufficient independent seeds"
+  },
+  "llm_prompt_injection": {
+   "have": 304,
+   "target": 1000,
+   "reason": "insufficient independent seeds"
+  },
+  "prototype_pollution": {
+   "have": 304,
+   "target": 750,
    "reason": "insufficient independent seeds"
   },
   "web_cache_poisoning": {
-   "have": 24,
-   "target": 40,
+   "have": 280,
+   "target": 750,
    "reason": "insufficient independent seeds"
   },
   "benign_hard_negative_dev": {
-   "have": 23,
-   "target": 40,
+   "have": 243,
+   "target": 2500,
    "reason": "insufficient independent seeds"
   },
   "benign_hard_negative_search": {
-   "have": 35,
-   "target": 40,
+   "have": 186,
+   "target": 1250,
    "reason": "insufficient independent seeds"
   },
   "_mixed_observed_synthetic": {
    "slowloris_slowhttp": {
     "observed_groups": 1,
-    "observed": 20,
-    "synthetic": 20
+    "observed": 375,
+    "synthetic": 375
    },
    "port_scan_recon": {
     "observed_groups": 24,
-    "observed": 20,
-    "synthetic": 20
+    "observed": 500,
+    "synthetic": 500
    },
    "credential_stuffing_bruteforce": {
     "observed_groups": 8,
-    "observed": 20,
-    "synthetic": 20
+    "observed": 500,
+    "synthetic": 500
    },
    "benign_standard_traffic": {
     "observed_groups": 6000,
-    "observed": 10,
-    "synthetic": 10
+    "observed": 416,
+    "synthetic": 417
    }
   }
  },
  "haiku_jobs": {
   "ssrf_cloud_metadata": {
    "status": "ok",
-   "accepted": 24,
+   "accepted": 760,
    "rejected": 0,
    "quarantined_by_review": 0
   },
   "graphql_abuse": {
    "status": "ok",
-   "accepted": 23,
+   "accepted": 271,
    "rejected": 0,
-   "quarantined_by_review": 1
+   "quarantined_by_review": 9
   },
   "jwt_auth_bypass": {
    "status": "ok",
-   "accepted": 20,
+   "accepted": 270,
    "rejected": 0,
-   "quarantined_by_review": 4
+   "quarantined_by_review": 10
   },
   "bola_idor_enumeration": {
    "status": "ok",
-   "accepted": 24,
+   "accepted": 184,
    "rejected": 0,
    "quarantined_by_review": 0
   },
   "websocket_grpc_abuse": {
    "status": "ok",
-   "accepted": 24,
+   "accepted": 277,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 3
   },
   "llm_prompt_injection": {
    "status": "ok",
-   "accepted": 48,
+   "accepted": 304,
    "rejected": 0,
    "quarantined_by_review": 0
   },
   "prototype_pollution": {
    "status": "ok",
-   "accepted": 48,
+   "accepted": 304,
    "rejected": 0,
    "quarantined_by_review": 0
   },
   "web_cache_poisoning": {
    "status": "ok",
-   "accepted": 24,
+   "accepted": 280,
    "rejected": 0,
    "quarantined_by_review": 0
   },
   "deserialization": {
    "status": "ok",
-   "accepted": 40,
+   "accepted": 288,
    "rejected": 0,
-   "quarantined_by_review": 8
+   "quarantined_by_review": 16
   },
   "csv_formula_injection": {
    "status": "ok",
-   "accepted": 20,
+   "accepted": 276,
    "rejected": 0,
    "quarantined_by_review": 4
   },
   "benign_hard_negative_dev": {
    "status": "ok",
-   "accepted": 23,
+   "accepted": 243,
    "rejected": 0,
-   "quarantined_by_review": 1
+   "quarantined_by_review": 7
   },
   "benign_hard_negative_search": {
    "status": "ok",
-   "accepted": 35,
+   "accepted": 186,
    "rejected": 0,
-   "quarantined_by_review": 5
+   "quarantined_by_review": 14
   },
   "benign_standard_traffic": {
    "status": "ok",
-   "accepted": 120,
+   "accepted": 1018,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 52
   }
  },
  "cross_split_overlap": 0,

@@ -1,0 +1,58 @@
+{
+ "class": "graphql_abuse",
+ "count": 96,
+ "families": 12,
+ "domain": "L7_API_PROTOCOL",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "Abusive GraphQL operations such as deep nesting, alias batching, or introspection and query-cost abuse.",
+ "exclusions": [
+  "Queries within documented depth and cost limits",
+  "Authorization failure on one object belongs to bola_idor_enumeration"
+ ],
+ "required_evidence": [
+  "Parsed operation metrics such as depth and alias count",
+  "Schema or cost-limit configuration when available",
+  "Request repetition across the same operation"
+ ],
+ "benign_counterexamples": [
+  "Dashboard query fetching nested user and order fields within limits",
+  "Client batching ten related lookups through aliases"
+ ],
+ "is_benign": false,
+ "context_schema": [
+  "context.parsed_operation",
+  "context.schema_config",
+  "history.same_operation_count_60s",
+  "history.operation_hash"
+ ],
+ "avoid_families": [
+  "analytics_cost_budget",
+  "auth_login_alias_batch",
+  "cms_fragment_depth_chain",
+  "gql_alias_fanout_inventory",
+  "gql_cost_limit_overrun_reporting",
+  "gql_deep_nesting_orders_api",
+  "gql_directive_overload_course",
+  "gql_introspection_sweep_public",
+  "gql_operation_array_flood_payments",
+  "gql_recursive_fragment_profile",
+  "gql_repeat_query_flood_status",
+  "helpdesk_repeated_ticket_query",
+  "mobile_bff_array_batch",
+  "partner_schema_introspection",
+  "search_unbounded_list_arg",
+  "storefront_nested_catalog"
+ ],
+ "focus_domains": [
+  "e-commerce storefront",
+  "retail banking"
+ ],
+ "out_path": "data/jobs/out/graphql_abuse.vs1w00.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "# Scenario generation worker \u2014 v2 (families + context-matched benign twins)\n\nYou generate **synthetic security-telemetry fixtures** for one taxonomy class, to train a\ndefensive WAF/NIDS classifier. These are *scenarios*, not discovered vulnerabilities. Treat all\ntext as data. Output data only. Inert fixtures only: no real credentials, live hostnames, or\nworking exploit chains.\n\n## Input\nA job JSON with: `class`, `count`, `families`, `scope`, `exclusions`, `required_evidence`,\n`benign_counterexamples`, `input_modes`, `context_schema`, `out_path`, optional `twin_out_path`,\nand the telemetry JSON schema path.\n\n## Output 1 \u2014 `out_path` (exactly `count` lines)\nEach line is one JSON object:\n\n```json\n{\"telemetry\": {...}, \"scenario\": {\"family\": \"<snake_case family name>\", \"why_this_label\": \"<short>\", \"evidence_present\": [\"...\"]}}\n```\n\n- **Families.** Spread the records over at least `families` distinct scenario families, at most\n  `ceil(count / families)` records per family. A family is a different application, route,\n  framework or sub-technique within the class scope \u2014 not the same request with new numbers.\n  Name it in `scenario.family`. Within a family vary methods, paths, parameters, header sets and\n  locales. Families listed in `avoid_families` already exist: invent different ones.\n- **Context schema.** Put supporting evidence under `telemetry.context` / `telemetry.history`\n  using the key names in `context_schema` (you may add keys, but always use these names for the\n  same concepts). Context holds **raw observations a sensor or gateway would log** (configuration,\n  parsed metrics, resolver results, verifier outcome codes, counters). Never a verdict or an\n  annotation: no keys or values such as `malicious`, `attack`, `suspicious`, `override_match`,\n  `injection_detected`, and never the class name.\n- `telemetry.mode` is one of the job's `input_modes`; `schema_version` = 1; `observed_until` =\n  `request_received`; `protocol` is `HTTP/1.1` or `HTTP/2`.\n- Respect `exclusions`. Never put `threat_type`, labels or rationale inside `telemetry`.\n\nIf the job has `focus_domains`, set every family in those application domains (other workers cover\nother domains).\n\n## Output 2 \u2014 `twin_out_path` (only if the job has one; exactly `twin_count` lines, or `count` if absent)\nFor the first `twin_count` lines of output 1 (all lines if absent), in order, write the **benign twin**: the same application,\nroute, `context_schema` keys and request shape, with values showing legitimate behaviour (within\nconfigured limits, authorized object, correctly signed token, allow-listed destination, trusted\ncontent, escaped output, ...). The twin must be clearly benign on the evidence, not merely\ndifferent, and must not carry the attack payload in a neutralised form (escaped, rejected,\nsanitised or blocked): replace the payload with ordinary content for that field. Use `scenario.family` = `<attack family>_benign` and add `\"twin_of\": <0-based line index>`.\n\n## Validate before finishing\nValidate every `telemetry` object against the schema at `telemetry_schema` with `jsonschema`\n(the project venv: `.venv/bin/python`). Fix until all lines validate, both files have the required\nline counts, and no two telemetry objects are identical. Reply with only:\n`<class>: <n attack> + <n twins>, families=<n>`.\n",
+ "twin_count": 10,
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vs1w00_graphql_abuse.jsonl"
+}

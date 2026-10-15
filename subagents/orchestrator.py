@@ -10,6 +10,7 @@ Idempotent: a job is DONE when its out file validates to >= count records; re-in
 Agreement of the generator with itself is NOT ground truth; §6 label review stays separate.
 """
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -57,6 +58,145 @@ def write_jobs(classes, count, root=ROOT):
     return written
 
 
+# v2 jobs: canonical context key names per class (from the v1 outputs, verdict-like keys removed)
+CONTEXT_SCHEMA = {
+    "ssrf_cloud_metadata": ["context.fetch_config", "context.resolution"],
+    "graphql_abuse": ["context.parsed_operation", "context.schema_config", "history.same_operation_count_60s", "history.operation_hash"],
+    "jwt_auth_bypass": ["context.verifier_config", "context.token_material", "context.verifier_result"],
+    "bola_idor_enumeration": ["context.authz_context", "context.authz_policy", "history.prior_requests", "history.window_s"],
+    "websocket_grpc_abuse": ["context.stream", "context.origin_policy", "context.peer", "history.subscribe_frames", "history.open_streams_from_peer"],
+    "llm_prompt_injection": ["context.trust_boundary", "context.task", "context.untrusted_text_location"],
+    "prototype_pollution": ["context.runtime", "context.merge_sink", "context.raw_body_key_path"],
+    "web_cache_poisoning": ["context.cache_config", "context.unkeyed_input", "context.cache_status_samples"],
+    "deserialization": ["context.parser_context", "context.fetch_behavior"],
+    "csv_formula_injection": ["context.sink_context"],
+    "benign_hard_negative_dev": [], "benign_hard_negative_search": [],
+}
+
+
+def existing_families(cls):
+    """Family names already generated for a class: later rounds must add new families, not more of these."""
+    fams = set()
+    for fp in sorted(OUT.glob(f"{cls}.v*.jsonl")):
+        for line in open(fp):
+            if line.strip():
+                f = (json.loads(line).get("scenario") or {}).get("family")
+                if f:
+                    fams.add(f)
+    return sorted(fams)
+
+
+def write_jobs_v2(classes, count, families, version, root=ROOT):
+    """v2 job specs: >= `families` scenario families per class and, for attack classes, a context-matched
+    benign twin file (benign_standard_traffic.<version>_<class>.jsonl). Raw outputs are new files only."""
+    tax = taxonomy(root)
+    prompt = (root / "subagents/prompts/scenario_v2.md").read_text()
+    written = []
+    for cls in classes:
+        spec = tax[cls]
+        job = {"class": cls, "count": count, "families": families, "domain": spec["domain"],
+               "input_modes": spec["input_modes"], "scope": spec["scope"], "exclusions": spec["exclusions"],
+               "required_evidence": spec["required_evidence"], "benign_counterexamples": spec["benign_counterexamples"],
+               "is_benign": spec["is_benign"], "context_schema": CONTEXT_SCHEMA[cls],
+               "avoid_families": existing_families(cls),
+               "out_path": str((OUT / f"{cls}.{version}.jsonl").relative_to(root)),
+               "telemetry_schema": "schemas/telemetry.schema.json", "instructions": prompt}
+        if not spec["is_benign"]:
+            job["twin_out_path"] = str((OUT / f"benign_standard_traffic.{version}_{cls}.jsonl").relative_to(root))
+        for k in ("out_path", "twin_out_path"):
+            assert k not in job or not (root / job[k]).exists(), f"refusing to overwrite raw output {job[k]}"
+        p = JOBS / f"{cls}.{version}.job.json"
+        p.write_text(json.dumps(job, indent=1))
+        written.append(str(p))
+    return written
+
+
+DOMAINS = ["e-commerce storefront", "retail banking", "payments/fintech API", "healthcare patient portal",
+           "insurance claims", "SaaS admin console", "IoT device management API", "media/CMS publishing",
+           "government services", "university LMS", "logistics/shipping tracker", "online gaming platform",
+           "HR/internal tools", "CI/CD and developer tooling", "telecom self-care", "travel booking",
+           "real-estate listings", "food delivery", "crypto exchange", "B2B partner integration",
+           "customer support desk", "social network", "ad-tech/analytics", "energy/utility billing"]
+
+
+def write_jobs_scale(target_frac=0.25, per_worker=96, families=12, twin_count=10, tag="s1", slack=1.08):
+    """Scale round: enough workers per Haiku class to reach target_frac x quota accepted records.
+    Each worker gets a distinct application-domain focus so parallel workers do not converge on the same
+    families; twins are capped (twin_count per worker) because benign_standard_traffic has its own quota."""
+    import math
+    from collections import Counter
+    tax = taxonomy()
+    have = Counter(r["metadata"]["threat_type"] for r in ingest()[0])
+    prompt = (ROOT / "subagents/prompts/scenario_v2.md").read_text()
+    jobs = []
+    for cls in GAP:
+        need = max(0, math.ceil(tax[cls]["quota"] * target_frac) - have[cls])
+        n_workers = math.ceil(need * slack / per_worker)
+        avoid = existing_families(cls)
+        for k in range(n_workers):
+            ver = f"v{tag}w{k:02d}"
+            spec = tax[cls]
+            job = {"class": cls, "count": per_worker, "families": families, "domain": spec["domain"],
+                   "input_modes": spec["input_modes"], "scope": spec["scope"], "exclusions": spec["exclusions"],
+                   "required_evidence": spec["required_evidence"], "benign_counterexamples": spec["benign_counterexamples"],
+                   "is_benign": spec["is_benign"], "context_schema": CONTEXT_SCHEMA[cls], "avoid_families": avoid,
+                   "focus_domains": [DOMAINS[(2 * k + i) % len(DOMAINS)] for i in range(2)],
+                   "out_path": str((OUT / f"{cls}.{ver}.jsonl").relative_to(ROOT)),
+                   "telemetry_schema": "schemas/telemetry.schema.json", "instructions": prompt}
+            if not spec["is_benign"]:
+                job["twin_count"] = twin_count
+                job["twin_out_path"] = str((OUT / f"benign_standard_traffic.{ver}_{cls}.jsonl").relative_to(ROOT))
+            for key in ("out_path", "twin_out_path"):
+                assert key not in job or not (ROOT / job[key]).exists(), f"refusing to overwrite {job[key]}"
+            p = JOBS / f"{cls}.{ver}.job.json"
+            p.write_text(json.dumps(job, indent=1))
+            jobs.append(str(p.relative_to(ROOT)))
+    return jobs
+
+
+VERDICT_KEY = re.compile(r'"(malicious|attack|suspicious|override_match|injection_detected|is_attack|threat_type)"', re.I)
+
+
+def verify(paths):
+    """Check worker output files before review: line counts vs job, schema, family spread, verdict keys,
+    duplicates against every other output, and near-duplicate share (script-templated output collapses
+    into few near_dup_group shapes). Returns {path: problems}; empty list = ok."""
+    tel_schema = json.load(open(ROOT / "schemas/telemetry.schema.json"))
+    seen = {}
+    for fp in sorted(OUT.glob("*.jsonl")):
+        if str(fp.relative_to(ROOT)) in paths:
+            continue
+        for line in open(fp):
+            if line.strip():
+                seen[json.dumps(json.loads(line)["telemetry"], sort_keys=True)] = fp.name
+    out = {}
+    for path in paths:
+        fp, probs = ROOT / path, []
+        if not fp.exists():
+            out[path] = ["missing"]
+            continue
+        rows = [json.loads(x) for x in open(fp) if x.strip()]
+        fams, shapes = set(), set()
+        cls = fp.name.split(".")[0]
+        for o in rows:
+            try:
+                jsonschema.validate(o["telemetry"], tel_schema)
+            except jsonschema.ValidationError:
+                probs.append("schema")
+            t = json.dumps(o["telemetry"], sort_keys=True)
+            if VERDICT_KEY.search(t):
+                probs.append("verdict_key")
+            if t in seen:
+                probs.append(f"dup:{seen[t]}")
+            seen[t] = fp.name
+            fams.add((o.get("scenario") or {}).get("family"))
+            shapes.add(near_dup_group(cls, o["telemetry"]))
+        out[path] = sorted(set(probs)) + ([f"near_dup_share={1 - len(shapes) / len(rows):.2f}"]
+                                          if rows and len(shapes) / len(rows) < 0.8 else [])
+        out[path].append(f"n={len(rows)} families={len(fams - {None})}")
+    return out
+
+
 def _neutralize(tel, key):
     """Apply the shared hostname-shortcut rewrite to every string in a telemetry object."""
     from data_pipeline.generate import neutralize_hosts, rng_for
@@ -99,6 +239,38 @@ def normalize_headers(tel, key):
     return tel
 
 
+# context keys that state a verdict or annotation (or exist only in one generator's records) rather than an
+# observation a sensor would log: dropped at ingest so they cannot become label shortcuts
+STRIP_CONTEXT_KEYS = {"override_match", "payload_feature", "endpoint", "client", "verdict", "label", "why",
+                      "is_malicious", "suspicious", "detected", "attack_type"}
+# v1 synonyms of the v2 canonical context names (CONTEXT_SCHEMA); renamed when the canonical key is absent
+LEGACY_RENAME = {"sink": "merge_sink", "key_path": "raw_body_key_path", "raw_key_structure": "raw_body_key_path"}
+OBSERVED_UNTIL = {"flow_window": "fixed_window", "flow_complete": "full_flow", "session_history": "session_window"}
+
+
+def canonicalize(tel, key):
+    """Remove generator style from fields that carry no evidence: Haiku wrote ISO timestamps into
+    observed_until and 'HTTP/2.0' where deterministic records write stage tokens and 'HTTP/2'
+    (both were near-perfect generator -> class shortcuts). Then add the shared neutral context."""
+    from data_pipeline.generate import neutral_context, rng_for
+    tel["observed_until"] = OBSERVED_UNTIL.get(tel["decision_stage"], "request_received")
+    for part in ("context", "history"):
+        if isinstance(tel.get(part), dict):
+            kept = {}
+            for k, v in tel[part].items():
+                if k.lower() in STRIP_CONTEXT_KEYS:
+                    continue
+                k = LEGACY_RENAME.get(k, k) if LEGACY_RENAME.get(k) not in tel[part] else k
+                kept.setdefault(k, v)
+            tel[part] = kept or None
+            if tel[part] is None:
+                del tel[part]
+    h = tel.get("http")
+    if h:
+        h["protocol"] = {"HTTP/2.0": "HTTP/2", "HTTP/3.0": "HTTP/3", "http/1.1": "HTTP/1.1"}.get(h["protocol"], h["protocol"])
+    return neutral_context(rng_for("ctx:" + key), tel)
+
+
 def ingest(root=ROOT):
     from data_pipeline.generate import assemble
     from training.prepare import deserialize_telemetry  # noqa: F401 (round-trip sanity imported in tests)
@@ -125,17 +297,27 @@ def ingest(root=ROOT):
             try:
                 obj = json.loads(line)
                 tel, hn = _neutralize(obj["telemetry"], f"{cls}:{i}")
-                tel = normalize_headers(tel, f"{cls}:{i}")
+                tel = canonicalize(normalize_headers(tel, f"{cls}:{i}"), f"{cls}:{i}")
                 jsonschema.validate(tel, tel_schema)
                 assert tel["mode"] in tax[cls]["input_modes"] or tel["mode"] == "HYBRID_CTX"
                 rec_id = f"haiku:{cls}:{i:06d}"
+                group = near_dup_group(cls, obj["telemetry"])
+                twin_of = (obj.get("scenario") or {}).get("twin_of")
+                fname = ref.split(":")[0]
+                if twin_of is not None and ".v" in fname and "_" in fname.split(".v", 1)[1]:
+                    # context-matched benign twin: same lineage group as its attack record (never split apart)
+                    atk_cls = fname.split(".v", 1)[1].split("_", 1)[1].removesuffix(".jsonl")
+                    atk_file = OUT / f"{atk_cls}.v{fname.split('.v', 1)[1].split('_', 1)[0]}.jsonl"
+                    atk_lines = [x for x in open(atk_file) if x.strip()]
+                    if 0 <= int(twin_of) < len(atk_lines):
+                        group = near_dup_group(atk_cls, json.loads(atk_lines[int(twin_of)])["telemetry"])
                 rec = assemble(rec_id, cls, tel, "synthetic",
                                {"method": "scenario_oracle", "oracle": "haiku_scenario",
                                 "scenario": obj.get("scenario", {}), "needs_review": rv.get(ref) != "agreed",
                                 "blind_review": rv.get(ref, "not_reviewed"),
                                 "transforms": (["host_neutralize"] if hn else []) + ["header_profile_normalize"]},
-                               {"lineage_group": near_dup_group(cls, tel), "generator": "haiku-5.5",
-                                "template_family": f"{cls}_scenario"})
+                               {"lineage_group": group, "generator": "haiku-5.5",
+                                "template_family": f"{cls}:{(obj.get('scenario') or {}).get('family', 'v1_unlabelled')}"})
                 accepted.append(rec)
             except (json.JSONDecodeError, KeyError, jsonschema.ValidationError, AssertionError):
                 rejected += 1
@@ -146,10 +328,20 @@ def ingest(root=ROOT):
 
 
 if __name__ == "__main__":
-    n = int(sys.argv[2]) if len(sys.argv) > 2 else 24
+    n = int(sys.argv[2]) if len(sys.argv) > 2 and sys.argv[2].isdigit() else 24
     if sys.argv[1:2] == ["jobs"]:
         for p in write_jobs(GAP, n):
             print("job:", p)
+    elif sys.argv[1:2] == ["jobs_v2"]:  # jobs_v2 COUNT FAMILIES VERSION
+        for p in write_jobs_v2(GAP, n, int(sys.argv[3]), sys.argv[4]):
+            print("job:", p)
+    elif sys.argv[1:2] == ["jobs_scale"]:  # jobs_scale TAG -> one job per worker, listed in data/jobs/scale_TAG.txt
+        jobs = write_jobs_scale(tag=sys.argv[2])
+        (JOBS / f"scale_{sys.argv[2]}.txt").write_text("\n".join(jobs) + "\n")
+        print(len(jobs), "jobs")
+    elif sys.argv[1:2] == ["verify"]:  # verify FILE... (paths relative to the repo root)
+        for k, v in verify(sys.argv[2:]).items():
+            print(k, v)
     elif sys.argv[1:2] == ["ingest"]:
         recs, rep = ingest()
         print(json.dumps(rep, indent=1))

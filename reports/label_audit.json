@@ -1,24 +1,35 @@
 {
- "reviewed": 530,
- "items": 530,
+ "reviewed": 13830,
+ "items": 13950,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
-   "agree": 23,
-   "insufficient": 0,
-   "disagree": 1,
-   "agreement": 0.96
+   "agree": 1589,
+   "insufficient": 71,
+   "disagree": 1162,
+   "missing": 25,
+   "agreement": 0.58
   },
   "benign_hard_negative_search": {
-   "agree": 19,
-   "insufficient": 0,
-   "disagree": 5,
+   "agree": 1144,
+   "insufficient": 3,
+   "disagree": 295,
+   "missing": 9,
    "agreement": 0.79
   },
+  "benign_standard_traffic": {
+   "agree": 1360,
+   "insufficient": 85,
+   "disagree": 129,
+   "missing": 11,
+   "agreement": 0.91
+  },
   "bola_idor_enumeration": {
-   "agree": 24,
-   "insufficient": 0,
-   "agreement": 1.0
+   "agree": 841,
+   "insufficient": 4,
+   "missing": 7,
+   "disagree": 8,
+   "agreement": 0.99
   },
   "crlf_header_injection": {
    "agree": 9,
@@ -27,20 +38,25 @@
    "agreement": 0.9
   },
   "csv_formula_injection": {
-   "agree": 24,
-   "insufficient": 4,
-   "agreement": 1.0
+   "agree": 460,
+   "insufficient": 21,
+   "disagree": 7,
+   "missing": 5,
+   "agreement": 0.99
   },
   "deserialization": {
-   "agree": 48,
-   "insufficient": 8,
-   "agreement": 1.0
+   "agree": 569,
+   "insufficient": 67,
+   "disagree": 16,
+   "missing": 7,
+   "agreement": 0.97
   },
   "graphql_abuse": {
-   "agree": 23,
-   "insufficient": 1,
-   "disagree": 1,
-   "agreement": 0.96
+   "agree": 734,
+   "insufficient": 125,
+   "disagree": 112,
+   "missing": 10,
+   "agreement": 0.87
   },
   "http_request_smuggling": {
    "agree": 10,
@@ -48,9 +64,10 @@
    "agreement": 1.0
   },
   "jwt_auth_bypass": {
-   "agree": 20,
-   "insufficient": 0,
-   "disagree": 4,
+   "agree": 705,
+   "insufficient": 145,
+   "disagree": 142,
+   "missing": 9,
    "agreement": 0.83
   },
   "ldap_xpath_injection": {
@@ -60,9 +77,11 @@
    "agreement": 0.8
   },
   "llm_prompt_injection": {
-   "agree": 48,
-   "insufficient": 0,
-   "agreement": 1.0
+   "agree": 1053,
+   "insufficient": 6,
+   "disagree": 12,
+   "missing": 7,
+   "agreement": 0.99
   },
   "nosqli": {
    "agree": 9,
@@ -81,9 +100,11 @@
    "agreement": 1.0
   },
   "prototype_pollution": {
-   "agree": 48,
-   "insufficient": 0,
-   "agreement": 1.0
+   "agree": 866,
+   "insufficient": 3,
+   "disagree": 7,
+   "missing": 7,
+   "agreement": 0.99
   },
   "rce_cmd_injection": {
    "agree": 19,
@@ -103,9 +124,11 @@
    "agreement": 1.0
   },
   "ssrf_cloud_metadata": {
-   "agree": 24,
-   "insufficient": 0,
-   "agreement": 1.0
+   "agree": 1119,
+   "insufficient": 6,
+   "disagree": 15,
+   "missing": 10,
+   "agreement": 0.99
   },
   "ssti": {
    "agree": 10,
@@ -113,14 +136,18 @@
    "agreement": 1.0
   },
   "web_cache_poisoning": {
-   "agree": 24,
-   "insufficient": 0,
-   "agreement": 1.0
+   "agree": 834,
+   "insufficient": 2,
+   "missing": 11,
+   "disagree": 11,
+   "agreement": 0.99
   },
   "websocket_grpc_abuse": {
-   "agree": 24,
-   "insufficient": 0,
-   "agreement": 1.0
+   "agree": 402,
+   "insufficient": 44,
+   "disagree": 68,
+   "missing": 2,
+   "agreement": 0.86
   },
   "xss_dom_polyglot": {
    "agree": 10,
@@ -141,60 +168,105 @@
  },
  "top_confusions": [
   [
+   "benign_hard_negative_dev",
+   "benign_standard_traffic",
+   784
+  ],
+  [
+   "benign_hard_negative_dev",
+   "benign_hard_negative_search",
+   289
+  ],
+  [
    "benign_hard_negative_search",
    "benign_standard_traffic",
-   5
+   279
   ],
   [
    "jwt_auth_bypass",
    "benign_standard_traffic",
-   4
-  ],
-  [
-   "xss_reflected_stored",
-   "xss_dom_polyglot",
-   2
-  ],
-  [
-   "ldap_xpath_injection",
-   "sqli_classic",
-   2
-  ],
-  [
-   "sqli_classic",
-   "benign_hard_negative_search",
-   2
-  ],
-  [
-   "nosqli",
-   "xss_dom_polyglot",
-   1
+   133
   ],
   [
    "graphql_abuse",
+   "benign_high_rate_legit",
+   77
+  ],
+  [
+   "websocket_grpc_abuse",
+   "benign_standard_traffic",
+   29
+  ],
+  [
    "benign_hard_negative_dev",
-   1
+   "csv_formula_injection",
+   27
   ],
   [
-   "crlf_header_injection",
-   "xss_dom_polyglot",
-   1
+   "benign_standard_traffic",
+   "csv_formula_injection",
+   24
+  ],
+  [
+   "benign_standard_traffic",
+   "deserialization",
+   23
+  ],
+  [
+   "graphql_abuse",
+   "benign_standard_traffic",
+   19
   ],
   [
    "benign_hard_negative_dev",
-   "benign_hard_negative_search",
-   1
+   "path_traversal_lfi",
+   18
   ],
   [
-   "rce_cmd_injection",
+   "websocket_grpc_abuse",
+   "benign_high_rate_legit",
+   15
+  ],
+  [
+   "benign_standard_traffic",
+   "jwt_auth_bypass",
+   15
+  ],
+  [
+   "benign_standard_traffic",
    "benign_hard_negative_dev",
-   1
+   13
   ],
   [
-   "sqli_classic",
-   "sqli_obfuscated",
-   1
+   "benign_standard_traffic",
+   "web_cache_poisoning",
+   12
+  ],
+  [
+   "websocket_grpc_abuse",
+   "bola_idor_enumeration",
+   10
+  ],
+  [
+   "websocket_grpc_abuse",
+   "slowloris_slowhttp",
+   10
+  ],
+  [
+   "benign_standard_traffic",
+   "bola_idor_enumeration",
+   9
+  ],
+  [
+   "benign_standard_traffic",
+   "graphql_abuse",
+   7
+  ],
+  [
+   "deserialization",
+   "benign_standard_traffic",
+   7
   ]
  ],
- "quarantined": 65
+ "quarantined": 2408
 }

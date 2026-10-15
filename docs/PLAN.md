@@ -2,64 +2,77 @@
 
 Reviewed: 15 October 2026. This document replaces the original specification. It is a plan for implementation, not a claim that the datasets, notebook, or model have been built or tested.
 
-## Implementation progress (updated 15 October 2026, 08:30)
+## Implementation progress (updated 15 October 2026, 11:00)
 
-**Achieved state: pilot data-ready; notebook partially smoke-tested.** Part A (train, predict, export) passed on a fresh Colab T4. Part B (fresh-process reload, continuation test) has passed only on the debug VM; the clean Part B rerun is blocked because Colab's free tier returned "Service Unavailable" for T4. No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
+**Achieved state: pilot data-ready (v2 build); notebook smoke-tested on Colab T4 — see `reports/gpu_smoke_test.json`.** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
 
 ### Phase status
 
 | Phase | Status | Evidence |
 |---|---|---|
 | A — environment and source contracts | Done, with exclusions | `reports/compatibility.json`, `config/sources.yaml`, `reports/source_audit.json` |
-| B — end-to-end pilot | Data done; GPU smoke test partial | `reports/pre_colab_gate.json` (passed), `reports/gpu_smoke_test.json` (`passed: false`, see status), `reports/gpu_smoke_partA_clean_run.ipynb` |
-| C — scale, freeze, package | Not started | — |
-| D — train and evaluate | Not started | notebook + bundle ready: `colab/` |
+| B — end-to-end pilot | Done: data v2 + clean GPU smoke test | `reports/pre_colab_gate.json`, `reports/gpu_smoke_test.json`, `reports/gpu_smoke_partA_clean_run.ipynb` |
+| C — scale, freeze, package | Started: generation rounds v3/v4 with families + twins; scale build not run | `reports/coverage.json`, `reports/label_audit.json` |
+| D — train and evaluate | Not started (no paid GPU balance) | notebook + bundle ready: `colab/` |
 
-### GPU smoke test (Colab T4, 15 GB, fp16)
+### GPU smoke test (Colab T4, 15 GB, fp16) — clean run 15 October 10:04–11:00
 
-- Tested stack, pinned in `requirements.lock` and the notebook: torch 2.11.0+cu130, unsloth/unsloth_zoo 2026.10.5, transformers 5.17.0, trl 1.15.0, peft 0.21.2, accelerate 1.15.0, bitsandbytes 0.50.2, datasets 4.8.5. Python 3.13, CUDA 13.0.
-- Clean Part A: 25 optimizer steps, all losses finite; eval loss 0.321 → 0.089 → 0.099; peak memory 9.8 GB; 252 tokens/s after warmup; 18.4 min wall time. rsLoRA: 21.2M trainable of 4.56B parameters; vision weights frozen; base weights float16. Mask inspection 5/5. On 59 val_select records: raw JSON validity 100%, diagnostic accuracy 74.6% (25 steps only, not a model claim), median latency 1.3 s.
-- Debug-VM Part B: adapter reloaded in a fresh process matched 5/5 predictions and the tokenizer fingerprint; continuation test (20 steps straight vs 10 + save/reload + 10) gave identical losses (max difference 0.0).
-- Throughput implies about 15 h for the 30k fast subset on a T4 and about 50 h for 100k; full training needs an L4/A100.
-- Problems found and fixed on the GPU: a `datasets` conflict with unsloth; torch pinned so `xformers` cannot swap the CUDA build; the T4 only emulates bf16, so fp16 is used below compute capability 8; transformers v5 removed `warmup_ratio`; a bad edit had commented out the optimizer and gradient clipping (caught on the VM); a second model cannot load beside the training kernel on 15 GB, so the notebook is split into Part A and Part B with a runtime restart between them.
+- Stack (pinned in `requirements.lock` and the notebook): torch 2.11.0+cu130, unsloth/unsloth_zoo 2026.10.5, transformers 5.17.0, trl 1.15.0, peft 0.21.2, accelerate 1.15.0, bitsandbytes 0.50.2, datasets 4.8.5; Python 3.13, CUDA 13.0.
+- Part A (fresh VM, bundle `6a6adf15…`): 25 optimizer steps, all losses finite; eval loss 0.186 → 0.090 → 0.066; peak memory 9.5 GB; 241 tokens/s training after warmup; eval 755 tokens/s (batch 8); 19.3 min training wall time. On 58 val_select records: raw JSON validity 100%, diagnostic accuracy 79.3% (25 steps, not a model claim), median latency 1.4 s.
+- Part B (after a verified kernel restart: torch not loaded, 0 MiB GPU): adapter reloaded in a fresh process matched 5/5 predictions and the tokenizer fingerprint (weights float16); continuation test (20 steps straight vs 10 + save/reload + 10) gave identical losses on steps 11–20 (max difference 0.0, tolerance 0.05). `passed: true`. Executed notebooks: `reports/gpu_smoke_partA_clean_run.ipynb`, `reports/gpu_smoke_partB_clean_run.ipynb`; session stopped afterwards.
+- Incident: the first `colab restart-kernel` timed out silently and Part B started in the old process; the notebook's fresh-process assertion caught it. Rule: after a restart, verify `torch` is not loaded before Part B.
+- Warning seen on every run: `causal_conv1d` is not installed, so Qwen3.5's linear-attention convolution uses the slow PyTorch fallback. Installing it (and `flash-linear-attention`) is the first speed experiment on a paid GPU; not tested yet.
+- The current bundle (`835f012d…`, data v2) differs from the smoke-tested one only in data and in `EVAL_SUBSET` (interim evals on the first 1,000 val_select rows; no effect in smoke mode).
 
-### Pilot dataset (`datasets_ready/pilot_*.jsonl`)
+### Training time and GPU choice (from the measured T4 throughput)
 
-- 1,388 records, all 35 classes in train, test and each validation sub-partition. Splits: train 1,125; val_select 58, val_calib 39, val_policy 42; test 124.
-- Provenance: 800 synthetic, 520 hybrid (observed seed or CRS fixture in a request), 68 observed flows.
-- 1,321 lineage groups; every class has at least 20. Splits are assigned per group, globally (a group can span classes).
-- Tokens per rendered sequence: median 472, p95 680, max 1,954 (limit 2,048); over-length records rejected, none truncated.
-- Pre-Colab gate passed with 0 failures; 28 unit tests pass.
-- Robustness set `datasets_ready/robustness_pilot.jsonl`: 99 records outside the core, with published expected policy behaviour and lineage disjoint from the core: 25 insufficient-context, 24 supported out-of-taxonomy (observed CIC/NF flows), 25 malformed/truncated, 25 classifier prompt-injection.
+Mean rendered length 505 tokens (pilot v1; v2 median 563). T4 figures are measured; other GPUs are scaled by typical LoRA-training speedups (L4 2.5–3×, A100 6–8×, H100 12–16× a T4), not measured. Compute units (CU) use the T4 rate shown by `colab usage` (1.07/h) and third-party March 2026 rates for the others (L4 1.71/h, A100-40 GB 5.40/h); no current H100 rate was found. Interim evals on a 1k subset; full 5k evals add ~56 min each on a T4.
+
+| Run | T4 | L4 | A100 40 GB | H100 |
+|---|---|---|---|---|
+| fast 30k (1,875 steps, 8 evals) | 18.9 h, ~20 CU | 6.3–7.6 h, 11–13 CU | 2.4–3.2 h, 13–17 CU | 1.2–1.6 h |
+| full 100k (6,250 steps, 26 evals) | 63 h, ~67 CU | 21–25 h, 36–43 CU | 7.9–10.5 h, 43–57 CU | 3.9–5.3 h |
+
+Recommendation: **L4 for the fast 30k run and the learning curve** (cheapest CU per run, native bf16, 24 GB, fits one session); **A100 for the full 100k** if it must finish within one session, otherwise L4 with Drive checkpoint resume. T4 only for smoke tests (free-tier sessions are capped and the 30k run exceeds them). A pay-as-you-go 100 CU pack covers a 5k/15k/30k learning curve on L4 (~20 CU) plus the 100k run on L4 (~40 CU).
+
+### Pilot dataset v2 (`datasets_ready/pilot_*.jsonl`)
+
+- 2,886 records, all 35 classes in train, test and each validation sub-partition; 2,063 lineage groups. Splits: train 2,310; val_select 132, val_calib 102, val_policy 70; test 272 (2–35 per class: still too small for per-class claims).
+- Provenance: 2,268 synthetic, 520 hybrid, 98 observed. Benign_standard_traffic holds 940 records (33%) because of minimal-pair twins; rebalance or weight at scale.
+- Tokens per rendered sequence: median 563, p95 933, max 1,926 (limit 2,048). Gate passed with 0 failures; 30 unit tests pass.
+- Robustness set unchanged in design: 99 records.
+
+### Data-quality work on 15 October (audit → fixes, in that order)
+
+1. **Shortcuts removed.** Haiku records carried ISO timestamps in `observed_until` (deterministic records use stage tokens) and `HTTP/2.0`; both now canonicalised at ingest. Verdict-like context keys (`override_match`, `payload_feature`, …) stripped; v1 synonyms renamed to the canonical schema. Smuggling fixtures no longer keep the seed's host, path and header layout, and the request line is no longer duplicated into the body. Shared pools widened: 20 hosts, ~90 endpoints, 55 parameters, 21 user-agent families with version ranges, randomised header order, optional `X-Request-Id` / `X-Forwarded-For`. A neutral `context`/`history` block appears on any HTTP record at the same rate. `Transfer-Encoding: chunked` and the flow evidence features (`qname_*`, `iat_cv`, `ja4_ua_consistent`) now also appear in benign records; benign UDP/DNS/QUIC/NTP flows exist.
+2. **Coverage tags and matrix.** `metadata.mechanism_tags` holds structural tags (delivery location, encoding layer, source, family, flow variant); `eval.coverage` reports them per class. No class is below the pilot thresholds (6 families or 30 seed groups).
+3. **Variety.** New delivery locations (multipart, Referer, nested JSON, path, multipart XML upload), extra encoding layers (double URL, JSON `\u` escapes, chunked) applied to benign values too, 2–3 named variants per flow class plus benign hard-negative flows (bulk backup, resolver bursts, video UDP, health-check polls). Benign flow records 60 → 120.
+4. **Minimal pairs.** 30% of seeded attack records get a benign twin (same request, ordinary value); Haiku rounds v3 and v4 added 8 named families per class and a context-matched benign twin per attack record (prompt `scenario_v2.md`). Twins share the attack's lineage group. 1,408 new Haiku records, all schema-valid, no duplicates or verdict keys.
+5. **Independent checks.** Blind same-model review of all 1,544 new items: v3 twins 47/320 quarantined (CSV twins carried escaped formulas, i.e. neutralised attacks), so the prompt now forbids neutralised payloads; v4 twins 5/320 quarantined. Non-LLM cross-check `eval.crs_oracle` (OWASP CRS rule regexes at the pinned commit, approximate `@rx`-only): attack recall at PL≤2 is 0.97–1.0 for SQLi classic/XSS/NoSQLi/smuggling, 0.75–0.8 for RCE/SSTI/SQLi obfuscated, low for classes CRS covers poorly by regex (LFI 0.15, deserialization 0.21); benign false-fire at PL1 is 9% (standard), 2% (search hard negatives), 63% (developer hard negatives, as intended).
+
+Shortcut audit (surface features, no payload values), v1 → v2: 35-class 49.0% → 42.0% (majority baseline 32.6%, chance 2.9%); attack vs benign 82.5% → 51.9%. The remaining 35-class signal is domain context (GraphQL context implies GraphQL or its benign twin) with matched benign counterparts; `concentrated_structural_tokens` lists 3 small leftovers from v1 files (`ctx=authz`, `grpc-encoding`, `x-forwarded-scheme`; ≤15 records each).
 
 ### Sources actually used
 
 - Payload seeds at pinned commits: payload-box lists, 47 SecLists files, PayloadsAllTheThings LDAP/XPATH/NoSQL docs (fenced payload examples only). 15,072 accepted seeds in 14,475 near-duplicate clusters; 587 rejected with reasons.
-- OWASP CRS regression fixtures (families 930/932/941/942, positive tests): 1,609 converted; a blind review of 40 found 35% lacked evidence, so only review-agreed fixtures (26) enter the build. Family 944 skipped (keyword-stuffed unit tests).
-- Observed flows: CIC-IDS2017 flow table (2.83M rows) and NF-ToN-IoT-v2 train (13.6M rows), mapped only where the source label names a class (port scan, slowloris/slowhttptest, FTP/SSH brute force, benign).
-- Excluded: UNSW-NB15 (academic-use terms), `xss-payload-list` (no license), CSIC 2010 (no attributable distribution).
-- Generation and review: Claude Haiku subagents spawned from the Claude Code session, no paid API (user decision). This replaces the async API worker pool in §6; cost is not metered.
-
-### Quality measures applied
-
-- **Seed quality:** quarantined too-short, syntax-free and prose lines; the mixed WAF-bypass list keeps only SQL lines; cross-class duplicates resolved by taxonomy precedence or quarantined; `sqli_obfuscated` topped up by deterministic, recorded transforms of `sqli_classic` seeds.
-- **Label review:** blind same-model review of 530 items (all Haiku records, 10 seeds per seeded class, 40 CRS fixtures); 65 quarantined. Lowest agreement: search hard negatives 0.79, LDAP/XPATH 0.80, JWT bypass 0.83, SQLi classic 0.85. Agreement filters noise; it is not ground truth (`reports/label_audit.json`).
-- **Leakage:** near-duplicate grouping for seeds and templated worker output; campaign grouping for flows; zero detected cross-split overlap under the documented checks.
-- **Shortcuts:** label-revealing hostnames and XXE entity names rewritten; attack and benign requests share endpoints, hosts, header profiles, parameters and locales; benign XML; 120 benign context-matched counterparts; flow records use one shared core vocabulary. Surface-only Naive Bayes accuracy (no payload values): 35-class 55.8% → 47.5% (chance 2.9%); attack vs benign 93.3% → 80.2% (`reports/shortcut_audit.json`).
+- OWASP CRS regression fixtures (families 930/932/941/942, positive tests): 1,609 converted; only review-agreed fixtures enter the build. CRS rule files (921/930–934/941/942/944) at the same commit feed `eval.crs_oracle` only (`coreruleset_rules`, disabled for bulk ingest).
+- Observed flows: CIC-IDS2017 flow table and NF-ToN-IoT-v2 train, mapped only where the source label names a class.
+- Excluded: UNSW-NB15 (academic-use terms), `xss-payload-list` (no license), CSIC 2010 (no attributable distribution). libinjection was not usable (no wheel; building needs Python headers).
+- Generation and review: Claude Haiku subagents spawned from the Claude Code session, no paid API (user decision).
 
 ### Open issues
 
-1. Clean Part B rerun pending: free-tier T4 allocation returned "Service Unavailable" at ~08:10, ~08:35 and 09:57 on 15 October (balance 0 compute units). Until a clean run passes, `gpu_smoke_test.json` reports `passed: false`. A Colab Pro balance (paid GPUs get priority) or a later free-tier retry unblocks it.
-2. Remaining shortcuts: context keys, endpoint and flow-key sets still predict class well above chance; request-smuggling records keep a distinct layout.
-3. Each CIC attack class is a single campaign; slowloris has one observed campaign and relies on synthetic top-up.
-4. Haiku-generated classes have 1–4 template families each; review labels come from the same model family.
-5. Not built: calibration and evaluation code, base-model and baseline comparisons, full 120k build, remaining PayloadsAllTheThings parsers.
+1. Scale: Haiku classes hold 46–80 accepted attack records each, against quotas of 1,500–10,000 (fast 30k needs ~30% of quota). One round (12 workers) adds ~380 accepted attack records + ~315 twins; ~20 rounds reach the fast-30k proportion. Deterministic classes can scale now (15k seeds).
+2. Review is still same-family (Haiku reviews Haiku); CRS is the only independent signal and covers payload classes only. A cross-model review (e.g. Gemini via the installed `agy`) is not done.
+3. Each CIC attack class is a single campaign; L4 attack classes other than port scan, slowloris and brute force are synthetic only (candidate observed sources: CIC-DDoS2019, CIC-Bell-DNS-EXF-2021, CTU-13; licences to check).
+4. Class balance: twins make benign_standard_traffic 33% of the pilot.
+5. Not built: calibration and evaluation code, base-model and baseline comparisons, scale build (`train_fast_30k`, `val_10k`, …), learning curve.
 
 ### Next steps
 
-1. When a T4 is available: allocate, run Part A, restart the kernel, run Part B (each CLI call wrapped in a local timeout), download `gpu_smoke_test.json`, stop the VM.
-2. Calibration (§10 completion-scoring + temperature scaling) and the evaluation harness, tested on the pilot.
-3. Reduce the remaining shortcuts, then scale toward the §4 quotas.
+1. Buy compute (100 CU) and run on L4: Part A/B smoke on the new bundle, then a `causal_conv1d` speed check.
+2. More Haiku rounds (`orchestrator jobs_v2 32 8 vN` → review → build), then a scale build and a 5k/15k/30k learning curve on L4 before committing to 100k.
+3. Calibration (§10) and the evaluation harness, tested on the pilot.
 
 ## What changed and why
 

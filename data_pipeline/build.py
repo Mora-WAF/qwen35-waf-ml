@@ -31,10 +31,12 @@ def round_robin_groups(entries, k):
     return out
 
 
-def collect(per_class):
+def collect(per_class, frac=None):
+    """per_class records per class, or (frac) ceil(frac x quota) per class for a quota-proportional build."""
     from data_pipeline import generate as G
     from subagents.orchestrator import ingest as ingest_haiku, GAP, GAP_BENIGN
     tax = taxonomy()
+    want_of = (lambda c: -(-tax[c]["quota"] * frac // 1)) if frac else (lambda c: per_class)
     recs = []
     deficits = {}
     # Haiku scenario classes
@@ -55,9 +57,9 @@ def collect(per_class):
         # CRS rule fixtures are regex unit tests: 35% of a blind-reviewed sample lacked evidence, so only
         # fixtures the review AGREED with are used (unreviewed ones carry the same noise rate)
         crs = [e for e in crs_pool.get(cls, []) if rv.get(f"crs:{e['original_id']}") == "agreed"]
-        picks = round_robin_groups(crs, per_class // 4) if crs else []
+        picks = round_robin_groups(crs, int(want_of(cls)) // 4) if crs else []
         recs += G.gen_observed_http(picks)
-        want = per_class - len(picks)
+        want = int(want_of(cls)) - len(picks)
         # spread over as many distinct seeds as possible before re-wrapping any seed
         base, extra = divmod(want, len(seeds))
         for j, s in enumerate(seeds):
@@ -70,7 +72,10 @@ def collect(per_class):
     pool = load_pool()
     mixed = {}
     for cls in G.FLOW_PROFILES:
-        want = per_class - per_class // 2 if cls == "benign_standard_traffic" else per_class
+        # benign flows: real NIDS traffic is mostly benign; 2x per_class so "flow" alone does not imply attack
+        want = int(want_of(cls))
+        if cls == "benign_standard_traffic":
+            want = 2 * per_class if not frac else want // 3  # flow share of benign_standard at scale
         obs = pool.get(cls, [])
         groups = {}
         for e in obs:
@@ -85,12 +90,13 @@ def collect(per_class):
         recs += G.gen_observed_flow(picks)
         if len(picks) < want:
             recs += G.gen_flow(cls, want - len(picks))
-    recs += G.gen_benign_std("benign_standard_traffic", per_class // 2)  # HTTP half of benign_standard
+    # HTTP part of benign_standard (twins and Haiku counterparts add more)
+    recs += G.gen_benign_std("benign_standard_traffic", per_class // 2 if not frac else int(want_of("benign_standard_traffic")) // 3)
     # record deficits vs quota-intent for pilot
     have = Counter(r["metadata"]["threat_type"] for r in recs)
     for cls in tax:
-        if have[cls] < per_class:
-            deficits[cls] = {"have": have[cls], "target": per_class,
+        if have[cls] < want_of(cls):
+            deficits[cls] = {"have": have[cls], "target": int(want_of(cls)),
                              "reason": "haiku job empty/missing" if cls in GAP and haiku_by_cls[cls] == 0
                                        else "insufficient independent seeds"}
     deficits["_mixed_observed_synthetic"] = mixed
@@ -112,12 +118,12 @@ def enforce_budget(recs):
     return kept, dict(over)
 
 
-def build(per_class=24, ratios=(0.8, 0.1, 0.1)):
+def build(per_class=24, ratios=(0.8, 0.1, 0.1), frac=None, prefix="pilot_"):
     from data_pipeline.dedup_and_split import (dedup, assign_splits, split_counts,
                                                cross_split_overlap, lineage_overlap)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "manifest.json").unlink(missing_ok=True)  # a crashed build must never leave a gate-passable manifest
-    recs, deficits, haiku_report = collect(per_class)
+    recs, deficits, haiku_report = collect(per_class, frac)
     recs, dropped = dedup(recs)
     recs, overflow = enforce_budget(recs)
     recs = assign_splits(recs, ratios)
@@ -128,8 +134,8 @@ def build(per_class=24, ratios=(0.8, 0.1, 0.1)):
     by_split = {"train": [], "val": [], "test": []}
     for r in recs:
         by_split[r["metadata"]["split"].split("_")[0]].append(r)
-    files = {"train": "pilot_train.jsonl", "val": "pilot_val.jsonl", "test": "pilot_test.jsonl"}
-    manifest = {"mode": "pilot", "per_class": per_class, "total": len(recs), "dropped_exact_dup": dropped,
+    files = {k: f"{prefix}{k}.jsonl" for k in ("train", "val", "test")}
+    manifest = {"mode": prefix.rstrip("_"), "per_class": per_class, "quota_fraction": frac, "total": len(recs), "dropped_exact_dup": dropped,
                 "rejected_token_overflow": overflow,
                 "files": {}, "deficits": deficits, "haiku_jobs": haiku_report,
                 "cross_split_overlap": len(xo), "lineage_overlap": len(lo),
@@ -155,8 +161,10 @@ def build(per_class=24, ratios=(0.8, 0.1, 0.1)):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--per-class", type=int, default=40)
+    ap.add_argument("--quota-frac", type=float, default=None, help="e.g. 0.25 -> ~30k quota-proportional build")
+    ap.add_argument("--prefix", default="pilot_")
     a = ap.parse_args()
-    m, s = build(a.per_class)
+    m, s = build(a.per_class, frac=a.quota_frac, prefix=a.prefix)
     print(json.dumps({"total": m["total"], "dropped": m["dropped_exact_dup"],
                       "classes_present": len(s["classes_present"]),
                       "deficits": {k: v["have"] for k, v in m["deficits"].items() if not k.startswith("_")},

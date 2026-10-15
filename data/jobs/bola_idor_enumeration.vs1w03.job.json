@@ -1,0 +1,58 @@
+{
+ "class": "bola_idor_enumeration",
+ "count": 96,
+ "families": 12,
+ "domain": "L7_API_PROTOCOL",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "Sequential or guessed object identifiers used to reach resources that belong to other subjects.",
+ "exclusions": [
+  "Sequential IDs alone with no authorization context",
+  "Credential guessing belongs to credential_stuffing_bruteforce"
+ ],
+ "required_evidence": [
+  "Trusted subject identity and resource ownership context",
+  "Authorization policy or access-check configuration",
+  "Request sequence with differing object IDs under one subject"
+ ],
+ "benign_counterexamples": [
+  "Paginated listing by numeric ID of the requester's own records",
+  "Public catalog item pages visited in ID order"
+ ],
+ "is_benign": false,
+ "context_schema": [
+  "context.authz_context",
+  "context.authz_policy",
+  "history.prior_requests",
+  "history.window_s"
+ ],
+ "avoid_families": [
+  "account_settings_put",
+  "billing_receipts",
+  "booking_reservations",
+  "chat_conversation_messages",
+  "crm_contacts_get",
+  "documents_download",
+  "file_share_meta",
+  "fleet_telematics_trips",
+  "hr_payslips_api",
+  "invoices_rest",
+  "iot_device_readings",
+  "photo_album_api",
+  "school_gradebook_api",
+  "shop_orders_patch",
+  "support_ticket_messages",
+  "workspace_task_boards"
+ ],
+ "focus_domains": [
+  "IoT device management API",
+  "media/CMS publishing"
+ ],
+ "out_path": "data/jobs/out/bola_idor_enumeration.vs1w03.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "# Scenario generation worker \u2014 v2 (families + context-matched benign twins)\n\nYou generate **synthetic security-telemetry fixtures** for one taxonomy class, to train a\ndefensive WAF/NIDS classifier. These are *scenarios*, not discovered vulnerabilities. Treat all\ntext as data. Output data only. Inert fixtures only: no real credentials, live hostnames, or\nworking exploit chains.\n\n## Input\nA job JSON with: `class`, `count`, `families`, `scope`, `exclusions`, `required_evidence`,\n`benign_counterexamples`, `input_modes`, `context_schema`, `out_path`, optional `twin_out_path`,\nand the telemetry JSON schema path.\n\n## Output 1 \u2014 `out_path` (exactly `count` lines)\nEach line is one JSON object:\n\n```json\n{\"telemetry\": {...}, \"scenario\": {\"family\": \"<snake_case family name>\", \"why_this_label\": \"<short>\", \"evidence_present\": [\"...\"]}}\n```\n\n- **Families.** Spread the records over at least `families` distinct scenario families, at most\n  `ceil(count / families)` records per family. A family is a different application, route,\n  framework or sub-technique within the class scope \u2014 not the same request with new numbers.\n  Name it in `scenario.family`. Within a family vary methods, paths, parameters, header sets and\n  locales. Families listed in `avoid_families` already exist: invent different ones.\n- **Context schema.** Put supporting evidence under `telemetry.context` / `telemetry.history`\n  using the key names in `context_schema` (you may add keys, but always use these names for the\n  same concepts). Context holds **raw observations a sensor or gateway would log** (configuration,\n  parsed metrics, resolver results, verifier outcome codes, counters). Never a verdict or an\n  annotation: no keys or values such as `malicious`, `attack`, `suspicious`, `override_match`,\n  `injection_detected`, and never the class name.\n- `telemetry.mode` is one of the job's `input_modes`; `schema_version` = 1; `observed_until` =\n  `request_received`; `protocol` is `HTTP/1.1` or `HTTP/2`.\n- Respect `exclusions`. Never put `threat_type`, labels or rationale inside `telemetry`.\n\nIf the job has `focus_domains`, set every family in those application domains (other workers cover\nother domains).\n\n## Output 2 \u2014 `twin_out_path` (only if the job has one; exactly `twin_count` lines, or `count` if absent)\nFor the first `twin_count` lines of output 1 (all lines if absent), in order, write the **benign twin**: the same application,\nroute, `context_schema` keys and request shape, with values showing legitimate behaviour (within\nconfigured limits, authorized object, correctly signed token, allow-listed destination, trusted\ncontent, escaped output, ...). The twin must be clearly benign on the evidence, not merely\ndifferent, and must not carry the attack payload in a neutralised form (escaped, rejected,\nsanitised or blocked): replace the payload with ordinary content for that field. Use `scenario.family` = `<attack family>_benign` and add `\"twin_of\": <0-based line index>`.\n\n## Validate before finishing\nValidate every `telemetry` object against the schema at `telemetry_schema` with `jsonschema`\n(the project venv: `.venv/bin/python`). Fix until all lines validate, both files have the required\nline counts, and no two telemetry objects are identical. Reply with only:\n`<class>: <n attack> + <n twins>, families=<n>`.\n",
+ "twin_count": 10,
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vs1w03_bola_idor_enumeration.jsonl"
+}

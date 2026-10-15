@@ -38,7 +38,7 @@ INJECTIONS = [  # aimed at the classifier itself; the decoy label is what it mus
 
 def core_groups():
     used = set()
-    for f in sorted((ROOT / "datasets_ready").glob("pilot_*.jsonl")):
+    for f in sorted(p for p in (ROOT / "datasets_ready").glob("*.jsonl") if not p.name.startswith("robustness")):
         for line in open(f):
             used.add(json.loads(line)["metadata"]["lineage_group"])
     return used

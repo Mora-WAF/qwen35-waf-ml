@@ -19,7 +19,8 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def surface(tel):
     """Feature-name -> value, deliberately excluding payload-bearing values."""
-    f = {"mode": tel["mode"], "stage": tel["decision_stage"]}
+    f = {"mode": tel["mode"], "stage": tel["decision_stage"],
+         "observed_until": re.sub(r"\d", "#", str(tel.get("observed_until")))}
     h = tel.get("http")
     if h:
         hd = {k.lower(): v for k, v in h["headers"]}
@@ -41,13 +42,38 @@ def surface(tel):
     return f
 
 
+def structural_tokens(tel):
+    """Key paths, header names and enum-like values: things a generator chooses, not payload text."""
+    out = {f"observed_until={re.sub(r'[0-9]', '#', str(tel.get('observed_until')))}"}
+    h = tel.get("http") or {}
+    out |= {f"hdr={k.lower()}" for k, _ in h.get("headers", [])}
+    out |= {f"proto={h['protocol']}"} if h else set()
+    out |= {f"ctx={k}" for k in (tel.get("context") or {})} | {f"hist={k}" for k in (tel.get("history") or {})}
+    if tel.get("flow"):
+        out |= {f"feat={k}" for k in tel["flow"]["features"]} | {f"flowproto={tel['flow'].get('protocol')}"}
+    return out
+
+
+def concentrated(recs_tel, min_support=8, benign_floor=0.25):
+    """Structural tokens seen only in 1-2 classes WITHOUT a benign counterpart holding >= benign_floor of
+    them: candidate generator shortcuts. A class-specific key with matched benign twins is domain
+    evidence (GraphQL context means GraphQL traffic), not a shortcut."""
+    by = defaultdict(Counter)
+    for tel, y in recs_tel:
+        for t in structural_tokens(tel):
+            by[t][y] += 1
+    return {t: dict(c) for t, c in sorted(by.items(), key=lambda kv: -sum(kv[1].values()))
+            if sum(c.values()) >= min_support and len(c) <= 2
+            and sum(v for k, v in c.items() if k.startswith("benign")) / sum(c.values()) < benign_floor}
+
+
 def load(prefix):
     recs = []
     for fn in sorted((ROOT / "datasets_ready").glob(f"{prefix}*.jsonl")):
         for line in open(fn):
             r = json.loads(line)
             tel = json.loads(r["messages"][1]["content"].split("] ", 1)[1])
-            recs.append((surface(tel), r["metadata"]["threat_type"], r["metadata"]["split"]))
+            recs.append((surface(tel), r["metadata"]["threat_type"], r["metadata"]["split"], tel))
     return recs
 
 
@@ -79,8 +105,8 @@ def main(prefix):
     import yaml
     benign = {k for k, v in yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"].items() if v["is_benign"]}
     recs = load(prefix)
-    train = [(f, y) for f, y, s in recs if s == "train"]
-    held = [(f, y) for f, y, s in recs if s != "train"]
+    train = [(f, y) for f, y, s, _ in recs if s == "train"]
+    held = [(f, y) for f, y, s, _ in recs if s != "train"]
     model = nb_fit(train)
     preds = [(nb_predict(model, f), y) for f, y in held]
     acc = sum(p == y for p, y in preds) / len(preds)
@@ -104,6 +130,7 @@ def main(prefix):
            "per_feature_majority_accuracy": dict(sorted(per_feat.items(), key=lambda x: -x[1])),
            "per_class_surface_recall": {c: round(a / n, 2) for c, (a, n) in sorted(
                per_class.items(), key=lambda x: -x[1][0] / x[1][1])},
+           "concentrated_structural_tokens": concentrated([(t, y) for _, y, _, t in recs]),
            "interpretation": "surface features exclude payload values; accuracy well above chance means "
                              "labels are partly predictable from generator/source artefacts (shortcuts). "
                              "Flow mode is inherently class-informative (L4 classes only exist as flows)."}
@@ -111,6 +138,7 @@ def main(prefix):
     print(json.dumps({k: rep[k] for k in list(rep)[:7]}, indent=1))
     print("top features:", list(rep["per_feature_majority_accuracy"].items())[:6])
     print("most shortcut-recallable classes:", list(rep["per_class_surface_recall"].items())[:10])
+    print("concentrated structural tokens:", len(rep["concentrated_structural_tokens"]))
     return rep
 
 

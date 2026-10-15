@@ -8,7 +8,8 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: pilot data-ready; notebook partially smoke-tested (see the progress log). A failed gate or target is a recorded
+Current state: pilot data-ready (v2 build); notebook smoke-tested on a Colab T4 (`reports/gpu_smoke_test.json`,
+`passed: true`, on the previous bundle); no model evaluated (see the progress log). A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
 ## Pipeline order
@@ -18,10 +19,13 @@ Run with `.venv/bin/python -m` (Python 3.12 venv; system Python 3.14 lacks the M
 1. `data_pipeline.ingest_public [source_id ...]` → pinned downloads into `../raw_cache/` (outside the repo)
 2. `data_pipeline.normalize` → seeds, quality rejects, near-dup clusters
 3. `data_pipeline.flows` → observed CIC/NF-ToN flow pool
-4. `subagents.orchestrator jobs N` → Haiku job specs; `subagents.review export|score` → blind review
+4. `subagents.orchestrator jobs_v2 COUNT FAMILIES vN` → Haiku job specs (families + benign twins; prompt
+   `subagents/prompts/scenario_v2.md`); `subagents.review export_new vN` then `score` → incremental blind review
 5. `data_pipeline.build` → `datasets_ready/` (deletes the old manifest first); then
    `data_pipeline.robustness` → `robustness_pilot.jsonl` (needs the core build: it excludes core lineage)
-6. `tests.validate_pre_colab` → the **gate**; `eval.shortcut_audit` → shortcut report
+6. `tests.validate_pre_colab` → the **gate**; `eval.shortcut_audit` (incl. concentrated structural tokens),
+   `eval.coverage` (families/locations/encodings) and `eval.crs_oracle` (non-LLM CRS cross-check; needs
+   `ingest_public coreruleset_rules`) → quality reports
 7. `training.make_bundle` → Colab zip (refuses a failed gate); `colab/make_notebook.py` regenerates the notebook
 
 Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/bin/python -m pytest -q tests`.
@@ -33,6 +37,8 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
 - Run it as `colab new -s NAME --gpu T4` → `colab upload` the bundle → `colab exec -f partA.ipynb` →
   `colab restart-kernel` → `colab exec -f partB.ipynb` → `colab download` → `colab stop`. Wrap each
   long call in a local `timeout`: after a restart the CLI once waited 4.5 h on a dead connection.
+- `restart-kernel` can time out silently: before Part B, exec a probe that `torch` is not in `sys.modules`
+  and `nvidia-smi` shows 0 MiB. `colab exec` defaults to a 30 s timeout: pass `--timeout`.
 - Free-tier T4 can return "Service Unavailable" after a few GPU-hours; retry later rather than in a loop.
 - Every session ends with `colab stop`; `colab sessions` must list none.
 
@@ -48,7 +54,12 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
   is one campaign, so its test coverage comes from NF-ToN or synthetic records.
 - **Shortcuts**: every request pool (endpoints, hosts, header profiles, params, locales) is shared by
   attack and benign records, and flow records use only the CORE names in `config/features.yaml`.
-  After any generator change, rerun `eval.shortcut_audit` and compare with the progress log.
+  Generator-style fields (`observed_until`, protocol token, verdict-like context keys) are canonicalised at
+  ingest (`orchestrator.canonicalize`); optional keys (`context`, `history`, flow evidence features) must
+  appear in benign records too. After any generator change, rerun `eval.shortcut_audit` and compare with
+  the progress log; `concentrated_structural_tokens` must stay near-empty.
+- **Minimal pairs**: seeded records get benign twins (`generate.TWIN_RATE`), Haiku attack classes get
+  context-matched twins; a twin shares its attack's lineage group and must not carry a neutralised payload.
 - **Model input** carries telemetry only; labels, rationale and evidence live in `metadata` / `scenario`.
   Missing values are absent keys, never a fabricated zero.
 - **Source labels** map to a class only when they name it (e.g. CIC `DDoS` is an HTTP flood, so it is

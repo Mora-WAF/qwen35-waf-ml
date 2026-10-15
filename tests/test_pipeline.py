@@ -1,3 +1,4 @@
+import json
 import math
 import sys
 from pathlib import Path
@@ -21,8 +22,28 @@ def test_http_blocks_keep_framing_and_inner_blank_lines():
 def test_raw_smuggling_wrap_preserves_duplicates_and_body():
     raw = "POST /x HTTP/1.1\nTransfer-Encoding: chunked\nTransfer-Encoding: identity\n\n0\n\nZ"
     tel, prov = G.wrap_http_raw({"id": "t", "payload": raw, "class": "http_request_smuggling"})
-    assert tel["http"]["headers"] == [["Transfer-Encoding", "chunked"], ["Transfer-Encoding", "identity"]]
-    assert tel["http"]["body"] == raw and prov == "hybrid"
+    hs = tel["http"]["headers"]
+    assert [h for h in hs if h[0] == "Transfer-Encoding"] == [["Transfer-Encoding", "chunked"], ["Transfer-Encoding", "identity"]]
+    assert hs[0][0] == "Host" and hs[0][1] in G.HOSTS and tel["http"]["target"] in G.ENDPOINTS  # pooled, not seed layout
+    assert tel["http"]["body"] == "0\n\nZ" and prov == "hybrid"  # body = bytes after the header block, verbatim
+
+
+def test_minimal_pair_twin_differs_only_in_value():
+    seed = {"id": "s9", "class": "xss_reflected_stored", "payload": "<b>probe</b>"}
+    a, _ = G.wrap_http(seed)
+    b, _ = G.wrap_http(seed, twin=True)
+    ha, hb = a["http"], b["http"]
+    assert (ha["method"], ha["protocol"]) == (hb["method"], hb["protocol"])
+    assert ha["headers"][0] == hb["headers"][0] and [k for k, _ in ha["headers"]] == [k for k, _ in hb["headers"]]
+    assert "probe" in json.dumps(a) and "probe" not in json.dumps(b)
+
+
+def test_haiku_style_fields_canonicalized():
+    from subagents.orchestrator import canonicalize
+    tel = {"schema_version": 1, "mode": "L7_HTTP", "decision_stage": "request_headers",
+           "observed_until": "2026-10-14T08:00:00Z", "http": {"method": "GET", "target": "/", "protocol": "HTTP/2.0", "headers": []}}
+    out = canonicalize(tel, "k")
+    assert out["observed_until"] == "request_received" and out["http"]["protocol"] == "HTTP/2"
 
 
 import yaml  # noqa: E402
@@ -117,7 +138,9 @@ def test_request_builder_round_trip():
             assert any(v["depth"] == 2 for v in h.get("decoded_views", [])) is False  # single layer only
         if sink in ("form", "json"):
             assert h["method"] in ("POST", "PUT") and tel["decision_stage"] == "request_headers_body"
-            assert ["Content-Length", str(len(h["body"].encode()))] in h["headers"]
+            assert (["Content-Length", str(len(h["body"].encode()))] in h["headers"]
+                    or (["Transfer-Encoding", "chunked"] in h["headers"]
+                        and any(v["decoder"] == "chunked" for v in h["decoded_views"])))
 
 
 def test_observed_and_synthetic_share_core_names():
@@ -141,3 +164,15 @@ def test_crs_fixture_to_telemetry():
     assert h["host"] != "localhost" and "OWASP" not in h["user-agent"]   # test-harness headers normalized
     assert h["content-type"] == "text/plain" and tel["http"]["query"] == [["id", "1"], ["x", "2"]]
     assert tel["decision_stage"] == "request_headers_body"
+
+
+def test_review_status_unanswered_is_not_agreed(tmp_path, monkeypatch):
+    from subagents import review as R
+    (tmp_path / "out").mkdir()
+    key = tmp_path / "key.json"
+    key.write_text(json.dumps({"r1": {"ref": "a:0"}, "r2": {"ref": "a:1"}, "r3": {"ref": "a:2"}}))
+    (tmp_path / "out" / "batch_x.jsonl").write_text('{"rid": "r1"}\n{"rid": "r2"}\n')
+    (tmp_path / "quarantine.json").write_text(json.dumps([{"ref": "a:1"}]))
+    monkeypatch.setattr(R, "RV", tmp_path)
+    monkeypatch.setattr(R, "KEY", key)
+    assert R.status() == {"a:0": "agreed", "a:1": "quarantined", "a:2": "not_reviewed"}

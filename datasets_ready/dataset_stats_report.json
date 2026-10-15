@@ -1,255 +1,255 @@
 {
  "split_counts": {
   "ssrf_cloud_metadata": {
-   "train": 19,
-   "val_select": 1,
-   "test": 2,
-   "val_calib": 1,
-   "val_policy": 1
+   "val_calib": 19,
+   "train": 608,
+   "test": 76,
+   "val_policy": 19,
+   "val_select": 38
   },
   "graphql_abuse": {
-   "train": 15,
-   "val_select": 1,
-   "val_policy": 1,
-   "test": 2,
-   "val_calib": 1
+   "train": 206,
+   "test": 25,
+   "val_policy": 6,
+   "val_select": 14,
+   "val_calib": 6
   },
   "jwt_auth_bypass": {
-   "train": 15,
-   "test": 2,
-   "val_calib": 1,
-   "val_select": 1,
-   "val_policy": 1
+   "train": 216,
+   "val_select": 13,
+   "val_policy": 7,
+   "test": 27,
+   "val_calib": 7
   },
   "bola_idor_enumeration": {
-   "train": 19,
-   "val_calib": 1,
-   "test": 2,
-   "val_policy": 1,
-   "val_select": 1
+   "train": 148,
+   "test": 18,
+   "val_select": 9,
+   "val_calib": 5,
+   "val_policy": 4
   },
   "websocket_grpc_abuse": {
-   "test": 2,
-   "val_calib": 1,
-   "val_select": 1,
-   "train": 19,
-   "val_policy": 1
+   "train": 219,
+   "test": 27,
+   "val_policy": 7,
+   "val_select": 13,
+   "val_calib": 7
   },
   "llm_prompt_injection": {
-   "val_calib": 1,
-   "val_select": 2,
-   "train": 40,
-   "test": 4,
-   "val_policy": 1
+   "train": 242,
+   "test": 31,
+   "val_select": 17,
+   "val_policy": 7,
+   "val_calib": 7
   },
   "prototype_pollution": {
-   "train": 40,
-   "test": 4,
-   "val_policy": 1,
-   "val_select": 2,
-   "val_calib": 1
+   "train": 243,
+   "test": 32,
+   "val_calib": 7,
+   "val_select": 15,
+   "val_policy": 7
   },
   "web_cache_poisoning": {
-   "train": 19,
-   "val_select": 1,
-   "val_calib": 1,
-   "val_policy": 1,
-   "test": 2
+   "train": 224,
+   "val_policy": 7,
+   "test": 28,
+   "val_select": 14,
+   "val_calib": 7
   },
   "deserialization": {
-   "train": 32,
-   "val_policy": 1,
-   "val_select": 2,
-   "test": 4,
-   "val_calib": 1
+   "train": 233,
+   "val_policy": 8,
+   "test": 27,
+   "val_select": 13,
+   "val_calib": 7
   },
   "csv_formula_injection": {
-   "train": 15,
-   "test": 2,
-   "val_select": 1,
-   "val_policy": 1,
-   "val_calib": 1
+   "test": 27,
+   "train": 222,
+   "val_calib": 7,
+   "val_policy": 7,
+   "val_select": 13
   },
   "benign_hard_negative_dev": {
-   "train": 18,
-   "val_select": 1,
-   "test": 2,
-   "val_policy": 1,
-   "val_calib": 1
+   "train": 195,
+   "test": 24,
+   "val_policy": 6,
+   "val_select": 12,
+   "val_calib": 6
   },
   "benign_hard_negative_search": {
-   "train": 29,
-   "test": 3,
-   "val_calib": 1,
-   "val_select": 1,
-   "val_policy": 1
+   "train": 150,
+   "val_policy": 4,
+   "val_select": 9,
+   "test": 18,
+   "val_calib": 5
   },
   "benign_standard_traffic": {
-   "test": 16,
-   "train": 128,
-   "val_policy": 4,
-   "val_select": 8,
-   "val_calib": 4
+   "train": 4172,
+   "test": 524,
+   "val_calib": 121,
+   "val_select": 248,
+   "val_policy": 132
   },
   "sqli_classic": {
-   "train": 34,
-   "test": 3,
-   "val_policy": 1,
-   "val_calib": 1,
-   "val_select": 1
+   "train": 807,
+   "test": 98,
+   "val_select": 46,
+   "val_calib": 26,
+   "val_policy": 23
   },
   "sqli_obfuscated": {
-   "train": 34,
-   "test": 3,
-   "val_policy": 1,
-   "val_calib": 1,
-   "val_select": 1
+   "train": 805,
+   "test": 99,
+   "val_calib": 24,
+   "val_select": 48,
+   "val_policy": 24
   },
   "nosqli": {
-   "val_calib": 2,
-   "train": 33,
-   "val_policy": 1,
-   "test": 3,
-   "val_select": 1
+   "train": 499,
+   "test": 72,
+   "val_calib": 18,
+   "val_select": 18,
+   "val_policy": 18
   },
   "xss_reflected_stored": {
-   "train": 32,
-   "val_calib": 1,
-   "val_select": 2,
-   "test": 4,
-   "val_policy": 1
+   "train": 802,
+   "test": 99,
+   "val_select": 49,
+   "val_policy": 25,
+   "val_calib": 25
   },
   "xss_dom_polyglot": {
-   "train": 32,
-   "test": 4,
-   "val_select": 2,
-   "val_policy": 1,
-   "val_calib": 1
+   "train": 508,
+   "test": 59,
+   "val_select": 28,
+   "val_calib": 20,
+   "val_policy": 10
   },
   "rce_cmd_injection": {
-   "train": 32,
-   "test": 4,
-   "val_policy": 1,
-   "val_calib": 1,
-   "val_select": 2
+   "test": 86,
+   "train": 703,
+   "val_calib": 22,
+   "val_select": 43,
+   "val_policy": 21
   },
   "ssti": {
-   "train": 34,
-   "test": 3,
-   "val_select": 1,
-   "val_policy": 1,
-   "val_calib": 1
+   "train": 602,
+   "val_select": 37,
+   "test": 74,
+   "val_policy": 18,
+   "val_calib": 19
   },
   "xxe": {
-   "train": 32,
-   "test": 4,
-   "val_select": 2,
-   "val_policy": 1,
-   "val_calib": 1
+   "test": 50,
+   "train": 403,
+   "val_select": 23,
+   "val_policy": 12,
+   "val_calib": 12
   },
   "crlf_header_injection": {
-   "train": 34,
-   "test": 3,
-   "val_policy": 1,
-   "val_select": 1,
-   "val_calib": 1
+   "train": 305,
+   "test": 32,
+   "val_select": 23,
+   "val_policy": 8,
+   "val_calib": 7
   },
   "ldap_xpath_injection": {
-   "train": 33,
-   "test": 4,
-   "val_calib": 1,
-   "val_select": 1,
-   "val_policy": 1
+   "train": 315,
+   "test": 30,
+   "val_calib": 10,
+   "val_select": 10,
+   "val_policy": 10
   },
   "path_traversal_lfi": {
-   "train": 32,
-   "val_policy": 3,
-   "val_select": 1,
-   "test": 3,
-   "val_calib": 1
+   "train": 799,
+   "test": 100,
+   "val_calib": 25,
+   "val_policy": 24,
+   "val_select": 52
   },
   "http_request_smuggling": {
-   "train": 32,
-   "test": 4,
-   "val_select": 2,
-   "val_calib": 1,
-   "val_policy": 1
+   "train": 697,
+   "val_select": 42,
+   "test": 90,
+   "val_policy": 22,
+   "val_calib": 24
   },
   "open_redirect_cors": {
-   "train": 32,
-   "val_select": 1,
-   "val_calib": 1,
-   "test": 3,
-   "val_policy": 3
+   "train": 395,
+   "val_select": 15,
+   "val_calib": 10,
+   "val_policy": 20,
+   "test": 60
   },
   "syn_flood_ddos": {
-   "train": 32,
-   "val_select": 2,
-   "val_policy": 1,
-   "test": 4,
-   "val_calib": 1
+   "test": 100,
+   "train": 800,
+   "val_select": 50,
+   "val_calib": 25,
+   "val_policy": 25
   },
   "udp_amplification": {
-   "train": 32,
-   "val_policy": 1,
-   "test": 4,
-   "val_select": 2,
-   "val_calib": 1
+   "train": 600,
+   "test": 75,
+   "val_select": 37,
+   "val_calib": 19,
+   "val_policy": 19
   },
   "slowloris_slowhttp": {
-   "train": 35,
-   "val_policy": 1,
-   "val_calib": 1,
-   "val_select": 1,
-   "test": 2
+   "val_policy": 342,
+   "train": 302,
+   "test": 37,
+   "val_select": 19,
+   "val_calib": 9
   },
   "port_scan_recon": {
-   "train": 32,
-   "test": 4,
-   "val_select": 2,
-   "val_policy": 1,
-   "val_calib": 1
+   "val_policy": 81,
+   "test": 85,
+   "train": 745,
+   "val_select": 25,
+   "val_calib": 13
   },
   "credential_stuffing_bruteforce": {
-   "train": 32,
-   "val_select": 2,
-   "test": 2,
-   "val_policy": 1,
-   "val_calib": 1
+   "val_policy": 78,
+   "train": 577,
+   "test": 75,
+   "val_calib": 13,
+   "val_select": 24
   },
   "c2_beaconing_anomaly": {
-   "train": 32,
-   "test": 4,
-   "val_select": 2,
-   "val_calib": 1,
-   "val_policy": 1
+   "train": 400,
+   "test": 50,
+   "val_select": 25,
+   "val_calib": 13,
+   "val_policy": 12
   },
   "dns_tunneling_exfil": {
-   "train": 32,
-   "val_policy": 1,
-   "val_select": 2,
-   "val_calib": 1,
-   "test": 4
+   "test": 50,
+   "train": 400,
+   "val_policy": 12,
+   "val_calib": 13,
+   "val_select": 25
   },
   "tls_ja4_ua_spoofing": {
-   "train": 32,
-   "val_calib": 1,
-   "val_policy": 1,
-   "test": 4,
-   "val_select": 2
+   "train": 400,
+   "test": 50,
+   "val_select": 25,
+   "val_calib": 13,
+   "val_policy": 12
   },
   "benign_high_rate_legit": {
-   "train": 32,
-   "test": 4,
-   "val_calib": 1,
-   "val_select": 2,
-   "val_policy": 1
+   "train": 1000,
+   "test": 125,
+   "val_select": 63,
+   "val_calib": 31,
+   "val_policy": 31
   }
  },
  "provenance": {
-  "synthetic": 800,
-  "hybrid": 520,
-  "observed": 68
+  "synthetic": 14288,
+  "hybrid": 9500,
+  "observed": 1459
  },
  "classes_present": [
   "benign_hard_negative_dev",

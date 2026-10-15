@@ -28,7 +28,8 @@ RUN_RESUME_TEST = True    # smoke only: compare uninterrupted vs save/reload con
 SEED = 3407
 MODEL_ID = "unsloth/Qwen3.5-4B"
 MODEL_REVISION = "3764fa359b9082ea5a1e4a5e3ac3aaf6e9671636"
-MAX_LEN = 2048"""),
+MAX_LEN = 2048
+EVAL_SUBSET = 1000        # interim evals use the first N val_select rows (a full 5k eval took ~56 min on a T4)"""),
 (PY, """# ---- pinned stack (tested on Colab T4, torch 2.11.0+cu130, 2026-10-15). unsloth 2026.10.5 caps
 # transformers<=5.17.0, trl<=1.15.0, datasets<5.0; torch pinned so xformers cannot swap the CUDA build
 !pip install -q "torch==2.11.0" "unsloth==2026.10.5" "unsloth_zoo==2026.10.5" "transformers==5.17.0" "trl==1.15.0" "peft==0.21.2" "accelerate==1.15.0" "bitsandbytes==0.50.2" "datasets==4.8.5" "xformers==0.0.35" "torchao==0.18.0" pyyaml jsonschema
@@ -70,8 +71,8 @@ from training import prepare as P
 from eval.policy import parse_output
 import yaml
 TAX = yaml.safe_load(open(f"{B}/config/taxonomy.yaml"))["classes"]
-FILES = {"smoke": "pilot_train.jsonl", "fast": "train_fast_30k.jsonl", "full": "train_full_100k.jsonl"}
-VAL = "pilot_val.jsonl" if MODE == "smoke" else "val_10k.jsonl"
+FILES = {"smoke": "pilot_train.jsonl", "fast": "fast_train.jsonl", "full": "train_full_100k.jsonl"}
+VAL = {"smoke": "pilot_val.jsonl", "fast": "fast_val.jsonl"}.get(MODE, "val_10k.jsonl")
 print("bundle ok:", info["prefix"], "gate passed:", gate["passed"])"""),
 (PY, """# ---- model (16-bit LoRA, text-only path) -------------------------------------------------------
 from unsloth import FastLanguageModel
@@ -135,7 +136,7 @@ meter = Meter(tokens_per_step=avg_tokens * 16)
 args = H.make_args(OUT, STEPS, 10 if MODE == "smoke" else 250, smoke=MODE == "smoke", seed=SEED)
 print("optim", args.optim.value, "| clip", args.max_grad_norm, "| warmup", args.warmup_steps, "| fp16", args.fp16, "| bf16", args.bf16)
 trainer = Trainer(model=model, args=args, train_dataset=Dataset.from_list(train_rows),
-                  eval_dataset=Dataset.from_list(val_rows), data_collator=collate, callbacks=[meter])"""),
+                  eval_dataset=Dataset.from_list(val_rows[:EVAL_SUBSET]), data_collator=collate, callbacks=[meter])"""),
 (PY, """# ---- train (resumes from the newest COMPLETE checkpoint locally or on Drive) -------------------
 def latest_complete(*dirs):
     cks = [os.path.join(d, c) for d in dirs if d and os.path.isdir(d) for c in os.listdir(d)

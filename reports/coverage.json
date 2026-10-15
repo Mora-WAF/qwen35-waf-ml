@@ -1,0 +1,1591 @@
+{
+ "prefix": "pilot_",
+ "min_families": 6,
+ "thin_classes": [],
+ "classes": {
+  "benign_hard_negative_dev": {
+   "records": 81,
+   "family_like_units": 33,
+   "lineage_groups": 81,
+   "provenance": {
+    "synthetic": 81
+   },
+   "template_family": {
+    "benign_hard_negative_dev:v1_unlabelled": 23,
+    "benign_hard_negative_dev:ci_dbt_docs_render_jinja": 4,
+    "benign_hard_negative_dev:terraform_cloud_run_tag_interpolation": 4,
+    "benign_hard_negative_dev:scheduler_cache_janitor_pipeline": 4,
+    "benign_hard_negative_dev:git_push_commit_metadata": 4,
+    "benign_hard_negative_dev:api_client_archive_relative_path": 4,
+    "benign_hard_negative_dev:staging_template_preview_debug": 4,
+    "benign_hard_negative_dev:graphql_dev_introspection": 4,
+    "benign_hard_negative_dev:regex_playground_eval": 4,
+    "benign_hard_negative_dev:webhook_replay_test_fixture": 4,
+    "benign_hard_negative_dev:jupyter_notebook_sql_magic_analytics": 4,
+    "benign_hard_negative_dev:vscode_rest_client_dot_segment_asset": 4,
+    "benign_hard_negative_dev:docs_cms_preview_code_sample": 4,
+    "benign_hard_negative_dev:ide_datagrip_reporting_sql": 3,
+    "benign_hard_negative_dev:postman_catalog_search_quoted_terms": 3,
+    "benign_hard_negative_dev:kubectl_json_patch_container_command": 3,
+    "benign_hard_negative_dev:error_reporter_stack_frames": 1
+   },
+   "loc": {
+    "json": 61,
+    "query": 11,
+    "request_line": 6,
+    "raw_body": 2,
+    "form": 1
+   },
+   "enc": {
+    "base64": 2
+   },
+   "family": {
+    "ci_dbt_docs_render_jinja": 4,
+    "terraform_cloud_run_tag_interpolation": 4,
+    "scheduler_cache_janitor_pipeline": 4,
+    "git_push_commit_metadata": 4,
+    "api_client_archive_relative_path": 4,
+    "staging_template_preview_debug": 4,
+    "graphql_dev_introspection": 4,
+    "regex_playground_eval": 4,
+    "webhook_replay_test_fixture": 4,
+    "jupyter_notebook_sql_magic_analytics": 4,
+    "vscode_rest_client_dot_segment_asset": 4,
+    "docs_cms_preview_code_sample": 4,
+    "ide_datagrip_reporting_sql": 3,
+    "postman_catalog_search_quoted_terms": 3,
+    "kubectl_json_patch_container_command": 3,
+    "error_reporter_stack_frames": 1
+   },
+   "variant": {},
+   "src": {}
+  },
+  "benign_hard_negative_search": {
+   "records": 90,
+   "family_like_units": 33,
+   "lineage_groups": 90,
+   "provenance": {
+    "synthetic": 90
+   },
+   "template_family": {
+    "benign_hard_negative_search:v1_unlabelled": 35,
+    "benign_hard_negative_search:course_catalog_search": 4,
+    "benign_hard_negative_search:job_board_search": 4,
+    "benign_hard_negative_search:recipe_search": 4,
+    "benign_hard_negative_search:podcast_directory_search": 4,
+    "benign_hard_negative_search:spreadsheet_help_search": 4,
+    "benign_hard_negative_search:programming_tutorial_search": 4,
+    "benign_hard_negative_search:forum_thread_search": 4,
+    "benign_hard_negative_search:it_helpdesk_kb_search": 4,
+    "benign_hard_negative_search:hr_policy_intranet_search": 4,
+    "benign_hard_negative_search:museum_collection_search": 4,
+    "benign_hard_negative_search:library_catalog_search": 3,
+    "benign_hard_negative_search:email_archive_search": 3,
+    "benign_hard_negative_search:gym_class_schedule_search": 3,
+    "benign_hard_negative_search:ecommerce_product_search": 2,
+    "benign_hard_negative_search:hotel_booking_search": 2,
+    "benign_hard_negative_search:municipal_permit_search": 2
+   },
+   "loc": {
+    "query": 75,
+    "cookie": 15
+   },
+   "family": {
+    "course_catalog_search": 4,
+    "job_board_search": 4,
+    "recipe_search": 4,
+    "podcast_directory_search": 4,
+    "spreadsheet_help_search": 4,
+    "programming_tutorial_search": 4,
+    "forum_thread_search": 4,
+    "it_helpdesk_kb_search": 4,
+    "hr_policy_intranet_search": 4,
+    "museum_collection_search": 4,
+    "library_catalog_search": 3,
+    "email_archive_search": 3,
+    "gym_class_schedule_search": 3,
+    "ecommerce_product_search": 2,
+    "hotel_booking_search": 2,
+    "municipal_permit_search": 2
+   },
+   "enc": {
+    "url2": 6
+   },
+   "variant": {},
+   "src": {}
+  },
+  "benign_high_rate_legit": {
+   "records": 40,
+   "family_like_units": 5,
+   "lineage_groups": 40,
+   "provenance": {
+    "synthetic": 40
+   },
+   "template_family": {
+    "benign_high_rate_legit_flow": 40
+   },
+   "loc": {
+    "flow": 40
+   },
+   "variant": {
+    "base": 19,
+    "video_stream_udp": 10,
+    "health_check_poll": 6,
+    "bulk_backup": 5
+   },
+   "family": {},
+   "src": {}
+  },
+  "benign_standard_traffic": {
+   "records": 940,
+   "family_like_units": 325,
+   "lineage_groups": 931,
+   "provenance": {
+    "synthetic": 900,
+    "observed": 40
+   },
+   "template_family": {
+    "minimal_pair_twin": 132,
+    "benign_standard_traffic:v1_unlabelled": 120,
+    "cic_ids2017_mirror_flow": 40,
+    "benign_standard_traffic_flow": 40,
+    "benign_standard_traffic_http": 20,
+    "benign_standard_traffic:crm_contacts_get_benign": 4,
+    "benign_standard_traffic:file_share_meta_benign": 4,
+    "benign_standard_traffic:php_phar_path_benign": 4,
+    "benign_standard_traffic:dotnet_binaryformatter_state_benign": 4,
+    "benign_standard_traffic:partner_schema_introspection_benign": 4,
+    "benign_standard_traffic:search_unbounded_list_arg_benign": 4,
+    "benign_standard_traffic:hs256_key_confusion_benign": 4,
+    "benign_standard_traffic:multi_turn_memory_replay_benign": 4,
+    "benign_standard_traffic:yaml_config_overlay_import_benign": 4,
+    "benign_standard_traffic:graphql_variables_input_merge_benign": 4,
+    "benign_standard_traffic:multipart_bracket_field_nesting_benign": 4,
+    "benign_standard_traffic:header_json_options_merge_benign": 4,
+    "benign_standard_traffic:feed_ingest_benign": 4,
+    "benign_standard_traffic:crawler_sitemap_benign": 4,
+    "benign_standard_traffic:django_canonical_link_host_benign": 4,
+    "benign_standard_traffic:rails_search_ref_query_script_benign": 4,
+    "benign_standard_traffic:nuxt_docs_forwarded_server_asset_base_benign": 4,
+    "benign_standard_traffic:ws_unauthorized_channel_subscribe_benign": 4,
+    "benign_standard_traffic:fleet_telematics_trips_benign": 4,
+    "benign_standard_traffic:chat_conversation_messages_benign": 4,
+    "benign_standard_traffic:csv_invoice_memo_api_benign": 4,
+    "benign_standard_traffic:csv_payroll_roster_rows_benign": 4,
+    "benign_standard_traffic:csv_event_attendee_export_benign": 4,
+    "benign_standard_traffic:csv_usage_metrics_ingest_benign": 4,
+    "benign_standard_traffic:ruby_marshal_cache_param_benign": 4,
+    "benign_standard_traffic:dotnet_losformatter_viewstate_benign": 4,
+    "benign_standard_traffic:java_xmldecoder_bean_restore_benign": 4,
+    "benign_standard_traffic:gql_deep_nesting_orders_api_benign": 4,
+    "benign_standard_traffic:gql_repeat_query_flood_status_benign": 4,
+    "benign_standard_traffic:gql_directive_overload_course_benign": 4,
+    "benign_standard_traffic:gql_operation_array_flood_payments_benign": 4,
+    "benign_standard_traffic:x5c_embedded_cert_trust_benign": 4,
+    "benign_standard_traffic:embedded_jwk_header_trust_benign": 4,
+    "benign_standard_traffic:crit_header_ignored_benign": 4,
+    "benign_standard_traffic:mobile_sdk_shopping_chat_benign": 4,
+    "benign_standard_traffic:browsing_agent_observation_benign": 4,
+    "benign_standard_traffic:koa_feature_flags_lodash_merge_benign": 4,
+    "benign_standard_traffic:billing_webhook_normalizer_merge_benign": 4,
+    "benign_standard_traffic:socketio_polling_event_merge_benign": 4,
+    "benign_standard_traffic:ci_artifact_pull_benign": 4,
+    "benign_standard_traffic:saml_metadata_import_benign": 4,
+    "benign_standard_traffic:laravel_html_lang_locale_benign": 4,
+    "benign_standard_traffic:strapi_media_base_json_benign": 4,
+    "benign_standard_traffic:nginx_static_redirect_location_benign": 4,
+    "benign_standard_traffic:grpc_authority_metadata_spoof_benign": 4,
+    "benign_standard_traffic:grpc_deadline_zero_churn_benign": 4,
+    "benign_standard_traffic:grpc_resume_token_cross_tenant_benign": 4,
+    "benign_standard_traffic:invoices_rest_benign": 4,
+    "benign_standard_traffic:documents_download_benign": 4,
+    "benign_standard_traffic:shop_orders_patch_benign": 4,
+    "benign_standard_traffic:support_ticket_messages_benign": 4,
+    "benign_standard_traffic:billing_receipts_benign": 4,
+    "benign_standard_traffic:account_settings_put_benign": 4,
+    "benign_standard_traffic:java_objectinput_rest_benign": 4,
+    "benign_standard_traffic:java_session_cookie_benign": 4,
+    "benign_standard_traffic:php_unserialize_cookie_benign": 4,
+    "benign_standard_traffic:python_pickle_import_benign": 4,
+    "benign_standard_traffic:python_pickle_param_benign": 4,
+    "benign_standard_traffic:jackson_default_typing_benign": 4,
+    "benign_standard_traffic:storefront_nested_catalog_benign": 4,
+    "benign_standard_traffic:analytics_cost_budget_benign": 4,
+    "benign_standard_traffic:helpdesk_repeated_ticket_query_benign": 4,
+    "benign_standard_traffic:cms_fragment_depth_chain_benign": 4,
+    "benign_standard_traffic:mobile_bff_array_batch_benign": 4,
+    "benign_standard_traffic:alg_none_gateway_benign": 4,
+    "benign_standard_traffic:kid_keystore_lookup_benign": 4,
+    "benign_standard_traffic:signature_not_checked_benign": 4,
+    "benign_standard_traffic:exp_not_enforced_benign": 4,
+    "benign_standard_traffic:jku_remote_keyset_benign": 4,
+    "benign_standard_traffic:cookie_path_unverified_benign": 4,
+    "benign_standard_traffic:support_chat_json_benign": 4,
+    "benign_standard_traffic:express_qs_query_filter_benign": 4,
+    "benign_standard_traffic:json_patch_profile_merge_benign": 4,
+    "benign_standard_traffic:session_cookie_json_clone_benign": 4,
+    "benign_standard_traffic:urlencoded_nested_settings_merge_benign": 4,
+    "benign_standard_traffic:preview_service_benign": 4,
+    "benign_standard_traffic:webhook_dispatch_benign": 4,
+    "benign_standard_traffic:pdf_render_fetch_benign": 4,
+    "benign_standard_traffic:media_import_benign": 4,
+    "benign_standard_traffic:oembed_resolver_benign": 4,
+    "benign_standard_traffic:link_unfurl_benign": 4,
+    "benign_standard_traffic:express_redirect_location_host_benign": 4,
+    "benign_standard_traffic:spring_original_url_link_header_benign": 4,
+    "benign_standard_traffic:go_catalog_fat_get_body_locale_benign": 4,
+    "benign_standard_traffic:php_storefront_currency_cookie_widget_benign": 4,
+    "benign_standard_traffic:error_page_user_agent_echo_benign": 4,
+    "benign_standard_traffic:ws_origin_allowlist_bypass_benign": 4,
+    "benign_standard_traffic:grpc_invalid_bearer_watch_benign": 4,
+    "benign_standard_traffic:ws_oversized_frame_ingest_benign": 4,
+    "benign_standard_traffic:hr_payslips_api_benign": 4,
+    "benign_standard_traffic:iot_device_readings_benign": 4,
+    "benign_standard_traffic:school_gradebook_api_benign": 4,
+    "benign_standard_traffic:photo_album_api_benign": 4,
+    "benign_standard_traffic:booking_reservations_benign": 4,
+    "benign_standard_traffic:workspace_task_boards_benign": 4,
+    "benign_standard_traffic:csv_warehouse_bin_labels_benign": 4,
+    "benign_standard_traffic:csv_lead_capture_form_benign": 4,
+    "benign_standard_traffic:csv_booking_guest_notes_benign": 4,
+    "benign_standard_traffic:csv_gradebook_comments_benign": 4,
+    "benign_standard_traffic:java_hessian_rpc_body_benign": 4,
+    "benign_standard_traffic:php_serialized_form_field_benign": 4,
+    "benign_standard_traffic:node_serialize_profile_import_benign": 4,
+    "benign_standard_traffic:python_yaml_unsafe_config_import_benign": 4,
+    "benign_standard_traffic:gql_alias_fanout_inventory_benign": 4,
+    "benign_standard_traffic:gql_introspection_sweep_public_benign": 4,
+    "benign_standard_traffic:gql_cost_limit_overrun_reporting_benign": 4,
+    "benign_standard_traffic:gql_recursive_fragment_profile_benign": 4,
+    "benign_standard_traffic:nbf_not_enforced_benign": 4,
+    "benign_standard_traffic:jwe_jws_type_confusion_benign": 4,
+    "benign_standard_traffic:duplicate_alg_header_key_benign": 4,
+    "benign_standard_traffic:ecdsa_sig_length_unchecked_benign": 4,
+    "benign_standard_traffic:scheduling_event_intake_benign": 4,
+    "benign_standard_traffic:translation_gateway_benign": 4,
+    "benign_standard_traffic:voice_transcript_relay_benign": 4,
+    "benign_standard_traffic:catalog_search_agent_benign": 4,
+    "benign_standard_traffic:resume_screening_upload_benign": 4,
+    "benign_standard_traffic:fastify_patch_profile_deepmerge_benign": 4,
+    "benign_standard_traffic:ndjson_bulk_import_setpath_benign": 4,
+    "benign_standard_traffic:sdk_client_config_merge_benign": 4,
+    "benign_standard_traffic:hapi_tenant_settings_lodash_set_benign": 4,
+    "benign_standard_traffic:grpc_gateway_inventory_merge_benign": 4,
+    "benign_standard_traffic:tenant_sso_jwks_refresh_benign": 4,
+    "benign_standard_traffic:dns_health_probe_admin_benign": 4,
+    "benign_standard_traffic:config_import_remote_benign": 4,
+    "benign_standard_traffic:license_activation_relay_benign": 4,
+    "benign_standard_traffic:backup_source_registration_benign": 4,
+    "benign_standard_traffic:agent_inventory_sync_benign": 4,
+    "benign_standard_traffic:fastapi_openapi_root_prefix_benign": 4,
+    "benign_standard_traffic:wordpress_og_image_host_benign": 4,
+    "benign_standard_traffic:aspnet_hreflang_rewrite_url_benign": 4,
+    "benign_standard_traffic:phoenix_banner_config_json_benign": 4,
+    "benign_standard_traffic:gatsby_page_data_asset_prefix_benign": 4,
+    "benign_standard_traffic:ws_subscribe_fanout_storm_benign": 4,
+    "benign_standard_traffic:ws_null_origin_handshake_benign": 4,
+    "benign_standard_traffic:grpc_client_stream_oversize_benign": 4,
+    "benign_standard_traffic:ws_permessage_deflate_expansion_benign": 4,
+    "benign_standard_traffic:ws_handshake_version_probe_benign": 4,
+    "benign_standard_traffic:rag_document_ingest_benign": 3,
+    "benign_standard_traffic:ticket_webhook_toolcall_benign": 3,
+    "benign_standard_traffic:iss_aud_unchecked_benign": 3,
+    "benign_standard_traffic:system_prompt_leak_query_benign": 3,
+    "benign_standard_traffic:mail_summary_header_benign": 3,
+    "benign_standard_traffic:grpc_stream_message_flood_benign": 3,
+    "benign_standard_traffic:unverified_claims_decode_path_benign": 3,
+    "benign_standard_traffic:code_review_pr_comment_benign": 3,
+    "benign_standard_traffic:csv_crm_contact_patch_benign": 2,
+    "benign_standard_traffic:base64_wrapped_instruction_benign": 2,
+    "benign_standard_traffic:ws_chat_message_flood_benign": 2,
+    "benign_standard_traffic:ws_upgrade_reconnect_churn_benign": 2,
+    "benign_standard_traffic:csv_order_notes_export_benign": 1,
+    "benign_standard_traffic:csv_expense_claim_submit_benign": 1,
+    "benign_standard_traffic:csv_support_ticket_report_benign": 1,
+    "benign_standard_traffic:csv_survey_response_submit_benign": 1,
+    "benign_standard_traffic:review_form_summarizer_benign": 1,
+    "benign_standard_traffic:java_jms_objectmessage_upload_benign": 1,
+    "benign_standard_traffic:csv_product_catalog_api_benign": 1,
+    "benign_standard_traffic:csv_customer_import_upload_benign": 1
+   },
+   "loc": {
+    "json": 307,
+    "request_line": 226,
+    "query": 125,
+    "flow": 80,
+    "form": 67,
+    "raw_body": 41,
+    "cookie": 29,
+    "multipart": 26,
+    "referer": 16,
+    "xml": 15,
+    "path": 8
+   },
+   "family": {
+    "crm_contacts_get_benign": 4,
+    "file_share_meta_benign": 4,
+    "php_phar_path_benign": 4,
+    "dotnet_binaryformatter_state_benign": 4,
+    "partner_schema_introspection_benign": 4,
+    "search_unbounded_list_arg_benign": 4,
+    "hs256_key_confusion_benign": 4,
+    "multi_turn_memory_replay_benign": 4,
+    "yaml_config_overlay_import_benign": 4,
+    "graphql_variables_input_merge_benign": 4,
+    "multipart_bracket_field_nesting_benign": 4,
+    "header_json_options_merge_benign": 4,
+    "feed_ingest_benign": 4,
+    "crawler_sitemap_benign": 4,
+    "django_canonical_link_host_benign": 4,
+    "rails_search_ref_query_script_benign": 4,
+    "nuxt_docs_forwarded_server_asset_base_benign": 4,
+    "ws_unauthorized_channel_subscribe_benign": 4,
+    "fleet_telematics_trips_benign": 4,
+    "chat_conversation_messages_benign": 4,
+    "csv_invoice_memo_api_benign": 4,
+    "csv_payroll_roster_rows_benign": 4,
+    "csv_event_attendee_export_benign": 4,
+    "csv_usage_metrics_ingest_benign": 4,
+    "ruby_marshal_cache_param_benign": 4,
+    "dotnet_losformatter_viewstate_benign": 4,
+    "java_xmldecoder_bean_restore_benign": 4,
+    "gql_deep_nesting_orders_api_benign": 4,
+    "gql_repeat_query_flood_status_benign": 4,
+    "gql_directive_overload_course_benign": 4,
+    "gql_operation_array_flood_payments_benign": 4,
+    "x5c_embedded_cert_trust_benign": 4,
+    "embedded_jwk_header_trust_benign": 4,
+    "crit_header_ignored_benign": 4,
+    "mobile_sdk_shopping_chat_benign": 4,
+    "browsing_agent_observation_benign": 4,
+    "koa_feature_flags_lodash_merge_benign": 4,
+    "billing_webhook_normalizer_merge_benign": 4,
+    "socketio_polling_event_merge_benign": 4,
+    "ci_artifact_pull_benign": 4,
+    "saml_metadata_import_benign": 4,
+    "laravel_html_lang_locale_benign": 4,
+    "strapi_media_base_json_benign": 4,
+    "nginx_static_redirect_location_benign": 4,
+    "grpc_authority_metadata_spoof_benign": 4,
+    "grpc_deadline_zero_churn_benign": 4,
+    "grpc_resume_token_cross_tenant_benign": 4,
+    "invoices_rest_benign": 4,
+    "documents_download_benign": 4,
+    "shop_orders_patch_benign": 4,
+    "support_ticket_messages_benign": 4,
+    "billing_receipts_benign": 4,
+    "account_settings_put_benign": 4,
+    "java_objectinput_rest_benign": 4,
+    "java_session_cookie_benign": 4,
+    "php_unserialize_cookie_benign": 4,
+    "python_pickle_import_benign": 4,
+    "python_pickle_param_benign": 4,
+    "jackson_default_typing_benign": 4,
+    "storefront_nested_catalog_benign": 4,
+    "analytics_cost_budget_benign": 4,
+    "helpdesk_repeated_ticket_query_benign": 4,
+    "cms_fragment_depth_chain_benign": 4,
+    "mobile_bff_array_batch_benign": 4,
+    "alg_none_gateway_benign": 4,
+    "kid_keystore_lookup_benign": 4,
+    "signature_not_checked_benign": 4,
+    "exp_not_enforced_benign": 4,
+    "jku_remote_keyset_benign": 4,
+    "cookie_path_unverified_benign": 4,
+    "support_chat_json_benign": 4,
+    "express_qs_query_filter_benign": 4,
+    "json_patch_profile_merge_benign": 4,
+    "session_cookie_json_clone_benign": 4,
+    "urlencoded_nested_settings_merge_benign": 4,
+    "preview_service_benign": 4,
+    "webhook_dispatch_benign": 4,
+    "pdf_render_fetch_benign": 4,
+    "media_import_benign": 4,
+    "oembed_resolver_benign": 4,
+    "link_unfurl_benign": 4,
+    "express_redirect_location_host_benign": 4,
+    "spring_original_url_link_header_benign": 4,
+    "go_catalog_fat_get_body_locale_benign": 4,
+    "php_storefront_currency_cookie_widget_benign": 4,
+    "error_page_user_agent_echo_benign": 4,
+    "ws_origin_allowlist_bypass_benign": 4,
+    "grpc_invalid_bearer_watch_benign": 4,
+    "ws_oversized_frame_ingest_benign": 4,
+    "hr_payslips_api_benign": 4,
+    "iot_device_readings_benign": 4,
+    "school_gradebook_api_benign": 4,
+    "photo_album_api_benign": 4,
+    "booking_reservations_benign": 4,
+    "workspace_task_boards_benign": 4,
+    "csv_warehouse_bin_labels_benign": 4,
+    "csv_lead_capture_form_benign": 4,
+    "csv_booking_guest_notes_benign": 4,
+    "csv_gradebook_comments_benign": 4,
+    "java_hessian_rpc_body_benign": 4,
+    "php_serialized_form_field_benign": 4,
+    "node_serialize_profile_import_benign": 4,
+    "python_yaml_unsafe_config_import_benign": 4,
+    "gql_alias_fanout_inventory_benign": 4,
+    "gql_introspection_sweep_public_benign": 4,
+    "gql_cost_limit_overrun_reporting_benign": 4,
+    "gql_recursive_fragment_profile_benign": 4,
+    "nbf_not_enforced_benign": 4,
+    "jwe_jws_type_confusion_benign": 4,
+    "duplicate_alg_header_key_benign": 4,
+    "ecdsa_sig_length_unchecked_benign": 4,
+    "scheduling_event_intake_benign": 4,
+    "translation_gateway_benign": 4,
+    "voice_transcript_relay_benign": 4,
+    "catalog_search_agent_benign": 4,
+    "resume_screening_upload_benign": 4,
+    "fastify_patch_profile_deepmerge_benign": 4,
+    "ndjson_bulk_import_setpath_benign": 4,
+    "sdk_client_config_merge_benign": 4,
+    "hapi_tenant_settings_lodash_set_benign": 4,
+    "grpc_gateway_inventory_merge_benign": 4,
+    "tenant_sso_jwks_refresh_benign": 4,
+    "dns_health_probe_admin_benign": 4,
+    "config_import_remote_benign": 4,
+    "license_activation_relay_benign": 4,
+    "backup_source_registration_benign": 4,
+    "agent_inventory_sync_benign": 4,
+    "fastapi_openapi_root_prefix_benign": 4,
+    "wordpress_og_image_host_benign": 4,
+    "aspnet_hreflang_rewrite_url_benign": 4,
+    "phoenix_banner_config_json_benign": 4,
+    "gatsby_page_data_asset_prefix_benign": 4,
+    "ws_subscribe_fanout_storm_benign": 4,
+    "ws_null_origin_handshake_benign": 4,
+    "grpc_client_stream_oversize_benign": 4,
+    "ws_permessage_deflate_expansion_benign": 4,
+    "ws_handshake_version_probe_benign": 4,
+    "rag_document_ingest_benign": 3,
+    "ticket_webhook_toolcall_benign": 3,
+    "iss_aud_unchecked_benign": 3,
+    "system_prompt_leak_query_benign": 3,
+    "mail_summary_header_benign": 3,
+    "grpc_stream_message_flood_benign": 3,
+    "unverified_claims_decode_path_benign": 3,
+    "code_review_pr_comment_benign": 3,
+    "csv_crm_contact_patch_benign": 2,
+    "base64_wrapped_instruction_benign": 2,
+    "ws_chat_message_flood_benign": 2,
+    "ws_upgrade_reconnect_churn_benign": 2,
+    "csv_order_notes_export_benign": 1,
+    "csv_expense_claim_submit_benign": 1,
+    "csv_support_ticket_report_benign": 1,
+    "csv_survey_response_submit_benign": 1,
+    "review_form_summarizer_benign": 1,
+    "java_jms_objectmessage_upload_benign": 1,
+    "csv_product_catalog_api_benign": 1,
+    "csv_customer_import_upload_benign": 1
+   },
+   "enc": {
+    "form": 34,
+    "url2": 12,
+    "chunked": 10,
+    "json_unicode": 6,
+    "base64url+json": 4,
+    "base64": 2
+   },
+   "src": {
+    "cic_ids2017_mirror": 40
+   },
+   "variant": {
+    "base": 15,
+    "quic_web": 7,
+    "dns_lookup": 7,
+    "ntp_sync": 7,
+    "windowed_web": 4
+   }
+  },
+  "bola_idor_enumeration": {
+   "records": 88,
+   "family_like_units": 33,
+   "lineage_groups": 88,
+   "provenance": {
+    "synthetic": 88
+   },
+   "template_family": {
+    "bola_idor_enumeration:v1_unlabelled": 24,
+    "bola_idor_enumeration:crm_contacts_get": 4,
+    "bola_idor_enumeration:file_share_meta": 4,
+    "bola_idor_enumeration:fleet_telematics_trips": 4,
+    "bola_idor_enumeration:chat_conversation_messages": 4,
+    "bola_idor_enumeration:invoices_rest": 4,
+    "bola_idor_enumeration:documents_download": 4,
+    "bola_idor_enumeration:shop_orders_patch": 4,
+    "bola_idor_enumeration:support_ticket_messages": 4,
+    "bola_idor_enumeration:billing_receipts": 4,
+    "bola_idor_enumeration:account_settings_put": 4,
+    "bola_idor_enumeration:hr_payslips_api": 4,
+    "bola_idor_enumeration:iot_device_readings": 4,
+    "bola_idor_enumeration:school_gradebook_api": 4,
+    "bola_idor_enumeration:photo_album_api": 4,
+    "bola_idor_enumeration:booking_reservations": 4,
+    "bola_idor_enumeration:workspace_task_boards": 4
+   },
+   "loc": {
+    "request_line": 56,
+    "query": 16,
+    "json": 16
+   },
+   "family": {
+    "crm_contacts_get": 4,
+    "file_share_meta": 4,
+    "fleet_telematics_trips": 4,
+    "chat_conversation_messages": 4,
+    "invoices_rest": 4,
+    "documents_download": 4,
+    "shop_orders_patch": 4,
+    "support_ticket_messages": 4,
+    "billing_receipts": 4,
+    "account_settings_put": 4,
+    "hr_payslips_api": 4,
+    "iot_device_readings": 4,
+    "school_gradebook_api": 4,
+    "photo_album_api": 4,
+    "booking_reservations": 4,
+    "workspace_task_boards": 4
+   },
+   "variant": {},
+   "src": {}
+  },
+  "c2_beaconing_anomaly": {
+   "records": 40,
+   "family_like_units": 4,
+   "lineage_groups": 40,
+   "provenance": {
+    "synthetic": 40
+   },
+   "template_family": {
+    "c2_beaconing_anomaly_flow": 40
+   },
+   "loc": {
+    "flow": 40
+   },
+   "variant": {
+    "base": 23,
+    "sparse_beacon": 10,
+    "long_poll_http": 7
+   },
+   "family": {},
+   "src": {}
+  },
+  "credential_stuffing_bruteforce": {
+   "records": 38,
+   "family_like_units": 9,
+   "lineage_groups": 28,
+   "provenance": {
+    "synthetic": 20,
+    "observed": 18
+   },
+   "template_family": {
+    "credential_stuffing_bruteforce_flow": 20,
+    "nf_ton_iot_v2_mirror_flow": 15,
+    "cic_ids2017_mirror_flow": 3
+   },
+   "loc": {
+    "flow": 38
+   },
+   "variant": {
+    "base": 8,
+    "ssh_bruteforce": 7,
+    "rdp_spray": 4,
+    "web_login_stuffing": 1
+   },
+   "src": {
+    "nf_ton_iot_v2_mirror": 15,
+    "cic_ids2017_mirror": 3
+   },
+   "family": {}
+  },
+  "crlf_header_injection": {
+   "records": 40,
+   "family_like_units": 2,
+   "lineage_groups": 34,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "crlf_header_injection_httpwrap": 40
+   },
+   "loc": {
+    "referer": 16,
+    "path": 15,
+    "query": 9
+   },
+   "src": {
+    "crlf_injection_payload_list": 40
+   },
+   "enc": {
+    "url2": 6
+   },
+   "family": {},
+   "variant": {}
+  },
+  "csv_formula_injection": {
+   "records": 84,
+   "family_like_units": 33,
+   "lineage_groups": 84,
+   "provenance": {
+    "synthetic": 84
+   },
+   "template_family": {
+    "csv_formula_injection:v1_unlabelled": 20,
+    "csv_formula_injection:csv_order_notes_export": 4,
+    "csv_formula_injection:csv_customer_import_upload": 4,
+    "csv_formula_injection:csv_survey_response_submit": 4,
+    "csv_formula_injection:csv_invoice_memo_api": 4,
+    "csv_formula_injection:csv_payroll_roster_rows": 4,
+    "csv_formula_injection:csv_event_attendee_export": 4,
+    "csv_formula_injection:csv_usage_metrics_ingest": 4,
+    "csv_formula_injection:csv_product_catalog_api": 4,
+    "csv_formula_injection:csv_crm_contact_patch": 4,
+    "csv_formula_injection:csv_expense_claim_submit": 4,
+    "csv_formula_injection:csv_support_ticket_report": 4,
+    "csv_formula_injection:csv_inventory_sku_sync": 4,
+    "csv_formula_injection:csv_warehouse_bin_labels": 4,
+    "csv_formula_injection:csv_lead_capture_form": 4,
+    "csv_formula_injection:csv_booking_guest_notes": 4,
+    "csv_formula_injection:csv_gradebook_comments": 4
+   },
+   "loc": {
+    "json": 68,
+    "form": 12,
+    "raw_body": 4
+   },
+   "family": {
+    "csv_order_notes_export": 4,
+    "csv_customer_import_upload": 4,
+    "csv_survey_response_submit": 4,
+    "csv_invoice_memo_api": 4,
+    "csv_payroll_roster_rows": 4,
+    "csv_event_attendee_export": 4,
+    "csv_usage_metrics_ingest": 4,
+    "csv_product_catalog_api": 4,
+    "csv_crm_contact_patch": 4,
+    "csv_expense_claim_submit": 4,
+    "csv_support_ticket_report": 4,
+    "csv_inventory_sku_sync": 4,
+    "csv_warehouse_bin_labels": 4,
+    "csv_lead_capture_form": 4,
+    "csv_booking_guest_notes": 4,
+    "csv_gradebook_comments": 4
+   },
+   "variant": {},
+   "src": {}
+  },
+  "deserialization": {
+   "records": 96,
+   "family_like_units": 31,
+   "lineage_groups": 82,
+   "provenance": {
+    "synthetic": 96
+   },
+   "template_family": {
+    "deserialization:v1_unlabelled": 40,
+    "deserialization:php_phar_path": 4,
+    "deserialization:dotnet_binaryformatter_state": 4,
+    "deserialization:java_xmldecoder_bean_restore": 4,
+    "deserialization:java_objectinput_rest": 4,
+    "deserialization:java_session_cookie": 4,
+    "deserialization:php_unserialize_cookie": 4,
+    "deserialization:python_pickle_import": 4,
+    "deserialization:python_pickle_param": 4,
+    "deserialization:jackson_default_typing": 4,
+    "deserialization:php_serialized_form_field": 4,
+    "deserialization:node_serialize_profile_import": 4,
+    "deserialization:python_yaml_unsafe_config_import": 4,
+    "deserialization:java_hessian_rpc_body": 3,
+    "deserialization:java_jms_objectmessage_upload": 3,
+    "deserialization:dotnet_losformatter_viewstate": 2
+   },
+   "enc": {
+    "base64": 16,
+    "base64+gzip": 1,
+    "url_decode+base64": 1
+   },
+   "loc": {
+    "raw_body": 48,
+    "form": 16,
+    "json": 12,
+    "cookie": 9,
+    "query": 6,
+    "xml": 4,
+    "request_line": 1
+   },
+   "family": {
+    "php_phar_path": 4,
+    "dotnet_binaryformatter_state": 4,
+    "java_xmldecoder_bean_restore": 4,
+    "java_objectinput_rest": 4,
+    "java_session_cookie": 4,
+    "php_unserialize_cookie": 4,
+    "python_pickle_import": 4,
+    "python_pickle_param": 4,
+    "jackson_default_typing": 4,
+    "php_serialized_form_field": 4,
+    "node_serialize_profile_import": 4,
+    "python_yaml_unsafe_config_import": 4,
+    "java_hessian_rpc_body": 3,
+    "java_jms_objectmessage_upload": 3,
+    "dotnet_losformatter_viewstate": 2
+   },
+   "variant": {},
+   "src": {}
+  },
+  "dns_tunneling_exfil": {
+   "records": 40,
+   "family_like_units": 4,
+   "lineage_groups": 40,
+   "provenance": {
+    "synthetic": 40
+   },
+   "template_family": {
+    "dns_tunneling_exfil_flow": 40
+   },
+   "loc": {
+    "flow": 40
+   },
+   "variant": {
+    "base": 19,
+    "slow_drip": 15,
+    "txt_bulk": 6
+   },
+   "family": {},
+   "src": {}
+  },
+  "graphql_abuse": {
+   "records": 66,
+   "family_like_units": 27,
+   "lineage_groups": 66,
+   "provenance": {
+    "synthetic": 66
+   },
+   "template_family": {
+    "graphql_abuse:v1_unlabelled": 20,
+    "graphql_abuse:partner_schema_introspection": 4,
+    "graphql_abuse:search_unbounded_list_arg": 4,
+    "graphql_abuse:gql_deep_nesting_orders_api": 4,
+    "graphql_abuse:storefront_nested_catalog": 4,
+    "graphql_abuse:auth_login_alias_batch": 4,
+    "graphql_abuse:analytics_cost_budget": 4,
+    "graphql_abuse:cms_fragment_depth_chain": 4,
+    "graphql_abuse:gql_introspection_sweep_public": 4,
+    "graphql_abuse:gql_cost_limit_overrun_reporting": 4,
+    "graphql_abuse:gql_recursive_fragment_profile": 4,
+    "graphql_abuse:gql_directive_overload_course": 3,
+    "graphql_abuse:mobile_bff_array_batch": 2,
+    "graphql_abuse:gql_operation_array_flood_payments": 1
+   },
+   "loc": {
+    "json": 60,
+    "query": 6
+   },
+   "family": {
+    "partner_schema_introspection": 4,
+    "search_unbounded_list_arg": 4,
+    "gql_deep_nesting_orders_api": 4,
+    "storefront_nested_catalog": 4,
+    "auth_login_alias_batch": 4,
+    "analytics_cost_budget": 4,
+    "cms_fragment_depth_chain": 4,
+    "gql_introspection_sweep_public": 4,
+    "gql_cost_limit_overrun_reporting": 4,
+    "gql_recursive_fragment_profile": 4,
+    "gql_directive_overload_course": 3,
+    "mobile_bff_array_batch": 2,
+    "gql_operation_array_flood_payments": 1
+   },
+   "variant": {},
+   "src": {}
+  },
+  "http_request_smuggling": {
+   "records": 40,
+   "family_like_units": 2,
+   "lineage_groups": 40,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "http_request_smuggling_httpwrap": 40
+   },
+   "loc": {
+    "raw_body": 38,
+    "form": 1,
+    "json": 1
+   },
+   "src": {
+    "http_request_smuggling_payloads": 40
+   },
+   "family": {},
+   "variant": {}
+  },
+  "jwt_auth_bypass": {
+   "records": 78,
+   "family_like_units": 33,
+   "lineage_groups": 78,
+   "provenance": {
+    "synthetic": 78
+   },
+   "template_family": {
+    "jwt_auth_bypass:v1_unlabelled": 20,
+    "jwt_auth_bypass:hs256_key_confusion": 4,
+    "jwt_auth_bypass:x5c_embedded_cert_trust": 4,
+    "jwt_auth_bypass:embedded_jwk_header_trust": 4,
+    "jwt_auth_bypass:alg_none_gateway": 4,
+    "jwt_auth_bypass:kid_keystore_lookup": 4,
+    "jwt_auth_bypass:signature_not_checked": 4,
+    "jwt_auth_bypass:jku_remote_keyset": 4,
+    "jwt_auth_bypass:cookie_path_unverified": 4,
+    "jwt_auth_bypass:iss_aud_unchecked": 4,
+    "jwt_auth_bypass:jwe_jws_type_confusion": 4,
+    "jwt_auth_bypass:duplicate_alg_header_key": 4,
+    "jwt_auth_bypass:ecdsa_sig_length_unchecked": 4,
+    "jwt_auth_bypass:unverified_claims_decode_path": 4,
+    "jwt_auth_bypass:exp_not_enforced": 3,
+    "jwt_auth_bypass:nbf_not_enforced": 2,
+    "jwt_auth_bypass:crit_header_ignored": 1
+   },
+   "loc": {
+    "request_line": 50,
+    "query": 12,
+    "json": 8,
+    "cookie": 8
+   },
+   "family": {
+    "hs256_key_confusion": 4,
+    "x5c_embedded_cert_trust": 4,
+    "embedded_jwk_header_trust": 4,
+    "alg_none_gateway": 4,
+    "kid_keystore_lookup": 4,
+    "signature_not_checked": 4,
+    "jku_remote_keyset": 4,
+    "cookie_path_unverified": 4,
+    "iss_aud_unchecked": 4,
+    "jwe_jws_type_confusion": 4,
+    "duplicate_alg_header_key": 4,
+    "ecdsa_sig_length_unchecked": 4,
+    "unverified_claims_decode_path": 4,
+    "exp_not_enforced": 3,
+    "nbf_not_enforced": 2,
+    "crit_header_ignored": 1
+   },
+   "variant": {},
+   "src": {}
+  },
+  "ldap_xpath_injection": {
+   "records": 40,
+   "family_like_units": 3,
+   "lineage_groups": 37,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "ldap_xpath_injection_httpwrap": 40
+   },
+   "enc": {
+    "form": 16,
+    "url2": 7,
+    "json_unicode": 3,
+    "chunked": 2
+   },
+   "loc": {
+    "form": 16,
+    "query": 14,
+    "json": 10
+   },
+   "src": {
+    "payloadsallthethings": 31,
+    "seclists": 9
+   },
+   "family": {},
+   "variant": {}
+  },
+  "llm_prompt_injection": {
+   "records": 112,
+   "family_like_units": 33,
+   "lineage_groups": 100,
+   "provenance": {
+    "synthetic": 112
+   },
+   "template_family": {
+    "llm_prompt_injection:v1_unlabelled": 48,
+    "llm_prompt_injection:rag_document_ingest": 4,
+    "llm_prompt_injection:ticket_webhook_toolcall": 4,
+    "llm_prompt_injection:multi_turn_memory_replay": 4,
+    "llm_prompt_injection:mobile_sdk_shopping_chat": 4,
+    "llm_prompt_injection:browsing_agent_observation": 4,
+    "llm_prompt_injection:support_chat_json": 4,
+    "llm_prompt_injection:system_prompt_leak_query": 4,
+    "llm_prompt_injection:mail_summary_header": 4,
+    "llm_prompt_injection:base64_wrapped_instruction": 4,
+    "llm_prompt_injection:review_form_summarizer": 4,
+    "llm_prompt_injection:code_review_pr_comment": 4,
+    "llm_prompt_injection:scheduling_event_intake": 4,
+    "llm_prompt_injection:translation_gateway": 4,
+    "llm_prompt_injection:voice_transcript_relay": 4,
+    "llm_prompt_injection:catalog_search_agent": 4,
+    "llm_prompt_injection:resume_screening_upload": 4
+   },
+   "loc": {
+    "json": 71,
+    "query": 13,
+    "raw_body": 10,
+    "form": 10,
+    "multipart": 5,
+    "cookie": 3
+   },
+   "enc": {
+    "base64": 5,
+    "url_decode": 3
+   },
+   "family": {
+    "rag_document_ingest": 4,
+    "ticket_webhook_toolcall": 4,
+    "multi_turn_memory_replay": 4,
+    "mobile_sdk_shopping_chat": 4,
+    "browsing_agent_observation": 4,
+    "support_chat_json": 4,
+    "system_prompt_leak_query": 4,
+    "mail_summary_header": 4,
+    "base64_wrapped_instruction": 4,
+    "review_form_summarizer": 4,
+    "code_review_pr_comment": 4,
+    "scheduling_event_intake": 4,
+    "translation_gateway": 4,
+    "voice_transcript_relay": 4,
+    "catalog_search_agent": 4,
+    "resume_screening_upload": 4
+   },
+   "variant": {},
+   "src": {}
+  },
+  "nosqli": {
+   "records": 40,
+   "family_like_units": 3,
+   "lineage_groups": 34,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "nosqli_httpwrap": 40
+   },
+   "enc": {
+    "form": 21,
+    "url2": 6,
+    "chunked": 4,
+    "json_unicode": 2
+   },
+   "loc": {
+    "form": 21,
+    "query": 10,
+    "json": 9
+   },
+   "src": {
+    "seclists": 26,
+    "payloadsallthethings": 14
+   },
+   "family": {},
+   "variant": {}
+  },
+  "open_redirect_cors": {
+   "records": 40,
+   "family_like_units": 2,
+   "lineage_groups": 34,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "open_redirect_cors_httpwrap": 40
+   },
+   "enc": {
+    "form": 19,
+    "url2": 4,
+    "chunked": 3
+   },
+   "loc": {
+    "query": 21,
+    "form": 19
+   },
+   "src": {
+    "open_redirect_payload_list": 40
+   },
+   "family": {},
+   "variant": {}
+  },
+  "path_traversal_lfi": {
+   "records": 40,
+   "family_like_units": 4,
+   "lineage_groups": 34,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "path_traversal_lfi_httpwrap": 31,
+    "crs_fixture": 9
+   },
+   "loc": {
+    "query": 17,
+    "path": 10,
+    "cookie": 6,
+    "multipart": 5,
+    "raw_body": 1,
+    "xml": 1
+   },
+   "src": {
+    "seclists": 31,
+    "coreruleset": 9
+   },
+   "enc": {
+    "url2": 1
+   },
+   "family": {},
+   "variant": {}
+  },
+  "port_scan_recon": {
+   "records": 40,
+   "family_like_units": 8,
+   "lineage_groups": 40,
+   "provenance": {
+    "observed": 20,
+    "synthetic": 20
+   },
+   "template_family": {
+    "port_scan_recon_flow": 20,
+    "nf_ton_iot_v2_mirror_flow": 19,
+    "cic_ids2017_mirror_flow": 1
+   },
+   "loc": {
+    "flow": 40
+   },
+   "src": {
+    "nf_ton_iot_v2_mirror": 19,
+    "cic_ids2017_mirror": 1
+   },
+   "variant": {
+    "base": 10,
+    "slow_scan": 5,
+    "udp_scan": 5
+   },
+   "family": {}
+  },
+  "prototype_pollution": {
+   "records": 112,
+   "family_like_units": 33,
+   "lineage_groups": 100,
+   "provenance": {
+    "synthetic": 112
+   },
+   "template_family": {
+    "prototype_pollution:v1_unlabelled": 48,
+    "prototype_pollution:yaml_config_overlay_import": 4,
+    "prototype_pollution:graphql_variables_input_merge": 4,
+    "prototype_pollution:multipart_bracket_field_nesting": 4,
+    "prototype_pollution:header_json_options_merge": 4,
+    "prototype_pollution:koa_feature_flags_lodash_merge": 4,
+    "prototype_pollution:billing_webhook_normalizer_merge": 4,
+    "prototype_pollution:socketio_polling_event_merge": 4,
+    "prototype_pollution:express_qs_query_filter": 4,
+    "prototype_pollution:json_patch_profile_merge": 4,
+    "prototype_pollution:session_cookie_json_clone": 4,
+    "prototype_pollution:urlencoded_nested_settings_merge": 4,
+    "prototype_pollution:fastify_patch_profile_deepmerge": 4,
+    "prototype_pollution:ndjson_bulk_import_setpath": 4,
+    "prototype_pollution:sdk_client_config_merge": 4,
+    "prototype_pollution:hapi_tenant_settings_lodash_set": 4,
+    "prototype_pollution:grpc_gateway_inventory_merge": 4
+   },
+   "loc": {
+    "json": 73,
+    "query": 9,
+    "raw_body": 8,
+    "form": 7,
+    "multipart": 5,
+    "request_line": 5,
+    "cookie": 5
+   },
+   "enc": {
+    "base64url+json": 4,
+    "url_decode": 3,
+    "base64": 2
+   },
+   "family": {
+    "yaml_config_overlay_import": 4,
+    "graphql_variables_input_merge": 4,
+    "multipart_bracket_field_nesting": 4,
+    "header_json_options_merge": 4,
+    "koa_feature_flags_lodash_merge": 4,
+    "billing_webhook_normalizer_merge": 4,
+    "socketio_polling_event_merge": 4,
+    "express_qs_query_filter": 4,
+    "json_patch_profile_merge": 4,
+    "session_cookie_json_clone": 4,
+    "urlencoded_nested_settings_merge": 4,
+    "fastify_patch_profile_deepmerge": 4,
+    "ndjson_bulk_import_setpath": 4,
+    "sdk_client_config_merge": 4,
+    "hapi_tenant_settings_lodash_set": 4,
+    "grpc_gateway_inventory_merge": 4
+   },
+   "variant": {},
+   "src": {}
+  },
+  "rce_cmd_injection": {
+   "records": 40,
+   "family_like_units": 4,
+   "lineage_groups": 40,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "rce_cmd_injection_httpwrap": 33,
+    "crs_fixture": 7
+   },
+   "enc": {
+    "form": 4,
+    "url2": 3,
+    "chunked": 2
+   },
+   "loc": {
+    "query": 15,
+    "cookie": 10,
+    "multipart": 7,
+    "json": 4,
+    "form": 4
+   },
+   "src": {
+    "command_injection_payload_list": 33,
+    "coreruleset": 7
+   },
+   "family": {},
+   "variant": {}
+  },
+  "slowloris_slowhttp": {
+   "records": 40,
+   "family_like_units": 6,
+   "lineage_groups": 21,
+   "provenance": {
+    "synthetic": 20,
+    "observed": 20
+   },
+   "template_family": {
+    "slowloris_slowhttp_flow": 20,
+    "cic_ids2017_mirror_flow": 20
+   },
+   "loc": {
+    "flow": 40
+   },
+   "variant": {
+    "base": 11,
+    "slow_post_body": 7,
+    "slow_read": 2
+   },
+   "src": {
+    "cic_ids2017_mirror": 20
+   },
+   "family": {}
+  },
+  "sqli_classic": {
+   "records": 40,
+   "family_like_units": 4,
+   "lineage_groups": 35,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "sqli_classic_httpwrap": 36,
+    "crs_fixture": 4
+   },
+   "loc": {
+    "query": 10,
+    "form": 9,
+    "multipart": 6,
+    "path": 5,
+    "cookie": 4,
+    "raw_body": 2,
+    "referer": 2,
+    "json": 2
+   },
+   "src": {
+    "sql_injection_payload_list": 36,
+    "coreruleset": 4
+   },
+   "enc": {
+    "form": 9,
+    "chunked": 3
+   },
+   "family": {},
+   "variant": {}
+  },
+  "sqli_obfuscated": {
+   "records": 40,
+   "family_like_units": 3,
+   "lineage_groups": 36,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "sqli_obfuscated_httpwrap": 40
+   },
+   "loc": {
+    "referer": 10,
+    "query": 8,
+    "form": 8,
+    "multipart": 6,
+    "json": 5,
+    "cookie": 3
+   },
+   "src": {
+    "sql_injection_payload_list": 29,
+    "waf_bypass_payload_list": 11
+   },
+   "transform": {
+    "inline_comment": 21,
+    "case_mix": 15,
+    "ws_substitute": 9,
+    "double_url_encode": 6,
+    "url_encode": 5
+   },
+   "enc": {
+    "form": 8,
+    "chunked": 2,
+    "url2": 2
+   },
+   "family": {},
+   "variant": {}
+  },
+  "ssrf_cloud_metadata": {
+   "records": 88,
+   "family_like_units": 33,
+   "lineage_groups": 88,
+   "provenance": {
+    "synthetic": 88
+   },
+   "template_family": {
+    "ssrf_cloud_metadata:v1_unlabelled": 24,
+    "ssrf_cloud_metadata:feed_ingest": 4,
+    "ssrf_cloud_metadata:crawler_sitemap": 4,
+    "ssrf_cloud_metadata:ci_artifact_pull": 4,
+    "ssrf_cloud_metadata:saml_metadata_import": 4,
+    "ssrf_cloud_metadata:preview_service": 4,
+    "ssrf_cloud_metadata:webhook_dispatch": 4,
+    "ssrf_cloud_metadata:pdf_render_fetch": 4,
+    "ssrf_cloud_metadata:media_import": 4,
+    "ssrf_cloud_metadata:oembed_resolver": 4,
+    "ssrf_cloud_metadata:link_unfurl": 4,
+    "ssrf_cloud_metadata:tenant_sso_jwks_refresh": 4,
+    "ssrf_cloud_metadata:dns_health_probe_admin": 4,
+    "ssrf_cloud_metadata:config_import_remote": 4,
+    "ssrf_cloud_metadata:license_activation_relay": 4,
+    "ssrf_cloud_metadata:backup_source_registration": 4,
+    "ssrf_cloud_metadata:agent_inventory_sync": 4
+   },
+   "loc": {
+    "query": 40,
+    "json": 38,
+    "form": 10
+   },
+   "family": {
+    "feed_ingest": 4,
+    "crawler_sitemap": 4,
+    "ci_artifact_pull": 4,
+    "saml_metadata_import": 4,
+    "preview_service": 4,
+    "webhook_dispatch": 4,
+    "pdf_render_fetch": 4,
+    "media_import": 4,
+    "oembed_resolver": 4,
+    "link_unfurl": 4,
+    "tenant_sso_jwks_refresh": 4,
+    "dns_health_probe_admin": 4,
+    "config_import_remote": 4,
+    "license_activation_relay": 4,
+    "backup_source_registration": 4,
+    "agent_inventory_sync": 4
+   },
+   "variant": {},
+   "src": {}
+  },
+  "ssti": {
+   "records": 40,
+   "family_like_units": 2,
+   "lineage_groups": 39,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "ssti_httpwrap": 40
+   },
+   "enc": {
+    "form": 9,
+    "json_unicode": 5,
+    "chunked": 5,
+    "url2": 3
+   },
+   "loc": {
+    "json": 12,
+    "query": 11,
+    "form": 9,
+    "multipart": 8
+   },
+   "src": {
+    "ssti_advanced_payload_list": 40
+   },
+   "family": {},
+   "variant": {}
+  },
+  "syn_flood_ddos": {
+   "records": 40,
+   "family_like_units": 5,
+   "lineage_groups": 40,
+   "provenance": {
+    "synthetic": 40
+   },
+   "template_family": {
+    "syn_flood_ddos_flow": 40
+   },
+   "loc": {
+    "flow": 40
+   },
+   "variant": {
+    "base": 20,
+    "multi_target": 8,
+    "low_rate_pulse": 6,
+    "syn_ack_mix": 6
+   },
+   "family": {},
+   "src": {}
+  },
+  "tls_ja4_ua_spoofing": {
+   "records": 40,
+   "family_like_units": 4,
+   "lineage_groups": 40,
+   "provenance": {
+    "synthetic": 40
+   },
+   "template_family": {
+    "tls_ja4_ua_spoofing_flow": 40
+   },
+   "loc": {
+    "flow": 40
+   },
+   "variant": {
+    "base": 20,
+    "short_handshake_burst": 11,
+    "long_session": 9
+   },
+   "family": {},
+   "src": {}
+  },
+  "udp_amplification": {
+   "records": 40,
+   "family_like_units": 5,
+   "lineage_groups": 40,
+   "provenance": {
+    "synthetic": 40
+   },
+   "template_family": {
+    "udp_amplification_flow": 40
+   },
+   "loc": {
+    "flow": 40
+   },
+   "variant": {
+    "base": 24,
+    "large_fragments": 7,
+    "low_volume_reflection": 5,
+    "cldap_chargen": 4
+   },
+   "family": {},
+   "src": {}
+  },
+  "web_cache_poisoning": {
+   "records": 88,
+   "family_like_units": 33,
+   "lineage_groups": 88,
+   "provenance": {
+    "synthetic": 88
+   },
+   "template_family": {
+    "web_cache_poisoning:v1_unlabelled": 24,
+    "web_cache_poisoning:django_canonical_link_host": 4,
+    "web_cache_poisoning:rails_search_ref_query_script": 4,
+    "web_cache_poisoning:nuxt_docs_forwarded_server_asset_base": 4,
+    "web_cache_poisoning:laravel_html_lang_locale": 4,
+    "web_cache_poisoning:strapi_media_base_json": 4,
+    "web_cache_poisoning:nginx_static_redirect_location": 4,
+    "web_cache_poisoning:express_redirect_location_host": 4,
+    "web_cache_poisoning:spring_original_url_link_header": 4,
+    "web_cache_poisoning:go_catalog_fat_get_body_locale": 4,
+    "web_cache_poisoning:php_storefront_currency_cookie_widget": 4,
+    "web_cache_poisoning:error_page_user_agent_echo": 4,
+    "web_cache_poisoning:fastapi_openapi_root_prefix": 4,
+    "web_cache_poisoning:wordpress_og_image_host": 4,
+    "web_cache_poisoning:aspnet_hreflang_rewrite_url": 4,
+    "web_cache_poisoning:phoenix_banner_config_json": 4,
+    "web_cache_poisoning:gatsby_page_data_asset_prefix": 4
+   },
+   "loc": {
+    "request_line": 76,
+    "query": 4,
+    "json": 4,
+    "cookie": 4
+   },
+   "family": {
+    "django_canonical_link_host": 4,
+    "rails_search_ref_query_script": 4,
+    "nuxt_docs_forwarded_server_asset_base": 4,
+    "laravel_html_lang_locale": 4,
+    "strapi_media_base_json": 4,
+    "nginx_static_redirect_location": 4,
+    "express_redirect_location_host": 4,
+    "spring_original_url_link_header": 4,
+    "go_catalog_fat_get_body_locale": 4,
+    "php_storefront_currency_cookie_widget": 4,
+    "error_page_user_agent_echo": 4,
+    "fastapi_openapi_root_prefix": 4,
+    "wordpress_og_image_host": 4,
+    "aspnet_hreflang_rewrite_url": 4,
+    "phoenix_banner_config_json": 4,
+    "gatsby_page_data_asset_prefix": 4
+   },
+   "variant": {},
+   "src": {}
+  },
+  "websocket_grpc_abuse": {
+   "records": 85,
+   "family_like_units": 33,
+   "lineage_groups": 85,
+   "provenance": {
+    "synthetic": 85
+   },
+   "template_family": {
+    "websocket_grpc_abuse:v1_unlabelled": 24,
+    "websocket_grpc_abuse:ws_unauthorized_channel_subscribe": 4,
+    "websocket_grpc_abuse:ws_upgrade_reconnect_churn": 4,
+    "websocket_grpc_abuse:grpc_authority_metadata_spoof": 4,
+    "websocket_grpc_abuse:grpc_deadline_zero_churn": 4,
+    "websocket_grpc_abuse:grpc_resume_token_cross_tenant": 4,
+    "websocket_grpc_abuse:ws_chat_message_flood": 4,
+    "websocket_grpc_abuse:ws_origin_allowlist_bypass": 4,
+    "websocket_grpc_abuse:grpc_invalid_bearer_watch": 4,
+    "websocket_grpc_abuse:ws_oversized_frame_ingest": 4,
+    "websocket_grpc_abuse:grpc_reflection_unauthenticated_fanout": 4,
+    "websocket_grpc_abuse:ws_subscribe_fanout_storm": 4,
+    "websocket_grpc_abuse:ws_null_origin_handshake": 4,
+    "websocket_grpc_abuse:ws_handshake_version_probe": 4,
+    "websocket_grpc_abuse:grpc_stream_message_flood": 3,
+    "websocket_grpc_abuse:grpc_client_stream_oversize": 3,
+    "websocket_grpc_abuse:ws_permessage_deflate_expansion": 3
+   },
+   "loc": {
+    "request_line": 73,
+    "raw_body": 12
+   },
+   "family": {
+    "ws_unauthorized_channel_subscribe": 4,
+    "ws_upgrade_reconnect_churn": 4,
+    "grpc_authority_metadata_spoof": 4,
+    "grpc_deadline_zero_churn": 4,
+    "grpc_resume_token_cross_tenant": 4,
+    "ws_chat_message_flood": 4,
+    "ws_origin_allowlist_bypass": 4,
+    "grpc_invalid_bearer_watch": 4,
+    "ws_oversized_frame_ingest": 4,
+    "grpc_reflection_unauthenticated_fanout": 4,
+    "ws_subscribe_fanout_storm": 4,
+    "ws_null_origin_handshake": 4,
+    "ws_handshake_version_probe": 4,
+    "grpc_stream_message_flood": 3,
+    "grpc_client_stream_oversize": 3,
+    "ws_permessage_deflate_expansion": 3
+   },
+   "variant": {},
+   "src": {}
+  },
+  "xss_dom_polyglot": {
+   "records": 40,
+   "family_like_units": 2,
+   "lineage_groups": 40,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "xss_dom_polyglot_httpwrap": 40
+   },
+   "loc": {
+    "json": 14,
+    "query": 10,
+    "form": 8,
+    "referer": 8
+   },
+   "src": {
+    "seclists": 40
+   },
+   "enc": {
+    "form": 8,
+    "url2": 2
+   },
+   "family": {},
+   "variant": {}
+  },
+  "xss_reflected_stored": {
+   "records": 40,
+   "family_like_units": 4,
+   "lineage_groups": 40,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "xss_reflected_stored_httpwrap": 34,
+    "crs_fixture": 6
+   },
+   "loc": {
+    "query": 10,
+    "referer": 9,
+    "multipart": 7,
+    "cookie": 6,
+    "form": 5,
+    "json": 2,
+    "raw_body": 1
+   },
+   "src": {
+    "seclists": 34,
+    "coreruleset": 6
+   },
+   "enc": {
+    "form": 5,
+    "url2": 4,
+    "chunked": 1,
+    "json_unicode": 1
+   },
+   "family": {},
+   "variant": {}
+  },
+  "xxe": {
+   "records": 40,
+   "family_like_units": 2,
+   "lineage_groups": 40,
+   "provenance": {
+    "hybrid": 40
+   },
+   "template_family": {
+    "xxe_httpwrap": 40
+   },
+   "loc": {
+    "xml": 22,
+    "multipart": 18
+   },
+   "src": {
+    "xxe_injection_payload_list": 40
+   },
+   "enc": {
+    "chunked": 7
+   },
+   "family": {},
+   "variant": {}
+  }
+ }
+}

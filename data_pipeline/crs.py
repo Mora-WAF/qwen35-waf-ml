@@ -40,9 +40,9 @@ def telemetry(inp, rule_id, test_id):
            "decision_stage": "request_headers_body" if data is not None else "request_headers",
            "observed_until": "request_received", "truncated": False, "http": http}
     # same shortcut controls as generated records: neutral hosts / entity names, shared header profile
-    from subagents.orchestrator import _neutralize, normalize_headers
+    from subagents.orchestrator import _neutralize, canonicalize, normalize_headers
     tel, _ = _neutralize(tel, f"crs:{rule_id}:{test_id}")
-    return normalize_headers(tel, f"crs:{rule_id}:{test_id}")
+    return canonicalize(normalize_headers(tel, f"crs:{rule_id}:{test_id}"), f"crs:{rule_id}:{test_id}")
 
 
 def ingest():
