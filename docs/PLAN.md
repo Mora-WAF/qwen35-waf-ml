@@ -2,54 +2,64 @@
 
 Reviewed: 15 October 2026. This document replaces the original specification. It is a plan for implementation, not a claim that the datasets, notebook, or model have been built or tested.
 
-## Implementation progress (updated 15 October 2026)
+## Implementation progress (updated 15 October 2026, 08:30)
 
-**Achieved state: pilot data-ready.** Nothing has run on a GPU, so the notebook is *not* smoke-tested and no model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
+**Achieved state: pilot data-ready; notebook partially smoke-tested.** Part A (train, predict, export) passed on a fresh Colab T4. Part B (fresh-process reload, continuation test) has passed only on the debug VM; the clean Part B rerun is blocked because Colab's free tier returned "Service Unavailable" for T4. No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
 
 ### Phase status
 
 | Phase | Status | Evidence |
 |---|---|---|
 | A — environment and source contracts | Done, with exclusions | `reports/compatibility.json`, `config/sources.yaml`, `reports/source_audit.json` |
-| B — end-to-end pilot | Data side done; GPU smoke test pending | `datasets_ready/manifest.json`, `reports/pre_colab_gate.json` (passed) |
+| B — end-to-end pilot | Data done; GPU smoke test partial | `reports/pre_colab_gate.json` (passed), `reports/gpu_smoke_test.json` (`passed: false`, see status), `reports/gpu_smoke_partA_clean_run.ipynb` |
 | C — scale, freeze, package | Not started | — |
 | D — train and evaluate | Not started | notebook + bundle ready: `colab/` |
 
+### GPU smoke test (Colab T4, 15 GB, fp16)
+
+- Tested stack, pinned in `requirements.lock` and the notebook: torch 2.11.0+cu130, unsloth/unsloth_zoo 2026.10.5, transformers 5.17.0, trl 1.15.0, peft 0.21.2, accelerate 1.15.0, bitsandbytes 0.50.2, datasets 4.8.5. Python 3.13, CUDA 13.0.
+- Clean Part A: 25 optimizer steps, all losses finite; eval loss 0.321 → 0.089 → 0.099; peak memory 9.8 GB; 252 tokens/s after warmup; 18.4 min wall time. rsLoRA: 21.2M trainable of 4.56B parameters; vision weights frozen; base weights float16. Mask inspection 5/5. On 59 val_select records: raw JSON validity 100%, diagnostic accuracy 74.6% (25 steps only, not a model claim), median latency 1.3 s.
+- Debug-VM Part B: adapter reloaded in a fresh process matched 5/5 predictions and the tokenizer fingerprint; continuation test (20 steps straight vs 10 + save/reload + 10) gave identical losses (max difference 0.0).
+- Throughput implies about 15 h for the 30k fast subset on a T4 and about 50 h for 100k; full training needs an L4/A100.
+- Problems found and fixed on the GPU: a `datasets` conflict with unsloth; torch pinned so `xformers` cannot swap the CUDA build; the T4 only emulates bf16, so fp16 is used below compute capability 8; transformers v5 removed `warmup_ratio`; a bad edit had commented out the optimizer and gradient clipping (caught on the VM); a second model cannot load beside the training kernel on 15 GB, so the notebook is split into Part A and Part B with a runtime restart between them.
+
 ### Pilot dataset (`datasets_ready/pilot_*.jsonl`)
 
-- 1,388 records, all 35 classes in train, test and each validation sub-partition. Splits: train 1,127; val_select 58, val_calib 39, val_policy 40; test 124.
-- Provenance: 800 synthetic, 520 hybrid (observed seed in a generated request), 68 observed flows.
-- 1,325 lineage groups; every class has at least 20. Splits are assigned per group, globally (a group can span classes).
-- Tokens per rendered sequence: median 472, p95 680, max 1,954 (limit 2,048); 3 over-length records rejected, none truncated.
-- Pre-Colab gate passed with 0 failures; 27 unit tests pass.
+- 1,388 records, all 35 classes in train, test and each validation sub-partition. Splits: train 1,125; val_select 58, val_calib 39, val_policy 42; test 124.
+- Provenance: 800 synthetic, 520 hybrid (observed seed or CRS fixture in a request), 68 observed flows.
+- 1,321 lineage groups; every class has at least 20. Splits are assigned per group, globally (a group can span classes).
+- Tokens per rendered sequence: median 472, p95 680, max 1,954 (limit 2,048); over-length records rejected, none truncated.
+- Pre-Colab gate passed with 0 failures; 28 unit tests pass.
+- Robustness set `datasets_ready/robustness_pilot.jsonl`: 99 records outside the core, with published expected policy behaviour and lineage disjoint from the core: 25 insufficient-context, 24 supported out-of-taxonomy (observed CIC/NF flows), 25 malformed/truncated, 25 classifier prompt-injection.
 
 ### Sources actually used
 
-- Payload seeds at pinned commits: payload-box lists (SQLi, command injection, SSTI, XXE, CRLF, smuggling, open redirect, WAF bypass), 47 SecLists files, PayloadsAllTheThings LDAP/XPATH/NoSQL docs (fenced payload examples only). 15,072 accepted seeds in 14,475 near-duplicate clusters; 587 rejected with reasons.
-- Observed flows: CIC-IDS2017 flow table (2.83M rows) and NF-ToN-IoT-v2 train (13.6M rows). Mapped only where the source label names a class: port scan, slowloris/slowhttptest, FTP/SSH brute force, benign. Unmapped: 372,624 CIC rows (HTTP floods, DDoS, bot, web attacks) and 4,725,041 NF-ToN rows.
-- Excluded: UNSW-NB15 (academic-use terms), `xss-payload-list` (no license), CSIC 2010 (no attributable distribution), coreruleset tests (parser not written).
-- Generation: Claude Haiku subagents spawned from the Claude Code session, no paid API (user decision). This replaces the async API worker pool in §6; cost is not metered.
+- Payload seeds at pinned commits: payload-box lists, 47 SecLists files, PayloadsAllTheThings LDAP/XPATH/NoSQL docs (fenced payload examples only). 15,072 accepted seeds in 14,475 near-duplicate clusters; 587 rejected with reasons.
+- OWASP CRS regression fixtures (families 930/932/941/942, positive tests): 1,609 converted; a blind review of 40 found 35% lacked evidence, so only review-agreed fixtures (26) enter the build. Family 944 skipped (keyword-stuffed unit tests).
+- Observed flows: CIC-IDS2017 flow table (2.83M rows) and NF-ToN-IoT-v2 train (13.6M rows), mapped only where the source label names a class (port scan, slowloris/slowhttptest, FTP/SSH brute force, benign).
+- Excluded: UNSW-NB15 (academic-use terms), `xss-payload-list` (no license), CSIC 2010 (no attributable distribution).
+- Generation and review: Claude Haiku subagents spawned from the Claude Code session, no paid API (user decision). This replaces the async API worker pool in §6; cost is not metered.
 
 ### Quality measures applied
 
-- **Seed quality:** quarantined too-short, syntax-free and prose lines; the mixed WAF-bypass list keeps only SQL lines; cross-class duplicates resolved by taxonomy precedence or quarantined. `sqli_obfuscated` is topped up by deterministic, recorded transforms of `sqli_classic` seeds.
-- **Label review:** blind Haiku review of all 360 Haiku records plus 10 seeds per seeded class (490 items). 51 quarantined. Lowest agreement: search hard negatives 0.79, LDAP/XPATH 0.80, JWT bypass 0.83. Same-model review, so this filters noise and is not ground truth (`reports/label_audit.json`).
+- **Seed quality:** quarantined too-short, syntax-free and prose lines; the mixed WAF-bypass list keeps only SQL lines; cross-class duplicates resolved by taxonomy precedence or quarantined; `sqli_obfuscated` topped up by deterministic, recorded transforms of `sqli_classic` seeds.
+- **Label review:** blind same-model review of 530 items (all Haiku records, 10 seeds per seeded class, 40 CRS fixtures); 65 quarantined. Lowest agreement: search hard negatives 0.79, LDAP/XPATH 0.80, JWT bypass 0.83, SQLi classic 0.85. Agreement filters noise; it is not ground truth (`reports/label_audit.json`).
 - **Leakage:** near-duplicate grouping for seeds and templated worker output; campaign grouping for flows; zero detected cross-split overlap under the documented checks.
-- **Shortcuts:** label-revealing hostnames and XXE entity names rewritten; attack and benign requests share endpoints, hosts, header profiles, parameters and locales; benign XML; 120 benign context-matched counterparts; flow records use one shared core vocabulary. Surface-only Naive Bayes accuracy (no payload values): 35-class 55.8% → 49.4% (chance 2.9%); attack vs benign 93.3% → 79.7% (`reports/shortcut_audit.json`).
+- **Shortcuts:** label-revealing hostnames and XXE entity names rewritten; attack and benign requests share endpoints, hosts, header profiles, parameters and locales; benign XML; 120 benign context-matched counterparts; flow records use one shared core vocabulary. Surface-only Naive Bayes accuracy (no payload values): 35-class 55.8% → 47.5% (chance 2.9%); attack vs benign 93.3% → 80.2% (`reports/shortcut_audit.json`).
 
 ### Open issues
 
-1. GPU smoke test not run; the pinned package set (unsloth 2026.10.5, transformers 5.17.0, trl 1.15.0, peft 0.21.2) is untested together.
+1. Clean Part B rerun pending (GPU availability); until then `gpu_smoke_test.json` reports `passed: false`.
 2. Remaining shortcuts: context keys, endpoint and flow-key sets still predict class well above chance; request-smuggling records keep a distinct layout.
 3. Each CIC attack class is a single campaign; slowloris has one observed campaign and relies on synthetic top-up.
 4. Haiku-generated classes have 1–4 template families each; review labels come from the same model family.
-5. Not built: 1,000-record robustness set, coreruleset and remaining PayloadsAllTheThings parsers, calibration and evaluation code, full 120k build.
+5. Not built: calibration and evaluation code, base-model and baseline comparisons, full 120k build, remaining PayloadsAllTheThings parsers.
 
 ### Next steps
 
-1. Run the notebook in `MODE="smoke"` on a Colab GPU and store `gpu_smoke_test.json` in `reports/`.
-2. Build the robustness set and the coreruleset parser.
-3. Reduce remaining shortcuts, then scale toward the §4 quotas.
+1. When a T4 is available: allocate, run Part A, restart the kernel, run Part B (each CLI call wrapped in a local timeout), download `gpu_smoke_test.json`, stop the VM.
+2. Calibration (§10 completion-scoring + temperature scaling) and the evaluation harness, tested on the pilot.
+3. Reduce the remaining shortcuts, then scale toward the §4 quotas.
 
 ## What changed and why
 

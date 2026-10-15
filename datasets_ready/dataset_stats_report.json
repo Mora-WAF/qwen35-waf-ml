@@ -79,10 +79,10 @@
   },
   "benign_hard_negative_search": {
    "train": 29,
-   "val_policy": 1,
    "test": 3,
+   "val_calib": 1,
    "val_select": 1,
-   "val_calib": 1
+   "val_policy": 1
   },
   "benign_standard_traffic": {
    "test": 16,
@@ -93,17 +93,17 @@
   },
   "sqli_classic": {
    "train": 34,
-   "val_policy": 1,
    "test": 3,
-   "val_select": 1,
-   "val_calib": 1
+   "val_policy": 1,
+   "val_calib": 1,
+   "val_select": 1
   },
   "sqli_obfuscated": {
    "train": 34,
    "test": 3,
    "val_policy": 1,
-   "val_select": 1,
-   "val_calib": 1
+   "val_calib": 1,
+   "val_select": 1
   },
   "nosqli": {
    "val_calib": 2,
@@ -113,25 +113,25 @@
    "val_select": 1
   },
   "xss_reflected_stored": {
-   "train": 34,
-   "test": 3,
+   "train": 32,
    "val_calib": 1,
-   "val_policy": 1,
-   "val_select": 1
+   "val_select": 2,
+   "test": 4,
+   "val_policy": 1
   },
   "xss_dom_polyglot": {
    "train": 32,
    "test": 4,
    "val_select": 2,
-   "val_calib": 1,
-   "val_policy": 1
+   "val_policy": 1,
+   "val_calib": 1
   },
   "rce_cmd_injection": {
    "train": 32,
-   "val_select": 2,
-   "val_calib": 1,
    "test": 4,
-   "val_policy": 1
+   "val_policy": 1,
+   "val_calib": 1,
+   "val_select": 2
   },
   "ssti": {
    "train": 34,
@@ -157,16 +157,16 @@
   "ldap_xpath_injection": {
    "train": 33,
    "test": 4,
-   "val_policy": 1,
+   "val_calib": 1,
    "val_select": 1,
-   "val_calib": 1
+   "val_policy": 1
   },
   "path_traversal_lfi": {
    "train": 32,
-   "val_calib": 1,
-   "val_policy": 1,
-   "test": 4,
-   "val_select": 2
+   "val_policy": 3,
+   "val_select": 1,
+   "test": 3,
+   "val_calib": 1
   },
   "http_request_smuggling": {
    "train": 32,
@@ -184,17 +184,17 @@
   },
   "syn_flood_ddos": {
    "train": 32,
-   "val_calib": 1,
+   "val_select": 2,
    "val_policy": 1,
    "test": 4,
-   "val_select": 2
+   "val_calib": 1
   },
   "udp_amplification": {
    "train": 32,
-   "test": 4,
-   "val_calib": 1,
    "val_policy": 1,
-   "val_select": 2
+   "test": 4,
+   "val_select": 2,
+   "val_calib": 1
   },
   "slowloris_slowhttp": {
    "train": 35,
@@ -207,8 +207,8 @@
    "train": 32,
    "test": 4,
    "val_select": 2,
-   "val_calib": 1,
-   "val_policy": 1
+   "val_policy": 1,
+   "val_calib": 1
   },
   "credential_stuffing_bruteforce": {
    "train": 32,
@@ -233,10 +233,10 @@
   },
   "tls_ja4_ua_spoofing": {
    "train": 32,
+   "val_calib": 1,
    "val_policy": 1,
    "test": 4,
-   "val_select": 2,
-   "val_calib": 1
+   "val_select": 2
   },
   "benign_high_rate_legit": {
    "train": 32,

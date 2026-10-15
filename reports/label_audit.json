@@ -1,6 +1,6 @@
 {
- "reviewed": 490,
- "items": 490,
+ "reviewed": 530,
+ "items": 530,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
@@ -76,8 +76,8 @@
    "agreement": 1.0
   },
   "path_traversal_lfi": {
-   "agree": 10,
-   "insufficient": 8,
+   "agree": 20,
+   "insufficient": 9,
    "agreement": 1.0
   },
   "prototype_pollution": {
@@ -86,14 +86,16 @@
    "agreement": 1.0
   },
   "rce_cmd_injection": {
-   "agree": 10,
-   "insufficient": 1,
-   "agreement": 1.0
+   "agree": 19,
+   "insufficient": 3,
+   "disagree": 1,
+   "agreement": 0.95
   },
   "sqli_classic": {
-   "agree": 10,
-   "insufficient": 0,
-   "agreement": 1.0
+   "agree": 17,
+   "insufficient": 4,
+   "disagree": 3,
+   "agreement": 0.85
   },
   "sqli_obfuscated": {
    "agree": 10,
@@ -126,9 +128,9 @@
    "agreement": 1.0
   },
   "xss_reflected_stored": {
-   "agree": 9,
-   "insufficient": 1,
-   "disagree": 1,
+   "agree": 18,
+   "insufficient": 5,
+   "disagree": 2,
    "agreement": 0.9
   },
   "xxe": {
@@ -149,17 +151,22 @@
    4
   ],
   [
+   "xss_reflected_stored",
+   "xss_dom_polyglot",
+   2
+  ],
+  [
    "ldap_xpath_injection",
    "sqli_classic",
    2
   ],
   [
-   "nosqli",
-   "xss_dom_polyglot",
-   1
+   "sqli_classic",
+   "benign_hard_negative_search",
+   2
   ],
   [
-   "xss_reflected_stored",
+   "nosqli",
    "xss_dom_polyglot",
    1
   ],
@@ -177,7 +184,17 @@
    "benign_hard_negative_dev",
    "benign_hard_negative_search",
    1
+  ],
+  [
+   "rce_cmd_injection",
+   "benign_hard_negative_dev",
+   1
+  ],
+  [
+   "sqli_classic",
+   "sqli_obfuscated",
+   1
   ]
  ],
- "quarantined": 51
+ "quarantined": 65
 }

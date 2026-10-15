@@ -19,6 +19,18 @@ def taxonomy():
     return yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
 
 
+def round_robin_groups(entries, k):
+    """Take k entries spreading over lineage groups before repeating any group."""
+    groups = {}
+    for e in entries:
+        groups.setdefault(e["lineage_group"], []).append(e)
+    out, i = [], 0
+    while len(out) < k and any(len(g) > i for g in groups.values()):
+        out += [g[i] for g in groups.values() if len(g) > i][: k - len(out)]
+        i += 1
+    return out
+
+
 def collect(per_class):
     from data_pipeline import generate as G
     from subagents.orchestrator import ingest as ingest_haiku, GAP, GAP_BENIGN
@@ -30,13 +42,24 @@ def collect(per_class):
     haiku_by_cls = Counter(r["metadata"]["threat_type"] for r in haiku_recs)
     recs += haiku_recs
     # seeded L7 classes
+    from data_pipeline.crs import load_pool as load_crs
+    crs_pool = load_crs()
+    from subagents.review import status
+    rv = status()
     seeded = [c for c in tax if (G.SEEDS / f"{c}.jsonl").exists() and c not in GAP]
     for cls in seeded:
         seeds = G.load_seeds(cls)
         if not seeds:
             continue
+        # a quarter from CRS rule fixtures (round-robin over rules) where the class has them
+        # CRS rule fixtures are regex unit tests: 35% of a blind-reviewed sample lacked evidence, so only
+        # fixtures the review AGREED with are used (unreviewed ones carry the same noise rate)
+        crs = [e for e in crs_pool.get(cls, []) if rv.get(f"crs:{e['original_id']}") == "agreed"]
+        picks = round_robin_groups(crs, per_class // 4) if crs else []
+        recs += G.gen_observed_http(picks)
+        want = per_class - len(picks)
         # spread over as many distinct seeds as possible before re-wrapping any seed
-        base, extra = divmod(per_class, len(seeds))
+        base, extra = divmod(want, len(seeds))
         for j, s in enumerate(seeds):
             n = base + (j < extra)
             if n:

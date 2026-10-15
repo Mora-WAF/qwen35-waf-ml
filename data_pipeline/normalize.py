@@ -107,6 +107,9 @@ def rules(root=ROOT):
     return yaml.safe_load(open(root / "config/seed_map.yaml"))["rules"]
 
 
+REJECTED = []  # quality rejects, kept for the robustness set (insufficient-context cases)
+
+
 def iter_seeds(root=ROOT, rejects=None):
     srcs, seen = sources_index(root), set()
     rejects = rejects if rejects is not None else Counter()
@@ -130,6 +133,8 @@ def iter_seeds(root=ROOT, rejects=None):
                     why = "fails_class_syntax"
                 if why:
                     rejects[(rule["class"], why)] += 1
+                    REJECTED.append({"class": rule["class"], "reason": why, "payload": payload,
+                                     "source": src["id"], "source_file": rel})
                     continue
                 sid = seed_id(src["id"], rule["class"], payload)
                 if sid in seen:  # exact-dup across files/rules
@@ -169,6 +174,9 @@ def build(root=ROOT):
     rej = {}
     for (cls, why), n in rejects.items():
         rej.setdefault(cls, {})[why] = n
+    with open(OUT / "rejected.jsonl", "w") as fh:
+        for x in REJECTED:
+            fh.write(json.dumps(x, ensure_ascii=False) + "\n")
     (OUT / "seed_stats.json").write_text(json.dumps({"accepted": files, "rejected": rej}, indent=1, sort_keys=True))
     return files
 

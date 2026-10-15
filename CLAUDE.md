@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: pilot data-ready; nothing has run on a GPU. A failed gate or target is a recorded
+Current state: pilot data-ready; notebook partially smoke-tested (see the progress log). A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
 ## Pipeline order
@@ -19,11 +19,22 @@ Run with `.venv/bin/python -m` (Python 3.12 venv; system Python 3.14 lacks the M
 2. `data_pipeline.normalize` → seeds, quality rejects, near-dup clusters
 3. `data_pipeline.flows` → observed CIC/NF-ToN flow pool
 4. `subagents.orchestrator jobs N` → Haiku job specs; `subagents.review export|score` → blind review
-5. `data_pipeline.build` → `datasets_ready/` (deletes the old manifest first)
+5. `data_pipeline.build` → `datasets_ready/` (deletes the old manifest first); then
+   `data_pipeline.robustness` → `robustness_pilot.jsonl` (needs the core build: it excludes core lineage)
 6. `tests.validate_pre_colab` → the **gate**; `eval.shortcut_audit` → shortcut report
 7. `training.make_bundle` → Colab zip (refuses a failed gate); `colab/make_notebook.py` regenerates the notebook
 
 Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/bin/python -m pytest -q tests`.
+
+## Colab (the `colab` CLI is installed and authenticated)
+
+- The notebook has two parts: **Part A** trains and exports, **Part B** must run after a kernel restart
+  (a second 4B model does not fit beside the training kernel on a 15 GB T4).
+- Run it as `colab new -s NAME --gpu T4` → `colab upload` the bundle → `colab exec -f partA.ipynb` →
+  `colab restart-kernel` → `colab exec -f partB.ipynb` → `colab download` → `colab stop`. Wrap each
+  long call in a local `timeout`: after a restart the CLI once waited 4.5 h on a dead connection.
+- Free-tier T4 can return "Service Unavailable" after a few GPU-hours; retry later rather than in a loop.
+- Every session ends with `colab stop`; `colab sessions` must list none.
 
 ## Conventions that are not visible in the code
 

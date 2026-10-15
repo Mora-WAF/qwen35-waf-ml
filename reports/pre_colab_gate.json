@@ -9,7 +9,7 @@
   "sqli_classic": 35,
   "sqli_obfuscated": 36,
   "nosqli": 34,
-  "xss_reflected_stored": 38,
+  "xss_reflected_stored": 40,
   "xss_dom_polyglot": 40,
   "rce_cmd_injection": 40,
   "ssti": 39,
@@ -18,7 +18,7 @@
   "crlf_header_injection": 34,
   "ldap_xpath_injection": 37,
   "csv_formula_injection": 20,
-  "path_traversal_lfi": 40,
+  "path_traversal_lfi": 34,
   "ssrf_cloud_metadata": 24,
   "http_request_smuggling": 40,
   "graphql_abuse": 20,
@@ -44,6 +44,7 @@
  },
  "template_families_per_class": {
   "sqli_classic": [
+   "crs_fixture",
    "sqli_classic_httpwrap"
   ],
   "sqli_obfuscated": [
@@ -53,12 +54,14 @@
    "nosqli_httpwrap"
   ],
   "xss_reflected_stored": [
+   "crs_fixture",
    "xss_reflected_stored_httpwrap"
   ],
   "xss_dom_polyglot": [
    "xss_dom_polyglot_httpwrap"
   ],
   "rce_cmd_injection": [
+   "crs_fixture",
    "rce_cmd_injection_httpwrap"
   ],
   "ssti": [
@@ -80,6 +83,7 @@
    "csv_formula_injection_scenario"
   ],
   "path_traversal_lfi": [
+   "crs_fixture",
    "path_traversal_lfi_httpwrap"
   ],
   "ssrf_cloud_metadata": [
@@ -175,7 +179,7 @@
    "sqli_classic": 34,
    "sqli_obfuscated": 34,
    "nosqli": 33,
-   "xss_reflected_stored": 34,
+   "xss_reflected_stored": 32,
    "xss_dom_polyglot": 32,
    "rce_cmd_injection": 32,
    "ssti": 34,
@@ -212,14 +216,14 @@
    "sqli_classic": 1,
    "sqli_obfuscated": 1,
    "nosqli": 1,
-   "xss_reflected_stored": 1,
+   "xss_reflected_stored": 2,
    "xss_dom_polyglot": 2,
    "rce_cmd_injection": 2,
    "ssti": 1,
    "xxe": 2,
    "crlf_header_injection": 1,
    "ldap_xpath_injection": 1,
-   "path_traversal_lfi": 2,
+   "path_traversal_lfi": 1,
    "http_request_smuggling": 2,
    "open_redirect_cors": 1,
    "syn_flood_ddos": 2,
@@ -293,7 +297,7 @@
    "xxe": 1,
    "crlf_header_injection": 1,
    "ldap_xpath_injection": 1,
-   "path_traversal_lfi": 1,
+   "path_traversal_lfi": 3,
    "http_request_smuggling": 1,
    "open_redirect_cors": 3,
    "syn_flood_ddos": 1,
@@ -323,14 +327,14 @@
    "sqli_classic": 3,
    "sqli_obfuscated": 3,
    "nosqli": 3,
-   "xss_reflected_stored": 3,
+   "xss_reflected_stored": 4,
    "xss_dom_polyglot": 4,
    "rce_cmd_injection": 4,
    "ssti": 3,
    "xxe": 4,
    "crlf_header_injection": 3,
    "ldap_xpath_injection": 4,
-   "path_traversal_lfi": 4,
+   "path_traversal_lfi": 3,
    "http_request_smuggling": 4,
    "open_redirect_cors": 3,
    "syn_flood_ddos": 4,

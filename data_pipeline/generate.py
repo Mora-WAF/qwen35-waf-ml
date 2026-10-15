@@ -365,6 +365,21 @@ def gen_benign_std(cls, n):
     return out
 
 
+def gen_observed_http(entries):
+    """CRS rule fixtures -> records. Label evidence = the rule author's expected rule id."""
+    out = []
+    for e in entries:
+        rec_id = f"crs:{e['original_id']}"
+        out.append(assemble(rec_id, e["cls"], e["telemetry"], "hybrid",
+                            {"method": "source_annotation", "source_label": e["original_label"],
+                             "note": "rule match is an annotation signal, not universal truth"},
+                            {"source": e["source"], "source_revision": e["source_revision"],
+                             "original_id": e["original_id"], "original_label": e["original_label"],
+                             "license_ref": e["license_ref"], "lineage_group": e["lineage_group"],
+                             "template_family": "crs_fixture"}))
+    return out
+
+
 def gen_observed_flow(entries):
     """Observed flow rows (data_pipeline.flows pool) -> records. Label from the source dataset."""
     out = []

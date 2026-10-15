@@ -126,3 +126,18 @@ def test_observed_and_synthetic_share_core_names():
     extras = {"iat_cv", "qname_len_mean", "qname_entropy_bits_per_char", "ja4_ua_consistent"}
     for cls in G.FLOW_PROFILES:
         assert set(G.synth_flow(cls, 0)[0]["flow"]["features"]) - core <= extras, cls
+
+
+def test_crs_fixture_to_telemetry():
+    import json
+    import jsonschema
+    from data_pipeline.crs import telemetry
+    inp = {"method": "POST", "uri": "/get?id=1&x=2", "version": "HTTP/1.1",
+           "headers": {"Host": "localhost", "User-Agent": "OWASP CRS test agent", "Content-Type": "text/plain"},
+           "data": "a=b"}
+    tel = telemetry(inp, 942100, 1)
+    jsonschema.validate(tel, json.load(open(Path(__file__).parent.parent / "schemas/telemetry.schema.json")))
+    h = {k.lower(): v for k, v in tel["http"]["headers"]}
+    assert h["host"] != "localhost" and "OWASP" not in h["user-agent"]   # test-harness headers normalized
+    assert h["content-type"] == "text/plain" and tel["http"]["query"] == [["id", "1"], ["x", "2"]]
+    assert tel["decision_stage"] == "request_headers_body"

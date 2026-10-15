@@ -56,6 +56,26 @@ def export():
     print(len(items), "items in", N_BATCHES, "batches")
 
 
+def export_crs(per_class=10):
+    """Additive review round for CRS fixtures: new rids appended to the existing key; earlier
+    batches and their answers stay valid."""
+    from data_pipeline.crs import load_pool
+    from data_pipeline.build import round_robin_groups
+    key = json.loads(KEY.read_text())
+    rows = []
+    for cls, entries in sorted(load_pool().items()):
+        for e in round_robin_groups(entries, per_class):
+            rid = f"c{len(key):05d}"
+            key[rid] = {"label": cls, "ref": f"crs:{e['original_id']}", "kind": "telemetry"}
+            rows.append({"rid": rid, "kind": "telemetry", "item": e["telemetry"]})
+    random.Random(11).shuffle(rows)
+    with open(RV / "batch_crs.jsonl", "w") as fh:
+        for row in rows:
+            fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    KEY.write_text(json.dumps(key))
+    print(len(rows), "CRS items -> batch_crs.jsonl")
+
+
 def score():
     key = json.loads(KEY.read_text())
     got = {}
@@ -104,4 +124,4 @@ def status():
 
 
 if __name__ == "__main__":
-    {"export": export, "score": score}[sys.argv[1]]()
+    {"export": export, "export_crs": export_crs, "score": score}[sys.argv[1]]()

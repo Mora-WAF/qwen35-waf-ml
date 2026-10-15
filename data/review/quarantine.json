@@ -457,5 +457,131 @@
   "reviewer": "open_redirect_cors",
   "sufficient": false,
   "note": "Bare external URL with port; no redirect context."
+ },
+ {
+  "rid": "c00497",
+  "label": "path_traversal_lfi",
+  "ref": "crs:930110-8-0",
+  "kind": "telemetry",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "single ..\\ segment, no target file; weak traversal"
+ },
+ {
+  "rid": "c00503",
+  "label": "rce_cmd_injection",
+  "ref": "crs:932140-1-0",
+  "kind": "telemetry",
+  "reviewer": "rce_cmd_injection",
+  "sufficient": false,
+  "note": "CMD for-loop syntax without separator, could be dev text"
+ },
+ {
+  "rid": "c00505",
+  "label": "rce_cmd_injection",
+  "ref": "crs:932171-1-0",
+  "kind": "telemetry",
+  "reviewer": "rce_cmd_injection",
+  "sufficient": false,
+  "note": "Shellshock-style '() {' prefix without executable tail"
+ },
+ {
+  "rid": "c00507",
+  "label": "rce_cmd_injection",
+  "ref": "crs:932180-2-0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "placeholder multipart upload from API client, no attack"
+ },
+ {
+  "rid": "c00511",
+  "label": "sqli_classic",
+  "ref": "crs:942120-1-0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_search",
+  "sufficient": false,
+  "note": "LIKE NULL keyword pair, plausible search text"
+ },
+ {
+  "rid": "c00512",
+  "label": "sqli_classic",
+  "ref": "crs:942130-2-0",
+  "kind": "telemetry",
+  "reviewer": "sqli_classic",
+  "sufficient": false,
+  "note": "bare 1=1 tautology with no quote or SQL context"
+ },
+ {
+  "rid": "c00513",
+  "label": "sqli_classic",
+  "ref": "crs:942131-1-0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_search",
+  "sufficient": true,
+  "note": "plain arithmetic-style operator value from mobile browser"
+ },
+ {
+  "rid": "c00514",
+  "label": "sqli_classic",
+  "ref": "crs:942140-1-0",
+  "kind": "telemetry",
+  "reviewer": "sqli_classic",
+  "sufficient": false,
+  "note": "pg_catalog schema name alone, plausibly legitimate"
+ },
+ {
+  "rid": "c00516",
+  "label": "sqli_classic",
+  "ref": "crs:942151-1-0",
+  "kind": "telemetry",
+  "reviewer": "sqli_obfuscated",
+  "sufficient": true,
+  "note": "quote-concatenated SQL with xmltype external entity"
+ },
+ {
+  "rid": "c00519",
+  "label": "sqli_classic",
+  "ref": "crs:942180-1-0",
+  "kind": "telemetry",
+  "reviewer": "sqli_classic",
+  "sufficient": false,
+  "note": "single quote with spacing, plausibly legitimate"
+ },
+ {
+  "rid": "c00522",
+  "label": "xss_reflected_stored",
+  "ref": "crs:941120-1-0",
+  "kind": "telemetry",
+  "reviewer": "xss_reflected_stored",
+  "sufficient": false,
+  "note": "event-handler attribute name as parameter, no script"
+ },
+ {
+  "rid": "c00525",
+  "label": "xss_reflected_stored",
+  "ref": "crs:941150-1-0",
+  "kind": "telemetry",
+  "reviewer": "xss_reflected_stored",
+  "sufficient": false,
+  "note": "unclosed anchor tag fragment in form body"
+ },
+ {
+  "rid": "c00528",
+  "label": "xss_reflected_stored",
+  "ref": "crs:941180-1-0",
+  "kind": "telemetry",
+  "reviewer": "xss_dom_polyglot",
+  "sufficient": false,
+  "note": "bare window.location DOM sink reference, weak alone"
+ },
+ {
+  "rid": "c00529",
+  "label": "xss_reflected_stored",
+  "ref": "crs:941181-1-0",
+  "kind": "telemetry",
+  "reviewer": "xss_reflected_stored",
+  "sufficient": false,
+  "note": "bare --> HTML comment close, weak alone"
  }
 ]

@@ -68,11 +68,334 @@ sources:
   revision: d5cb9da4522c1a1e20e0e393bc992b506adb8c55
   default_branch: main
   license_spdx: Apache-2.0
-  license_note: 'GitHub API license spdx_id: Apache-2.0'
+  license_note: 'GitHub API license spdx_id: Apache-2.0 | files: regression tests for rule families 930/932/941/942/944 only
+    (positives used as annotated fixtures)'
   files:
-  - path: tests/regression/tests/
-    size_bytes: 3452973
-  total_size_bytes: 3452973
+  - path: tests/regression/tests/REQUEST-930-APPLICATION-ATTACK-LFI/930100.yaml
+    size_bytes: 2908
+  - path: tests/regression/tests/REQUEST-930-APPLICATION-ATTACK-LFI/930110.yaml
+    size_bytes: 7941
+  - path: tests/regression/tests/REQUEST-930-APPLICATION-ATTACK-LFI/930120.yaml
+    size_bytes: 10535
+  - path: tests/regression/tests/REQUEST-930-APPLICATION-ATTACK-LFI/930121.yaml
+    size_bytes: 7815
+  - path: tests/regression/tests/REQUEST-930-APPLICATION-ATTACK-LFI/930130.yaml
+    size_bytes: 6986
+  - path: tests/regression/tests/REQUEST-930-APPLICATION-ATTACK-LFI/930140.yaml
+    size_bytes: 10943
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932120.yaml
+    size_bytes: 3317
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932125.yaml
+    size_bytes: 5054
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932130.yaml
+    size_bytes: 20926
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932131.yaml
+    size_bytes: 1098
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932140.yaml
+    size_bytes: 86260
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932160.yaml
+    size_bytes: 8189
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932161.yaml
+    size_bytes: 5916
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932170.yaml
+    size_bytes: 698
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932171.yaml
+    size_bytes: 1837
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932175.yaml
+    size_bytes: 9666
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932180.yaml
+    size_bytes: 20499
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932190.yaml
+    size_bytes: 4820
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932200.yaml
+    size_bytes: 10309
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932205.yaml
+    size_bytes: 4362
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932206.yaml
+    size_bytes: 1757
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932207.yaml
+    size_bytes: 4452
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932210.yaml
+    size_bytes: 4414
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932220.yaml
+    size_bytes: 7331
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932230.yaml
+    size_bytes: 49294
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932231.yaml
+    size_bytes: 1821
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932232.yaml
+    size_bytes: 7723
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932235.yaml
+    size_bytes: 39860
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932236.yaml
+    size_bytes: 72750
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932237.yaml
+    size_bytes: 19880
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932238.yaml
+    size_bytes: 6586
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932239.yaml
+    size_bytes: 37283
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932240.yaml
+    size_bytes: 13679
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932250.yaml
+    size_bytes: 17504
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932260.yaml
+    size_bytes: 33818
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932270.yaml
+    size_bytes: 16649
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932271.yaml
+    size_bytes: 3688
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932280.yaml
+    size_bytes: 4346
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932281.yaml
+    size_bytes: 5823
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932290.yaml
+    size_bytes: 4841
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932300.yaml
+    size_bytes: 7439
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932301.yaml
+    size_bytes: 4424
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932310.yaml
+    size_bytes: 5733
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932311.yaml
+    size_bytes: 7469
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932320.yaml
+    size_bytes: 6360
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932321.yaml
+    size_bytes: 3436
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932330.yaml
+    size_bytes: 1737
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932331.yaml
+    size_bytes: 2230
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932340.yaml
+    size_bytes: 17787
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932350.yaml
+    size_bytes: 8413
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932370.yaml
+    size_bytes: 4970
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932371.yaml
+    size_bytes: 1816
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932380.yaml
+    size_bytes: 17334
+  - path: tests/regression/tests/REQUEST-932-APPLICATION-ATTACK-RCE/932390.yaml
+    size_bytes: 8479
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941100.yaml
+    size_bytes: 6118
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941101.yaml
+    size_bytes: 1573
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941110.yaml
+    size_bytes: 7525
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941120.yaml
+    size_bytes: 32117
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941130.yaml
+    size_bytes: 14823
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941140.yaml
+    size_bytes: 9508
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941150.yaml
+    size_bytes: 1772
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941160.yaml
+    size_bytes: 10773
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941170.yaml
+    size_bytes: 4608
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941180.yaml
+    size_bytes: 5805
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941181.yaml
+    size_bytes: 2743
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941190.yaml
+    size_bytes: 3498
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941200.yaml
+    size_bytes: 2933
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941210.yaml
+    size_bytes: 3819
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941220.yaml
+    size_bytes: 1664
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941230.yaml
+    size_bytes: 1744
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941240.yaml
+    size_bytes: 1708
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941250.yaml
+    size_bytes: 1760
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941260.yaml
+    size_bytes: 1775
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941270.yaml
+    size_bytes: 1736
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941280.yaml
+    size_bytes: 1901
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941290.yaml
+    size_bytes: 1763
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941300.yaml
+    size_bytes: 1661
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941310.yaml
+    size_bytes: 9755
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941320.yaml
+    size_bytes: 1137
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941330.yaml
+    size_bytes: 1767
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941340.yaml
+    size_bytes: 1767
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941350.yaml
+    size_bytes: 1111
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941360.yaml
+    size_bytes: 4847
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941370.yaml
+    size_bytes: 6644
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941380.yaml
+    size_bytes: 1327
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941390.yaml
+    size_bytes: 6627
+  - path: tests/regression/tests/REQUEST-941-APPLICATION-ATTACK-XSS/941400.yaml
+    size_bytes: 4667
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942100.yaml
+    size_bytes: 9363
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942101.yaml
+    size_bytes: 5958
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942120.yaml
+    size_bytes: 24943
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942130.yaml
+    size_bytes: 5706
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942131.yaml
+    size_bytes: 4086
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942140.yaml
+    size_bytes: 9688
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942150.yaml
+    size_bytes: 11270
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942151.yaml
+    size_bytes: 40053
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942152.yaml
+    size_bytes: 1727
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942160.yaml
+    size_bytes: 16238
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942170.yaml
+    size_bytes: 2923
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942180.yaml
+    size_bytes: 4875
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942190.yaml
+    size_bytes: 28937
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942200.yaml
+    size_bytes: 16945
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942210.yaml
+    size_bytes: 45308
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942220.yaml
+    size_bytes: 2251
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942230.yaml
+    size_bytes: 6955
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942240.yaml
+    size_bytes: 6933
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942250.yaml
+    size_bytes: 1146
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942251.yaml
+    size_bytes: 1709
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942260.yaml
+    size_bytes: 1182
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942270.yaml
+    size_bytes: 1760
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942280.yaml
+    size_bytes: 2973
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942290.yaml
+    size_bytes: 6681
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942300.yaml
+    size_bytes: 2304
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942310.yaml
+    size_bytes: 2860
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942320.yaml
+    size_bytes: 7912
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942321.yaml
+    size_bytes: 1153
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942330.yaml
+    size_bytes: 3349
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942340.yaml
+    size_bytes: 6685
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942350.yaml
+    size_bytes: 6166
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942360.yaml
+    size_bytes: 22452
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942361.yaml
+    size_bytes: 5062
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942362.yaml
+    size_bytes: 19082
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942370.yaml
+    size_bytes: 7104
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942380.yaml
+    size_bytes: 26266
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942390.yaml
+    size_bytes: 13783
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942400.yaml
+    size_bytes: 1781
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942410.yaml
+    size_bytes: 35170
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942420.yaml
+    size_bytes: 6464
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942421.yaml
+    size_bytes: 4111
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942430.yaml
+    size_bytes: 10786
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942431.yaml
+    size_bytes: 5884
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942432.yaml
+    size_bytes: 5674
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942440.yaml
+    size_bytes: 17669
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942450.yaml
+    size_bytes: 6706
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942460.yaml
+    size_bytes: 1139
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942470.yaml
+    size_bytes: 6233
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942480.yaml
+    size_bytes: 7404
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942490.yaml
+    size_bytes: 12149
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942500.yaml
+    size_bytes: 3692
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942510.yaml
+    size_bytes: 1594
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942511.yaml
+    size_bytes: 1583
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942520.yaml
+    size_bytes: 12440
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942521.yaml
+    size_bytes: 30584
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942522.yaml
+    size_bytes: 9604
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942530.yaml
+    size_bytes: 1220
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942540.yaml
+    size_bytes: 4862
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942550.yaml
+    size_bytes: 31156
+  - path: tests/regression/tests/REQUEST-942-APPLICATION-ATTACK-SQLI/942560.yaml
+    size_bytes: 2580
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944000.yaml
+    size_bytes: 756
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944100.yaml
+    size_bytes: 13289
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944110.yaml
+    size_bytes: 13253
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944120.yaml
+    size_bytes: 117378
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944130.yaml
+    size_bytes: 313504
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944140.yaml
+    size_bytes: 9109
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944150.yaml
+    size_bytes: 13420
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944151.yaml
+    size_bytes: 13991
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944152.yaml
+    size_bytes: 14529
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944200.yaml
+    size_bytes: 844
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944210.yaml
+    size_bytes: 40627
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944240.yaml
+    size_bytes: 66915
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944250.yaml
+    size_bytes: 16517
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944260.yaml
+    size_bytes: 1853
+  - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944300.yaml
+    size_bytes: 246212
+  total_size_bytes: 2330651
   status: available
   intended_use: Rule-specific positive and negative fixtures
   restriction: Rule match/non-match is an annotation signal, not universal malicious/benign truth
