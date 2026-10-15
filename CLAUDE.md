@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v6 (`fast_*`, 41 classes, 43,146 records, hard twins + confuser sets, test_unseen on 30 classes), gate passed (`reports/pre_colab_gate.json`); notebook
+Current state: fast build v7 (`fast_*`, 41 classes, 44,155 records, hard twins + confuser sets, test_unseen on all 41 classes), gate passed (`reports/pre_colab_gate.json`); notebook
 smoke-tested on a Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the v3 fast bundle (`reports/dryrun_fast_report.json`);
 no model evaluated. The real fast run is planned on an A100 (see the progress log). A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.

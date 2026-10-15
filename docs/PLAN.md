@@ -4,7 +4,7 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 
 ## Implementation progress (updated 15 October 2026, 20:15)
 
-**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Fast build v6 (41 classes, hard twins, confuser sets, wider test_unseen): gate passed (see below); bundle rebuilt.** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
+**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Fast build v7 (41 classes, hard twins, confuser sets, test_unseen on all 41 classes): gate passed (see below); bundle rebuilt.** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
 
 ### Phase status
 
@@ -101,7 +101,28 @@ Because the SVM separates the new L7 classes perfectly, two kinds of harder reco
 - **Decisions (user, 15 October):** (1) a benign→benign relabel is accepted from a single reviewer when that reviewer itself chose the benign class with sufficient evidence; ingest now lets such a relabel outrank the Haiku quarantine (81 hard twins moved; it also recovers 55 earlier hard negatives where Codex's relabel matched Haiku's own choice but the record had been dropped). (2) The taxonomy now says it: legitimate request bursts with a single effect belong to `benign_high_rate_legit`; an in-scope agent tool call with ordinary arguments is `benign_standard_traffic`, one with lookalike content is `benign_hard_negative_dev`.
 
 
-### Fast build v6 (`datasets_ready/fast_*.jsonl`) — current
+### Fast build v7 (`datasets_ready/fast_*.jsonl`) — current
+
+v6 + Codex `gpt-6.1-sol` (high) round 3, Haiku-reviewed:
+- **Scenario families for the 11 classes without test_unseen** (round `vcx`, 80 records + 10 twins per class, 6–8 named
+  families; xss_dom and xxe were finished by top-up jobs after the Codex workspace ran out of credits mid-run). Haiku agreement
+  99–100% except SSTI 63/80 and the xxe top-up 38/46 (disagreements quarantined). Ingest now reads these classes'
+  files (`EXTRA_INGEST`) and `holdout_unseen` treats Codex families like Haiku families.
+- **CSV hard twins v2** (42): the first round kept `=`- or `+word`-led prose that a spreadsheet would evaluate with escaping
+  off, so reviewers rightly read it as formula injection. v2 uses only values a spreadsheet parses as numbers (phone
+  numbers, signed amounts): Haiku 42/42.
+- **Review gaps filled with Codex high as second reviewer**: all 833 hard-negative items Gemini never answered (23 relabels
+  confirmed, 13 reverted), and the 100 n6 items Gemini skipped (Codex high 90% agreement there).
+- Records 44,155; tokens median 618, p95 1,015, max 2,046. **Gate passed, 0 failures**; 39 tests pass.
+- **test_unseen covers all 41 classes** (4,089 records). Caveat: for the 11 classes covered by this round the held-out
+  slice is Codex-written scenarios, and the SVM baseline scores 1.0 on all of them, so it proves coverage, not difficulty;
+  the hard held-out slices remain the seed-source and capture holdouts (e.g. sqli_classic, slowloris).
+- Baselines: SVM test 94.8% (macro-F1 0.947, benign FPR 7.6%), test_unseen 88.7% (macro-F1 0.905, benign FPR 15.0%,
+  attack miss 5.4%); CRS PL1 attack-vs-benign 59.8% / 51.5%. Shortcut audit: multiclass 47.7%, attack vs benign 59.8%,
+  134 concentrated structural tokens.
+- Bundle `colab_bundle_fast.zip` (9.6 MiB, sha `370d37cf…`).
+
+### Fast build v6 (`datasets_ready/fast_*.jsonl`)
 
 v5 + hard twins for seven older Haiku classes (round `ht2`, 684 Codex records: jwt, graphql, web cache, prototype
 pollution, deserialization, CSV, WebSocket/gRPC) + the hard-negative review outcomes + the new test_unseen holdout.
