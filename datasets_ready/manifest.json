@@ -2,8 +2,8 @@
  "mode": "fast",
  "per_class": 40,
  "quota_fraction": 0.25,
- "total": 35691,
- "dropped_exact_dup": 42,
+ "total": 38067,
+ "dropped_exact_dup": 219,
  "rejected_token_overflow": {
   "graphql_abuse": 67,
   "jwt_auth_bypass": 8,
@@ -11,43 +11,83 @@
  },
  "files": {
   "fast_train.jsonl": {
-   "records": 27205,
-   "sha256": "9eab61215413306dee2761f21d3542c7a9065b512b6d801cb003563d7ff79521"
+   "records": 29330,
+   "sha256": "71b219fdcdd787a58f2f30a0469e2c2a986a21e672dc89dbd670c3f222118da5"
   },
   "fast_val.jsonl": {
-   "records": 3169,
-   "sha256": "f1543acf6d9fc9a380801e16aab3aa377e8a67e92cd24fcd5dc4688606bc6494"
+   "records": 3317,
+   "sha256": "dcd827c9b3c764e58d0a30cf2911c118851c02e644bd39df3bbfda2bd88d8890"
   },
   "fast_test.jsonl": {
-   "records": 3242,
-   "sha256": "58860465ca333aa7dfd3034f4b24d20623776201b54ab562d7236de2b0f82661"
+   "records": 3487,
+   "sha256": "d9a7b3b5b08d1add8db2e2baa4da57130ec6df249385e62c2d03c8cef2412dd6"
   },
   "fast_test_unseen.jsonl": {
-   "records": 2075,
-   "sha256": "f82ccb84a5c00e6508096df41d9590d226efadf1c197afee5b1660da7d21cd06"
+   "records": 1933,
+   "sha256": "b53d2cd7bf88c56ff4bf1e18d3e6dfbd31afc09318826695433118f8b80d9aab"
   }
  },
  "deficits": {
   "_mixed_observed_synthetic": {
-   "slowloris_slowhttp": {
-    "observed_groups": 1,
+   "syn_flood_ddos": {
+    "observed_groups": 2,
+    "observed": 500,
+    "synthetic": 500,
+    "per_source": {
+     "cic_ddos2019_mirror": 500
+    }
+   },
+   "udp_amplification": {
+    "observed_groups": 2,
     "observed": 375,
-    "synthetic": 375
+    "synthetic": 375,
+    "per_source": {
+     "cic_ddos2019_mirror": 375
+    }
+   },
+   "slowloris_slowhttp": {
+    "observed_groups": 3,
+    "observed": 375,
+    "synthetic": 375,
+    "per_source": {
+     "cic_ids2017_mirror": 125,
+     "cic_ids2018": 250
+    }
    },
    "port_scan_recon": {
     "observed_groups": 1,
     "observed": 500,
-    "synthetic": 500
+    "synthetic": 500,
+    "per_source": {
+     "cic_ids2017_mirror": 500
+    }
    },
    "credential_stuffing_bruteforce": {
     "observed_groups": 1,
     "observed": 500,
-    "synthetic": 500
+    "synthetic": 500,
+    "per_source": {
+     "cic_ids2017_mirror": 500
+    }
+   },
+   "dns_tunneling_exfil": {
+    "observed_groups": 12,
+    "observed": 250,
+    "synthetic": 250,
+    "per_source": {
+     "cic_bell_dns_exf2021": 250
+    }
    },
    "benign_standard_traffic": {
-    "observed_groups": 6000,
-    "observed": 416,
-    "synthetic": 417
+    "observed_groups": 7283,
+    "observed": 2500,
+    "synthetic": 833,
+    "matched_per_source": {
+     "cic_ddos2019_mirror": 875,
+     "cic_ids2017_mirror": 1125,
+     "cic_ids2018": 250,
+     "cic_bell_dns_exf2021": 250
+    }
    }
   }
  },
@@ -114,9 +154,9 @@
   },
   "benign_hard_negative_dev": {
    "status": "ok",
-   "accepted": 2950,
+   "accepted": 2948,
    "rejected": 0,
-   "quarantined_by_review": 1170
+   "quarantined_by_review": 1172
   },
   "benign_hard_negative_search": {
    "status": "ok",

@@ -8,6 +8,7 @@ Then: python -m subagents.review score_xmodel
 
 usage: python -m subagents.xmodel_run TAG "MODEL NAME" [BATCH ...]   (e.g. gemini "Gemini 3.8 Flash (High)")
        python -m subagents.xmodel_run codex gpt-6.1-sol   (Codex CLI; read-only sandbox; XM_EFFORT=medium)
+       python -m subagents.xmodel_run both [BATCH ...]    (Codex + Gemini on the same batches, concurrently)
 Answer keys must be unreadable while it runs (chmod 000 data/review*_key.json): read-only still reads.
 """
 import json
@@ -75,10 +76,15 @@ def run(tag, model, b, tries=4):
     return f"{tag} {b}: FAILED ({len(got)}/{len(rids)})"
 
 
+REVIEWERS = {"codex": "gpt-6.1-sol", "gemini": "Gemini 3.8 Flash (High)"}
+
+
 if __name__ == "__main__":
-    tag, model = sys.argv[1], sys.argv[2]
+    # "both": Codex and Gemini review the same batches at the same time (each with XM_WORKERS agents)
+    jobs = list(REVIEWERS.items()) if sys.argv[1] == "both" else [(sys.argv[1], sys.argv[2])]
+    rest = sys.argv[2:] if sys.argv[1] == "both" else sys.argv[3:]
     (XM / "out").mkdir(parents=True, exist_ok=True)
-    batches = [int(x) for x in sys.argv[3:]] or sorted(int(p.stem.split("_")[1]) for p in XM.glob("batch_*.jsonl"))
-    with ThreadPoolExecutor(int(os.environ.get("XM_WORKERS", "3"))) as ex:
-        for r in ex.map(lambda b: run(tag, model, b), batches):
+    batches = [int(x) for x in rest] or sorted(int(p.stem.split("_")[1]) for p in XM.glob("batch_*.jsonl"))
+    with ThreadPoolExecutor(int(os.environ.get("XM_WORKERS", "3")) * len(jobs)) as ex:
+        for r in ex.map(lambda tb: run(tb[0][0], tb[0][1], tb[1]), [(j, b) for b in batches for j in jobs]):
             print(r, flush=True)

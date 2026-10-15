@@ -13,6 +13,7 @@ usage: python -m data_pipeline.flows [--cap 3000]   -> data/flows/observed_pool.
 """
 import argparse
 import json
+import os
 import math
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -121,6 +122,149 @@ def round_robin(df, group_col, cap, seed):
     return df.sort_values(["_rank"], kind="stable").head(cap)
 
 
+# CIC-IDS2018 / CIC-DDoS2019: map to the CIC-2017 column schema so cic_features() (validated) applies unchanged
+IDS2018_MAP = {"Benign": "benign_standard_traffic", "DoS attacks-Slowloris": "slowloris_slowhttp",
+               "DoS attacks-SlowHTTPTest": "slowloris_slowhttp"}
+DDOS2019_MAP = {"BENIGN": "benign_standard_traffic", "Syn": "syn_flood_ddos",
+                **{f"DrDoS_{k}": "udp_amplification" for k in ("DNS", "NTP", "SSDP", "LDAP", "SNMP", "NetBIOS", "MSSQL")}}
+IDS2018_RENAME = {"Dst Port": "destination_port", "Protocol": "protocol", "Tot Fwd Pkts": "Total Fwd Packets",
+                  "Tot Bwd Pkts": "Total Backward Packets", "TotLen Fwd Pkts": "Total Length of Fwd Packets",
+                  "TotLen Bwd Pkts": "Total Length of Bwd Packets", "Pkt Len Min": "Min Packet Length",
+                  "Pkt Len Max": "Max Packet Length", "Pkt Len Mean": "Packet Length Mean",
+                  "Init Fwd Win Byts": "Init_Win_bytes_forward", "Label": "attack_label",
+                  **{k.replace("Count", "Cnt"): k for k in FLAG_BITS}}
+NUM_PROTO = {6: "tcp", 17: "udp"}
+
+
+def _pick(df, src, cls_map, cap, seed, rep):
+    """Round-robin over lineage groups per class, QC via cic_features; returns pool entries."""
+    out = []
+    for cls, d in df.groupby("cls"):
+        picked, rej = [], Counter()
+        for _, r in round_robin(d, "grp", cap * 2, seed).iterrows():
+            f, why = cic_features(r)
+            if why:
+                rej[why] += 1
+                continue
+            picked.append({"cls": cls, "telemetry": telemetry(f), "source": src["id"], "source_revision": src["revision"],
+                           "license_ref": src["license_spdx"], "original_id": str(r["flow_id"]),
+                           "original_label": r["attack_label"], "lineage_group": r["grp"]})
+            if len(picked) >= cap:
+                break
+        out += picked
+        rep["classes"][cls] = {"available": len(d), "accepted": len(picked), "rejected": dict(rej), "groups": d.grp.nunique()}
+    return out
+
+
+def ingest_ids2018(srcs, cap, seed):
+    """Processed CSVs have no IP columns: lineage = one campaign per day and label; no per-source window counts."""
+    import pandas as pd
+    s = srcs["cic_ids2018"]
+    base = RAW / s["id"] / s["revision"]
+    rep, frames = {"rows": 0, "unmapped": Counter(), "classes": {}}, []
+    for f in s["files"]:
+        day = f["path"].split("/")[-1].split("_")[0]
+        df = pd.read_csv(base / f["path"], low_memory=False)
+        df = df[df["Label"] != "Label"]  # repeated header rows inside the 2018 CSVs
+        rep["rows"] += len(df)
+        rep["unmapped"].update(df.loc[~df.Label.isin(IDS2018_MAP), "Label"].value_counts().to_dict())
+        df = df[df.Label.isin(IDS2018_MAP)].rename(columns=IDS2018_RENAME)
+        for c in CIC_COLS[5:]:
+            if c in df and c not in ("attack_label", "Timestamp"):
+                df[c] = pd.to_numeric(df[c], errors="coerce")
+        df["protocol"] = pd.to_numeric(df["protocol"], errors="coerce").map(NUM_PROTO)
+        df["destination_port"] = pd.to_numeric(df["destination_port"], errors="coerce").fillna(-1).astype(int)
+        df["flow_id"] = f"{day}:" + df.index.astype(str)
+        df["cls"] = df.attack_label.map(IDS2018_MAP)
+        df["grp"] = f"ids2018:{day}:" + df.attack_label
+        frames.append(df.dropna(subset=["Flow Duration", "Total Fwd Packets"]))
+    rep["unmapped"] = dict(rep["unmapped"])
+    return _pick(pd.concat(frames), s, IDS2018_MAP, cap, seed, rep), rep
+
+
+def ingest_ddos2019(srcs, cap, seed):
+    """Byte-prefix samples of the per-attack CSVs (pinned). Source IP + Timestamp -> per-source window counts."""
+    import pandas as pd
+    s = srcs["cic_ddos2019_mirror"]
+    base = RAW / s["id"] / s["revision"]
+    rep, frames = {"rows": 0, "unmapped": Counter(), "classes": {}}, []
+    for f in s["files"]:
+        df = pd.read_csv(base / f["path"], low_memory=False, on_bad_lines="skip")  # C engine: skips the cut row
+        df.columns = [c.strip() for c in df.columns]
+        df = df.iloc[:-1]  # the byte prefix cuts the last row
+        rep["rows"] += len(df)
+        rep["unmapped"].update(df.loc[~df.Label.isin(DDOS2019_MAP), "Label"].value_counts().to_dict())
+        df = df.rename(columns={"Flow ID": "flow_id", "Source IP": "source_ip", "Destination IP": "destination_ip",
+                                "Destination Port": "destination_port", "Protocol": "protocol", "Label": "attack_label"})
+        df["protocol"] = pd.to_numeric(df["protocol"], errors="coerce").map(NUM_PROTO)
+        frames.append(df)
+    df = pd.concat(frames)
+    df["flow_id"] = df["flow_id"].astype(str) + "@" + df["Timestamp"].astype(str)
+    df = add_window_counts(df)  # over all sampled flows, before label filtering
+    df = df[df.attack_label.isin(DDOS2019_MAP)].copy()
+    df["cls"] = df.attack_label.map(DDOS2019_MAP)
+    df["grp"] = "ddos2019:" + df.source_ip + "->" + df.destination_ip
+    rep["unmapped"] = dict(rep["unmapped"])
+    return _pick(df, s, DDOS2019_MAP, cap, seed, rep), rep
+
+
+def ingest_dns_exf(srcs, cap, seed, window_s=60):
+    """CIC-Bell-DNS-EXF-2021 stateless CSVs: one row per DNS query, no IPs, no byte counts. A record = one
+    60 s window of one capture file, with measured fields only (query count, span, qname length/entropy);
+    bytes stay absent (never fabricated). Lineage = the capture file (one exfil session / benign capture)."""
+    import io
+    import zipfile
+    import pandas as pd
+    s = srcs["cic_bell_dns_exf2021"]
+    base = RAW / s["id"] / s["revision"]
+    rep, pool = {"rows": 0, "classes": {}, "windows": Counter(), "qname_len_mean": {}, "entropy_mean": {}}, []
+    for f in s["files"]:
+        if not f["path"].startswith("CSV/"):
+            continue  # PCAPs kept for provenance; features come from the published CSVs
+        with zipfile.ZipFile(base / f["path"]) as z:
+            for name in sorted(n for n in z.namelist() if "stateless_features" in n and n.endswith(".csv")):
+                cls = "dns_tunneling_exfil" if "/Attacks/" in "/" + name else "benign_standard_traffic"
+                df = pd.read_csv(io.BytesIO(z.read(name)))
+                rep["rows"] += len(df)
+                df["t"] = pd.to_datetime(df["timestamp"], errors="coerce")
+                df = df.dropna(subset=["t"])
+                df["w"] = (df["t"] - df["t"].min()).dt.total_seconds() // window_s
+                grp = f"dnsexf:{f['path'].removesuffix('.zip')}:{name.split('/')[-1]}"
+                for w, d in df.groupby("w"):
+                    if len(d) < 2:
+                        continue
+                    span = (d["t"].max() - d["t"].min()).total_seconds()
+                    feats = {"pkts_total": int(len(d)), "dst_port": 53, "ip_proto": 17,
+                             "qname_len_mean": round(float(d["FQDN_count"].mean()), 2),
+                             "qname_entropy_bits_per_char": round(float(d["entropy"].mean()), 3)}
+                    if span > 0:
+                        feats["duration_s"] = sig(span)
+                        feats["pkts_per_s"] = sig(len(d) / span)
+                    pool.append({"cls": cls, "telemetry": telemetry(feats), "source": s["id"], "source_revision": s["revision"],
+                                 "license_ref": s["license_spdx"], "original_id": f"{grp}:w{int(w)}",
+                                 "original_label": "attack" if cls != "benign_standard_traffic" else "benign", "lineage_group": grp})
+                    rep["windows"][cls] += 1
+    by = {}
+    for e in pool:
+        by.setdefault(e["cls"], []).append(e)
+    out = []
+    for cls, es in by.items():  # round-robin across capture files, capped
+        groups = {}
+        for e in es:
+            groups.setdefault(e["lineage_group"], []).append(e)
+        picks, i = [], 0
+        while len(picks) < cap and any(len(g) > i for g in groups.values()):
+            picks += [g[i] for g in groups.values() if len(g) > i][: cap - len(picks)]
+            i += 1
+        out += picks
+        f_ = [p["telemetry"]["flow"]["features"] for p in picks]
+        rep["classes"][cls] = {"accepted": len(picks), "groups": len(groups)}
+        rep["qname_len_mean"][cls] = round(sum(x["qname_len_mean"] for x in f_) / len(f_), 2)
+        rep["entropy_mean"][cls] = round(sum(x["qname_entropy_bits_per_char"] for x in f_) / len(f_), 3)
+    rep["windows"] = dict(rep["windows"])
+    return out, rep
+
+
 def ingest(cap=3000, seed=1337):
     srcs = {s["id"]: s for s in yaml.safe_load(open(ROOT / "config/sources.yaml"))["sources"]}
     OUT.mkdir(parents=True, exist_ok=True)
@@ -189,9 +333,18 @@ def ingest(cap=3000, seed=1337):
     rep["unmapped"] = dict(rep["unmapped"])
     report["nf_ton_iot_v2_mirror"] = rep
 
-    with open(OUT / "observed_pool.jsonl", "w") as fh:
+    for name, fn in (("cic_ids2018", ingest_ids2018), ("cic_ddos2019_mirror", ingest_ddos2019),
+                     ("cic_bell_dns_exf2021", ingest_dns_exf)):
+        if (RAW / srcs[name]["id"] / srcs[name]["revision"] / "MANIFEST.json").exists():
+            got, rep = fn(srcs, cap, seed)
+            pool += got
+            report[name] = rep
+
+    tmp = OUT / "observed_pool.jsonl.part"
+    with open(tmp, "w") as fh:
         for x in pool:
             fh.write(json.dumps(x) + "\n")
+    os.replace(tmp, OUT / "observed_pool.jsonl")  # atomic: a concurrent build reads the old or the new pool, never half
     report["zero_duration_note"] = "NF durations have ms resolution; duration_s == 0 -> rate features absent"
     (ROOT / "reports/flow_ingest.json").write_text(json.dumps(report, indent=1, default=int))
     return report
@@ -211,5 +364,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--cap", type=int, default=3000)
     rep = ingest(ap.parse_args().cap)
-    for src in ("cic_ids2017_mirror", "nf_ton_iot_v2_mirror"):
-        print(src, json.dumps({c: (v["accepted"], v["groups"], v["rejected"]) for c, v in rep[src]["classes"].items()}))
+    for src in ("cic_ids2017_mirror", "nf_ton_iot_v2_mirror", "cic_ids2018", "cic_ddos2019_mirror", "cic_bell_dns_exf2021"):
+        if src in rep:
+            print(src, json.dumps({c: (v["accepted"], v["groups"], v.get("rejected", {})) for c, v in rep[src]["classes"].items()}))

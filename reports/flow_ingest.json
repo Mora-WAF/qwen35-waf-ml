@@ -75,5 +75,75 @@
    }
   }
  },
+ "cic_ids2018": {
+  "rows": 2097149,
+  "unmapped": {
+   "DoS attacks-GoldenEye": 41508,
+   "DoS attacks-Hulk": 461912
+  },
+  "classes": {
+   "benign_standard_traffic": {
+    "available": 1442849,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 2
+   },
+   "slowloris_slowhttp": {
+    "available": 150880,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 2
+   }
+  }
+ },
+ "cic_ddos2019_mirror": {
+  "rows": 1840247,
+  "unmapped": {},
+  "classes": {
+   "benign_standard_traffic": {
+    "available": 16363,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 1275
+   },
+   "syn_flood_ddos": {
+    "available": 231703,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 2
+   },
+   "udp_amplification": {
+    "available": 1592181,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 2
+   }
+  }
+ },
+ "cic_bell_dns_exf2021": {
+  "rows": 757211,
+  "classes": {
+   "dns_tunneling_exfil": {
+    "accepted": 2900,
+    "groups": 12
+   },
+   "benign_standard_traffic": {
+    "accepted": 1842,
+    "groups": 6
+   }
+  },
+  "windows": {
+   "dns_tunneling_exfil": 2900,
+   "benign_standard_traffic": 1842
+  },
+  "qname_len_mean": {
+   "dns_tunneling_exfil": 25.33,
+   "benign_standard_traffic": 18.85
+  },
+  "entropy_mean": {
+   "dns_tunneling_exfil": 2.441,
+   "benign_standard_traffic": 2.503
+  }
+ },
  "zero_duration_note": "NF durations have ms resolution; duration_s == 0 -> rate features absent"
 }

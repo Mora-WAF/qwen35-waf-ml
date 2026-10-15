@@ -24,6 +24,35 @@ rules:
   - {source: seclists, glob: "Fuzzing/LDAP*.txt", parser: lines, class: ldap_xpath_injection}
   - {source: seclists, glob: "Fuzzing/LFI/**/*.txt", parser: lines, class: path_traversal_lfi}
   - {source: open_redirect_payload_list, glob: "**/*.txt", parser: lines, class: open_redirect_cors}
+  # FuzzDB (BSD/CC-BY, pinned): payload lists only
+  - {source: fuzzdb, glob: "attack/http-protocol/crlf-injection.txt", parser: lines, class: crlf_header_injection}
+  - {source: fuzzdb, glob: "attack/ldap/ldap-injection.txt", parser: lines, class: ldap_xpath_injection}
+  - {source: fuzzdb, glob: "attack/lfi/JHADDIX_LFI.txt", parser: lines, class: path_traversal_lfi}
+  - {source: fuzzdb, glob: "attack/no-sql-injection/mongodb.txt", parser: lines, class: nosqli}
+  - {source: fuzzdb, glob: "attack/os-cmd-execution/OSCommandInject.Windows.txt", parser: lines, class: rce_cmd_injection}
+  - {source: fuzzdb, glob: "attack/os-cmd-execution/command-execution-unix.txt", parser: lines, class: rce_cmd_injection}
+  - {source: fuzzdb, glob: "attack/os-cmd-execution/source-disc-cmd-exec-traversal.txt", parser: lines, class: rce_cmd_injection}
+  - {source: fuzzdb, glob: "attack/path-traversal/path-traversal-windows.txt", parser: lines, class: path_traversal_lfi}
+  - {source: fuzzdb, glob: "attack/path-traversal/traversals-8-deep-exotic-encoding.txt", parser: lines, class: path_traversal_lfi}
+  - {source: fuzzdb, glob: "attack/sql-injection/detect/GenericBlind.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/detect/MSSQL.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/detect/MSSQL_blind.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/detect/MySQL.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/detect/MySQL_MSSQL.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/detect/oracle.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/detect/xplatform.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/exploit/mysql-injection-login-bypass.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MSSQL-INSERT.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MSSQL-WHERE.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MySQL-INSERT.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MySQL-ORDER_BY.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MySQL-WHERE.txt", parser: lines, class: sqli_classic}
+  - {source: fuzzdb, glob: "attack/xml/xml-attacks.txt", parser: lines, class: xxe}
+  - {source: fuzzdb, glob: "attack/xpath/xpath-injection.txt", parser: lines, class: ldap_xpath_injection}
+  - {source: fuzzdb, glob: "attack/xss/XSSPolyglot.txt", parser: lines, class: xss_dom_polyglot}
+  - {source: fuzzdb, glob: "attack/xss/xss-other.txt", parser: lines, class: xss_reflected_stored}
+  - {source: fuzzdb, glob: "attack/xss/xss-rsnake.txt", parser: lines, class: xss_reflected_stored}
+  - {source: fuzzdb, glob: "attack/xss/xss-uri.txt", parser: lines, class: xss_reflected_stored}
   # raw HTTP request blocks, blank-line separated
   - {source: http_request_smuggling_payloads, glob: "*.txt", parser: http_blocks, class: http_request_smuggling}
 

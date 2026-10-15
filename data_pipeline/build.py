@@ -76,7 +76,9 @@ def collect(per_class, frac=None):
     from data_pipeline.flows import load_pool
     pool = load_pool()
     mixed = {}
-    for cls in G.FLOW_PROFILES:
+    src_attack = Counter()  # observed attack flows taken per source
+    # attack classes first; benign_standard last, matched per source (see below)
+    for cls in sorted(G.FLOW_PROFILES, key=lambda c: c == "benign_standard_traffic"):
         # benign flows: real NIDS traffic is mostly benign; 2x per_class so "flow" alone does not imply attack
         want = int(want_of(cls))
         if cls == "benign_standard_traffic":
@@ -87,13 +89,39 @@ def collect(per_class, frac=None):
         groups = {}
         for e in obs:
             groups.setdefault(e["lineage_group"], []).append(e)
+        if cls == "benign_standard_traffic":
+            # observed benign flows 1:1 with each source's observed attack flows: a source's feature-set shape
+            # (no bytes in DNS-EXF, no window counts in IDS2018, CIC field quirks) must not predict the label;
+            # a source with no observed attacks (NF-ToN after the window rule) contributes no benign either
+            picks = []
+            for src, n in sorted(src_attack.items()):
+                sg = {g: v for g, v in groups.items() if v[0]["source"] == src}
+                take, i = [], 0
+                while len(take) < n and any(len(g) > i for g in sg.values()):
+                    take += [g[i] for g in sg.values() if len(g) > i][: n - len(take)]
+                    i += 1
+                picks += take
+            mixed[cls] = {"observed_groups": len(groups), "observed": len(picks), "synthetic": want,
+                          "matched_per_source": {k: sum(p["source"] == k for p in picks) for k in src_attack}}
+            recs += G.gen_observed_flow(picks)
+            recs += G.gen_flow(cls, want)
+            continue
+        # round-robin over sources, then lineage groups, so one large source cannot crowd out the others
+        by_src = {}
+        for g, v in groups.items():
+            by_src.setdefault(v[0]["source"], {})[g] = v
         picks, i = [], 0
-        while len(picks) < want and any(len(g) > i for g in groups.values()):
-            picks += [g[i] for g in groups.values() if len(g) > i][: want - len(picks)]
+        cap = want // 2  # always half observed / half synthetic: counterbalances source feature-set shortcuts
+        order = [list(sg.values()) for _, sg in sorted(by_src.items())]
+        while len(picks) < cap and any(len(g) > i for sg in order for g in sg):
+            for sg in order:
+                picks += [g[i] for g in sg if len(g) > i][: cap - len(picks)]
             i += 1
-        if obs:  # always half observed / half synthetic: counterbalances source feature-set shortcuts
-            picks = picks[: want // 2]
-            mixed[cls] = {"observed_groups": len(groups), "observed": len(picks), "synthetic": want - len(picks)}
+        if obs:
+            mixed[cls] = {"observed_groups": len(groups), "observed": len(picks), "synthetic": want - len(picks),
+                          "per_source": {k: sum(p["source"] == k for p in picks) for k in by_src}}
+            for p in picks:
+                src_attack[p["source"]] += 1
         recs += G.gen_observed_flow(picks)
         if len(picks) < want:
             recs += G.gen_flow(cls, want - len(picks))

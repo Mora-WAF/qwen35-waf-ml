@@ -27,11 +27,39 @@ def sources(root=ROOT):
 
 
 def raw_url(src, path):
+    if src["kind"] == "s3_public":  # unsigned public bucket, e.g. the CSE-CIC-IDS2018 AWS open-data bucket
+        return f"{src['upstream_url'].rstrip('/')}/{quote(path)}"
     if src["kind"] == "huggingface":
         repo = src["upstream_url"].removeprefix("https://huggingface.co/datasets/")
         return f"https://huggingface.co/datasets/{repo}/resolve/{src['revision']}/{quote(path)}"
     owner_repo = src["upstream_url"].removeprefix("https://github.com/")
     return f"https://raw.githubusercontent.com/{owner_repo}/{src['revision']}/{quote(path)}"
+
+
+def fetch_prefix(url, dest, n, retries=5):
+    """First n bytes of a large file (pinned revision + fixed n = deterministic sample). The last, partial
+    line is the parser's job (pandas on_bad_lines / truncation)."""
+    if dest.exists():
+        return
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_suffix(dest.suffix + ".part")
+    for attempt in range(retries):
+        try:
+            with requests.get(url, timeout=60, stream=True, headers={"Range": f"bytes=0-{n - 1}"}) as r:
+                r.raise_for_status()
+                with open(tmp, "wb") as f:
+                    got = 0
+                    for chunk in r.iter_content(1 << 20):
+                        f.write(chunk[: n - got])
+                        got += len(chunk)
+                        if got >= n:
+                            break
+            os.replace(tmp, dest)
+            return
+        except requests.RequestException:
+            if attempt == retries - 1:
+                raise
+            time.sleep(2 ** attempt)
 
 
 def fetch(url, dest, cap=MAX_BYTES, retries=5):
@@ -71,10 +99,14 @@ def ingest(src):
         if f["path"].endswith("/"):
             continue
         dest = base / f["path"]
-        fetch(raw_url(src, f["path"]), dest, cap=f.get("size_bytes") or MAX_BYTES)
+        if f.get("prefix_bytes"):
+            fetch_prefix(raw_url(src, f["path"]), dest, f["prefix_bytes"])
+        else:
+            fetch(raw_url(src, f["path"]), dest, cap=f.get("size_bytes") or MAX_BYTES)
         size = dest.stat().st_size
-        if f.get("size_bytes") is not None and size != f["size_bytes"]:
-            raise ValueError(f"{src['id']}:{f['path']} size {size} != recorded {f['size_bytes']}")
+        want = f.get("prefix_bytes") or f.get("size_bytes")
+        if want is not None and size != want:
+            raise ValueError(f"{src['id']}:{f['path']} size {size} != recorded {want}")
         h = hashlib.sha256()
         with open(dest, "rb") as fh:  # streamed: GB-scale files never fully in memory
             for chunk in iter(lambda: fh.read(1 << 20), b""):
@@ -87,7 +119,7 @@ def ingest(src):
 
 if __name__ == "__main__":
     srcs = sources()
-    ids = sys.argv[1:] or [i for i, s in srcs.items() if s["enabled"] and s["kind"] in ("github", "huggingface")]
+    ids = sys.argv[1:] or [i for i, s in srcs.items() if s["enabled"] and s["kind"] in ("github", "huggingface", "s3_public")]
     for i in ids:
         m = ingest(srcs[i])
         print(f"{i}: {len(m)} files")

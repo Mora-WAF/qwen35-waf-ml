@@ -172,6 +172,69 @@ def score_xmodel():
                                           "contested_by_all_external", "contested_by_class")}, indent=1))
 
 
+RELABEL = RV / "relabel.json"
+
+
+def export_hn(classes=("benign_hard_negative_dev", "benign_hard_negative_search"), batch=100):
+    """Every accepted record of the benign hard-negative classes -> blind batches for an external reviewer
+    (XM_TAG=hn). The key keeps the raw ref so apply_hn() can relabel at ingest."""
+    from subagents.orchestrator import OUT
+    write_brief()
+    rv, key, rows = status(), {}, []
+    for cls in classes:
+        for fp in sorted(OUT.glob(f"{cls}.jsonl")) + sorted(OUT.glob(f"{cls}.v*.jsonl")):
+            for i, line in enumerate(open(fp)):
+                ref = f"{fp.name}:{i}"
+                if line.strip() and rv.get(ref) != "quarantined":
+                    rid = f"h{len(key):05d}"
+                    key[rid] = {"label": cls, "ref": ref}
+                    rows.append({"rid": rid, "item": json.loads(line)["telemetry"]})
+    random.Random(29).shuffle(rows)
+    (XM / "out").mkdir(parents=True, exist_ok=True)
+    n_b = (len(rows) + batch - 1) // batch
+    for b in range(n_b):
+        with open(XM / f"batch_{b}.jsonl", "w") as fh:
+            for row in rows[b::n_b]:
+                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    XM_KEY.write_text(json.dumps(key))
+    print(len(rows), "hard-negative items ->", n_b, "batches in", XM)
+
+
+def apply_hn():
+    """External verdicts on hard negatives -> relabel.json: another benign class = relabel (benign<->benign
+    moves cannot create false blocks); an attack class = quarantine (never auto-promote benign to attack)."""
+    import yaml as _y
+    tax = _y.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
+    key = json.loads(XM_KEY.read_text())
+    got = {}
+    for fp in (XM / "out").glob("*.jsonl"):
+        for line in open(fp):
+            try:
+                o = json.loads(line)
+                got[o["rid"]] = o.get("predicted_class")
+            except (json.JSONDecodeError, KeyError):
+                continue
+    rel = json.loads(RELABEL.read_text()) if RELABEL.exists() else {}
+    moved, quar = Counter(), Counter()
+    for rid, k in key.items():
+        p = got.get(rid)
+        if p is None or p == k["label"] or p not in tax:
+            continue
+        if tax[p]["is_benign"]:
+            rel[k["ref"]] = p
+            moved[(k["label"], p)] += 1
+        else:
+            rel[k["ref"]] = "__quarantine__"
+            quar[(k["label"], p)] += 1
+    RELABEL.write_text(json.dumps(rel, indent=1))
+    print(json.dumps({"answered": len(got), "of": len(key), "relabelled": {f"{a}->{b}": n for (a, b), n in moved.items()},
+                      "quarantined": {f"{a}->{b}": n for (a, b), n in quar.items()}}, indent=1))
+
+
+def relabels():
+    return json.loads(RELABEL.read_text()) if RELABEL.exists() else {}
+
+
 def export_crs(per_class=10):
     """Additive review round for CRS fixtures: new rids appended to the existing key; earlier
     batches and their answers stay valid."""
@@ -274,7 +337,9 @@ def status():
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "export_xmodel":  # export_xmodel [PREFIX] [CLASS,CLASS...] [PER_CLASS]
+    if sys.argv[1] in ("export_hn", "apply_hn"):
+        {"export_hn": export_hn, "apply_hn": apply_hn}[sys.argv[1]]()
+    elif sys.argv[1] == "export_xmodel":  # export_xmodel [PREFIX] [CLASS,CLASS...] [PER_CLASS]
         export_xmodel(*(sys.argv[2:3] or ["fast_"]), classes=set(sys.argv[3].split(",")) if len(sys.argv) > 3 else None,
                       **({"per_class": int(sys.argv[4])} if len(sys.argv) > 4 else {}))
     elif sys.argv[1] == "score_xmodel":

@@ -204,3 +204,17 @@ def test_unseen_family_holdout_takes_whole_groups():
     out = holdout_unseen(recs, frac=0.2)
     assert len(out) == 2 and out <= {f"g{i}" for i in range(10)}
     assert holdout_unseen(recs[:2]) == set()  # fewer than 3 families: nothing held out
+
+
+def test_ids2018_row_maps_through_cic_features():
+    import pandas as pd
+    from data_pipeline.flows import FLAG_BITS, IDS2018_RENAME, NUM_PROTO, cic_features
+    row = {"Dst Port": 80, "Protocol": 6, "Flow Duration": 2_000_000, "Tot Fwd Pkts": 3, "Tot Bwd Pkts": 1,
+           "TotLen Fwd Pkts": 300, "TotLen Bwd Pkts": 0, "Pkt Len Min": 0, "Pkt Len Max": 150, "Flow IAT Mean": 5.0,
+           "Flow IAT Min": 1.0, "Label": "DoS attacks-Slowloris", **{k.replace("Count", "Cnt"): 0 for k in FLAG_BITS}}
+    row["SYN Flag Cnt"] = 1
+    r = pd.Series(row).rename(IDS2018_RENAME)
+    r["protocol"] = NUM_PROTO[int(r["protocol"])]
+    f, why = cic_features(r)
+    assert why is None and f["duration_s"] == 2.0 and f["pkts_total"] == 4 and f["dst_port"] == 80
+    assert f["tcp_flags_bitmask"] == 2 and f["ip_proto"] == 6 and "conn_count_60s" not in f  # no IPs -> no window count

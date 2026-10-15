@@ -22,7 +22,9 @@ only evidence that counts for the *Notebook smoke-tested* state. Run `MODE="smok
   has not yet been run together; the smoke report records what actually got installed."""),
 (PY, """# ---- configuration ---------------------------------------------------------------------------
 MODE = "smoke"            # "smoke" (>=20 optimizer steps) | "fast" (30k subset) | "full" (100k)
-BUNDLE = "/content/colab_bundle_pilot.zip"   # upload via the Files pane, or point at Drive
+DRY_RUN_STEPS = None      # e.g. 25 with MODE="fast": start-check on the real bundle (ckpt+eval every 10 steps,
+                          # 60 predictions, Part B continuation test, full-run time estimate); None = real run
+BUNDLE = f"/content/colab_bundle_{'pilot' if MODE == 'smoke' else MODE}.zip"   # upload via the Files pane, or Drive
 DRIVE_DIR = None          # e.g. "/content/drive/MyDrive/qwen35_waf/run1" -> checkpoints copied here
 RUN_RESUME_TEST = True    # smoke only: compare uninterrupted vs save/reload continuation
 SEED = 3407
@@ -130,13 +132,14 @@ class Meter(TrainerCallback):
         return self.tokens / (time.time() - self.t0) if self.t0 else None
 
 avg_tokens = sum(len(r["input_ids"]) for r in train_rows) / len(train_rows)
-STEPS = 25 if MODE == "smoke" else -1
-OUT = f"/content/run_{MODE}"
+SHORT = MODE == "smoke" or bool(DRY_RUN_STEPS)
+STEPS = 25 if MODE == "smoke" else (DRY_RUN_STEPS or -1)
+OUT = f"/content/run_{MODE}" + ("_dry" if DRY_RUN_STEPS else "")
 meter = Meter(tokens_per_step=avg_tokens * 16)
-args = H.make_args(OUT, STEPS, 10 if MODE == "smoke" else 250, smoke=MODE == "smoke", seed=SEED)
+args = H.make_args(OUT, STEPS, 10 if SHORT else 250, smoke=SHORT, seed=SEED)
 print("optim", args.optim.value, "| clip", args.max_grad_norm, "| warmup", args.warmup_steps, "| fp16", args.fp16, "| bf16", args.bf16)
 trainer = Trainer(model=model, args=args, train_dataset=Dataset.from_list(train_rows),
-                  eval_dataset=Dataset.from_list(val_rows[:EVAL_SUBSET]), data_collator=collate, callbacks=[meter])"""),
+                  eval_dataset=Dataset.from_list(val_rows[:100 if DRY_RUN_STEPS else EVAL_SUBSET]), data_collator=collate, callbacks=[meter])"""),
 (PY, """# ---- train (resumes from the newest COMPLETE checkpoint locally or on Drive) -------------------
 def latest_complete(*dirs):
     cks = [os.path.join(d, c) for d in dirs if d and os.path.isdir(d) for c in os.listdir(d)
@@ -154,13 +157,13 @@ TRAIN = {"global_steps": trainer.state.global_step, "train_loss": result.trainin
          "resumed_from": resume}
 assert TRAIN["global_steps"] >= 20 or MODE != "smoke", "smoke must complete >= 20 optimizer steps"
 print(json.dumps({k: v for k, v in TRAIN.items() if k != "losses"}, indent=1))
-if MODE != "smoke":
+if MODE != "smoke":  # in a dry run: the full-run estimate on this GPU
     n_steps = math.ceil(len(train_rows) / 16)
     print(f"estimate: {n_steps} steps; {n_steps * avg_tokens * 16 / TRAIN['tokens_per_s_excl_warmup'] / 3600:.1f} h at observed throughput")"""),
 (PY, """# ---- predictions on val_select (diagnostic only; final test is a separate frozen protocol) ------
 FastLanguageModel.for_inference(model)
 preds = []
-for r in val_recs[: 60 if MODE == "smoke" else None]:
+for r in val_recs[: 60 if SHORT else None]:
     t = time.time()
     raw = H.generate_label(model, tok, r["messages"])
     preds.append({"id": r["id"], "gold": r["metadata"]["threat_type"], "raw": raw,
@@ -177,7 +180,7 @@ json.dump({"base_model": MODEL_ID, "revision": MODEL_REVISION, "fingerprint": fp
           open(f"{EXP}/export_info.json", "w"), indent=1)
 json.dump([{"messages": r["messages"][:2], "expect": p["raw"]} for r, p in zip(val_recs, preds[:5])],
           open("/content/reload_sample.json", "w"))
-PART_A = {"mode": MODE, "seed": SEED, "model_id": MODEL_ID, "revision": MODEL_REVISION, "env": ENV,
+PART_A = {"mode": MODE, "dry_run_steps": DRY_RUN_STEPS, "seed": SEED, "model_id": MODEL_ID, "revision": MODEL_REVISION, "env": ENV,
           "fingerprint": fp_now, "trainable_params": n_train, "train": TRAIN, "predictions": PRED,
           "export_dir": EXP, "bundle_dir": B, "train_file": FILES[MODE]}
 json.dump(PART_A, open("/content/part_a.json", "w"), indent=1, default=str)
@@ -208,7 +211,7 @@ print(RELOAD)
 del m; gc.collect(); torch.cuda.empty_cache()"""),
 (PY, """# ---- B2: continuation test (smoke only): 20 steps straight vs 10 + save/reload + 10 ----------
 RESUME = None
-if MODE == "smoke":
+if MODE == "smoke" or PART_A.get("dry_run_steps"):
     from transformers import Trainer, TrainerCallback
     from datasets import Dataset
 
@@ -246,7 +249,8 @@ REPORT["passed"] = bool(PART_A["train"]["global_steps"] >= 20
                         and all(math.isfinite(l) for _, l in PART_A["train"]["losses"])
                         and RELOAD["reload_match"] == RELOAD["of"] and RELOAD["fingerprint_match"]
                         and (RESUME is None or RESUME["pass"]))
-name = "gpu_smoke_test.json" if MODE == "smoke" else f"train_{MODE}_report.json"
+name = ("gpu_smoke_test.json" if MODE == "smoke" else f"dryrun_{MODE}_report.json" if PART_A.get("dry_run_steps")
+        else f"train_{MODE}_report.json")
 json.dump(REPORT, open(f"/content/{name}", "w"), indent=1, default=str)
 shutil.make_archive(f"/content/export_{MODE}", "zip", EXP)
 print("passed:", REPORT["passed"], "->", name, "(download it into reports/)")"""),

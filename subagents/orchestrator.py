@@ -327,14 +327,15 @@ def ingest(root=ROOT):
             report[cls] = {"status": "missing", "accepted": 0}
             continue
         accepted, rejected = [], 0
-        from subagents.review import status
-        rv = status()
+        from subagents.review import relabels, status
+        rv, rel = status(), relabels()
         lines = [(f"{fp.name}:{j}", ln) for fp in fps for j, ln in enumerate(open(fp))]
         quarantined = 0
         for i, (ref, line) in enumerate(lines):
-            if rv.get(ref) == "quarantined":  # blind reviewer disagreed / evidence insufficient
+            if rv.get(ref) == "quarantined" or rel.get(ref) == "__quarantine__":  # reviewer disagreed / insufficient
                 quarantined += 1
                 continue
+            out_cls = rel.get(ref, cls)  # external-review relabel between benign classes (subagents.review.apply_hn)
             line = line.strip()
             if not line:
                 continue
@@ -360,7 +361,7 @@ def ingest(root=ROOT):
                     atk_lines = [x for x in open(atk_file) if x.strip()]
                     if 0 <= int(twin_of) < len(atk_lines):
                         group = near_dup_group(atk_cls, json.loads(atk_lines[int(twin_of)])["telemetry"])
-                rec = assemble(rec_id, cls, tel, "synthetic",
+                rec = assemble(rec_id, out_cls, tel, "synthetic",
                                {"method": "scenario_oracle", "oracle": "haiku_scenario",
                                 "scenario": obj.get("scenario", {}), "needs_review": rv.get(ref) != "agreed",
                                 "blind_review": rv.get(ref, "not_reviewed"),

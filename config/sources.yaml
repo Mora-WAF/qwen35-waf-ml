@@ -970,3 +970,132 @@ sources:
   - {path: rules/REQUEST-941-APPLICATION-ATTACK-XSS.conf, size_bytes: 55892}
   - {path: rules/REQUEST-942-APPLICATION-ATTACK-SQLI.conf, size_bytes: 99237}
   - {path: rules/REQUEST-944-APPLICATION-ATTACK-JAVA.conf, size_bytes: 23742}
+- id: fuzzdb
+  kind: github
+  upstream_url: https://github.com/fuzzdb-project/fuzzdb
+  mirror_of: null
+  revision: 5656ab25dc6bb43bae32236fab775658a90d7380
+  default_branch: master
+  license_spdx: BSD-3-Clause OR CC-BY-3.0
+  license_note: 'README at pinned revision: "The FuzzDB license is New BSD and Creative Commons by Attribution ... you are
+    required to cite it." GitHub API reports no license file. Allowlist: payload lists only (no command/header/method
+    dictionaries, user-agent lists, attribute-name lists, log-path lists or {placeholder} templates)'
+  intended_use: 'Observed attack payload seeds (independent of SecLists; overlap removed by near-dup clustering)'
+  restriction: 'Payload presence is not proof of exploitability; cite FuzzDB in any publication'
+  status: available
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+  files:
+  - {path: attack/http-protocol/crlf-injection.txt, size_bytes: 1258}
+  - {path: attack/ldap/ldap-injection.txt, size_bytes: 310}
+  - {path: attack/lfi/JHADDIX_LFI.txt, size_bytes: 27924}
+  - {path: attack/no-sql-injection/mongodb.txt, size_bytes: 494}
+  - {path: attack/os-cmd-execution/OSCommandInject.Windows.txt, size_bytes: 289}
+  - {path: attack/os-cmd-execution/command-execution-unix.txt, size_bytes: 828}
+  - {path: attack/os-cmd-execution/source-disc-cmd-exec-traversal.txt, size_bytes: 64}
+  - {path: attack/path-traversal/path-traversal-windows.txt, size_bytes: 144}
+  - {path: attack/path-traversal/traversals-8-deep-exotic-encoding.txt, size_bytes: 53532}
+  - {path: attack/sql-injection/detect/GenericBlind.txt, size_bytes: 911}
+  - {path: attack/sql-injection/detect/MSSQL.txt, size_bytes: 448}
+  - {path: attack/sql-injection/detect/MSSQL_blind.txt, size_bytes: 618}
+  - {path: attack/sql-injection/detect/MySQL.txt, size_bytes: 152}
+  - {path: attack/sql-injection/detect/MySQL_MSSQL.txt, size_bytes: 328}
+  - {path: attack/sql-injection/detect/oracle.txt, size_bytes: 7838}
+  - {path: attack/sql-injection/detect/xplatform.txt, size_bytes: 3900}
+  - {path: attack/sql-injection/exploit/mysql-injection-login-bypass.txt, size_bytes: 165}
+  - {path: attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MSSQL-INSERT.txt, size_bytes: 6105}
+  - {path: attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MSSQL-WHERE.txt, size_bytes: 1241}
+  - {path: attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MySQL-INSERT.txt, size_bytes: 6347}
+  - {path: attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MySQL-ORDER_BY.txt, size_bytes: 1521}
+  - {path: attack/sql-injection/payloads-sql-blind/payloads-sql-blind-MySQL-WHERE.txt, size_bytes: 1844}
+  - {path: attack/xml/xml-attacks.txt, size_bytes: 2887}
+  - {path: attack/xpath/xpath-injection.txt, size_bytes: 209}
+  - {path: attack/xss/XSSPolyglot.txt, size_bytes: 3826}
+  - {path: attack/xss/xss-other.txt, size_bytes: 21708}
+  - {path: attack/xss/xss-rsnake.txt, size_bytes: 4324}
+  - {path: attack/xss/xss-uri.txt, size_bytes: 1750}
+- id: cic_ids2018
+  kind: s3_public
+  upstream_url: https://cse-cic-ids2018.s3.ca-central-1.amazonaws.com
+  mirror_of: https://registry.opendata.aws/cse-cic-ids2018
+  revision: s3-etag-pinned-2026-10-15
+  default_branch: null
+  license_spdx: LicenseRef-CIC-redistribute-with-citation
+  license_note: 'unb.ca/cic/datasets/ids-2018.html: "You may redistribute, republish, and mirror the CSE-CIC-IDS2018
+    dataset in any form. However, any use or redistribution of the data must include a citation to the CSE-CIC-IDS2018
+    dataset and a link to this page in AWS." Cite Sharafaldin, Lashkari, Ghorbani, ICISSP 2018. S3 ETags pinned below.'
+  intended_use: 'Second, independent observed campaign for slowloris_slowhttp (+ benign). No IP columns in the processed
+    CSVs, so no per-source window counts; brute-force days are not used (credential stuffing needs window evidence)'
+  restriction: 'Cite dataset + paper + AWS registry link'
+  status: available
+  enabled: false
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+  files:
+  - {path: "Processed Traffic Data for ML Algorithms/Thursday-15-02-2018_TrafficForML_CICFlowMeter.csv", size_bytes: 375945899, etag: "eb1dc2ec76efe09c8995f28bfa4c8656-23"}
+  - {path: "Processed Traffic Data for ML Algorithms/Friday-16-02-2018_TrafficForML_CICFlowMeter.csv", size_bytes: 333723605, etag: "e68ef27c09c98ba91fe3c6b1108a18b9-20"}
+- id: cic_ddos2019_mirror
+  kind: huggingface
+  upstream_url: https://huggingface.co/datasets/baalajimaestro/CICDDoS2019
+  mirror_of: https://www.unb.ca/cic/datasets/ddos-2019.html
+  revision: 1b3677ee26ba69caa5a9c1ba91cc75cec7ad976e
+  default_branch: main
+  license_spdx: LicenseRef-CIC-redistribute-with-citation
+  license_note: 'unb.ca/cic/datasets/ddos-2019.html: "You may redistribute, republish and mirror the CICDDoS2019 dataset in
+    any form. However, any use or redistribution of the data must include a citation to the CICDDoS2019 dataset and
+    related published paper." Cite Sharafaldin, Lashkari, Hakak, Ghorbani, ICCST 2019. Mirror has the original
+    per-attack CSVs (day 01-12); only a pinned byte prefix of each file is used'
+  intended_use: 'Observed syn_flood_ddos (Syn) and udp_amplification (DrDoS_* reflection) flows, with Source IP and
+    Timestamp -> per-source window counts'
+  restriction: 'Cite dataset + paper'
+  status: available
+  enabled: false
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+  files:
+  - {path: 01-12/Syn.csv, prefix_bytes: 100663296}
+  - {path: 01-12/DrDoS_DNS.csv, prefix_bytes: 100663296}
+  - {path: 01-12/DrDoS_NTP.csv, prefix_bytes: 100663296}
+  - {path: 01-12/DrDoS_SSDP.csv, prefix_bytes: 100663296}
+  - {path: 01-12/DrDoS_LDAP.csv, prefix_bytes: 100663296}
+  - {path: 01-12/DrDoS_SNMP.csv, prefix_bytes: 100663296}
+  - {path: 01-12/DrDoS_NetBIOS.csv, prefix_bytes: 100663296}
+  - {path: 01-12/DrDoS_MSSQL.csv, prefix_bytes: 100663296}
+- id: cic_bell_dns_exf2021
+  kind: manual_browser
+  upstream_url: https://cicresearch.ca/CICDataset/CICBellEXFDNS2021/browse.php?p=
+  mirror_of: https://www.unb.ca/cic/datasets/dns-exf-2021.html
+  revision: browser-download-2026-10-15
+  default_branch: null
+  license_spdx: LicenseRef-CIC-redistribute-with-citation
+  license_note: 'unb.ca/cic/datasets/dns-exf-2021.html: "You may redistribute, republish, and mirror the CIC-Bell-DNS-EXF-2021
+    dataset in any form. However, any use or redistribution of the data must include a citation to the CIC-Bell-DNS-EXF-2021
+    dataset". Cite Mahdavifar et al., "Lightweight Hybrid Detection of Data Exfiltration using DNS based on Machine
+    Learning", IEEE ICCNS 2021. Download needs the registration form: fetched through the user''s registered browser
+    session (10 zips, SHA-256 in raw_cache MANIFEST.json); not re-fetchable by ingest_public'
+  intended_use: 'Observed dns_tunneling_exfil + benign DNS: 60 s windows of the stateless per-query CSVs'
+  restriction: 'Cite dataset + paper; no IPs and no byte counts in the CSVs (bytes absent in records)'
+  status: available
+  enabled: false
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+  files:
+  - {path: CSV/Attack_Light_Benign/Attacks.zip}
+  - {path: CSV/Attack_Light_Benign/Benign.zip}
+  - {path: CSV/Attack_heavy_Benign/Attacks.zip}
+  - {path: CSV/Attack_heavy_Benign/Benign.zip}
+  - {path: CSV/Benign.zip}
+  - {path: PCAP/Attack_Light_Benign/Attacks.zip}
+  - {path: PCAP/Attack_Light_Benign/Benign.zip}
+  - {path: PCAP/Attack_heavy_Benign/Attacks.zip}
+  - {path: PCAP/Attack_heavy_Benign/Benign.zip}
+  - {path: PCAP/Benign.zip}

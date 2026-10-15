@@ -332,6 +332,29 @@ def benign_value(param, r):
     return r.choice(BENIGN_VALUES.get(param) or GENERIC_BENIGN)
 
 
+# Which store a route queries: required evidence for the query-injection classes ("database-backed input",
+# "known document-store backend", directory/XML query). Attack records get a consistent backend on most
+# records; benign records (incl. twins) and other classes get any backend, so its presence is not a label.
+BACKENDS = {"sql": ["postgresql", "mysql", "mssql", "oracle", "sqlite"], "document": ["mongodb", "couchdb", "elasticsearch"],
+            "directory": ["openldap", "active_directory"], "xml": ["xml_xpath_store", "saml_metadata_store"]}
+CLASS_BACKEND = {"sqli_classic": ["sql"], "sqli_obfuscated": ["sql"], "nosqli": ["document"],
+                 "ldap_xpath_injection": ["directory", "xml"]}
+
+
+def add_backend(r, tel, cls=None):
+    kinds = CLASS_BACKEND.get(cls)
+    if kinds and r.random() < 0.7:
+        kind = r.choice(kinds)
+    elif r.random() < 0.3:
+        kind = r.choice(sorted(BACKENDS))
+    else:
+        return tel
+    tel.setdefault("context", {}).setdefault("route", {})["query_backend"] = r.choice(BACKENDS[kind])
+    if tel.get("http"):
+        tel["mode"] = "HYBRID_CTX"
+    return tel
+
+
 def wrap_http(seed, twin=False):
     """Seed -> request. twin=True: the SAME request (host, path, headers, sink, param, extra fields,
     encoding layer) carrying an ordinary value instead of the payload -> a minimal-pair benign record."""
@@ -350,7 +373,8 @@ def wrap_http(seed, twin=False):
     if twin:
         tr = rng_for("twin:" + seed["id"])
         p = tr.choice(BENIGN_XML) if sink in ("xml", "multipart_xml") else benign_value(param, tr)
-    return build_request(r, sink, param, p, extra, layer), "hybrid"
+    tel = build_request(r, sink, param, p, extra, layer)
+    return add_backend(rng_for("backend:" + seed["id"]), tel, cls), "hybrid"  # twin: same backend as its attack
 
 
 # ---- Flow synthesis (L4 classes) -------------------------------------------------------------
@@ -402,6 +426,10 @@ FLOW_PROFILES = {
                                         dict(name="ssdp_mdns_local", proto="udp", ports=[1900, 5353], dur=(0.5, 30), pkts=(2, 60), bytes_per_pkt=(120, 450), fwd_frac=(0.5, 0.9), syn_frac=(0, 0)),
                                         dict(name="smtp_session", ports=[25, 587, 465], dur=(1, 60), pkts=(15, 400), bytes_per_pkt=(100, 1400)),
                                         dict(name="db_session", ports=[5432, 3306, 1433, 27017], dur=(1, 600), pkts=(10, 3000), bytes_per_pkt=(80, 1400)),
+                                        dict(name="health_check_poll", window="full_flow", dur=(300, 1800), pkts=(40, 200), bytes_per_pkt=(150, 600), fwd_frac=(0.45, 0.55), syn_frac=(0.05, 0.12), iat_cv=(0.16, 0.35)),  # periodic low-rate agent: ordinary traffic, not high-rate
+                                        dict(name="metrics_push", ports=[443, 4317, 9090], window="full_flow", dur=(300, 3600), pkts=(60, 400), bytes_per_pkt=(300, 1200), fwd_frac=(0.55, 0.75), syn_frac=(0.02, 0.08), iat_cv=(0.16, 0.5)),  # periodic low-rate agent: ordinary traffic, not high-rate
+                                        dict(name="keepalive_long_poll", ports=[443, 8443], window="full_flow", dur=(600, 3600), pkts=(30, 160), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.6), syn_frac=(0.01, 0.06), iat_cv=(0.2, 0.6)),  # periodic low-rate agent: ordinary traffic, not high-rate
+                                        dict(name="mobile_push_channel", ports=[443, 5223], window="full_flow", dur=(900, 3600), pkts=(20, 120), bytes_per_pkt=(120, 700), fwd_frac=(0.35, 0.55), syn_frac=(0.01, 0.05), iat_cv=(0.25, 0.8)),  # periodic low-rate agent: ordinary traffic, not high-rate
                                         dict(name="large_download_https", ports=[443, 80], dur=(10, 600), pkts=(1000, 40000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01))]),
     "benign_high_rate_legit": dict(fwd_frac=(0.3, 0.6), ports=[443, 80], window="fixed_window", dur=(4, 6), pkts=(2000, 15000), proto="tcp",
                                    syn_frac=(0.02, 0.08), bytes_per_pkt=(500, 1400), dst_fanout=(1, 3),
@@ -409,11 +437,6 @@ FLOW_PROFILES = {
                                        dict(name="bulk_backup", ports=[22, 443, 873], window="full_flow", dur=(300, 3600), pkts=(50000, 900000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.6, 0.7)),
                                        dict(name="dns_resolver_burst", proto="udp", ports=[53], pkts=(1500, 12000), bytes_per_pkt=(80, 400), fwd_frac=(0.45, 0.55), syn_frac=(0, 0), dns=True),
                                        dict(name="video_stream_udp", proto="udp", ports=[443, 3478], pkts=(3000, 20000), bytes_per_pkt=(900, 1350), fwd_frac=(0.05, 0.2), syn_frac=(0, 0)),
-                                       dict(name="health_check_poll", window="full_flow", dur=(300, 1800), pkts=(40, 200), bytes_per_pkt=(150, 600), fwd_frac=(0.45, 0.55), syn_frac=(0.05, 0.12), iat_cv=(0.16, 0.35)),
-                                       # more periodic benign agents with overlapping ranges: a held-out one stays interpolable
-                                       dict(name="metrics_push", ports=[443, 4317, 9090], window="full_flow", dur=(300, 3600), pkts=(60, 400), bytes_per_pkt=(300, 1200), fwd_frac=(0.55, 0.75), syn_frac=(0.02, 0.08), iat_cv=(0.16, 0.5)),
-                                       dict(name="keepalive_long_poll", ports=[443, 8443], window="full_flow", dur=(600, 3600), pkts=(30, 160), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.6), syn_frac=(0.01, 0.06), iat_cv=(0.2, 0.6)),
-                                       dict(name="mobile_push_channel", ports=[443, 5223], window="full_flow", dur=(900, 3600), pkts=(20, 120), bytes_per_pkt=(120, 700), fwd_frac=(0.35, 0.55), syn_frac=(0.01, 0.05), iat_cv=(0.25, 0.8)),
                                        # legitimate login and API bursts: the lookalike of credential stuffing
                                        dict(name="sso_login_peak", ports=[443], pkts=(800, 6000), bytes_per_pkt=(400, 1100), fwd_frac=(0.25, 0.42), syn_frac=(0.05, 0.15), conn=(2, 20)),  # responses dominate: successful logins load pages
                                        dict(name="api_batch_sync", ports=[443, 8443], pkts=(2000, 10000), bytes_per_pkt=(600, 1400), fwd_frac=(0.2, 0.4), syn_frac=(0.01, 0.05), conn=(2, 30)),
@@ -477,7 +500,10 @@ def tls_context(r, kind):
 
 # Optional evidence fields appear in every class where the measurement would exist, so their presence
 # is not a label: values carry the evidence (e.g. low iat_cv or high qname entropy), not the key.
-DNS_NORMAL, DNS_TUNNEL = ((10, 32), (2.4, 3.5)), ((40, 120), (3.6, 4.5))
+# Overlapping on purpose (CIC-Bell-DNS-EXF-2021, observed: exfil qname length 25 / entropy 2.44 vs benign 18.5 / 2.50):
+# entropy alone does not separate real exfil; tunnels range from short low-entropy labels to long encoded ones,
+# and benign includes high-entropy names (CDN hashes, DKIM, telemetry). Volume and rate carry the evidence.
+DNS_NORMAL, DNS_TUNNEL = ((8, 34), (2.0, 3.9)), ((20, 120), (2.2, 4.5))
 
 
 def sig(x, n=6):
@@ -561,7 +587,7 @@ def synth_benign_http(cls, idx):
     layer = None
     if r.random() < 0.08:
         layer = "json_unicode" if sink == "json" else "double_url"
-    tel = build_request(r, sink, param, value, pairs[:-1], layer)
+    tel = add_backend(r, build_request(r, sink, param, value, pairs[:-1], layer))
     if r.random() < 0.3:  # referrals from the same neutral hosts the attack seeds are rewritten to
         tel["http"]["headers"].append(["Referer", f"https://{r.choice(NEUTRAL_HOSTS)}/"])
     return tel, {"profile": cls, "sink": sink}
