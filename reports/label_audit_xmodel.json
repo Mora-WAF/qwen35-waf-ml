@@ -1,0 +1,193 @@
+{
+ "models": [
+  "gemini",
+  "gptoss"
+ ],
+ "items": 1400,
+ "answered": {
+  "gemini": 1400,
+  "gptoss": 468
+ },
+ "agreement_35class": {
+  "gemini": 0.997,
+  "gptoss": 0.474
+ },
+ "agreement_attack_vs_benign": {
+  "gemini": 0.999,
+  "gptoss": 0.6
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {
+   "gemini": 1.0,
+   "gptoss": 0.08
+  },
+  "benign_hard_negative_search": {
+   "gemini": 1.0,
+   "gptoss": 0.73
+  },
+  "benign_high_rate_legit": {
+   "gemini": 1.0,
+   "gptoss": 0.33
+  },
+  "benign_standard_traffic": {
+   "gemini": 0.95,
+   "gptoss": 0.79
+  },
+  "bola_idor_enumeration": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "c2_beaconing_anomaly": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "credential_stuffing_bruteforce": {
+   "gemini": 0.97,
+   "gptoss": 0.0
+  },
+  "crlf_header_injection": {
+   "gemini": 1.0,
+   "gptoss": 0.81
+  },
+  "csv_formula_injection": {
+   "gemini": 1.0,
+   "gptoss": 0.85
+  },
+  "deserialization": {
+   "gemini": 1.0,
+   "gptoss": 0.83
+  },
+  "dns_tunneling_exfil": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "graphql_abuse": {
+   "gemini": 1.0,
+   "gptoss": 0.44
+  },
+  "http_request_smuggling": {
+   "gemini": 1.0,
+   "gptoss": 0.71
+  },
+  "jwt_auth_bypass": {
+   "gemini": 1.0,
+   "gptoss": 0.2
+  },
+  "ldap_xpath_injection": {
+   "gemini": 1.0,
+   "gptoss": 0.67
+  },
+  "llm_prompt_injection": {
+   "gemini": 1.0,
+   "gptoss": 0.6
+  },
+  "nosqli": {
+   "gemini": 1.0,
+   "gptoss": 0.92
+  },
+  "open_redirect_cors": {
+   "gemini": 1.0,
+   "gptoss": 0.65
+  },
+  "path_traversal_lfi": {
+   "gemini": 1.0,
+   "gptoss": 0.54
+  },
+  "port_scan_recon": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "prototype_pollution": {
+   "gemini": 1.0,
+   "gptoss": 1.0
+  },
+  "rce_cmd_injection": {
+   "gemini": 1.0,
+   "gptoss": 0.94
+  },
+  "slowloris_slowhttp": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "sqli_classic": {
+   "gemini": 1.0,
+   "gptoss": 0.91
+  },
+  "sqli_obfuscated": {
+   "gemini": 0.97,
+   "gptoss": 0.41
+  },
+  "ssrf_cloud_metadata": {
+   "gemini": 1.0,
+   "gptoss": 1.0
+  },
+  "ssti": {
+   "gemini": 1.0,
+   "gptoss": 0.93
+  },
+  "syn_flood_ddos": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "tls_ja4_ua_spoofing": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "udp_amplification": {
+   "gemini": 1.0,
+   "gptoss": 0.22
+  },
+  "web_cache_poisoning": {
+   "gemini": 1.0,
+   "gptoss": 0.23
+  },
+  "websocket_grpc_abuse": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "xss_dom_polyglot": {
+   "gemini": 1.0,
+   "gptoss": 0.0
+  },
+  "xss_reflected_stored": {
+   "gemini": 1.0,
+   "gptoss": 0.85
+  },
+  "xxe": {
+   "gemini": 1.0,
+   "gptoss": 1.0
+  }
+ },
+ "contested_by_all_external": 2,
+ "contested_by_class": {
+  "credential_stuffing_bruteforce": 1,
+  "sqli_obfuscated": 1
+ },
+ "contested": [
+  {
+   "rid": "g00260",
+   "label": "credential_stuffing_bruteforce",
+   "id": "gen:flow:credential_stuffing_bruteforce:000155",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "gemini": "benign_standard_traffic",
+    "gptoss": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00998",
+   "label": "sqli_obfuscated",
+   "id": "waf_bypass_payload_list:sqli_obfuscated:c539e99753a77507~2",
+   "provenance": "hybrid",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "gemini": "sqli_classic",
+    "gptoss": "sqli_classic"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

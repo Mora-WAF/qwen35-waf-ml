@@ -370,11 +370,15 @@ FLOW_PROFILES = {
     "port_scan_recon": dict(fwd_frac=(0.5, 0.65), window="fixed_window", dur=(2, 8), pkts=(500, 5000), proto="tcp",
                             syn_frac=(0.8, 1.0), bytes_per_pkt=(40, 44), dst_fanout=(200, 2000),
                                     variants=[dict(name="udp_scan", proto="udp", syn_frac=(0, 0), bytes_per_pkt=(28, 80)), dict(name="slow_scan", dur=(60, 600), pkts=(100, 800), dst_fanout=(50, 300))]),
-    "credential_stuffing_bruteforce": dict(fwd_frac=(0.45, 0.6), ports=[21, 22, 443, 3389], window="fixed_window", dur=(10, 60), pkts=(200, 3000),
+    "credential_stuffing_bruteforce": dict(fwd_frac=(0.45, 0.6), ports=[21, 22, 443, 3389], window="fixed_window", dur=(10, 60), pkts=(200, 5000),
                                            proto="tcp", syn_frac=(0.1, 0.3), bytes_per_pkt=(300, 900),
                                            dst_fanout=(1, 2),
                                     variants=[dict(name="ssh_bruteforce", ports=[22], bytes_per_pkt=(150, 600)), dict(name="rdp_spray", ports=[3389], dur=(60, 600)),
-                                                    dict(name="web_login_stuffing", ports=[443], pkts=(1000, 8000), bytes_per_pkt=(400, 1200))]),
+                                                    dict(name="web_login_stuffing", ports=[443], pkts=(1000, 8000), bytes_per_pkt=(400, 1200), fwd_frac=(0.5, 0.7)),  # request-heavy: failed logins
+                                                    dict(name="mail_login_spray", ports=[993, 995, 143, 110, 587], pkts=(300, 4000), bytes_per_pkt=(200, 700)),
+                                                    dict(name="api_token_bruteforce", ports=[443, 8443], pkts=(500, 6000), bytes_per_pkt=(350, 900), fwd_frac=(0.5, 0.7)),
+                                                    dict(name="vpn_portal_spray", ports=[443, 10443, 4433], pkts=(400, 5000), bytes_per_pkt=(450, 1300), dur=(30, 120), fwd_frac=(0.5, 0.7)),
+                                                    dict(name="ftp_bruteforce", ports=[21], pkts=(200, 2500), bytes_per_pkt=(60, 200))]),
     "c2_beaconing_anomaly": dict(fwd_frac=(0.45, 0.6), ports=[443, 8443, 80], window="full_flow", dur=(300, 1800), pkts=(20, 120), proto="tcp",
                                  syn_frac=(0.02, 0.1), bytes_per_pkt=(200, 1200), dst_fanout=(1, 1),
                                  periodic=True,
@@ -392,14 +396,32 @@ FLOW_PROFILES = {
                                         dict(name="dns_lookup", proto="udp", ports=[53], dur=(0.01, 2), pkts=(2, 12), bytes_per_pkt=(60, 300), fwd_frac=(0.4, 0.6), syn_frac=(0, 0), dns=True),
                                         dict(name="quic_web", proto="udp", ports=[443], dur=(1, 90), pkts=(20, 900), bytes_per_pkt=(200, 1350), fwd_frac=(0.25, 0.5), syn_frac=(0, 0)),
                                         dict(name="ntp_sync", proto="udp", ports=[123], dur=(0.01, 1), pkts=(2, 4), bytes_per_pkt=(76, 90), fwd_frac=(0.5, 0.5), syn_frac=(0, 0)),
-                                        dict(name="windowed_web", window="fixed_window", dur=(4, 6), pkts=(5, 300))]),
+                                        dict(name="windowed_web", window="fixed_window", dur=(4, 6), pkts=(5, 300)),
+                                        dict(name="dns_resolver_tcp", ports=[53], dur=(0.05, 3), pkts=(6, 40), bytes_per_pkt=(80, 900), dns=True),
+                                        dict(name="doh_lookup", ports=[443], dur=(0.2, 20), pkts=(8, 60), bytes_per_pkt=(150, 700)),
+                                        dict(name="ssdp_mdns_local", proto="udp", ports=[1900, 5353], dur=(0.5, 30), pkts=(2, 60), bytes_per_pkt=(120, 450), fwd_frac=(0.5, 0.9), syn_frac=(0, 0)),
+                                        dict(name="smtp_session", ports=[25, 587, 465], dur=(1, 60), pkts=(15, 400), bytes_per_pkt=(100, 1400)),
+                                        dict(name="db_session", ports=[5432, 3306, 1433, 27017], dur=(1, 600), pkts=(10, 3000), bytes_per_pkt=(80, 1400)),
+                                        dict(name="large_download_https", ports=[443, 80], dur=(10, 600), pkts=(1000, 40000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01))]),
     "benign_high_rate_legit": dict(fwd_frac=(0.3, 0.6), ports=[443, 80], window="fixed_window", dur=(4, 6), pkts=(2000, 15000), proto="tcp",
                                    syn_frac=(0.02, 0.08), bytes_per_pkt=(500, 1400), dst_fanout=(1, 3),
                                    variants=[  # hard negatives against floods, amplification and beacons
                                        dict(name="bulk_backup", ports=[22, 443, 873], window="full_flow", dur=(300, 3600), pkts=(50000, 900000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.6, 0.7)),
                                        dict(name="dns_resolver_burst", proto="udp", ports=[53], pkts=(1500, 12000), bytes_per_pkt=(80, 400), fwd_frac=(0.45, 0.55), syn_frac=(0, 0), dns=True),
                                        dict(name="video_stream_udp", proto="udp", ports=[443, 3478], pkts=(3000, 20000), bytes_per_pkt=(900, 1350), fwd_frac=(0.05, 0.2), syn_frac=(0, 0)),
-                                       dict(name="health_check_poll", window="full_flow", dur=(300, 1800), pkts=(40, 200), bytes_per_pkt=(150, 600), fwd_frac=(0.45, 0.55), syn_frac=(0.05, 0.12), periodic_benign=True)]),
+                                       dict(name="health_check_poll", window="full_flow", dur=(300, 1800), pkts=(40, 200), bytes_per_pkt=(150, 600), fwd_frac=(0.45, 0.55), syn_frac=(0.05, 0.12), iat_cv=(0.16, 0.35)),
+                                       # more periodic benign agents with overlapping ranges: a held-out one stays interpolable
+                                       dict(name="metrics_push", ports=[443, 4317, 9090], window="full_flow", dur=(300, 3600), pkts=(60, 400), bytes_per_pkt=(300, 1200), fwd_frac=(0.55, 0.75), syn_frac=(0.02, 0.08), iat_cv=(0.16, 0.5)),
+                                       dict(name="keepalive_long_poll", ports=[443, 8443], window="full_flow", dur=(600, 3600), pkts=(30, 160), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.6), syn_frac=(0.01, 0.06), iat_cv=(0.2, 0.6)),
+                                       dict(name="mobile_push_channel", ports=[443, 5223], window="full_flow", dur=(900, 3600), pkts=(20, 120), bytes_per_pkt=(120, 700), fwd_frac=(0.35, 0.55), syn_frac=(0.01, 0.05), iat_cv=(0.25, 0.8)),
+                                       # legitimate login and API bursts: the lookalike of credential stuffing
+                                       dict(name="sso_login_peak", ports=[443], pkts=(800, 6000), bytes_per_pkt=(400, 1100), fwd_frac=(0.25, 0.42), syn_frac=(0.05, 0.15)),  # responses dominate: successful logins load pages
+                                       dict(name="api_batch_sync", ports=[443, 8443], pkts=(2000, 10000), bytes_per_pkt=(600, 1400), fwd_frac=(0.2, 0.4), syn_frac=(0.01, 0.05)),
+                                       dict(name="software_update_cdn", ports=[80, 443], window="full_flow", dur=(30, 900), pkts=(5000, 120000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
+                                       # sibling download regimes: no benign behaviour rests on a single variant
+                                       dict(name="backup_restore_download", ports=[443, 22], window="full_flow", dur=(300, 3600), pkts=(20000, 500000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
+                                       dict(name="mirror_sync_pull", ports=[80, 443, 873], window="full_flow", dur=(600, 3600), pkts=(50000, 900000), bytes_per_pkt=(1300, 1460), fwd_frac=(0.04, 0.15), syn_frac=(0.0, 0.01)),
+                                       dict(name="dataset_fetch_windowed", ports=[443], pkts=(3000, 15000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.02))]),
 }
 # Optional evidence fields appear in every class where the measurement would exist, so their presence
 # is not a label: values carry the evidence (e.g. low iat_cv or high qname entropy), not the key.
@@ -438,8 +460,8 @@ def synth_flow(cls, idx):
     }
     if pr.get("periodic"):
         feats["iat_cv"] = round(r.uniform(0.0, 0.15), 4)  # low jitter -> beacon-like
-    elif pr.get("periodic_benign"):
-        feats["iat_cv"] = round(r.uniform(0.16, 0.35), 4)  # scheduled health checks: periodic, but jitterier than a beacon
+    elif pr.get("iat_cv"):
+        feats["iat_cv"] = round(r.uniform(*pr["iat_cv"]), 4)  # scheduled benign agents: periodic, jitterier than a beacon
     elif pr["window"] == "full_flow" and r.random() < 0.4:
         feats["iat_cv"] = round(r.uniform(0.4, 2.5), 4)
     if pr.get("dns") or (feats["dst_port"] == 53 and pr["proto"] == "udp"):

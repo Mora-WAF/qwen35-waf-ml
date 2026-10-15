@@ -1,0 +1,118 @@
+{"rid": "n19386", "predicted_class": "web_cache_poisoning", "evidence_sufficient": false, "note": "Unkeyed X-Original-Host reflected unescaped and cached, but sent value is the allow-listed host."}
+{"rid": "n19559", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary gift message text with no formula prefix or payload; export unescaped only."}
+{"rid": "n19019", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain customer question about claim status; no override or tool-abuse language."}
+{"rid": "n18379", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Normal PayeeList query, depth 2, cost 20, under all limits and rate."}
+{"rid": "n18268", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Trigger fetch to configured allowed host over HTTPS; public address; no internal target."}
+{"rid": "n18131", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Image fetch to public host with redirects allowed; no private or metadata target shown."}
+{"rid": "n18259", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Connector health check to its configured allowed host; public address."}
+{"rid": "n18516", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 token verified with kid match and expected scope; no forgery or algorithm confusion."}
+{"rid": "n19534", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Payee nickname is ordinary text; CSV export unescaped but value carries no formula."}
+{"rid": "n19169", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Path-set sink with ordinary key settings.role; no prototype segment present."}
+{"rid": "n18819", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cart websocket at 30 frames per 10s, under documented 60 baseline; authorized own resource."}
+{"rid": "n19523", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Moderator note is ordinary text; no formula or script payload."}
+{"rid": "n18474", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 JWKS verification accepted; no algorithm confusion; odd repeated signature text alone insufficient."}
+{"rid": "n18654", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Card controls read with verified owner match and validated token."}
+{"rid": "n18744", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Sequential EOB reads all owned by the same subject; ownership check enforced."}
+{"rid": "n18959", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "FX fee question is ordinary customer text; no override or tool hijack."}
+{"rid": "n18143", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Valuation fetch to public provider host; no internal or metadata target."}
+{"rid": "n19457", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Base64 state decodes to harmless reference; no outbound fetch or injection."}
+{"rid": "n18215", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Document import from allow-listed partner HTTPS host; public address."}
+{"rid": "n18124", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Verification endpoint is public allow-listed HTTPS host; ordinary beneficiary check."}
+{"rid": "n18777", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Statement chunk upload at 2 msgs/s, owner-matched token, well under baseline."}
+{"rid": "n18664", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Beneficiary usage read with verified owner match."}
+{"rid": "n19438", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Hotel search form with plain city and nights values."}
+{"rid": "n18420", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Operation name says Introspection but query is plain invoice lookup with no introspection fields."}
+{"rid": "n19411", "predicted_class": "web_cache_poisoning", "evidence_sufficient": false, "note": "Unkeyed X-Forwarded-Server reflected unescaped, but value equals allow-listed host."}
+{"rid": "n18235", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Device enrollment to allow-listed partner HTTPS registry; public address."}
+{"rid": "n18956", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Reconciliation question is ordinary text; no instruction override."}
+{"rid": "n18652", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Payee delete with verified owner match and prior legitimate request."}
+{"rid": "n18773", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Hold stream at 0.8 msgs/s with valid scope; reopen backoff looks like normal retry."}
+{"rid": "n18907", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary loan processing question; no override or tool misuse."}
+{"rid": "n18444", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Two-alias lab query within depth, cost and alias limits."}
+{"rid": "n18073", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Theme asset fetch to public CDN host; deny-private enforced."}
+{"rid": "n18244", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Trigger fetch to allowed weather host; public address; normal cadence."}
+{"rid": "n18581", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 token verified against configured secret; no algorithm confusion evident."}
+{"rid": "n19089", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Coupon keys are plain names validated against allow-list; no prototype path."}
+{"rid": "n18741", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Clinical notes read with enforced ownership; sequential visits owned by subject."}
+{"rid": "n19344", "predicted_class": "web_cache_poisoning", "evidence_sufficient": false, "note": "Unkeyed User-Agent reflected unescaped in cached docs, but sent value is normal browser UA."}
+{"rid": "n18284", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Export destination validate to allow-listed public storage host."}
+{"rid": "n19177", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Preferences merge uses ordinary key accessLevel; no prototype key."}
+{"rid": "n19588", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Annotation is ordinary text; CSV export unescaped with no formula prefix."}
+{"rid": "n19576", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Same ordinary annotation text; no formula prefix or payload."}
+{"rid": "n18349", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Coupon mutation at 12 per minute, under 60 rate limit."}
+{"rid": "n19564", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Underwriting remark is ordinary text; no formula or payload."}
+{"rid": "n18933", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Payout explanation question is ordinary text, no override."}
+{"rid": "n19226", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Overlay merge uses ordinary key hideReviewer; no prototype path."}
+{"rid": "n18403", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Invoice query depth 2, cost 1; within all gateway limits."}
+{"rid": "n18900", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Statement question is ordinary end-user text; no injection tokens."}
+{"rid": "n18851", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Product spec question is ordinary shopper text."}
+{"rid": "n18082", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Artwork fetch to public host; deny-private enforced; no internal target."}
+{"rid": "n18166", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Eligibility check to partner HTTPS payer endpoint; public address."}
+{"rid": "n19078", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Tag merge with ordinary key env; no prototype path."}
+{"rid": "n19383", "predicted_class": "web_cache_poisoning", "evidence_sufficient": false, "note": "Same unkeyed X-Original-Host pattern; reflected value is allow-listed host."}
+{"rid": "n18504", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "ACH origination with RS256 token verified and expected scope."}
+{"rid": "n19032", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Provider invoice message is ordinary text; no instruction override."}
+{"rid": "n19057", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Admin how-to about password reset tickets; no payload or lookalike syntax."}
+{"rid": "n18415", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Two-alias lab query within limits; routine lab read."}
+{"rid": "n18748", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "EOB read with enforced ownership; subject owns the resource."}
+{"rid": "n18345", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Schema and type sweep repeated 12 times per minute despite introspection disabled."}
+{"rid": "n18790", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Alert stream for 8 owned customers matching requested count."}
+{"rid": "n19557", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Wishlist note is ordinary text; CSV export unescaped, no formula prefix."}
+{"rid": "n19075", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Bracket key is plain nested name without operators; no document-store sink evidence."}
+{"rid": "n18211", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Device enrollment to allow-listed partner HTTPS registry; public address."}
+{"rid": "n18707", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "KYC case read with enforced ownership check."}
+{"rid": "n18919", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Fraud alert reply is ordinary customer text; no override or tool misuse."}
+{"rid": "n19349", "predicted_class": "web_cache_poisoning", "evidence_sufficient": false, "note": "Unkeyed User-Agent reflected unescaped in cached docs, but value is normal browser UA."}
+{"rid": "n18220", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "FHIR import from allow-listed partner HTTPS source; public address."}
+{"rid": "n18276", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Claim media fetch from allow-listed host; deny-private enforced."}
+{"rid": "n19583", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Product description is ordinary text; CSV export unescaped with no formula."}
+{"rid": "n19221", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Card control path settings.dailyLimit is ordinary; no prototype segment."}
+{"rid": "n18783", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Restock subscription for one SKU, allow-listed origin, 0.3 msgs/s."}
+{"rid": "n18468", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 token verified with env secret and MFA claim; no forgery evidence."}
+{"rid": "n18537", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 token verified with kid match; ordinary attachment note."}
+{"rid": "n18314", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Records fetch to allow-listed host; deny-private enforced."}
+{"rid": "n18592", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Address update with verified owner match."}
+{"rid": "n18240", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Claim media fetch from allow-listed host; deny-private enforced."}
+{"rid": "n18088", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Gift card artwork fetch to public host; no internal target."}
+{"rid": "n18510", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 lab callback token verified; ordinary refill note."}
+{"rid": "n19251", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed image hint is reflected escaped; no injection content."}
+{"rid": "n18780", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cart websocket at 30 frames per 10s, under 60 baseline, owned resource."}
+{"rid": "n19196", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Line defaults merge with ordinary discount key; no prototype path."}
+{"rid": "n19228", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Consent snapshot merge with ordinary telehealth key; no attack markers."}
+{"rid": "n18923", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Beneficiary note is ordinary text, under request rate."}
+{"rid": "n18782", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Support chat subscribe on owned topic; allow-listed origin."}
+{"rid": "n18447", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 cart token verified with self scope; no forgery evidence."}
+{"rid": "n19584", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Payment reference is ordinary text; CSV export unescaped, no formula."}
+{"rid": "n19054", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "OCR bill text is ordinary dental estimate; no override text."}
+{"rid": "n18845", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Return reason is ordinary customer question."}
+{"rid": "n19115", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RMA dotted path with ordinary keys and validated allow-list."}
+{"rid": "n18341", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Schema and type sweep repeated 12 per minute despite introspection disabled."}
+{"rid": "n18764", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Endorsement reads with enforced owner match; sequential IDs owned by subject."}
+{"rid": "n19417", "predicted_class": "web_cache_poisoning", "evidence_sufficient": false, "note": "Unkeyed X-Host reflected unescaped and cached, but value equals allow-listed host."}
+{"rid": "n19237", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Intake answers merge with ordinary clinical flag."}
+{"rid": "n19297", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Partner query reflected escaped with allow-listed values."}
+{"rid": "n19387", "predicted_class": "web_cache_poisoning", "evidence_sufficient": false, "note": "Unkeyed X-Original-Host reflected unescaped; sent value is allow-listed host."}
+{"rid": "n18989", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Refill question is ordinary patient text; no override."}
+{"rid": "n18396", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Refund status query within depth and cost limits."}
+{"rid": "n18602", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RMA cancel with verified owner match."}
+{"rid": "n19188", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "KYC submission merge with ordinary verified key."}
+{"rid": "n18774", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Balance subscription with consent record and owned account."}
+{"rid": "n18332", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Review thread query at 12 per minute, under limit."}
+{"rid": "n18779", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Watch 7 owned customers, matching requested count."}
+{"rid": "n19494", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Base64 cache header decodes to harmless reference; no outbound fetch."}
+{"rid": "n19296", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Partner query reflected escaped; allow-listed values."}
+{"rid": "n18656", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Card limits read with verified owner match."}
+{"rid": "n19094", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Transfer template merge with ordinary keys validated against allow-list."}
+{"rid": "n18722", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Visit summary with enforced ownership; sequential visits owned by subject."}
+{"rid": "n18704", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Mandate history with enforced ownership check."}
+{"rid": "n18946", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Dispute intake text is ordinary cardholder description."}
+{"rid": "n19262", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Promo query reflected escaped; allow-listed values."}
+{"rid": "n19133", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "KYC merge with ordinary preference key; allow-list validated."}
+{"rid": "n18358", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Account activity query within limits; introspection disabled."}
+{"rid": "n19504", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Preference cookie decodes to ordinary JSON; no outbound fetch."}
+{"rid": "n19008", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Patient message summary request is ordinary text."}
+{"rid": "n18344", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Schema probe repeated 12 times per minute with introspection disabled."}
+{"rid": "n18948", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Dispute intake text is ordinary cardholder description."}
+{"rid": "n18605", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RMA delete with verified owner match."}
+{"rid": "n18213", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Payer endpoint base64 decodes to allow-listed public HTTPS host."}
+{"rid": "n18663", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Beneficiary limit read with verified owner match."}

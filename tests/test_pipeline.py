@@ -170,9 +170,23 @@ def test_review_status_unanswered_is_not_agreed(tmp_path, monkeypatch):
     from subagents import review as R
     (tmp_path / "out").mkdir()
     key = tmp_path / "key.json"
-    key.write_text(json.dumps({"r1": {"ref": "a:0"}, "r2": {"ref": "a:1"}, "r3": {"ref": "a:2"}}))
-    (tmp_path / "out" / "batch_x.jsonl").write_text('{"rid": "r1"}\n{"rid": "r2"}\n')
-    (tmp_path / "quarantine.json").write_text(json.dumps([{"ref": "a:1"}]))
+    key.write_text(json.dumps({"r1": {"ref": "a:0"}, "r2": {"ref": "a:1"}, "r3": {"ref": "a:2"},
+                               "r4": {"ref": "a:1"}, "r5": {"ref": "a:0"}}))  # r4, r5: recheck rounds
+    (tmp_path / "out" / "batch_x.jsonl").write_text('{"rid": "r1"}\n{"rid": "r2"}\n{"rid": "r4"}\n')
+    (tmp_path / "quarantine.json").write_text(json.dumps([{"rid": "r2", "ref": "a:1"}]))
     monkeypatch.setattr(R, "RV", tmp_path)
     monkeypatch.setattr(R, "KEY", key)
-    assert R.status() == {"a:0": "agreed", "a:1": "quarantined", "a:2": "not_reviewed"}
+    # a:1 quarantined in round 1, cleared by the answered recheck r4; a:0's recheck r5 is unanswered -> r1 stands
+    assert R.status() == {"a:0": "agreed", "a:1": "agreed", "a:2": "not_reviewed"}
+
+
+def test_unseen_family_holdout_takes_whole_groups():
+    from data_pipeline.dedup_and_split import holdout_unseen
+    def rec(cls, fam, grp, gen="haiku-5.5"):
+        return {"metadata": {"threat_type": cls, "template_family": f"{cls}:{fam}", "generator": gen,
+                             "lineage_group": grp, "mechanism_tags": [], "provenance": "synthetic"}}
+    recs = [rec("graphql_abuse", f"f{i}", f"g{i}") for i in range(10)]
+    recs.append(rec("benign_standard_traffic", "f0_benign", "g0"))  # twin shares its attack's group
+    out = holdout_unseen(recs, frac=0.2)
+    assert len(out) == 2 and out <= {f"g{i}" for i in range(10)}
+    assert holdout_unseen(recs[:2]) == set()  # fewer than 3 families: nothing held out

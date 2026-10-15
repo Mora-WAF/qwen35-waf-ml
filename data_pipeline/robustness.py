@@ -125,6 +125,8 @@ def classifier_injection(n, used):
     out, i = [], 0
     classes = ["sqli_classic", "xss_reflected_stored", "rce_cmd_injection", "path_traversal_lfi", "ssti"]
     pools = {c: [s for s in G.load_seeds(c) if s.get("cluster", s["id"]) not in used] for c in classes}
+    classes = [c for c in classes if pools[c]]  # a class whose seeds the core build used up cannot stay disjoint
+    assert classes, "no seeds left outside the core build for classifier-injection fixtures"
     while len(out) < n:
         cls = classes[i % len(classes)]
         seed = pools[cls][(i // len(classes)) * 7 % len(pools[cls])]

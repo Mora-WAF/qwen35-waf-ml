@@ -1,24 +1,24 @@
 {
- "reviewed": 16122,
- "items": 16122,
+ "reviewed": 19602,
+ "items": 19602,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
-   "agree": 2373,
-   "insufficient": 88,
-   "disagree": 1747,
-   "agreement": 0.58
+   "agree": 3018,
+   "insufficient": 154,
+   "disagree": 2733,
+   "agreement": 0.52
   },
   "benign_hard_negative_search": {
-   "agree": 1334,
-   "insufficient": 3,
-   "disagree": 306,
-   "agreement": 0.81
+   "agree": 1365,
+   "insufficient": 6,
+   "disagree": 569,
+   "agreement": 0.71
   },
   "benign_standard_traffic": {
-   "agree": 1429,
-   "insufficient": 88,
-   "disagree": 131,
+   "agree": 2856,
+   "insufficient": 191,
+   "disagree": 259,
    "agreement": 0.92
   },
   "bola_idor_enumeration": {
@@ -157,17 +157,17 @@
   [
    "benign_hard_negative_dev",
    "benign_standard_traffic",
-   1169
+   1877
   ],
   [
    "benign_hard_negative_dev",
    "benign_hard_negative_search",
-   473
+   747
   ],
   [
    "benign_hard_negative_search",
    "benign_standard_traffic",
-   290
+   553
   ],
   [
    "jwt_auth_bypass",
@@ -180,6 +180,11 @@
    93
   ],
   [
+   "benign_standard_traffic",
+   "web_cache_poisoning",
+   90
+  ],
+  [
    "websocket_grpc_abuse",
    "benign_standard_traffic",
    36
@@ -187,7 +192,12 @@
   [
    "benign_hard_negative_dev",
    "csv_formula_injection",
-   32
+   33
+  ],
+  [
+   "benign_standard_traffic",
+   "benign_hard_negative_dev",
+   30
   ],
   [
    "graphql_abuse",
@@ -196,13 +206,18 @@
   ],
   [
    "benign_standard_traffic",
-   "csv_formula_injection",
-   24
+   "jwt_auth_bypass",
+   26
   ],
   [
    "benign_standard_traffic",
    "deserialization",
-   23
+   25
+  ],
+  [
+   "benign_standard_traffic",
+   "csv_formula_injection",
+   24
   ],
   [
    "benign_hard_negative_dev",
@@ -211,8 +226,8 @@
   ],
   [
    "benign_standard_traffic",
-   "jwt_auth_bypass",
-   17
+   "graphql_abuse",
+   18
   ],
   [
    "websocket_grpc_abuse",
@@ -221,13 +236,8 @@
   ],
   [
    "benign_standard_traffic",
-   "benign_hard_negative_dev",
-   13
-  ],
-  [
-   "benign_standard_traffic",
-   "web_cache_poisoning",
-   12
+   "llm_prompt_injection",
+   11
   ],
   [
    "websocket_grpc_abuse",
@@ -242,18 +252,8 @@
   [
    "benign_standard_traffic",
    "bola_idor_enumeration",
-   9
-  ],
-  [
-   "benign_hard_negative_dev",
-   "xss_reflected_stored",
-   8
-  ],
-  [
-   "benign_standard_traffic",
-   "graphql_abuse",
-   7
+   10
   ]
  ],
- "quarantined": 3156
+ "quarantined": 4599
 }

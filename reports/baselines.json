@@ -1,0 +1,98 @@
+{
+ "prefix": "fast_",
+ "sizes": {
+  "test": 3397,
+  "test_unseen": 2075,
+  "train": 26723,
+  "val": 3206
+ },
+ "tfidf_svm": {
+  "test": {
+   "n": 3397,
+   "accuracy": 0.9585,
+   "macro_f1": 0.9589,
+   "attack_vs_benign_accuracy": 0.9712,
+   "benign_fpr": 0.0533,
+   "attack_miss_rate": 0.0158,
+   "per_class_recall": {
+    "benign_hard_negative_dev": 1.0,
+    "benign_hard_negative_search": 1.0,
+    "benign_high_rate_legit": 0.74,
+    "benign_standard_traffic": 0.94,
+    "bola_idor_enumeration": 1.0,
+    "c2_beaconing_anomaly": 1.0,
+    "credential_stuffing_bruteforce": 0.96,
+    "crlf_header_injection": 0.98,
+    "csv_formula_injection": 1.0,
+    "deserialization": 1.0,
+    "dns_tunneling_exfil": 1.0,
+    "graphql_abuse": 1.0,
+    "http_request_smuggling": 1.0,
+    "jwt_auth_bypass": 0.99,
+    "ldap_xpath_injection": 1.0,
+    "llm_prompt_injection": 0.99,
+    "nosqli": 0.62,
+    "open_redirect_cors": 1.0,
+    "path_traversal_lfi": 0.97,
+    "port_scan_recon": 0.97,
+    "prototype_pollution": 1.0,
+    "rce_cmd_injection": 0.94,
+    "slowloris_slowhttp": 0.92,
+    "sqli_classic": 0.97,
+    "sqli_obfuscated": 0.85,
+    "ssrf_cloud_metadata": 1.0,
+    "ssti": 0.97,
+    "syn_flood_ddos": 0.99,
+    "tls_ja4_ua_spoofing": 1.0,
+    "udp_amplification": 1.0,
+    "web_cache_poisoning": 1.0,
+    "websocket_grpc_abuse": 1.0,
+    "xss_dom_polyglot": 1.0,
+    "xss_reflected_stored": 0.98,
+    "xxe": 1.0
+   }
+  },
+  "test_unseen": {
+   "n": 2075,
+   "accuracy": 0.9296,
+   "macro_f1": 0.8787,
+   "attack_vs_benign_accuracy": 0.9373,
+   "benign_fpr": 0.1263,
+   "attack_miss_rate": 0.0152,
+   "per_class_recall": {
+    "benign_hard_negative_dev": 1.0,
+    "benign_hard_negative_search": 1.0,
+    "benign_high_rate_legit": 0.67,
+    "benign_standard_traffic": 0.64,
+    "bola_idor_enumeration": 1.0,
+    "credential_stuffing_bruteforce": 1.0,
+    "csv_formula_injection": 0.94,
+    "deserialization": 1.0,
+    "graphql_abuse": 0.93,
+    "jwt_auth_bypass": 0.95,
+    "llm_prompt_injection": 1.0,
+    "prototype_pollution": 1.0,
+    "ssrf_cloud_metadata": 1.0,
+    "syn_flood_ddos": 0.98,
+    "udp_amplification": 1.0,
+    "web_cache_poisoning": 1.0,
+    "websocket_grpc_abuse": 0.96
+   }
+  }
+ },
+ "crs_pl1": {
+  "test": {
+   "n_http": 2601,
+   "attack_vs_benign_accuracy": 0.6282,
+   "benign_fpr": 0.1928,
+   "attack_miss_rate": 0.4782
+  },
+  "test_unseen": {
+   "n_http": 1690,
+   "attack_vs_benign_accuracy": 0.4982,
+   "benign_fpr": 0.1588,
+   "attack_miss_rate": 0.8289
+  }
+ },
+ "note": "same serialized telemetry the LLM sees; CRS is binary and HTTP-only"
+}

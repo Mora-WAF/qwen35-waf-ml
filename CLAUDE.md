@@ -48,7 +48,10 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
   `data/jobs/out/<class>.jsonl` or a new `<class>.vN.jsonl`. These raw outputs are irreplaceable:
   add a new version file; leave existing ones in place, untouched.
 - **Review** is same-model: agreement filters noise, it is not ground truth. Quarantine is applied by
-  `subagents.review.status()` at ingest and seed load.
+  `subagents.review.status()` at ingest and seed load; the latest answered round for an item decides.
+- **Answer keys are readable by any agent started in the repo.** A Gemini audit run from the repo root read
+  `data/review_xmodel_key.json` (13/14 batches at exactly 100%). External models run only through
+  `subagents.xmodel_run` (empty temp cwd + `--sandbox`); a run of perfect batches is a leak signal, not quality.
 - **Lineage** decides splits. Assign whole groups, globally (one attacker host can span classes).
   Templated worker output and seed variants share a group via near-dup keys; each CIC attack class
   is one campaign, so its test coverage comes from NF-ToN or synthetic records.

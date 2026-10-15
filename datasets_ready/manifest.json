@@ -2,7 +2,7 @@
  "mode": "fast",
  "per_class": 40,
  "quota_fraction": 0.25,
- "total": 33364,
+ "total": 35401,
  "dropped_exact_dup": 332,
  "rejected_token_overflow": {
   "graphql_abuse": 67,
@@ -11,24 +11,23 @@
  },
  "files": {
   "fast_train.jsonl": {
-   "records": 26761,
-   "sha256": "9ce6634e2e33c966ce189de571576f55a358522df149790dd17577f9875083b2"
+   "records": 26723,
+   "sha256": "cb2ebeffe91ec608cf0919bb3c34e1d4cb80c2c87edd4ea6f6d1ead198b385aa"
   },
   "fast_val.jsonl": {
-   "records": 3256,
-   "sha256": "ec5e3f29b3bdd969fd50bb1289c768298acf2b03e42810e9d986f008af24ce11"
+   "records": 3206,
+   "sha256": "c32182bc9878f621e424ee469c53f1c53c597ff96193457a9eecc08402e81e3a"
   },
   "fast_test.jsonl": {
-   "records": 3347,
-   "sha256": "766a586ea8c6b1eae40cc03f571b6c1eaccab8a33f16f3b4c2f251c01363e9c0"
+   "records": 3397,
+   "sha256": "39bba961db60ac328d8adfd5bb4cd14037b4d297fdef6e77f2f0ce4de0e753fb"
+  },
+  "fast_test_unseen.jsonl": {
+   "records": 2075,
+   "sha256": "cf5762776b629df2aae670747bcb2c54520e4365eb599b258994a3cd55f763c9"
   }
  },
  "deficits": {
-  "benign_hard_negative_dev": {
-   "have": 2351,
-   "target": 2500,
-   "reason": "insufficient independent seeds"
-  },
   "_mixed_observed_synthetic": {
    "slowloris_slowhttp": {
     "observed_groups": 1,
@@ -115,21 +114,21 @@
   },
   "benign_hard_negative_dev": {
    "status": "ok",
-   "accepted": 2351,
+   "accepted": 2950,
    "rejected": 0,
-   "quarantined_by_review": 1769
+   "quarantined_by_review": 1170
   },
   "benign_hard_negative_search": {
    "status": "ok",
-   "accepted": 1333,
+   "accepted": 1363,
    "rejected": 0,
-   "quarantined_by_review": 307
+   "quarantined_by_review": 277
   },
   "benign_standard_traffic": {
    "status": "ok",
-   "accepted": 1418,
+   "accepted": 2826,
    "rejected": 0,
-   "quarantined_by_review": 142
+   "quarantined_by_review": 268
   }
  },
  "cross_split_overlap": 0,

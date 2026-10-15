@@ -50,10 +50,123 @@ def export():
         with open(RV / f"batch_{b}.jsonl", "w") as fh:
             for row in rows:
                 fh.write(json.dumps(row, ensure_ascii=False) + "\n")
-    brief = "\n".join(f"- `{k}` ({v['domain']}): {v['scope']}" for k, v in tax.items())
-    (RV / "taxonomy_brief.md").write_text(brief + "\n")
+    write_brief(tax)
     KEY.write_text(json.dumps(key))
     print(len(items), "items in", N_BATCHES, "batches")
+
+
+def write_brief(tax=None):
+    """Reviewer brief: scope plus exclusions (the exclusions carry the boundary rules between classes)."""
+    tax = tax or yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
+    lines = [f"- `{k}` ({v['domain']}): {v['scope']} Not: {'; '.join(v['exclusions'])}." for k, v in tax.items()]
+    (RV / "taxonomy_brief.md").write_text("\n".join(lines) + "\n")
+
+
+def export_recheck(tag):
+    """Second-opinion round for benign<->benign disputes (label benign, reviewer chose another benign class
+    with sufficient evidence) under the current brief. New rids for the same refs: the latest answered
+    round decides (status())."""
+    import glob
+    tax = yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
+    write_brief(tax)
+    from subagents.orchestrator import OUT
+    key = json.loads(KEY.read_text())
+    disputed = {x["ref"] for x in json.loads((RV / "quarantine.json").read_text())
+                if tax.get(x["label"], {}).get("is_benign") and tax.get(x.get("reviewer") or "", {}).get("is_benign")
+                and x.get("sufficient")}
+    rows = []
+    for ref in sorted(disputed):
+        fname, line = ref.rsplit(":", 1)
+        fp = OUT / fname
+        if not fp.exists():
+            continue
+        lines = open(fp).read().splitlines()
+        label = next(k["label"] for k in key.values() if k["ref"] == ref)
+        rid = f"x{len(key):05d}"
+        key[rid] = {"label": label, "ref": ref, "kind": "telemetry"}
+        rows.append({"rid": rid, "kind": "telemetry", "item": json.loads(lines[int(line)])["telemetry"]})
+    random.Random(17).shuffle(rows)
+    n_b = max(1, (len(rows) + 119) // 120)
+    for b in range(n_b):
+        with open(RV / f"batch_{tag}_{b}.jsonl", "w") as fh:
+            for row in rows[b::n_b]:
+                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    KEY.write_text(json.dumps(key))
+    print(len(rows), "disputed benign items ->", n_b, f"batch_{tag}_*.jsonl")
+
+
+XM = RV / "xmodel"
+XM_KEY = ROOT / "data" / "review_xmodel_key.json"
+
+
+def export_xmodel(prefix="fast_", per_class=40, batch=100):
+    """Cross-family audit sample (spec §6: independent review): per_class records per class from a build,
+    labels withheld, reviewed by non-Claude models (Gemini, GPT-OSS via agy). An audit signal: it does not
+    quarantine by itself."""
+    write_brief()
+    by = defaultdict(list)
+    for fn in sorted((ROOT / "datasets_ready").glob(f"{prefix}*.jsonl")):
+        for line in open(fn):
+            r = json.loads(line)
+            by[r["metadata"]["threat_type"]].append(r)
+    rng, key, rows = random.Random(23), {}, []
+    for cls in sorted(by):
+        for r in rng.sample(by[cls], min(per_class, len(by[cls]))):
+            rid = f"g{len(key):05d}"
+            m = r["metadata"]
+            key[rid] = {"label": cls, "id": r["id"], "provenance": m["provenance"], "generator": m["generator"],
+                        "haiku_review": m["label_evidence"].get("blind_review", "n/a")}
+            rows.append({"rid": rid, "item": json.loads(r["messages"][1]["content"].split("] ", 1)[1])})
+    rng.shuffle(rows)
+    (XM / "out").mkdir(parents=True, exist_ok=True)
+    n_b = (len(rows) + batch - 1) // batch
+    for b in range(n_b):
+        with open(XM / f"batch_{b}.jsonl", "w") as fh:
+            for row in rows[b::n_b]:
+                fh.write(json.dumps(row, ensure_ascii=False) + "\n")
+    XM_KEY.write_text(json.dumps(key))
+    print(len(rows), "items ->", n_b, "batches in", XM)
+
+
+def score_xmodel():
+    key = json.loads(XM_KEY.read_text())
+    tax = yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
+    got = defaultdict(dict)  # model -> rid -> predicted
+    for fp in sorted((XM / "out").glob("*.jsonl")):
+        model = fp.name.split("__")[0]
+        for line in open(fp):
+            try:
+                o = json.loads(line)
+                got[model][o["rid"]] = o.get("predicted_class")
+            except (json.JSONDecodeError, KeyError):
+                continue
+    models = sorted(got)
+    per = {m: defaultdict(lambda: [0, 0]) for m in models}
+    binary = {m: [0, 0] for m in models}
+    contested = []
+    for rid, k in key.items():
+        votes = {m: got[m].get(rid) for m in models}
+        for m, v in votes.items():
+            if v is None:
+                continue
+            per[m][k["label"]][0] += v == k["label"]
+            per[m][k["label"]][1] += 1
+            binary[m][0] += tax.get(v, {}).get("is_benign") == tax[k["label"]]["is_benign"]
+            binary[m][1] += 1
+        if len(models) >= 2 and all(v is not None and v != k["label"] for v in votes.values()):
+            contested.append({"rid": rid, **k, "votes": votes})
+    rep = {"models": models, "items": len(key),
+           "answered": {m: len(got[m]) for m in models},
+           "agreement_35class": {m: round(sum(a for a, _ in per[m].values()) / max(1, sum(n for _, n in per[m].values())), 3) for m in models},
+           "agreement_attack_vs_benign": {m: round(binary[m][0] / max(1, binary[m][1]), 3) for m in models},
+           "per_class": {c: {m: round(per[m][c][0] / per[m][c][1], 2) for m in models if per[m][c][1]} for c in sorted(tax)},
+           "contested_by_all_external": len(contested),
+           "contested_by_class": dict(Counter(x["label"] for x in contested).most_common()),
+           "contested": contested[:300],
+           "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"}
+    (ROOT / "reports/label_audit_xmodel.json").write_text(json.dumps(rep, indent=1))
+    print(json.dumps({k: rep[k] for k in ("models", "answered", "agreement_35class", "agreement_attack_vs_benign",
+                                          "contested_by_all_external", "contested_by_class")}, indent=1))
 
 
 def export_crs(per_class=10):
@@ -144,15 +257,23 @@ def status():
     """ref -> 'agreed' | 'quarantined' for every reviewed item (empty if no review has run)."""
     if not (RV / "quarantine.json").exists():
         return {}
-    q = {x["ref"] for x in json.loads((RV / "quarantine.json").read_text())}
+    q = {x["rid"] for x in json.loads((RV / "quarantine.json").read_text())}
     answered = {json.loads(line)["rid"] for fp in (RV / "out").glob("batch_*.jsonl") for line in open(fp) if line.strip()}
-    # an exported item without a reviewer answer is NOT agreed: it stays not_reviewed (needs_review at ingest)
-    return {k["ref"]: ("quarantined" if k["ref"] in q else "agreed" if rid in answered else "not_reviewed")
-            for rid, k in json.loads(KEY.read_text()).items()}
+    # key order = export order: the latest ANSWERED round for a ref decides (recheck rounds can clear or
+    # confirm a quarantine); an exported item without any answer stays not_reviewed (needs_review at ingest)
+    out = {}
+    for rid, k in json.loads(KEY.read_text()).items():
+        if rid in answered:
+            out[k["ref"]] = "quarantined" if rid in q else "agreed"
+        else:
+            out.setdefault(k["ref"], "not_reviewed")
+    return out
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "export_new":
-        export_new(sys.argv[2])
+    if sys.argv[1] in ("export_xmodel", "score_xmodel"):
+        {"export_xmodel": export_xmodel, "score_xmodel": score_xmodel}[sys.argv[1]]()
+    elif sys.argv[1] in ("export_new", "export_recheck"):
+        {"export_new": export_new, "export_recheck": export_recheck}[sys.argv[1]](sys.argv[2])
     else:
         {"export": export, "export_crs": export_crs, "score": score}[sys.argv[1]]()

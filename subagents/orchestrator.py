@@ -197,6 +197,50 @@ def verify(paths):
     return out
 
 
+def write_twin_jobs(target_ratio=0.35, per_worker=96, slack=1.15, tag="tw"):
+    """Twin-only jobs: benign twins for already-generated, review-agreed attack lines that have none,
+    until each Haiku attack class has ~target_ratio twins per accepted attack record."""
+    import math
+    from subagents.review import status
+    tax, rv = taxonomy(), status()
+    prompt = (ROOT / "subagents/prompts/twins_v1.md").read_text()
+    jobs, k = [], 0
+    for cls in GAP_L7:
+        twinned, atk, tw = set(), [], 0
+        for fp in OUT.glob(f"benign_standard_traffic.*_{cls}.jsonl"):
+            ver = fp.name.split(".v", 1)[1].split("_", 1)[0]
+            for i, line in enumerate(open(fp)):
+                if not line.strip():
+                    continue
+                t = (json.loads(line).get("scenario") or {}).get("twin_of")
+                twinned.add(t if isinstance(t, str) else f"{cls}.v{ver}.jsonl:{t}")
+                tw += rv.get(f"{fp.name}:{i}") != "quarantined"
+        for fp in sorted(OUT.glob(f"{cls}.v*.jsonl")):
+            for i, line in enumerate(open(fp)):
+                ref = f"{fp.name}:{i}"
+                if line.strip() and rv.get(ref) == "agreed":
+                    atk.append(ref)
+        need = math.ceil(max(0, target_ratio * len(atk) - tw) * slack)
+        todo = [r for r in atk if r not in twinned][:need]
+        by_file = {}
+        for r in todo:
+            f, i = r.rsplit(":", 1)
+            by_file.setdefault(f, []).append(int(i))
+        chunks = [(f, ls[j:j + per_worker]) for f, ls in sorted(by_file.items()) for j in range(0, len(ls), per_worker)]
+        for f, ls in chunks:
+            job = {"class": cls, "source_path": str((OUT / f).relative_to(ROOT)), "source_lines": ls,
+                   "context_schema": CONTEXT_SCHEMA[cls], "scope": tax[cls]["scope"],
+                   "benign_counterexamples": tax[cls]["benign_counterexamples"],
+                   "out_path": str((OUT / f"benign_standard_traffic.v{tag}{k:03d}_{cls}.jsonl").relative_to(ROOT)),
+                   "telemetry_schema": "schemas/telemetry.schema.json", "instructions": prompt}
+            assert not (ROOT / job["out_path"]).exists(), job["out_path"]
+            p = JOBS / f"twins.{tag}{k:03d}_{cls}.job.json"
+            p.write_text(json.dumps(job, indent=1))
+            jobs.append(str(p.relative_to(ROOT)))
+            k += 1
+    return jobs
+
+
 def _neutralize(tel, key):
     """Apply the shared hostname-shortcut rewrite to every string in a telemetry object."""
     from data_pipeline.generate import neutralize_hosts, rng_for
@@ -304,7 +348,12 @@ def ingest(root=ROOT):
                 group = near_dup_group(cls, obj["telemetry"])
                 twin_of = (obj.get("scenario") or {}).get("twin_of")
                 fname = ref.split(":")[0]
-                if twin_of is not None and ".v" in fname and "_" in fname.split(".v", 1)[1]:
+                if isinstance(twin_of, str) and ":" in twin_of:  # twin-only jobs name the exact source line
+                    src_name, src_line = twin_of.rsplit(":", 1)
+                    src_lines = [x for x in open(OUT / src_name) if x.strip()] if (OUT / src_name).exists() else []
+                    if src_line.isdigit() and int(src_line) < len(src_lines):
+                        group = near_dup_group(src_name.split(".")[0], json.loads(src_lines[int(src_line)])["telemetry"])
+                elif twin_of is not None and ".v" in fname and "_" in fname.split(".v", 1)[1]:
                     # context-matched benign twin: same lineage group as its attack record (never split apart)
                     atk_cls = fname.split(".v", 1)[1].split("_", 1)[1].removesuffix(".jsonl")
                     atk_file = OUT / f"{atk_cls}.v{fname.split('.v', 1)[1].split('_', 1)[0]}.jsonl"

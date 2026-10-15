@@ -17,3 +17,6 @@ torchao==0.18.0
 # --- local data pipeline (.venv, Python 3.12) ---
 # transformers==5.17.0  (same pin: tokenizer fingerprint must match Colab)
 # pyyaml jsonschema pytest requests pyarrow pandas jinja2 huggingface_hub nbformat; torch (CPU) for collate checks
+
+# --- local evaluation only (eval.baselines), not installed on Colab ---
+scikit-learn==1.9.1

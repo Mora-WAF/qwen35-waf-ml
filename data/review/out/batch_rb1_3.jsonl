@@ -1,0 +1,115 @@
+{"rid": "x16692", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented OData filter with quoted literal from analyst connector; no sink-bound payload."}
+{"rid": "x16619", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Admin console user lookup with $eq operator on a display name; benign filter."}
+{"rid": "x17942", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Partner catalog search with plain SKU terms; no lookalike tokens."}
+{"rid": "x16230", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "CI SAML metadata import on documented admin endpoint; plain XML, no DOCTYPE."}
+{"rid": "x18017", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain payout history search text; no lookalike tokens."}
+{"rid": "x16748", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "API console query with SQL-like LIMIT and quotes on documented HS-code lookup."}
+{"rid": "x17961", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "End-user community search with security keyword as ordinary search text."}
+{"rid": "x17692", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "GraphQL IDE on localhost dev channel sends tautology-like term; ambiguous with sqli_classic."}
+{"rid": "x17339", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented fleet DSL with SQL-like predicates from authorized analyst IDE; parsed normally."}
+{"rid": "x17511", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Geocode request with plain address and documented encoding; no lookalike tokens."}
+{"rid": "x16293", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HR calendar export with plain text summary; no markup or payload syntax."}
+{"rid": "x17340", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented fleet DSL with ILIKE and comment token from authorized dev IDE; parsed."}
+{"rid": "x18005", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Help search with plain prose; exec is an ordinary word."}
+{"rid": "x16368", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented OData filter with boolean operators and no quotes; analytics client."}
+{"rid": "x17572", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Grafana PromQL panel query from viewer role; braces and regex are dashboard syntax."}
+{"rid": "x17850", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Transit alert search with plain text; no lookalike tokens."}
+{"rid": "x16570", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Patient intake answer with comparison symbol and semicolons; output encoded, no markup."}
+{"rid": "x17922", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Convenience store item search with plain terms."}
+{"rid": "x16887", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Developer tool sends documented lucene-style menu filter; operators, not an attack."}
+{"rid": "x17518", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Courier app crash upload with stack trace containing relative path tokens."}
+{"rid": "x17389", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "LMS course search with markup-like prefix typed as end-user search text."}
+{"rid": "x17789", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Statement search with colon and comma in plain prose; no operator syntax."}
+{"rid": "x16866", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Hotel results render with normal JSON cookie preferences and valid session signature."}
+{"rid": "x17169", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented MQTT shared-subscription wildcard filter from IoT SDK; valid filter."}
+{"rid": "x16487", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Scheduled dashboard refresh with plain filter expression and OAuth scope."}
+{"rid": "x16837", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "SMS template linter validates placeholders in authoring text; brace syntax is template syntax."}
+{"rid": "x17156", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "CMS editor saves KB draft containing filter operator examples in markdown."}
+{"rid": "x18011", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Rate search box with parentheses and percent sign from end-user search."}
+{"rid": "x17214", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Read-only reporting SQL WITH query from analyst CI client on replica."}
+{"rid": "x17342", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented fleet DSL with array and SQL-like predicates from authorized analyst IDE."}
+{"rid": "x16616", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Provider directory lookup with comma and period in a name; plain text."}
+{"rid": "x17077", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Supplier CLI uploads documented XML product feed to staging catalog write endpoint."}
+{"rid": "x16549", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Clinician FHIR encounter search with documented include parameters; in-scope token."}
+{"rid": "x16789", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HR doc viewer path is canonical and within root; no traversal."}
+{"rid": "x16411", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Support ticket email quoting HTML entities; authenticated mail gateway, ticket authoring."}
+{"rid": "x17574", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Grafana ratio PromQL query from viewer dashboard; parentheses are query syntax."}
+{"rid": "x17762", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Class schedule search with plain keyword."}
+{"rid": "x17514", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Geocode with percent-encoded UTF-8 street name, documented encoding."}
+{"rid": "x16510", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Signed IVR outcome callback with plain caller note; HMAC verified."}
+{"rid": "x16493", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Meter read CSV with signed numeric values from mTLS head-end export."}
+{"rid": "x17207", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Persisted registered GraphQL operation from storefront codegen CI."}
+{"rid": "x17484", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Read-only SELECT from sandbox SQL Lab on reporting replica."}
+{"rid": "x16389", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Withdrawal memo with traversal-like text; free text, no path sink, dev by literal rule."}
+{"rid": "x16181", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented JSON Patch remove on sandbox merchant settings; escaped pointer."}
+{"rid": "x17343", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Device shadow JSON Patch replace with escaped pointer; documented and authorized."}
+{"rid": "x18015", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Dispute case lookup with plain words."}
+{"rid": "x16964", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Scheduled BI export with BETWEEN filter; allow-listed report and service role."}
+{"rid": "x17796", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Help search with plain German words."}
+{"rid": "x17114", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented FHIR CarePlan search with include and sort parameters."}
+{"rid": "x16545", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Clinician FHIR patient lookup with apostrophe in surname; normal name value."}
+{"rid": "x17802", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Transaction search with punctuation in plain Spanish text."}
+{"rid": "x16547", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented FHIR Observation search with code list."}
+{"rid": "x16220", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Admin CLI audit query with field operators; documented admin search feature."}
+{"rid": "x17521", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "BI connector SELECT over documented read-only reporting route."}
+{"rid": "x17966", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Analytics event lookup with parentheses in event name; no injection syntax."}
+{"rid": "x16518", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Care agent name lookup with wildcard and ampersand; parameterized, end-user lookup text."}
+{"rid": "x17885", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Roaming help search with slash in plain prose."}
+{"rid": "x17955", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "FAQ search for plain prose about account deletion."}
+{"rid": "x17619", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Social search box text with boolean operators; user search input."}
+{"rid": "x17241", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Payment intent with idempotency key; normal JSON."}
+{"rid": "x16259", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Podcast publisher saves show notes with HTML entities via sanitizer; authoring feature."}
+{"rid": "x16439", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Direct message with escaped quotes in chat text."}
+{"rid": "x16874", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Fare alert rule with documented wildcard grammar; validation passed."}
+{"rid": "x16832", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Scheduled SQL report with LIKE pattern on replica; reporting query."}
+{"rid": "x17112", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented FHIR Condition search with include and sort."}
+{"rid": "x17967", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Analytics event lookup with percent sign in event name."}
+{"rid": "x16567", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Patient intake answer with markup-like tag; output encoded, not search text."}
+{"rid": "x16131", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "CMS preview text with comparison symbol and currency; no markup or payload."}
+{"rid": "x17276", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Calendar upload with folded RFC5545 lines and escaped text."}
+{"rid": "x16238", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Device shadow JSON Patch replace with escaped pointer; valid bearer."}
+{"rid": "x17466", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Signed webhook sandbox test delivery with plain note text."}
+{"rid": "x16656", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "fleetctl CLI sends field-scoped filter with operators on documented route."}
+{"rid": "x17402", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Waybill designer preview with URL-encoded JSON context; template design feature."}
+{"rid": "x16476", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Analytics SDK event with CSS selector and quotes; escaped output, not search text."}
+{"rid": "x17348", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "SDK telemetry query with JSONPath filter; documented selector dialect, service account."}
+{"rid": "x16999", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Persisted GraphQL hashtag query from allow-listed registry."}
+{"rid": "x17208", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Persisted registered GraphQL product list with date filter from codegen."}
+{"rid": "x17303", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Claims search box text with wildcard and negation operators; end-user lookup."}
+{"rid": "x16267", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Admin directory console LDAP filter with wildcard; documented read-only access-review lookup."}
+{"rid": "x17496", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Open-house ICS dry-run import with escaped separators; documented."}
+{"rid": "x16318", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Partner fare search with wildcard destination; documented SDK request."}
+{"rid": "x17373", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "SDK normalizes dot segment to in-root path; cache miss; no traversal."}
+{"rid": "x16211", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Telematics FNOL intake with HMAC auth; quoted narrative text, no sink."}
+{"rid": "x16191", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented bulk FHIR group export with system read scope."}
+{"rid": "x16195", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented bulk FHIR group export, same client, different resource types."}
+{"rid": "x16145", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "CI uptime probe with dot-dot segment normalized to health route; CI feature."}
+{"rid": "x16390", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Withdrawal memo with equals and markup-like tag; free text, no SQL sink."}
+{"rid": "x17570", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Address label with quoted word; plain label text."}
+{"rid": "x16842", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Fare search box with field operators and quotes; end-user filter text."}
+{"rid": "x17237", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Merchant portal GraphQL payout query from merchant-web; normal operation."}
+{"rid": "x17644", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Feed pagination with signed cursor; valid HMAC."}
+{"rid": "x17131", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Claims CSV dry-run with quoted name; documented import profile."}
+{"rid": "x18057", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Code review bot receives plain PR description; no injection content present."}
+{"rid": "x16458", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Admin group rule saves regex pattern; RE2-validated admin configuration feature."}
+{"rid": "x17978", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Tariff keyword search with plain text."}
+{"rid": "x17224", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Payee CSV dry-run import with quoted name; format-only IBAN check."}
+{"rid": "x16137", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Pricing CSV dry-run with apostrophe in product title."}
+{"rid": "x17748", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Help-centre search for env-var style snippet name; end-user search text."}
+{"rid": "x16353", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented OData restaurant filter with boolean operators; analytics client."}
+{"rid": "x16724", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Same-origin LTI deep link with allowlist match; nested encoding stays same-origin."}
+{"rid": "x16143", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "CI relevance runner sends traversal-like query in nightly suite; test feature."}
+{"rid": "x17260", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Patient portal results search with quoted phrase and NOT operator; end-user search."}
+{"rid": "x17111", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented FHIR DiagnosticReport search with include and sort."}
+{"rid": "x17606", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Survey worker GraphQL batch within depth and complexity limits; few aliases."}
+{"rid": "x17468", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Hotel search box with boolean operators and quotes; end-user search text."}
+{"rid": "x16224", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Admin CLI audit search with field operators and quotes; documented admin feature."}
+{"rid": "x17277", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Calendar upload with double dash in summary text; plain ICS text."}
+{"rid": "x16161", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "CMS bulk import of markdown table with comparison symbol; no markup payload."}
+{"rid": "x16634", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Admin SSO metadata upload with XML comment; plain XML in admin configuration."}
+{"rid": "x16559", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HEAD on documented appointment ICS feed; valid iCal."}
+{"rid": "x17292", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Portal appointments with signed session token cookie; normal traffic."}
+{"rid": "x16961", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Scheduled SLA report export with filter and allow-listed service role."}
+{"rid": "x16524", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Documented OData product query with escaped quote in brand; staging QA client."}
+{"rid": "x16638", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Admin role policy PATCH with JSON policy; no injection content."}
+{"rid": "x16870", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Fare alert rule with wildcard destination; documented, validation passed."}

@@ -66,6 +66,36 @@ def assign_splits(records, ratios=(0.8, 0.1, 0.1), seed=1337):
     return records
 
 
+def holdout_unit(rec):
+    """The generalisation unit a record belongs to, or None: a named Haiku scenario family, or a synthetic
+    flow variant other than the base profile. Seeded classes have none (their diversity is seed lineage)."""
+    m = rec["metadata"]
+    if m["generator"].startswith("haiku") and ":" in m["template_family"]:
+        fam = m["template_family"].split(":", 1)[1]
+        return None if fam == "v1_unlabelled" or fam.endswith("_benign") else fam
+    var = next((t.split(":", 1)[1] for t in m["mechanism_tags"] if t.startswith("variant:")), None)
+    return var if var and var != "base" and m["provenance"] == "synthetic" else None
+
+
+def holdout_unseen(records, frac=0.12):
+    """Pick whole families/variants per class for a test slice never seen in training (spec §8: reserve a
+    scenario family unseen during training). Returns the lineage groups to hold out; a group goes out when
+    any member's unit is held out, so benign twins leave with their attack record."""
+    units = defaultdict(set)
+    for r in records:
+        u = holdout_unit(r)
+        if u:
+            units[r["metadata"]["threat_type"]].add(u)
+    chosen = set()
+    for cls, us in units.items():
+        if len(us) < 3:
+            continue
+        ranked = sorted(us, key=lambda u: hashlib.sha256(f"{cls}|{u}".encode()).hexdigest())
+        chosen |= {(cls, u) for u in ranked[:max(1, int(len(us) * frac))]}
+    return {r["metadata"]["lineage_group"] for r in records
+            if (r["metadata"]["threat_type"], holdout_unit(r)) in chosen}
+
+
 def split_counts(records):
     c = defaultdict(lambda: defaultdict(int))
     for r in records:

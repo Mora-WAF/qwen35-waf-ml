@@ -1,95 +1,108 @@
 {
  "split_counts": {
   "ssrf_cloud_metadata": {
-   "train": 899,
-   "val_select": 56,
-   "test": 112,
-   "val_calib": 28,
-   "val_policy": 28
+   "train": 798,
+   "test": 99,
+   "val_policy": 25,
+   "val_select": 49,
+   "val_calib": 25,
+   "test_unseen": 127
   },
   "graphql_abuse": {
-   "train": 577,
-   "test": 70,
-   "val_policy": 18,
-   "val_calib": 18,
-   "val_select": 35
+   "train": 500,
+   "test": 63,
+   "val_policy": 15,
+   "val_calib": 17,
+   "val_select": 32,
+   "test_unseen": 91
   },
   "jwt_auth_bypass": {
-   "train": 643,
-   "val_calib": 20,
-   "test": 80,
-   "val_select": 40,
-   "val_policy": 20
+   "test": 72,
+   "train": 581,
+   "val_select": 36,
+   "val_policy": 18,
+   "val_calib": 18,
+   "test_unseen": 78
   },
   "bola_idor_enumeration": {
-   "train": 677,
-   "test": 85,
-   "val_select": 41,
-   "val_policy": 22,
-   "val_calib": 21
+   "test": 73,
+   "train": 594,
+   "val_policy": 20,
+   "val_select": 38,
+   "val_calib": 18,
+   "test_unseen": 103
   },
   "websocket_grpc_abuse": {
-   "train": 356,
-   "test": 44,
-   "val_calib": 11,
-   "val_select": 22,
-   "val_policy": 11
+   "train": 320,
+   "test": 39,
+   "val_calib": 10,
+   "val_select": 19,
+   "val_policy": 10,
+   "test_unseen": 46
   },
   "llm_prompt_injection": {
-   "train": 846,
-   "test": 105,
-   "val_calib": 26,
-   "val_policy": 26,
-   "val_select": 52
+   "train": 747,
+   "test": 93,
+   "val_calib": 23,
+   "val_select": 46,
+   "val_policy": 23,
+   "test_unseen": 123
   },
   "prototype_pollution": {
-   "train": 698,
-   "test": 86,
-   "val_select": 45,
-   "val_policy": 21,
-   "val_calib": 21
+   "test": 79,
+   "train": 623,
+   "val_select": 39,
+   "val_calib": 19,
+   "val_policy": 19,
+   "test_unseen": 92
   },
   "web_cache_poisoning": {
-   "val_calib": 22,
-   "train": 678,
-   "val_policy": 20,
-   "test": 83,
-   "val_select": 41
+   "train": 600,
+   "val_select": 36,
+   "test": 74,
+   "val_policy": 19,
+   "val_calib": 19,
+   "test_unseen": 96
   },
   "deserialization": {
-   "val_policy": 15,
-   "train": 408,
-   "test": 49,
+   "train": 359,
    "val_select": 25,
-   "val_calib": 12
+   "test": 46,
+   "val_policy": 11,
+   "val_calib": 11,
+   "test_unseen": 57
   },
   "csv_formula_injection": {
-   "train": 357,
-   "val_select": 22,
-   "val_policy": 11,
-   "test": 44,
-   "val_calib": 11
+   "train": 315,
+   "test": 39,
+   "val_calib": 10,
+   "val_select": 19,
+   "val_policy": 10,
+   "test_unseen": 52
   },
   "benign_hard_negative_dev": {
-   "val_select": 117,
-   "train": 1881,
-   "test": 235,
-   "val_calib": 59,
-   "val_policy": 59
+   "test": 258,
+   "train": 2071,
+   "val_policy": 64,
+   "val_select": 129,
+   "val_calib": 65,
+   "test_unseen": 363
   },
   "benign_hard_negative_search": {
-   "train": 1067,
-   "test": 133,
-   "val_calib": 33,
-   "val_policy": 33,
-   "val_select": 67
+   "val_policy": 30,
+   "train": 961,
+   "test": 120,
+   "val_select": 60,
+   "val_calib": 30,
+   "test_unseen": 162
   },
   "benign_standard_traffic": {
-   "train": 4472,
-   "val_select": 272,
-   "val_policy": 141,
-   "test": 574,
-   "val_calib": 138
+   "train": 5347,
+   "val_policy": 165,
+   "test": 683,
+   "val_select": 332,
+   "val_calib": 165,
+   "test_unseen": 313
   },
   "sqli_classic": {
    "test": 94,
@@ -114,10 +127,10 @@
   },
   "xss_reflected_stored": {
    "train": 802,
+   "val_policy": 25,
    "val_select": 49,
    "test": 99,
-   "val_calib": 25,
-   "val_policy": 25
+   "val_calib": 25
   },
   "xss_dom_polyglot": {
    "train": 508,
@@ -128,24 +141,24 @@
   },
   "rce_cmd_injection": {
    "train": 703,
-   "val_policy": 21,
    "val_select": 43,
+   "val_calib": 22,
    "test": 86,
-   "val_calib": 22
+   "val_policy": 21
   },
   "ssti": {
    "train": 601,
-   "test": 75,
-   "val_policy": 18,
    "val_select": 37,
-   "val_calib": 19
+   "test": 74,
+   "val_calib": 20,
+   "val_policy": 18
   },
   "xxe": {
-   "train": 395,
-   "val_calib": 12,
-   "test": 47,
-   "val_policy": 23,
-   "val_select": 23
+   "train": 393,
+   "val_select": 27,
+   "val_policy": 13,
+   "test": 51,
+   "val_calib": 16
   },
   "crlf_header_injection": {
    "train": 300,
@@ -162,11 +175,11 @@
    "val_policy": 10
   },
   "path_traversal_lfi": {
-   "train": 809,
-   "test": 96,
-   "val_select": 47,
+   "train": 800,
+   "test": 100,
+   "val_select": 48,
    "val_policy": 24,
-   "val_calib": 24
+   "val_calib": 28
   },
   "http_request_smuggling": {
    "train": 703,
@@ -183,18 +196,20 @@
    "test": 60
   },
   "syn_flood_ddos": {
-   "train": 800,
-   "test": 100,
-   "val_policy": 25,
-   "val_select": 50,
-   "val_calib": 25
+   "train": 672,
+   "val_select": 42,
+   "test": 84,
+   "val_calib": 21,
+   "val_policy": 21,
+   "test_unseen": 160
   },
   "udp_amplification": {
-   "train": 600,
-   "test": 75,
-   "val_select": 37,
-   "val_policy": 19,
-   "val_calib": 19
+   "train": 495,
+   "test": 61,
+   "val_calib": 15,
+   "val_select": 31,
+   "val_policy": 15,
+   "test_unseen": 133
   },
   "slowloris_slowhttp": {
    "train": 635,
@@ -204,50 +219,52 @@
    "val_calib": 9
   },
   "port_scan_recon": {
-   "train": 770,
-   "val_calib": 48,
-   "test": 76,
-   "val_policy": 30,
-   "val_select": 25
+   "train": 737,
+   "test": 139,
+   "val_policy": 34,
+   "val_calib": 13,
+   "val_select": 26
   },
   "credential_stuffing_bruteforce": {
-   "train": 555,
-   "test": 137,
-   "val_calib": 38,
+   "train": 576,
+   "test": 114,
+   "val_select": 23,
    "val_policy": 12,
-   "val_select": 25
+   "val_calib": 12,
+   "test_unseen": 30
   },
   "c2_beaconing_anomaly": {
    "train": 400,
+   "val_calib": 13,
    "test": 50,
-   "val_policy": 12,
    "val_select": 25,
-   "val_calib": 13
+   "val_policy": 12
   },
   "dns_tunneling_exfil": {
-   "test": 50,
-   "val_calib": 13,
    "train": 400,
    "val_select": 25,
+   "val_calib": 13,
+   "test": 50,
    "val_policy": 12
   },
   "tls_ja4_ua_spoofing": {
    "train": 400,
-   "val_policy": 12,
-   "val_calib": 13,
    "test": 50,
-   "val_select": 25
+   "val_select": 25,
+   "val_calib": 13,
+   "val_policy": 12
   },
   "benign_high_rate_legit": {
-   "train": 1000,
-   "test": 125,
-   "val_select": 63,
-   "val_policy": 31,
-   "val_calib": 31
+   "train": 961,
+   "test": 120,
+   "val_select": 60,
+   "val_policy": 30,
+   "val_calib": 30,
+   "test_unseen": 49
   }
  },
  "provenance": {
-  "synthetic": 22405,
+  "synthetic": 24442,
   "hybrid": 9500,
   "observed": 1459
  },

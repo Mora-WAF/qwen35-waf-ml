@@ -320,8 +320,8 @@ classes:
     quota: 10000
     is_benign: true
     input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
-    scope: "Ordinary network flows and HTTP requests to common services, the default negative class."
-    exclusions: ["Any observation with attack-class evidence belongs to that attack class", "Lookalike traffic from developer tools belongs to benign_hard_negative_dev"]
+    scope: "Ordinary network flows and HTTP requests to common services, the default negative class. Decision rule for benign HTTP: no injection-, script-, shell-, template- or traversal-lookalike content in any field -> this class; lookalike content -> benign_hard_negative_search if it is end-user search/filter text, otherwise benign_hard_negative_dev."
+    exclusions: ["Any observation with attack-class evidence belongs to that attack class", "Benign requests whose fields carry attack-lookalike content belong to benign_hard_negative_dev or benign_hard_negative_search", "Legitimate traffic whose rate resembles a flood or scan belongs to benign_high_rate_legit"]
     required_evidence: ["Complete schema-valid observation at the decision boundary", "No attack-class evidence in the available fields", "Field availability and truncation flags recorded"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Routine JSON API call with ordinary query parameters", "Browser loading a page with inline scripts from its own origin"]
@@ -330,8 +330,8 @@ classes:
     quota: 10000
     is_benign: true
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Developer-tool traffic that resembles injection or traversal syntax, such as code snippets, debug payloads, and API clients."
-    exclusions: ["Requests carrying real exploit payloads aimed at a sink belong to the matching attack class", "Ordinary browsing belongs to benign_standard_traffic"]
+    scope: "Benign requests whose body or parameters carry attack-lookalike content (SQL, script or markup, shell, template syntax, paths, encoded blobs, payload text) as the intended content of a developer-, admin- or content-authoring feature: code review, CI, API consoles, reporting queries, documentation and CMS editors, snippet stores, support tickets quoting code."
+    exclusions: ["Requests carrying real exploit payloads aimed at a sink belong to the matching attack class", "Requests without attack-lookalike content belong to benign_standard_traffic, even when sent by a developer tool", "Lookalike text typed into an end-user search or filter box belongs to benign_hard_negative_search"]
     required_evidence: ["Developer context such as IDE, CI, or API client identity", "Payload syntax matched to a documented developer feature", "Trusted endpoint purpose context"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["API client sending a SQL query to a documented reporting endpoint", "Git client pushing a commit whose message contains shell syntax"]
@@ -340,8 +340,8 @@ classes:
     quota: 5000
     is_benign: true
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Search and query text containing operators, quotes, or security keywords as ordinary user input."
-    exclusions: ["Search text carrying a real injection payload belongs to the matching attack class", "Developer API traffic belongs to benign_hard_negative_dev"]
+    scope: "End-user search, filter or lookup text containing operators, quotes, markup or security keywords as ordinary user input (search boxes, catalog filters, help-centre and site search)."
+    exclusions: ["Search text carrying a real injection payload belongs to the matching attack class", "Lookalike content in developer, admin or authoring features belongs to benign_hard_negative_dev", "Search text with no lookalike tokens belongs to benign_standard_traffic"]
     required_evidence: ["Search endpoint context and query parameter name", "Terms consistent with natural-language search intent", "Encoding and decoded view recorded"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Spreadsheet help search for select all", "Course catalog search for sql injection"]

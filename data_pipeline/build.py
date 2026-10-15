@@ -119,22 +119,28 @@ def enforce_budget(recs):
 
 
 def build(per_class=24, ratios=(0.8, 0.1, 0.1), frac=None, prefix="pilot_"):
-    from data_pipeline.dedup_and_split import (dedup, assign_splits, split_counts,
+    from data_pipeline.dedup_and_split import (dedup, assign_splits, split_counts, holdout_unseen,
                                                cross_split_overlap, lineage_overlap)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "manifest.json").unlink(missing_ok=True)  # a crashed build must never leave a gate-passable manifest
     recs, deficits, haiku_report = collect(per_class, frac)
     recs, dropped = dedup(recs)
     recs, overflow = enforce_budget(recs)
-    recs = assign_splits(recs, ratios)
+    unseen = holdout_unseen(recs)
+    recs = assign_splits([r for r in recs if r["metadata"]["lineage_group"] not in unseen], ratios) + \
+        [r for r in recs if r["metadata"]["lineage_group"] in unseen]
+    for r in recs:
+        if r["metadata"]["lineage_group"] in unseen:
+            r["metadata"]["split"] = "test_unseen"
     xo, lo = cross_split_overlap(recs), lineage_overlap(recs)
     assert not lo, f"lineage overlap across splits: {list(lo)[:5]}"
     assert not xo, f"content overlap across splits: {len(xo)} hashes"
 
-    by_split = {"train": [], "val": [], "test": []}
+    by_split = {"train": [], "val": [], "test": [], "test_unseen": []}
     for r in recs:
-        by_split[r["metadata"]["split"].split("_")[0]].append(r)
-    files = {k: f"{prefix}{k}.jsonl" for k in ("train", "val", "test")}
+        sp = r["metadata"]["split"]
+        by_split[sp if sp == "test_unseen" else sp.split("_")[0]].append(r)
+    files = {k: f"{prefix}{k}.jsonl" for k in by_split}
     manifest = {"mode": prefix.rstrip("_"), "per_class": per_class, "quota_fraction": frac, "total": len(recs), "dropped_exact_dup": dropped,
                 "rejected_token_overflow": overflow,
                 "files": {}, "deficits": deficits, "haiku_jobs": haiku_report,
