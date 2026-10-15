@@ -1,0 +1,141 @@
+{
+ "mode": "fast",
+ "per_class": 40,
+ "quota_fraction": 0.25,
+ "total": 35691,
+ "dropped_exact_dup": 42,
+ "rejected_token_overflow": {
+  "graphql_abuse": 67,
+  "jwt_auth_bypass": 8,
+  "websocket_grpc_abuse": 3
+ },
+ "files": {
+  "fast_train.jsonl": {
+   "records": 27205,
+   "sha256": "9eab61215413306dee2761f21d3542c7a9065b512b6d801cb003563d7ff79521"
+  },
+  "fast_val.jsonl": {
+   "records": 3169,
+   "sha256": "f1543acf6d9fc9a380801e16aab3aa377e8a67e92cd24fcd5dc4688606bc6494"
+  },
+  "fast_test.jsonl": {
+   "records": 3242,
+   "sha256": "58860465ca333aa7dfd3034f4b24d20623776201b54ab562d7236de2b0f82661"
+  },
+  "fast_test_unseen.jsonl": {
+   "records": 2075,
+   "sha256": "f82ccb84a5c00e6508096df41d9590d226efadf1c197afee5b1660da7d21cd06"
+  }
+ },
+ "deficits": {
+  "_mixed_observed_synthetic": {
+   "slowloris_slowhttp": {
+    "observed_groups": 1,
+    "observed": 375,
+    "synthetic": 375
+   },
+   "port_scan_recon": {
+    "observed_groups": 1,
+    "observed": 500,
+    "synthetic": 500
+   },
+   "credential_stuffing_bruteforce": {
+    "observed_groups": 1,
+    "observed": 500,
+    "synthetic": 500
+   },
+   "benign_standard_traffic": {
+    "observed_groups": 6000,
+    "observed": 416,
+    "synthetic": 417
+   }
+  }
+ },
+ "haiku_jobs": {
+  "ssrf_cloud_metadata": {
+   "status": "ok",
+   "accepted": 1123,
+   "rejected": 0,
+   "quarantined_by_review": 21
+  },
+  "graphql_abuse": {
+   "status": "ok",
+   "accepted": 785,
+   "rejected": 0,
+   "quarantined_by_review": 263
+  },
+  "jwt_auth_bypass": {
+   "status": "ok",
+   "accepted": 811,
+   "rejected": 0,
+   "quarantined_by_review": 333
+  },
+  "bola_idor_enumeration": {
+   "status": "ok",
+   "accepted": 846,
+   "rejected": 0,
+   "quarantined_by_review": 10
+  },
+  "websocket_grpc_abuse": {
+   "status": "ok",
+   "accepted": 447,
+   "rejected": 0,
+   "quarantined_by_review": 121
+  },
+  "llm_prompt_injection": {
+   "status": "ok",
+   "accepted": 1055,
+   "rejected": 0,
+   "quarantined_by_review": 17
+  },
+  "prototype_pollution": {
+   "status": "ok",
+   "accepted": 871,
+   "rejected": 0,
+   "quarantined_by_review": 9
+  },
+  "web_cache_poisoning": {
+   "status": "ok",
+   "accepted": 844,
+   "rejected": 0,
+   "quarantined_by_review": 12
+  },
+  "deserialization": {
+   "status": "ok",
+   "accepted": 509,
+   "rejected": 0,
+   "quarantined_by_review": 83
+  },
+  "csv_formula_injection": {
+   "status": "ok",
+   "accepted": 445,
+   "rejected": 0,
+   "quarantined_by_review": 27
+  },
+  "benign_hard_negative_dev": {
+   "status": "ok",
+   "accepted": 2950,
+   "rejected": 0,
+   "quarantined_by_review": 1170
+  },
+  "benign_hard_negative_search": {
+   "status": "ok",
+   "accepted": 1363,
+   "rejected": 0,
+   "quarantined_by_review": 277
+  },
+  "benign_standard_traffic": {
+   "status": "ok",
+   "accepted": 2826,
+   "rejected": 0,
+   "quarantined_by_review": 268
+  }
+ },
+ "cross_split_overlap": 0,
+ "lineage_overlap": 0,
+ "limitations": [
+  "CIC-IDS2017 attack classes are single campaigns (one lineage group each); they land wholly in one split, test coverage for those classes comes from NF-ToN or synthetic",
+  "synthetic flow/benign/haiku records are independent draws (own lineage group) but share per-class template families across splits; no unseen-family holdout in pilot",
+  "near-duplicate (non-exact) seed variants not yet clustered"
+ ]
+}

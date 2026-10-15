@@ -1,0 +1,665 @@
+{
+ "models": [
+  "codex"
+ ],
+ "items": 300,
+ "answered": {
+  "codex": 300
+ },
+ "agreement_35class": {
+  "codex": 0.82
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 0.857
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {
+   "codex": 0.82
+  },
+  "benign_standard_traffic": {},
+  "bola_idor_enumeration": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {
+   "codex": 1.0
+  },
+  "crlf_header_injection": {},
+  "csv_formula_injection": {},
+  "deserialization": {},
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http_request_smuggling": {},
+  "jwt_auth_bypass": {},
+  "ldap_xpath_injection": {},
+  "llm_prompt_injection": {},
+  "nosqli": {},
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {},
+  "port_scan_recon": {
+   "codex": 1.0
+  },
+  "prototype_pollution": {},
+  "rce_cmd_injection": {},
+  "slowloris_slowhttp": {
+   "codex": 0.98
+  },
+  "sqli_classic": {},
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {},
+  "syn_flood_ddos": {},
+  "tls_ja4_ua_spoofing": {
+   "codex": 0.3
+  },
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {},
+  "xss_dom_polyglot": {},
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 54,
+ "contested_by_class": {
+  "tls_ja4_ua_spoofing": 42,
+  "benign_high_rate_legit": 11,
+  "slowloris_slowhttp": 1
+ },
+ "contested": [
+  {
+   "rid": "g00002",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000456",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00005",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000897",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00009",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000126",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00010",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000288",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00016",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000602",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00023",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000917",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00027",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000801",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00035",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000516",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00045",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000250",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00048",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:001170",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00049",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000296",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00228",
+   "label": "slowloris_slowhttp",
+   "id": "obs:cic_ids2017_mirror:1049851",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00240",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000200",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00242",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000455",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00243",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000132",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00244",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000115",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00245",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000388",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00247",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000158",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00248",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000042",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00250",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000238",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00251",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000209",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00252",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000037",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00254",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000371",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00255",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000244",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00256",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000424",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00257",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000298",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00258",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000033",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00259",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000102",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00260",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000286",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00263",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000465",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00266",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000085",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00267",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000108",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00268",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000485",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00269",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000029",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00270",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000261",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00271",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000174",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00273",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000342",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00274",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000233",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00275",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000012",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00276",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000304",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00278",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000223",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00279",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000035",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00280",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000488",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00283",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000441",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00284",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000484",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00285",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000097",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00287",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000303",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00288",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000349",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00291",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000392",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00293",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000067",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00295",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000030",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00297",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000476",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00298",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000440",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00299",
+   "label": "tls_ja4_ua_spoofing",
+   "id": "gen:flow:tls_ja4_ua_spoofing:000466",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

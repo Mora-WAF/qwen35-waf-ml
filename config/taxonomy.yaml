@@ -311,8 +311,8 @@ classes:
     is_benign: false
     input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
     scope: "TLS fingerprint or user agent that does not match the measured client stack, used to impersonate a browser."
-    exclusions: ["A fingerprint mismatch alone is not malicious", "Standard clients with unusual but benign fingerprints"]
-    required_evidence: ["Measured JA4 or TLS fingerprint from the observed handshake", "Justified mapping from fingerprint to claimed client", "User agent string preserved as received"]
+    exclusions: ["A fingerprint mismatch explained by a known middlebox (TLS inspection proxy, carrier optimizer) is not malicious", "A mismatch without impersonation behaviour (UA rotation, automation-rate requests) is not enough", "Standard clients with unusual but benign fingerprints"]
+    required_evidence: ["Measured JA4 or TLS fingerprint from the observed handshake", "Justified mapping from fingerprint to claimed client", "User agent string preserved as received", "Client behaviour in the window (user-agent rotation, request rate)"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Corporate proxy re-encrypting traffic with a different TLS stack", "Enterprise SDK sending a generic user agent"]
   benign_standard_traffic:

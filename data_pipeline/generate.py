@@ -468,6 +468,10 @@ def tls_context(r, kind):
                    "ua_claimed_family": ua_fam if ua_fam in TLS_BROWSERS else "non_browser"}}
     if kind == "proxy":
         ctx["egress"] = {"known_tls_inspection": True, "device": stack}
+    # client behaviour in the window: impersonating tools rotate UAs at automation pace; a proxy carries many
+    # users (many UAs) but is a known device; ordinary clients keep one or two
+    uas, rpm = {"spoof": ((3, 40), (30, 600)), "proxy": ((8, 120), (20, 400)), "match": ((1, 2), (1, 60))}[kind]
+    ctx["client_window_10m"] = {"distinct_user_agents": _log_uniform(r, *uas), "requests_per_min": _log_uniform(r, *rpm)}
     return ctx
 
 

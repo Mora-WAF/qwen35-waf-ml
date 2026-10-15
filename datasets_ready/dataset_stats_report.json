@@ -1,35 +1,35 @@
 {
  "split_counts": {
   "ssrf_cloud_metadata": {
-   "train": 798,
    "test": 99,
-   "val_policy": 25,
+   "train": 798,
    "val_select": 49,
    "val_calib": 25,
+   "val_policy": 25,
    "test_unseen": 127
   },
   "graphql_abuse": {
-   "train": 500,
+   "train": 502,
    "test": 63,
+   "val_calib": 16,
+   "val_select": 31,
    "val_policy": 15,
-   "val_calib": 17,
-   "val_select": 32,
    "test_unseen": 91
   },
   "jwt_auth_bypass": {
-   "test": 72,
    "train": 581,
-   "val_select": 36,
    "val_policy": 18,
    "val_calib": 18,
+   "test": 72,
+   "val_select": 36,
    "test_unseen": 78
   },
   "bola_idor_enumeration": {
-   "test": 73,
-   "train": 594,
-   "val_policy": 20,
-   "val_select": 38,
+   "train": 592,
    "val_calib": 18,
+   "val_select": 39,
+   "test": 75,
+   "val_policy": 19,
    "test_unseen": 103
   },
   "websocket_grpc_abuse": {
@@ -41,26 +41,26 @@
    "test_unseen": 46
   },
   "llm_prompt_injection": {
-   "train": 747,
+   "train": 746,
+   "val_policy": 24,
    "test": 93,
-   "val_calib": 23,
    "val_select": 46,
-   "val_policy": 23,
+   "val_calib": 23,
    "test_unseen": 123
   },
   "prototype_pollution": {
-   "test": 79,
-   "train": 623,
-   "val_select": 39,
-   "val_calib": 19,
+   "train": 625,
+   "val_select": 40,
    "val_policy": 19,
+   "test": 76,
+   "val_calib": 19,
    "test_unseen": 92
   },
   "web_cache_poisoning": {
    "train": 600,
+   "val_policy": 18,
    "val_select": 36,
-   "test": 74,
-   "val_policy": 19,
+   "test": 75,
    "val_calib": 19,
    "test_unseen": 96
   },
@@ -97,11 +97,11 @@
    "test_unseen": 162
   },
   "benign_standard_traffic": {
-   "train": 5354,
-   "val_policy": 159,
-   "test": 684,
-   "val_select": 336,
-   "val_calib": 166,
+   "train": 5355,
+   "val_select": 343,
+   "test": 685,
+   "val_calib": 162,
+   "val_policy": 154,
    "test_unseen": 313
   },
   "sqli_classic": {
@@ -141,17 +141,17 @@
   },
   "rce_cmd_injection": {
    "train": 703,
+   "val_policy": 21,
    "val_select": 43,
-   "val_calib": 22,
    "test": 86,
-   "val_policy": 21
+   "val_calib": 22
   },
   "ssti": {
    "train": 601,
+   "val_policy": 18,
    "val_select": 37,
-   "test": 74,
-   "val_calib": 20,
-   "val_policy": 18
+   "val_calib": 19,
+   "test": 75
   },
   "xxe": {
    "train": 401,
@@ -175,11 +175,11 @@
    "val_policy": 10
   },
   "path_traversal_lfi": {
-   "train": 800,
-   "test": 100,
-   "val_select": 48,
+   "train": 803,
+   "test": 102,
    "val_policy": 24,
-   "val_calib": 28
+   "val_select": 47,
+   "val_calib": 24
   },
   "http_request_smuggling": {
    "train": 703,
@@ -207,8 +207,8 @@
    "train": 495,
    "test": 61,
    "val_calib": 15,
-   "val_select": 31,
    "val_policy": 15,
+   "val_select": 31,
    "test_unseen": 133
   },
   "slowloris_slowhttp": {
@@ -219,11 +219,11 @@
    "val_calib": 9
   },
   "port_scan_recon": {
-   "train": 753,
-   "test": 99,
-   "val_select": 50,
-   "val_calib": 34,
-   "val_policy": 13
+   "train": 900,
+   "test": 50,
+   "val_policy": 12,
+   "val_select": 25,
+   "val_calib": 13
   },
   "credential_stuffing_bruteforce": {
    "train": 846,
@@ -266,7 +266,7 @@
  "provenance": {
   "synthetic": 24442,
   "hybrid": 9500,
-  "observed": 1698
+  "observed": 1749
  },
  "classes_present": [
   "benign_hard_negative_dev",
