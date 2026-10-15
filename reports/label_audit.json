@@ -1,13 +1,13 @@
 {
- "reviewed": 23662,
- "items": 23662,
+ "reviewed": 24522,
+ "items": 24522,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
-   "agree": 3018,
-   "insufficient": 154,
-   "disagree": 2733,
-   "agreement": 0.52
+   "agree": 3151,
+   "insufficient": 177,
+   "disagree": 2800,
+   "agreement": 0.53
   },
   "benign_hard_negative_search": {
    "agree": 1365,
@@ -16,24 +16,24 @@
    "agreement": 0.71
   },
   "benign_standard_traffic": {
-   "agree": 4031,
-   "insufficient": 209,
-   "disagree": 264,
-   "agreement": 0.94
+   "agree": 4234,
+   "insufficient": 259,
+   "disagree": 361,
+   "agreement": 0.92
   },
   "bfla_admin_function_probing": {
-   "agree": 576,
+   "agree": 616,
    "insufficient": 0,
    "agreement": 1.0
   },
   "bola_idor_enumeration": {
-   "agree": 848,
+   "agree": 888,
    "insufficient": 4,
    "disagree": 8,
    "agreement": 0.99
   },
   "bopla_mass_assignment": {
-   "agree": 575,
+   "agree": 615,
    "insufficient": 0,
    "disagree": 1,
    "agreement": 1.0
@@ -80,19 +80,19 @@
    "agreement": 0.8
   },
   "llm_prompt_injection": {
-   "agree": 1060,
+   "agree": 1100,
    "insufficient": 6,
    "disagree": 12,
    "agreement": 0.99
   },
   "malicious_file_upload_webshell": {
-   "agree": 568,
+   "agree": 608,
    "insufficient": 13,
    "disagree": 8,
    "agreement": 0.99
   },
   "mcp_agentic_tool_abuse": {
-   "agree": 572,
+   "agree": 612,
    "insufficient": 8,
    "disagree": 4,
    "agreement": 0.99
@@ -142,8 +142,8 @@
    "agreement": 1.0
   },
   "ssrf_cloud_metadata": {
-   "agree": 1129,
-   "insufficient": 6,
+   "agree": 1169,
+   "insufficient": 7,
    "disagree": 15,
    "agreement": 0.99
   },
@@ -170,13 +170,13 @@
    "agreement": 1.0
   },
   "xss_reflected_stored": {
-   "agree": 18,
+   "agree": 58,
    "insufficient": 5,
    "disagree": 2,
-   "agreement": 0.9
+   "agreement": 0.97
   },
   "xxe": {
-   "agree": 10,
+   "agree": 50,
    "insufficient": 0,
    "agreement": 1.0
   }
@@ -185,7 +185,7 @@
   [
    "benign_hard_negative_dev",
    "benign_standard_traffic",
-   1877
+   1916
   ],
   [
    "benign_hard_negative_dev",
@@ -213,6 +213,11 @@
    90
   ],
   [
+   "benign_standard_traffic",
+   "benign_high_rate_legit",
+   75
+  ],
+  [
    "websocket_grpc_abuse",
    "benign_standard_traffic",
    36
@@ -226,6 +231,11 @@
    "benign_hard_negative_dev",
    "csv_formula_injection",
    33
+  ],
+  [
+   "benign_hard_negative_dev",
+   "mcp_agentic_tool_abuse",
+   28
   ],
   [
    "graphql_abuse",
@@ -264,24 +274,14 @@
   ],
   [
    "benign_standard_traffic",
-   "llm_prompt_injection",
-   11
-  ],
-  [
-   "websocket_grpc_abuse",
-   "bola_idor_enumeration",
-   10
-  ],
-  [
-   "websocket_grpc_abuse",
-   "slowloris_slowhttp",
-   10
+   "bfla_admin_function_probing",
+   16
   ],
   [
    "benign_standard_traffic",
-   "bola_idor_enumeration",
-   10
+   "llm_prompt_injection",
+   11
   ]
  ],
- "quarantined": 4651
+ "quarantined": 4852
 }

@@ -52,11 +52,26 @@ def make_collate(pad_id):
     return collate
 
 
-def make_args(out, max_steps=-1, save_every=250, smoke=False, seed=3407, evaluate=True):
+EFFECTIVE_BATCH = 16
+
+
+def batch_for_gpu(total_gb=None):
+    """Per-device batch that fits the GPU; gradient accumulation keeps the effective batch at 16.
+    T4 peaked at 10.7 GB with batch 1 (fp16, 16-bit weights ~9 GB), so the headroom is activations only."""
+    if total_gb is None:
+        total_gb = torch.cuda.get_device_properties(0).total_memory / 2**30
+    # ponytail: fixed memory tiers, not a probe; raise a tier only after a dry run shows the peak
+    return 1 if total_gb < 20 else 2 if total_gb < 30 else 4 if total_gb < 60 else 8
+
+
+def make_args(out, max_steps=-1, save_every=250, smoke=False, seed=3407, evaluate=True, per_device=None):
     from transformers import TrainingArguments
     bf16 = dtype_is_bf16()
+    per_device = per_device or batch_for_gpu()
+    assert per_device > 0 and EFFECTIVE_BATCH % per_device == 0, f"per-device batch must divide {EFFECTIVE_BATCH}"
     return TrainingArguments(
-        output_dir=out, per_device_train_batch_size=1, gradient_accumulation_steps=16,
+        output_dir=out, per_device_train_batch_size=per_device, gradient_accumulation_steps=EFFECTIVE_BATCH // per_device,
+        train_sampling_strategy="group_by_length" if per_device > 1 else "random",  # less padding when batch > 1
         num_train_epochs=1, max_steps=max_steps, learning_rate=1e-4, lr_scheduler_type="cosine",
         warmup_steps=0.05,  # transformers v5: a float in [0, 1) is a ratio of total steps
         weight_decay=0.01, max_grad_norm=1.0, optim="adamw_8bit",
@@ -119,3 +134,9 @@ def class_logprobs(model, tok, messages, suffixes):
         s = first[r[0]].item() + sum(nxt[i, j - 1, r[j]].item() for j in range(1, len(r)))
         scores.append(shared + s)
     return scores
+
+
+if __name__ == "__main__":  # self-check of the tiers (no GPU needed)
+    assert [batch_for_gpu(g) for g in (15, 22.5, 40, 80)] == [1, 2, 4, 8]
+    assert all(EFFECTIVE_BATCH % batch_for_gpu(g) == 0 for g in (15, 22.5, 40, 80))
+    print("ok")

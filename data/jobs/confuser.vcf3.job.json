@@ -1,0 +1,72 @@
+{
+ "group": {
+  "mcp_agentic_tool_abuse": {
+   "scope": "Abuse of an AI agent's tool layer (MCP JSON-RPC or similar): tool calls whose arguments leave the granted scope (files, internal URLs, shell), poisoned tool descriptions, or tool output that steers the agent into unrequested calls.",
+   "exclusions": [
+    "Untrusted text that only tries to override the model's instructions, with no tool call or tool metadata, belongs to llm_prompt_injection",
+    "Tool calls inside the manifest's granted scope for the user's task",
+    "Traversal, SSRF or command payloads sent to an ordinary HTTP endpoint with no agent tool layer"
+   ],
+   "required_evidence": [
+    "Tool call or tool listing as sent over the agent protocol",
+    "Tool manifest with granted scopes or allowed resources",
+    "Agent task or trust-boundary context showing where the argument text came from"
+   ],
+   "context_schema": [
+    "context.tool_manifest",
+    "context.trust_boundary",
+    "context.agent_task",
+    "context.tool_call"
+   ]
+  },
+  "llm_prompt_injection": {
+   "scope": "Untrusted input that tries to override an LLM's instructions, leak its system prompt, or hijack tool use.",
+   "exclusions": [
+    "Quoted security discussion or research text is benign",
+    "Ordinary user questions with no instruction override",
+    "Agent tool calls, tool descriptions or tool results belong to mcp_agentic_tool_abuse"
+   ],
+   "required_evidence": [
+    "Task description and intended model role",
+    "Trust-boundary context showing which text is untrusted input",
+    "Instruction-override phrasing located in an untrusted field"
+   ],
+   "context_schema": [
+    "context.trust_boundary",
+    "context.task",
+    "context.untrusted_text_location"
+   ]
+  },
+  "ssrf_cloud_metadata": {
+   "scope": "Server-side fetch targets pointing at internal networks or cloud metadata addresses.",
+   "exclusions": [
+    "Redirect parameters that only send users to external sites belong to open_redirect_cors",
+    "XML entity fetches with no fetch target belong to xxe",
+    "Internal fetch targets in an AI agent tool call belong to mcp_agentic_tool_abuse"
+   ],
+   "required_evidence": [
+    "URL-bearing parameter consumed by a server-side fetch",
+    "Target host resolving to an internal or metadata address range",
+    "Fetch behavior or parser context from trusted app config"
+   ],
+   "context_schema": [
+    "context.fetch_config",
+    "context.resolution"
+   ]
+  }
+ },
+ "separating_rule": "Use the same kind of target in all three (e.g. an internal or metadata address, a local file, a command). mcp: the target arrives inside an agent tool call, tool description or tool result over the agent protocol, outside the manifest's granted scope. llm_prompt_injection: untrusted text in a chat/LLM input tries to override instructions; no tool call or tool metadata in the request. ssrf_cloud_metadata: an ordinary HTTP API parameter consumed by a server-side fetch points at the internal or metadata address; no agent layer.",
+ "count": 20,
+ "focus_domains": [
+  "HR/internal tools",
+  "CI/CD and developer tooling",
+  "telecom self-care"
+ ],
+ "out_paths": {
+  "mcp_agentic_tool_abuse": "data/jobs/out/mcp_agentic_tool_abuse.vcf3.jsonl",
+  "llm_prompt_injection": "data/jobs/out/llm_prompt_injection.vcf3.jsonl",
+  "ssrf_cloud_metadata": "data/jobs/out/ssrf_cloud_metadata.vcf3.jsonl"
+ },
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/confusers_v1.md"
+}

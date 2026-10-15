@@ -254,3 +254,17 @@ def test_calibration_recovers_temperature_and_respects_hn_constraint():
     hard_neg = np.array([False, True, False, False, False, False])
     tau, r = choose_tau(softmax(logits), y, benign, hard_neg, 0.01)
     assert r["hard_negative_false_intervention"] <= 0.01 and 0 <= tau <= 1
+
+
+def test_make_args_builds_on_pinned_transformers(monkeypatch, tmp_path):
+    # the notebook's TrainingArguments must construct on the pinned transformers (5.x renamed group_by_length)
+    import inspect
+    import transformers
+    from training import colab_helpers as H
+    real = set(inspect.signature(transformers.TrainingArguments.__init__).parameters)
+    monkeypatch.setattr(H, "dtype_is_bf16", lambda: True)
+    monkeypatch.setattr(transformers, "TrainingArguments", lambda **kw: kw)  # no GPU here: check names, not devices
+    for b in (1, 2, 4):
+        kw = H.make_args(str(tmp_path), 25, 10, smoke=True, per_device=b)
+        assert set(kw) <= real, set(kw) - real
+        assert kw["per_device_train_batch_size"] * kw["gradient_accumulation_steps"] == H.EFFECTIVE_BATCH

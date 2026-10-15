@@ -8,8 +8,9 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast-30k build v3 (`fast_*`), gate result in `reports/pre_colab_gate.json`; notebook smoke-tested on a
-Colab T4 (`reports/gpu_smoke_test.json`, `passed: true`, on the pilot bundle); no model evaluated (see the progress log). A failed gate or target is a recorded
+Current state: fast build v4 (`fast_*`, 41 classes, 41,824 records), gate passed (`reports/pre_colab_gate.json`); notebook
+smoke-tested on a Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the v3 fast bundle (`reports/dryrun_fast_report.json`);
+no model evaluated. The real fast run is planned on an A100 (see the progress log). A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
 ## Pipeline order
@@ -61,6 +62,8 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
   `subagents.xmodel_run` (empty temp cwd + `--sandbox`), with `chmod 000 data/review*key*.json` for the whole run
   (the build reads `review_key.json`, so never lock during a build); a run of perfect batches is a leak signal.
 - **External review runs Codex and Gemini together** (`xmodel_run both`), never one alone (user decision).
+  Gemini goes through `agy-delegate`, which passes the prompt as one argument: above ~128 KB it fails with
+  `Argument list too long`. Keep xmodel batches small enough (the v4 classes needed 50-item batches).
 - **Lineage** decides splits. Assign whole groups, globally (one attacker host can span classes).
   Templated worker output and seed variants share a group via near-dup keys; each CIC attack class
   is one campaign, so its test coverage comes from NF-ToN or synthetic records.
@@ -77,8 +80,8 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
 - **Source labels** map to a class only when they name it (e.g. CIC `DDoS` is an HTTP flood, so it is
   unmapped); unmapped counts go to `reports/flow_ingest.json`. A mapped label must also be visible in the measured
   telemetry: CIC-DDoS2019 `Syn` (no SYN flag recorded), its `DrDoS_*` rows (TCP, or one-way UDP: no reflection
-  visible) and CIC-IDS2018 SlowHTTPTest (port 21) fail that and are dropped; SYN flood and UDP amplification are
-  synthetic-only. Observed benign flows are matched 1:1 per source with that source's attack flows.
+  visible) and CIC-IDS2018 SlowHTTPTest (port 21) fail that and are dropped; SYN flood, UDP amplification and HTTP/2 rapid reset are
+  synthetic-only (no traffic generators or live captures for dataset building). Observed benign flows are matched 1:1 per source with that source's attack flows.
 - **Seeds** a list files under classic SQLi are URL-decoded once; those still needing an encoding layer go to `sqli_obfuscated`
   (`normalize.is_obfuscated_sql`); one transport URL-encoding of a path/query/cookie is not obfuscation.
 - **Record IDs** must match `^[A-Za-z0-9_.:~-]{8,128}$` (gate); source flow IDs are sanitised in `generate`.

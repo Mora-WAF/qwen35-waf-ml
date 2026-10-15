@@ -1,0 +1,63 @@
+{
+ "group": {
+  "malicious_file_upload_webshell": {
+   "scope": "Uploads that place server-executable content (script files, double-extension or content-type-mismatched files, handler-override configs) where the server can execute it.",
+   "exclusions": [
+    "Uploaded HTML or SVG with client-side script belongs to xss_reflected_stored",
+    "Entity declarations in uploaded XML or office files belong to xxe",
+    "Source files uploaded to a code store that serves them as non-executable text"
+   ],
+   "required_evidence": [
+    "Multipart part with filename, declared content type and leading content bytes",
+    "Upload handler and storage-path policy from trusted configuration",
+    "Content inspection result such as detected type versus declared type"
+   ],
+   "context_schema": [
+    "context.upload_handler",
+    "context.storage_path_policy",
+    "context.content_inspection"
+   ]
+  },
+  "xss_reflected_stored": {
+   "scope": "Script or markup injection reflected in a response or persisted for later rendering.",
+   "exclusions": [
+    "Payloads that run only via client-side DOM sinks belong to xss_dom_polyglot",
+    "Spreadsheet formula payloads belong to csv_formula_injection",
+    "Escaped output displayed as literal text"
+   ],
+   "required_evidence": [
+    "Request field and response or stored-record context showing payload placement",
+    "Output encoding context such as HTML, attribute, or script",
+    "Downstream rendering sink for stored cases"
+   ],
+   "context_schema": []
+  },
+  "xxe": {
+   "scope": "XML external entity or DTD abuse that makes an XML parser reference external resources or local files.",
+   "exclusions": [
+    "Plain XML with no DOCTYPE or ENTITY declarations",
+    "Fetch of internal addresses with no XML parser belongs to ssrf_cloud_metadata"
+   ],
+   "required_evidence": [
+    "XML body with DOCTYPE or ENTITY declaration",
+    "Endpoint known to parse XML with external entities enabled, or test evidence",
+    "Raw body preserved with content type"
+   ],
+   "context_schema": []
+  }
+ },
+ "separating_rule": "Same upload feature in all three. webshell: the file is server-executable (script, double extension, handler override) stored where the server executes it. xss_reflected_stored: an HTML/SVG upload with client-side script, stored and later rendered to other users' browsers, not executable server-side. xxe: an XML-based upload (SVG, DOCX/XLSX part, XML import) with DOCTYPE/ENTITY declarations that the server parses.",
+ "count": 20,
+ "focus_domains": [
+  "customer support desk",
+  "social network",
+  "ad-tech/analytics"
+ ],
+ "out_paths": {
+  "malicious_file_upload_webshell": "data/jobs/out/malicious_file_upload_webshell.vcf5.jsonl",
+  "xss_reflected_stored": "data/jobs/out/xss_reflected_stored.vcf5.jsonl",
+  "xxe": "data/jobs/out/xxe.vcf5.jsonl"
+ },
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/confusers_v1.md"
+}

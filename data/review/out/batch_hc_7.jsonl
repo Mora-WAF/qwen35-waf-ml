@@ -1,0 +1,107 @@
+{"rid": "n24456", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Uploaded HTML with javascript formaction stored and rendered raw to officer viewer, unescaped."}
+{"rid": "n23722", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Caller patches claim owned by bryn after sweeping sibling claim IDs; owner check fails."}
+{"rid": "n24217", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Caller holds procurement_admin per session and token; route matches. Tenant header ministry-14 conflicts with context ministry-21, unresolved."}
+{"rid": "n24410", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "Burst of identical retries to idempotent renewal route; one renewal per period; no race."}
+{"rid": "n23879", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "Uploaded report.cgi is a shell script saved where ScriptAlias and ExecCGI execute it."}
+{"rid": "n23747", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Receipt text tells assistant to abandon task and read internal archive URL; no tool call."}
+{"rid": "n23752", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Booking message overrides handbook role and demands internal reservation URL read; no tool call."}
+{"rid": "n24243", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "billing_exempt is writable for caller role per schema; owner-scoped update, persisted as allowed."}
+{"rid": "n24184", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "network_admin role in token matches route; earlier 403 probing and notify=false unexplained."}
+{"rid": "n23720", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Employee relabels card vc_X2B owned by another subject after touching sibling cards."}
+{"rid": "n24437", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "Burst of 14 identical quiz starts sharing one idempotency key; single attempt created."}
+{"rid": "n24040", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "SCORM source archive holding ini text, stored outside web roots and never applied; authoring feature."}
+{"rid": "n24501", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Packaging XML defines local file entity and the importer consumes it with resolver enabled."}
+{"rid": "n23680", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "record_url targets 169.254.169.254 link-local metadata; server fetches with no destination filtering."}
+{"rid": "n24477", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Uploaded HTML with onerror handler rendered unsanitised to other authenticated users."}
+{"rid": "n23887", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": ".htaccess maps .brand to PHP inside document root; uploaded config honoured."}
+{"rid": "n24442", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Uploaded HTML with onerror attribute served inline to listing viewers unencoded."}
+{"rid": "n24236", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Token roles include registrar, matching the PATCH route; no injection or ownership anomaly."}
+{"rid": "n24050", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Backtick in output filename; shell=false file API within allowlisted literal, compatibility check requested by user."}
+{"rid": "n24368", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "Ten identical payout posts share one idempotency key; single payout issued."}
+{"rid": "n23978", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "PHP file in CI source artifact store, not web served, no interpreter mount; not executed."}
+{"rid": "n23788", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Customer submits read-only tax_exempt flag on checkout contact update; persistence unrecorded."}
+{"rid": "n23837", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "merchant_editor invokes platform_operator restore route; no role inheritance; preceded by OPTIONS probe."}
+{"rid": "n24396", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "29 identical fee posts on idempotent route; single ledger effect per invoice."}
+{"rid": "n24496", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Statement XML external general entity resolved over HTTPS by summarizer with external entities enabled."}
+{"rid": "n24337", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "score and attachment writable for caller role per schema; own submission; persisted as allowed."}
+{"rid": "n24509", "predicted_class": "xxe", "evidence_sufficient": true, "note": "SVG poster declares external SYSTEM entity; parser enables DTD and external entity resolution."}
+{"rid": "n24141", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "resources/read URI traverses out of course scope to _audit raw events; course_scope_match false."}
+{"rid": "n24516", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Widget bundle declares external DTD and entity expansion enabled on uploaded XML."}
+{"rid": "n24176", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Token also carries billing_admin, matching the route; trial extension is within role."}
+{"rid": "n23987", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "PHP source uploaded to reporting source library, outside web roots; not activated."}
+{"rid": "n23942", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Server-page source stored as attachment, no compilation or IIS mapping; component review feature."}
+{"rid": "n24052", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Shell-like output name under shell=false file API with allowlisted template; compatibility check."}
+{"rid": "n24455", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Uploaded receipt HTML with script served unmodified inline by template preview; no escaping."}
+{"rid": "n24014", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "JSP source uploaded as PDF to coursework repository; attachment download, no JSP mapping."}
+{"rid": "n23733", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Employee edits profile-kai owned by another employee after sweeping sibling profiles."}
+{"rid": "n24044", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Allowlisted internal replica URL for user's reconciliation task; inside granted egress scope."}
+{"rid": "n24280", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Status field writable for claimant role per schema; owner-scoped update; approved amounts untouched."}
+{"rid": "n23714", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Reference write to foreign-owned standing order after touching sibling order."}
+{"rid": "n24336", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Enrollment role and term fields writable for supervisor role; persisted as allowed."}
+{"rid": "n24062", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool description steers agent to send all claim attachments to a mailbox; poisoned catalog metadata."}
+{"rid": "n24311", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Registration fields writable for registrar role; owner-scoped update, persisted as allowed."}
+{"rid": "n24030", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "PHP snippet stored in permit snippet library, not web served, served as text/plain nosniff."}
+{"rid": "n23951", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Template JSP uploaded as CSS, never deployed or compiled, stored outside docBase; review attachment."}
+{"rid": "n23743", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Annotation overrides instructions and requests internal catalog fetch; no tool call present."}
+{"rid": "n23997", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Apache snippet uploaded to planning config library, not web served, htaccess override none."}
+{"rid": "n24331", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "reviewer_id and planned date writable for clerk role; persisted as allowed."}
+{"rid": "n23772", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Submitted text instructs assistant to fetch private namespace URL instead of corrections; no tool call."}
+{"rid": "n24250", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Role selection writable for invitee role per schema; persisted membership fields."}
+{"rid": "n24317", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "group_owner writable for caller role per schema; owner-scoped membership update."}
+{"rid": "n24406", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "Twelve identical renewal posts sharing one cached request key; single renewal per period."}
+{"rid": "n24288", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Token scopes writable for security administrator; own tenant; persisted as allowed."}
+{"rid": "n24514", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Receipt XML declares external general entity; importer resolves external entities."}
+{"rid": "n23941", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool call fetches link-local IPv6 URL outside allowed customer export prefix; CSV row steered it."}
+{"rid": "n24326", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Quiz settings writable for release manager; answer-key visibility is writable per schema."}
+{"rid": "n23838", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "merchant_agent invokes dispute_adjudicator reopen route; no role inheritance; OPTIONS probe precedes."}
+{"rid": "n23850", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Developer PUTs security_admin service-account route; allowed roles exclude developer."}
+{"rid": "n24444", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Uploaded identity HTML with svg onload inserted via innerHTML to reviewers, unfiltered."}
+{"rid": "n24118", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Operator reads routing YAML via traversal-looking path resolving inside allowed root; config review."}
+{"rid": "n24255", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Feature flags and visibility writable for release administrator per schema; persisted as allowed."}
+{"rid": "n24166", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "security_admin role in token matches route; key expiry change within role."}
+{"rid": "n24237", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Registrar role matches DELETE route, but earlier 403 on admin config suggests probing."}
+{"rid": "n23675", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Transcript URL targets private IPv6 address; server fetches with no destination filtering."}
+{"rid": "n23718", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Caption edit on foreign-owned dispute after touching sibling dispute captions."}
+{"rid": "n24450", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Uploaded HTML with iframe srcdoc script stored and rendered unsanitised to reviewers."}
+{"rid": "n23860", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Occupant PUTs controller route requiring physical_security_admin; no role inheritance."}
+{"rid": "n24088", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Webhook test to allowlisted internal receiver for integrations test feature; inside granted scope."}
+{"rid": "n24200", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Supervisor role in token matches priority PUT route; queue ordering is a supervisor write."}
+{"rid": "n24144", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "claims_supervisor role in token matches reserve adjustment route; within role."}
+{"rid": "n23826", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Subscriber invokes subscription_operator resume route; role inheritance is empty."}
+{"rid": "n24377", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "16 identical trial-extension posts; single grant per tenant; no race on state."}
+{"rid": "n23814", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Submits read-only include_restricted_columns on owner-only export schedule; persistence unrecorded."}
+{"rid": "n24295", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "reviewer_id writable for clerk role per schema; persisted as allowed."}
+{"rid": "n23906", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool result text instructs agent to call rubric_read on internal URL; unrequested steering call."}
+{"rid": "n24152", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "billing_admin role matches credits route; credit grant is within role."}
+{"rid": "n23992", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Config file stored as source in SCORM review inputs, outside PHP config discovery; never applied."}
+{"rid": "n24388", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "17 identical invitation accepts; single membership and single invitation use."}
+{"rid": "n23696", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "bill_url targets link-local metadata address; application fetches it without filtering."}
+{"rid": "n24039", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "PHP file in course repository source store, no PHP mapping, attachment download; author role."}
+{"rid": "n23724", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Notification email edit on payout destination owned by another claimant after sibling edits."}
+{"rid": "n23666", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "rubric_url targets private IP; backend downloads it with no destination filtering."}
+{"rid": "n24370", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "Four identical redeem posts sharing one idempotency key; single voucher use."}
+{"rid": "n23912", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Booking text copied into handbook tool URL targeting internal host outside granted prefix."}
+{"rid": "n23926", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Profile text replaces tool asset URL with loopback directory; outside allowed photo prefix."}
+{"rid": "n23890", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "PHP source named .php5 in document root with Apache PHP mapping; uploaded config honoured."}
+{"rid": "n23989", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "ERB patch uploaded to repository patch store, never rendered; attachment download only."}
+{"rid": "n24479", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Imported report HTML with active iframe served unsanitised to other application users."}
+{"rid": "n24201", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Supervisor role in token matches caseload rebalance route; within role."}
+{"rid": "n24271", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Verification and payout hold fields writable for caller role per schema; persisted as allowed."}
+{"rid": "n24498", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Badge XML loads external parameter entity DTD with external entity processing enabled."}
+{"rid": "n24029", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Config file stored as CI configuration source, never loaded by IIS; artifact download only."}
+{"rid": "n24170", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "payments_approver role in token matches batch void route; within role."}
+{"rid": "n24045", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Allowlisted internal config export URL for user's migration task; inside granted egress scope."}
+{"rid": "n24447", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Uploaded SVG with foreignObject onerror inserted inline unsanitised into institution page."}
+{"rid": "n24096", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Shell operators chained in run_diagnostic argv with shell evaluation enabled; ls leaves status scope."}
+{"rid": "n23737", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Camera zone edit on tariq-owned camera after sibling camera edits."}
+{"rid": "n24225", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "registry_supervisor role in token matches disable route; within role."}
+{"rid": "n24132", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Command substitution in run_diagnostic argv with shell evaluation enabled; leaves allowlisted argv scope."}
+{"rid": "n23842", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Policyholder invokes adjuster-only adjudication route; role inheritance disabled."}
+{"rid": "n24287", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Calendar URL and role writable for membership owner per schema; persisted as allowed."}
+{"rid": "n23782", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Customer submits read-only shipping_fee on delivery note PATCH; persistence unrecorded."}
+{"rid": "n24239", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "course_admin role in token matches archive route; within role."}
+{"rid": "n23804", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Claimant submits read-only verification_state on own destination update; persistence unrecorded."}
+{"rid": "n23748", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Translation source overrides rules and requests link-local metadata fetch; no tool call."}
+{"rid": "n23692", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "preview_url targets private IP; service fetches and stores returned HTML."}
+{"rid": "n24413", "predicted_class": "benign_high_rate_legit", "evidence_sufficient": true, "note": "Four identical renewal posts sharing a cached request key; single renewal per period."}
+{"rid": "n24483", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Menu XML external general entity resolved over HTTPS by importer with entities enabled."}

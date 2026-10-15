@@ -1,58 +1,64 @@
 {
  "prefix": "fast_",
- "n_train": 27352,
- "n_heldout": 9984,
- "surface_only_nb_accuracy_35class": 0.429,
- "surface_only_nb_accuracy_attack_vs_benign": 0.567,
- "chance_35class": 0.029,
+ "n_train": 30553,
+ "n_heldout": 11271,
+ "surface_only_nb_accuracy_multiclass": 0.451,
+ "surface_only_nb_accuracy_attack_vs_benign": 0.54,
+ "n_classes": 41,
+ "chance_multiclass": 0.024,
  "majority_baseline": 0.249,
  "per_feature_majority_accuracy": {
-  "context_keys": 0.433,
-  "header_names": 0.293,
-  "endpoint": 0.267,
-  "stage": 0.251,
+  "context_keys": 0.451,
+  "header_names": 0.281,
+  "endpoint": 0.265,
+  "stage": 0.258,
+  "flow_keys": 0.236,
+  "observed_until": 0.234,
   "sinks": 0.228,
-  "observed_until": 0.225,
-  "window": 0.225,
-  "ctype": 0.22,
-  "flow_keys": 0.213,
-  "protocol": 0.21,
-  "method": 0.209,
-  "has_history": 0.208,
-  "has_views": 0.208,
-  "host": 0.208,
-  "mode": 0.208,
-  "n_headers": 0.208,
-  "ua": 0.208
+  "window": 0.228,
+  "ctype": 0.227,
+  "method": 0.214,
+  "protocol": 0.214,
+  "has_history": 0.212,
+  "has_views": 0.212,
+  "host": 0.212,
+  "mode": 0.212,
+  "n_headers": 0.212,
+  "ua": 0.212
  },
  "per_class_surface_recall": {
   "websocket_grpc_abuse": 1.0,
+  "race_condition_toctou_burst": 1.0,
   "dns_tunneling_exfil": 1.0,
   "tls_ja4_ua_spoofing": 1.0,
-  "http_request_smuggling": 0.97,
-  "web_cache_poisoning": 0.97,
-  "graphql_abuse": 0.95,
-  "benign_hard_negative_search": 0.94,
-  "ssrf_cloud_metadata": 0.93,
-  "jwt_auth_bypass": 0.9,
-  "prototype_pollution": 0.89,
-  "bola_idor_enumeration": 0.88,
-  "llm_prompt_injection": 0.87,
-  "csv_formula_injection": 0.85,
-  "benign_hard_negative_dev": 0.82,
+  "web_cache_poisoning": 0.96,
+  "benign_hard_negative_search": 0.96,
+  "malicious_file_upload_webshell": 0.96,
+  "http_request_smuggling": 0.94,
+  "bopla_mass_assignment": 0.91,
+  "mcp_agentic_tool_abuse": 0.9,
+  "ssrf_cloud_metadata": 0.9,
+  "benign_hard_negative_dev": 0.87,
+  "graphql_abuse": 0.86,
+  "llm_prompt_injection": 0.85,
+  "prototype_pollution": 0.85,
   "benign_high_rate_legit": 0.82,
-  "c2_beaconing_anomaly": 0.75,
-  "deserialization": 0.61,
-  "path_traversal_lfi": 0.59,
-  "xxe": 0.45,
-  "sqli_classic": 0.18,
-  "benign_standard_traffic": 0.14,
-  "sqli_obfuscated": 0.11,
-  "nosqli": 0.11,
-  "ssti": 0.06,
-  "xss_reflected_stored": 0.04,
+  "bola_idor_enumeration": 0.8,
+  "c2_beaconing_anomaly": 0.78,
+  "csv_formula_injection": 0.69,
+  "jwt_auth_bypass": 0.57,
+  "bfla_admin_function_probing": 0.54,
+  "path_traversal_lfi": 0.43,
+  "deserialization": 0.41,
+  "benign_standard_traffic": 0.27,
+  "sqli_classic": 0.14,
+  "sqli_obfuscated": 0.07,
+  "xxe": 0.03,
+  "xss_reflected_stored": 0.03,
+  "nosqli": 0.01,
   "xss_dom_polyglot": 0.0,
   "rce_cmd_injection": 0.0,
+  "ssti": 0.0,
   "crlf_header_injection": 0.0,
   "ldap_xpath_injection": 0.0,
   "open_redirect_cors": 0.0,
@@ -60,34 +66,19 @@
   "udp_amplification": 0.0,
   "slowloris_slowhttp": 0.0,
   "port_scan_recon": 0.0,
-  "credential_stuffing_bruteforce": 0.0
+  "credential_stuffing_bruteforce": 0.0,
+  "http2_rapid_reset_continuation": 0.0
  },
  "concentrated_structural_tokens": {
-  "ctx=cache_status_samples": {
-   "web_cache_poisoning": 844,
-   "benign_standard_traffic": 245
-  },
-  "ctx=unkeyed_input": {
-   "web_cache_poisoning": 844,
-   "benign_standard_traffic": 245
-  },
-  "ctx=cache_config": {
-   "web_cache_poisoning": 844,
-   "benign_standard_traffic": 245
-  },
-  "ctx=fetch_behavior": {
-   "deserialization": 491,
-   "benign_standard_traffic": 159
+  "ctx=stored_field": {
+   "csv_formula_injection": 361,
+   "benign_standard_traffic": 120
   },
   "hist=export_runs_observed_7d": {
    "csv_formula_injection": 361,
    "benign_standard_traffic": 120
   },
   "hist=writes_to_field_24h": {
-   "csv_formula_injection": 361,
-   "benign_standard_traffic": 120
-  },
-  "ctx=stored_field": {
    "csv_formula_injection": 361,
    "benign_standard_traffic": 120
   },
@@ -111,6 +102,18 @@
    "ssrf_cloud_metadata": 95,
    "benign_standard_traffic": 10
   },
+  "ctx=route_binding": {
+   "bopla_mass_assignment": 95,
+   "benign_standard_traffic": 10
+  },
+  "ctx=role_check_evaluated": {
+   "bfla_admin_function_probing": 96,
+   "benign_standard_traffic": 9
+  },
+  "ctx=tenant_id": {
+   "bfla_admin_function_probing": 96,
+   "benign_standard_traffic": 9
+  },
   "hist=distinct_targets_5m": {
    "ssrf_cloud_metadata": 94,
    "benign_standard_traffic": 10
@@ -127,13 +130,13 @@
    "web_cache_poisoning": 95,
    "benign_standard_traffic": 7
   },
+  "hdr=x-forwarded-prefix": {
+   "web_cache_poisoning": 75,
+   "benign_standard_traffic": 21
+  },
   "ctx=auth_context": {
    "deserialization": 84,
    "benign_standard_traffic": 7
-  },
-  "hdr=x-forwarded-prefix": {
-   "web_cache_poisoning": 75,
-   "benign_standard_traffic": 12
   },
   "hist=requests_last_60s": {
    "jwt_auth_bypass": 78,
@@ -143,47 +146,60 @@
    "jwt_auth_bypass": 78,
    "benign_standard_traffic": 6
   },
-  "hdr=x-forwarded-server": {
-   "web_cache_poisoning": 67,
-   "benign_standard_traffic": 12
+  "hdr=x-host": {
+   "web_cache_poisoning": 48,
+   "benign_standard_traffic": 15
   },
   "ctx=client_scope": {
    "graphql_abuse": 49,
    "benign_standard_traffic": 9
   },
-  "hdr=x-platform": {
-   "bola_idor_enumeration": 48,
-   "benign_standard_traffic": 5
-  },
-  "hdr=x-host": {
-   "web_cache_poisoning": 48,
-   "benign_standard_traffic": 4
+  "hdr=x-original-url": {
+   "web_cache_poisoning": 43,
+   "benign_standard_traffic": 13
   },
   "hdr=x-rewrite-url": {
    "web_cache_poisoning": 44,
-   "benign_standard_traffic": 7
+   "benign_standard_traffic": 12
   },
-  "hdr=x-original-url": {
-   "web_cache_poisoning": 43,
-   "benign_standard_traffic": 7
+  "hist=prior_tool_results": {
+   "mcp_agentic_tool_abuse": 38,
+   "benign_standard_traffic": 3
   },
-  "hdr=x-portal-session": {
-   "csv_formula_injection": 48
+  "hist=session_tool_calls": {
+   "mcp_agentic_tool_abuse": 38,
+   "benign_standard_traffic": 3
+  },
+  "hdr=x-original-host": {
+   "web_cache_poisoning": 32,
+   "benign_standard_traffic": 7
   },
   "hdr=x-service-code": {
    "bola_idor_enumeration": 32,
    "benign_standard_traffic": 2
   },
+  "hdr=prefer": {
+   "bfla_admin_function_probing": 29,
+   "benign_standard_traffic": 5
+  },
   "hdr=": {
    "http_request_smuggling": 34
   },
-  "hdr=x-original-host": {
-   "web_cache_poisoning": 32,
+  "hdr=x-idp-session-tier": {
+   "bfla_admin_function_probing": 28,
    "benign_standard_traffic": 1
   },
   "hdr=grpc-encoding": {
    "websocket_grpc_abuse": 21,
    "benign_standard_traffic": 5
+  },
+  "hist=prior_tool_calls": {
+   "mcp_agentic_tool_abuse": 24,
+   "benign_standard_traffic": 2
+  },
+  "hist=session_id": {
+   "mcp_agentic_tool_abuse": 24,
+   "benign_standard_traffic": 2
   },
   "feat=conn_count": {
    "ssrf_cloud_metadata": 23,
@@ -193,22 +209,28 @@
    "web_cache_poisoning": 23,
    "benign_standard_traffic": 1
   },
-  "hdr=x-correlation-id": {
-   "graphql_abuse": 17
+  "hdr=x-trace-id": {
+   "race_condition_toctou_burst": 18,
+   "benign_standard_traffic": 2
+  },
+  "hdr=x-course-context": {
+   "mcp_agentic_tool_abuse": 16,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-ops-console": {
+   "bfla_admin_function_probing": 14,
+   "benign_standard_traffic": 2
   },
   "hdr=x-asset-host": {
    "web_cache_poisoning": 16
   },
-  "hdr=x-course-id": {
-   "bola_idor_enumeration": 15
+  "hist=unary_calls_last_min": {
+   "websocket_grpc_abuse": 11,
+   "benign_standard_traffic": 3
   },
   "hdr=x-export-name": {
    "web_cache_poisoning": 12,
    "benign_standard_traffic": 2
-  },
-  "hist=unary_calls_last_min": {
-   "websocket_grpc_abuse": 11,
-   "benign_standard_traffic": 3
   },
   "hdr=x-forwarded-scheme": {
    "web_cache_poisoning": 12
@@ -229,23 +251,30 @@
    "web_cache_poisoning": 8,
    "benign_standard_traffic": 2
   },
-  "ctx=site": {
-   "llm_prompt_injection": 8,
+  "hdr=x-site-scope": {
+   "bfla_admin_function_probing": 9,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-workspace-id": {
+   "race_condition_toctou_burst": 10
+  },
+  "hdr=x-portal-channel": {
+   "bfla_admin_function_probing": 9,
    "benign_standard_traffic": 1
   },
   "ctx=allowlist": {
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
+  "ctx=site": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-agency-id": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
   "hdr=x-broker-id": {
-   "llm_prompt_injection": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-app-install": {
-   "llm_prompt_injection": 8,
-   "benign_standard_traffic": 1
-  },
-  "hdr=x-courier-zone": {
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
@@ -257,27 +286,191 @@
    "csv_formula_injection": 7,
    "benign_standard_traffic": 2
   },
-  "hdr=x-grpc-web": {
-   "websocket_grpc_abuse": 8,
+  "hdr=x-request-ua-hash": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-game-build": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=shard": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=broker_region": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-filing-office": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=carrier_account": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-carrier-scope": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=depot_site": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-depot-code": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-shipper-id": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=shipper_tier": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=planning_zone": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-driver-app": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=queue_name": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-carrier-account": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-region": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-ledger-region": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-site": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-device-serial": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-case-ref": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-registry-tenant": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-caseworker-office": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-instructor-ref": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=event_series": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-club-id": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-agency-code": {
+   "mcp_agentic_tool_abuse": 8,
    "benign_standard_traffic": 1
   },
   "hdr=x-user-agent": {
    "websocket_grpc_abuse": 8,
    "benign_standard_traffic": 1
   },
+  "hdr=x-courier-zone": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-app-install": {
+   "llm_prompt_injection": 8,
+   "benign_standard_traffic": 1
+  },
   "hdr=x-account-ref": {
    "llm_prompt_injection": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-agency-id": {
-   "llm_prompt_injection": 8,
+  "hdr=x-request-ref": {
+   "bfla_admin_function_probing": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-forwarded-user": {
+  "ctx=mod_queue": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-region-hint": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-client-ver": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "ctx=wallet_tier": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-store-front": {
+   "bfla_admin_function_probing": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-org-ref": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-org-id": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-warehouse-code": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-wallet-region": {
+   "race_condition_toctou_burst": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-helpdesk-queue": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-applicant-type": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-forum-tenant": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-lti-deployment": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-campus": {
+   "mcp_agentic_tool_abuse": 8,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-console-debug": {
    "jwt_auth_bypass": 8
   },
-  "hdr=x-council-code": {
-   "bola_idor_enumeration": 8
+  "hdr=x-admin-session": {
+   "jwt_auth_bypass": 8
   },
   "hist=distinct_channels_requested": {
    "websocket_grpc_abuse": 7,
@@ -293,6 +486,9 @@
   "hdr=x-picker-note": {
    "llm_prompt_injection": 8
   },
+  "hdr=true-client-ip": {
+   "web_cache_poisoning": 8
+  },
   "hdr=x-backend-host": {
    "web_cache_poisoning": 8
   },
@@ -305,21 +501,49 @@
   "hdr=x-provider-code": {
    "csv_formula_injection": 8
   },
+  "hdr=x-editor-build": {
+   "bopla_mass_assignment": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-batch-id": {
+   "bopla_mass_assignment": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-security-ticket": {
+   "bfla_admin_function_probing": 8
+  },
+  "hdr=x-client-cert-fp": {
+   "bfla_admin_function_probing": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-service-name": {
+   "race_condition_toctou_burst": 8
+  },
+  "hdr=x-reviewer-ref": {
+   "mcp_agentic_tool_abuse": 8
+  },
+  "hdr=x-review-queue": {
+   "mcp_agentic_tool_abuse": 8
+  },
+  "hdr=x-lms-tenant": {
+   "mcp_agentic_tool_abuse": 8
+  },
   "hdr=x-locale-override": {
    "web_cache_poisoning": 8
   },
-  "hdr=x-console-debug": {
+  "hdr=x-legacy-client": {
+   "bfla_admin_function_probing": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-forwarded-user": {
    "jwt_auth_bypass": 8
   },
-  "hdr=x-admin-session": {
-   "jwt_auth_bypass": 8
+  "hdr=x-council-code": {
+   "bola_idor_enumeration": 8
   },
   "hdr=:protocol": {
    "websocket_grpc_abuse": 7,
    "benign_standard_traffic": 1
-  },
-  "hdr=true-client-ip": {
-   "web_cache_poisoning": 8
   },
   "hdr=x-forwarded-uri": {
    "web_cache_poisoning": 8
@@ -329,6 +553,46 @@
   },
   "hdr=x-widget-state": {
    "deserialization": 8
+  },
+  "hdr=x-rule-source": {
+   "bopla_mass_assignment": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-client-platform": {
+   "bopla_mass_assignment": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=accept-encoding-hint": {
+   "bfla_admin_function_probing": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-preview-token": {
+   "bfla_admin_function_probing": 7,
+   "benign_standard_traffic": 1
+  },
+  "hdr=x-leaderboard-view": {
+   "bfla_admin_function_probing": 8
+  },
+  "hdr=x-sdk-version": {
+   "bfla_admin_function_probing": 8
+  },
+  "ctx=season_state": {
+   "bfla_admin_function_probing": 8
+  },
+  "ctx=flag_namespace": {
+   "bfla_admin_function_probing": 8
+  },
+  "hdr=x-config-etag": {
+   "bfla_admin_function_probing": 8
+  },
+  "hdr=x-guild-id": {
+   "bfla_admin_function_probing": 8
+  },
+  "hdr=x-season-cohort": {
+   "race_condition_toctou_burst": 8
+  },
+  "hdr=x-guild-shard": {
+   "race_condition_toctou_burst": 8
   }
  },
  "interpretation": "surface features exclude payload values; accuracy well above chance means labels are partly predictable from generator/source artefacts (shortcuts). Flow mode is inherently class-informative (L4 classes only exist as flows)."

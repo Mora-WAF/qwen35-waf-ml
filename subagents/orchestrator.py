@@ -29,7 +29,8 @@ GAP_L7 = ["ssrf_cloud_metadata", "graphql_abuse", "jwt_auth_bypass", "bola_idor_
           "malicious_file_upload_webshell", "mcp_agentic_tool_abuse"]
 GAP_BENIGN = ["benign_hard_negative_dev", "benign_hard_negative_search"]
 GAP = GAP_L7 + GAP_BENIGN
-EXTRA_INGEST = ["benign_standard_traffic"]  # context-matched benign counterparts (v1 file)
+EXTRA_INGEST = ["benign_standard_traffic",  # context-matched benign counterparts (v1 file)
+                "xss_reflected_stored", "xxe"]  # confuser-set records next to the seeded ones (prompt confusers_v1.md)
 GENERIC_HEADERS = {"host", "user-agent", "accept", "accept-language", "accept-encoding", "connection",
                    "dnt", "upgrade-insecure-requests"}  # + sec-fetch-* / sec-ch-ua*
 
@@ -337,10 +338,15 @@ def ingest(root=ROOT):
         accepted, rejected = [], 0
         from subagents.review import relabels, status
         rv, rel = status(), relabels()
+        qp = ROOT / "data/review/quarantine.json"
+        qrev = {x["ref"]: (x["reviewer"], x["sufficient"]) for x in json.load(open(qp))} if qp.exists() else {}
         lines = [(f"{fp.name}:{j}", ln) for fp in fps for j, ln in enumerate(open(fp))]
         quarantined = 0
         for i, (ref, line) in enumerate(lines):
-            if rv.get(ref) == "quarantined" or rel.get(ref) == "__quarantine__":  # reviewer disagreed / insufficient
+            # a benign->benign relabel outranks the Haiku quarantine when Haiku itself chose that benign class
+            # (with sufficient evidence): the label moves between benign classes, it is not dropped
+            relabel_agreed = rel.get(ref) not in (None, "__quarantine__") and qrev.get(ref) == (rel[ref], True)
+            if (rv.get(ref) == "quarantined" and not relabel_agreed) or rel.get(ref) == "__quarantine__":
                 quarantined += 1
                 continue
             out_cls = rel.get(ref, cls)  # external-review relabel between benign classes (subagents.review.apply_hn)
@@ -374,7 +380,7 @@ def ingest(root=ROOT):
                                 "scenario": obj.get("scenario", {}), "needs_review": rv.get(ref) != "agreed",
                                 "blind_review": rv.get(ref, "not_reviewed"),
                                 "transforms": (["host_neutralize"] if hn else []) + ["header_profile_normalize"]},
-                               {"lineage_group": group, "generator": "haiku-5.5",
+                               {"lineage_group": group, "generator": "codex-gpt-6.1-sol" if re.search(r"\.v(ht|cf)\d", fname) else "haiku-5.5",
                                 "template_family": f"{cls}:{(obj.get('scenario') or {}).get('family', 'v1_unlabelled')}"})
                 accepted.append(rec)
             except (json.JSONDecodeError, KeyError, jsonschema.ValidationError, AssertionError):

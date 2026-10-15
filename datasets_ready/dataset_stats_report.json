@@ -2,33 +2,33 @@
  "split_counts": {
   "ssrf_cloud_metadata": {
    "train": 798,
-   "val_select": 49,
    "test": 99,
-   "val_calib": 25,
    "val_policy": 25,
+   "val_select": 49,
+   "val_calib": 25,
    "test_unseen": 127
   },
   "graphql_abuse": {
-   "train": 500,
-   "val_select": 33,
-   "val_calib": 16,
-   "test": 63,
+   "val_select": 31,
+   "train": 503,
+   "test": 62,
+   "val_calib": 15,
    "val_policy": 15,
    "test_unseen": 91
   },
   "jwt_auth_bypass": {
    "train": 581,
    "test": 72,
-   "val_policy": 18,
    "val_select": 36,
    "val_calib": 18,
+   "val_policy": 18,
    "test_unseen": 78
   },
   "bola_idor_enumeration": {
    "train": 595,
-   "test": 75,
    "val_calib": 18,
-   "val_policy": 18,
+   "test": 74,
+   "val_policy": 19,
    "val_select": 37,
    "test_unseen": 103
   },
@@ -41,27 +41,27 @@
    "test_unseen": 46
   },
   "llm_prompt_injection": {
+   "train": 744,
+   "val_select": 47,
    "test": 95,
-   "train": 745,
-   "val_policy": 23,
    "val_calib": 23,
-   "val_select": 46,
+   "val_policy": 23,
    "test_unseen": 123
   },
   "prototype_pollution": {
-   "train": 625,
-   "val_policy": 21,
-   "val_calib": 19,
+   "train": 626,
+   "test": 77,
    "val_select": 38,
-   "test": 76,
+   "val_policy": 19,
+   "val_calib": 19,
    "test_unseen": 92
   },
   "web_cache_poisoning": {
    "train": 598,
+   "test": 76,
+   "val_select": 38,
+   "val_calib": 18,
    "val_policy": 18,
-   "val_select": 36,
-   "test": 77,
-   "val_calib": 19,
    "test_unseen": 96
   },
   "deserialization": {
@@ -80,42 +80,82 @@
    "val_policy": 10,
    "test_unseen": 52
   },
+  "bopla_mass_assignment": {
+   "test": 51,
+   "train": 409,
+   "val_policy": 13,
+   "val_select": 25,
+   "val_calib": 13,
+   "test_unseen": 64
+  },
+  "bfla_admin_function_probing": {
+   "train": 410,
+   "val_policy": 13,
+   "val_select": 25,
+   "test": 51,
+   "val_calib": 13,
+   "test_unseen": 64
+  },
+  "race_condition_toctou_burst": {
+   "train": 415,
+   "val_select": 24,
+   "test": 49,
+   "val_calib": 12,
+   "val_policy": 12,
+   "test_unseen": 64
+  },
+  "malicious_file_upload_webshell": {
+   "train": 395,
+   "val_select": 25,
+   "val_calib": 12,
+   "test": 49,
+   "val_policy": 12,
+   "test_unseen": 64
+  },
+  "mcp_agentic_tool_abuse": {
+   "train": 401,
+   "val_select": 25,
+   "test": 50,
+   "val_calib": 13,
+   "val_policy": 12,
+   "test_unseen": 64
+  },
   "benign_hard_negative_dev": {
-   "train": 1958,
    "test": 244,
-   "val_calib": 61,
-   "val_policy": 61,
+   "train": 1958,
    "val_select": 122,
+   "val_policy": 61,
+   "val_calib": 61,
    "test_unseen": 338
   },
   "benign_standard_traffic": {
-   "train": 6797,
-   "val_calib": 219,
-   "test": 815,
-   "val_select": 527,
-   "val_policy": 196,
-   "test_unseen": 318
+   "train": 7619,
+   "test": 949,
+   "val_select": 453,
+   "val_policy": 222,
+   "val_calib": 278,
+   "test_unseen": 491
   },
   "benign_hard_negative_search": {
    "train": 940,
    "test": 117,
    "val_select": 59,
-   "val_calib": 29,
    "val_policy": 29,
+   "val_calib": 29,
    "test_unseen": 168
   },
   "sqli_classic": {
-   "train": 810,
-   "test": 93,
-   "val_calib": 22,
-   "val_select": 50,
-   "val_policy": 25
+   "train": 795,
+   "val_select": 51,
+   "test": 96,
+   "val_calib": 31,
+   "val_policy": 27
   },
   "sqli_obfuscated": {
-   "train": 802,
-   "val_calib": 27,
-   "val_select": 53,
+   "train": 799,
+   "val_select": 55,
    "test": 96,
+   "val_calib": 28,
    "val_policy": 22
   },
   "nosqli": {
@@ -127,9 +167,9 @@
   },
   "xss_reflected_stored": {
    "train": 802,
+   "val_select": 49,
    "test": 99,
    "val_policy": 25,
-   "val_select": 49,
    "val_calib": 25
   },
   "xss_dom_polyglot": {
@@ -140,25 +180,25 @@
    "val_calib": 14
   },
   "rce_cmd_injection": {
-   "train": 700,
-   "test": 86,
-   "val_select": 46,
-   "val_calib": 22,
-   "val_policy": 21
+   "train": 691,
+   "test": 95,
+   "val_policy": 24,
+   "val_select": 43,
+   "val_calib": 22
   },
   "ssti": {
-   "val_select": 38,
-   "val_calib": 19,
+   "val_policy": 18,
    "train": 599,
-   "test": 74,
-   "val_policy": 20
+   "test": 77,
+   "val_select": 37,
+   "val_calib": 19
   },
   "xxe": {
-   "train": 402,
-   "test": 48,
-   "val_policy": 12,
+   "train": 403,
+   "val_select": 23,
+   "val_policy": 13,
    "val_calib": 12,
-   "val_select": 26
+   "test": 49
   },
   "crlf_header_injection": {
    "train": 309,
@@ -175,11 +215,11 @@
    "val_select": 8
   },
   "path_traversal_lfi": {
-   "train": 790,
-   "val_calib": 24,
-   "test": 112,
+   "train": 803,
    "val_select": 49,
-   "val_policy": 25
+   "val_policy": 24,
+   "val_calib": 28,
+   "test": 96
   },
   "http_request_smuggling": {
    "train": 704,
@@ -198,17 +238,17 @@
   "syn_flood_ddos": {
    "train": 672,
    "test": 84,
-   "val_calib": 21,
-   "val_select": 42,
    "val_policy": 21,
+   "val_select": 42,
+   "val_calib": 21,
    "test_unseen": 160
   },
   "udp_amplification": {
    "train": 495,
+   "val_calib": 15,
    "val_select": 31,
    "test": 61,
    "val_policy": 15,
-   "val_calib": 15,
    "test_unseen": 133
   },
   "slowloris_slowhttp": {
@@ -221,24 +261,24 @@
   "port_scan_recon": {
    "test": 549,
    "train": 401,
-   "val_policy": 12,
    "val_select": 25,
-   "val_calib": 13
+   "val_calib": 13,
+   "val_policy": 12
   },
   "credential_stuffing_bruteforce": {
    "test": 516,
    "train": 377,
-   "val_policy": 12,
    "val_select": 23,
    "val_calib": 12,
+   "val_policy": 12,
    "test_unseen": 30
   },
   "c2_beaconing_anomaly": {
-   "val_select": 25,
-   "test": 50,
    "train": 400,
-   "val_policy": 12,
-   "val_calib": 13
+   "test": 50,
+   "val_select": 25,
+   "val_calib": 13,
+   "val_policy": 12
   },
   "dns_tunneling_exfil": {
    "train": 385,
@@ -249,22 +289,30 @@
   },
   "tls_ja4_ua_spoofing": {
    "train": 400,
-   "val_calib": 13,
    "test": 50,
    "val_policy": 12,
-   "val_select": 25
+   "val_select": 25,
+   "val_calib": 13
+  },
+  "http2_rapid_reset_continuation": {
+   "train": 352,
+   "val_calib": 11,
+   "val_select": 22,
+   "test": 44,
+   "val_policy": 11,
+   "test_unseen": 60
   },
   "benign_high_rate_legit": {
-   "train": 946,
-   "test": 118,
-   "val_calib": 30,
-   "val_select": 59,
+   "train": 953,
    "val_policy": 29,
-   "test_unseen": 68
+   "test": 118,
+   "val_select": 59,
+   "val_calib": 30,
+   "test_unseen": 61
   }
  },
  "provenance": {
-  "synthetic": 24659,
+  "synthetic": 29147,
   "hybrid": 9500,
   "observed": 3177
  },
@@ -273,7 +321,9 @@
   "benign_hard_negative_search",
   "benign_high_rate_legit",
   "benign_standard_traffic",
+  "bfla_admin_function_probing",
   "bola_idor_enumeration",
+  "bopla_mass_assignment",
   "c2_beaconing_anomaly",
   "credential_stuffing_bruteforce",
   "crlf_header_injection",
@@ -281,15 +331,19 @@
   "deserialization",
   "dns_tunneling_exfil",
   "graphql_abuse",
+  "http2_rapid_reset_continuation",
   "http_request_smuggling",
   "jwt_auth_bypass",
   "ldap_xpath_injection",
   "llm_prompt_injection",
+  "malicious_file_upload_webshell",
+  "mcp_agentic_tool_abuse",
   "nosqli",
   "open_redirect_cors",
   "path_traversal_lfi",
   "port_scan_recon",
   "prototype_pollution",
+  "race_condition_toctou_burst",
   "rce_cmd_injection",
   "slowloris_slowhttp",
   "sqli_classic",

@@ -41857,5 +41857,1814 @@
   "reviewer": "benign_hard_negative_dev",
   "sufficient": true,
   "note": "Dry-run batch tool call with CLI-style extra_flags; fixed argv, scope granted, no separators."
+ },
+ {
+  "rid": "n23700",
+  "label": "ssrf_cloud_metadata",
+  "ref": "ssrf_cloud_metadata.vcf3.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "ssrf_cloud_metadata",
+  "sufficient": false,
+  "note": "Server fetch of internal corp hostname resolving private; no attack intent visible"
+ },
+ {
+  "rid": "n23947",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht06_malicious_file_upload_webshell.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Apache directive file in non-served config viewer, overrides unread; claimant upload context ambiguous"
+ },
+ {
+  "rid": "n24008",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht07_malicious_file_upload_webshell.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "JSP source stored in template repository as text, JSP compiler no access; claims endpoint ambiguous"
+ },
+ {
+  "rid": "n24042",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Exact internal URL is allowlisted and supplied by user instruction; in-scope fetch"
+ },
+ {
+  "rid": "n24043",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Exact allowlisted config URL via user instruction; actuator env exposure unverified"
+ },
+ {
+  "rid": "n24047",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Allowlisted exact vault URL from user instruction; destination in granted list."
+ },
+ {
+  "rid": "n24053",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Literal shell-like template name, shell disabled and literal loader; not clearly a dev feature"
+ },
+ {
+  "rid": "n24056",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Server tool description orders extra send_claim_file to external archive address before replying"
+ },
+ {
+  "rid": "n24057",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Tool description injects directive to send policy file to external recipient"
+ },
+ {
+  "rid": "n24058",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Tool metadata directs agent to forward claim files to external address via send tool"
+ },
+ {
+  "rid": "n24059",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Tool listing says read traversal path ../../finance and send to archive; unpinned"
+ },
+ {
+  "rid": "n24060",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Tool description poisons send_claim_file to pass session token as ref"
+ },
+ {
+  "rid": "n24061",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Poisoned tool description directs photo-folder send to external recipient"
+ },
+ {
+  "rid": "n24062",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Tool description steers agent to send all claim attachments to a mailbox; poisoned catalog metadata."
+ },
+ {
+  "rid": "n24063",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Poisoned tool description instructs sending bank details to external recipient"
+ },
+ {
+  "rid": "n24064",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "User-instructed send of own claim file within granted task scope"
+ },
+ {
+  "rid": "n24065",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "User-instructed email of claimant folder, scope-matched, no lookalike payload"
+ },
+ {
+  "rid": "n24066",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "User-instructed email of own documents within granted task scope, no lookalike payload"
+ },
+ {
+  "rid": "n24067",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "External vendor send from user instruction; attachment inside granted task scope."
+ },
+ {
+  "rid": "n24068",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Medical records sent to user-selected lookalike internal domain that resolves external; ambiguous"
+ },
+ {
+  "rid": "n24069",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Agent mails HR directory via traversal attachment to external mailbox; tool result untrusted."
+ },
+ {
+  "rid": "n24070",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Email arguments come from user instruction, recipient external but task-selected and in scope"
+ },
+ {
+  "rid": "n24071",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "External send is user-requested with exact attachment, inside granted task scope."
+ },
+ {
+  "rid": "n24072",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "User-instructed hold within granted book; claim business unit matches"
+ },
+ {
+  "rid": "n24073",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Payout change in scope, but reason cites untrusted claimant portal message"
+ },
+ {
+  "rid": "n24074",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Hold placed on claim inside granted book scope from user instruction"
+ },
+ {
+  "rid": "n24075",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "User-supplied IBAN update within granted payments:write scope for the matching book"
+ },
+ {
+  "rid": "n24076",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Hold on own claim in scope, arguments from user instruction, pending requested review"
+ },
+ {
+  "rid": "n24077",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Payout change on own in-book claim; arguments from user instruction, scope granted"
+ },
+ {
+  "rid": "n24078",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Payment hold on BU-SOUTH claim by user instruction; tool and book within granted scope."
+ },
+ {
+  "rid": "n24079",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "User-instructed payout update within granted book; account change unverified"
+ },
+ {
+  "rid": "n24080",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Support-ticket-driven read of server bootstrap.env secrets file via agent resource tool"
+ },
+ {
+  "rid": "n24081",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Support-ticket-driven traversal read of tenant signing key via agent resource tool"
+ },
+ {
+  "rid": "n24082",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "MCP resources/read uses traversal to reach another tenant's settings; tool scope self-asserted."
+ },
+ {
+  "rid": "n24083",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Agent reads file:///proc/self/environ, a process-secrets path outside tenant support scope"
+ },
+ {
+  "rid": "n24084",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Agent reads internal tenant key vault into local backup; scope self-asserted in tool result."
+ },
+ {
+  "rid": "n24086",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Agent resource URI traverses ../ to another tenant's settings, outside granted template"
+ },
+ {
+  "rid": "n24087",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Exact granted token-cache alias via user instruction; sensitive target, scope unverified"
+ },
+ {
+  "rid": "n24090",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Webhook test to exact allowlisted internal URL, though path is heapdump-like"
+ },
+ {
+  "rid": "n24092",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Withdrawal requires and records instructor approval within granted enroll:write scope"
+ },
+ {
+  "rid": "n24093",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Traversal URI leaves course scope to SIS export via tool-result alias; course_scope_match false"
+ },
+ {
+  "rid": "n24095",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Allowlisted exact URL per operator; admin export and purpose label mismatch unverified."
+ },
+ {
+  "rid": "n24096",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Shell operators chained in run_diagnostic argv with shell evaluation enabled; ls leaves status scope."
+ },
+ {
+  "rid": "n24097",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Poisoned tool description tells agent to copy household data to external relay."
+ },
+ {
+  "rid": "n24098",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Named recipient in granted policy, user-instructed transfer authorization, self-contained case send"
+ },
+ {
+  "rid": "n24100",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Private replies forwarded to named mailbox not in course roster; instructor-authorized"
+ },
+ {
+  "rid": "n24102",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Allowlisted exact tenant config URL from operator instruction; in granted scope."
+ },
+ {
+  "rid": "n24103",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Tool argv chains tar through shell operators, beyond the script allowlist."
+ },
+ {
+  "rid": "n24104",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Tool call within granted scope; instructor approval recorded; similarity summary supporting only."
+ },
+ {
+  "rid": "n24105",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Agent resources/read URI traverses ../../ to user export outside course scope"
+ },
+ {
+  "rid": "n24106",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Restricted HR roster read within granted root under unverified custodian claim."
+ },
+ {
+  "rid": "n24107",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Exact allowlisted staging appliance config fetch; internal target and config path"
+ },
+ {
+  "rid": "n24108",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Agent exec pipes allowlisted command through shell into public web root via tee."
+ },
+ {
+  "rid": "n24109",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Tool listing matches pinned, user-authorized snapshot workflow; calls stay in granted scope"
+ },
+ {
+  "rid": "n24110",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Named external recipient in granted policy, user-authorized disclosure, not a payload"
+ },
+ {
+  "rid": "n24111",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Read of exact granted backup URI under custodian claim; sensitive but in scope."
+ },
+ {
+  "rid": "n24112",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Private replies forwarded to external mailbox not in roster; instructor-authorized moderation copy"
+ },
+ {
+  "rid": "n24114",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Allowlisted actuator env fetch user-instructed; env dump is sensitive, scope unconfirmed"
+ },
+ {
+  "rid": "n24115",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Tool argv chains env through shell operators beyond the script allowlist."
+ },
+ {
+  "rid": "n24116",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Withdrawal from instructor request with recorded approval; tool requires approval, present"
+ },
+ {
+  "rid": "n24117",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Course agent reads admin tenant config outside course scope; URI in manifest, user-instructed"
+ },
+ {
+  "rid": "n24120",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": false,
+  "note": "Shell operator chaining and tar archive inside argv with shell evaluation enabled; user-approved"
+ },
+ {
+  "rid": "n24121",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Pinned tool description authorizes street ledger send; broad scope, verify controller authority"
+ },
+ {
+  "rid": "n24122",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Named external recipient in granted policy, user-authorized retention archive"
+ },
+ {
+  "rid": "n24124",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Instructor-requested digest export to named recipient within granted scope"
+ },
+ {
+  "rid": "n24125",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Traversal path resolves inside granted root for registrar task; odd but contained"
+ },
+ {
+  "rid": "n24127",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Shell operators and cat of answer-key file passed through run_script beyond granted programs"
+ },
+ {
+  "rid": "n24128",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Instructor-approved withdrawal with recorded approval; arguments match request."
+ },
+ {
+  "rid": "n24129",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Traversal read of LTI signing key by course agent; course scope mismatch, key material"
+ },
+ {
+  "rid": "n24131",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Allowlisted exact environment URL per owner; actuator target, purpose unverified."
+ },
+ {
+  "rid": "n24132",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Command substitution in run_diagnostic argv with shell evaluation enabled; leaves allowlisted argv scope."
+ },
+ {
+  "rid": "n24133",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Pinned tool listing matches controller pin; silent external audit logging is unusual"
+ },
+ {
+  "rid": "n24134",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Full case notes emailed to named external recipient in scope; bulk-send domain warrants review"
+ },
+ {
+  "rid": "n24136",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Named-recipient forward within granted scope and instructor instruction; private replies flagged."
+ },
+ {
+  "rid": "n24137",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Allowlisted export writes under granted handoff root per instructor instruction."
+ },
+ {
+  "rid": "n24138",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Internal URL is allowlisted egress, user-instructed, resolved IP in allowlist"
+ },
+ {
+  "rid": "n24140",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Instructor-approved withdrawal with recorded approval; arguments match user request."
+ },
+ {
+  "rid": "n24141",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.vht09_mcp_agentic_tool_abuse.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "resources/read URI traverses out of course scope to _audit raw events; course_scope_match false."
+ },
+ {
+  "rid": "n24143",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "tenant_member claim calls integrations_admin-only webhook replay route"
+ },
+ {
+  "rid": "n24148",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "network_admin role matches route; role guard unbound, claims-only check"
+ },
+ {
+  "rid": "n24149",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "Caller_role intake_agent on records_admin restore route; token also lists records_admin, ambiguous."
+ },
+ {
+  "rid": "n24151",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Introspected workspace_admin invokes org_owner-only invitation route; role check not executed"
+ },
+ {
+  "rid": "n24154",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Auditor adds admin:write to API key; security_admin route, caller role below."
+ },
+ {
+  "rid": "n24157",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "provider_liaison changes fraud threshold on fraud_ops_lead route; token also lists that role."
+ },
+ {
+  "rid": "n24160",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "provider_office_user caller invokes network_admin-only merge route"
+ },
+ {
+  "rid": "n24163",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Introspected project_editor deletes org_owner grant; role-guard prefix not checked"
+ },
+ {
+  "rid": "n24165",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Token carries ops_admin though primary caller role is developer; route role check not run"
+ },
+ {
+  "rid": "n24168",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Claims clerk calls claims_supervisor reserve DELETE; caller role below requirement."
+ },
+ {
+  "rid": "n24169",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "fraud_ops_lead role matches route; role guard unbound, claims-only check"
+ },
+ {
+  "rid": "n24171",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Broker agent calls underwriter_admin rating route; caller role below requirement."
+ },
+ {
+  "rid": "n24174",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "Session role workspace_member calls platform_admin route; token role claim may not be used"
+ },
+ {
+  "rid": "n24175",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "org_owner role matches route; role guard unbound, claims-only check"
+ },
+ {
+  "rid": "n24178",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "security_admin claim matches rotate route, but earlier 403 and zero grace are notable"
+ },
+ {
+  "rid": "n24179",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Viewer-role caller patches integrations_admin route after 403s on webhook endpoints"
+ },
+ {
+  "rid": "n24180",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "claims_supervisor role matches route; k6 client and prior 404 probing are weak signals"
+ },
+ {
+  "rid": "n24182",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Claims clerk calls payments_approver route; role check not executed; guard not bound."
+ },
+ {
+  "rid": "n24183",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "underwriter_admin claim matches route, but partner-portal origin publishing prod rules is unusual"
+ },
+ {
+  "rid": "n24184",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "network_admin role in token matches route; earlier 403 probing and notify=false unexplained."
+ },
+ {
+  "rid": "n24185",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Claims clerk calls records_admin DELETE; caller role below requirement, guard unbound."
+ },
+ {
+  "rid": "n24188",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "Resolved caller_role billing_viewer on billing_admin void route; token also lists admin, ambiguous."
+ },
+ {
+  "rid": "n24190",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Integration engineer PUTs IP allowlist on security_admin route; role check not run."
+ },
+ {
+  "rid": "n24191",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht00_bfla_admin_function_probing.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Install with integrations_admin token; header tenant differs from body tenant, unclear"
+ },
+ {
+  "rid": "n24203",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "supervisor role matches route; guard unbound, role taken from session store"
+ },
+ {
+  "rid": "n24205",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Supervisor role matches metrics route, but earlier 403 on admin status contradicts it"
+ },
+ {
+  "rid": "n24207",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "identity_admin role matches route; guard unbound, claims-only check"
+ },
+ {
+  "rid": "n24208",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "identity_admin claim matches revoke route, but citizen subject and prior 404 internal probe"
+ },
+ {
+  "rid": "n24213",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "identity_admin claim matches internal route; guard unbound, claims-only check"
+ },
+ {
+  "rid": "n24214",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "procurement_admin matches route role, but vendor-IdP token and admin role are unusual"
+ },
+ {
+  "rid": "n24215",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Vendor-issued token reaches admin award route; role from session store, guard unbound."
+ },
+ {
+  "rid": "n24216",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "procurement_admin claim matches route, but vendor identity and earlier 403 on admin config conflict"
+ },
+ {
+  "rid": "n24217",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Caller holds procurement_admin per session and token; route matches. Tenant header ministry-14 conflicts with context ministry-21, unresolved."
+ },
+ {
+  "rid": "n24219",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "procurement_admin matches route, but token issuer is vendor IdP; ambiguous."
+ },
+ {
+  "rid": "n24220",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Admin role matches route; x-tenant-id differs from session tenant; ownership unclear."
+ },
+ {
+  "rid": "n24223",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Supervisor claim matches seal route, but earlier 403 on civil admin health"
+ },
+ {
+  "rid": "n24227",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Registry supervisor on supervisor route, role matches; aal1 session tier noted."
+ },
+ {
+  "rid": "n24230",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Registrar grade PUT permitted by token roles; subject is student, role claims match."
+ },
+ {
+  "rid": "n24231",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Registrar lock POST on registrar route; subject is a student ID, role claims match."
+ },
+ {
+  "rid": "n24237",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Registrar role matches DELETE route, but earlier 403 on admin config suggests probing."
+ },
+ {
+  "rid": "n24238",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "course_admin claim matches route, but TA subject and earlier 403 on admin config"
+ },
+ {
+  "rid": "n24241",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht01_bfla_admin_function_probing.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "course_admin role matches route; role guard unbound, claims-only check"
+ },
+ {
+  "rid": "n24343",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": true,
+  "note": "Eight identical export POSTs in 56ms with no idempotency key against a limit of two"
+ },
+ {
+  "rid": "n24344",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Payout burst with enforced idempotency key; one payout recorded."
+ },
+ {
+  "rid": "n24345",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "13-request burst on idempotent route; per-claim waiver limit enforced at one"
+ },
+ {
+  "rid": "n24347",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "9-request burst on idempotent offer accept; one acceptance recorded"
+ },
+ {
+  "rid": "n24348",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "16 repeats share enforced idempotency key with cached replay; single receipt use recorded."
+ },
+ {
+  "rid": "n24349",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": true,
+  "note": "Eighteen credit redemptions in 274ms, no idempotency key, key not enforced"
+ },
+ {
+  "rid": "n24350",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Seat assignment burst on idempotent route; one seat recorded; no race win."
+ },
+ {
+  "rid": "n24351",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Token mints share one idempotency key with cached replay; quota not exceeded."
+ },
+ {
+  "rid": "n24352",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": true,
+  "note": "Seven identical single-use accept requests in 131ms all 200; no idempotency key."
+ },
+ {
+  "rid": "n24354",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Idempotent-declared route, 17-request burst, server applied single increment"
+ },
+ {
+  "rid": "n24355",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Export job burst with enforced key and concurrency limit; benign replay."
+ },
+ {
+  "rid": "n24356",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Payout burst on idempotent route; one payout recorded; no race win shown."
+ },
+ {
+  "rid": "n24357",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Burst of 10 waiver posts shares one enforced idempotency key; single credit applied"
+ },
+ {
+  "rid": "n24358",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": true,
+  "note": "Eight redeem POSTs in 84ms with no idempotency key, key not enforced, debit side effects"
+ },
+ {
+  "rid": "n24359",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Five offer-accept posts share one enforced key; single acceptance recorded"
+ },
+ {
+  "rid": "n24360",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Receipt burst on idempotent route; one reimbursement line recorded; no race win."
+ },
+ {
+  "rid": "n24361",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Redemption retries share one key with cached replay; per-credit limit holds."
+ },
+ {
+  "rid": "n24363",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": true,
+  "note": "Ten API token mints with no idempotency key, key not enforced, same state change"
+ },
+ {
+  "rid": "n24365",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Trial-extension burst on idempotent route without key; per-tenant limit shows one grant."
+ },
+ {
+  "rid": "n24366",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Six quota POSTs share one idempotency key and apply one increment; legitimacy unconfirmed"
+ },
+ {
+  "rid": "n24367",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Export burst on idempotent route, unkeyed, within concurrency limit; no exceeded state."
+ },
+ {
+  "rid": "n24368",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Ten identical payout posts share one idempotency key; single payout issued."
+ },
+ {
+  "rid": "n24369",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "8 idempotent waiver requests; one credit applied"
+ },
+ {
+  "rid": "n24370",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Four identical redeem posts sharing one idempotency key; single voucher use."
+ },
+ {
+  "rid": "n24371",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "13-request burst on idempotent offer route; single acceptance recorded"
+ },
+ {
+  "rid": "n24372",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Eleven reimbursement posts share one enforced idempotency key; one line recorded"
+ },
+ {
+  "rid": "n24373",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": false,
+  "note": "Fifteen identical single-use redeems in 118ms, no idempotency key enforced; route marked idempotent"
+ },
+ {
+  "rid": "n24374",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Seat assignment burst shares one idempotency key with cached replay; seat limit one."
+ },
+ {
+  "rid": "n24375",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Token-mint burst on idempotent route, no key enforced; quota not exceeded."
+ },
+ {
+  "rid": "n24376",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "13-request burst sharing one idempotency key; single membership created"
+ },
+ {
+  "rid": "n24377",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "16 identical trial-extension posts; single grant per tenant; no race on state."
+ },
+ {
+  "rid": "n24378",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": false,
+  "note": "Five identical quota requests in 32ms, no key enforced; burst on idempotent route, weak"
+ },
+ {
+  "rid": "n24380",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "7 idempotent payout requests; one payout issued per claim"
+ },
+ {
+  "rid": "n24381",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Waiver retries share one idempotency key with cached replay; per-claim limit held at one."
+ },
+ {
+  "rid": "n24382",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "19-request idempotent voucher burst; single redemption recorded"
+ },
+ {
+  "rid": "n24383",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Offer-accept burst with one enforced idempotency key; single acceptance recorded."
+ },
+ {
+  "rid": "n24384",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": true,
+  "note": "Twelve reimbursement posts with no idempotency key, key not enforced, same state change"
+ },
+ {
+  "rid": "n24385",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Eight redeem posts share one enforced idempotency key; single redemption recorded"
+ },
+ {
+  "rid": "n24386",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": true,
+  "note": "Thirteen identical seat assignments all 201 in 287ms; idempotency key not enforced."
+ },
+ {
+  "rid": "n24387",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Twelve token mints share one enforced key; quota decremented once"
+ },
+ {
+  "rid": "n24388",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "17 identical invitation accepts; single membership and single invitation use."
+ },
+ {
+  "rid": "n24390",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": true,
+  "note": "Ten identical quota POSTs in 204ms, no idempotency key, idempotent route not enforced"
+ },
+ {
+  "rid": "n24391",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht04_race_condition_toctou_burst.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Audit export burst shares one idempotency key with cached replay; limit two."
+ },
+ {
+  "rid": "n24392",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "29-request burst sharing one idempotency key; single payment recorded"
+ },
+ {
+  "rid": "n24396",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "29 identical fee posts on idempotent route; single ledger effect per invoice."
+ },
+ {
+  "rid": "n24397",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Twenty-one fee POSTs share one key and record one payment; legitimacy unconfirmed"
+ },
+ {
+  "rid": "n24399",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "17-request burst sharing one idempotency key; single reservation held"
+ },
+ {
+  "rid": "n24400",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Reservation burst on idempotent route; one seat held; no race win shown."
+ },
+ {
+  "rid": "n24401",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Reservation burst with one enforced request key; single reservation held."
+ },
+ {
+  "rid": "n24403",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Kiosk burst of 26 shares one stored-result key; reservations held stay at one"
+ },
+ {
+  "rid": "n24404",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Slot reservation burst on idempotent route without key; held count within capacity."
+ },
+ {
+  "rid": "n24406",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Twelve identical renewal posts sharing one cached request key; single renewal per period."
+ },
+ {
+  "rid": "n24407",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "27-request idempotent renewal burst; single period renewal recorded"
+ },
+ {
+  "rid": "n24408",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "29-request burst sharing one idempotency key; single renewal recorded"
+ },
+ {
+  "rid": "n24409",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Renewal burst of 17 bound to payment intent identity; one renewal per period"
+ },
+ {
+  "rid": "n24410",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Burst of identical retries to idempotent renewal route; one renewal per period; no race."
+ },
+ {
+  "rid": "n24411",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Fifteen renewals share one idempotency key and yield one period renewal; legitimacy unconfirmed"
+ },
+ {
+  "rid": "n24412",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Burst on idempotent renewal route; one renewal recorded; no race win shown."
+ },
+ {
+  "rid": "n24413",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Four identical renewal posts sharing a cached request key; single renewal per period."
+ },
+ {
+  "rid": "n24415",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "30-request burst sharing one idempotency key; single redemption recorded"
+ },
+ {
+  "rid": "n24416",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "28-request idempotent voucher burst; single redemption recorded"
+ },
+ {
+  "rid": "n24417",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "19-request burst sharing one idempotency key; single redemption recorded"
+ },
+ {
+  "rid": "n24418",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Voucher burst on idempotent route; one redemption recorded; no race win."
+ },
+ {
+  "rid": "n24419",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Seven voucher redemptions share one key and yield one redemption; legitimacy unconfirmed"
+ },
+ {
+  "rid": "n24420",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "29 repeats on get-or-create voucher ledger; idempotent route; one redemption recorded."
+ },
+ {
+  "rid": "n24423",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Burst on idempotent route; one release recorded; no shared-key or race win shown."
+ },
+ {
+  "rid": "n24424",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Five release posts share one persisted-result key; single tranche release recorded"
+ },
+ {
+  "rid": "n24426",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "17-request burst on idempotent tranche release; single release recorded"
+ },
+ {
+  "rid": "n24427",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Burst of 24 release posts shares one reply-cached key; single release recorded"
+ },
+ {
+  "rid": "n24428",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Tranche release burst on idempotent route, no key; recorded releases stay at one."
+ },
+ {
+  "rid": "n24429",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Tranche release retries share one key; per-tranche limit of one holds."
+ },
+ {
+  "rid": "n24430",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Quiz attempt burst held by server active-attempt identity; attempts stay within limit"
+ },
+ {
+  "rid": "n24431",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "26-request burst sharing one idempotency key; single quiz attempt created"
+ },
+ {
+  "rid": "n24432",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "17-request idempotent quiz-start burst; attempts within per-quiz limit"
+ },
+ {
+  "rid": "n24433",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Twenty identical attempt POSTs share one key and create one attempt; legitimacy unconfirmed"
+ },
+ {
+  "rid": "n24434",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Quiz start burst bounded by server active-attempt identity; one attempt created"
+ },
+ {
+  "rid": "n24435",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Quiz start burst shares one reply-cached key; attempts within per-quiz limit"
+ },
+ {
+  "rid": "n24436",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Twenty-seven identical attempt POSTs on idempotent route; one attempt created; legitimacy unconfirmed"
+ },
+ {
+  "rid": "n24437",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Burst of 14 identical quiz starts sharing one idempotency key; single attempt created."
+ },
+ {
+  "rid": "n24438",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "26-request idempotent extension burst; single extension granted"
+ },
+ {
+  "rid": "n24439",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vht05_race_condition_toctou_burst.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "26 repeats share one idempotency key; per-assignment grant limit enforced; no race."
  }
 ]

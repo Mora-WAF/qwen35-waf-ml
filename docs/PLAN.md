@@ -4,7 +4,7 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 
 ## Implementation progress (updated 15 October 2026, 20:15)
 
-**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Taxonomy expansion to 41 classes in progress (build v4, see below).** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
+**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Fast build v4 (41 classes): gate passed (see below).** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
 
 ### Phase status
 
@@ -53,6 +53,18 @@ runtime was assigned later (an orphan runtime); `colab sessions` lists server as
 - Gate (`reports/pre_colab_gate.json`): passed, 0 failures, zero cross-split overlap (exact input hash + lineage group). The previous fast build failed it with 2,190 errors, all CIC-DDoS2019 record IDs containing `@`, spaces and colons; `generate.gen_observed_flow` now maps IDs to `[A-Za-z0-9_.:~-]`.
 - Shortcut audit: 35-class 42.9% (majority 24.9%, chance 2.9%), attack vs benign 56.7%. `concentrated_structural_tokens` is no longer near-empty: Haiku context keys per class (`ctx=cache_config` web cache poisoning 844 / benign 245, `ctx=fetch_behavior`, CSV `hist=*`) with matched benign twins, plus header names a single worker used (≤48 records each). Context keys name the domain, not the verdict; the twins carry the same keys.
 - Baselines (`reports/baselines.json`, char 3–5-gram TF-IDF + linear SVM; CRS PL1 regexes): SVM test accuracy 71.1% (macro-F1 0.886; recall 9% on brute force and port scan and 24% on slowloris, cause not yet analysed), test_unseen 92.0% (macro-F1 0.925, benign FPR 11.1%); CRS PL1 attack-vs-benign 62.7% on test HTTP, 49.5% on test_unseen (benign FPR 19.8% / 16.5%). Previous build: SVM test 95.7%, test_unseen 92.8%. A fine-tuned model has to beat these on test_unseen.
+
+### Fast build v4 (`datasets_ready/fast_*.jsonl`) — 41 classes, 15 October, night
+
+Six classes added, all **synthetic-only** (no live capture, no traffic generators): `bopla_mass_assignment`, `bfla_admin_function_probing`, `race_condition_toctou_burst` (L7_API_PROTOCOL), `malicious_file_upload_webshell` (L7_INJECTION, wins over rce_cmd_injection for uploaded executables), `mcp_agentic_tool_abuse` (L7_AI_MODERN, wins over path traversal, SSRF, RCE and prompt injection when the payload arrives as an agent tool call, tool description or tool result) — Haiku scenario records — and `http2_rapid_reset_continuation` (L4, synthetic flow profile). Existing classes got exclusions pointing to them; policy `required_context` covers bopla, bfla, race and mcp.
+
+- HTTP/2 evidence: two synthetic-only features `h2_rst_stream_ratio` (RST_STREAM / HEADERS) and `h2_continuation_frames`. They appear on any TLS 443/8443 flow that carried data (any class, 50%), not only on the attack, and benign lookalikes overlap on purpose: browser navigation cancels (ratio 0.15–0.6), gRPC stream cancels (0.2–0.7), large-header CONTINUATION (2–30 frames) vs attack variants mixed_reset 0.45–0.85 and continuation_flood 40–20,000 frames.
+- Generation: 30 Haiku workers (round `n6`, 6 per class, 12 families each, distinct application domains) → 2,880 attack records (72 families per class, all unique, no verdict keys or class names in telemetry) + 300 twins; twin round `tn6` added 880 context-matched twins (minimal pairs: same request and context keys, legitimate value). Blind Haiku review: 99–100% agreement on the new classes, 36 attack and 16 twin items quarantined.
+- Records: 41,824 (all 41 classes, no deficits). New classes 500–576 lineage groups each, present in every split including test_unseen. Tokens: median 611, p95 1,011, max 2,038 (the system prompt lists 41 labels). **Gate passed, 0 failures**; 37 unit tests pass.
+- Shortcut audit: multiclass 45.1% (majority 24.9%, chance 2.4%), attack vs benign 54.0%. 139 concentrated structural tokens; the new ones are header and context names a single worker invented (e.g. `ctx=route_binding` bopla 95 / benign 10), concentrated because each worker file's first round twinned only 10 lines. Same pattern as v3; a twin round over worker files w02–w05 would remove most.
+- Baselines: SVM test 72.9% (macro-F1 0.895), test_unseen 91.7% (macro-F1 0.921, benign FPR 12.0%); CRS PL1 attack-vs-benign 61.8% test, 47.8% test_unseen. **The SVM reaches 100% test_unseen recall on all five new L7 classes** (HTTP/2 0.67): their records are separable at the character level, so a high model score there does not show understanding. Next data step: hard twins one evidence value away and confuser sets between neighbouring classes (bola/bopla/bfla; mcp/prompt injection/SSRF).
+- Bundle `colab_bundle_fast.zip` rebuilt on v4 (8.8 MiB); the 41-label system prompt changes its fingerprint.
+- Cross-model review `n6` (Codex + Gemini; six new classes, sqli_obfuscated rescore, benign sample; 400 items): _TBD_.
 
 ### Data work since the pilot (15 October)
 

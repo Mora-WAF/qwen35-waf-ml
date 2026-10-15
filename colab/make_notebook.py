@@ -25,7 +25,10 @@ MODE = "smoke"            # "smoke" (>=20 optimizer steps) | "fast" (30k subset)
 DRY_RUN_STEPS = None      # e.g. 25 with MODE="fast": start-check on the real bundle (ckpt+eval every 10 steps,
                           # 60 predictions, Part B continuation test, full-run time estimate); None = real run
 BUNDLE = f"/content/colab_bundle_{'pilot' if MODE == 'smoke' else MODE}.zip"   # upload via the Files pane, or Drive
-DRIVE_DIR = None          # e.g. "/content/drive/MyDrive/qwen35_waf/run1" -> checkpoints copied here
+DRIVE_DIR = None          # e.g. "/content/drive/MyDrive/qwen35_waf/run1" -> checkpoints copied here (newest 2 kept);
+                          # set it for any real run on a session that can disconnect (free tier, long runs)
+SAVE_EVERY_MIN = 20       # also checkpoint when this many minutes passed since the last save (disconnect loss cap)
+BATCH = None              # per-device batch; None = from GPU memory (T4 1, L4 2, A100-40 4, 80 GB 8), effective 16
 RUN_RESUME_TEST = True    # smoke only: compare uninterrupted vs save/reload continuation
 SEED = 3407
 MODEL_ID = "unsloth/Qwen3.5-4B"
@@ -115,19 +118,28 @@ class Meter(TrainerCallback):
     \"\"\"Token throughput excluding warmup steps; finite-loss check; complete-checkpoint copies to Drive.\"\"\"
     def __init__(self, tokens_per_step, warmup=2):
         self.tps, self.warm, self.t0, self.losses, self.tokens = tokens_per_step, warmup, None, [], 0
+        self.last_save = time.time()
     def on_step_end(self, args, state, control, **kw):
         if state.global_step == self.warm: self.t0 = time.time(); self.tokens = 0
         elif state.global_step > self.warm: self.tokens += self.tps
+        if time.time() - self.last_save > SAVE_EVERY_MIN * 60:
+            control.should_save = True  # time-based checkpoint on top of save_steps
     def on_log(self, args, state, control, logs=None, **kw):
         if logs and "loss" in logs:
             assert math.isfinite(logs["loss"]), f"non-finite loss at step {state.global_step}"
             self.losses.append((state.global_step, logs["loss"]))
     def on_save(self, args, state, control, **kw):
         ck = f"{args.output_dir}/checkpoint-{state.global_step}"
+        self.last_save = time.time()
         open(f"{ck}/COMPLETE", "w").write(json.dumps({"step": state.global_step, "time": time.time()}))
         if DRIVE_DIR:
+            os.makedirs(DRIVE_DIR, exist_ok=True)
             dst = f"{DRIVE_DIR}/checkpoint-{state.global_step}"
             shutil.copytree(ck, dst + ".part", dirs_exist_ok=True); os.replace(dst + ".part", dst)
+            done = sorted((c for c in os.listdir(DRIVE_DIR) if c.startswith("checkpoint-") and not c.endswith(".part")),
+                          key=lambda c: int(c.rsplit("-", 1)[1]))
+            for old in done[:-2]:  # keep the newest 2 complete copies on Drive
+                shutil.rmtree(f"{DRIVE_DIR}/{old}", ignore_errors=True)
     def throughput(self):
         return self.tokens / (time.time() - self.t0) if self.t0 else None
 
@@ -136,8 +148,8 @@ SHORT = MODE == "smoke" or bool(DRY_RUN_STEPS)
 STEPS = 25 if MODE == "smoke" else (DRY_RUN_STEPS or -1)
 OUT = f"/content/run_{MODE}" + ("_dry" if DRY_RUN_STEPS else "")
 meter = Meter(tokens_per_step=avg_tokens * 16)
-args = H.make_args(OUT, STEPS, 10 if SHORT else 250, smoke=SHORT, seed=SEED)
-print("optim", args.optim.value, "| clip", args.max_grad_norm, "| warmup", args.warmup_steps, "| fp16", args.fp16, "| bf16", args.bf16)
+args = H.make_args(OUT, STEPS, 10 if SHORT else 250, smoke=SHORT, seed=SEED, per_device=BATCH)
+print("batch", args.per_device_train_batch_size, "x accum", args.gradient_accumulation_steps, "| optim", args.optim.value, "| clip", args.max_grad_norm, "| warmup", args.warmup_steps, "| fp16", args.fp16, "| bf16", args.bf16)
 trainer = Trainer(model=model, args=args, train_dataset=Dataset.from_list(train_rows),
                   eval_dataset=Dataset.from_list(val_rows[:100 if DRY_RUN_STEPS else EVAL_SUBSET]), data_collator=collate, callbacks=[meter])"""),
 (PY, """# ---- train (resumes from the newest COMPLETE checkpoint locally or on Drive) -------------------
@@ -147,6 +159,10 @@ def latest_complete(*dirs):
     return max(cks, key=lambda c: int(c.rsplit("-", 1)[1]), default=None)
 resume = latest_complete(OUT, DRIVE_DIR)
 print("resuming from", resume) if resume else print("fresh start")
+if resume:  # the sampler and skip-ahead depend on the per-device batch: resume only with the batch the run started with
+    started = json.load(open(f"{resume}/trainer_state.json")).get("train_batch_size")
+    assert started in (None, args.per_device_train_batch_size), \
+        f"checkpoint was trained with batch {started}; set BATCH = {started} (same GPU type) to resume"
 torch.cuda.reset_peak_memory_stats()
 t_start = time.time()
 result = trainer.train(resume_from_checkpoint=resume)

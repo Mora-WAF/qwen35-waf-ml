@@ -1,0 +1,108 @@
+{"rid": "n24402", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Idempotent ensure-hold route; burst yields one held reservation, limit not breached"}
+{"rid": "n24192", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Caller holds tax_clerk_senior, matching the route role; batch release authorized"}
+{"rid": "n23827", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Customer role invokes finance_operator-only unfreeze route; role not inherited"}
+{"rid": "n24296", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Writes only fields writable for caller role on own benefit case"}
+{"rid": "n23902", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool URL to 169.254.169.254 copied from OCR text, outside granted document prefix"}
+{"rid": "n24389", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shared enforced idempotency key; repeated 201s replay one trial extension"}
+{"rid": "n24484", "predicted_class": "xxe", "evidence_sufficient": true, "note": "DOCTYPE SYSTEM file entity in uploaded XML; parser expands external entities before extraction"}
+{"rid": "n24018", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "PHP source uploaded to non-executable permit source-review store; developer review feature"}
+{"rid": "n24172", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Token carries network_admin, matching route role; writable status field"}
+{"rid": "n23946", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "ASP.NET page uploaded to developer connector review store, not executed or mapped"}
+{"rid": "n23858", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Tenant calls metrology_operator-only route; route role not granted to tenant"}
+{"rid": "n24373", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": false, "note": "Fifteen identical single-use redeems in 118ms, no idempotency key enforced; route marked idempotent"}
+{"rid": "n24342", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Enforced idempotency key replays cached response; single regulated quota increment"}
+{"rid": "n24440", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ensure-semantics idempotent extension route; single grant under per-assignment limit"}
+{"rid": "n23704", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "PUT on return owned by another subject; prior foreign object IDs probed"}
+{"rid": "n23864", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "Uploaded aspx saved as verbatim name inside web-served directory where ASP.NET executes it"}
+{"rid": "n23761", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Alt text overrides task and asks model to read internal URL; no tool call or metadata"}
+{"rid": "n24181", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "fraud_ops_lead token role matches the queue-admin route role; delete authorized"}
+{"rid": "n24212", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "identity_admin token role matches internal key rotation route"}
+{"rid": "n24007", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "ASPX source uploaded to tax developer code-review store, not web-served or executed"}
+{"rid": "n24193", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "tax_clerk_senior token role matches batch-admin route; delete authorized"}
+{"rid": "n23896", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "web.config handler override uploaded into document root and honored by IIS"}
+{"rid": "n23684", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Calendar importer server-side fetch of private 10.23.7.8 address"}
+{"rid": "n23991", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "JSPX upload to repository source store, download as octet-stream, never compiled"}
+{"rid": "n24414", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Idempotent redemption with identity replay; single voucher debit resulting"}
+{"rid": "n23762", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Submitted text tells assistant to fetch metadata URL and override task; no tool layer"}
+{"rid": "n23819", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Subscriber writes read-only geofence_exempt on own tracker; schema marks it read-only"}
+{"rid": "n24032", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "JSPX snippet library upload stored as text with nosniff; benefits developer feature"}
+{"rid": "n23938", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Transcript text steers tool call to private media URI outside allowed resources"}
+{"rid": "n24145", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "fraud_ops_lead token role matches queue route; rebuild authorized"}
+{"rid": "n24167", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "integrations_admin token role matches webhook secret rotation route"}
+{"rid": "n23982", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Ini upload to policy configuration code-review store, no settings import; developer feature"}
+{"rid": "n24130", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Relative path resolves inside granted appeals root; authorized clerk record review"}
+{"rid": "n23913", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Poisoned tool description orders fetch of internal contracts URL outside granted prefixes"}
+{"rid": "n23716", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "PATCH on payout owned by another subject; prior foreign object IDs probed"}
+{"rid": "n24187", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "org_owner token role matches group membership route role"}
+{"rid": "n24339", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Writes display_name and sis_user_id, both writable for role, on own profile"}
+{"rid": "n24441", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shared request-id replay key across 25 requests; single extension granted"}
+{"rid": "n24093", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Traversal URI leaves course scope to SIS export via tool-result alias; course_scope_match false"}
+{"rid": "n24314", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Writes only schema-writable quiz settings on own object"}
+{"rid": "n24394", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Idempotent fee payment with invoice-identity replay; single payment on invoice"}
+{"rid": "n23806", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Partner sets read-only authorized flag on own estimate; schema marks it read-only"}
+{"rid": "n23751", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Comment text overrides summarizer task and asks for internal URL; no tool layer"}
+{"rid": "n24457", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "SVG with javascript href stored and inlined as raw markup on resident board"}
+{"rid": "n24291", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "All written fields writable for entitlement-privileged owner role on own tenant project"}
+{"rid": "n24353", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shared enforced idempotency key; single trial extension from migration request"}
+{"rid": "n23719", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "GET receipt owned by another subject; sequential foreign receipt IDs probed"}
+{"rid": "n23768", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Pasted article text tells summarizer to fetch metadata URL; no tool layer"}
+{"rid": "n24180", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "claims_supervisor role matches route; k6 client and prior 404 probing are weak signals"}
+{"rid": "n23891", "predicted_class": "malicious_file_upload_webshell", "evidence_sufficient": true, "note": "PHP file uploaded inside web root with PHP-FPM mapping; executable on request"}
+{"rid": "n24300", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "All persisted fields writable for enrollment officer role on own object"}
+{"rid": "n23835", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "wallet_user calls settlement_operator-only reconcile route; role not inherited"}
+{"rid": "n24074", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Hold placed on claim inside granted book scope from user instruction"}
+{"rid": "n24214", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "procurement_admin matches route role, but vendor-IdP token and admin role are unusual"}
+{"rid": "n23690", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Diagnostics importer server-side GET of loopback URL supplied in body"}
+{"rid": "n24146", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "payments_approver token role matches batch-release route role"}
+{"rid": "n24159", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "underwriter_admin token role matches rules-admin route; delete authorized"}
+{"rid": "n23713", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "PATCH on loan owned by another subject; sequential foreign loan IDs probed"}
+{"rid": "n23688", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Resource resolver server-side GET of link-local 169.254 address"}
+{"rid": "n24378", "predicted_class": "race_condition_toctou_burst", "evidence_sufficient": false, "note": "Five identical quota requests in 32ms, no key enforced; burst on idempotent route, weak"}
+{"rid": "n23973", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "PHP source uploaded to tenant SDK code-review store, not web-served or loaded"}
+{"rid": "n23918", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool URL to internal exam outline taken from student appendix; outside granted prefix"}
+{"rid": "n23735", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "PATCH on project owned by another manager; sibling owned projects edited first"}
+{"rid": "n24504", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External SYSTEM entity in uploaded XML creative manifest; external resolution enabled"}
+{"rid": "n24346", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shared enforced idempotency key replays one voucher redemption; single debit"}
+{"rid": "n24174", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": false, "note": "Session role workspace_member calls platform_admin route; token role claim may not be used"}
+{"rid": "n24425", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ensure-semantics idempotent tranche release; single release recorded"}
+{"rid": "n24405", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shared request-id replay key; single seat reservation held from call centre"}
+{"rid": "n24364", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Enforced invitation idempotency key replays accept; single membership created"}
+{"rid": "n24058", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool metadata directs agent to forward claim files to external address via send tool"}
+{"rid": "n24421", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shared request-id replay key; single voucher redemption resulting"}
+{"rid": "n23693", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Report importer server-side GET of private IPv6 address with no destination filter"}
+{"rid": "n23968", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "JSP upload to example repository store, never compiled or served; developer feature"}
+{"rid": "n24222", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "registry_supervisor token role matches supervisor-ops amend route"}
+{"rid": "n24422", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shared request-id replay key on treasury release; single release recorded"}
+{"rid": "n23753", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Customer note orders replacement of explanation with internal contracts URL; no tool layer"}
+{"rid": "n23712", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "PUT alerts on card owned by another subject; sequential foreign card IDs probed"}
+{"rid": "n24261", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "All persisted settings writable for security administrator role on own tenant"}
+{"rid": "n24520", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External file entity in uploaded SVG logo; XML metadata reader expands it"}
+{"rid": "n24379", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Enforced idempotency key; export concurrency limit holds at one active job"}
+{"rid": "n24002", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "JSPX code submission for web course stored as text; code-review feature"}
+{"rid": "n24276", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Token creation fields writable for tenant token administrator on own resource"}
+{"rid": "n24515", "predicted_class": "xxe", "evidence_sufficient": true, "note": "DOCTYPE file entity in uploaded story XML; parser has external entities enabled"}
+{"rid": "n24448", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "HTML with ontoggle handler stored and opened inline for tenants, unescaped"}
+{"rid": "n23811", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Analyst sets read-only public flag on own dashboard; schema marks it read-only"}
+{"rid": "n24147", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "underwriter_admin token role matches rules-admin route for rule creation"}
+{"rid": "n23667", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Server-side GET of IPv6 loopback document URL; no destination filtering configured"}
+{"rid": "n23937", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Customer comment steers tool to LAN router URL outside allowed resources"}
+{"rid": "n23756", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Recipient note tells summarizer to fetch internal inventory URL; no tool layer"}
+{"rid": "n24320", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "All persisted fields writable for intake coordinator role on own object"}
+{"rid": "n23830", "predicted_class": "bfla_admin_function_probing", "evidence_sufficient": true, "note": "Account holder calls statement_admin-only regenerate route; role not inherited"}
+{"rid": "n23701", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Usage fetcher server-side GET of link-local IPv6 address"}
+{"rid": "n23905", "predicted_class": "mcp_agentic_tool_abuse", "evidence_sufficient": true, "note": "Tool description directs agent to read loopback admin path outside granted origin"}
+{"rid": "n24307", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Writes schema-writable permit status fields on own application"}
+{"rid": "n24316", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Writes only writable assessment fields; import operator role matches operation"}
+{"rid": "n24398", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Idempotent reservation with citizen upsert semantics; one hold resulting"}
+{"rid": "n23796", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Merchant sets read-only destination_account on own payout; schema marks it read-only"}
+{"rid": "n24164", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "billing_admin token role matches internal subscriptions route for seat removal"}
+{"rid": "n24042", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Exact internal URL is allowlisted and supplied by user instruction; in-scope fetch"}
+{"rid": "n24210", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "identity_admin token role matches internal policy route"}
+{"rid": "n24229", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "registry_supervisor token role matches supervisor-ops route; purge authorized"}
+{"rid": "n24332", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "All persisted fields writable for welfare supervisor role on own object"}
+{"rid": "n24224", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "registry_supervisor token role matches supervisor-ops export route"}
+{"rid": "n24109", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Tool listing matches pinned, user-authorized snapshot workflow; calls stay in granted scope"}
+{"rid": "n24512", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External general entity in uploaded XML workshop document; parser resolves external entities"}
+{"rid": "n23963", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Perl script stored in non-executable integration review queue, not registered with runner"}
+{"rid": "n24318", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Writes writable taxpayer fields on own record; filing status writable for role"}
+{"rid": "n24362", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shared enforced idempotency key replays seat assignment; single seat per member"}
