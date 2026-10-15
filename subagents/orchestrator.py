@@ -31,7 +31,10 @@ GAP_BENIGN = ["benign_hard_negative_dev", "benign_hard_negative_search"]
 GAP = GAP_L7 + GAP_BENIGN
 EXTRA_INGEST = ["benign_standard_traffic",  # context-matched benign counterparts (v1 file)
                 "xss_reflected_stored", "xxe",  # confuser-set records next to the seeded ones (prompt confusers_v1.md)
-                "benign_high_rate_legit"]  # hard twins of rate-lookalike classes (prompt hard_twins_v1.md)
+                "benign_high_rate_legit",  # hard twins of rate-lookalike classes (prompt hard_twins_v1.md)
+                # Codex scenario families for seeded classes (round vcx): named families make test_unseen possible
+                "crlf_header_injection", "http_request_smuggling", "ldap_xpath_injection", "nosqli", "open_redirect_cors",
+                "path_traversal_lfi", "rce_cmd_injection", "ssti", "xss_dom_polyglot"]
 GENERIC_HEADERS = {"host", "user-agent", "accept", "accept-language", "accept-encoding", "connection",
                    "dnt", "upgrade-insecure-requests"}  # + sec-fetch-* / sec-ch-ua*
 
@@ -381,7 +384,7 @@ def ingest(root=ROOT):
                                 "scenario": obj.get("scenario", {}), "needs_review": rv.get(ref) != "agreed",
                                 "blind_review": rv.get(ref, "not_reviewed"),
                                 "transforms": (["host_neutralize"] if hn else []) + ["header_profile_normalize"]},
-                               {"lineage_group": group, "generator": "codex-gpt-6.1-sol" if re.search(r"\.v(ht|cf)\d", fname) else "haiku-5.5",
+                               {"lineage_group": group, "generator": "codex-gpt-6.1-sol" if re.search(r"\.v(ht|cf|cx)\d", fname) else "haiku-5.5",
                                 "template_family": f"{cls}:{(obj.get('scenario') or {}).get('family', 'v1_unlabelled')}"})
                 accepted.append(rec)
             except (json.JSONDecodeError, KeyError, jsonschema.ValidationError, AssertionError):

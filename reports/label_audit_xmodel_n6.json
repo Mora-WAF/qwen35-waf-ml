@@ -1,19 +1,23 @@
 {
  "models": [
   "codex",
+  "codexhi",
   "gemini"
  ],
  "items": 400,
  "answered": {
   "codex": 400,
+  "codexhi": 100,
   "gemini": 300
  },
  "agreement_35class": {
   "codex": 0.968,
+  "codexhi": 0.9,
   "gemini": 0.983
  },
  "agreement_attack_vs_benign": {
   "codex": 0.988,
+  "codexhi": 0.94,
   "gemini": 0.997
  },
  "per_class": {
@@ -22,15 +26,18 @@
   "benign_high_rate_legit": {},
   "benign_standard_traffic": {
    "codex": 0.9,
+   "codexhi": 0.85,
    "gemini": 0.92
   },
   "bfla_admin_function_probing": {
    "codex": 1.0,
+   "codexhi": 1.0,
    "gemini": 1.0
   },
   "bola_idor_enumeration": {},
   "bopla_mass_assignment": {
    "codex": 1.0,
+   "codexhi": 1.0,
    "gemini": 1.0
   },
   "c2_beaconing_anomaly": {},
@@ -42,6 +49,7 @@
   "graphql_abuse": {},
   "http2_rapid_reset_continuation": {
    "codex": 1.0,
+   "codexhi": 1.0,
    "gemini": 1.0
   },
   "http_request_smuggling": {},
@@ -50,10 +58,12 @@
   "llm_prompt_injection": {},
   "malicious_file_upload_webshell": {
    "codex": 0.98,
+   "codexhi": 0.77,
    "gemini": 1.0
   },
   "mcp_agentic_tool_abuse": {
    "codex": 0.98,
+   "codexhi": 0.91,
    "gemini": 1.0
   },
   "nosqli": {},
@@ -63,6 +73,7 @@
   "prototype_pollution": {},
   "race_condition_toctou_burst": {
    "codex": 1.0,
+   "codexhi": 1.0,
    "gemini": 1.0
   },
   "rce_cmd_injection": {},
@@ -70,6 +81,7 @@
   "sqli_classic": {},
   "sqli_obfuscated": {
    "codex": 0.88,
+   "codexhi": 0.83,
    "gemini": 0.93
   },
   "ssrf_cloud_metadata": {},
@@ -83,72 +95,8 @@
   "xss_reflected_stored": {},
   "xxe": {}
  },
- "contested_by_all_external": 5,
- "contested_by_class": {
-  "benign_standard_traffic": 3,
-  "sqli_obfuscated": 2
- },
- "contested": [
-  {
-   "rid": "g00008",
-   "label": "benign_standard_traffic",
-   "id": "twin:crlf_injection_payload_list:crlf_header_injection:5ca9a5634730637e~1",
-   "provenance": "synthetic",
-   "generator": "deterministic",
-   "haiku_review": "n/a",
-   "votes": {
-    "codex": "benign_hard_negative_search",
-    "gemini": "benign_hard_negative_search"
-   }
-  },
-  {
-   "rid": "g00015",
-   "label": "benign_standard_traffic",
-   "id": "obs:cic_ids2017_mirror:336925",
-   "provenance": "observed",
-   "generator": "deterministic",
-   "haiku_review": "n/a",
-   "votes": {
-    "codex": "port_scan_recon",
-    "gemini": "port_scan_recon"
-   }
-  },
-  {
-   "rid": "g00034",
-   "label": "benign_standard_traffic",
-   "id": "twin:fuzzdb:ldap_xpath_injection:fc632b92d10d5095~5",
-   "provenance": "synthetic",
-   "generator": "deterministic",
-   "haiku_review": "n/a",
-   "votes": {
-    "codex": "benign_hard_negative_search",
-    "gemini": "benign_hard_negative_search"
-   }
-  },
-  {
-   "rid": "g00353",
-   "label": "sqli_obfuscated",
-   "id": "derived:sqli_obfuscated:0bb80ca1ca1423d8~1",
-   "provenance": "hybrid",
-   "generator": "deterministic",
-   "haiku_review": "n/a",
-   "votes": {
-    "codex": "sqli_classic",
-    "gemini": "sqli_classic"
-   }
-  },
-  {
-   "rid": "g00395",
-   "label": "sqli_obfuscated",
-   "id": "derived:sqli_obfuscated:e62189d64161d42d~0",
-   "provenance": "hybrid",
-   "generator": "deterministic",
-   "haiku_review": "n/a",
-   "votes": {
-    "codex": "sqli_classic",
-    "gemini": "sqli_classic"
-   }
-  }
- ],
+ "contested_by_all_external": 0,
+ "contested_by_class": {},
+ "contested": [],
  "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
 }

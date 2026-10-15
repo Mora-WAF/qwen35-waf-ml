@@ -1,0 +1,45 @@
+{
+ "class": "xss_dom_polyglot",
+ "count": 40,
+ "families": 4,
+ "domain": "L7_INJECTION",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "Payloads that execute through client-side DOM sinks or polyglot parsing across several contexts.",
+ "exclusions": [
+  "Server-reflected payloads with no client sink belong to xss_reflected_stored",
+  "Static JavaScript assets with no attacker-controlled fragment"
+ ],
+ "required_evidence": [
+  "Client-side sink context such as innerHTML, eval, or location",
+  "Source of the attacker-controlled fragment or parameter",
+  "Browser-side rendering or script context evidence"
+ ],
+ "benign_counterexamples": [
+  "Documentation page with a JavaScript snippet in a code block",
+  "Single-page app routing that reads a legitimate hash parameter"
+ ],
+ "is_benign": false,
+ "context_schema": [
+  "context.sink_context"
+ ],
+ "avoid_families": [
+  "banking_adjacent_fragments",
+  "fintech_jquery_fragments",
+  "storefront_html_panels",
+  "storefront_script_interpolation"
+ ],
+ "focus_domains": [
+  "e-commerce storefront",
+  "retail banking",
+  "payments/fintech API"
+ ],
+ "note": "Seeded payload lists already cover single payload strings; write whole application scenarios instead (route, parameter, sink context), with realistic payloads of this class, at most ceil(count/families) records per family.",
+ "out_path": "data/jobs/out/xss_dom_polyglot.vcx11.jsonl",
+ "twin_count": 10,
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vcx11_xss_dom_polyglot.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/scenario_v2.md"
+}

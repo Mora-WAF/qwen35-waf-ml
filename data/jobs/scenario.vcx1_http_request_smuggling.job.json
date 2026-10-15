@@ -1,0 +1,40 @@
+{
+ "class": "http_request_smuggling",
+ "count": 80,
+ "families": 6,
+ "domain": "L7_API_PROTOCOL",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "Conflicting or duplicate framing headers that make front-end and back-end parsers disagree on request boundaries.",
+ "exclusions": [
+  "Header value injection with no framing conflict belongs to crlf_header_injection",
+  "Text templates for HTTP/2 with no raw frame fixture"
+ ],
+ "required_evidence": [
+  "Exact raw framing with duplicate or conflicting Content-Length and Transfer-Encoding",
+  "Parser-stack assumptions for front-end and back-end",
+  "Fixture retaining ordered duplicate headers"
+ ],
+ "benign_counterexamples": [
+  "Proxy request with a single valid Content-Length header",
+  "Client chunked upload that sends only Transfer-Encoding chunked"
+ ],
+ "is_benign": false,
+ "context_schema": [
+  "context.parser_stack"
+ ],
+ "avoid_families": [],
+ "focus_domains": [
+  "healthcare patient portal",
+  "insurance claims",
+  "SaaS admin console"
+ ],
+ "note": "Seeded payload lists already cover single payload strings; write whole application scenarios instead (route, parameter, sink context), with realistic payloads of this class, at most ceil(count/families) records per family.",
+ "out_path": "data/jobs/out/http_request_smuggling.vcx1.jsonl",
+ "twin_count": 10,
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vcx1_http_request_smuggling.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/scenario_v2.md"
+}

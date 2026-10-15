@@ -1,0 +1,41 @@
+{
+ "class": "ssti",
+ "count": 80,
+ "families": 6,
+ "domain": "L7_INJECTION",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "Server-side template injection where input is evaluated by a template engine expression context.",
+ "exclusions": [
+  "Client-side template injection in browser frameworks belongs to xss_dom_polyglot",
+  "Literal braces in JSON or code samples",
+  "Command execution belongs to rce_cmd_injection"
+ ],
+ "required_evidence": [
+  "Input placed in a server-rendered template context",
+  "Engine-specific expression syntax evaluated or echoed in the response",
+  "Template engine identity or response-diff evidence"
+ ],
+ "benign_counterexamples": [
+  "Email body with double braces in an app-authored mustache template",
+  "Math search text containing braces in a documentation query"
+ ],
+ "is_benign": false,
+ "context_schema": [
+  "context.template_engine"
+ ],
+ "avoid_families": [],
+ "focus_domains": [
+  "social network",
+  "ad-tech/analytics",
+  "energy/utility billing"
+ ],
+ "note": "Seeded payload lists already cover single payload strings; write whole application scenarios instead (route, parameter, sink context), with realistic payloads of this class, at most ceil(count/families) records per family.",
+ "out_path": "data/jobs/out/ssti.vcx7.jsonl",
+ "twin_count": 10,
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vcx7_ssti.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/scenario_v2.md"
+}

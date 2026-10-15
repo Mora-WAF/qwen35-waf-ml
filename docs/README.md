@@ -2,7 +2,11 @@
 
 This repository turns HTTP requests and network-flow telemetry into a security class, then uses a separate Python policy to recommend an action. Start here if you want to understand the system before building data or running the notebook.
 
-## Learning path
+## Start with the plain-language guides
+
+New to AI or security? Start with [Learning from the beginning](learning/README.md). It explains the purpose, training, examples, and evaluation through everyday situations, with no coding required. It includes a worked example and practice questions with answers.
+
+## Technical learning path
 
 | Read | You will learn | Follow the code |
 |---|---|---|

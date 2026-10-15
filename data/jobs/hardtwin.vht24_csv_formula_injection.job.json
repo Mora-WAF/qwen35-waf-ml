@@ -1,0 +1,36 @@
+{
+ "class": "csv_formula_injection",
+ "source_path": "data/jobs/out/csv_formula_injection.vs1w01.jsonl",
+ "source_lines": [
+  0,
+  4,
+  14,
+  16,
+  20,
+  21,
+  22,
+  25,
+  28,
+  29,
+  32,
+  33,
+  35,
+  38,
+  40,
+  44,
+  45,
+  46,
+  48,
+  49,
+  52,
+  53
+ ],
+ "context_schema": [
+  "context.sink_context"
+ ],
+ "scope": "Spreadsheet formula prefixes in stored or exported fields that execute when opened in a spreadsheet.",
+ "label_rule": "Deciding evidence: the exported value itself. The first round failed: prose starting with = or + is still evaluated by a spreadsheet when export escaping is off, so reviewers rightly read it as formula injection. This time the value must be something a spreadsheet parses as a NUMBER, never as a formula: an international phone number '+44 20 7946 0958', '+1 415 555 0100', or a signed amount '-42.50', '-1,200.00', '+3.5%'. Never start with = or @, never put a letter, parenthesis, '!', '|' or a function name in the value. Keep the same field, export pipeline and sink_context keys.",
+ "out_path": "data/jobs/out/benign_standard_traffic.vht24_csv_formula_injection.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/hard_twins_v1.md"
+}

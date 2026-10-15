@@ -1,0 +1,40 @@
+{
+ "class": "crlf_header_injection",
+ "count": 80,
+ "families": 6,
+ "domain": "L7_INJECTION",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "CR LF or encoded line breaks in a header value that inject extra response or request headers.",
+ "exclusions": [
+  "Framing conflicts via Content-Length or Transfer-Encoding belong to http_request_smuggling",
+  "Line breaks in form text bodies with no header context"
+ ],
+ "required_evidence": [
+  "Raw request-target or header value containing CR LF or encoded equivalents",
+  "Response or header-set context where the injection lands",
+  "Ordered header pairs preserved"
+ ],
+ "benign_counterexamples": [
+  "Multiline free-text notes stored with literal newlines",
+  "Log message containing a line break in a support note"
+ ],
+ "is_benign": false,
+ "context_schema": [
+  "context.header_sink"
+ ],
+ "avoid_families": [],
+ "focus_domains": [
+  "e-commerce storefront",
+  "retail banking",
+  "payments/fintech API"
+ ],
+ "note": "Seeded payload lists already cover single payload strings; write whole application scenarios instead (route, parameter, sink context), with realistic payloads of this class, at most ceil(count/families) records per family.",
+ "out_path": "data/jobs/out/crlf_header_injection.vcx0.jsonl",
+ "twin_count": 10,
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vcx0_crlf_header_injection.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/scenario_v2.md"
+}

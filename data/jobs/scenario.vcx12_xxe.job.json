@@ -1,0 +1,45 @@
+{
+ "class": "xxe",
+ "count": 46,
+ "families": 4,
+ "domain": "L7_INJECTION",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "XML external entity or DTD abuse that makes an XML parser reference external resources or local files.",
+ "exclusions": [
+  "Plain XML with no DOCTYPE or ENTITY declarations",
+  "Fetch of internal addresses with no XML parser belongs to ssrf_cloud_metadata"
+ ],
+ "required_evidence": [
+  "XML body with DOCTYPE or ENTITY declaration",
+  "Endpoint known to parse XML with external entities enabled, or test evidence",
+  "Raw body preserved with content type"
+ ],
+ "benign_counterexamples": [
+  "SOAP request with a standard namespace and no DOCTYPE",
+  "SVG upload with harmless metadata and no entity declarations"
+ ],
+ "is_benign": false,
+ "context_schema": [
+  "context.xml_parser"
+ ],
+ "avoid_families": [
+  "cms_feed_import",
+  "cms_svg_assets",
+  "gov_forms_intake",
+  "gov_records_exchange",
+  "iot_manifest_import",
+  "iot_soap_provisioning"
+ ],
+ "focus_domains": [
+  "IoT device management API",
+  "media/CMS publishing",
+  "government services"
+ ],
+ "note": "Seeded payload lists already cover single payload strings; write whole application scenarios instead (route, parameter, sink context), with realistic payloads of this class, at most ceil(count/families) records per family.",
+ "out_path": "data/jobs/out/xxe.vcx12.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/scenario_v2.md"
+}

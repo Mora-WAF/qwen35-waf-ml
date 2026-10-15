@@ -1,6 +1,6 @@
 {
- "reviewed": 25206,
- "items": 25206,
+ "reviewed": 26238,
+ "items": 26238,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
@@ -22,10 +22,10 @@
    "agreement": 0.66
   },
   "benign_standard_traffic": {
-   "agree": 4555,
+   "agree": 4707,
    "insufficient": 300,
    "disagree": 424,
-   "agreement": 0.91
+   "agreement": 0.92
   },
   "bfla_admin_function_probing": {
    "agree": 616,
@@ -45,10 +45,10 @@
    "agreement": 1.0
   },
   "crlf_header_injection": {
-   "agree": 9,
+   "agree": 89,
    "insufficient": 3,
    "disagree": 1,
-   "agreement": 0.9
+   "agreement": 0.99
   },
   "csv_formula_injection": {
    "agree": 465,
@@ -69,7 +69,7 @@
    "agreement": 0.87
   },
   "http_request_smuggling": {
-   "agree": 10,
+   "agree": 90,
    "insufficient": 0,
    "agreement": 1.0
   },
@@ -80,10 +80,10 @@
    "agreement": 0.85
   },
   "ldap_xpath_injection": {
-   "agree": 8,
+   "agree": 88,
    "insufficient": 2,
    "disagree": 2,
-   "agreement": 0.8
+   "agreement": 0.98
   },
   "llm_prompt_injection": {
    "agree": 1100,
@@ -104,18 +104,18 @@
    "agreement": 0.99
   },
   "nosqli": {
-   "agree": 9,
+   "agree": 89,
    "insufficient": 1,
    "disagree": 1,
-   "agreement": 0.9
+   "agreement": 0.99
   },
   "open_redirect_cors": {
-   "agree": 10,
-   "insufficient": 9,
+   "agree": 90,
+   "insufficient": 10,
    "agreement": 1.0
   },
   "path_traversal_lfi": {
-   "agree": 20,
+   "agree": 100,
    "insufficient": 9,
    "agreement": 1.0
   },
@@ -131,10 +131,10 @@
    "agreement": 1.0
   },
   "rce_cmd_injection": {
-   "agree": 19,
+   "agree": 99,
    "insufficient": 3,
    "disagree": 1,
-   "agreement": 0.95
+   "agreement": 0.99
   },
   "sqli_classic": {
    "agree": 17,
@@ -154,9 +154,10 @@
    "agreement": 0.99
   },
   "ssti": {
-   "agree": 10,
-   "insufficient": 2,
-   "agreement": 1.0
+   "agree": 76,
+   "insufficient": 12,
+   "disagree": 14,
+   "agreement": 0.84
   },
   "web_cache_poisoning": {
    "agree": 845,
@@ -171,19 +172,19 @@
    "agreement": 0.87
   },
   "xss_dom_polyglot": {
-   "agree": 10,
+   "agree": 90,
    "insufficient": 0,
    "agreement": 1.0
   },
   "xss_reflected_stored": {
-   "agree": 58,
+   "agree": 138,
    "insufficient": 5,
    "disagree": 2,
-   "agreement": 0.97
+   "agreement": 0.99
   },
   "xxe": {
-   "agree": 50,
-   "insufficient": 0,
+   "agree": 130,
+   "insufficient": 8,
    "agreement": 1.0
   }
  },
@@ -289,5 +290,5 @@
    16
   ]
  ],
- "quarantined": 4968
+ "quarantined": 4994
 }

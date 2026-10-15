@@ -1,0 +1,106 @@
+{"rid": "n25368", "predicted_class": "xxe", "evidence_sufficient": true, "note": "DOCTYPE external general entity to https URL in XML import body"}
+{"rid": "n25731", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin reflected with credentials; nextPage redirects to that foreign host"}
+{"rid": "n26008", "predicted_class": "ssti", "evidence_sufficient": false, "note": "Client template source evaluated by Smarty on end-user meter route; authoring intent not shown"}
+{"rid": "n25757", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin with credentials; protocol-relative returnLink to attacker host"}
+{"rid": "n25813", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Decoded ../ traversal in panel path; containment not configured in handler"}
+{"rid": "n25959", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Velocity directive as group invitation preview text in authoring feature"}
+{"rid": "n25891", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Semicolon command appended to manifest value feeding /bin/sh -c template"}
+{"rid": "n25643", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Mongo $in operator object in body; contract disallows operator objects"}
+{"rid": "n25747", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin with credentials; return_url passed to redirect unvalidated"}
+{"rid": "n25264", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Origin matches app host; same-origin redirect path, no payload"}
+{"rid": "n26007", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Velocity method call in caption; plausible authoring, intent not confirmed"}
+{"rid": "n25441", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Double-percent-encoded CRLF decodes into raw Set-Cookie response header"}
+{"rid": "n25858", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Newline and printf appended to feed URL inside shell curl command"}
+{"rid": "n25469", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Transfer-Encoding and Content-Length; front and back framing disagree"}
+{"rid": "n25909", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Backtick command substitution in X-Callback-Host passed to shell getent"}
+{"rid": "n25743", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin reflected with credentials on repository data endpoint"}
+{"rid": "n25486", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunked TE with trailing tab and Content-Length; parsers disagree on framing"}
+{"rid": "n25385", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Percent-decoded CRLF in return parameter injects Set-Cookie into Location"}
+{"rid": "n25412", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Percent-encoded CRLF in X-Export-Note injects upstream X-Trace-Tag header"}
+{"rid": "n25525", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "TE chunked plus Content-Length; front and back prefer different framing"}
+{"rid": "n25430", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in case label injects X-Robots-Tag response header"}
+{"rid": "n25228", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single Content-Length admin JSON body; no framing conflict or payload"}
+{"rid": "n25569", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Quote-based XPath predicate concatenated unescaped into folio lookup"}
+{"rid": "n25539", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "XPath OR-clause payload concatenated unescaped into username lookup"}
+{"rid": "n25638", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Mongo $regex operator object in candidateId; operators not allowed"}
+{"rid": "n25323", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading minus on amount-like label; plain negative number, no formula"}
+{"rid": "n25333", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Negative amount in recovery label; no formula prefix"}
+{"rid": "n25675", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Bracket $type operator in roomId form field reaches Mongo query"}
+{"rid": "n25440", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in query Link parameter injects Content-Type response header"}
+{"rid": "n25446", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Double-encoded CRLF injects Content-Language header via HEAD response"}
+{"rid": "n25226", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary appointment body; single framing field, no payload"}
+{"rid": "n25307", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading plus on percentage amount in CSV field; ordinary value"}
+{"rid": "n25588", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "LDAP filter closing paren and injected clause in modelName"}
+{"rid": "n25649", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Mongo $in operator object in participantCode; operators disallowed"}
+{"rid": "n25551", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "LDAP filter break-out with wildcard and role clause in email"}
+{"rid": "n25277", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Clean callback host into getent; no shell metacharacters"}
+{"rid": "n25886", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Pipe and comment appended to source value of ffmpeg shell command"}
+{"rid": "n25531", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunked TE with Content-Length; framing preference differs across hops"}
+{"rid": "n25833", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Decoded ../ traversal to private file; containment not enforced"}
+{"rid": "n25940", "predicted_class": "ssti", "evidence_sufficient": false, "note": "FreeMarker expression in end-user bill heading; authoring intent unconfirmed"}
+{"rid": "n25350", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External file SYSTEM entity referenced inside SOAP calibration body"}
+{"rid": "n25295", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain heading text through Velocity; no lookalike tokens"}
+{"rid": "n25889", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Ampersand command chain in target passed to cmd.exe ping"}
+{"rid": "n25976", "predicted_class": "ssti", "evidence_sufficient": false, "note": "FreeMarker replace expression in end-user payment summary; intent unconfirmed"}
+{"rid": "n25733", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin reflected with credentials on developer session data"}
+{"rid": "n25263", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Origin matches app host; same-origin relative redirect, benign"}
+{"rid": "n25312", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Negative percent amount in remark; ordinary value, not a formula"}
+{"rid": "n25717", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin reflected with credentials on appointment data endpoint"}
+{"rid": "n25571", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "XPath predicate breakout with OR clause in alias field"}
+{"rid": "n25373", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in return parameter injects Cache-Control response header"}
+{"rid": "n25998", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Jinja2 set and filter in profile snippet; authoring plausible, not confirmed"}
+{"rid": "n25501", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunked TE with Content-Length; parsers select different framing"}
+{"rid": "n25518", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunked TE with Content-Length; front and back framing disagree"}
+{"rid": "n25705", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin with credentials; protocol-relative returnLink to that host"}
+{"rid": "n25759", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Arbitrary Origin reflected with credentials on subscriber data endpoint"}
+{"rid": "n25624", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Form operator $exists in customer field; operators not allowed"}
+{"rid": "n26002", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Smarty expression in admin receipt-footer template preview; authoring feature"}
+{"rid": "n25380", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in return_to injects Refresh header into Location response"}
+{"rid": "n25367", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External DTD SYSTEM file reference in device retention XML body"}
+{"rid": "n25725", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin with credentials; after-redirect accepted unvalidated"}
+{"rid": "n25635", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Mongo $exists operator object in squadId; operators disallowed"}
+{"rid": "n25219", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain Atom XML with no DOCTYPE or entity declarations; benign import"}
+{"rid": "n25234", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single Content-Length merge-patch of role description; benign"}
+{"rid": "n25755", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Foreign Origin with credentials; next redirect to that host accepted"}
+{"rid": "n25718", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Origin reflected without membership check; cross-origin DELETE preflight allowed"}
+{"rid": "n25958", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "FreeMarker conditional in tariff notice preview; authoring feature"}
+{"rid": "n25938", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Jinja2 upper filter in circle banner tagline; authoring intent unconfirmed"}
+{"rid": "n25893", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Backtick substitution in SNI value passed to openssl shell command"}
+{"rid": "n25621", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Bracket $nin operator in campus field reaches Mongo query"}
+{"rid": "n25547", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Quote and OR injection in XPath login field, unescaped concatenation"}
+{"rid": "n25781", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Traversal in translationFile reaches PHP include outside locale directory"}
+{"rid": "n25612", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Mongo $ne operator object in password field bypasses equality check"}
+{"rid": "n25261", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Same-origin callback matching app host; no payload, benign"}
+{"rid": "n25424", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Percent-encoded CRLF injects Set-Cookie header value"}
+{"rid": "n25460", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length headers; front and back select different values"}
+{"rid": "n25918", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Pipe and uname command appended to X-Preview-Asset shell command"}
+{"rid": "n25971", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Velocity foreach as bulletin segment content in editor feature"}
+{"rid": "n25933", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Canonical template probe in ad creative preview; authoring context unconfirmed"}
+{"rid": "n25357", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External file SYSTEM entity referenced in TR-069 SOAP alias body"}
+{"rid": "n25995", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Velocity arithmetic in book-club digest opening; authoring feature"}
+{"rid": "n25910", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Pipe and printf appended to attachment name in pdftotext command"}
+{"rid": "n25414", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Percent-decoded CRLF injects Cache-Control header after Set-Cookie value"}
+{"rid": "n25901", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Command substitution in mail_domain passed to dig shell command"}
+{"rid": "n25591", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "LDAP filter break-out with injected extra clause in staffId"}
+{"rid": "n25779", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Traversal in sourcePath read by thumbnail worker, containment not configured"}
+{"rid": "n25740", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Preflight reflects foreign Origin with credentials allowed"}
+{"rid": "n25330", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading plus phone number in intake field; ordinary value"}
+{"rid": "n25991", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "ERB tag in analytics header-preview query; reporting annotation context unconfirmed"}
+{"rid": "n25377", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in continue parameter injects Link header into Location"}
+{"rid": "n25392", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in attachment name injects X-Download-Options header"}
+{"rid": "n25800", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Encoded backslash traversal to private CSV via Windows path join"}
+{"rid": "n25346", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External DTD SYSTEM reference in uploaded SVG body"}
+{"rid": "n25463", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Transfer-Encoding headers; front and back framing differ"}
+{"rid": "n25351", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External parameter entity loaded from https DTD in SOAP body"}
+{"rid": "n25850", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Decoded ../ traversal into internal documents directory"}
+{"rid": "n25969", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Twig for-loop as campaign footer test preview; authoring feature"}
+{"rid": "n25492", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunked TE with trailing tab and Content-Length; parser disagreement"}
+{"rid": "n25389", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Double-encoded CRLF in filename injects Set-Cookie header"}
+{"rid": "n25656", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Mongo $not operator object in billingAccount; operators disallowed"}
+{"rid": "n25854", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Pipe and printf appended to recording value in ffmpeg shell command"}
+{"rid": "n25578", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "XPath boolean payload in recipe name, unescaped string concatenation"}
+{"rid": "n25570", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "XPath contains payload in profile parameter, unescaped concatenation"}
+{"rid": "n25292", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain tagline text through Jinja2; no lookalike tokens"}
+{"rid": "n25236", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Clean device name in LDAP lookup; no filter syntax"}
+{"rid": "n25957", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Twig conditional in ad-copy experiment render; authoring feature"}
+{"rid": "n26027", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Memo svg onload inserted via insertAdjacentHTML client-side sink"}

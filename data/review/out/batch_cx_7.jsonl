@@ -1,0 +1,105 @@
+{"rid": "n25479", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length 13 and 39 with front and back end disagreeing on framing"}
+{"rid": "n25970", "predicted_class": "ssti", "evidence_sufficient": true, "note": "FreeMarker list directive in salutation source; prior render shows it evaluated"}
+{"rid": "n26010", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Jinja2 expression in cover_text; prior render returned evaluated join output"}
+{"rid": "n25303", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading plus is a phone number in display_name; no attack content"}
+{"rid": "n25837", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "partFile decodes to ../../ and normalized path leaves base root; containment not configured"}
+{"rid": "n25319", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading minus is a plain amount in adjuster note; no attack content"}
+{"rid": "n25618", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "ownerId operator object with dollar-ne; route forbids operators and no sanitising"}
+{"rid": "n25601", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Form value concatenated into XPath predicate; quote and or breaks out, no escaping"}
+{"rid": "n25985", "predicted_class": "ssti", "evidence_sufficient": true, "note": "ERB expression in kpi_label; prior render returned evaluated length"}
+{"rid": "n25992", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Jinja2 expression in headline; prior render returned evaluated length"}
+{"rid": "n25734", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Origin echoed verbatim with credentials allowed on preflight; cross-origin reflection"}
+{"rid": "n26031", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "svg onload alias echoed into insertAdjacentHTML client sink"}
+{"rid": "n25248", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain learner id string with no operator objects or lookalike content"}
+{"rid": "n25365", "predicted_class": "xxe", "evidence_sufficient": true, "note": "DOCTYPE external parameter entity to file URI; libxml2 external entities enabled"}
+{"rid": "n25671", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "lockerToken operator object with dollar-type; operators not sanitised before query"}
+{"rid": "n25341", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Atom feed DOCTYPE defines external SYSTEM entity referenced in summary"}
+{"rid": "n25223", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain device XML with no DOCTYPE or entity declarations"}
+{"rid": "n25526", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length 7 and 47 with first versus last framing rules"}
+{"rid": "n25522", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Content-Length 82 with Transfer-Encoding chunked tab; front and back frame differently"}
+{"rid": "n25905", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Host query concatenated into cmd.exe ping; ampersand adds echo command"}
+{"rid": "n25529", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Conflicting Transfer-Encoding identity and chunked plus Content-Length; parsers disagree"}
+{"rid": "n25914", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Newline in reference_host reaches sh -c nslookup template; printf executes"}
+{"rid": "n25402", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Double-percent encoded CRLF in X-Client-Note written raw to upstream header line"}
+{"rid": "n26026", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "hint query value passed to insertAdjacentHTML client-side sink with img onerror"}
+{"rid": "n25712", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Origin with port reflected and credentials allowed; cross-origin reflection"}
+{"rid": "n25776", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Windows traversal in file parameter decodes outside brochure root; no containment"}
+{"rid": "n25792", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Double-encoded dot-dot-slash decodes to traversal; normalized path leaves export root"}
+{"rid": "n25390", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in save_as written raw into Content-Disposition response header"}
+{"rid": "n25406", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in X-Rate-Label written raw into upstream header line"}
+{"rid": "n25836", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Backslash traversal in report parameter normalizes outside brochure base path"}
+{"rid": "n25306", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading minus is a plain amount in counterparty note; no attack content"}
+{"rid": "n25685", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "catalogueKey operator object with dollar-not and dollar-in; unsanitised query binding"}
+{"rid": "n26023", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "img onerror nickname echoed into insertAdjacentHTML client sink"}
+{"rid": "n25617", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Login secret is dollar-ne operator object bound to query; classic auth bypass shape"}
+{"rid": "n25804", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Double-encoded traversal in document field normalizes to internal file path"}
+{"rid": "n25568", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Caption concatenated into XPath predicate with or-clause; no escaping"}
+{"rid": "n25664", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "warehouseOwner operator object with dollar-gte and dollar-lte; unsanitised binding"}
+{"rid": "n25458", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Content-Length 72 with chunked TE; front and back prefer different framing"}
+{"rid": "n25230", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single chunked JSON body, framing lengths agree, ordinary claim data"}
+{"rid": "n25563", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Email concatenated into XPath predicate; quote and or breaks predicate"}
+{"rid": "n25903", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Quote and semicolon in bundle_name reach sh -c template; sleep executes"}
+{"rid": "n25683", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "clanTag operator object with dollar-regex; route forbids operators, not sanitised"}
+{"rid": "n25630", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "studentRef operator object with dollar-in; operator objects reach query"}
+{"rid": "n25214", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Local path return_to with no CRLF or absolute external target"}
+{"rid": "n25271", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Partial name stays inside theme partial root; ordinary menu request"}
+{"rid": "n25493", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Repeated Transfer-Encoding identity and chunked with Content-Length; framing conflict"}
+{"rid": "n25207", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Same-site return path to storefront page; no header or injection content"}
+{"rid": "n25785", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "image parameter traverses to ops directory outside photo root; no containment"}
+{"rid": "n25835", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Encoded traversal into php_include of conf file outside locale templates"}
+{"rid": "n25379", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Encoded CRLF in next parameter written raw into Location header"}
+{"rid": "n25461", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length 9 and 50 with opposite first and last framing rules"}
+{"rid": "n25654", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "enrolmentId operator object with dollar-not and dollar-eq; unsanitised query binding"}
+{"rid": "n25771", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Arbitrary request Origin echoed with credentials on subscriber device data"}
+{"rid": "n25807", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "widgetFile parent traversal normalizes outside partials root; no containment"}
+{"rid": "n25631", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "labelCode operator object with dollar-exists; route forbids operators"}
+{"rid": "n25777", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Partial parameter parent traversal reaches merchant-terms outside partial root"}
+{"rid": "n25987", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Twig range expression in label; prior render shows evaluated output"}
+{"rid": "n25464", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Content-Length 75 with chunked TE; front and back frame to different lengths"}
+{"rid": "n25321", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading minus is a plain amount in document label; no attack content"}
+{"rid": "n25284", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain hostname parameter with no shell metacharacters; ordinary lookup"}
+{"rid": "n25217", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain manifest XML with no DOCTYPE or entity declarations"}
+{"rid": "n25567", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Owner value closes LDAP filter and injects role clause; unescaped concatenation"}
+{"rid": "n25668", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "claimCode operator object with dollar-regex; route forbids operators"}
+{"rid": "n25801", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Fragment traverses three levels to catering rules outside partial root"}
+{"rid": "n25590", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Label closes LDAP filter and appends serviceRole clause; unescaped concatenation"}
+{"rid": "n25827", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "heroImage parent traversal normalizes to private file outside photo root"}
+{"rid": "n25235", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Pharmacy preference JSON with matching single Content-Length"}
+{"rid": "n25688", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "bookingOwner operator object with dollar-exists and dollar-ne; unsanitised binding"}
+{"rid": "n25370", "predicted_class": "xxe", "evidence_sufficient": true, "note": "DOCTYPE external parameter entity to http DTD loaded by libxml2"}
+{"rid": "n25911", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Memo quote and semicolon reach sh -c receipt-render; printf executes"}
+{"rid": "n25358", "predicted_class": "xxe", "evidence_sufficient": true, "note": "SOAP DOCTYPE external parameter entity to file URI; external entities enabled"}
+{"rid": "n25830", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Backslash traversal in attachmentFile normalizes outside brochure root"}
+{"rid": "n25932", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Jinja2 arithmetic in bio; prior render returned evaluated 56"}
+{"rid": "n25297", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading plus is a phone number in nickname; no attack content"}
+{"rid": "n25256", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Relative next path to people home; no attacker-chosen external target in request"}
+{"rid": "n25805", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Template parent traversal reaches ops file via php_include outside locale root"}
+{"rid": "n26050", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Quote and parenthesis in banner text break out of setBannerText string at timer sink"}
+{"rid": "n25997", "predicted_class": "ssti", "evidence_sufficient": true, "note": "ERB expression in closing_note; prior render shows evaluated text"}
+{"rid": "n25546", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Template value injects substring XPath clause with or; unescaped concatenation"}
+{"rid": "n25820", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Name parameter traverses to etc hosts; normalized path outside document root"}
+{"rid": "n25863", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Label quote and semicolon reach sh -c template; id command appended"}
+{"rid": "n25967", "predicted_class": "ssti", "evidence_sufficient": true, "note": "ERB strip expression in footnote; prior render shows evaluated output"}
+{"rid": "n25366", "predicted_class": "xxe", "evidence_sufficient": true, "note": "DOCTYPE general entity to https SYSTEM resource referenced in notes"}
+{"rid": "n25735", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Preflight origin returned verbatim with credentials allowed; any HTTPS origin accepted"}
+{"rid": "n25242", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain profile name and hardware query; no XPath syntax present"}
+{"rid": "n25514", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length 9 and 39 with first versus last framing disagreement"}
+{"rid": "n25866", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Newline in host query reaches sh -c getent template; appended id command"}
+{"rid": "n26009", "predicted_class": "ssti", "evidence_sufficient": true, "note": "ERB reverse expression in banner_text; prior render shows evaluated output"}
+{"rid": "n25403", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Percent-encoded CRLF in X-Invoice-Caption written raw into upstream header"}
+{"rid": "n25811", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Encoded parent traversal in part parameter reaches supplier memo outside root"}
+{"rid": "n25823", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "noticeFile parent traversal normalizes outside locale template root"}
+{"rid": "n25984", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Smarty assign and divide in banner; prior render returned evaluated 4"}
+{"rid": "n25920", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Treeish with dollar-parenthesis sleep reaches sh -c git archive"}
+{"rid": "n25605", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Name closes LDAP filter and adds negated clause; unescaped concatenation"}
+{"rid": "n25924", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Host semicolon whoami reaches sh -c nc template; command executes"}
+{"rid": "n26037", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "svg onload caption echoed into jQuery html client sink"}
+{"rid": "n26015", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "details ontoggle badge written via innerHTML from URL parameter"}
+{"rid": "n25952", "predicted_class": "ssti", "evidence_sufficient": true, "note": "FreeMarker dollar-brace concatenation in footer; prior render returned bonjour"}
+{"rid": "n25913", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Header value ampersand whoami reaches cmd.exe ping template"}
+{"rid": "n25859", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Archive semicolon printf reaches sh -c tar template; command executes"}
+{"rid": "n25704", "predicted_class": "open_redirect_cors", "evidence_sufficient": true, "note": "Redirect target on attacker domain passes prefix check; origin echoed with credentials"}
+{"rid": "n25474", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Content-Length 65 with chunked TE tab; front and back frame to different lengths"}
+{"rid": "n25335", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Leading plus is a phone number in display_name; no attack content"}
+{"rid": "n25339", "predicted_class": "xxe", "evidence_sufficient": true, "note": "DOCTYPE SYSTEM external DTD load from https host with external entities enabled"}
+{"rid": "n25873", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Address ampersand echo reaches cmd.exe tracert template; second command appended"}

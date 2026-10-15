@@ -44710,5 +44710,239 @@
   "reviewer": "benign_standard_traffic",
   "sufficient": true,
   "note": "Owner role header matches verified token; expected RPC and channel; backup rate at baseline."
+ },
+ {
+  "rid": "n25761",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_cors.vcx4.jsonl:69",
+  "kind": "telemetry",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Preflight only; server reflects supplied Origin with credentials; no credentialed attacker request shown."
+ },
+ {
+  "rid": "n25933",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Canonical template probe in ad creative preview; authoring context unconfirmed"
+ },
+ {
+  "rid": "n25938",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Jinja2 upper filter in circle banner tagline; authoring intent unconfirmed"
+ },
+ {
+  "rid": "n25939",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Twig expression in ad copy proof preview; authoring feature, rendering context ambiguous."
+ },
+ {
+  "rid": "n25940",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "FreeMarker expression in end-user bill heading; authoring intent unconfirmed"
+ },
+ {
+  "rid": "n25957",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Twig conditional in ad-copy experiment render; authoring feature"
+ },
+ {
+  "rid": "n25958",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "FreeMarker conditional in tariff notice preview; authoring feature"
+ },
+ {
+  "rid": "n25959",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Velocity directive as group invitation preview text in authoring feature"
+ },
+ {
+  "rid": "n25969",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Twig for-loop as campaign footer test preview; authoring feature"
+ },
+ {
+  "rid": "n25971",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Velocity foreach as bulletin segment content in editor feature"
+ },
+ {
+  "rid": "n25976",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "FreeMarker replace expression in end-user payment summary; intent unconfirmed"
+ },
+ {
+  "rid": "n25991",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:59",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "ERB tag in analytics header-preview query; reporting annotation context unconfirmed"
+ },
+ {
+  "rid": "n25995",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:63",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Velocity arithmetic in book-club digest opening; authoring feature"
+ },
+ {
+  "rid": "n25998",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:66",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Jinja2 set and filter in profile snippet; authoring plausible, not confirmed"
+ },
+ {
+  "rid": "n25999",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:67",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Twig set and capitalize in brand-studio CTA authoring; rendering context ambiguous."
+ },
+ {
+  "rid": "n26002",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:70",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Smarty expression in admin receipt-footer template preview; authoring feature"
+ },
+ {
+  "rid": "n26007",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:75",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Velocity method call in caption; plausible authoring, intent not confirmed"
+ },
+ {
+  "rid": "n26008",
+  "label": "ssti",
+  "ref": "ssti.vcx7.jsonl:76",
+  "kind": "telemetry",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "Client template source evaluated by Smarty on end-user meter route; authoring intent not shown"
+ },
+ {
+  "rid": "n26154",
+  "label": "xxe",
+  "ref": "xxe.vcx12.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "xxe",
+  "sufficient": false,
+  "note": "Only external DTD reference over https, no entity; network access allowed, fetch-only"
+ },
+ {
+  "rid": "n26158",
+  "label": "xxe",
+  "ref": "xxe.vcx12.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "xxe",
+  "sufficient": false,
+  "note": "External DTD over https with network access; no entity use or fetched content visible."
+ },
+ {
+  "rid": "n26166",
+  "label": "xxe",
+  "ref": "xxe.vcx12.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "xxe",
+  "sufficient": false,
+  "note": "External DTD over https with resolve_entities; no entity invocation observed."
+ },
+ {
+  "rid": "n26171",
+  "label": "xxe",
+  "ref": "xxe.vcx12.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "xxe",
+  "sufficient": false,
+  "note": "External DTD over https with resolve_entities; no entity invocation observed."
+ },
+ {
+  "rid": "n26179",
+  "label": "xxe",
+  "ref": "xxe.vcx12.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "xxe",
+  "sufficient": false,
+  "note": "External DTD fetch over https; no entity invocation or fetched content observed."
+ },
+ {
+  "rid": "n26183",
+  "label": "xxe",
+  "ref": "xxe.vcx12.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "xxe",
+  "sufficient": false,
+  "note": "Only external DTD reference over https, no entity; fetch-only, abuse not shown"
+ },
+ {
+  "rid": "n26189",
+  "label": "xxe",
+  "ref": "xxe.vcx12.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "xxe",
+  "sufficient": false,
+  "note": "Only external DTD reference over https, no entity; partner format, fetch-only"
+ },
+ {
+  "rid": "n26193",
+  "label": "xxe",
+  "ref": "xxe.vcx12.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "xxe",
+  "sufficient": false,
+  "note": "Only external DTD reference over https, no entity; reconciliation preview, fetch-only"
  }
 ]

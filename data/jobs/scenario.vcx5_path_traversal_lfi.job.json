@@ -1,0 +1,41 @@
+{
+ "class": "path_traversal_lfi",
+ "count": 80,
+ "families": 6,
+ "domain": "L7_API_PROTOCOL",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "Directory traversal or local file inclusion that reads or includes files outside the intended path.",
+ "exclusions": [
+  "Command execution after traversal belongs to rce_cmd_injection",
+  "Relative paths that stay inside the allowed root",
+  "Traversal in an AI agent tool call belongs to mcp_agentic_tool_abuse"
+ ],
+ "required_evidence": [
+  "Path-bearing parameter with traversal sequences in raw and decoded views",
+  "Target file or include context in server path handling",
+  "Response or error evidence when available"
+ ],
+ "benign_counterexamples": [
+  "Package request with dot segments normalized to an allowed root",
+  "Relative asset path such as ./images/logo.png"
+ ],
+ "is_benign": false,
+ "context_schema": [
+  "context.file_handler"
+ ],
+ "avoid_families": [],
+ "focus_domains": [
+  "travel booking",
+  "real-estate listings",
+  "food delivery"
+ ],
+ "note": "Seeded payload lists already cover single payload strings; write whole application scenarios instead (route, parameter, sink context), with realistic payloads of this class, at most ceil(count/families) records per family.",
+ "out_path": "data/jobs/out/path_traversal_lfi.vcx5.jsonl",
+ "twin_count": 10,
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vcx5_path_traversal_lfi.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "subagents/prompts/scenario_v2.md"
+}

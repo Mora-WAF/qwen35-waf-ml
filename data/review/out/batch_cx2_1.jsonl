@@ -1,0 +1,93 @@
+{"rid": "n26112", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Iframe srcdoc script in form statement is stored and rendered unescaped to adjuster."}
+{"rid": "n26094", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Textarea breakout with svg onload persisted and rendered unescaped in RCDATA context."}
+{"rid": "n26121", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Single-quote attribute breakout with onmouseenter reflected unescaped in response."}
+{"rid": "n26153", "predicted_class": "xxe", "evidence_sufficient": true, "note": "DOCTYPE external ENTITY to https URL with network access and substitution enabled."}
+{"rid": "n26074", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Query value breaks out of script string and is reflected unescaped."}
+{"rid": "n26081", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "svg onload payload stored in allergy description, rendered unescaped to clinician."}
+{"rid": "n26149", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "img onerror payload stored in retention note, rendered unescaped in admin view."}
+{"rid": "n26065", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain care note text with no lookalike content."}
+{"rid": "n26092", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Quote-brace breakout with alert in JS object string, reflected unescaped."}
+{"rid": "n26210", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Response label parsed via createContextualFragment into DOM, escaping none."}
+{"rid": "n26053", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain arithmetic formula in calculator; no attack payload in request."}
+{"rid": "n26058", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary widget text with no lookalike tokens."}
+{"rid": "n26195", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External file:// ENTITY with DTD parsing enabled in XmlReader handler."}
+{"rid": "n26138", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Closing p tag and svg onload payload reflected unescaped in provider name."}
+{"rid": "n26091", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Double-quote breakout with img onerror reflected unescaped into title attribute."}
+{"rid": "n26083", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "svg onload payload stored as company name, rendered unescaped on home."}
+{"rid": "n26105", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "iframe srcdoc script stored in medication instructions, rendered unescaped."}
+{"rid": "n26159", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Multiple external file:// ENTITY declarations substituted by libxml2 on import."}
+{"rid": "n26179", "predicted_class": "xxe", "evidence_sufficient": false, "note": "External DTD fetch over https; no entity invocation or fetched content observed."}
+{"rid": "n26200", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Query receipt set as iframe srcdoc with sandbox null; script runs in document."}
+{"rid": "n26113", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "javascript: URL stored in href and rendered unescaped into navigation link."}
+{"rid": "n26137", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Script tag in role description stored and rendered unescaped."}
+{"rid": "n26078", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "svg onload payload in query reflected unescaped into result label."}
+{"rid": "n26071", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain allergy description text with no lookalike content."}
+{"rid": "n26158", "predicted_class": "xxe", "evidence_sufficient": false, "note": "External DTD over https with network access; no entity use or fetched content visible."}
+{"rid": "n26151", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Header value breaks out of title attribute and is reflected unescaped."}
+{"rid": "n26208", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Body query set as iframe srcdoc with onload handler and sandbox null."}
+{"rid": "n26139", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Single-quote attribute breakout with onload reflected unescaped in thumbnail."}
+{"rid": "n26184", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External general entities to file:// with external entity resolution enabled."}
+{"rid": "n26187", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External file:// ENTITY in rundown title with XmlResolver enabled."}
+{"rid": "n26090", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "details ontoggle payload reflected unescaped into directory title."}
+{"rid": "n26156", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https parameter entity invoked with libxml2 network access enabled."}
+{"rid": "n26120", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Search query carries working img onerror payload, reflected unescaped."}
+{"rid": "n26066", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain incident narrative text with no lookalike content."}
+{"rid": "n26168", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https general entity expanded into caption text with resolve_entities on."}
+{"rid": "n26075", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "img onerror payload stored in care note, rendered unescaped."}
+{"rid": "n26171", "predicted_class": "xxe", "evidence_sufficient": false, "note": "External DTD over https with resolve_entities; no entity invocation observed."}
+{"rid": "n26186", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External file:// parameter entity invoked in Xerces transform request."}
+{"rid": "n26223", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Tick label breaks out of setTimeout string in browser with no validation."}
+{"rid": "n26155", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External file:// ENTITY in XML patch parsed before apply."}
+{"rid": "n26079", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Single-quote breakout with onpointerenter reflected unescaped in title."}
+{"rid": "n26170", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Two file:// ENTITY declarations expanded by lxml with resolve_entities."}
+{"rid": "n26069", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain estimate description text with no lookalike content."}
+{"rid": "n26237", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "javascript: value assigned to window location in click handler, no scheme check."}
+{"rid": "n26202", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "svg onload message parsed into DOM via createContextualFragment, escaping none."}
+{"rid": "n26096", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "iframe srcdoc script in subject reflected unescaped in header."}
+{"rid": "n26104", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Script-close breakout with img onerror in JSON script element, unescaped."}
+{"rid": "n26072", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Working img onerror payload in search query reflected unescaped."}
+{"rid": "n26133", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Double-quote breakout with onclick reflected unescaped into label title."}
+{"rid": "n26211", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Delay string breaks out of setTimeout source evaluated by browser timer code."}
+{"rid": "n26224", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "details ontoggle payload in iframe srcdoc with allow-scripts sandbox."}
+{"rid": "n26057", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain numeric budget formula with no attack payload in request."}
+{"rid": "n26144", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "img onerror payload in multipart reason reflected unescaped into visit detail."}
+{"rid": "n26101", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Double-quote breakout with onpointerenter stored and rendered unescaped."}
+{"rid": "n26199", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Formula with console.info evaluated by window.eval in browser page."}
+{"rid": "n26107", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "iframe srcdoc script stored as status update, rendered unescaped."}
+{"rid": "n26205", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Mixed-case javascript: URL assigned to location.href on click, no validation."}
+{"rid": "n26141", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "video source onerror payload stored and rendered unescaped."}
+{"rid": "n26177", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https general entity expanded into polygon posList."}
+{"rid": "n26124", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Script tag in expense note stored and rendered unescaped."}
+{"rid": "n26215", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Term expression with console.info compiled by Function in browser."}
+{"rid": "n26125", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Quote-break alert payload stored in caption, rendered in script unescaped."}
+{"rid": "n26191", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https parameter entity invoked in playlist XML with DTD parsing."}
+{"rid": "n26123", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Script tag in referral question stored and rendered unescaped."}
+{"rid": "n26169", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https parameter entity invoked with lxml load_dtd and resolve_entities."}
+{"rid": "n26116", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Expression breaks out of admin script with alert payload, reflected unescaped."}
+{"rid": "n26185", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https general entity expanded into zone description."}
+{"rid": "n26103", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Single-quote breakout with autofocus onfocus reflected unescaped in input."}
+{"rid": "n26097", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Double-quote breakout with onmouseover reflected unescaped in button."}
+{"rid": "n26165", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https general entity expanded into caption credit element."}
+{"rid": "n26086", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Template literal alert expression reflected unescaped into script block."}
+{"rid": "n26166", "predicted_class": "xxe", "evidence_sufficient": false, "note": "External DTD over https with resolve_entities; no entity invocation observed."}
+{"rid": "n26140", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Script-close breakout with script tags in JSON script element, unescaped."}
+{"rid": "n26132", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Video onerror payload in keyword reflected unescaped in resource heading."}
+{"rid": "n26145", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Double-quote breakout with onpointerup reflected unescaped in title."}
+{"rid": "n26196", "predicted_class": "xxe", "evidence_sufficient": true, "note": "File:// parameter entity invoked in continuity XML with DTD processing."}
+{"rid": "n26176", "predicted_class": "xxe", "evidence_sufficient": true, "note": "File:// general entity expanded in parcel description with external entities on."}
+{"rid": "n26143", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Template literal alert payload stored in welcome text, rendered unescaped."}
+{"rid": "n26087", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Script tag in secure message stored and rendered unescaped."}
+{"rid": "n26167", "predicted_class": "xxe", "evidence_sufficient": true, "note": "File:// entity expanded in caption span with lxml resolve_entities."}
+{"rid": "n26073", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Double-quote breakout with autofocus onfocus reflected unescaped in input."}
+{"rid": "n26122", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "X-Search-Text header breaks out of script string, reflected unescaped."}
+{"rid": "n26207", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Growth expression with console.info evaluated by window.eval in browser."}
+{"rid": "n26162", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https general entity with libxml2 network access enabled."}
+{"rid": "n26127", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "javascript: URL reflected unescaped into iframe src attribute."}
+{"rid": "n26188", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External https general entity expanded into schedule synopsis."}
+{"rid": "n26085", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "javascript: URL reflected unescaped into anchor href."}
+{"rid": "n26216", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Note concatenated unescaped into remittance srcdoc in browser."}
+{"rid": "n26089", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Script tag in help banner stored and rendered unescaped to users."}
+{"rid": "n26111", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "img onerror payload stored in visit preference, rendered unescaped."}
+{"rid": "n26099", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "details ontoggle payload stored in care-plan comment, rendered unescaped."}
+{"rid": "n26227", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Amount formula with console.info evaluated by eval in browser."}
+{"rid": "n26118", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "svg onload payload stored in letter body, rendered unescaped."}
