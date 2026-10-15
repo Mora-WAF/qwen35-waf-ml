@@ -15,6 +15,11 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "datasets_ready"
 
 
+# classes whose label is defined by repetition across connections (a cross-model audit rejected single
+# observed flows of this class without window evidence: 15 of 17)
+NEEDS_WINDOW = {"credential_stuffing_bruteforce", "port_scan_recon"}  # scans: distinct ports, also one-flow-blind
+
+
 def taxonomy():
     return yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
 
@@ -77,6 +82,8 @@ def collect(per_class, frac=None):
         if cls == "benign_standard_traffic":
             want = 2 * per_class if not frac else want // 3  # flow share of benign_standard at scale
         obs = pool.get(cls, [])
+        if cls in NEEDS_WINDOW:  # one flow cannot show many attempts: observed rows need the window count
+            obs = [e for e in obs if "conn_count_60s" in e["telemetry"]["flow"]["features"]]  # CIC only (NF has no timestamps)
         groups = {}
         for e in obs:
             groups.setdefault(e["lineage_group"], []).append(e)

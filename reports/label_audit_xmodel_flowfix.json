@@ -1,0 +1,161 @@
+{
+ "models": [
+  "codex",
+  "gemini"
+ ],
+ "items": 240,
+ "answered": {
+  "codex": 240,
+  "gemini": 160
+ },
+ "agreement_35class": {
+  "codex": 0.879,
+  "gemini": 0.956
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 0.925,
+  "gemini": 0.981
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {
+   "codex": 0.82,
+   "gemini": 0.87
+  },
+  "benign_standard_traffic": {},
+  "bola_idor_enumeration": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "crlf_header_injection": {},
+  "csv_formula_injection": {},
+  "deserialization": {},
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http_request_smuggling": {},
+  "jwt_auth_bypass": {},
+  "ldap_xpath_injection": {},
+  "llm_prompt_injection": {},
+  "nosqli": {},
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {},
+  "port_scan_recon": {
+   "codex": 0.75,
+   "gemini": 0.97
+  },
+  "prototype_pollution": {},
+  "rce_cmd_injection": {},
+  "slowloris_slowhttp": {
+   "codex": 0.95,
+   "gemini": 0.98
+  },
+  "sqli_classic": {},
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {},
+  "syn_flood_ddos": {},
+  "tls_ja4_ua_spoofing": {},
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {},
+  "xss_dom_polyglot": {},
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 7,
+ "contested_by_class": {
+  "benign_high_rate_legit": 5,
+  "port_scan_recon": 1,
+  "slowloris_slowhttp": 1
+ },
+ "contested": [
+  {
+   "rid": "g00005",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000897",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00009",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000126",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00023",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000917",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00027",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000801",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00048",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:001170",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00122",
+   "label": "port_scan_recon",
+   "id": "obs:nf_ton_iot_v2_mirror:train.csv:8861939",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "c2_beaconing_anomaly"
+   }
+  },
+  {
+   "rid": "g00225",
+   "label": "slowloris_slowhttp",
+   "id": "obs:cic_ids2017_mirror:1049851",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

@@ -1,27 +1,27 @@
 {
  "prefix": "fast_",
  "sizes": {
-  "test": 3397,
+  "test": 3287,
   "test_unseen": 2075,
-  "train": 26723,
-  "val": 3206
+  "train": 27053,
+  "val": 3225
  },
  "tfidf_svm": {
   "test": {
-   "n": 3397,
-   "accuracy": 0.9585,
-   "macro_f1": 0.9589,
-   "attack_vs_benign_accuracy": 0.9712,
-   "benign_fpr": 0.0533,
-   "attack_miss_rate": 0.0158,
+   "n": 3287,
+   "accuracy": 0.9571,
+   "macro_f1": 0.9588,
+   "attack_vs_benign_accuracy": 0.9708,
+   "benign_fpr": 0.055,
+   "attack_miss_rate": 0.0147,
    "per_class_recall": {
     "benign_hard_negative_dev": 1.0,
     "benign_hard_negative_search": 1.0,
-    "benign_high_rate_legit": 0.74,
-    "benign_standard_traffic": 0.94,
+    "benign_high_rate_legit": 0.77,
+    "benign_standard_traffic": 0.93,
     "bola_idor_enumeration": 1.0,
     "c2_beaconing_anomaly": 1.0,
-    "credential_stuffing_bruteforce": 0.96,
+    "credential_stuffing_bruteforce": 0.98,
     "crlf_header_injection": 0.98,
     "csv_formula_injection": 1.0,
     "deserialization": 1.0,
@@ -54,26 +54,26 @@
   },
   "test_unseen": {
    "n": 2075,
-   "accuracy": 0.9296,
-   "macro_f1": 0.8787,
-   "attack_vs_benign_accuracy": 0.9373,
-   "benign_fpr": 0.1263,
-   "attack_miss_rate": 0.0152,
+   "accuracy": 0.9272,
+   "macro_f1": 0.927,
+   "attack_vs_benign_accuracy": 0.9359,
+   "benign_fpr": 0.1319,
+   "attack_miss_rate": 0.0135,
    "per_class_recall": {
     "benign_hard_negative_dev": 1.0,
     "benign_hard_negative_search": 1.0,
-    "benign_high_rate_legit": 0.67,
-    "benign_standard_traffic": 0.64,
+    "benign_high_rate_legit": 0.61,
+    "benign_standard_traffic": 0.63,
     "bola_idor_enumeration": 1.0,
     "credential_stuffing_bruteforce": 1.0,
-    "csv_formula_injection": 0.94,
+    "csv_formula_injection": 0.96,
     "deserialization": 1.0,
     "graphql_abuse": 0.93,
     "jwt_auth_bypass": 0.95,
     "llm_prompt_injection": 1.0,
     "prototype_pollution": 1.0,
     "ssrf_cloud_metadata": 1.0,
-    "syn_flood_ddos": 0.98,
+    "syn_flood_ddos": 0.99,
     "udp_amplification": 1.0,
     "web_cache_poisoning": 1.0,
     "websocket_grpc_abuse": 0.96
@@ -83,9 +83,9 @@
  "crs_pl1": {
   "test": {
    "n_http": 2601,
-   "attack_vs_benign_accuracy": 0.6282,
-   "benign_fpr": 0.1928,
-   "attack_miss_rate": 0.4782
+   "attack_vs_benign_accuracy": 0.6286,
+   "benign_fpr": 0.192,
+   "attack_miss_rate": 0.4788
   },
   "test_unseen": {
    "n_http": 1690,

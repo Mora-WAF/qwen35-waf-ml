@@ -25,3 +25,7 @@ features:
   qname_len_mean:    {type: float, unit: chars, note: "synthetic only"}
   qname_entropy_bits_per_char: {type: float, note: "synthetic only; Shannon entropy over qname bytes"}
   ja4_ua_consistent: {type: int, range: [0, 1], note: "synthetic only; mismatch alone is not malicious"}
+  # window aggregates (CIC: measured from timestamps per clock minute; synthetic: from the scenario; NF-ToN-IoT-v2
+  # has no timestamps -> absent). Evidence for brute force, scans and slow-HTTP floods that one flow cannot show.
+  conn_count_60s:         {type: int, range: [1, null], note: "connections source->same dst host+port in the same minute"}
+  distinct_dst_ports_60s: {type: int, range: [1, null], note: "distinct dst ports source->same dst host in the same minute"}

@@ -9,6 +9,7 @@ Reviewer and generator are the same model family: agreement is a filter, NOT gro
 usage: python -m subagents.review export|score
 """
 import json
+import os
 import random
 import sys
 from collections import Counter, defaultdict
@@ -95,11 +96,13 @@ def export_recheck(tag):
     print(len(rows), "disputed benign items ->", n_b, f"batch_{tag}_*.jsonl")
 
 
-XM = RV / "xmodel"
-XM_KEY = ROOT / "data" / "review_xmodel_key.json"
+# XM_TAG=<name> keeps a re-audit (e.g. of fixed classes) in its own folder and key, apart from the main audit
+_XT = os.environ.get("XM_TAG")
+XM = RV / (f"xmodel_{_XT}" if _XT else "xmodel")
+XM_KEY = ROOT / "data" / (f"review_xmodel_{_XT}_key.json" if _XT else "review_xmodel_key.json")
 
 
-def export_xmodel(prefix="fast_", per_class=40, batch=100):
+def export_xmodel(prefix="fast_", per_class=40, batch=100, classes=None):
     """Cross-family audit sample (spec §6: independent review): per_class records per class from a build,
     labels withheld, reviewed by non-Claude models (Gemini, GPT-OSS via agy). An audit signal: it does not
     quarantine by itself."""
@@ -110,7 +113,7 @@ def export_xmodel(prefix="fast_", per_class=40, batch=100):
             r = json.loads(line)
             by[r["metadata"]["threat_type"]].append(r)
     rng, key, rows = random.Random(23), {}, []
-    for cls in sorted(by):
+    for cls in sorted(c for c in by if not classes or c in classes):
         for r in rng.sample(by[cls], min(per_class, len(by[cls]))):
             rid = f"g{len(key):05d}"
             m = r["metadata"]
@@ -153,7 +156,7 @@ def score_xmodel():
             per[m][k["label"]][1] += 1
             binary[m][0] += tax.get(v, {}).get("is_benign") == tax[k["label"]]["is_benign"]
             binary[m][1] += 1
-        if len(models) >= 2 and all(v is not None and v != k["label"] for v in votes.values()):
+        if all(v is not None and v != k["label"] for v in votes.values()):  # with one model: its disagreements
             contested.append({"rid": rid, **k, "votes": votes})
     rep = {"models": models, "items": len(key),
            "answered": {m: len(got[m]) for m in models},
@@ -164,7 +167,7 @@ def score_xmodel():
            "contested_by_class": dict(Counter(x["label"] for x in contested).most_common()),
            "contested": contested[:300],
            "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"}
-    (ROOT / "reports/label_audit_xmodel.json").write_text(json.dumps(rep, indent=1))
+    (ROOT / f"reports/label_audit_xmodel{'_' + _XT if _XT else ''}.json").write_text(json.dumps(rep, indent=1))
     print(json.dumps({k: rep[k] for k in ("models", "answered", "agreement_35class", "agreement_attack_vs_benign",
                                           "contested_by_all_external", "contested_by_class")}, indent=1))
 
@@ -271,8 +274,11 @@ def status():
 
 
 if __name__ == "__main__":
-    if sys.argv[1] in ("export_xmodel", "score_xmodel"):
-        {"export_xmodel": export_xmodel, "score_xmodel": score_xmodel}[sys.argv[1]]()
+    if sys.argv[1] == "export_xmodel":  # export_xmodel [PREFIX] [CLASS,CLASS...] [PER_CLASS]
+        export_xmodel(*(sys.argv[2:3] or ["fast_"]), classes=set(sys.argv[3].split(",")) if len(sys.argv) > 3 else None,
+                      **({"per_class": int(sys.argv[4])} if len(sys.argv) > 4 else {}))
+    elif sys.argv[1] == "score_xmodel":
+        score_xmodel()
     elif sys.argv[1] in ("export_new", "export_recheck"):
         {"export_new": export_new, "export_recheck": export_recheck}[sys.argv[1]](sys.argv[2])
     else:

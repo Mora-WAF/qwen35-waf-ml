@@ -35,7 +35,9 @@ def scores(y, p, benign):
     yb, pb = [c in benign for c in y], [c in benign for c in p]
     n_benign = sum(yb)
     return {"n": len(y), "accuracy": round(accuracy_score(y, p), 4),
-            "macro_f1": round(f1_score(y, p, average="macro", zero_division=0), 4),
+            # macro over the classes present in this split: a class absent from y (e.g. no held-out family)
+            # would otherwise enter with F1 = 0 whenever it is predicted, and swing the score with split luck
+            "macro_f1": round(f1_score(y, p, labels=sorted(set(y)), average="macro", zero_division=0), 4),
             "attack_vs_benign_accuracy": round(sum(a == b for a, b in zip(yb, pb)) / len(y), 4),
             "benign_fpr": round(sum(t and not q for t, q in zip(yb, pb)) / max(1, n_benign), 4),
             "attack_miss_rate": round(sum((not t) and q for t, q in zip(yb, pb)) / max(1, len(y) - n_benign), 4)}

@@ -7,6 +7,8 @@ which is what happened on the first Gemini run (13 of 14 batches at exactly 100%
 Then: python -m subagents.review score_xmodel
 
 usage: python -m subagents.xmodel_run TAG "MODEL NAME" [BATCH ...]   (e.g. gemini "Gemini 3.8 Flash (High)")
+       python -m subagents.xmodel_run codex gpt-6.1-sol   (Codex CLI; read-only sandbox; XM_EFFORT=medium)
+Answer keys must be unreadable while it runs (chmod 000 data/review*_key.json): read-only still reads.
 """
 import json
 import os
@@ -20,7 +22,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-XM = ROOT / "data" / "review" / "xmodel"
+XM = ROOT / "data" / "review" / (f"xmodel_{os.environ['XM_TAG']}" if os.environ.get("XM_TAG") else "xmodel")
 AGY = os.environ.get("AGY_DELEGATE") or shutil.which("agy-delegate") or str(
     max(Path.home().glob(".claude/plugins/cache/antigravity-for-claude-code/antigravity/*/bin/agy-delegate")))
 PROMPT = """You are a blind label reviewer for a defensive WAF/NIDS classifier dataset.
@@ -46,8 +48,16 @@ def run(tag, model, b, tries=4):
     for attempt in range(tries):
         # isolated: empty working dir + sandbox, so the agent cannot open the answer key or any repo file
         with tempfile.TemporaryDirectory() as iso:
-            p = subprocess.run([AGY, "-m", model, "--sandbox", "--timeout", "20m", "-"], input=prompt,
-                               capture_output=True, text=True, cwd=iso)
+            if model.startswith("gpt-"):  # Codex CLI backend, e.g. gpt-6.1-sol; XM_EFFORT sets reasoning effort
+                last = os.path.join(iso, "last.txt")
+                p = subprocess.run(["codex", "exec", "-m", model, "-c", f'model_reasoning_effort="{os.environ.get("XM_EFFORT", "medium")}"',
+                                    "-s", "read-only", "--skip-git-repo-check", "--ephemeral", "-C", iso, "-o", last, "-"],
+                                   input=prompt, capture_output=True, text=True, cwd=iso, timeout=1800)
+                if os.path.exists(last):
+                    p.stdout = open(last).read() + "\n" + p.stdout
+            else:
+                p = subprocess.run([AGY, "-m", model, "--sandbox", "--timeout", "20m", "-"], input=prompt,
+                                   capture_output=True, text=True, cwd=iso)
         got = {}
         for m in re.finditer(r'\{[^{}]*"rid"[^{}]*\}', p.stdout):
             try:

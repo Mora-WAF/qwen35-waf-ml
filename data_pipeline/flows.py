@@ -36,7 +36,8 @@ PROTO = {"tcp": 6, "udp": 17}
 CIC_COLS = ["flow_id", "source_ip", "destination_ip", "destination_port", "protocol", "Flow Duration",
             "Total Fwd Packets", "Total Backward Packets", "Total Length of Fwd Packets",
             "Total Length of Bwd Packets", "Packet Length Mean", "Min Packet Length", "Max Packet Length",
-            "Flow IAT Mean", "Flow IAT Max", "Flow IAT Min", "Init_Win_bytes_forward", *FLAG_BITS, "attack_label"]
+            "Flow IAT Mean", "Flow IAT Max", "Flow IAT Min", "Init_Win_bytes_forward", *FLAG_BITS, "attack_label",
+            "Timestamp"]
 NF_COLS = ["IPV4_SRC_ADDR", "IPV4_DST_ADDR", "L4_DST_PORT", "PROTOCOL", "IN_BYTES", "IN_PKTS", "OUT_BYTES",
            "OUT_PKTS", "TCP_FLAGS", "FLOW_DURATION_MILLISECONDS", "MIN_TTL", "MAX_TTL",
            "SHORTEST_FLOW_PKT", "LONGEST_FLOW_PKT", "RETRANSMITTED_IN_PKTS", "RETRANSMITTED_OUT_PKTS", "Attack"]
@@ -51,6 +52,20 @@ def _rates(f):
         f["pkts_per_s"] = sig(f["pkts_total"] / f["duration_s"])
         f["bytes_per_s"] = sig(f["bytes_total"] / f["duration_s"])
     return f
+
+
+def add_window_counts(df):
+    """Window evidence a NIDS keeps per source: connections to the same destination host and port, and distinct
+    ports touched on that host, in the same clock minute. CIC timestamps mix second- and minute-resolution
+    formats, so the window is the minute bucket. Rows without a parsable timestamp get no counts (absent keys)."""
+    import pandas as pd
+    minute = pd.to_datetime(df["Timestamp"], format="mixed", dayfirst=True, errors="coerce").dt.floor("min")
+    df = df.assign(_min=minute)
+    ok = df["_min"].notna()
+    keys = ["source_ip", "destination_ip", "_min"]
+    df.loc[ok, "conn_count_60s"] = df[ok].groupby(keys + ["destination_port"])["flow_id"].transform("size")
+    df.loc[ok, "distinct_dst_ports_60s"] = df[ok].groupby(keys)["destination_port"].transform("nunique")
+    return df.drop(columns="_min")
 
 
 def cic_features(r):
@@ -71,6 +86,9 @@ def cic_features(r):
          "dst_port": int(r["destination_port"])}
     if r["protocol"] in PROTO:
         f["ip_proto"] = PROTO[r["protocol"]]
+    for k in ("conn_count_60s", "distinct_dst_ports_60s"):
+        if k in r and r[k] == r[k]:  # NaN-safe: absent when the timestamp did not parse
+            f[k] = int(r[k])
     return _rates(f), None
 
 
@@ -113,6 +131,7 @@ def ingest(cap=3000, seed=1337):
     s = srcs["cic_ids2017_mirror"]
     p = next((RAW / s["id"] / s["revision"]).rglob("CICIDS_Flow.parquet"))
     df = pq.read_table(p, columns=CIC_COLS).to_pandas()
+    df = add_window_counts(df)  # over ALL flows (incl. unmapped classes): what a sensor would have counted
     rep = {"rows": len(df), "unmapped": {}, "classes": {}}
     rep["unmapped"] = df.loc[~df.attack_label.isin(CIC_MAP), "attack_label"].value_counts().to_dict()
     df = df[df.attack_label.isin(CIC_MAP)].copy()

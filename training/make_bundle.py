@@ -10,7 +10,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CODE = ["training/__init__.py", "training/prepare.py", "training/colab_helpers.py", "training/tpu_train.py", "eval/__init__.py", "eval/policy.py",
+CODE = ["training/__init__.py", "training/prepare.py", "training/colab_helpers.py", "eval/__init__.py", "eval/policy.py",
         "config/taxonomy.yaml", "config/policy.yaml",
         "schemas/classification.schema.json", "schemas/decision.schema.json",
         "schemas/record.schema.json", "schemas/telemetry.schema.json",

@@ -1,29 +1,29 @@
 {
  "prefix": "fast_",
- "n_train": 26723,
- "n_heldout": 8678,
- "surface_only_nb_accuracy_35class": 0.534,
- "surface_only_nb_accuracy_attack_vs_benign": 0.662,
+ "n_train": 27053,
+ "n_heldout": 8587,
+ "surface_only_nb_accuracy_35class": 0.536,
+ "surface_only_nb_accuracy_attack_vs_benign": 0.657,
  "chance_35class": 0.029,
- "majority_baseline": 0.2,
+ "majority_baseline": 0.198,
  "per_feature_majority_accuracy": {
-  "context_keys": 0.461,
+  "context_keys": 0.466,
   "header_names": 0.307,
-  "endpoint": 0.279,
-  "stage": 0.241,
-  "sinks": 0.231,
-  "flow_keys": 0.223,
-  "ctype": 0.219,
-  "observed_until": 0.208,
-  "window": 0.207,
-  "protocol": 0.206,
-  "method": 0.205,
-  "has_views": 0.203,
-  "host": 0.203,
-  "mode": 0.203,
-  "n_headers": 0.203,
-  "ua": 0.203,
-  "has_history": 0.191
+  "endpoint": 0.281,
+  "stage": 0.244,
+  "sinks": 0.232,
+  "flow_keys": 0.229,
+  "ctype": 0.221,
+  "observed_until": 0.21,
+  "window": 0.209,
+  "protocol": 0.207,
+  "method": 0.206,
+  "has_views": 0.204,
+  "host": 0.204,
+  "mode": 0.204,
+  "n_headers": 0.204,
+  "ua": 0.204,
+  "has_history": 0.193
  },
  "per_class_surface_recall": {
   "websocket_grpc_abuse": 1.0,
@@ -36,20 +36,20 @@
   "ssrf_cloud_metadata": 0.91,
   "prototype_pollution": 0.9,
   "llm_prompt_injection": 0.88,
-  "bola_idor_enumeration": 0.84,
-  "csv_formula_injection": 0.84,
+  "bola_idor_enumeration": 0.85,
+  "csv_formula_injection": 0.83,
+  "c2_beaconing_anomaly": 0.83,
   "benign_hard_negative_dev": 0.83,
-  "c2_beaconing_anomaly": 0.79,
   "jwt_auth_bypass": 0.78,
   "syn_flood_ddos": 0.75,
   "deserialization": 0.61,
-  "port_scan_recon": 0.52,
-  "path_traversal_lfi": 0.5,
-  "benign_standard_traffic": 0.32,
+  "path_traversal_lfi": 0.49,
+  "port_scan_recon": 0.49,
+  "benign_standard_traffic": 0.31,
   "udp_amplification": 0.25,
-  "xxe": 0.16,
+  "xxe": 0.14,
   "benign_high_rate_legit": 0.11,
-  "ssti": 0.05,
+  "ssti": 0.04,
   "sqli_classic": 0.02,
   "sqli_obfuscated": 0.02,
   "crlf_header_injection": 0.01,
@@ -63,7 +63,7 @@
   "credential_stuffing_bruteforce": 0.0
  },
  "concentrated_structural_tokens": {
-  "ctx=unkeyed_input": {
+  "ctx=cache_config": {
    "web_cache_poisoning": 844,
    "benign_standard_traffic": 245
   },
@@ -71,7 +71,7 @@
    "web_cache_poisoning": 844,
    "benign_standard_traffic": 245
   },
-  "ctx=cache_config": {
+  "ctx=unkeyed_input": {
    "web_cache_poisoning": 844,
    "benign_standard_traffic": 245
   },
@@ -79,7 +79,7 @@
    "deserialization": 491,
    "benign_standard_traffic": 159
   },
-  "hist=writes_to_field_24h": {
+  "hist=export_runs_observed_7d": {
    "csv_formula_injection": 361,
    "benign_standard_traffic": 120
   },
@@ -87,15 +87,15 @@
    "csv_formula_injection": 361,
    "benign_standard_traffic": 120
   },
-  "hist=export_runs_observed_7d": {
+  "hist=writes_to_field_24h": {
    "csv_formula_injection": 361,
    "benign_standard_traffic": 120
   },
-  "ctx=parser_config": {
+  "ctx=parsed_key_count": {
    "prototype_pollution": 128,
    "benign_standard_traffic": 40
   },
-  "ctx=parsed_key_count": {
+  "ctx=parser_config": {
    "prototype_pollution": 128,
    "benign_standard_traffic": 40
   },
@@ -135,11 +135,11 @@
    "web_cache_poisoning": 75,
    "benign_standard_traffic": 12
   },
-  "hist=requests_last_60s": {
+  "hist=auth_failures_last_1h": {
    "jwt_auth_bypass": 78,
    "benign_standard_traffic": 6
   },
-  "hist=auth_failures_last_1h": {
+  "hist=requests_last_60s": {
    "jwt_auth_bypass": 78,
    "benign_standard_traffic": 6
   },
@@ -245,11 +245,11 @@
    "csv_formula_injection": 7,
    "benign_standard_traffic": 2
   },
-  "hdr=x-grpc-web": {
+  "hdr=x-user-agent": {
    "websocket_grpc_abuse": 8,
    "benign_standard_traffic": 1
   },
-  "hdr=x-user-agent": {
+  "hdr=x-grpc-web": {
    "websocket_grpc_abuse": 8,
    "benign_standard_traffic": 1
   },

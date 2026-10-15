@@ -146,9 +146,23 @@ def test_request_builder_round_trip():
 def test_observed_and_synthetic_share_core_names():
     core = {"duration_s", "pkts_total", "bytes_total", "pkts_fwd", "pkts_bwd", "bytes_fwd", "bytes_bwd",
             "pkts_per_s", "bytes_per_s", "pkt_len_min", "pkt_len_max", "tcp_flags_bitmask", "dst_port", "ip_proto"}
-    extras = {"iat_cv", "qname_len_mean", "qname_entropy_bits_per_char", "ja4_ua_consistent"}
+    extras = {"iat_cv", "qname_len_mean", "qname_entropy_bits_per_char", "ja4_ua_consistent",
+              "conn_count_60s", "distinct_dst_ports_60s"}  # window aggregates: CIC has them too (from timestamps)
     for cls in G.FLOW_PROFILES:
         assert set(G.synth_flow(cls, 0)[0]["flow"]["features"]) - core <= extras, cls
+
+
+def test_cic_window_counts():
+    import pandas as pd
+    from data_pipeline.flows import add_window_counts
+    df = pd.DataFrame({"flow_id": range(5), "source_ip": ["a"] * 4 + ["b"], "destination_ip": ["h"] * 5,
+                       "destination_port": [22, 22, 21, 22, 22],
+                       "Timestamp": ["03/07/2017 08:55:58", "3/7/2017 8:55", "03/07/2017 08:55:01",
+                                     "03/07/2017 08:57:00", "bad"]})
+    out = add_window_counts(df)
+    assert out["conn_count_60s"].tolist()[:4] == [2, 2, 1, 1]          # same src/dst/port in the same minute
+    assert out["distinct_dst_ports_60s"].tolist()[:3] == [2, 2, 2]      # ports 21 and 22 in that minute
+    assert out["conn_count_60s"].isna().tolist()[4]                     # unparsable timestamp -> no count
 
 
 def test_crs_fixture_to_telemetry():

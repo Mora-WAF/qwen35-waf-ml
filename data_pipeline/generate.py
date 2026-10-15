@@ -415,14 +415,62 @@ FLOW_PROFILES = {
                                        dict(name="keepalive_long_poll", ports=[443, 8443], window="full_flow", dur=(600, 3600), pkts=(30, 160), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.6), syn_frac=(0.01, 0.06), iat_cv=(0.2, 0.6)),
                                        dict(name="mobile_push_channel", ports=[443, 5223], window="full_flow", dur=(900, 3600), pkts=(20, 120), bytes_per_pkt=(120, 700), fwd_frac=(0.35, 0.55), syn_frac=(0.01, 0.05), iat_cv=(0.25, 0.8)),
                                        # legitimate login and API bursts: the lookalike of credential stuffing
-                                       dict(name="sso_login_peak", ports=[443], pkts=(800, 6000), bytes_per_pkt=(400, 1100), fwd_frac=(0.25, 0.42), syn_frac=(0.05, 0.15)),  # responses dominate: successful logins load pages
-                                       dict(name="api_batch_sync", ports=[443, 8443], pkts=(2000, 10000), bytes_per_pkt=(600, 1400), fwd_frac=(0.2, 0.4), syn_frac=(0.01, 0.05)),
+                                       dict(name="sso_login_peak", ports=[443], pkts=(800, 6000), bytes_per_pkt=(400, 1100), fwd_frac=(0.25, 0.42), syn_frac=(0.05, 0.15), conn=(2, 20)),  # responses dominate: successful logins load pages
+                                       dict(name="api_batch_sync", ports=[443, 8443], pkts=(2000, 10000), bytes_per_pkt=(600, 1400), fwd_frac=(0.2, 0.4), syn_frac=(0.01, 0.05), conn=(2, 30)),
                                        dict(name="software_update_cdn", ports=[80, 443], window="full_flow", dur=(30, 900), pkts=(5000, 120000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
                                        # sibling download regimes: no benign behaviour rests on a single variant
                                        dict(name="backup_restore_download", ports=[443, 22], window="full_flow", dur=(300, 3600), pkts=(20000, 500000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
                                        dict(name="mirror_sync_pull", ports=[80, 443, 873], window="full_flow", dur=(600, 3600), pkts=(50000, 900000), bytes_per_pkt=(1300, 1460), fwd_frac=(0.04, 0.15), syn_frac=(0.0, 0.01)),
                                        dict(name="dataset_fetch_windowed", ports=[443], pkts=(3000, 15000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.02))]),
 }
+# Window evidence per class: (connections to the same dst host+port in the minute, distinct dst ports on that host).
+# None for ports = follow the profile's dst_fanout. Variants may override with "conn" / "dports".
+WINDOW_EVIDENCE = {
+    "syn_flood_ddos": ((800, 60000), (1, 2)), "udp_amplification": ((1, 12), (1, 2)),
+    "slowloris_slowhttp": ((60, 1200), (1, 1)), "port_scan_recon": ((1, 3), None),
+    "credential_stuffing_bruteforce": ((40, 900), (1, 2)), "c2_beaconing_anomaly": ((1, 3), (1, 1)),
+    "dns_tunneling_exfil": ((1, 6), (1, 1)), "tls_ja4_ua_spoofing": ((1, 12), (1, 1)),
+    "benign_standard_traffic": ((1, 12), (1, 3)), "benign_high_rate_legit": ((1, 40), (1, 3)),
+}
+
+
+def _log_uniform(r, lo, hi):
+    import math
+    return max(lo, min(hi, int(round(math.exp(r.uniform(math.log(lo), math.log(hi + 1)))))))
+
+
+# TLS client evidence (taxonomy tls_ja4_ua_spoofing: measured fingerprint + justified mapping + UA as received).
+# Fingerprints are JA4-format placeholders, one per client family (not real-world values).
+def _ja4(fam):
+    h = hashlib.sha256(fam.encode()).hexdigest()
+    return f"t13d{15 + len(fam) % 4}{10 + len(fam) % 7}h2_{h[:12]}_{h[12:24]}"
+
+
+TLS_BROWSERS = ["chrome", "firefox", "safari", "edge"]
+TLS_TOOLS = ["python_requests", "go_http", "curl", "java_httpclient", "node_undici", "headless_automation_lib"]
+TLS_PROXIES = ["corporate_tls_inspection_proxy", "mobile_carrier_optimizer"]
+
+
+def tls_context(r, kind):
+    """kind: spoof (tool stack claiming a browser UA), match (stack and UA agree), proxy (legitimate mismatch:
+    a re-encrypting middlebox the deployment knows about) -> context block with the evidence."""
+    ua_fam = r.choice(TLS_BROWSERS) if kind != "match" or r.random() < 0.7 else r.choice(TLS_TOOLS)
+    if kind == "spoof":
+        stack = r.choice(TLS_TOOLS)
+    elif kind == "match":
+        stack = ua_fam
+    else:
+        stack = r.choice(TLS_PROXIES)
+    ua = UA_FAMILIES.get({"chrome": "chrome_win", "firefox": "firefox_linux", "safari": "safari_mac", "edge": "edge",
+                          "python_requests": "python_requests", "go_http": "go", "curl": "curl", "java_httpclient": "java",
+                          "node_undici": "node"}.get(ua_fam, "chrome_win"), UA_FAMILIES["chrome_win"])(r)
+    ctx = {"tls": {"ja4": _ja4(stack), "ja4_client_family": stack, "user_agent_received": ua,
+                   "ua_claimed_family": ua_fam if ua_fam in TLS_BROWSERS else "non_browser"}}
+    if kind == "proxy":
+        ctx["egress"] = {"known_tls_inspection": True, "device": stack}
+    return ctx
+
+
 # Optional evidence fields appear in every class where the measurement would exist, so their presence
 # is not a label: values carry the evidence (e.g. low iat_cv or high qname entropy), not the key.
 DNS_NORMAL, DNS_TUNNEL = ((10, 32), (2.4, 3.5)), ((40, 120), (3.6, 4.5))
@@ -472,11 +520,23 @@ def synth_flow(cls, idx):
         feats["ja4_ua_consistent"] = 0.0  # measured mismatch; mapping justified in metadata
     elif pr["proto"] == "tcp" and feats["dst_port"] in (443, 8443) and r.random() < 0.4:
         feats["ja4_ua_consistent"] = 1.0
+    conn_rng, port_rng = WINDOW_EVIDENCE[cls]
+    conn_rng = pr.get("conn", conn_rng)
+    port_rng = pr.get("dports", port_rng or pr.get("dst_fanout", (1, 1)))
+    feats["conn_count_60s"] = _log_uniform(r, *conn_rng)
+    feats["distinct_dst_ports_60s"] = _log_uniform(r, *port_rng)
     tel = {"schema_version": 1, "mode": "L4_FLOW",
            "decision_stage": "flow_complete" if pr["window"] == "full_flow" else "flow_window",
            "observed_until": pr["window"], "truncated": False,
            "flow": {"window": {"kind": pr["window"], "seconds": None if pr["window"] == "full_flow" else dur},
                     "protocol": pr["proto"], "features": feats}}
+    if "ja4_ua_consistent" in feats:  # the flag never stands alone: the measured evidence travels with it
+        kind = "spoof" if cls == "tls_ja4_ua_spoofing" else "match"
+        if cls == "benign_standard_traffic" and r.random() < 0.3:  # legitimate mismatch: mismatch alone is not malicious
+            kind = "proxy"
+            feats["ja4_ua_consistent"] = 0.0
+        tel["context"] = tls_context(r, kind)
+        tel["mode"] = "HYBRID_CTX"
     scenario = {"profile": cls, "variant": pr["name"], "duration_s": dur, "pkts": pkts, "bytes_per_pkt": bpp,
                 "syn_fraction_range": pr["syn_frac"], "window_kind": pr["window"]}
     return tel, scenario

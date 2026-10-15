@@ -35,6 +35,17 @@ Mean rendered length 505 tokens (pilot v1; v2 median 563). T4 figures are measur
 
 Recommendation: **L4 for the fast 30k run and the learning curve** (cheapest CU per run, native bf16, 24 GB, fits one session); **A100 for the full 100k** if it must finish within one session, otherwise L4 with Drive checkpoint resume. T4 only for smoke tests (free-tier sessions are capped and the 30k run exceeds them). A pay-as-you-go 100 CU pack covers a 5k/15k/30k learning curve on L4 (~20 CU) plus the 100k run on L4 (~40 CU).
 
+### TPU v5e-1 probe (15 October, free Colab TPU, PyTorch/XLA 2.9) — not viable for this model
+
+Qwen3.5-4B + the same rsLoRA (21,233,664 trainable, identical to CUDA) loaded and fit at 10.4 of 16.9 GB HBM, but the
+first training step (4×512 tokens, gradient checkpointing) took ~33 min to compile and then failed to load:
+needed 4.42 GB more, 4.09 GB free. Cause: the linear-attention layers' fast kernels (`chunk_gated_delta_rule`
+from flash-linear-attention, `causal_conv1d`) are CUDA/Triton-only, so XLA traces the reference PyTorch loops
+into one very large graph. Each padded length bucket would need its own compile, repeated per session. TPU
+v6e-1 was rejected for the account (no entitlement). Decision: train on CUDA (T4 multi-session or L4); the
+TPU trainer was removed. Lesson: the CLI's 120 s HTTP timeout made a TPU request look failed while the
+runtime was assigned later (an orphan runtime); `colab sessions` lists server assignments the CLI did not record.
+
 ### Pilot dataset v2 (`datasets_ready/pilot_*.jsonl`)
 
 - 2,886 records, all 35 classes in train, test and each validation sub-partition; 2,063 lineage groups. Splits: train 2,310; val_select 132, val_calib 102, val_policy 70; test 272 (2–35 per class: still too small for per-class claims).
