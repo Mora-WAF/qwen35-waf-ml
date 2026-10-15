@@ -1,0 +1,179 @@
+{
+ "mode": "pilot",
+ "per_class": 40,
+ "total": 1388,
+ "dropped_exact_dup": 2,
+ "rejected_token_overflow": {
+  "graphql_abuse": 3
+ },
+ "files": {
+  "pilot_train.jsonl": {
+   "records": 1127,
+   "sha256": "acf9755b488c6451f8f9ccdd6ef1b735f6533ad215d99f48761796fb5f167019"
+  },
+  "pilot_val.jsonl": {
+   "records": 137,
+   "sha256": "4da2157831623d3879245db36bb102d42ac3357be6f8546476806b3883952e8f"
+  },
+  "pilot_test.jsonl": {
+   "records": 124,
+   "sha256": "9721e605558867d3f0d0e99530fbd84b919c129034b82d2f53d1b58baa0fb184"
+  }
+ },
+ "deficits": {
+  "csv_formula_injection": {
+   "have": 20,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "ssrf_cloud_metadata": {
+   "have": 24,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "graphql_abuse": {
+   "have": 23,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "jwt_auth_bypass": {
+   "have": 20,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "bola_idor_enumeration": {
+   "have": 24,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "websocket_grpc_abuse": {
+   "have": 24,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "web_cache_poisoning": {
+   "have": 24,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "benign_hard_negative_dev": {
+   "have": 23,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "benign_hard_negative_search": {
+   "have": 35,
+   "target": 40,
+   "reason": "insufficient independent seeds"
+  },
+  "_mixed_observed_synthetic": {
+   "slowloris_slowhttp": {
+    "observed_groups": 1,
+    "observed": 20,
+    "synthetic": 20
+   },
+   "port_scan_recon": {
+    "observed_groups": 24,
+    "observed": 20,
+    "synthetic": 20
+   },
+   "credential_stuffing_bruteforce": {
+    "observed_groups": 8,
+    "observed": 20,
+    "synthetic": 20
+   },
+   "benign_standard_traffic": {
+    "observed_groups": 6000,
+    "observed": 10,
+    "synthetic": 10
+   }
+  }
+ },
+ "haiku_jobs": {
+  "ssrf_cloud_metadata": {
+   "status": "ok",
+   "accepted": 24,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "graphql_abuse": {
+   "status": "ok",
+   "accepted": 23,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "jwt_auth_bypass": {
+   "status": "ok",
+   "accepted": 20,
+   "rejected": 0,
+   "quarantined_by_review": 4
+  },
+  "bola_idor_enumeration": {
+   "status": "ok",
+   "accepted": 24,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "websocket_grpc_abuse": {
+   "status": "ok",
+   "accepted": 24,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "llm_prompt_injection": {
+   "status": "ok",
+   "accepted": 48,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "prototype_pollution": {
+   "status": "ok",
+   "accepted": 48,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "web_cache_poisoning": {
+   "status": "ok",
+   "accepted": 24,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "deserialization": {
+   "status": "ok",
+   "accepted": 40,
+   "rejected": 0,
+   "quarantined_by_review": 8
+  },
+  "csv_formula_injection": {
+   "status": "ok",
+   "accepted": 20,
+   "rejected": 0,
+   "quarantined_by_review": 4
+  },
+  "benign_hard_negative_dev": {
+   "status": "ok",
+   "accepted": 23,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "benign_hard_negative_search": {
+   "status": "ok",
+   "accepted": 35,
+   "rejected": 0,
+   "quarantined_by_review": 5
+  },
+  "benign_standard_traffic": {
+   "status": "ok",
+   "accepted": 120,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  }
+ },
+ "cross_split_overlap": 0,
+ "lineage_overlap": 0,
+ "limitations": [
+  "CIC-IDS2017 attack classes are single campaigns (one lineage group each); they land wholly in one split, test coverage for those classes comes from NF-ToN or synthetic",
+  "synthetic flow/benign/haiku records are independent draws (own lineage group) but share per-class template families across splits; no unseen-family holdout in pilot",
+  "near-duplicate (non-exact) seed variants not yet clustered"
+ ]
+}

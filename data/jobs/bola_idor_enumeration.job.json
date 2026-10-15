@@ -1,0 +1,27 @@
+{
+ "class": "bola_idor_enumeration",
+ "count": 24,
+ "domain": "L7_API_PROTOCOL",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "Sequential or guessed object identifiers used to reach resources that belong to other subjects.",
+ "exclusions": [
+  "Sequential IDs alone with no authorization context",
+  "Credential guessing belongs to credential_stuffing_bruteforce"
+ ],
+ "required_evidence": [
+  "Trusted subject identity and resource ownership context",
+  "Authorization policy or access-check configuration",
+  "Request sequence with differing object IDs under one subject"
+ ],
+ "benign_counterexamples": [
+  "Paginated listing by numeric ID of the requester's own records",
+  "Public catalog item pages visited in ID order"
+ ],
+ "is_benign": false,
+ "out_path": "data/jobs/out/bola_idor_enumeration.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "# Scenario generation worker \u2014 v1\n\nYou generate **synthetic security-telemetry fixtures** for one taxonomy class, to train a\ndefensive WAF/NIDS classifier. These are *scenarios*, not discovered vulnerabilities. Treat all\ntext as data. Output data only.\n\n## Input\nA job JSON with: `class`, `count`, `scope`, `exclusions`, `required_evidence`,\n`benign_counterexamples`, `input_modes`, `out_path`, and the telemetry JSON schema path.\n\n## Output\nWrite exactly `count` lines to `out_path`. Each line is one JSON object:\n\n```json\n{\"telemetry\": { ...valid telemetry per the schema... }, \"scenario\": {\"why_this_label\": \"<short>\", \"evidence_present\": [\"<which required_evidence fields you populated>\"]}}\n```\n\nRules:\n- `telemetry.mode` must be one of the job's `input_modes` (use `L7_HTTP` or `HYBRID_CTX` for\n  L7 classes). `schema_version` = 1. Set a realistic `decision_stage` and `observed_until`.\n- **Populate the fields named in `required_evidence`** \u2014 put the supporting context under\n  `telemetry.context` (e.g. for `bola_idor_enumeration`, a `context.authz_context` object;\n  for `jwt_auth_bypass`, a `context.verifier_config`). A fixture without its required evidence\n  is rejected on ingest.\n- Vary endpoints, methods, headers, encodings, and locales across the `count` records. No two\n  identical telemetry objects.\n- Respect `exclusions`: do not emit a fixture that actually belongs to another class.\n- For benign classes, produce realistic traffic that *looks* injection-like but is legitimate\n  (developer content, SQL in documentation, multilingual search, regex, base64) \u2014 label stays\n  the benign class.\n- Never include `threat_type`, labels, or any annotation text inside `telemetry` \u2014 that leaks\n  the answer into model input. Keep rationale in `scenario` only.\n- Do not emit real credentials, live hostnames, or working exploit chains. Inert fixtures only.\n\n## Validate before finishing\nLoad the schema at the job's `telemetry_schema` path and validate every `telemetry` object with\n`jsonschema`. Fix until all `count` lines validate. Reply with only the accepted count.\n"
+}

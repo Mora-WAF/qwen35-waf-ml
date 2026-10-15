@@ -1,0 +1,461 @@
+[
+ {
+  "rid": "r00010",
+  "label": "deserialization",
+  "ref": "deserialization.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Java stream magic only; no gadget or payload body visible."
+ },
+ {
+  "rid": "r00015",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:555b5a262bd94d48",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Bare userinfo-style URL with encoded slash; no redirect sink shown."
+ },
+ {
+  "rid": "r00020",
+  "label": "path_traversal_lfi",
+  "ref": "seclists:path_traversal_lfi:f738716377465b93",
+  "kind": "payload",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "Absolute log path with no traversal sequence; read intent not shown."
+ },
+ {
+  "rid": "r00025",
+  "label": "path_traversal_lfi",
+  "ref": "seclists:path_traversal_lfi:7750f4ae41743a3a",
+  "kind": "payload",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "UNC admin-share path to hosts file; no sink context."
+ },
+ {
+  "rid": "r00028",
+  "label": "deserialization",
+  "ref": "deserialization.v2.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "ViewState with MAC disabled; opaque payload, no gadget shown."
+ },
+ {
+  "rid": "r00032",
+  "label": "nosqli",
+  "ref": "seclists:nosqli:c589effc48a11605",
+  "kind": "payload",
+  "reviewer": "xss_dom_polyglot",
+  "sufficient": false,
+  "note": "Quote breaks JS string into busy-wait loop; sink context not shown."
+ },
+ {
+  "rid": "r00034",
+  "label": "deserialization",
+  "ref": "deserialization.v2.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Java stream magic in cache header; class name only, no gadget."
+ },
+ {
+  "rid": "r00037",
+  "label": "xss_reflected_stored",
+  "ref": "seclists:xss_reflected_stored:c46a3dfd9e32cee1",
+  "kind": "payload",
+  "reviewer": "xss_dom_polyglot",
+  "sufficient": false,
+  "note": "Split-tag eval/alert obfuscation; DOM sink context not shown."
+ },
+ {
+  "rid": "r00046",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:712637b202f8a698",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Bare external URL; no redirect parameter context."
+ },
+ {
+  "rid": "r00074",
+  "label": "ssti",
+  "ref": "ssti_advanced_payload_list:ssti:a331e6dee3340e73",
+  "kind": "payload",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "Java runtime expression probe; harmless call, template context not shown."
+ },
+ {
+  "rid": "r00077",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 token from allowed JWKS issuer accepted; routine billing call."
+ },
+ {
+  "rid": "r00091",
+  "label": "benign_hard_negative_search",
+  "ref": "benign_hard_negative_search.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ordinary Arabic site search query."
+ },
+ {
+  "rid": "r00096",
+  "label": "benign_hard_negative_search",
+  "ref": "benign_hard_negative_search.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Multilingual product search with ampersand; ordinary catalog query."
+ },
+ {
+  "rid": "r00099",
+  "label": "ssti",
+  "ref": "ssti_advanced_payload_list:ssti:e2af5102f8c5e951",
+  "kind": "payload",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "Smarty tag fragment alone; template rendering sink not shown."
+ },
+ {
+  "rid": "r00101",
+  "label": "ldap_xpath_injection",
+  "ref": "payloadsallthethings:ldap_xpath_injection:a1b8b517941a54ab",
+  "kind": "payload",
+  "reviewer": "ldap_xpath_injection",
+  "sufficient": false,
+  "note": "XPath concatenation template with unescaped variable; no attacker value shown."
+ },
+ {
+  "rid": "r00106",
+  "label": "path_traversal_lfi",
+  "ref": "seclists:path_traversal_lfi:b492fd4a234cec1f",
+  "kind": "payload",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "Bare absolute config path; no traversal or sink shown."
+ },
+ {
+  "rid": "r00115",
+  "label": "csv_formula_injection",
+  "ref": "csv_formula_injection.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Leading minus on numeric-looking value; no formula shown."
+ },
+ {
+  "rid": "r00133",
+  "label": "benign_hard_negative_search",
+  "ref": "benign_hard_negative_search.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ordinary Spanish shop search."
+ },
+ {
+  "rid": "r00135",
+  "label": "deserialization",
+  "ref": "deserialization.v2.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "XMLDecoder endpoint but object shows no gadget; benign-looking bean."
+ },
+ {
+  "rid": "r00154",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:af917729610b5028",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Malformed path-prefixed external host; no redirect context."
+ },
+ {
+  "rid": "r00173",
+  "label": "crlf_header_injection",
+  "ref": "crlf_injection_payload_list:crlf_header_injection:9fd5d704f90acba4",
+  "kind": "payload",
+  "reviewer": "crlf_header_injection",
+  "sufficient": false,
+  "note": "Multiply-encoded CR LF; target header context not shown."
+ },
+ {
+  "rid": "r00189",
+  "label": "path_traversal_lfi",
+  "ref": "seclists:path_traversal_lfi:aa38e60c14e6ba08",
+  "kind": "payload",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "Absolute log path with no traversal sequence; sink context missing."
+ },
+ {
+  "rid": "r00208",
+  "label": "ldap_xpath_injection",
+  "ref": "payloadsallthethings:ldap_xpath_injection:c94d0e8e203d04de",
+  "kind": "payload",
+  "reviewer": "sqli_classic",
+  "sufficient": true,
+  "note": "Quote with always-true boolean tautology."
+ },
+ {
+  "rid": "r00214",
+  "label": "csv_formula_injection",
+  "ref": "csv_formula_injection.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Leading minus numeric-looking memo; formula not established."
+ },
+ {
+  "rid": "r00218",
+  "label": "path_traversal_lfi",
+  "ref": "seclists:path_traversal_lfi:f6d656f98decf814",
+  "kind": "payload",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "Absolute Apache config path with no traversal; read intent not shown."
+ },
+ {
+  "rid": "r00245",
+  "label": "csv_formula_injection",
+  "ref": "csv_formula_injection.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Name +1-1 unescaped in export; could be ordinary text."
+ },
+ {
+  "rid": "r00246",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:cbd5b1f7c784060a",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Encoded double slash to evil.com; no redirect sink shown."
+ },
+ {
+  "rid": "r00248",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 token from trusted issuer accepted; routine billing request."
+ },
+ {
+  "rid": "r00252",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:1d6c0204ab3bd12f",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Malformed https scheme pointing to evil.com; no redirect sink shown."
+ },
+ {
+  "rid": "r00264",
+  "label": "path_traversal_lfi",
+  "ref": "seclists:path_traversal_lfi:a8352fc29a7d2c70",
+  "kind": "payload",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "Absolute server config path with no traversal; no file-read sink shown."
+ },
+ {
+  "rid": "r00279",
+  "label": "benign_hard_negative_search",
+  "ref": "benign_hard_negative_search.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ordinary help search for inserting an image in Word."
+ },
+ {
+  "rid": "r00290",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 token from allowed issuer accepted; routine billing plan request."
+ },
+ {
+  "rid": "r00313",
+  "label": "graphql_abuse",
+  "ref": "graphql_abuse.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Postman introspection within depth limit; intent unclear."
+ },
+ {
+  "rid": "r00325",
+  "label": "ldap_xpath_injection",
+  "ref": "payloadsallthethings:ldap_xpath_injection:6f7d7a0337b56d3d",
+  "kind": "payload",
+  "reviewer": "sqli_classic",
+  "sufficient": false,
+  "note": "Bare SQL-like fragment; no injection context shown."
+ },
+ {
+  "rid": "r00331",
+  "label": "deserialization",
+  "ref": "deserialization.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Java stream magic only; auto-decode disabled, no gadget."
+ },
+ {
+  "rid": "r00340",
+  "label": "csv_formula_injection",
+  "ref": "csv_formula_injection.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "csv_formula_injection",
+  "sufficient": false,
+  "note": "Leading plus with cell reference; could be a legitimate code."
+ },
+ {
+  "rid": "r00361",
+  "label": "deserialization",
+  "ref": "deserialization.v2.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Upload with Java stream magic and class descriptor start only."
+ },
+ {
+  "rid": "r00366",
+  "label": "deserialization",
+  "ref": "deserialization.v2.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "PHP serialized Example object to unserialize; allowed-class config unknown."
+ },
+ {
+  "rid": "r00372",
+  "label": "crlf_header_injection",
+  "ref": "crlf_injection_payload_list:crlf_header_injection:d06ce199b1282222",
+  "kind": "payload",
+  "reviewer": "xss_dom_polyglot",
+  "sufficient": false,
+  "note": "Unicode line separators only; injection sink and context not shown."
+ },
+ {
+  "rid": "r00375",
+  "label": "crlf_header_injection",
+  "ref": "crlf_injection_payload_list:crlf_header_injection:283f7ce6a1b92033",
+  "kind": "payload",
+  "reviewer": "crlf_header_injection",
+  "sufficient": false,
+  "note": "Bare double-encoded newline; no header sink context shown."
+ },
+ {
+  "rid": "r00383",
+  "label": "benign_hard_negative_search",
+  "ref": "benign_hard_negative_search.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Plain Arabic site search with no operators or special characters."
+ },
+ {
+  "rid": "r00389",
+  "label": "rce_cmd_injection",
+  "ref": "command_injection_payload_list:rce_cmd_injection:5fd12720949fa663",
+  "kind": "payload",
+  "reviewer": "rce_cmd_injection",
+  "sufficient": false,
+  "note": "Bare pipe-delimited id token; shell context not shown."
+ },
+ {
+  "rid": "r00408",
+  "label": "path_traversal_lfi",
+  "ref": "seclists:path_traversal_lfi:292805be0d0c8711",
+  "kind": "payload",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "Absolute Apache config path with no traversal and no file-read sink."
+ },
+ {
+  "rid": "r00413",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 token from allowed issuer accepted; routine billing export request."
+ },
+ {
+  "rid": "r00414",
+  "label": "deserialization",
+  "ref": "deserialization.v2.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "PHP serialized Cart cookie with empty items; allowed-class config unknown."
+ },
+ {
+  "rid": "r00415",
+  "label": "path_traversal_lfi",
+  "ref": "seclists:path_traversal_lfi:6645d52bc6291df1",
+  "kind": "payload",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": false,
+  "note": "Bare absolute home dotfile path; no traversal or sink shown."
+ },
+ {
+  "rid": "r00429",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:8d83f45b2b429d6e",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Encoded backslash and slash to evil.com; no redirect sink shown."
+ },
+ {
+  "rid": "r00445",
+  "label": "benign_hard_negative_dev",
+  "ref": "benign_hard_negative_dev.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_search",
+  "sufficient": true,
+  "note": "CI log search for quoted rm -rf text on documented endpoint."
+ },
+ {
+  "rid": "r00475",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:c38506a591b7f34b",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Bare external host with backslash confusion; no redirect context."
+ },
+ {
+  "rid": "r00480",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:a73070ea73477ad7",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Bare subdomain of evil.com as target; no redirect sink shown."
+ },
+ {
+  "rid": "r00481",
+  "label": "open_redirect_cors",
+  "ref": "open_redirect_payload_list:open_redirect_cors:f0f02fc8260f6ebf",
+  "kind": "payload",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "Bare external URL with port; no redirect context."
+ }
+]

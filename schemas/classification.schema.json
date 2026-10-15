@@ -1,0 +1,50 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "classification.schema.json",
+ "type": "object",
+ "properties": {
+  "threat_type": {
+   "enum": [
+    "sqli_classic",
+    "sqli_obfuscated",
+    "nosqli",
+    "xss_reflected_stored",
+    "xss_dom_polyglot",
+    "rce_cmd_injection",
+    "ssti",
+    "xxe",
+    "deserialization",
+    "crlf_header_injection",
+    "ldap_xpath_injection",
+    "csv_formula_injection",
+    "path_traversal_lfi",
+    "ssrf_cloud_metadata",
+    "http_request_smuggling",
+    "graphql_abuse",
+    "jwt_auth_bypass",
+    "bola_idor_enumeration",
+    "open_redirect_cors",
+    "websocket_grpc_abuse",
+    "llm_prompt_injection",
+    "prototype_pollution",
+    "web_cache_poisoning",
+    "syn_flood_ddos",
+    "udp_amplification",
+    "slowloris_slowhttp",
+    "credential_stuffing_bruteforce",
+    "port_scan_recon",
+    "c2_beaconing_anomaly",
+    "dns_tunneling_exfil",
+    "tls_ja4_ua_spoofing",
+    "benign_standard_traffic",
+    "benign_hard_negative_dev",
+    "benign_hard_negative_search",
+    "benign_high_rate_legit"
+   ]
+  }
+ },
+ "required": [
+  "threat_type"
+ ],
+ "additionalProperties": false
+}

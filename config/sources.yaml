@@ -1,0 +1,623 @@
+version: 1
+checked_at: '2026-10-15'
+sources:
+- id: cic_ids2017_mirror
+  kind: huggingface
+  upstream_url: https://huggingface.co/datasets/rdpahalavan/CIC-IDS2017
+  mirror_of: https://www.unb.ca/cic/datasets/ids-2017.html
+  revision: eee96b6abc2c4bb621fd67679a4aa24bddc4be6a
+  default_branch: main
+  license_spdx: Apache-2.0
+  license_note: Mirror's Hugging Face card tag; upstream terms not independently verified
+  files:
+  - path: Network-Flows/CICIDS_Flow.parquet
+    size_bytes: 369814810
+  total_size_bytes: 346345030720
+  status: available
+  intended_use: Observed flow features and supported labels
+  restriction: Verify original units, capture identities, label quality, and availability at decision time
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: command_injection_payload_list
+  kind: github
+  upstream_url: https://github.com/payload-box/command-injection-payload-list
+  mirror_of: null
+  revision: 2a9f7b3acf0163df9e49aed989a48dce2562e610
+  default_branch: main
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: Intruder/command-injection-basic.txt
+    size_bytes: 1246
+  - path: Intruder/command-injection-bypass.txt
+    size_bytes: 4630
+  - path: Intruder/command-injection-data-exfiltration.txt
+    size_bytes: 7490
+  - path: Intruder/command-injection-encoded.txt
+    size_bytes: 1144
+  - path: Intruder/command-injection-linux.txt
+    size_bytes: 4448
+  - path: Intruder/command-injection-obfuscated.txt
+    size_bytes: 2007
+  - path: Intruder/command-injection-out-of-band.txt
+    size_bytes: 9452
+  - path: Intruder/command-injection-polyglot.txt
+    size_bytes: 3457
+  - path: Intruder/command-injection-special-chars.txt
+    size_bytes: 1720
+  - path: Intruder/command-injection-time-based.txt
+    size_bytes: 2409
+  - path: Intruder/command-injection-windows.txt
+    size_bytes: 4523
+  total_size_bytes: 42526
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: coreruleset
+  kind: github
+  upstream_url: https://github.com/coreruleset/coreruleset
+  mirror_of: null
+  revision: d5cb9da4522c1a1e20e0e393bc992b506adb8c55
+  default_branch: main
+  license_spdx: Apache-2.0
+  license_note: 'GitHub API license spdx_id: Apache-2.0'
+  files:
+  - path: tests/regression/tests/
+    size_bytes: 3452973
+  total_size_bytes: 3452973
+  status: available
+  intended_use: Rule-specific positive and negative fixtures
+  restriction: Rule match/non-match is an annotation signal, not universal malicious/benign truth
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: crlf_injection_payload_list
+  kind: github
+  upstream_url: https://github.com/payload-box/crlf-injection-payload-list
+  mirror_of: null
+  revision: 12c7274456e2e9865150acd7682e79315c3ed506
+  default_branch: main
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: Intruder/crlf-injection.txt
+    size_bytes: 7765
+  total_size_bytes: 7765
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: csic_2010
+  kind: other
+  upstream_url: null
+  mirror_of: null
+  revision: null
+  default_branch: null
+  license_spdx: null
+  license_note: No attributable distribution identified; candidate repos carry no license or are derivative works
+  files: []
+  total_size_bytes: null
+  status: unresolved
+  intended_use: Historical HTTP examples
+  restriction: Locate an attributable distribution; document original labels, duplicate families, and limitations
+  enabled: false
+  candidates:
+  - owner: Monkey-D-Groot
+    url: https://github.com/Monkey-D-Groot/Machine-Learning-on-CSIC-2010
+    license: null
+    origin_attributed: false
+  - owner: msudol
+    url: https://github.com/msudol/Web-Application-Attack-Datasets
+    license: GPL-3.0
+    origin_attributed: false
+    note: combined ECML/PKDD 2007 and CSIC 2010
+  - owner: arsheen
+    url: https://github.com/arsheen/Deep-Learning-WAF
+    license: null
+    origin_attributed: false
+  - owner: ittailup
+    url: https://huggingface.co/datasets/ittailup/csic
+    license: null
+    origin_attributed: false
+  - owner: b1nch3f
+    url: https://huggingface.co/datasets/b1nch3f/csic-dataset
+    license: null
+    origin_attributed: false
+  - owner: bridge4
+    url: https://huggingface.co/datasets/bridge4/CSIC2010_dataset_classification
+    license: null
+    origin_attributed: false
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: http_request_smuggling_payloads
+  kind: github
+  upstream_url: https://github.com/payload-box/http-request-smuggling-payloads
+  mirror_of: null
+  revision: 4fd2e84f951a3adf4efe57c8bcb5b2c3fa738cc3
+  default_branch: main
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: Intruder/Advanced-Payloads.txt
+    size_bytes: 7047
+  - path: Intruder/Bypass-Payloads.txt
+    size_bytes: 6510
+  - path: Intruder/CL-TE-Payloads.txt
+    size_bytes: 9202
+  - path: Intruder/Cache-Poisoning-Payloads.txt
+    size_bytes: 1891
+  - path: Intruder/Detection-Payloads.txt
+    size_bytes: 5666
+  - path: Intruder/HTTP2-Desync-Payloads.txt
+    size_bytes: 4614
+  - path: Intruder/Session-Hijacking-Payloads.txt
+    size_bytes: 5215
+  - path: Intruder/TE-CL-Payloads.txt
+    size_bytes: 12398
+  - path: Intruder/TE-TE-Payloads.txt
+    size_bytes: 11818
+  - path: Intruder/Time-Based-Payloads.txt
+    size_bytes: 3411
+  total_size_bytes: 67772
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: nf_ton_iot_v2_mirror
+  kind: huggingface
+  upstream_url: https://huggingface.co/datasets/Nora9029/NF-ToN-IoT-v2
+  mirror_of: https://staff.itee.uq.edu.au/marius/NIDS_datasets/
+  revision: 4e951f835487ee57ee5da5dae2eaeb704908ab38
+  default_branch: main
+  license_spdx: Apache-2.0
+  license_note: Mirror's Hugging Face card tag; upstream terms not independently verified
+  files:
+  - path: NF-ToN-IoT-v2-test.csv
+    size_bytes: 531923548
+  - path: NF-ToN-IoT-v2-train.csv
+    size_bytes: 2127627131
+  total_size_bytes: 2659550870
+  status: available
+  intended_use: Supported network-flow cases
+  restriction: Validate extractor semantics and source provenance; do not invent DNS payloads, HTTP bodies, or JA4 values
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: open_redirect_payload_list
+  kind: github
+  upstream_url: https://github.com/payload-box/open-redirect-payload-list
+  mirror_of: null
+  revision: aa688c2b6cdff0cf62a6472d4c6e729b025d8b02
+  default_branch: main
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: payloads.txt
+    size_bytes: 9406
+  - path: payloads/01-protocol-based.txt
+    size_bytes: 1498
+  - path: payloads/02-encoding-variations.txt
+    size_bytes: 3108
+  total_size_bytes: 14012
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: payloadsallthethings
+  kind: github
+  upstream_url: https://github.com/swisskyrepo/PayloadsAllTheThings
+  mirror_of: null
+  revision: 3ac27901c711bdf3f5b65a7b1d1820a1f65bd09a
+  default_branch: master
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: SQL Injection/
+    size_bytes: 1073730
+  - path: XSS Injection/
+    size_bytes: 491335
+  - path: Command Injection/
+    size_bytes: 38194
+  - path: Server Side Template Injection/
+    size_bytes: 957614
+  - path: XXE Injection/
+    size_bytes: 42777
+  - path: Request Smuggling/
+    size_bytes: 8154
+  - path: Open Redirect/
+    size_bytes: 19652
+  - path: CRLF Injection/
+    size_bytes: 6277
+  - path: Directory Traversal/
+    size_bytes: 2033491
+  - path: File Inclusion/
+    size_bytes: 567606
+  - path: Server Side Request Forgery/
+    size_bytes: 1012598
+  - path: Server Side Include Injection/
+    size_bytes: 9753
+  - path: LDAP Injection/README.md
+    size_bytes: 6694
+  - path: XPATH Injection/README.md
+    size_bytes: 2676
+  - path: NoSQL Injection/README.md
+    size_bytes: 8245
+  total_size_bytes: 6280895
+  status: available
+  intended_use: Scenario references and selected payload fixtures
+  restriction: Parse documented examples deliberately, not every Markdown line as a payload
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: seclists
+  kind: github
+  upstream_url: https://github.com/danielmiessler/SecLists
+  mirror_of: null
+  revision: 997dd861b9fa2623f06f30d5f9085713ce830f0c
+  default_branch: master
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT. Allowlist built at pinned revision; excluded READMEs, XML, robot-friendly
+    XSS duplicates, XSS-payloadbox.txt (copy of unlicensed payload-box/xss-payload-list), plain path lists and the ''huge''
+    LFI list'
+  files:
+  - path: Fuzzing/Databases/SQLi/Generic-BlindSQLi.fuzzdb.txt
+    size_bytes: 1189
+  - path: Fuzzing/Databases/SQLi/Generic-SQLi.txt
+    size_bytes: 5383
+  - path: Fuzzing/Databases/SQLi/MSSQL.fuzzdb.txt
+    size_bytes: 1058
+  - path: Fuzzing/Databases/SQLi/MySQL-SQLi-Login-Bypass.fuzzdb.txt
+    size_bytes: 373
+  - path: Fuzzing/Databases/SQLi/MySQL.fuzzdb.txt
+    size_bytes: 108
+  - path: Fuzzing/Databases/SQLi/NoSQL.txt
+    size_bytes: 605
+  - path: Fuzzing/Databases/SQLi/Oracle.fuzzdb.txt
+    size_bytes: 7873
+  - path: Fuzzing/Databases/SQLi/SQLi-Polyglots.txt
+    size_bytes: 354
+  - path: Fuzzing/Databases/SQLi/quick-SQLi.txt
+    size_bytes: 1180
+  - path: Fuzzing/Databases/SQLi/sqli.auth.bypass.txt
+    size_bytes: 1774
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/High-Risk-Payloads/boolean_blind.txt
+    size_bytes: 636
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/High-Risk-Payloads/error_based.txt
+    size_bytes: 3449
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/High-Risk-Payloads/time_blind.txt
+    size_bytes: 1496
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/Low-Risk-Payloads/boolean_blind.txt
+    size_bytes: 4719
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/Low-Risk-Payloads/error_based.txt
+    size_bytes: 7895
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/Low-Risk-Payloads/inline_query.txt
+    size_bytes: 875
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/Low-Risk-Payloads/stacked_queries.txt
+    size_bytes: 489
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/Low-Risk-Payloads/time_blind.txt
+    size_bytes: 1476
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/Medium-Risk-Payloads/stacked_queries.txt
+    size_bytes: 710
+  - path: Fuzzing/Databases/SQLi/sqlmap-risk-classified/Medium-Risk-Payloads/time_blind.txt
+    size_bytes: 3846
+  - path: Fuzzing/HTML5sec-Injections-Jhaddix.txt
+    size_bytes: 17910
+  - path: Fuzzing/JSON.Fuzzing.txt
+    size_bytes: 50011
+  - path: Fuzzing/LDAP.Fuzzing.txt
+    size_bytes: 247
+  - path: Fuzzing/LFI/LFI-Jhaddix.txt
+    size_bytes: 32631
+  - path: Fuzzing/LFI/LFI-LFISuite-pathtotest.txt
+    size_bytes: 22238
+  - path: Fuzzing/LFI/LFI-linux-and-windows_by-1N3@CrowdShield.txt
+    size_bytes: 31921
+  - path: Fuzzing/LFI/Linux/LFI-gracefulsecurity-linux.txt
+    size_bytes: 22906
+  - path: Fuzzing/LFI/Windows/Windows-LFI-Payloads_by-adeadfed.txt
+    size_bytes: 11840
+  - path: Fuzzing/URI-XSS.fuzzdb.txt
+    size_bytes: 833
+  - path: Fuzzing/XSS/Polyglots/XSS-Polyglot-Ultimate-0xsobky.txt
+    size_bytes: 145
+  - path: Fuzzing/XSS/Polyglots/XSS-Polyglots-Dmiessler.txt
+    size_bytes: 930
+  - path: Fuzzing/XSS/Polyglots/XSS-Polyglots.txt
+    size_bytes: 1576
+  - path: Fuzzing/XSS/Polyglots/XSS-innerht-ml.txt
+    size_bytes: 8796
+  - path: Fuzzing/XSS/human-friendly/XSS-BruteLogic.txt
+    size_bytes: 4173
+  - path: Fuzzing/XSS/human-friendly/XSS-Bypass-Strings-BruteLogic.txt
+    size_bytes: 378
+  - path: Fuzzing/XSS/human-friendly/XSS-Cheat-Sheet-PortSwigger.txt
+    size_bytes: 410029
+  - path: Fuzzing/XSS/human-friendly/XSS-EnDe-evation.txt
+    size_bytes: 7432
+  - path: Fuzzing/XSS/human-friendly/XSS-Jhaddix.txt
+    size_bytes: 19066
+  - path: Fuzzing/XSS/human-friendly/XSS-OFJAAAH.txt
+    size_bytes: 200609
+  - path: Fuzzing/XSS/human-friendly/XSS-RSNAKE.txt
+    size_bytes: 4204
+  - path: Fuzzing/XSS/human-friendly/XSS-Somdev.txt
+    size_bytes: 829
+  - path: Fuzzing/XSS/human-friendly/XSS-Vectors-Mario.txt
+    size_bytes: 22891
+  - path: Fuzzing/XSS/human-friendly/XSS-With-Context-Jhaddix.txt
+    size_bytes: 89727
+  - path: Fuzzing/XSS/human-friendly/xss-without-parentheses-semi-colons-portswigger.txt
+    size_bytes: 596
+  - path: Fuzzing/XXE-Fuzzing.txt
+    size_bytes: 4773
+  - path: Fuzzing/command-injection-commix.txt
+    size_bytes: 940100
+  - path: Fuzzing/template-engines-expression.txt
+    size_bytes: 134
+  total_size_bytes: 1952413
+  status: available
+  intended_use: Additional seeds
+  restriction: Allowlist files; exclude unrelated passwords, identities, and executable artifacts
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: sql_injection_payload_list
+  kind: github
+  upstream_url: https://github.com/payload-box/sql-injection-payload-list
+  mirror_of: null
+  revision: ffaeb80590fcfbca371527c9d38240968b3ca646
+  default_branch: main
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: burp-intruder-payloads.txt
+    size_bytes: 1761
+  - path: mssql-payloads.txt
+    size_bytes: 322
+  - path: mysql-payloads.txt
+    size_bytes: 506
+  - path: oracle-payloads.txt
+    size_bytes: 275
+  - path: postgresql-payloads.txt
+    size_bytes: 464
+  - path: sqlite-payloads.txt
+    size_bytes: 330
+  total_size_bytes: 3658
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: ssti_advanced_payload_list
+  kind: github
+  upstream_url: https://github.com/payload-box/ssti-advanced-payload-list
+  mirror_of: null
+  revision: 957fb1fab4ded0f1f38e57f4e6c5b388698e501a
+  default_branch: main
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: Intruder/all-payloads.txt
+    size_bytes: 13808
+  - path: Intruder/ejs.txt
+    size_bytes: 12974
+  - path: Intruder/erb-ruby.txt
+    size_bytes: 5701
+  - path: Intruder/freemarker.txt
+    size_bytes: 9456
+  - path: Intruder/jinja2-flask.txt
+    size_bytes: 10768
+  - path: Intruder/polyglot.txt
+    size_bytes: 7357
+  - path: Intruder/pug-jade.txt
+    size_bytes: 12306
+  - path: Intruder/smarty.txt
+    size_bytes: 8281
+  - path: Intruder/thymeleaf.txt
+    size_bytes: 11221
+  - path: Intruder/twig.txt
+    size_bytes: 6944
+  - path: Intruder/velocity.txt
+    size_bytes: 12188
+  total_size_bytes: 111004
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: unsw_nb15_mirror
+  kind: huggingface
+  upstream_url: https://huggingface.co/datasets/rdpahalavan/UNSW-NB15
+  mirror_of: https://research.unsw.edu.au/projects/unsw-nb15-dataset
+  revision: 25ecbc46f36eba3f2637544977904207036ac776
+  default_branch: main
+  license_spdx: Apache-2.0
+  license_note: Mirror card tag reads Apache-2.0 but does not govern; upstream UNSW terms specify academic use and commercial
+    agreement
+  files:
+  - path: Network-Flows/UNSW_Flow.parquet
+    size_bytes: 183375358
+  total_size_bytes: 419115697196
+  status: available
+  intended_use: Supported flow classes and baselines
+  restriction: academic use only; commercial use requires agreement with authors
+  enabled: false
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: waf_bypass_payload_list
+  kind: github
+  upstream_url: https://github.com/payload-box/waf-bypass-payload-list
+  mirror_of: null
+  revision: 3a7125f7e6ea7b1cd0c89184d18601a48461954e
+  default_branch: main
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: intruder/waf_bypass_payloads.txt
+    size_bytes: 3525
+  total_size_bytes: 3525
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: waf_detection_dataset
+  kind: huggingface
+  upstream_url: https://huggingface.co/datasets/darkknight25/WAF_DETECTION_DATASET
+  mirror_of: null
+  revision: ca413b4b7de741867632c3dadd4f112ec2750b4d
+  default_branch: main
+  license_spdx: MIT
+  license_note: Mirror's Hugging Face card tag; upstream terms not independently verified
+  files:
+  - path: WAF_DETECTION_DATASET.jsonl
+    size_bytes: 213365
+  total_size_bytes: 217124
+  status: available
+  intended_use: Optional candidate seed material
+  restriction: Exclude WAF vendor, response status, and description from classifier inputs; independently label selected examples
+  enabled: true
+  role: candidate_seed_only
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: xss_payload_list
+  kind: github
+  upstream_url: https://github.com/payload-box/xss-payload-list
+  mirror_of: null
+  revision: 5d8818076dd308300c79ee7e5cd2249637b2a540
+  default_branch: main
+  license_spdx: null
+  license_note: GitHub reports no license; no reuse rights assumed
+  files:
+  - path: Payloads/All-In-One.txt
+    size_bytes: 71612
+  - path: Payloads/Basic/event-handlers.txt
+    size_bytes: 796
+  - path: Payloads/Basic/script-tags.txt
+    size_bytes: 534
+  - path: Payloads/Blind/blind-xss.txt
+    size_bytes: 657
+  - path: Payloads/BurpIntruder/xss-fuzzing-comprehensive.txt
+    size_bytes: 857
+  - path: Payloads/Bypass/encoding.txt
+    size_bytes: 596
+  - path: Payloads/Bypass/obfuscation.txt
+    size_bytes: 1344
+  - path: Payloads/CSP-Bypass/csp-bypass.txt
+    size_bytes: 671
+  - path: Payloads/Frameworks/angularjs.txt
+    size_bytes: 530
+  - path: Payloads/Frameworks/jquery.txt
+    size_bytes: 234
+  - path: Payloads/Frameworks/react.txt
+    size_bytes: 428
+  - path: Payloads/Frameworks/svelte.txt
+    size_bytes: 160
+  - path: Payloads/Frameworks/vuejs.txt
+    size_bytes: 351
+  - path: Payloads/Polyglots/comprehensive.txt
+    size_bytes: 465
+  - path: Payloads/WAF-Bypass/cloudflare.txt
+    size_bytes: 304
+  - path: Payloads/WAF-Bypass/modsecurity.txt
+    size_bytes: 236
+  total_size_bytes: 79775
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: false
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null
+- id: xxe_injection_payload_list
+  kind: github
+  upstream_url: https://github.com/payload-box/xxe-injection-payload-list
+  mirror_of: null
+  revision: dceb185617e15122034985ea100c69dcae40086c
+  default_branch: main
+  license_spdx: MIT
+  license_note: 'GitHub API license spdx_id: MIT'
+  files:
+  - path: Intruder/xxe-basic.txt
+    size_bytes: 5599
+  - path: Intruder/xxe-blind-oob.txt
+    size_bytes: 4582
+  - path: Intruder/xxe-cloud-metadata.txt
+    size_bytes: 7262
+  - path: Intruder/xxe-dos.txt
+    size_bytes: 5131
+  - path: Intruder/xxe-error-based.txt
+    size_bytes: 7602
+  - path: Intruder/xxe-exotic-protocols.txt
+    size_bytes: 6160
+  - path: Intruder/xxe-file-disclosure.txt
+    size_bytes: 7063
+  - path: Intruder/xxe-parameter-entities.txt
+    size_bytes: 6126
+  - path: Intruder/xxe-php-wrappers.txt
+    size_bytes: 7309
+  - path: Intruder/xxe-soap.txt
+    size_bytes: 10070
+  - path: Intruder/xxe-ssrf.txt
+    size_bytes: 5592
+  - path: Intruder/xxe-svg.txt
+    size_bytes: 6664
+  - path: Intruder/xxe-utf7-encoded.txt
+    size_bytes: 5023
+  - path: Intruder/xxe-xinclude.txt
+    size_bytes: 5759
+  - path: Intruder/xxe-xml-bomb.txt
+    size_bytes: 8916
+  total_size_bytes: 98858
+  status: available
+  intended_use: Seed strings and documented attack contexts
+  restriction: Verify each path/revision; a payload's presence does not prove exploitability in an arbitrary wrapper
+  enabled: true
+  parser_version: null
+  label_mapping: null
+  accepted_count: null
+  rejected_count: null

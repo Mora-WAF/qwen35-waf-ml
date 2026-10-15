@@ -1,0 +1,34 @@
+# Source-file -> primary taxonomy class, with the seed parser to apply (spec §3, §4).
+# A seed's presence proves nothing about exploitability; these are the `observed` attack
+# strings a generator later wraps into `hybrid` telemetry. parser: lines | http_blocks | md_codeblocks.
+version: 1
+rules:
+  # one payload per line
+  - {source: sql_injection_payload_list, glob: "*.txt", parser: lines, class: sqli_classic}
+  - {source: seclists, glob: "Fuzzing/Databases/SQLi/NoSQL.txt", parser: lines, class: nosqli}
+  - {source: payloadsallthethings, glob: "NoSQL Injection/README.md", parser: md_codeblocks, class: nosqli}
+  - {source: payloadsallthethings, glob: "LDAP Injection/README.md", parser: md_codeblocks, class: ldap_xpath_injection}
+  - {source: payloadsallthethings, glob: "XPATH Injection/README.md", parser: md_codeblocks, class: ldap_xpath_injection}
+  - {source: seclists, glob: "Fuzzing/Databases/SQLi/**/*.txt", parser: lines, class: sqli_classic}
+  # mixed-class bypass list: only lines that are SQL after url-decoding and /**/ removal
+  - {source: waf_bypass_payload_list, glob: "*.txt", parser: lines, class: sqli_obfuscated,
+     require: "(?i)\\b(union|select|sleep|benchmark|waitfor|order\\s+by|information_schema)\\b|'\\s*(or|and)\\s"}
+  - {source: seclists, glob: "Fuzzing/XSS/**/*.txt", parser: lines, class: xss_reflected_stored}
+  - {source: seclists, glob: "Fuzzing/XSS/Polyglots/*.txt", parser: lines, class: xss_dom_polyglot}
+  - {source: seclists, glob: "Fuzzing/URI-XSS.fuzzdb.txt", parser: lines, class: xss_reflected_stored}
+  - {source: command_injection_payload_list, glob: "*.txt", parser: lines, class: rce_cmd_injection}
+  - {source: ssti_advanced_payload_list, glob: "*.txt", parser: lines, class: ssti}
+  - {source: xxe_injection_payload_list, glob: "*.txt", parser: lines, class: xxe}
+  - {source: seclists, glob: "Fuzzing/XXE-Fuzzing.txt", parser: lines, class: xxe}
+  - {source: crlf_injection_payload_list, glob: "*.txt", parser: lines, class: crlf_header_injection}
+  - {source: seclists, glob: "Fuzzing/LDAP*.txt", parser: lines, class: ldap_xpath_injection}
+  - {source: seclists, glob: "Fuzzing/LFI/**/*.txt", parser: lines, class: path_traversal_lfi}
+  - {source: open_redirect_payload_list, glob: "**/*.txt", parser: lines, class: open_redirect_cors}
+  # raw HTTP request blocks, blank-line separated
+  - {source: http_request_smuggling_payloads, glob: "*.txt", parser: http_blocks, class: http_request_smuggling}
+
+# PayloadsAllTheThings dirs are prose+payload markdown; parse deliberately in a later pass.
+# Classes with no observed seed here (graphql_abuse, jwt_auth_bypass, bola_idor_enumeration,
+# ssrf_cloud_metadata, websocket_grpc_abuse, prototype_pollution, web_cache_poisoning,
+# csv_formula_injection, deserialization, llm_prompt_injection, all L4 flow, all benign)
+# are generated from scenario oracles / flow sources, not line seeds. Reported as seed deficits.

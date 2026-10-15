@@ -1,0 +1,291 @@
+{
+ "split_counts": {
+  "ssrf_cloud_metadata": {
+   "train": 19,
+   "val_select": 1,
+   "test": 2,
+   "val_calib": 1,
+   "val_policy": 1
+  },
+  "graphql_abuse": {
+   "train": 15,
+   "val_select": 1,
+   "val_policy": 1,
+   "test": 2,
+   "val_calib": 1
+  },
+  "jwt_auth_bypass": {
+   "train": 15,
+   "test": 2,
+   "val_calib": 1,
+   "val_select": 1,
+   "val_policy": 1
+  },
+  "bola_idor_enumeration": {
+   "train": 19,
+   "val_calib": 1,
+   "test": 2,
+   "val_policy": 1,
+   "val_select": 1
+  },
+  "websocket_grpc_abuse": {
+   "test": 2,
+   "val_calib": 1,
+   "val_select": 1,
+   "train": 19,
+   "val_policy": 1
+  },
+  "llm_prompt_injection": {
+   "val_calib": 1,
+   "val_select": 2,
+   "train": 40,
+   "test": 4,
+   "val_policy": 1
+  },
+  "prototype_pollution": {
+   "train": 40,
+   "test": 4,
+   "val_policy": 1,
+   "val_select": 2,
+   "val_calib": 1
+  },
+  "web_cache_poisoning": {
+   "train": 19,
+   "val_select": 1,
+   "val_calib": 1,
+   "val_policy": 1,
+   "test": 2
+  },
+  "deserialization": {
+   "train": 32,
+   "val_policy": 1,
+   "val_select": 2,
+   "test": 4,
+   "val_calib": 1
+  },
+  "csv_formula_injection": {
+   "train": 15,
+   "test": 2,
+   "val_select": 1,
+   "val_policy": 1,
+   "val_calib": 1
+  },
+  "benign_hard_negative_dev": {
+   "train": 18,
+   "val_select": 1,
+   "test": 2,
+   "val_policy": 1,
+   "val_calib": 1
+  },
+  "benign_hard_negative_search": {
+   "train": 29,
+   "val_policy": 1,
+   "test": 3,
+   "val_select": 1,
+   "val_calib": 1
+  },
+  "benign_standard_traffic": {
+   "test": 16,
+   "train": 128,
+   "val_policy": 4,
+   "val_select": 8,
+   "val_calib": 4
+  },
+  "sqli_classic": {
+   "train": 34,
+   "val_policy": 1,
+   "test": 3,
+   "val_select": 1,
+   "val_calib": 1
+  },
+  "sqli_obfuscated": {
+   "train": 34,
+   "test": 3,
+   "val_policy": 1,
+   "val_select": 1,
+   "val_calib": 1
+  },
+  "nosqli": {
+   "val_calib": 2,
+   "train": 33,
+   "val_policy": 1,
+   "test": 3,
+   "val_select": 1
+  },
+  "xss_reflected_stored": {
+   "train": 34,
+   "test": 3,
+   "val_calib": 1,
+   "val_policy": 1,
+   "val_select": 1
+  },
+  "xss_dom_polyglot": {
+   "train": 32,
+   "test": 4,
+   "val_select": 2,
+   "val_calib": 1,
+   "val_policy": 1
+  },
+  "rce_cmd_injection": {
+   "train": 32,
+   "val_select": 2,
+   "val_calib": 1,
+   "test": 4,
+   "val_policy": 1
+  },
+  "ssti": {
+   "train": 34,
+   "test": 3,
+   "val_select": 1,
+   "val_policy": 1,
+   "val_calib": 1
+  },
+  "xxe": {
+   "train": 32,
+   "test": 4,
+   "val_select": 2,
+   "val_policy": 1,
+   "val_calib": 1
+  },
+  "crlf_header_injection": {
+   "train": 34,
+   "test": 3,
+   "val_policy": 1,
+   "val_select": 1,
+   "val_calib": 1
+  },
+  "ldap_xpath_injection": {
+   "train": 33,
+   "test": 4,
+   "val_policy": 1,
+   "val_select": 1,
+   "val_calib": 1
+  },
+  "path_traversal_lfi": {
+   "train": 32,
+   "val_calib": 1,
+   "val_policy": 1,
+   "test": 4,
+   "val_select": 2
+  },
+  "http_request_smuggling": {
+   "train": 32,
+   "test": 4,
+   "val_select": 2,
+   "val_calib": 1,
+   "val_policy": 1
+  },
+  "open_redirect_cors": {
+   "train": 32,
+   "val_select": 1,
+   "val_calib": 1,
+   "test": 3,
+   "val_policy": 3
+  },
+  "syn_flood_ddos": {
+   "train": 32,
+   "val_calib": 1,
+   "val_policy": 1,
+   "test": 4,
+   "val_select": 2
+  },
+  "udp_amplification": {
+   "train": 32,
+   "test": 4,
+   "val_calib": 1,
+   "val_policy": 1,
+   "val_select": 2
+  },
+  "slowloris_slowhttp": {
+   "train": 35,
+   "val_policy": 1,
+   "val_calib": 1,
+   "val_select": 1,
+   "test": 2
+  },
+  "port_scan_recon": {
+   "train": 32,
+   "test": 4,
+   "val_select": 2,
+   "val_calib": 1,
+   "val_policy": 1
+  },
+  "credential_stuffing_bruteforce": {
+   "train": 32,
+   "val_select": 2,
+   "test": 2,
+   "val_policy": 1,
+   "val_calib": 1
+  },
+  "c2_beaconing_anomaly": {
+   "train": 32,
+   "test": 4,
+   "val_select": 2,
+   "val_calib": 1,
+   "val_policy": 1
+  },
+  "dns_tunneling_exfil": {
+   "train": 32,
+   "val_policy": 1,
+   "val_select": 2,
+   "val_calib": 1,
+   "test": 4
+  },
+  "tls_ja4_ua_spoofing": {
+   "train": 32,
+   "val_policy": 1,
+   "test": 4,
+   "val_select": 2,
+   "val_calib": 1
+  },
+  "benign_high_rate_legit": {
+   "train": 32,
+   "test": 4,
+   "val_calib": 1,
+   "val_select": 2,
+   "val_policy": 1
+  }
+ },
+ "provenance": {
+  "synthetic": 800,
+  "hybrid": 520,
+  "observed": 68
+ },
+ "classes_present": [
+  "benign_hard_negative_dev",
+  "benign_hard_negative_search",
+  "benign_high_rate_legit",
+  "benign_standard_traffic",
+  "bola_idor_enumeration",
+  "c2_beaconing_anomaly",
+  "credential_stuffing_bruteforce",
+  "crlf_header_injection",
+  "csv_formula_injection",
+  "deserialization",
+  "dns_tunneling_exfil",
+  "graphql_abuse",
+  "http_request_smuggling",
+  "jwt_auth_bypass",
+  "ldap_xpath_injection",
+  "llm_prompt_injection",
+  "nosqli",
+  "open_redirect_cors",
+  "path_traversal_lfi",
+  "port_scan_recon",
+  "prototype_pollution",
+  "rce_cmd_injection",
+  "slowloris_slowhttp",
+  "sqli_classic",
+  "sqli_obfuscated",
+  "ssrf_cloud_metadata",
+  "ssti",
+  "syn_flood_ddos",
+  "tls_ja4_ua_spoofing",
+  "udp_amplification",
+  "web_cache_poisoning",
+  "websocket_grpc_abuse",
+  "xss_dom_polyglot",
+  "xss_reflected_stored",
+  "xxe"
+ ]
+}

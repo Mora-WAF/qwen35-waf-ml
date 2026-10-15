@@ -1,0 +1,27 @@
+# Flow feature dictionary (spec §5). One shared vocabulary for every flow source, observed or
+# synthetic, so the feature *names* do not reveal the source (and through it the label).
+# Unavailable -> key absent. Never a fabricated zero.
+# CORE = the fields BOTH observed sources provide; every flow record (observed or synthetic) uses only
+# these, plus the synthetic-only evidence fields a class requires (iat_cv, qname_*, ja4_ua_consistent).
+# Dropped for source-parity (shortcut audit, 2026-10-15): pkt_len_mean, iat_*, init_win, ttl_*, retrans.
+version: 1
+features:
+  duration_s:        {type: float, unit: s,  range: [0, null], note: "full flow; CIC us/1e6, NF ms/1e3 (ms resolution: 81% of NF flows are 0)"}
+  pkts_total:        {type: int,   unit: packets, range: [1, null], direction: both}
+  bytes_total:       {type: int,   unit: bytes,   range: [0, null], direction: both, note: "CIC: L4 payload lengths; NF: IP-layer bytes. Different measurement layers, documented not reconciled"}
+  pkts_fwd:          {type: int,   unit: packets, direction: client->server}
+  pkts_bwd:          {type: int,   unit: packets, direction: server->client}
+  bytes_fwd:         {type: int,   unit: bytes,   direction: client->server}
+  bytes_bwd:         {type: int,   unit: bytes,   direction: server->client}
+  pkts_per_s:        {type: float, unit: packets/s, note: "recomputed pkts_total/duration_s; absent when duration_s == 0"}
+  bytes_per_s:       {type: float, unit: bytes/s,   note: "recomputed; absent when duration_s == 0"}
+  pkt_len_min:       {type: int,   unit: bytes}
+  pkt_len_max:       {type: int,   unit: bytes}
+  tcp_flags_bitmask: {type: int, range: [0, 255], note: "OR of flags seen over the flow (FIN=1 SYN=2 RST=4 PSH=8 ACK=16 URG=32). A bitmask, NOT counts: no per-packet ratios derivable"}
+  dst_port:          {type: int, range: [0, 65535], note: "available at decision time; ablate (port shortcut risk for Patator 21/22)"}
+  ip_proto:          {type: int, note: "6 tcp, 17 udp"}
+  # synthetic-scenario-only fields (derived from simulated event sequences; no observed source has them)
+  iat_cv:            {type: float, note: "synthetic only: coefficient of variation of beacon intervals"}
+  qname_len_mean:    {type: float, unit: chars, note: "synthetic only"}
+  qname_entropy_bits_per_char: {type: float, note: "synthetic only; Shannon entropy over qname bytes"}
+  ja4_ua_consistent: {type: int, range: [0, 1], note: "synthetic only; mismatch alone is not malicious"}

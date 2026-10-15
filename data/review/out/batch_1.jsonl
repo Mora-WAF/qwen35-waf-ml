@@ -1,0 +1,163 @@
+{"rid": "r00001", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential document IDs; cross-owner access denied (granted false)."}
+{"rid": "r00004", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Hindi override phrase in chat message asking for system prompt."}
+{"rid": "r00007", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key in unvalidated recursive merge."}
+{"rid": "r00010", "predicted_class": "deserialization", "evidence_sufficient": false, "note": "Java stream magic only; no gadget or payload body visible."}
+{"rid": "r00013", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Recursive entity expansion in DOCTYPE (billion laughs)."}
+{"rid": "r00016", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Original-URL reflected into cached script_src."}
+{"rid": "r00019", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Query asks assistant to reveal API keys and hidden instructions."}
+{"rid": "r00022", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Preview fetch targets 169.254.169.254 metadata address."}
+{"rid": "r00025", "predicted_class": "path_traversal_lfi", "evidence_sufficient": false, "note": "UNC admin-share path to hosts file; no sink context."}
+{"rid": "r00028", "predicted_class": "deserialization", "evidence_sufficient": false, "note": "ViewState with MAC disabled; opaque payload, no gadget shown."}
+{"rid": "r00031", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Hidden page text issues SYSTEM OVERRIDE to browser agent."}
+{"rid": "r00034", "predicted_class": "deserialization", "evidence_sufficient": false, "note": "Java stream magic in cache header; class name only, no gadget."}
+{"rid": "r00037", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": false, "note": "Split-tag eval/alert obfuscation; DOM sink context not shown."}
+{"rid": "r00040", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key merged via Object.assign, sanitize set false."}
+{"rid": "r00043", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential statement IDs; cross-owner access denied."}
+{"rid": "r00046", "predicted_class": "open_redirect_cors", "evidence_sufficient": false, "note": "Bare external URL; no redirect parameter context."}
+{"rid": "r00049", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "Formula =1+1 stored and exported to spreadsheet unescaped."}
+{"rid": "r00052", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunked TE with smuggled GET request inside body."}
+{"rid": "r00055", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Hidden HTML comment directs browser agent to leak card details."}
+{"rid": "r00058", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Customer note asks drafter to output hidden policy text."}
+{"rid": "r00061", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Pickle upload enabled; GLOBAL opcode fed to pickle.loads."}
+{"rid": "r00064", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "Escaped __proto__ key sets role admin in default merge."}
+{"rid": "r00067", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Webhook callback targets 169.254.170.2 credentials endpoint."}
+{"rid": "r00070", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Introspection depth 9 over max 8, repeated 8 times in 60s."}
+{"rid": "r00073", "predicted_class": "sqli_classic", "evidence_sufficient": true, "note": "Quote plus boolean tautology in plain form."}
+{"rid": "r00076", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Host reflected into cached canonical link."}
+{"rid": "r00079", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Disallowed Origin; 900 msg/s and unauthorized subscribe frames."}
+{"rid": "r00082", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "=MID formula in product name exported unescaped."}
+{"rid": "r00085", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential order IDs; cross-owner access denied."}
+{"rid": "r00088", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Markdown note instructs AI note-taker to override template."}
+{"rid": "r00091", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary Arabic site search query."}
+{"rid": "r00094", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Course search containing the security keyword SQL injection."}
+{"rid": "r00097", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "81 aliases over max 15, repeated 16 times, enumerating user IDs."}
+{"rid": "r00100", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Ticket body tells triage model to override its rules."}
+{"rid": "r00103", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Postman fixture upload to documented endpoint."}
+{"rid": "r00106", "predicted_class": "path_traversal_lfi", "evidence_sufficient": false, "note": "Bare absolute config path; no traversal or sink shown."}
+{"rid": "r00109", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Scheme reflected into cached Location header."}
+{"rid": "r00112", "predicted_class": "sqli_obfuscated", "evidence_sufficient": true, "note": "CASE and TO_NUMBER template with inline comments and mixed case."}
+{"rid": "r00115", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Leading minus on numeric-looking value; no formula shown."}
+{"rid": "r00118", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External SYSTEM entity reading apache error log."}
+{"rid": "r00121", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Image proxy callback to IPv6 metadata address fd00:ec2::254."}
+{"rid": "r00124", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "IMPORTRANGE formula in memo exported without escaping."}
+{"rid": "r00127", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ path key in recursive merge without schema validation."}
+{"rid": "r00130", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Customer note fakes operator instruction to a tool-using model."}
+{"rid": "r00133", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary Spanish shop search."}
+{"rid": "r00136", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Breakout into script tag and javascript URI handler."}
+{"rid": "r00139", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Original-URL reflected into cached script_src."}
+{"rid": "r00142", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Search query tells model to ignore prior rules and call tool."}
+{"rid": "r00145", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Host reflected into cached canonical link."}
+{"rid": "r00148", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Hidden trailing review text tells summarizer to reveal password field."}
+{"rid": "r00151", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 token accepted though verifier allows only RS256."}
+{"rid": "r00154", "predicted_class": "open_redirect_cors", "evidence_sufficient": false, "note": "Malformed path-prefixed external host; no redirect context."}
+{"rid": "r00157", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Scheme reflected into cached Location header."}
+{"rid": "r00160", "predicted_class": "xss_reflected_stored", "evidence_sufficient": true, "note": "Event-handler markup with alert(1) injected into HTML."}
+{"rid": "r00163", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Attacker-controlled Origin; 1200 msg/s; unauthorized subscribes."}
+{"rid": "r00166", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Anonymous gRPC peer streaming 1470 msg/s against baseline 25."}
+{"rid": "r00169", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Preview fetch resolves to 169.254.169.254 via metadata hostname."}
+{"rid": "r00172", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Polyglot javascript URI with svg and html breakouts across contexts."}
+{"rid": "r00175", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Anonymous gRPC tail stream 1650 msg/s, 65 peer streams."}
+{"rid": "r00178", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Scheme reflected into cached Location header."}
+{"rid": "r00181", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key in recursive prefs merge, unvalidated."}
+{"rid": "r00184", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Escaped CRLF followed by injected Warning header."}
+{"rid": "r00187", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Query depth 12 exceeds configured max 10."}
+{"rid": "r00190", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Conflicting CL and TE with smuggled GET /admin."}
+{"rid": "r00193", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Content-Length 0 with trailing smuggled GET request."}
+{"rid": "r00196", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Repeated Transfer-Encoding with smuggled request."}
+{"rid": "r00199", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "YAML python/object/apply tag loaded by yaml.load."}
+{"rid": "r00202", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "CL and TE conflict with smuggled request carrying X-Forwarded-Host."}
+{"rid": "r00205", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ settings key in unvalidated merge sink."}
+{"rid": "r00208", "predicted_class": "sqli_classic", "evidence_sufficient": true, "note": "Quote with always-true boolean tautology."}
+{"rid": "r00211", "predicted_class": "xxe", "evidence_sufficient": true, "note": "php filter wrapper via external entity reading connection.php."}
+{"rid": "r00214", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Leading minus numeric-looking memo; formula not established."}
+{"rid": "r00217", "predicted_class": "sqli_classic", "evidence_sufficient": true, "note": "Quote breakout with OR 1=1 and comment terminator."}
+{"rid": "r00220", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Host reflected into cached canonical link."}
+{"rid": "r00223", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Spanish customer note asks assistant to output internal config."}
+{"rid": "r00226", "predicted_class": "xxe", "evidence_sufficient": true, "note": "Parameter-entity XXE reading web.config with out-of-band send."}
+{"rid": "r00229", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Query tells classifier to skip triage and call send_email."}
+{"rid": "r00232", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Arabic query asks model to ignore instructions and reveal prompt."}
+{"rid": "r00235", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Preview fetch to metadata.google.internal resolving link-local."}
+{"rid": "r00238", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunked CL/TE conflict with smuggled POST carrying script payload."}
+{"rid": "r00241", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Anonymous gRPC stream 1290 msg/s, 45 peer streams."}
+{"rid": "r00244", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key in JSON merge-patch apply."}
+{"rid": "r00247", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "alg none token accepted; verifier allows only RS256."}
+{"rid": "r00250", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Product search with quoted model name and version."}
+{"rid": "r00253", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented CI review comment quoting an XSS sanitizer test."}
+{"rid": "r00256", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "SUM formula in memo exported without escaping."}
+{"rid": "r00259", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "HYPERLINK formula in product name exported without escaping."}
+{"rid": "r00262", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Polyglot breakouts with onclick and alert across several tags."}
+{"rid": "r00265", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Template directive invoking reflective class loading."}
+{"rid": "r00268", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "COUNTA formula stored note exported without escaping."}
+{"rid": "r00271", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key nested in deep merge of team prefs."}
+{"rid": "r00274", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "constructor.prototype key in recursive merge."}
+{"rid": "r00277", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "XPath count boolean probe with quote breakout."}
+{"rid": "r00280", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Survey comment tells tagger to forget instructions and print system prompt."}
+{"rid": "r00283", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Source comment in diff tells reviewer bot to approve."}
+{"rid": "r00286", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "Leading plus with string-concatenation formula, unescaped export."}
+{"rid": "r00289", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented CI config lint with regex pattern."}
+{"rid": "r00292", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "SDK error report quoting an SQL syntax error message."}
+{"rid": "r00295", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Token with external jku accepted; signature is a placeholder."}
+{"rid": "r00298", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential statement IDs; cross-owner access denied."}
+{"rid": "r00301", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "XPath count on attributes with quote breakout."}
+{"rid": "r00304", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Newline separator followed by cat /etc/passwd."}
+{"rid": "r00307", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential invoice IDs; owner mismatch denied."}
+{"rid": "r00310", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Japanese search with the ordinary term ユニオン (union)."}
+{"rid": "r00313", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "Postman introspection within depth limit; intent unclear."}
+{"rid": "r00316", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential file IDs; cross-owner download denied."}
+{"rid": "r00319", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "constructor[prototype] bracket query key reaches parser sink."}
+{"rid": "r00322", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Author search with an apostrophe in the name."}
+{"rid": "r00325", "predicted_class": "sqli_classic", "evidence_sufficient": false, "note": "Bare SQL-like fragment; no injection context shown."}
+{"rid": "r00328", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Anonymous plaintext gRPC subscribe at 1380 msg/s."}
+{"rid": "r00331", "predicted_class": "deserialization", "evidence_sufficient": false, "note": "Java stream magic only; auto-decode disabled, no gadget."}
+{"rid": "r00334", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Rejected localhost Origin; 1500 msg/s with unauthorized subscribes."}
+{"rid": "r00337", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key in unvalidated recursive merge."}
+{"rid": "r00340", "predicted_class": "csv_formula_injection", "evidence_sufficient": false, "note": "Leading plus with cell reference; could be a legitimate code."}
+{"rid": "r00343", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Raw body passed to PHP unserialize on untrusted import endpoint."}
+{"rid": "r00346", "predicted_class": "ssrf_cloud_metadata", "evidence_sufficient": true, "note": "Image proxy fetches decimal-encoded 169.254.169.254 metadata."}
+{"rid": "r00349", "predicted_class": "sqli_classic", "evidence_sufficient": true, "note": "CASE boolean template with string concatenation probe."}
+{"rid": "r00352", "predicted_class": "ssti", "evidence_sufficient": true, "note": "FreeMarker ObjectConstructor invoking ProcessBuilder."}
+{"rid": "r00355", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Review comment describing a SQL concatenation fix."}
+{"rid": "r00358", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key merged into profile object."}
+{"rid": "r00361", "predicted_class": "deserialization", "evidence_sufficient": false, "note": "Upload with Java stream magic and class descriptor start only."}
+{"rid": "r00364", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential order IDs; owner mismatch denied."}
+{"rid": "r00367", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Customer note has SYSTEM OVERRIDE asking for internal config."}
+{"rid": "r00370", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented docs-CI code sample lint, benign os.getcwd."}
+{"rid": "r00373", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Command substitution of whoami after a separator."}
+{"rid": "r00376", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential order IDs; cross-owner access denied."}
+{"rid": "r00379", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Anonymous gRPC export stream 1470 msg/s against baseline 25."}
+{"rid": "r00382", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential invoice IDs; owner mismatch denied."}
+{"rid": "r00385", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "German override asks summarizer to output system prompt."}
+{"rid": "r00388", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Quote breakout closing array and injecting Mongo $comment."}
+{"rid": "r00391", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "122 aliases far above max 15, repeated 22 times in 60s."}
+{"rid": "r00394", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Raw body passed to PHP unserialize on untrusted import endpoint."}
+{"rid": "r00397", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Token with external jku accepted; signature is a placeholder."}
+{"rid": "r00400", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Null byte, semicolon, then cat /etc/passwd."}
+{"rid": "r00403", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Customer note says following text supersedes rules and dump tools."}
+{"rid": "r00406", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ isAdmin key merged by lodash-style merge."}
+{"rid": "r00409", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Query depth 15 exceeds max 10, repeated 15 times in 60s."}
+{"rid": "r00412", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key in recursive merge sink."}
+{"rid": "r00415", "predicted_class": "path_traversal_lfi", "evidence_sufficient": false, "note": "Bare absolute home dotfile path; no traversal or sink shown."}
+{"rid": "r00418", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "alg none token accepted with admin role claim."}
+{"rid": "r00421", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key in recursive merge sink."}
+{"rid": "r00424", "predicted_class": "web_cache_poisoning", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Host reflected into cached canonical link."}
+{"rid": "r00427", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Null Origin rejected; 1050 msg/s with unauthorized subscribes."}
+{"rid": "r00430", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Documented reporting client running a SQL group-by query."}
+{"rid": "r00433", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "Path-based patch operation targets constructor.prototype."}
+{"rid": "r00436", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "answers[__proto__] nested form key reaches setDeep."}
+{"rid": "r00439", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "Help search with $A$1 spreadsheet reference."}
+{"rid": "r00442", "predicted_class": "graphql_abuse", "evidence_sufficient": true, "note": "Query depth 15 over max 8, repeated 6 times in 60s."}
+{"rid": "r00445", "predicted_class": "benign_hard_negative_search", "evidence_sufficient": true, "note": "CI log search for quoted rm -rf text on documented endpoint."}
+{"rid": "r00448", "predicted_class": "xxe", "evidence_sufficient": true, "note": "External SYSTEM entity targeting internal 127.1:8080."}
+{"rid": "r00451", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Hidden HTML comment tells summarizer to reveal operator API key."}
+{"rid": "r00454", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "__proto__ key in recursive settings merge."}
+{"rid": "r00457", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential statement IDs; owner mismatch denied."}
+{"rid": "r00460", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Query tells assistant to forget its role and list tools."}
+{"rid": "r00463", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Smarty internal method writes PHP webshell via template expression."}
+{"rid": "r00466", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Anonymous gRPC tail stream 1650 msg/s, 65 peer streams."}
+{"rid": "r00469", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "CL and TE conflict with smuggled multipart upload of shell.php."}
+{"rid": "r00472", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Sequential invoice IDs; owner mismatch denied."}
+{"rid": "r00475", "predicted_class": "open_redirect_cors", "evidence_sufficient": false, "note": "Bare external host with backslash confusion; no redirect context."}
+{"rid": "r00478", "predicted_class": "prototype_pollution", "evidence_sufficient": true, "note": "constructor.prototype.isAdmin flat key unflattened."}
+{"rid": "r00481", "predicted_class": "open_redirect_cors", "evidence_sufficient": false, "note": "Bare external URL with port; no redirect context."}
+{"rid": "r00484", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Shell separator with tar piped to curl exfiltration."}
+{"rid": "r00487", "predicted_class": "llm_prompt_injection", "evidence_sufficient": true, "note": "Chinese note asks assistant to ignore instructions and output system prompt."}

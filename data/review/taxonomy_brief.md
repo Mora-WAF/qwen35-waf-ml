@@ -1,0 +1,35 @@
+- `sqli_classic` (L7_INJECTION): Classic SQL injection: quote, boolean, UNION or comment tokens altering a query in plain form.
+- `sqli_obfuscated` (L7_INJECTION): SQL injection hidden through encoding, inline comments, case or whitespace tricks, or nested decoding.
+- `nosqli` (L7_INJECTION): Operator injection into document-store queries, such as MongoDB operators in JSON or bracket parameters.
+- `xss_reflected_stored` (L7_INJECTION): Script or markup injection reflected in a response or persisted for later rendering.
+- `xss_dom_polyglot` (L7_INJECTION): Payloads that execute through client-side DOM sinks or polyglot parsing across several contexts.
+- `rce_cmd_injection` (L7_INJECTION): Command separators or substitution injected into input passed to a shell or process execution.
+- `ssti` (L7_INJECTION): Server-side template injection where input is evaluated by a template engine expression context.
+- `xxe` (L7_INJECTION): XML external entity or DTD abuse that makes an XML parser reference external resources or local files.
+- `deserialization` (L7_INJECTION): Untrusted serialized object payloads sent to deserializers that can trigger gadget chains.
+- `crlf_header_injection` (L7_INJECTION): CR LF or encoded line breaks in a header value that inject extra response or request headers.
+- `ldap_xpath_injection` (L7_INJECTION): Filter or expression injection into LDAP or XPath lookups through unescaped input.
+- `csv_formula_injection` (L7_INJECTION): Spreadsheet formula prefixes in stored or exported fields that execute when opened in a spreadsheet.
+- `path_traversal_lfi` (L7_API_PROTOCOL): Directory traversal or local file inclusion that reads or includes files outside the intended path.
+- `ssrf_cloud_metadata` (L7_API_PROTOCOL): Server-side fetch targets pointing at internal networks or cloud metadata addresses.
+- `http_request_smuggling` (L7_API_PROTOCOL): Conflicting or duplicate framing headers that make front-end and back-end parsers disagree on request boundaries.
+- `graphql_abuse` (L7_API_PROTOCOL): Abusive GraphQL operations such as deep nesting, alias batching, or introspection and query-cost abuse.
+- `jwt_auth_bypass` (L7_API_PROTOCOL): Forged, unsigned, or algorithm-confused JSON Web Tokens aimed at bypassing verification.
+- `bola_idor_enumeration` (L7_API_PROTOCOL): Sequential or guessed object identifiers used to reach resources that belong to other subjects.
+- `open_redirect_cors` (L7_API_PROTOCOL): Redirect targets or CORS origins that reflect attacker-chosen cross-origin values.
+- `websocket_grpc_abuse` (L7_API_PROTOCOL): Abuse of WebSocket upgrades or gRPC streams, such as message flooding, origin bypass, or unauthorized subscriptions.
+- `llm_prompt_injection` (L7_AI_MODERN): Untrusted input that tries to override an LLM's instructions, leak its system prompt, or hijack tool use.
+- `prototype_pollution` (L7_AI_MODERN): Keys such as __proto__ or constructor.prototype used to modify object prototypes in merge or parse paths.
+- `web_cache_poisoning` (L7_AI_MODERN): Unkeyed header or parameter input reflected into a cacheable response so other users receive poisoned content.
+- `syn_flood_ddos` (L4_NETWORK_FLOW): SYN-dominant bursts and half-open connection patterns aimed at exhausting a target.
+- `udp_amplification` (L4_NETWORK_FLOW): Spoofed or reflected UDP traffic from amplifying services, with large response-to-request ratios aimed at a victim.
+- `slowloris_slowhttp` (L4_NETWORK_FLOW): Many connections held open with very slow partial requests or reads to exhaust server connection slots.
+- `credential_stuffing_bruteforce` (L4_NETWORK_FLOW): Repeated login attempts across many accounts or passwords from distributed or rotating sources.
+- `port_scan_recon` (L4_NETWORK_FLOW): Systematic probing of many ports or hosts with minimal payloads to map exposed services.
+- `c2_beaconing_anomaly` (L4_NETWORK_FLOW): Periodic low-volume callbacks with regular intervals and consistent sizes, suggesting command-and-control check-ins.
+- `dns_tunneling_exfil` (L4_NETWORK_FLOW): DNS queries carrying encoded data in long or high-entropy labels, or unusual high-volume record types.
+- `tls_ja4_ua_spoofing` (L4_NETWORK_FLOW): TLS fingerprint or user agent that does not match the measured client stack, used to impersonate a browser.
+- `benign_standard_traffic` (BENIGN): Ordinary network flows and HTTP requests to common services, the default negative class.
+- `benign_hard_negative_dev` (BENIGN): Developer-tool traffic that resembles injection or traversal syntax, such as code snippets, debug payloads, and API clients.
+- `benign_hard_negative_search` (BENIGN): Search and query text containing operators, quotes, or security keywords as ordinary user input.
+- `benign_high_rate_legit` (BENIGN): High-rate legitimate flows such as CDN, backup, sync, streaming, and load-test traffic that resemble flood or scan patterns.

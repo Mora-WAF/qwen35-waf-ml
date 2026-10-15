@@ -1,0 +1,79 @@
+{
+ "cic_ids2017_mirror": {
+  "rows": 2827677,
+  "unmapped": {
+   "DoS Hulk": 230123,
+   "DDoS": 128025,
+   "DoS GoldenEye": 10293,
+   "Bot": 1956,
+   "Web Attack \u2013 Brute Force": 1507,
+   "Web Attack \u2013 XSS": 652,
+   "Infiltration": 36,
+   "Web Attack \u2013 Sql Injection": 21,
+   "Heartbleed": 11
+  },
+  "classes": {
+   "benign_standard_traffic": {
+    "available": 2271122,
+    "accepted": 3000,
+    "rejected": {
+     "negative_iat": 5
+    },
+    "groups": 113743
+   },
+   "credential_stuffing_bruteforce": {
+    "available": 13832,
+    "accepted": 3000,
+    "rejected": {
+     "negative_iat": 1
+    },
+    "groups": 1
+   },
+   "port_scan_recon": {
+    "available": 158804,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 1
+   },
+   "slowloris_slowhttp": {
+    "available": 11295,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 1
+   }
+  }
+ },
+ "nf_ton_iot_v2_mirror": {
+  "rows": 13552396,
+  "unmapped": {
+   "xss": 1963578,
+   "ddos": 1621220,
+   "dos": 570077,
+   "injection": 547856,
+   "backdoor": 13445,
+   "mitm": 6128,
+   "ransomware": 2737
+  },
+  "classes": {
+   "benign_standard_traffic": {
+    "sampled_candidates": 84000,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 18533
+   },
+   "credential_stuffing_bruteforce": {
+    "sampled_candidates": 84000,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 7
+   },
+   "port_scan_recon": {
+    "sampled_candidates": 84000,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 23
+   }
+  }
+ },
+ "zero_duration_note": "NF durations have ms resolution; duration_s == 0 -> rate features absent"
+}

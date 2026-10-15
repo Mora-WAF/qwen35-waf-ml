@@ -1,0 +1,305 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "decision.schema.json",
+ "type": "object",
+ "properties": {
+  "verdict": {
+   "enum": [
+    "ALLOW",
+    "BLOCK",
+    "RATE_LIMIT",
+    "CHALLENGE",
+    "ABSTAIN"
+   ]
+  },
+  "domain": {
+   "enum": [
+    "L7_INJECTION",
+    "L7_API_PROTOCOL",
+    "L7_AI_MODERN",
+    "L4_NETWORK_FLOW",
+    "BENIGN",
+    "UNKNOWN"
+   ]
+  },
+  "threat_type": {
+   "enum": [
+    "sqli_classic",
+    "sqli_obfuscated",
+    "nosqli",
+    "xss_reflected_stored",
+    "xss_dom_polyglot",
+    "rce_cmd_injection",
+    "ssti",
+    "xxe",
+    "deserialization",
+    "crlf_header_injection",
+    "ldap_xpath_injection",
+    "csv_formula_injection",
+    "path_traversal_lfi",
+    "ssrf_cloud_metadata",
+    "http_request_smuggling",
+    "graphql_abuse",
+    "jwt_auth_bypass",
+    "bola_idor_enumeration",
+    "open_redirect_cors",
+    "websocket_grpc_abuse",
+    "llm_prompt_injection",
+    "prototype_pollution",
+    "web_cache_poisoning",
+    "syn_flood_ddos",
+    "udp_amplification",
+    "slowloris_slowhttp",
+    "credential_stuffing_bruteforce",
+    "port_scan_recon",
+    "c2_beaconing_anomaly",
+    "dns_tunneling_exfil",
+    "tls_ja4_ua_spoofing",
+    "benign_standard_traffic",
+    "benign_hard_negative_dev",
+    "benign_hard_negative_search",
+    "benign_high_rate_legit",
+    "unknown"
+   ]
+  },
+  "confidence": {
+   "oneOf": [
+    {
+     "type": "null"
+    },
+    {
+     "type": "number",
+     "minimum": 0,
+     "maximum": 1
+    }
+   ]
+  },
+  "action": {
+   "enum": [
+    "pass",
+    "log_and_monitor",
+    "rate_limit_ip",
+    "challenge_captcha",
+    "drop_request"
+   ]
+  },
+  "rule_hint": {
+   "type": "string",
+   "pattern": "^[a-z0-9_]{1,48}$"
+  }
+ },
+ "required": [
+  "verdict",
+  "domain",
+  "threat_type",
+  "confidence",
+  "action",
+  "rule_hint"
+ ],
+ "additionalProperties": false,
+ "allOf": [
+  {
+   "if": {
+    "properties": {
+     "verdict": {
+      "const": "ALLOW"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "action": {
+      "const": "pass"
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "verdict": {
+      "const": "BLOCK"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "action": {
+      "const": "drop_request"
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "verdict": {
+      "const": "RATE_LIMIT"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "action": {
+      "const": "rate_limit_ip"
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "verdict": {
+      "const": "CHALLENGE"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "action": {
+      "const": "challenge_captcha"
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "verdict": {
+      "const": "ABSTAIN"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "action": {
+      "const": "log_and_monitor"
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "verdict": {
+      "const": "ABSTAIN"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "domain": {
+      "const": "UNKNOWN"
+     },
+     "threat_type": {
+      "const": "unknown"
+     },
+     "confidence": {
+      "type": "null"
+     }
+    }
+   },
+   "else": {
+    "properties": {
+     "domain": {
+      "not": {
+       "const": "UNKNOWN"
+      }
+     },
+     "threat_type": {
+      "not": {
+       "const": "unknown"
+      }
+     },
+     "confidence": {
+      "type": "number"
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "verdict": {
+      "const": "ALLOW"
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "domain": {
+      "const": "BENIGN"
+     },
+     "threat_type": {
+      "enum": [
+       "benign_standard_traffic",
+       "benign_hard_negative_dev",
+       "benign_hard_negative_search",
+       "benign_high_rate_legit"
+      ]
+     },
+     "rule_hint": {
+      "const": "none"
+     }
+    }
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "verdict": {
+      "enum": [
+       "BLOCK",
+       "RATE_LIMIT",
+       "CHALLENGE"
+      ]
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "domain": {
+      "not": {
+       "const": "BENIGN"
+      }
+     },
+     "threat_type": {
+      "enum": [
+       "sqli_classic",
+       "sqli_obfuscated",
+       "nosqli",
+       "xss_reflected_stored",
+       "xss_dom_polyglot",
+       "rce_cmd_injection",
+       "ssti",
+       "xxe",
+       "deserialization",
+       "crlf_header_injection",
+       "ldap_xpath_injection",
+       "csv_formula_injection",
+       "path_traversal_lfi",
+       "ssrf_cloud_metadata",
+       "http_request_smuggling",
+       "graphql_abuse",
+       "jwt_auth_bypass",
+       "bola_idor_enumeration",
+       "open_redirect_cors",
+       "websocket_grpc_abuse",
+       "llm_prompt_injection",
+       "prototype_pollution",
+       "web_cache_poisoning",
+       "syn_flood_ddos",
+       "udp_amplification",
+       "slowloris_slowhttp",
+       "credential_stuffing_bruteforce",
+       "port_scan_recon",
+       "c2_beaconing_anomaly",
+       "dns_tunneling_exfil",
+       "tls_ja4_ua_spoofing"
+      ]
+     }
+    }
+   }
+  }
+ ]
+}

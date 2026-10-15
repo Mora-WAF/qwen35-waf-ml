@@ -1,0 +1,158 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "record.schema.json",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "id",
+  "messages",
+  "metadata"
+ ],
+ "properties": {
+  "id": {
+   "type": "string",
+   "pattern": "^[A-Za-z0-9_.:~-]{8,128}$"
+  },
+  "messages": {
+   "type": "array",
+   "minItems": 3,
+   "maxItems": 3,
+   "prefixItems": [
+    {
+     "type": "object",
+     "required": [
+      "role",
+      "content"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "role": {
+       "const": "system"
+      },
+      "content": {
+       "type": "string"
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "role",
+      "content"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "role": {
+       "const": "user"
+      },
+      "content": {
+       "type": "string",
+       "minLength": 1
+      }
+     }
+    },
+    {
+     "type": "object",
+     "required": [
+      "role",
+      "content"
+     ],
+     "additionalProperties": false,
+     "properties": {
+      "role": {
+       "const": "assistant"
+      },
+      "content": {
+       "type": "string"
+      }
+     }
+    }
+   ]
+  },
+  "metadata": {
+   "type": "object",
+   "required": [
+    "threat_type",
+    "source",
+    "source_revision",
+    "original_id",
+    "original_label",
+    "provenance",
+    "lineage_group",
+    "seed_ids",
+    "template_family",
+    "dup_cluster",
+    "split",
+    "label_evidence",
+    "mechanism_tags",
+    "decision_stage",
+    "generator",
+    "license_ref",
+    "token_len"
+   ],
+   "properties": {
+    "provenance": {
+     "enum": [
+      "observed",
+      "synthetic",
+      "hybrid"
+     ]
+    },
+    "split": {
+     "enum": [
+      "train",
+      "val_select",
+      "val_calib",
+      "val_policy",
+      "test",
+      "robustness",
+      "unassigned"
+     ]
+    },
+    "label_evidence": {
+     "type": "object",
+     "required": [
+      "method"
+     ],
+     "properties": {
+      "method": {
+       "enum": [
+        "source_annotation",
+        "scenario_oracle",
+        "review_protocol"
+       ]
+      }
+     }
+    },
+    "seed_ids": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "mechanism_tags": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "token_len": {
+     "oneOf": [
+      {
+       "type": "null"
+      },
+      {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 2048
+      }
+     ]
+    },
+    "license_ref": {
+     "type": "string",
+     "minLength": 1
+    }
+   }
+  }
+ }
+}

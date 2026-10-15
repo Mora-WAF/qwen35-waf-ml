@@ -1,0 +1,321 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "$id": "telemetry.schema.json",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "schema_version",
+  "mode",
+  "decision_stage",
+  "observed_until"
+ ],
+ "properties": {
+  "schema_version": {
+   "const": 1
+  },
+  "mode": {
+   "enum": [
+    "L7_HTTP",
+    "L4_FLOW",
+    "HYBRID_CTX"
+   ]
+  },
+  "decision_stage": {
+   "enum": [
+    "request_line",
+    "request_headers",
+    "request_headers_body",
+    "flow_window",
+    "flow_complete",
+    "session_history"
+   ]
+  },
+  "observed_until": {
+   "type": "string",
+   "maxLength": 64
+  },
+  "truncated": {
+   "type": "boolean"
+  },
+  "http": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "method",
+    "target",
+    "protocol",
+    "headers"
+   ],
+   "properties": {
+    "method": {
+     "type": "string"
+    },
+    "target": {
+     "type": "string"
+    },
+    "protocol": {
+     "type": "string"
+    },
+    "headers": {
+     "type": "array",
+     "items": {
+      "type": "array",
+      "prefixItems": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "string"
+       }
+      ],
+      "minItems": 2,
+      "maxItems": 2
+     }
+    },
+    "query": {
+     "oneOf": [
+      {
+       "type": "null"
+      },
+      {
+       "type": "array",
+       "items": {
+        "type": "array",
+        "prefixItems": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "string"
+         }
+        ],
+        "minItems": 2,
+        "maxItems": 2
+       }
+      }
+     ]
+    },
+    "cookies": {
+     "oneOf": [
+      {
+       "type": "null"
+      },
+      {
+       "type": "array",
+       "items": {
+        "type": "array",
+        "prefixItems": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "string"
+         }
+        ],
+        "minItems": 2,
+        "maxItems": 2
+       }
+      }
+     ]
+    },
+    "body": {
+     "oneOf": [
+      {
+       "type": "null"
+      },
+      {
+       "type": "string"
+      }
+     ]
+    },
+    "body_encoding": {
+     "enum": [
+      "utf8",
+      "base64",
+      "none"
+     ]
+    },
+    "decoded_views": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+       "field",
+       "decoder",
+       "depth",
+       "value"
+      ],
+      "properties": {
+       "field": {
+        "type": "string"
+       },
+       "decoder": {
+        "type": "string"
+       },
+       "depth": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 4
+       },
+       "value": {
+        "type": "string"
+       }
+      }
+     }
+    }
+   }
+  },
+  "flow": {
+   "type": "object",
+   "additionalProperties": false,
+   "required": [
+    "window",
+    "features"
+   ],
+   "properties": {
+    "window": {
+     "type": "object",
+     "additionalProperties": false,
+     "required": [
+      "kind"
+     ],
+     "properties": {
+      "kind": {
+       "enum": [
+        "full_flow",
+        "fixed_window"
+       ]
+      },
+      "seconds": {
+       "oneOf": [
+        {
+         "type": "null"
+        },
+        {
+         "type": "number",
+         "exclusiveMinimum": 0
+        }
+       ]
+      }
+     }
+    },
+    "protocol": {
+     "oneOf": [
+      {
+       "type": "null"
+      },
+      {
+       "type": "string"
+      }
+     ]
+    },
+    "features": {
+     "type": "object",
+     "additionalProperties": {
+      "oneOf": [
+       {
+        "type": "null"
+       },
+       {
+        "type": "number"
+       }
+      ]
+     }
+    }
+   }
+  },
+  "history": {
+   "type": "object"
+  },
+  "context": {
+   "type": "object"
+  }
+ },
+ "allOf": [
+  {
+   "if": {
+    "properties": {
+     "mode": {
+      "const": "L7_HTTP"
+     }
+    }
+   },
+   "then": {
+    "required": [
+     "http"
+    ]
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "mode": {
+      "const": "L4_FLOW"
+     }
+    }
+   },
+   "then": {
+    "required": [
+     "flow"
+    ]
+   }
+  },
+  {
+   "if": {
+    "properties": {
+     "mode": {
+      "const": "HYBRID_CTX"
+     }
+    }
+   },
+   "then": {
+    "anyOf": [
+     {
+      "required": [
+       "http"
+      ]
+     },
+     {
+      "required": [
+       "flow"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "if": {
+    "required": [
+     "flow"
+    ],
+    "properties": {
+     "flow": {
+      "properties": {
+       "window": {
+        "properties": {
+         "kind": {
+          "const": "fixed_window"
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "then": {
+    "properties": {
+     "flow": {
+      "properties": {
+       "window": {
+        "required": [
+         "seconds"
+        ]
+       }
+      }
+     }
+    }
+   }
+  }
+ ]
+}

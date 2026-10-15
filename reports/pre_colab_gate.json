@@ -1,0 +1,363 @@
+{
+ "prefix": "pilot_",
+ "passed": true,
+ "n_fail": 0,
+ "failures": [],
+ "failure_kinds": {},
+ "records": 1388,
+ "lineage_groups_per_class": {
+  "sqli_classic": 35,
+  "sqli_obfuscated": 36,
+  "nosqli": 34,
+  "xss_reflected_stored": 38,
+  "xss_dom_polyglot": 40,
+  "rce_cmd_injection": 40,
+  "ssti": 39,
+  "xxe": 40,
+  "deserialization": 40,
+  "crlf_header_injection": 34,
+  "ldap_xpath_injection": 37,
+  "csv_formula_injection": 20,
+  "path_traversal_lfi": 40,
+  "ssrf_cloud_metadata": 24,
+  "http_request_smuggling": 40,
+  "graphql_abuse": 20,
+  "jwt_auth_bypass": 20,
+  "bola_idor_enumeration": 24,
+  "open_redirect_cors": 34,
+  "websocket_grpc_abuse": 24,
+  "llm_prompt_injection": 47,
+  "prototype_pollution": 48,
+  "web_cache_poisoning": 24,
+  "syn_flood_ddos": 40,
+  "udp_amplification": 40,
+  "slowloris_slowhttp": 21,
+  "credential_stuffing_bruteforce": 28,
+  "port_scan_recon": 40,
+  "c2_beaconing_anomaly": 40,
+  "dns_tunneling_exfil": 40,
+  "tls_ja4_ua_spoofing": 40,
+  "benign_standard_traffic": 160,
+  "benign_hard_negative_dev": 23,
+  "benign_hard_negative_search": 35,
+  "benign_high_rate_legit": 40
+ },
+ "template_families_per_class": {
+  "sqli_classic": [
+   "sqli_classic_httpwrap"
+  ],
+  "sqli_obfuscated": [
+   "sqli_obfuscated_httpwrap"
+  ],
+  "nosqli": [
+   "nosqli_httpwrap"
+  ],
+  "xss_reflected_stored": [
+   "xss_reflected_stored_httpwrap"
+  ],
+  "xss_dom_polyglot": [
+   "xss_dom_polyglot_httpwrap"
+  ],
+  "rce_cmd_injection": [
+   "rce_cmd_injection_httpwrap"
+  ],
+  "ssti": [
+   "ssti_httpwrap"
+  ],
+  "xxe": [
+   "xxe_httpwrap"
+  ],
+  "deserialization": [
+   "deserialization_scenario"
+  ],
+  "crlf_header_injection": [
+   "crlf_header_injection_httpwrap"
+  ],
+  "ldap_xpath_injection": [
+   "ldap_xpath_injection_httpwrap"
+  ],
+  "csv_formula_injection": [
+   "csv_formula_injection_scenario"
+  ],
+  "path_traversal_lfi": [
+   "path_traversal_lfi_httpwrap"
+  ],
+  "ssrf_cloud_metadata": [
+   "ssrf_cloud_metadata_scenario"
+  ],
+  "http_request_smuggling": [
+   "http_request_smuggling_httpwrap"
+  ],
+  "graphql_abuse": [
+   "graphql_abuse_scenario"
+  ],
+  "jwt_auth_bypass": [
+   "jwt_auth_bypass_scenario"
+  ],
+  "bola_idor_enumeration": [
+   "bola_idor_enumeration_scenario"
+  ],
+  "open_redirect_cors": [
+   "open_redirect_cors_httpwrap"
+  ],
+  "websocket_grpc_abuse": [
+   "websocket_grpc_abuse_scenario"
+  ],
+  "llm_prompt_injection": [
+   "llm_prompt_injection_scenario"
+  ],
+  "prototype_pollution": [
+   "prototype_pollution_scenario"
+  ],
+  "web_cache_poisoning": [
+   "web_cache_poisoning_scenario"
+  ],
+  "syn_flood_ddos": [
+   "syn_flood_ddos_flow"
+  ],
+  "udp_amplification": [
+   "udp_amplification_flow"
+  ],
+  "slowloris_slowhttp": [
+   "cic_ids2017_mirror_flow",
+   "slowloris_slowhttp_flow"
+  ],
+  "credential_stuffing_bruteforce": [
+   "cic_ids2017_mirror_flow",
+   "credential_stuffing_bruteforce_flow",
+   "nf_ton_iot_v2_mirror_flow"
+  ],
+  "port_scan_recon": [
+   "cic_ids2017_mirror_flow",
+   "nf_ton_iot_v2_mirror_flow",
+   "port_scan_recon_flow"
+  ],
+  "c2_beaconing_anomaly": [
+   "c2_beaconing_anomaly_flow"
+  ],
+  "dns_tunneling_exfil": [
+   "dns_tunneling_exfil_flow"
+  ],
+  "tls_ja4_ua_spoofing": [
+   "tls_ja4_ua_spoofing_flow"
+  ],
+  "benign_standard_traffic": [
+   "benign_standard_traffic_flow",
+   "benign_standard_traffic_http",
+   "benign_standard_traffic_scenario",
+   "cic_ids2017_mirror_flow"
+  ],
+  "benign_hard_negative_dev": [
+   "benign_hard_negative_dev_scenario"
+  ],
+  "benign_hard_negative_search": [
+   "benign_hard_negative_search_scenario"
+  ],
+  "benign_high_rate_legit": [
+   "benign_high_rate_legit_flow"
+  ]
+ },
+ "per_split": {
+  "train": {
+   "ssrf_cloud_metadata": 19,
+   "graphql_abuse": 15,
+   "jwt_auth_bypass": 15,
+   "bola_idor_enumeration": 19,
+   "websocket_grpc_abuse": 19,
+   "llm_prompt_injection": 40,
+   "prototype_pollution": 40,
+   "web_cache_poisoning": 19,
+   "deserialization": 32,
+   "csv_formula_injection": 15,
+   "benign_hard_negative_dev": 18,
+   "benign_hard_negative_search": 29,
+   "benign_standard_traffic": 128,
+   "sqli_classic": 34,
+   "sqli_obfuscated": 34,
+   "nosqli": 33,
+   "xss_reflected_stored": 34,
+   "xss_dom_polyglot": 32,
+   "rce_cmd_injection": 32,
+   "ssti": 34,
+   "xxe": 32,
+   "crlf_header_injection": 34,
+   "ldap_xpath_injection": 33,
+   "path_traversal_lfi": 32,
+   "http_request_smuggling": 32,
+   "open_redirect_cors": 32,
+   "syn_flood_ddos": 32,
+   "udp_amplification": 32,
+   "slowloris_slowhttp": 35,
+   "port_scan_recon": 32,
+   "credential_stuffing_bruteforce": 32,
+   "c2_beaconing_anomaly": 32,
+   "dns_tunneling_exfil": 32,
+   "tls_ja4_ua_spoofing": 32,
+   "benign_high_rate_legit": 32
+  },
+  "val_select": {
+   "ssrf_cloud_metadata": 1,
+   "graphql_abuse": 1,
+   "jwt_auth_bypass": 1,
+   "bola_idor_enumeration": 1,
+   "websocket_grpc_abuse": 1,
+   "llm_prompt_injection": 2,
+   "prototype_pollution": 2,
+   "web_cache_poisoning": 1,
+   "deserialization": 2,
+   "csv_formula_injection": 1,
+   "benign_hard_negative_dev": 1,
+   "benign_hard_negative_search": 1,
+   "benign_standard_traffic": 8,
+   "sqli_classic": 1,
+   "sqli_obfuscated": 1,
+   "nosqli": 1,
+   "xss_reflected_stored": 1,
+   "xss_dom_polyglot": 2,
+   "rce_cmd_injection": 2,
+   "ssti": 1,
+   "xxe": 2,
+   "crlf_header_injection": 1,
+   "ldap_xpath_injection": 1,
+   "path_traversal_lfi": 2,
+   "http_request_smuggling": 2,
+   "open_redirect_cors": 1,
+   "syn_flood_ddos": 2,
+   "udp_amplification": 2,
+   "slowloris_slowhttp": 1,
+   "port_scan_recon": 2,
+   "credential_stuffing_bruteforce": 2,
+   "c2_beaconing_anomaly": 2,
+   "dns_tunneling_exfil": 2,
+   "tls_ja4_ua_spoofing": 2,
+   "benign_high_rate_legit": 2
+  },
+  "val_calib": {
+   "ssrf_cloud_metadata": 1,
+   "graphql_abuse": 1,
+   "jwt_auth_bypass": 1,
+   "bola_idor_enumeration": 1,
+   "websocket_grpc_abuse": 1,
+   "llm_prompt_injection": 1,
+   "prototype_pollution": 1,
+   "web_cache_poisoning": 1,
+   "deserialization": 1,
+   "csv_formula_injection": 1,
+   "benign_hard_negative_dev": 1,
+   "benign_hard_negative_search": 1,
+   "benign_standard_traffic": 4,
+   "sqli_classic": 1,
+   "sqli_obfuscated": 1,
+   "nosqli": 2,
+   "xss_reflected_stored": 1,
+   "xss_dom_polyglot": 1,
+   "rce_cmd_injection": 1,
+   "ssti": 1,
+   "xxe": 1,
+   "crlf_header_injection": 1,
+   "ldap_xpath_injection": 1,
+   "path_traversal_lfi": 1,
+   "http_request_smuggling": 1,
+   "open_redirect_cors": 1,
+   "syn_flood_ddos": 1,
+   "udp_amplification": 1,
+   "slowloris_slowhttp": 1,
+   "port_scan_recon": 1,
+   "credential_stuffing_bruteforce": 1,
+   "c2_beaconing_anomaly": 1,
+   "dns_tunneling_exfil": 1,
+   "tls_ja4_ua_spoofing": 1,
+   "benign_high_rate_legit": 1
+  },
+  "val_policy": {
+   "ssrf_cloud_metadata": 1,
+   "graphql_abuse": 1,
+   "jwt_auth_bypass": 1,
+   "bola_idor_enumeration": 1,
+   "websocket_grpc_abuse": 1,
+   "llm_prompt_injection": 1,
+   "prototype_pollution": 1,
+   "web_cache_poisoning": 1,
+   "deserialization": 1,
+   "csv_formula_injection": 1,
+   "benign_hard_negative_dev": 1,
+   "benign_hard_negative_search": 1,
+   "benign_standard_traffic": 4,
+   "sqli_classic": 1,
+   "sqli_obfuscated": 1,
+   "nosqli": 1,
+   "xss_reflected_stored": 1,
+   "xss_dom_polyglot": 1,
+   "rce_cmd_injection": 1,
+   "ssti": 1,
+   "xxe": 1,
+   "crlf_header_injection": 1,
+   "ldap_xpath_injection": 1,
+   "path_traversal_lfi": 1,
+   "http_request_smuggling": 1,
+   "open_redirect_cors": 3,
+   "syn_flood_ddos": 1,
+   "udp_amplification": 1,
+   "slowloris_slowhttp": 1,
+   "port_scan_recon": 1,
+   "credential_stuffing_bruteforce": 1,
+   "c2_beaconing_anomaly": 1,
+   "dns_tunneling_exfil": 1,
+   "tls_ja4_ua_spoofing": 1,
+   "benign_high_rate_legit": 1
+  },
+  "test": {
+   "ssrf_cloud_metadata": 2,
+   "graphql_abuse": 2,
+   "jwt_auth_bypass": 2,
+   "bola_idor_enumeration": 2,
+   "websocket_grpc_abuse": 2,
+   "llm_prompt_injection": 4,
+   "prototype_pollution": 4,
+   "web_cache_poisoning": 2,
+   "deserialization": 4,
+   "csv_formula_injection": 2,
+   "benign_hard_negative_dev": 2,
+   "benign_hard_negative_search": 3,
+   "benign_standard_traffic": 16,
+   "sqli_classic": 3,
+   "sqli_obfuscated": 3,
+   "nosqli": 3,
+   "xss_reflected_stored": 3,
+   "xss_dom_polyglot": 4,
+   "rce_cmd_injection": 4,
+   "ssti": 3,
+   "xxe": 4,
+   "crlf_header_injection": 3,
+   "ldap_xpath_injection": 4,
+   "path_traversal_lfi": 4,
+   "http_request_smuggling": 4,
+   "open_redirect_cors": 3,
+   "syn_flood_ddos": 4,
+   "udp_amplification": 4,
+   "slowloris_slowhttp": 2,
+   "port_scan_recon": 4,
+   "credential_stuffing_bruteforce": 2,
+   "c2_beaconing_anomaly": 4,
+   "dns_tunneling_exfil": 4,
+   "tls_ja4_ua_spoofing": 4,
+   "benign_high_rate_legit": 4
+  }
+ },
+ "token_len": {
+  "min": 384,
+  "p50": 472,
+  "p95": 680,
+  "max": 1954,
+  "budget": 2048
+ },
+ "tokenizer_fingerprint": {
+  "model": "unsloth/Qwen3.5-4B",
+  "revision": "3764fa359b9082ea5a1e4a5e3ac3aaf6e9671636",
+  "tokenizer_class": "Qwen2Tokenizer",
+  "vocab_size": 248077,
+  "chat_template_sha256": "8452ca85cb1e0ff04304c02f417a53305d5ba17f6eb9d5693343ad8355f985a8",
+  "system_prompt_sha256": "587695e37c2fe48d16385a1194a9e77864da4ca13cecbf23bfef92b9dfbc5950"
+ },
+ "overlap_statement": "zero detected cross-split overlap under the documented checks (exact input hash + lineage group)"
+}

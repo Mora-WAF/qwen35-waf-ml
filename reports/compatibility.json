@@ -1,0 +1,52 @@
+{
+ "checked_at": "2026-10-15",
+ "local": {
+  "python": "3.12.14",
+  "os": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "gpu": "NVIDIA GeForce RTX 4070 Laptop GPU, 8188 MiB, 595.91.07",
+  "disk_free_gb": 331,
+  "ram_total_gb": 30,
+  "packages": {
+   "transformers": "5.19.0",
+   "jsonschema": "4.26.0",
+   "pyyaml": "6.0.3"
+  },
+  "torch": null,
+  "role": "data pipeline + tokenizer checks only; training target is Colab"
+ },
+ "model": {
+  "model": "unsloth/Qwen3.5-4B",
+  "revision": "3764fa359b9082ea5a1e4a5e3ac3aaf6e9671636",
+  "tokenizer_class": "Qwen3_5Tokenizer",
+  "vocab_size": 248077,
+  "chat_template_sha256": "8452ca85cb1e0ff04304c02f417a53305d5ba17f6eb9d5693343ad8355f985a8",
+  "system_prompt_sha256": "587695e37c2fe48d16385a1194a9e77864da4ca13cecbf23bfef92b9dfbc5950",
+  "license": "apache-2.0",
+  "architecture": "Qwen3_5ForConditionalGeneration",
+  "pipeline_tag": "image-text-to-text",
+  "notes": [
+   "multimodal checkpoint: expect FastVisionModel loading path; freeze vision, text-only data",
+   "chat template inserts empty <think></think> block for assistant turns; training render == generation prompt with enable_thinking=False (verified in tests/test_prepare.py)",
+   "eos_token=<|im_end|>, pad_token=<|vision_pad|>",
+   "33 added control tokens escaped in user content via \\u003c (reversible JSON escape)"
+  ]
+ },
+ "colab_candidate_pins": {
+  "note": "latest PyPI on 2026-10-15; NOT yet tested together on a GPU runtime",
+  "unsloth": "2026.10.5",
+  "transformers": "5.19.0",
+  "trl": "1.15.0",
+  "peft": "0.21.2",
+  "torch": "2.14.1",
+  "bitsandbytes": "0.50.2"
+ },
+ "generation": {
+  "provider": "Claude Code Haiku subagents spawned from the orchestrating session (Agent tool, model=haiku)",
+  "model_requested": "claude-haiku-5-5",
+  "paid_api": false,
+  "ANTHROPIC_API_KEY_present": false,
+  "cost_accounting": "no per-token billing visible; record jobs, records produced, accepted counts; monetary cost reported as N/A",
+  "substitution_note": "spec \u00a76 assumes an async API worker pool; replaced by file-based job ledger + session subagents per user instruction 2026-10-15"
+ },
+ "local_gpu_training_feasible": "unverified; 8 GB VRAM likely insufficient for 16-bit LoRA of a 4B model at 2048 seq \u2014 Colab GPU required"
+}

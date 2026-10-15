@@ -1,0 +1,357 @@
+version: 1
+input_modes: [L7_HTTP, L4_FLOW, HYBRID_CTX]
+domains: [L7_INJECTION, L7_API_PROTOCOL, L7_AI_MODERN, L4_NETWORK_FLOW, BENIGN]
+total_quota: 120000
+aliases:            # source-migration only
+  benign_standard_web: benign_standard_traffic
+classes:
+  sqli_classic:
+    domain: L7_INJECTION
+    quota: 4000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Classic SQL injection: quote, boolean, UNION or comment tokens altering a query in plain form."
+    exclusions: ["Encoded or obfuscated SQL belongs to sqli_obfuscated", "Operator injection into document stores belongs to nosqli", "SQL keywords in prose or docs with no query-bound input"]
+    required_evidence: ["Request parameter or body field carrying the payload", "Observed SQL syntax tokens in a query-bound parameter", "Route context showing a database-backed input"]
+    precedence: {over: [], rule: "Yields to sqli_obfuscated when encoding or obfuscation layers are present."}
+    benign_counterexamples: ["Search text such as select a plan or union of teams", "SQL tutorial text pasted into a forum post body"]
+  sqli_obfuscated:
+    domain: L7_INJECTION
+    quota: 4000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "SQL injection hidden through encoding, inline comments, case or whitespace tricks, or nested decoding."
+    exclusions: ["Plain unencoded SQL belongs to sqli_classic", "Header framing tricks belong to http_request_smuggling"]
+    required_evidence: ["Raw and decoded parameter views with decoder and depth recorded", "Obfuscation pattern such as nested encoding or inline SQL comments", "Database-bound parameter context"]
+    precedence: {over: [sqli_classic], rule: "Wins over sqli_classic when obfuscation is needed to form the injection."}
+    benign_counterexamples: ["Base64 image data in an upload field with no SQL tokens", "URL-encoded search with an apostrophe in a product name"]
+  nosqli:
+    domain: L7_INJECTION
+    quota: 2500
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Operator injection into document-store queries, such as MongoDB operators in JSON or bracket parameters."
+    exclusions: ["SQL syntax belongs to sqli_classic or sqli_obfuscated", "Operator keys accepted by a documented filter API"]
+    required_evidence: ["Structured JSON or bracket-syntax parameter with operator keys", "Known document-store backend or filter endpoint context", "Raw body preserved with parser type"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Admin search API documented to accept dollar-prefixed operators", "Analytics payload with a dollar-sign field in a price label"]
+  xss_reflected_stored:
+    domain: L7_INJECTION
+    quota: 4000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Script or markup injection reflected in a response or persisted for later rendering."
+    exclusions: ["Payloads that run only via client-side DOM sinks belong to xss_dom_polyglot", "Spreadsheet formula payloads belong to csv_formula_injection", "Escaped output displayed as literal text"]
+    required_evidence: ["Request field and response or stored-record context showing payload placement", "Output encoding context such as HTML, attribute, or script", "Downstream rendering sink for stored cases"]
+    precedence: {over: [], rule: "Yields to xss_dom_polyglot when execution is client-side DOM only."}
+    benign_counterexamples: ["Forum post quoting an HTML tag in a code-block tutorial", "Escaped angle brackets shown as literal text in a support ticket"]
+  xss_dom_polyglot:
+    domain: L7_INJECTION
+    quota: 2500
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Payloads that execute through client-side DOM sinks or polyglot parsing across several contexts."
+    exclusions: ["Server-reflected payloads with no client sink belong to xss_reflected_stored", "Static JavaScript assets with no attacker-controlled fragment"]
+    required_evidence: ["Client-side sink context such as innerHTML, eval, or location", "Source of the attacker-controlled fragment or parameter", "Browser-side rendering or script context evidence"]
+    precedence: {over: [xss_reflected_stored], rule: "Wins over xss_reflected_stored when execution happens through a client-side DOM sink."}
+    benign_counterexamples: ["Documentation page with a JavaScript snippet in a code block", "Single-page app routing that reads a legitimate hash parameter"]
+  rce_cmd_injection:
+    domain: L7_INJECTION
+    quota: 3500
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Command separators or substitution injected into input passed to a shell or process execution."
+    exclusions: ["Traversal without command syntax belongs to path_traversal_lfi", "Template expression evaluation belongs to ssti", "Command text in help pages or docs"]
+    required_evidence: ["Input field reaching a shell or exec sink per trusted app context", "Command separator or substitution tokens in the raw value", "Observed execution output or timing when available"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Git commit message with a pipe character in prose", "CI webhook payload quoting a shell command in a changelog field"]
+  ssti:
+    domain: L7_INJECTION
+    quota: 3000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Server-side template injection where input is evaluated by a template engine expression context."
+    exclusions: ["Client-side template injection in browser frameworks belongs to xss_dom_polyglot", "Literal braces in JSON or code samples", "Command execution belongs to rce_cmd_injection"]
+    required_evidence: ["Input placed in a server-rendered template context", "Engine-specific expression syntax evaluated or echoed in the response", "Template engine identity or response-diff evidence"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Email body with double braces in an app-authored mustache template", "Math search text containing braces in a documentation query"]
+  xxe:
+    domain: L7_INJECTION
+    quota: 2000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "XML external entity or DTD abuse that makes an XML parser reference external resources or local files."
+    exclusions: ["Plain XML with no DOCTYPE or ENTITY declarations", "Fetch of internal addresses with no XML parser belongs to ssrf_cloud_metadata"]
+    required_evidence: ["XML body with DOCTYPE or ENTITY declaration", "Endpoint known to parse XML with external entities enabled, or test evidence", "Raw body preserved with content type"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["SOAP request with a standard namespace and no DOCTYPE", "SVG upload with harmless metadata and no entity declarations"]
+  deserialization:
+    domain: L7_INJECTION
+    quota: 2000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Untrusted serialized object payloads sent to deserializers that can trigger gadget chains."
+    exclusions: ["Plain JSON with ordinary data fields", "Tokens that are only decoded with no deserializer path belong to jwt_auth_bypass"]
+    required_evidence: ["Serialized format signature such as Java or PHP object markers", "Endpoint or parameter known to deserialize that format", "Parser or library context from trusted configuration"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Protobuf payload from a known internal client", "Cache value holding serialized JSON written by the app's own service"]
+  crlf_header_injection:
+    domain: L7_INJECTION
+    quota: 1500
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "CR LF or encoded line breaks in a header value that inject extra response or request headers."
+    exclusions: ["Framing conflicts via Content-Length or Transfer-Encoding belong to http_request_smuggling", "Line breaks in form text bodies with no header context"]
+    required_evidence: ["Raw request-target or header value containing CR LF or encoded equivalents", "Response or header-set context where the injection lands", "Ordered header pairs preserved"]
+    precedence: {over: [], rule: "Yields to http_request_smuggling when the input manipulates request framing or parser disagreement."}
+    benign_counterexamples: ["Multiline free-text notes stored with literal newlines", "Log message containing a line break in a support note"]
+  ldap_xpath_injection:
+    domain: L7_INJECTION
+    quota: 1500
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Filter or expression injection into LDAP or XPath lookups through unescaped input."
+    exclusions: ["SQL-style quoting in database queries belongs to sqli_classic", "Plain wildcard search text with no filter syntax"]
+    required_evidence: ["Input reaching an LDAP filter or XPath expression sink", "Filter metacharacters or operators in the raw value", "Auth or lookup response difference when available"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Directory search for a name using an asterisk wildcard", "File-navigation search box containing path-like text"]
+  csv_formula_injection:
+    domain: L7_INJECTION
+    quota: 1500
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Spreadsheet formula prefixes in stored or exported fields that execute when opened in a spreadsheet."
+    exclusions: ["Negative numbers or dashes in ordinary text", "Script tags rendered in a browser belong to xss_reflected_stored"]
+    required_evidence: ["Field value starting with a formula trigger such as equals, plus, minus, or at", "Export or downstream spreadsheet consumption context", "Stored field and export pipeline identity"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Product name starting with a minus sign and a number", "Finance export note starting with plus where escaping is applied"]
+  path_traversal_lfi:
+    domain: L7_API_PROTOCOL
+    quota: 4000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Directory traversal or local file inclusion that reads or includes files outside the intended path."
+    exclusions: ["Command execution after traversal belongs to rce_cmd_injection", "Relative paths that stay inside the allowed root"]
+    required_evidence: ["Path-bearing parameter with traversal sequences in raw and decoded views", "Target file or include context in server path handling", "Response or error evidence when available"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Package request with dot segments normalized to an allowed root", "Relative asset path such as ./images/logo.png"]
+  ssrf_cloud_metadata:
+    domain: L7_API_PROTOCOL
+    quota: 4000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Server-side fetch targets pointing at internal networks or cloud metadata addresses."
+    exclusions: ["Redirect parameters that only send users to external sites belong to open_redirect_cors", "XML entity fetches with no fetch target belong to xxe"]
+    required_evidence: ["URL-bearing parameter consumed by a server-side fetch", "Target host resolving to an internal or metadata address range", "Fetch behavior or parser context from trusted app config"]
+    precedence: {over: [open_redirect_cors], rule: "Wins over open_redirect_cors when a fetch target reaches internal or cloud metadata addresses."}
+    benign_counterexamples: ["Webhook registration to a public HTTPS URL", "Image proxy request for a public CDN host"]
+  http_request_smuggling:
+    domain: L7_API_PROTOCOL
+    quota: 3500
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Conflicting or duplicate framing headers that make front-end and back-end parsers disagree on request boundaries."
+    exclusions: ["Header value injection with no framing conflict belongs to crlf_header_injection", "Text templates for HTTP/2 with no raw frame fixture"]
+    required_evidence: ["Exact raw framing with duplicate or conflicting Content-Length and Transfer-Encoding", "Parser-stack assumptions for front-end and back-end", "Fixture retaining ordered duplicate headers"]
+    precedence: {over: [crlf_header_injection], rule: "Wins over crlf_header_injection when framing conflicts or parser disagreement are present."}
+    benign_counterexamples: ["Proxy request with a single valid Content-Length header", "Client chunked upload that sends only Transfer-Encoding chunked"]
+  graphql_abuse:
+    domain: L7_API_PROTOCOL
+    quota: 3000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Abusive GraphQL operations such as deep nesting, alias batching, or introspection and query-cost abuse."
+    exclusions: ["Queries within documented depth and cost limits", "Authorization failure on one object belongs to bola_idor_enumeration"]
+    required_evidence: ["Parsed operation metrics such as depth and alias count", "Schema or cost-limit configuration when available", "Request repetition across the same operation"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Dashboard query fetching nested user and order fields within limits", "Client batching ten related lookups through aliases"]
+  jwt_auth_bypass:
+    domain: L7_API_PROTOCOL
+    quota: 3000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Forged, unsigned, or algorithm-confused JSON Web Tokens aimed at bypassing verification."
+    exclusions: ["Decoding a token for inspection is not an attack", "Session fixation without token forgery"]
+    required_evidence: ["Verifier configuration such as allowed algorithms and key source, or test evidence", "Token header and signature material as received", "Evidence the altered token was accepted"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Client debugger showing decoded claims of its own valid token", "Expired token correctly rejected with a 401 by a documented verifier"]
+  bola_idor_enumeration:
+    domain: L7_API_PROTOCOL
+    quota: 3000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Sequential or guessed object identifiers used to reach resources that belong to other subjects."
+    exclusions: ["Sequential IDs alone with no authorization context", "Credential guessing belongs to credential_stuffing_bruteforce"]
+    required_evidence: ["Trusted subject identity and resource ownership context", "Authorization policy or access-check configuration", "Request sequence with differing object IDs under one subject"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Paginated listing by numeric ID of the requester's own records", "Public catalog item pages visited in ID order"]
+  open_redirect_cors:
+    domain: L7_API_PROTOCOL
+    quota: 2000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Redirect targets or CORS origins that reflect attacker-chosen cross-origin values."
+    exclusions: ["Server-side fetch of internal addresses belongs to ssrf_cloud_metadata", "Same-origin redirects"]
+    required_evidence: ["Redirect target parameter or Origin header with a cross-origin value", "Browser or CORS configuration showing reflected origin with credentials", "Response header evidence such as Access-Control-Allow-Origin"]
+    precedence: {over: [], rule: "Yields to ssrf_cloud_metadata when the target reaches internal addresses."}
+    benign_counterexamples: ["Login redirect back to a same-site path", "Public read-only API with wildcard CORS and no credentials"]
+  websocket_grpc_abuse:
+    domain: L7_API_PROTOCOL
+    quota: 1500
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Abuse of WebSocket upgrades or gRPC streams, such as message flooding, origin bypass, or unauthorized subscriptions."
+    exclusions: ["Ordinary HTTP requests with no upgrade or stream framing", "Normal long-lived streams at expected message rates"]
+    required_evidence: ["Upgrade or gRPC framing fields preserved from the raw stream", "Message rate or size measured against a documented baseline", "Origin or authorization context for the stream"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Live dashboard WebSocket pushing updates at a steady rate", "gRPC health-check stream from a known monitoring client"]
+  llm_prompt_injection:
+    domain: L7_AI_MODERN
+    quota: 4000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Untrusted input that tries to override an LLM's instructions, leak its system prompt, or hijack tool use."
+    exclusions: ["Quoted security discussion or research text is benign", "Ordinary user questions with no instruction override"]
+    required_evidence: ["Task description and intended model role", "Trust-boundary context showing which text is untrusted input", "Instruction-override phrasing located in an untrusted field"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Security blog post quoting an injection example for education", "Support message asking the bot to ignore a typo in a previous reply"]
+  prototype_pollution:
+    domain: L7_AI_MODERN
+    quota: 3000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Keys such as __proto__ or constructor.prototype used to modify object prototypes in merge or parse paths."
+    exclusions: ["Ordinary field named constructor in a data schema", "Plain JSON field names with no prototype path"]
+    required_evidence: ["Object key path reaching a merge, clone, or assignment sink", "Runtime or library identity from trusted configuration", "Nested key structure preserved in the raw body"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Form field named constructor in a manufacturing dataset", "Config object merged safely by a schema-validated parser"]
+  web_cache_poisoning:
+    domain: L7_AI_MODERN
+    quota: 3000
+    is_benign: false
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Unkeyed header or parameter input reflected into a cacheable response so other users receive poisoned content."
+    exclusions: ["Reflection in responses that are not cacheable", "Ordinary cache-busting query strings"]
+    required_evidence: ["Cache configuration and cache-key definition from trusted deployment context", "Unkeyed header or parameter reflected into body or headers", "Cache-status evidence from repeated requests"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Language header varying the response by a documented Vary key", "Cache-buster query string added by a CI test client"]
+  syn_flood_ddos:
+    domain: L4_NETWORK_FLOW
+    quota: 4000
+    is_benign: false
+    input_modes: [L4_FLOW, HYBRID_CTX]
+    scope: "SYN-dominant bursts and half-open connection patterns aimed at exhausting a target."
+    exclusions: ["Normal bursts with completed handshakes", "Sweeps across many destinations belong to port_scan_recon"]
+    required_evidence: ["Flow records with TCP flag bitmasks and flag counts", "Packet or flow rates validated against duration and direction", "Repeated timestamped observations of the burst window"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Load-balancer health checks opening many short handshakes", "Download surge after a scheduled software update"]
+  udp_amplification:
+    domain: L4_NETWORK_FLOW
+    quota: 3000
+    is_benign: false
+    input_modes: [L4_FLOW, HYBRID_CTX]
+    scope: "Spoofed or reflected UDP traffic from amplifying services, with large response-to-request ratios aimed at a victim."
+    exclusions: ["Ordinary DNS resolver traffic at normal sizes", "DNS tunneling payloads belong to dns_tunneling_exfil"]
+    required_evidence: ["Byte counts per direction validated against packet counts", "Source service port pattern such as DNS, NTP, or memcached", "Request-response size asymmetry measured over the flow"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Client DNS lookup returning a large DNSSEC response", "NTP sync query with a small response from a known time server"]
+  slowloris_slowhttp:
+    domain: L4_NETWORK_FLOW
+    quota: 3000
+    is_benign: false
+    input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
+    scope: "Many connections held open with very slow partial requests or reads to exhaust server connection slots."
+    exclusions: ["Long-polling or streaming clients with steady activity", "High-volume SYN bursts belong to syn_flood_ddos"]
+    required_evidence: ["Flow duration and byte rate per connection from full-flow aggregates", "Partial request framing or slow read pattern over time", "Per-connection IAT statistics with defined units"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Server-sent event stream kept open with periodic heartbeats", "Mobile client uploading a large file slowly on a poor network"]
+  credential_stuffing_bruteforce:
+    domain: L4_NETWORK_FLOW
+    quota: 4000
+    is_benign: false
+    input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
+    scope: "Repeated login attempts across many accounts or passwords from distributed or rotating sources."
+    exclusions: ["A single user mistyping a password a few times", "Token forgery belongs to jwt_auth_bypass"]
+    required_evidence: ["Login attempts with account identifiers and outcomes already known before the decision", "Repetition rate per source and per account over timestamped observations", "Per-source event grouping key documented"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Password manager retrying one login after a server timeout", "Scheduled health-check login for a single service account"]
+  port_scan_recon:
+    domain: L4_NETWORK_FLOW
+    quota: 4000
+    is_benign: false
+    input_modes: [L4_FLOW, HYBRID_CTX]
+    scope: "Systematic probing of many ports or hosts with minimal payloads to map exposed services."
+    exclusions: ["Monitoring tool sweeping known hosts on fixed ports", "Single-port connection bursts belong to syn_flood_ddos"]
+    required_evidence: ["Flow records with distinct destination ports and destination fan-out over a real event population", "TCP flag bitmask patterns per flow", "Documented grouping key for the timestamped events"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Authorized vulnerability scan listed in its change ticket", "Cluster manager discovering services across its own nodes"]
+  c2_beaconing_anomaly:
+    domain: L4_NETWORK_FLOW
+    quota: 2000
+    is_benign: false
+    input_modes: [L4_FLOW, HYBRID_CTX]
+    scope: "Periodic low-volume callbacks with regular intervals and consistent sizes, suggesting command-and-control check-ins."
+    exclusions: ["Scheduled telemetry from known agents with documented intervals", "Data carried in DNS belongs to dns_tunneling_exfil"]
+    required_evidence: ["Repeated timestamped observations with inter-arrival times in documented units", "Byte and packet size consistency across the sequence", "Benign comparator flows from the same population"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Monitoring agent heartbeat to its vendor every 30 seconds", "Mail client polling IMAP at a fixed interval"]
+  dns_tunneling_exfil:
+    domain: L4_NETWORK_FLOW
+    quota: 2000
+    is_benign: false
+    input_modes: [L4_FLOW, HYBRID_CTX]
+    scope: "DNS queries carrying encoded data in long or high-entropy labels, or unusual high-volume record types."
+    exclusions: ["Normal lookups of short labels", "Periodic check-ins with no encoded payload belong to c2_beaconing_anomaly"]
+    required_evidence: ["DNS query names, record types, and label lengths", "Repeated timestamped observations of the same parent domain", "Benign DNS comparators from the same network segment"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["CDN hostname with long generated subdomain labels", "Antivirus cloud lookup using hash-based hostnames"]
+  tls_ja4_ua_spoofing:
+    domain: L4_NETWORK_FLOW
+    quota: 2000
+    is_benign: false
+    input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
+    scope: "TLS fingerprint or user agent that does not match the measured client stack, used to impersonate a browser."
+    exclusions: ["A fingerprint mismatch alone is not malicious", "Standard clients with unusual but benign fingerprints"]
+    required_evidence: ["Measured JA4 or TLS fingerprint from the observed handshake", "Justified mapping from fingerprint to claimed client", "User agent string preserved as received"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Corporate proxy re-encrypting traffic with a different TLS stack", "Enterprise SDK sending a generic user agent"]
+  benign_standard_traffic:
+    domain: BENIGN
+    quota: 10000
+    is_benign: true
+    input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
+    scope: "Ordinary network flows and HTTP requests to common services, the default negative class."
+    exclusions: ["Any observation with attack-class evidence belongs to that attack class", "Lookalike traffic from developer tools belongs to benign_hard_negative_dev"]
+    required_evidence: ["Complete schema-valid observation at the decision boundary", "No attack-class evidence in the available fields", "Field availability and truncation flags recorded"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Routine JSON API call with ordinary query parameters", "Browser loading a page with inline scripts from its own origin"]
+  benign_hard_negative_dev:
+    domain: BENIGN
+    quota: 10000
+    is_benign: true
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Developer-tool traffic that resembles injection or traversal syntax, such as code snippets, debug payloads, and API clients."
+    exclusions: ["Requests carrying real exploit payloads aimed at a sink belong to the matching attack class", "Ordinary browsing belongs to benign_standard_traffic"]
+    required_evidence: ["Developer context such as IDE, CI, or API client identity", "Payload syntax matched to a documented developer feature", "Trusted endpoint purpose context"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["API client sending a SQL query to a documented reporting endpoint", "Git client pushing a commit whose message contains shell syntax"]
+  benign_hard_negative_search:
+    domain: BENIGN
+    quota: 5000
+    is_benign: true
+    input_modes: [L7_HTTP, HYBRID_CTX]
+    scope: "Search and query text containing operators, quotes, or security keywords as ordinary user input."
+    exclusions: ["Search text carrying a real injection payload belongs to the matching attack class", "Developer API traffic belongs to benign_hard_negative_dev"]
+    required_evidence: ["Search endpoint context and query parameter name", "Terms consistent with natural-language search intent", "Encoding and decoded view recorded"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Spreadsheet help search for select all", "Course catalog search for sql injection"]
+  benign_high_rate_legit:
+    domain: BENIGN
+    quota: 5000
+    is_benign: true
+    input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
+    scope: "High-rate legitimate flows such as CDN, backup, sync, streaming, and load-test traffic that resemble flood or scan patterns."
+    exclusions: ["Sustained floods with no legitimate service identity belong to syn_flood_ddos or udp_amplification", "Sweeps across unrelated hosts belong to port_scan_recon"]
+    required_evidence: ["Known service identity and destination population from trusted context", "Rates validated against duration and direction", "Repeated timestamped observations showing the expected pattern"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Nightly backup pushing large volumes to a known storage endpoint", "CDN edge fetching origin objects at a high steady rate"]
