@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v9 (41 classes) **model-evaluated** on Colab A100 (`reports/colab_a100v9/`): test accuracy 0.9857, test_unseen 0.9486 (SVM 0.890); calibration froze T 1.033, tau 0.808 and a benign flow envelope in `config/policy.yaml` (out-of-taxonomy abstention 60%). Not deployment-qualified. Generator fixes for HTTP/2 and c2, 104 cross-check quarantines and the prompt/holdout/scorer changes wait for the next build; see `docs/PLAN.md`.
+Current state: fast build v10 (bundle `87119b32…`, gate passed) is **training** on Colab A100 session `a100v10` (Part A started 16 Oct 18:45; Drive copy `MyDrive/qwen35_waf/fast_87119b32/`). The local driver was detached on purpose (PC shutdown): Part B and the download still need **`WAF_EVAL_EVERY=500 colab/run_colab.sh a100v10 A100 fast`** rerun from this machine (if the VM was reclaimed, it asks for Drive auth again and resumes from the Drive checkpoint). Then: `eval.calibration reports/colab_a100v10/SCORES_fast.jsonl --write-policy`, copy calibration.json into the run dir, `training.model_card reports/colab_a100v10`, compare with v9 (`reports/colab_a100v9/`). Before the next launch, add a round-trip probe after the Drive mount in `run_colab.sh` (the mount dropped the CLI connection and Part A hung unsent). v9 is the last **model-evaluated** run (test 0.9857, test_unseen 0.9486).
 A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
