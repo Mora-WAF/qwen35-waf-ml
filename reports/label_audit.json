@@ -1,6 +1,6 @@
 {
- "reviewed": 28677,
- "items": 28677,
+ "reviewed": 29613,
+ "items": 29613,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
@@ -22,9 +22,9 @@
    "agreement": 0.66
   },
   "benign_standard_traffic": {
-   "agree": 5141,
-   "insufficient": 314,
-   "disagree": 476,
+   "agree": 5355,
+   "insufficient": 316,
+   "disagree": 478,
    "agreement": 0.92
   },
   "bfla_admin_function_probing": {
@@ -69,8 +69,8 @@
    "agreement": 0.87
   },
   "http_request_smuggling": {
-   "agree": 90,
-   "insufficient": 0,
+   "agree": 210,
+   "insufficient": 1,
    "agreement": 1.0
   },
   "jwt_auth_bypass": {
@@ -104,10 +104,10 @@
    "agreement": 0.99
   },
   "nosqli": {
-   "agree": 89,
-   "insufficient": 1,
+   "agree": 209,
+   "insufficient": 2,
    "disagree": 1,
-   "agreement": 0.99
+   "agreement": 1.0
   },
   "open_redirect_cors": {
    "agree": 210,
@@ -115,7 +115,7 @@
    "agreement": 1.0
   },
   "path_traversal_lfi": {
-   "agree": 100,
+   "agree": 220,
    "insufficient": 9,
    "agreement": 1.0
   },
@@ -131,10 +131,10 @@
    "agreement": 1.0
   },
   "rce_cmd_injection": {
-   "agree": 99,
+   "agree": 219,
    "insufficient": 3,
    "disagree": 1,
-   "agreement": 0.99
+   "agreement": 1.0
   },
   "sqli_classic": {
    "agree": 17,
@@ -154,10 +154,10 @@
    "agreement": 0.99
   },
   "ssti": {
-   "agree": 76,
-   "insufficient": 12,
-   "disagree": 14,
-   "agreement": 0.84
+   "agree": 121,
+   "insufficient": 51,
+   "disagree": 89,
+   "agreement": 0.58
   },
   "web_cache_poisoning": {
    "agree": 845,
@@ -172,8 +172,8 @@
    "agreement": 0.78
   },
   "xss_dom_polyglot": {
-   "agree": 90,
-   "insufficient": 0,
+   "agree": 210,
+   "insufficient": 1,
    "agreement": 1.0
   },
   "xss_reflected_stored": {
@@ -227,7 +227,12 @@
   [
    "benign_standard_traffic",
    "benign_hard_negative_dev",
-   87
+   89
+  ],
+  [
+   "ssti",
+   "benign_hard_negative_dev",
+   89
   ],
   [
    "benign_standard_traffic",
@@ -283,12 +288,7 @@
    "benign_standard_traffic",
    "graphql_abuse",
    22
-  ],
-  [
-   "websocket_grpc_abuse",
-   "bopla_mass_assignment",
-   21
   ]
  ],
- "quarantined": 5397
+ "quarantined": 5481
 }

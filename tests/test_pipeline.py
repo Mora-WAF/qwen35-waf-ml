@@ -147,7 +147,7 @@ def test_observed_and_synthetic_share_core_names():
     core = {"duration_s", "pkts_total", "bytes_total", "pkts_fwd", "pkts_bwd", "bytes_fwd", "bytes_bwd",
             "pkts_per_s", "bytes_per_s", "pkt_len_min", "pkt_len_max", "tcp_flags_bitmask", "dst_port", "ip_proto"}
     extras = {"iat_cv", "qname_len_mean", "qname_entropy_bits_per_char", "parent_domain_top_share", "ja4_ua_consistent",
-              "h2_rst_stream_ratio", "h2_continuation_frames",
+              "h2_rst_stream_ratio", "h2_continuation_frames", "h2_rst_latency_ms_p50",
               "conn_count_60s", "distinct_dst_ports_60s"}  # window aggregates: CIC has them too (from timestamps)
     for cls in G.FLOW_PROFILES:
         assert set(G.synth_flow(cls, 0)[0]["flow"]["features"]) - core <= extras, cls

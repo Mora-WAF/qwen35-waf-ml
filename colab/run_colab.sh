@@ -44,7 +44,8 @@ if ! fetch part_a.json && ! busy; then
   if [ -z "${NO_DRIVE:-}" ]; then
     mounted() { pyexec 'import os; print("drive", os.path.ismount("/content/drive"))' | grep -q "drive True"; }
     # interactive only: headless, its auth prompt blocks the kernel and the mount from another terminal queues behind it
-    [ -t 0 ] && timeout 600 colab drivemount -s "$NAME" 2>&1 | tee -a "$LOG" | grep -aE "colab\]|https:"
+    # --foreground: plain timeout puts drivemount in a background process group, so its Enter prompt stops on SIGTTIN
+    [ -t 0 ] && timeout --foreground 600 colab drivemount -s "$NAME" 2>&1 | tee -a "$LOG" | grep -aE "colab\]|https:"
     for _ in $(seq 60); do mounted && break; say "waiting for Drive: run 'colab drivemount -s $NAME' in a terminal"; sleep 15; done
     mounted || die "Drive not mounted (or rerun with NO_DRIVE=1)"
   fi

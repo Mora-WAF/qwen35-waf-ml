@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v7 (41 classes) **model-evaluated** on Colab A100 (`reports/colab_a100fast/`): test accuracy 0.9894, test_unseen 0.9616; calibration froze temperature 1.011435, tau 0.0 in `config/policy.yaml` (tau 0 never abstains: see the progress log). Not deployment-qualified. Fast build v8 (data hardening, JWT scope widened to token verification bypass, speed-probe switches) in progress; see `docs/PLAN.md`.
+Current state: fast build v8 (41 classes) **model-evaluated** on Colab A100 (`reports/colab_a100v8/`): test accuracy 0.9841, test_unseen 0.9579 (v7: 0.9894 / 0.9616, splits differ); calibration froze temperature 1.223249, tau 0.0 in `config/policy.yaml` (max-prob tau cannot flag out-of-taxonomy inputs: see the progress log). Not deployment-qualified. Ranked improvements (HTTP/2 reset evidence, family breadth, trained abstention) are in `docs/PLAN.md`.
 A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 

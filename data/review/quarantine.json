@@ -48571,5 +48571,761 @@
   "reviewer": "websocket_grpc_abuse",
   "sufficient": true,
   "note": "Bidi gRPC stream at 420 msg/s against a 12 msg/s policy limit from a member principal with no service identity."
+ },
+ {
+  "rid": "n28824",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx27_rce_cmd_injection.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "The ssh option -oConnectTimeout=5 is option-shaped but benign with no ProxyCommand, in an admin test feature."
+ },
+ {
+  "rid": "n28836",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx27_rce_cmd_injection.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "The ssh option -oConnectionAttempts=1 is option-shaped but benign, with no ProxyCommand or shell dispatch, in an admin link feature."
+ },
+ {
+  "rid": "n28985",
+  "label": "http_request_smuggling",
+  "ref": "http_request_smuggling.vcx23.jsonl:92",
+  "kind": "telemetry",
+  "reviewer": "http_request_smuggling",
+  "sufficient": false,
+  "note": "Content-Length 72 with a chunk-looking body and no TE header; the framing conflict is not visible in the headers."
+ },
+ {
+  "rid": "n29043",
+  "label": "nosqli",
+  "ref": "nosqli.vcx26.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "nosqli",
+  "sufficient": false,
+  "note": "Read-only $lookup pipeline supplied as the view value into a MongoDB aggregate; operator injection, but the stage is not clearly abusive."
+ },
+ {
+  "rid": "n29373",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Jinja upper filter in an SMS salutation preview; ordinary authoring template logic."
+ },
+ {
+  "rid": "n29375",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Freemarker upper_case builtin in a freight customs preview editor; ordinary output CARGO."
+ },
+ {
+  "rid": "n29376",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Velocity set plus a string method call in a notification editor; ordinary-looking and not a clear runtime escape, so borderline."
+ },
+ {
+  "rid": "n29379",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "ERB upcase in a call-sheet note field of a PUT form; harmless authoring expression."
+ },
+ {
+  "rid": "n29380",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Smarty filter expression upper in an email template editor; no introspection or exec reach, only ordinary output."
+ },
+ {
+  "rid": "n29383",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Go template printf builtin in a marina confirmation editor; ordinary output west-pier."
+ },
+ {
+  "rid": "n29384",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Liquid upcase filter in a bouquet notification preview; ordinary authoring logic."
+ },
+ {
+  "rid": "n29386",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Twig join expression in a museum email title editor with a prior render; no exploit token, template authoring feature."
+ },
+ {
+  "rid": "n29390",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Handlebars if-else conditional in a lease renewal editor; ordinary output current."
+ },
+ {
+  "rid": "n29392",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Smarty assign and capitalize in a library holds email composer; ordinary output Reading."
+ },
+ {
+  "rid": "n29394",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Pug interpolation of a join expression in a bakery PDF heading editor with prior render; no exploit payload."
+ },
+ {
+  "rid": "n29395",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Go template len function on a booking notification; harmless function call in an authoring path."
+ },
+ {
+  "rid": "n29396",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Liquid split and join in a florist notice editor with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29397",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Jinja2 join filter over a literal list in a clinic letter editor; ordinary output clinic / east."
+ },
+ {
+  "rid": "n29398",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Twig set and upper filter in a museum donor letter editor; ordinary output PAPER."
+ },
+ {
+  "rid": "n29400",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Velocity set and multiply in a university notice preview editor with prior render; no exploit."
+ },
+ {
+  "rid": "n29402",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Handlebars each-loop over unit names in a rent receipt composer; ordinary template logic with no exploit gadget."
+ },
+ {
+  "rid": "n29404",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Smarty math plugin in an invitation title field of an email renderer; documented tag, not an exploit."
+ },
+ {
+  "rid": "n29408",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "Liquid assign and capitalize logic is evaluated from a GET query value; could be authoring-preview use, so intent is ambiguous."
+ },
+ {
+  "rid": "n29409",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "Jinja dict-literal attribute access in a GET reminder test; expression is evaluated but may be ordinary template preview use."
+ },
+ {
+  "rid": "n29410",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Twig arithmetic expression in a membership email confirmation; simple arithmetic probe without an exploit gadget."
+ },
+ {
+  "rid": "n29411",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Freemarker lower_case call in a freight invoice renderer with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29412",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Velocity set and toLowerCase method call on a string in a mentor welcome editor; harmless, though Velocity method calls can be a probe."
+ },
+ {
+  "rid": "n29413",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Thymeleaf substring in a travel voucher subtitle editor with prior render; no exploit."
+ },
+ {
+  "rid": "n29414",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Handlebars with-block in a housing inspection notice editor; ordinary output Porto."
+ },
+ {
+  "rid": "n29420",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Liquid size filter in a florist notification editor; ordinary output of 6."
+ },
+ {
+  "rid": "n29422",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Twig slice in a museum dispatch editor with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29423",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:50",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Freemarker arithmetic in a waybill compose preview; harmless arithmetic expression."
+ },
+ {
+  "rid": "n29424",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:51",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Velocity substring in a lecture reminder editor with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29426",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:53",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Handlebars unless block in a housing email composer with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29428",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:55",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Smarty lower filter in a library fines statement editor; ordinary output library."
+ },
+ {
+  "rid": "n29431",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Go range over services in a fuel receipt caption editor; ordinary template logic."
+ },
+ {
+  "rid": "n29434",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:61",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Twig hash literal indexed by key in a museum receipt editor; ordinary output Atrium."
+ },
+ {
+  "rid": "n29435",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:62",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Freemarker substring expression on a PATCH estimate caption; harmless string operation in an invoice-renderer authoring path."
+ },
+ {
+  "rid": "n29438",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:65",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Handlebars root variable reference in a housing bulletin composer; ordinary template variable."
+ },
+ {
+  "rid": "n29439",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:66",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "ERB split.last in a film catering menu editor with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29440",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:67",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Smarty replace filter on a PATCH body in a branch-address renderer; ordinary template transform, not an exploit payload."
+ },
+ {
+  "rid": "n29441",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:68",
+  "kind": "telemetry",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "Mako dollar-brace len call in a GET settlement draft; template evaluation with a harmless function, intent ambiguous."
+ },
+ {
+  "rid": "n29442",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:69",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Pug toLowerCase method on a literal in a bakery invitation editor; ordinary output cocoa."
+ },
+ {
+  "rid": "n29443",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:70",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Go with and field access in a marina maintenance notice; ordinary output Willow."
+ },
+ {
+  "rid": "n29444",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:71",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Liquid capture and append in a sympathy-card greeting editor preview; ordinary authoring logic."
+ },
+ {
+  "rid": "n29445",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Jinja set and reverse filter in a clinical follow-up composer preview; ordinary authoring logic."
+ },
+ {
+  "rid": "n29446",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:73",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Twig list filter last in a museum email composer; ordinary output with no introspection."
+ },
+ {
+  "rid": "n29448",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:75",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Velocity set and length in a university newsletter heading editor with prior render; no exploit."
+ },
+ {
+  "rid": "n29450",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:77",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Handlebars balance reference in a deposit statement composer; ordinary template variable."
+ },
+ {
+  "rid": "n29451",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:78",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "ERB length expression in a lighting plan PATCH; harmless authoring expression, though ERB code can be a probe."
+ },
+ {
+  "rid": "n29452",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:79",
+  "kind": "telemetry",
+  "reviewer": "ssti",
+  "sufficient": false,
+  "note": "Smarty count_words modifier in a GET roundup excerpt; template evaluation with an ordinary modifier, intent ambiguous."
+ },
+ {
+  "rid": "n29453",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:80",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Mako string lower method in an insurance correspondence renderer; ordinary output office."
+ },
+ {
+  "rid": "n29454",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:81",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Pug string slice in a bakery subscription note editor; ordinary output crois."
+ },
+ {
+  "rid": "n29455",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:82",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Go printf %q in a marina storage notice editor with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29456",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:83",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Liquid times and minus filters in a florist reminder editor; ordinary output 88."
+ },
+ {
+  "rid": "n29457",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:84",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Jinja split and index in a clinic reschedule preview with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29458",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:85",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Twig url_encode in a museum membership email template with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29459",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:86",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Freemarker size expression in a freight invoice template editor; ordinary output only."
+ },
+ {
+  "rid": "n29460",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:87",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Velocity foreach over two names in a scholarship notice editor; ordinary authoring logic."
+ },
+ {
+  "rid": "n29461",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:88",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SpEL strings utility call toLowerCase in a voucher editor; ordinary output deck with no runtime escape."
+ },
+ {
+  "rid": "n29462",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:89",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Handlebars each over units in a housing email composer with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29464",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:91",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Smarty foreach over two items in a library email template editor with prior render; no exploit."
+ },
+ {
+  "rid": "n29465",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:92",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Mako list comprehension over a literal in an insurance letter renderer; ordinary-looking, not a clear escape, so borderline."
+ },
+ {
+  "rid": "n29466",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:93",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Pug Object.keys join in an allergen sheet editor; ordinary output milk/egg."
+ },
+ {
+  "rid": "n29467",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:94",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Go slice call in an arrival brief PATCH; ordinary template function."
+ },
+ {
+  "rid": "n29469",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:96",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Jinja length expression in a clinic mailout snippet editor with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29470",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:97",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Twig starts-with ternary in a museum reminder editor; ordinary output yes."
+ },
+ {
+  "rid": "n29474",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:101",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Handlebars if-property block in a housing email composer; ordinary output Willow Road."
+ },
+ {
+  "rid": "n29475",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:102",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "ERB stage multiply in a call-sheet greeting editor with prior render; trivial expression, no exploit."
+ },
+ {
+  "rid": "n29476",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:103",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Smarty if-else conditional in a library returns email composer; output only open or closed."
+ },
+ {
+  "rid": "n29477",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:104",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Mako slice expression in an insurance description editor with prior render; authoring feature, no exploit."
+ },
+ {
+  "rid": "n29478",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:105",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Pug ternary in a pickup reminder template; ordinary authoring logic."
+ },
+ {
+  "rid": "n29479",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:106",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Go template conditional and in a marina notice editor; ordinary output only."
+ },
+ {
+  "rid": "n29481",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:108",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Jinja replace filter in an arrival card banner preview; ordinary authoring logic."
+ },
+ {
+  "rid": "n29482",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:109",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Twig for-loop in a membership email body; ordinary authoring logic."
+ },
+ {
+  "rid": "n29483",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:110",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Freemarker replace builtin in a freight consignment view editor; ordinary output dock-west."
+ },
+ {
+  "rid": "n29484",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:111",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Velocity set and replace method call in a library notification editor; harmless string method, not a payload."
+ },
+ {
+  "rid": "n29485",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:112",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Thymeleaf length expression in a travel voucher editor with prior render; no exploit."
+ },
+ {
+  "rid": "n29487",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:114",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "ERB expression in a closing-line field of a call-sheet editor POST; the expression is harmless gsub text, so it reads as authoring content."
+ },
+ {
+  "rid": "n29488",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:115",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Smarty cat filter in a library dispatch editor; ordinary output book club meeting."
+ },
+ {
+  "rid": "n29489",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:116",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Mako str arithmetic in an insurance footer editor with prior render; trivial expression, no exploit."
+ },
+ {
+  "rid": "n29491",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:118",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Go template variable and printf in a marina bulletin footer editor with prior render; no sink payload."
+ },
+ {
+  "rid": "n29492",
+  "label": "ssti",
+  "ref": "ssti.vcx25.jsonl:119",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Liquid if-else logic in a footer field of a seasonal news editor POST, with no exploit payload; authoring content."
+ },
+ {
+  "rid": "n29582",
+  "label": "xss_dom_polyglot",
+  "ref": "xss_dom_polyglot.vcx28.jsonl:89",
+  "kind": "telemetry",
+  "reviewer": "xss_dom_polyglot",
+  "sufficient": false,
+  "note": "A JavaScript expression string is stored and passed to setTimeout as a string, but the payload has no effect marker, so the attack reading is weak."
  }
 ]

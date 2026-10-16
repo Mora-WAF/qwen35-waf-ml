@@ -63,6 +63,8 @@ def check(features, cls, provenance):
             mean = f["bytes_total"] / f["pkts_total"]
             if mean < lo - max(1, abs(lo) * 0.01) or mean > hi + max(1, abs(hi) * 0.01):
                 errors.append("pkt_len_mean")
+    if "h2_rst_latency_ms_p50" in f and not f.get("h2_rst_stream_ratio"):
+        errors.append("h2_rst_latency_without_rst")
     if f.get("ip_proto") == 17 and "tcp_flags_bitmask" in f and f["tcp_flags_bitmask"] != 0:
         errors.append("udp_tcp_flags")
     if cls in CONSISTENT and all(k in f for k in CLASS_INPUTS[cls]):

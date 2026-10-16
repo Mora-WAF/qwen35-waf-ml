@@ -3,7 +3,7 @@ version: 1
 # Calibrated-probability threshold for any non-ABSTAIN verdict. null = not yet fitted
 # on the calibration-policy partition -> every decision abstains (shadow mode).
 threshold: 0.0
-temperature: 1.011435  # softmax temperature over summed class completion log-probs (eval.calibration, val_calib)
+temperature: 1.223249  # softmax temperature over summed class completion log-probs (eval.calibration, val_calib)
 class_thresholds: {}   # optional per-class overrides, fitted and frozen with `threshold`
 
 # Context keys (under telemetry `context`) that must be present and non-null before

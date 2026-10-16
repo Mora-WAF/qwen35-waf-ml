@@ -34,11 +34,11 @@ def test_arithmetic_zero_duration_and_tolerance():
 def test_ranges_protocol_and_warning_severity():
     f = {"ip_proto": 17, "tcp_flags_bitmask": 2, "dst_port": 65536, "pkts_total": 0,
          "h2_rst_stream_ratio": 1.01, "ja4_ua_consistent": 0.5, "conn_count_60s": 0,
-         "h2_continuation_frames": -1, "pkts_fwd": 4, "pkts_bwd": 2}
+         "h2_continuation_frames": -1, "pkts_fwd": 4, "pkts_bwd": 2, "h2_rst_latency_ms_p50": 1.0}
     errors, warnings = P.check(f, "udp_amplification", "synthetic")
     assert set(errors) == {"pkts_sum", "udp_tcp_flags", "range:dst_port", "range:pkts_total",
                            "range:h2_rst_stream_ratio", "range:ja4_ua_consistent",
-                           "range:conn_count_60s", "range:h2_continuation_frames"}
+                           "range:conn_count_60s", "range:h2_continuation_frames"}  # ratio out of range: no latency error
     assert warnings == ["udp_amplification_direction"]
     assert P.check({"ip_proto": 6, "tcp_flags_bitmask": 256}, "syn_flood_ddos", "synthetic") == (
         ["range:tcp_flags_bitmask"], ["class_consistency"])
@@ -65,3 +65,8 @@ def test_report_counts_examples_modes_and_no_mutation(tmp_path, monkeypatch):
     assert P.main("fast_") == 0
     assert json.loads((tmp_path / "reports/flow_physics_fast_.json").read_text()) == report
     assert source.read_bytes() == original
+
+
+def test_h2_latency_needs_resets():
+    assert P.check({"h2_rst_stream_ratio": 0.0, "h2_rst_latency_ms_p50": 2.0}, "x", "synthetic")[0] == ["h2_rst_latency_without_rst"]
+    assert P.check({"h2_rst_stream_ratio": 0.4, "h2_rst_latency_ms_p50": 2.0}, "x", "synthetic") == ([], [])

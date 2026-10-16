@@ -1,108 +1,132 @@
 {
  "method": "summed completion log-prob per class, temperature scaling on val_calib, tau on val_policy",
- "temperature": 1.011435,
+ "temperature": 1.223249,
  "tau": 0.0,
  "max_hard_negative_fir": 0.01,
  "val_calib": {
   "uncalibrated": {
-   "n": 933,
-   "accuracy": 0.9925,
-   "nll": 0.0335,
-   "brier": 0.0122,
-   "ece": 0.0048,
+   "n": 1049,
+   "accuracy": 0.9847,
+   "nll": 0.0659,
+   "brier": 0.0264,
+   "ece": 0.0097,
    "bins": [
     {
-     "lo": 0.4667,
-     "n": 2,
+     "lo": 0.4,
+     "n": 1,
      "acc": 0.0,
-     "conf": 0.5258
+     "conf": 0.4126
+    },
+    {
+     "lo": 0.4667,
+     "n": 1,
+     "acc": 1.0,
+     "conf": 0.5312
+    },
+    {
+     "lo": 0.5333,
+     "n": 4,
+     "acc": 0.5,
+     "conf": 0.5857
     },
     {
      "lo": 0.6,
      "n": 1,
-     "acc": 1.0,
-     "conf": 0.6481
+     "acc": 0.0,
+     "conf": 0.6514
     },
     {
      "lo": 0.6667,
-     "n": 2,
+     "n": 3,
      "acc": 1.0,
-     "conf": 0.7293
+     "conf": 0.694
     },
     {
      "lo": 0.7333,
-     "n": 2,
-     "acc": 1.0,
-     "conf": 0.7547
+     "n": 5,
+     "acc": 0.8,
+     "conf": 0.772
     },
     {
      "lo": 0.8,
-     "n": 7,
-     "acc": 0.8571,
-     "conf": 0.8454
+     "n": 3,
+     "acc": 1.0,
+     "conf": 0.8345
     },
     {
      "lo": 0.8667,
-     "n": 10,
-     "acc": 1.0,
-     "conf": 0.8879
+     "n": 16,
+     "acc": 0.8125,
+     "conf": 0.9052
     },
     {
      "lo": 0.9333,
-     "n": 909,
-     "acc": 0.9956,
-     "conf": 0.9965
+     "n": 1015,
+     "acc": 0.9921,
+     "conf": 0.9973
     }
    ]
   },
   "calibrated": {
-   "n": 933,
-   "accuracy": 0.9925,
-   "nll": 0.0335,
-   "brier": 0.0122,
-   "ece": 0.0047,
+   "n": 1049,
+   "accuracy": 0.9847,
+   "nll": 0.0624,
+   "brier": 0.0261,
+   "ece": 0.0079,
    "bins": [
+    {
+     "lo": 0.3333,
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.3919
+    },
     {
      "lo": 0.4667,
      "n": 2,
-     "acc": 0.0,
-     "conf": 0.5253
+     "acc": 1.0,
+     "conf": 0.5208
+    },
+    {
+     "lo": 0.5333,
+     "n": 3,
+     "acc": 0.3333,
+     "conf": 0.5589
     },
     {
      "lo": 0.6,
-     "n": 1,
-     "acc": 1.0,
-     "conf": 0.6462
+     "n": 3,
+     "acc": 0.6667,
+     "conf": 0.6417
     },
     {
      "lo": 0.6667,
-     "n": 2,
-     "acc": 1.0,
-     "conf": 0.7269
+     "n": 6,
+     "acc": 0.8333,
+     "conf": 0.7013
     },
     {
      "lo": 0.7333,
-     "n": 2,
-     "acc": 1.0,
-     "conf": 0.7523
+     "n": 3,
+     "acc": 0.6667,
+     "conf": 0.7779
     },
     {
      "lo": 0.8,
-     "n": 8,
-     "acc": 0.875,
-     "conf": 0.8453
+     "n": 10,
+     "acc": 0.9,
+     "conf": 0.8388
     },
     {
      "lo": 0.8667,
-     "n": 9,
-     "acc": 1.0,
-     "conf": 0.8876
+     "n": 14,
+     "acc": 0.7143,
+     "conf": 0.9037
     },
     {
      "lo": 0.9333,
-     "n": 909,
-     "acc": 0.9956,
-     "conf": 0.9963
+     "n": 1007,
+     "acc": 0.995,
+     "conf": 0.9932
     }
    ]
   }
@@ -110,157 +134,175 @@
  "val_policy_at_tau": {
   "tau": 0.0,
   "coverage": 1.0,
-  "attack_intervention_recall": 0.9965,
-  "benign_false_intervention": 0.0083,
+  "attack_intervention_recall": 0.9967,
+  "benign_false_intervention": 0.0108,
   "hard_negative_false_intervention": 0.0,
-  "accuracy_when_acting": 0.9894,
+  "accuracy_when_acting": 0.9908,
   "abstention_rate": 0.0
  },
  "test": {
   "reliability": {
-   "n": 3869,
-   "accuracy": 0.9894,
-   "nll": 0.0514,
-   "brier": 0.0168,
-   "ece": 0.0024,
+   "n": 4092,
+   "accuracy": 0.9841,
+   "nll": 0.0569,
+   "brier": 0.0245,
+   "ece": 0.0047,
    "bins": [
     {
-     "lo": 0.4,
-     "n": 2,
+     "lo": 0.2667,
+     "n": 1,
      "acc": 0.0,
-     "conf": 0.4563
+     "conf": 0.3314
+    },
+    {
+     "lo": 0.3333,
+     "n": 3,
+     "acc": 0.0,
+     "conf": 0.3695
+    },
+    {
+     "lo": 0.4,
+     "n": 3,
+     "acc": 0.6667,
+     "conf": 0.4392
     },
     {
      "lo": 0.4667,
-     "n": 5,
-     "acc": 0.4,
-     "conf": 0.522
+     "n": 10,
+     "acc": 0.3,
+     "conf": 0.5045
     },
     {
      "lo": 0.5333,
-     "n": 12,
-     "acc": 0.5833,
-     "conf": 0.5682
+     "n": 3,
+     "acc": 0.6667,
+     "conf": 0.568
     },
     {
      "lo": 0.6,
-     "n": 3,
-     "acc": 0.6667,
-     "conf": 0.6338
+     "n": 15,
+     "acc": 0.4,
+     "conf": 0.6276
     },
     {
      "lo": 0.6667,
-     "n": 7,
-     "acc": 0.7143,
-     "conf": 0.7051
+     "n": 19,
+     "acc": 0.8421,
+     "conf": 0.6903
     },
     {
      "lo": 0.7333,
-     "n": 13,
-     "acc": 0.6923,
-     "conf": 0.7685
+     "n": 23,
+     "acc": 0.6522,
+     "conf": 0.7627
     },
     {
      "lo": 0.8,
-     "n": 21,
-     "acc": 0.8571,
-     "conf": 0.8435
+     "n": 26,
+     "acc": 0.8462,
+     "conf": 0.8412
     },
     {
      "lo": 0.8667,
-     "n": 54,
-     "acc": 0.8704,
-     "conf": 0.9034
+     "n": 69,
+     "acc": 0.8986,
+     "conf": 0.9081
     },
     {
      "lo": 0.9333,
-     "n": 3752,
-     "acc": 0.9963,
-     "conf": 0.9951
+     "n": 3920,
+     "acc": 0.9946,
+     "conf": 0.9934
     }
    ]
   },
   "policy": {
    "tau": 0.0,
    "coverage": 1.0,
-   "attack_intervention_recall": 0.9979,
-   "benign_false_intervention": 0.0046,
-   "hard_negative_false_intervention": 0.0,
-   "accuracy_when_acting": 0.9894,
+   "attack_intervention_recall": 0.9932,
+   "benign_false_intervention": 0.0082,
+   "hard_negative_false_intervention": 0.0025,
+   "accuracy_when_acting": 0.9841,
    "abstention_rate": 0.0
   }
  },
  "test_unseen": {
   "reliability": {
-   "n": 4089,
-   "accuracy": 0.9616,
-   "nll": 0.2014,
-   "brier": 0.068,
-   "ece": 0.0211,
+   "n": 4394,
+   "accuracy": 0.9579,
+   "nll": 0.2027,
+   "brier": 0.0727,
+   "ece": 0.0201,
    "bins": [
     {
+     "lo": 0.3333,
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.3655
+    },
+    {
      "lo": 0.4,
-     "n": 3,
-     "acc": 0.6667,
-     "conf": 0.4263
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.4068
     },
     {
      "lo": 0.4667,
-     "n": 30,
-     "acc": 0.5,
-     "conf": 0.5116
+     "n": 21,
+     "acc": 0.5238,
+     "conf": 0.5077
     },
     {
      "lo": 0.5333,
-     "n": 30,
-     "acc": 0.6,
-     "conf": 0.5715
+     "n": 23,
+     "acc": 0.3913,
+     "conf": 0.5657
     },
     {
      "lo": 0.6,
-     "n": 27,
-     "acc": 0.7037,
-     "conf": 0.6322
+     "n": 23,
+     "acc": 0.6522,
+     "conf": 0.6358
     },
     {
      "lo": 0.6667,
-     "n": 46,
-     "acc": 0.8261,
-     "conf": 0.7002
+     "n": 36,
+     "acc": 0.8889,
+     "conf": 0.6944
     },
     {
      "lo": 0.7333,
-     "n": 77,
-     "acc": 0.8701,
-     "conf": 0.7721
+     "n": 31,
+     "acc": 0.7097,
+     "conf": 0.7671
     },
     {
      "lo": 0.8,
-     "n": 175,
-     "acc": 0.9371,
-     "conf": 0.8391
+     "n": 75,
+     "acc": 0.72,
+     "conf": 0.8352
     },
     {
      "lo": 0.8667,
-     "n": 202,
-     "acc": 0.8812,
-     "conf": 0.9015
+     "n": 218,
+     "acc": 0.9174,
+     "conf": 0.9086
     },
     {
      "lo": 0.9333,
-     "n": 3499,
-     "acc": 0.9806,
-     "conf": 0.9943
+     "n": 3965,
+     "acc": 0.975,
+     "conf": 0.9911
     }
    ]
   },
   "policy": {
    "tau": 0.0,
    "coverage": 1.0,
-   "attack_intervention_recall": 0.9693,
-   "benign_false_intervention": 0.0052,
+   "attack_intervention_recall": 0.9666,
+   "benign_false_intervention": 0.0049,
    "hard_negative_false_intervention": 0.0,
-   "accuracy_when_acting": 0.9616,
+   "accuracy_when_acting": 0.9579,
    "abstention_rate": 0.0
   }
  },
@@ -272,6 +314,6 @@
    "out_of_taxonomy": 0.0,
    "malformed": 0.0
   },
-  "entropy_mean": 0.343
+  "entropy_mean": 0.2166
  }
 }

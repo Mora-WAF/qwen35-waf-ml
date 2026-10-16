@@ -1,0 +1,38 @@
+# Offline decision policy (spec §7). Recommendations only; nothing is executed against traffic.
+version: 1
+# Calibrated-probability threshold for any non-ABSTAIN verdict. null = not yet fitted
+# on the calibration-policy partition -> every decision abstains (shadow mode).
+threshold: 0.0
+temperature: 1.011435  # softmax temperature over summed class completion log-probs (eval.calibration, val_calib)
+class_thresholds: {}   # optional per-class overrides, fitted and frozen with `threshold`
+
+# Context keys (under telemetry `context`) that must be present and non-null before
+# the class may produce a non-abstain verdict (spec §5 evidence table).
+required_context:
+  bola_idor_enumeration: [authz_context]
+  jwt_auth_bypass: [verifier_config]
+  xss_dom_polyglot: [sink_context]
+  csv_formula_injection: [sink_context]
+  web_cache_poisoning: [cache_config]
+  open_redirect_cors: [browser_or_cors_config]
+  http_request_smuggling: [parser_stack]
+  llm_prompt_injection: [trust_boundary]
+  bopla_mass_assignment: [object_schema]
+  bfla_admin_function_probing: [caller_role, route_required_role]
+  race_condition_toctou_burst: [route_semantics]
+  mcp_agentic_tool_abuse: [tool_manifest]
+
+# Non-default attack actions. Absent entry -> BLOCK. Entry present but its eligibility
+# flag (context key, must be true) missing -> ABSTAIN. Each entry needs its own evaluation.
+class_actions: {}
+#  credential_stuffing_bruteforce: {verdict: RATE_LIMIT, eligibility: rate_limit_eligible}
+
+# Fixed reason codes; rule_hint is never model text. Default for unlisted attack: "ml_<class>".
+reason_codes:
+  allow: none
+  malformed_output: malformed_output
+  unsupported_mode: unsupported_context
+  missing_evidence: insufficient_evidence
+  uncalibrated: uncalibrated_shadow
+  low_confidence: low_confidence
+  ineligible_action: action_ineligible

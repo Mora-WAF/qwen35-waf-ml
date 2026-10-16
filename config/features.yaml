@@ -28,6 +28,7 @@ features:
   ja4_ua_consistent: {type: int, range: [0, 1], note: "synthetic only; mismatch alone is not malicious"}
   h2_rst_stream_ratio: {type: float, range: [0, 1], note: "synthetic only; RST_STREAM frames / HEADERS frames in the window (HTTP/2 over TLS)"}
   h2_continuation_frames: {type: int, range: [0, null], note: "synthetic only; CONTINUATION frames in the window"}
+  h2_rst_latency_ms_p50: {type: float, range: [0, null], unit: ms, note: "synthetic only; median HEADERS -> client RST_STREAM delay per stream; absent when the window has no RST_STREAM"}
   # window aggregates (CIC: measured from timestamps per clock minute; synthetic: from the scenario; NF-ToN-IoT-v2
   # has no timestamps -> absent). Evidence for brute force, scans and slow-HTTP floods that one flow cannot show.
   conn_count_60s:         {type: int, range: [1, null], note: "connections source->same dst host+port in the same minute"}

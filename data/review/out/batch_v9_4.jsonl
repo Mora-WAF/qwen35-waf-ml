@@ -1,0 +1,117 @@
+{"rid": "n29324", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Body value with newline and a second shell command is concatenated raw into an sh -c template."}
+{"rid": "n28986", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunk size 1000000000 wraps to zero in the back-end parser while the front end uses Content-Length 119, so the framing disagrees."}
+{"rid": "n29604", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A javascript: URL from the referrer parameter is assigned to a link href by client script and runs on click."}
+{"rid": "n29340", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Form value -oProxyCommand injects an ssh option whose ProxyCommand dispatches through /bin/sh -c."}
+{"rid": "n28741", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain relative grid path with no traversal or lookalike content."}
+{"rid": "n28743", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary handbook path that resolves inside the content root with no lookalike tokens."}
+{"rid": "n29263", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Filename value with semicolon and printf is concatenated raw into an sh -c ffmpeg command."}
+{"rid": "n29415", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Request template source with ERB tags is evaluated by ERB.new(...).result and the prior render shows the output."}
+{"rid": "n28917", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Both Content-Length 87 and chunked TE are present and the back end consumes 53 body octets against 87 at the front."}
+{"rid": "n28757", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Mako template source is plain text with no template syntax, and the prior render echoes it unchanged."}
+{"rid": "n29198", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Table parameter traverses with ../ and a NUL byte, normalising to /var/lib/bakery/suppliers.csv outside the content root."}
+{"rid": "n28812", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Project name is a plain string and operator objects are rejected by the route contract."}
+{"rid": "n29405", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Mako evaluates the request expression and the prior render shows home-cover computed server-side."}
+{"rid": "n28736", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Include name is a plain relative partial path with no traversal."}
+{"rid": "n29323", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "A newline in the audio_file JSON string adds a second command that is concatenated into an sh -c ffmpeg line."}
+{"rid": "n29538", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A query caption with quote-breaking markup and an onerror handler is interpolated into a template and set via innerHTML on the client."}
+{"rid": "n28746", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Handbook path is a plain relative file under the content root."}
+{"rid": "n29570", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "The imported displayJob string with void('catenary') is stored in localStorage and passed as a string to setTimeout."}
+{"rid": "n28737", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Attachment path is a plain relative catalogue file with no lookalike tokens."}
+{"rid": "n29536", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Query content with a javascript: button value is set via innerHTML and then used by location.assign on the client."}
+{"rid": "n29022", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "An object with a bool must_not clause in body.author is spread into an Elasticsearch filter, with operator objects not sanitised."}
+{"rid": "n29542", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Caption with an anchor whose href is javascript: is written with jQuery html() from the query string."}
+{"rid": "n28836", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "The ssh option -oConnectionAttempts=1 is option-shaped but benign, with no ProxyCommand or shell dispatch, in an admin link feature."}
+{"rid": "n29003", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Transfer-Encoding value identity , chunked is read as chunked by the back end but not the front, which uses Content-Length 73 against 38 body octets."}
+{"rid": "n29495", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "Script markup in the JSON response is relayed by postMessage into an unsandboxed iframe srcdoc."}
+{"rid": "n28798", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Observer query value is a plain string with operator objects rejected."}
+{"rid": "n28861", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "window.name holds plain JSON that is written via textContent, which does not execute."}
+{"rid": "n28938", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Chunk size 000022 with leading zeros is accepted only by the back end, while the front uses Content-Length 81 against 49 body octets."}
+{"rid": "n28799", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Holder query is a plain name string with no operators."}
+{"rid": "n28950", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Leading zero chunk size 000001d is accepted by the back end only, while the front uses Content-Length 77 against 45 body octets."}
+{"rid": "n29295", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "Assignments value with a BASH_ENV path and a shell pipeline is concatenated raw into an sh -c env command."}
+{"rid": "n29556", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A javascript: referrer destination is assigned to a link href and navigated on click by client script."}
+{"rid": "n28935", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Two Content-Length headers (0 and 67) make the front end read zero bytes while the back end reads 67."}
+{"rid": "n29471", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Freemarker evaluates the declaration expression from the request and the prior render shows crate."}
+{"rid": "n29553", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A decoded URL fragment with a textarea onfocus handler is set via caption.innerHTML on the client."}
+{"rid": "n28894", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Transfer-Encoding with a leading tab is accepted by the front end but not the back end, which uses Content-Length 1 against 47 body octets."}
+{"rid": "n28984", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length values 7 and 75 are downgraded from HTTP/2 so the front end reads 75 and the back end reads 7."}
+{"rid": "n29214", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "A php://filter stream wrapper reads /etc/resolv.conf outside the content root with containment not configured."}
+{"rid": "n29098", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "An embargo object with $lt and $ne operators is passed into a MongoDB query with operators not sanitised."}
+{"rid": "n29174", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Menu parameter traverses with ../ and a NUL byte to /proc/self/environ."}
+{"rid": "n29048", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "An object with op IN and a fieldPath is accepted as a Firestore fieldFilter in body.team, which is document-store operator injection."}
+{"rid": "n29228", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Absolute path /proc/version is joined into a filesystem include with containment not configured."}
+{"rid": "n29236", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Pattern parameter traverses with ../ and slash collapse to reach /proc/version outside the root."}
+{"rid": "n28748", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Template parameter is a plain relative path under the content root."}
+{"rid": "n29140", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Tile parameter traverses with repeated ../ to reach /etc/passwd."}
+{"rid": "n29382", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Pug evaluates the dedication expression from the request and the prior render shows ICING computed server-side."}
+{"rid": "n28903", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Content-Length 79 and chunked TE are both present, with LF chunk framing giving 44 back-end octets against 79 at the front."}
+{"rid": "n28807", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Maker value is a plain string with operator objects rejected."}
+{"rid": "n29102", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "An $expr with $function running server-side JavaScript is passed into a MongoDB selector from body.version."}
+{"rid": "n28821", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Hostname is a plain domain string in the fixed getent template with no metacharacters."}
+{"rid": "n29038", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Project value is an object with $lt in a MongoDB native-driver query with operators not sanitised."}
+{"rid": "n29191", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Clip value is a phar stream wrapper pointing at a file in a private directory outside the content root."}
+{"rid": "n29085", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "Query key receiptKey[$type] is parsed into an operator object and bound into a MongoDB query without sanitising."}
+{"rid": "n28966", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "A Transfer-Encoding value with tab and space is read as chunked by the back end while the front uses Content-Length 7 against 34 octets."}
+{"rid": "n28685", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary JSON order body with consistent Content-Length 35 and no lookalike tokens."}
+{"rid": "n28742", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Profile path is a plain relative JSON file under the content root."}
+{"rid": "n29243", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "Overlong UTF-8 encoded ../ sequences reach /var/lib/printshop/accounts.csv outside the content root."}
+{"rid": "n28843", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Input is a plain media file name with no shell metacharacters."}
+{"rid": "n29318", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "A newline and curl -o option in the download value are concatenated raw into an sh -c curl command."}
+{"rid": "n29505", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A decoded fragment with an img onerror handler is written to caption.innerHTML on the client."}
+{"rid": "n29069", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A $gt operator object in body.permit is bound into a CouchDB Mango query without sanitising."}
+{"rid": "n28740", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Layout is a plain Windows-relative file under the content root with no traversal."}
+{"rid": "n29449", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Thymeleaf evaluates the coverage expression from the body and the prior render returns 94 server-side."}
+{"rid": "n28969", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length values (63 and 5) make the front end read 5 octets while the back end reads 63."}
+{"rid": "n28734", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Receipt path is a plain relative HTML file under the content root."}
+{"rid": "n28909", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length values (61 and 1) make the front end read 1 octet while the back end reads 61."}
+{"rid": "n28690", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Form body matches its Content-Length of 32 and contains no lookalike tokens."}
+{"rid": "n28686", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "JSON reading with consistent Content-Length 36 and no lookalike tokens."}
+{"rid": "n28940", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Content-Length 75 with chunked TE: the back end consumes 45 body octets against 75 at the front."}
+{"rid": "n29270", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "A -o option and && printf in feed_url are concatenated raw into an sh -c curl command."}
+{"rid": "n28991", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "A Transfer-Encoding value with an injected CRLF and tab is normalised only by the back end, which reads 39 octets against 74 at the front."}
+{"rid": "n28712", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "XML recipe body matches its Content-Length of 43 with no lookalike tokens and consistent framing."}
+{"rid": "n29149", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "A legend value decoding to the absolute path /etc/hosts is opened outside the content root."}
+{"rid": "n28930", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "A Transfer-Encoding value with a leading tab is read as chunked by the front end but not the back end, which uses Content-Length 4."}
+{"rid": "n29437", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Thymeleaf evaluates the replace expression from the body and the prior render returns toast server-side."}
+{"rid": "n29073", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A $ne operator object in body.memberId is bound into a Mongoose query without sanitising."}
+{"rid": "n29500", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A card parameter with a javascript: input value is set via innerHTML and then used by location.assign on the client."}
+{"rid": "n28708", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "XML load body matches its Content-Length of 40 with no lookalike tokens."}
+{"rid": "n28983", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length values (0 and 61) on a bodyless route leave the 61-byte body unread by the back end."}
+{"rid": "n29364", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "A -oProxyCommand option with backtick substitution dispatches through /bin/sh -c as the ssh ProxyCommand."}
+{"rid": "n29480", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Liquid evaluates the replace filter expression from the body and the prior render returns white rose server-side."}
+{"rid": "n29525", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A query line with constructor.constructor is compiled client-side by AngularJS $compile."}
+{"rid": "n28847", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Origin is a plain repository path passed as a single argv element with no option syntax."}
+{"rid": "n29121", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A $exists and $ne operator object in body.donor is bound into a Mongoose query without sanitising."}
+{"rid": "n29032", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A $project followed by a $out write stage in body.view is passed to a MongoDB aggregate without sanitising."}
+{"rid": "n29406", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Pug evaluates the instructions expression from the body and the prior render returns side server-side."}
+{"rid": "n28973", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "A CRLF in x-workshop-note injects a chunked Transfer-Encoding header on downgrade, against Content-Length 70 at the front."}
+{"rid": "n28990", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Transfer-Encoding with trailing spaces is read as chunked only by the front end, which reads 40 octets while the back end uses Content-Length 9."}
+{"rid": "n29084", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A Firestore NOT_IN fieldFilter object in body.district is accepted where a scalar is expected."}
+{"rid": "n28971", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length values (0 and 57) on a bodyless route leave the 57-byte body unread by the back end."}
+{"rid": "n28897", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Duplicate Content-Length values (72 and 0) make the front end read nothing while the back end reads 72."}
+{"rid": "n28709", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "XML pattern body matches its Content-Length of 44 with consistent framing and no DOCTYPE or entity tokens."}
+{"rid": "n29250", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "A php://filter stream wrapper reads /proc/version outside the content root with containment not configured."}
+{"rid": "n29211", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "A matrix-parameter path with ../ segments reaches /var/log/university.log outside the content root."}
+{"rid": "n29094", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A bool and ids object in body.clip is accepted as an Elasticsearch filter where a string is expected."}
+{"rid": "n29028", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A $where JavaScript expression in body.sampleCode is passed into a MongoDB selector without sanitising."}
+{"rid": "n29557", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A window.name value with void('hinge') is passed to eval on the client."}
+{"rid": "n28874", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "The imported afterLoad value is plain display text passed to a function callback, with no code or markup."}
+{"rid": "n28716", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Document path is a plain relative PDF under the content root with a consistent Windows base."}
+{"rid": "n29417", "predicted_class": "ssti", "evidence_sufficient": true, "note": "Mako evaluates the caption expression from the body and the prior render returns 22 server-side."}
+{"rid": "n29060", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A Firestore GREATER_THAN_OR_EQUAL fieldFilter object in body.surveyor is accepted where a string is expected."}
+{"rid": "n29100", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A $where JavaScript expression in body.editor is passed into a MongoDB selector without sanitising."}
+{"rid": "n28822", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Printer value is a plain name with no shell metacharacters in the lp template."}
+{"rid": "n29321", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "A semicolon and a Console WriteLine expression in target are concatenated raw into a powershell Get-Item command."}
+{"rid": "n29515", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A blurb with an img onerror handler from the query is concatenated into document.write on the client."}
+{"rid": "n28963", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "Content-Length 82 is combined with chunked TE, and the back end consumes 47 body octets against 82 at the front."}
+{"rid": "n28860", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Return parameter is a plain same-origin path with no protocol scheme."}
+{"rid": "n29127", "predicted_class": "nosqli", "evidence_sufficient": true, "note": "A $facet with $lookup stages in body.format is passed to a MongoDB aggregate without sanitising."}
+{"rid": "n29325", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "A semicolon and sleep 6 in endpoint are concatenated raw into an sh -c getent command."}
+{"rid": "n29330", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "A --output option and a printf after a semicolon in feed are concatenated raw into an sh -c curl command."}
+{"rid": "n29175", "predicted_class": "path_traversal_lfi", "evidence_sufficient": true, "note": "A matrix-parameter path with ../ segments reaches /srv/university/.env outside the content root."}
+{"rid": "n29589", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A decoded fragment with an anchor whose href is javascript: is set via caption.innerHTML on the client."}
+{"rid": "n28763", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Terms text is plain prose with no template syntax, and the prior render echoes it unchanged."}
+{"rid": "n28806", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Source value is a plain identifier with operator objects rejected."}
+{"rid": "n28749", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Salutation is plain text with no Jinja syntax, and the prior render echoes it unchanged."}
+{"rid": "n29359", "predicted_class": "rce_cmd_injection", "evidence_sufficient": true, "note": "A semicolon and printf in recording_path are concatenated raw into an sh -c ffmpeg command."}
+{"rid": "n29608", "predicted_class": "xss_dom_polyglot", "evidence_sufficient": true, "note": "A note with a select option whose value is javascript: is set via innerHTML and then navigated on the client."}

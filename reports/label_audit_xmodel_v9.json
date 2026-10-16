@@ -1,0 +1,119 @@
+{
+ "models": [
+  "codex"
+ ],
+ "items": 936,
+ "answered": {
+  "codex": 936
+ },
+ "agreement_35class": {
+  "codex": 0.995
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 1.0
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {},
+  "benign_standard_traffic": {
+   "codex": 0.98
+  },
+  "bfla_admin_function_probing": {},
+  "bola_idor_enumeration": {},
+  "bopla_mass_assignment": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {},
+  "crlf_header_injection": {},
+  "csv_formula_injection": {},
+  "deserialization": {},
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http2_rapid_reset_continuation": {},
+  "http_request_smuggling": {
+   "codex": 1.0
+  },
+  "jwt_auth_bypass": {},
+  "ldap_xpath_injection": {},
+  "llm_prompt_injection": {},
+  "malicious_file_upload_webshell": {},
+  "mcp_agentic_tool_abuse": {},
+  "nosqli": {
+   "codex": 1.0
+  },
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {
+   "codex": 1.0
+  },
+  "port_scan_recon": {},
+  "prototype_pollution": {},
+  "race_condition_toctou_burst": {},
+  "rce_cmd_injection": {
+   "codex": 1.0
+  },
+  "slowloris_slowhttp": {},
+  "sqli_classic": {},
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {
+   "codex": 1.0
+  },
+  "syn_flood_ddos": {},
+  "tls_ja4_ua_spoofing": {},
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {},
+  "xss_dom_polyglot": {
+   "codex": 1.0
+  },
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 5,
+ "contested_by_class": {
+  "benign_standard_traffic": 5
+ },
+ "contested": [
+  {
+   "rid": "n28702",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx23_http_request_smuggling.jsonl:25",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n28703",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx23_http_request_smuggling.jsonl:26",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n28710",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx23_http_request_smuggling.jsonl:33",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n28709",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx23_http_request_smuggling.jsonl:32",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n28704",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx23_http_request_smuggling.jsonl:27",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

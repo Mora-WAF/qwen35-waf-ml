@@ -10,6 +10,7 @@ is trusted as proof of exploitability. All randomness is seeded by record id -> 
 """
 import hashlib
 import json
+import math
 import random
 import re
 from pathlib import Path
@@ -418,10 +419,10 @@ FLOW_PROFILES = {
                                     variants=[dict(name="short_handshake_burst", dur=(0.2, 3), pkts=(8, 40)), dict(name="long_session", dur=(60, 900), pkts=(200, 3000))]),
     # synthetic only (no observed source records HTTP/2 frames): stream floods over few established connections
     "http2_rapid_reset_continuation": dict(fwd_frac=(0.55, 0.85), ports=[443, 8443], window="fixed_window", dur=(4, 6), pkts=(5000, 80000), proto="tcp",
-                                           syn_frac=(0.0, 0.01), bytes_per_pkt=(60, 400), dst_fanout=(1, 1), h2_rst=(0.85, 1.0), h2_cont=(0, 2),
-                                    variants=[dict(name="continuation_flood", pkts=(300, 6000), bytes_per_pkt=(900, 1460), fwd_frac=(0.85, 1.0), h2_rst=(0.0, 0.1), h2_cont=(40, 20000)),
+                                           syn_frac=(0.0, 0.01), bytes_per_pkt=(60, 400), dst_fanout=(1, 1), h2_rst=(0.85, 1.0), h2_cont=(0, 2), h2_rst_ms=(0.05, 3),
+                                    variants=[dict(name="continuation_flood", pkts=(300, 6000), bytes_per_pkt=(900, 1460), fwd_frac=(0.85, 1.0), h2_rst=(0.0, 0.1), h2_cont=(40, 20000), h2_rst_ms=(20, 5000)),  # not a reset attack: ordinary cancel delays
                                               dict(name="mixed_reset", h2_rst=(0.45, 0.85)),  # overlaps legitimate stream cancellation
-                                              dict(name="low_rate_reset", pkts=(800, 5000), bytes_per_pkt=(200, 900)),
+                                              dict(name="low_rate_reset", pkts=(800, 5000), bytes_per_pkt=(200, 900), h2_rst_ms=(0.1, 40)),  # paced resets: latency alone is not the rule
                                               dict(name="multi_connection", conn=(20, 200))]),
     "benign_standard_traffic": dict(fwd_frac=(0.25, 0.6), ports=[443, 80, 8080, 22, 993, 5432], window="full_flow", dur=(1, 120), pkts=(10, 500), proto="tcp",
                                     syn_frac=(0.01, 0.05), bytes_per_pkt=(400, 1400), dst_fanout=(1, 2),
@@ -441,7 +442,7 @@ FLOW_PROFILES = {
                                         dict(name="mobile_push_channel", ports=[443, 5223], window="full_flow", dur=(900, 3600), pkts=(20, 120), bytes_per_pkt=(120, 700), fwd_frac=(0.35, 0.55), syn_frac=(0.01, 0.05), iat_cv=(0.25, 0.8)),  # periodic low-rate agent: ordinary traffic, not high-rate
                                         dict(name="large_download_https", ports=[443, 80], dur=(10, 600), pkts=(1000, 40000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
                                         dict(name="h2_large_headers", ports=[443], dur=(1, 60), pkts=(10, 300), h2_rst=(0.0, 0.2), h2_cont=(2, 30)),  # big cookies / JWTs split over CONTINUATION
-                                        dict(name="h2_browser_navigation", ports=[443], dur=(1, 120), pkts=(30, 800), h2_rst=(0.15, 0.6), h2_cont=(0, 2))]),  # cancelled prefetch / media seeks
+                                        dict(name="h2_browser_navigation", ports=[443], dur=(1, 120), pkts=(30, 800), h2_rst=(0.15, 0.6), h2_cont=(0, 2), h2_rst_ms=(30, 8000))]),  # cancelled prefetch / media seeks
     "benign_high_rate_legit": dict(fwd_frac=(0.3, 0.6), ports=[443, 80], window="fixed_window", dur=(4, 6), pkts=(2000, 15000), proto="tcp",
                                    syn_frac=(0.02, 0.08), bytes_per_pkt=(500, 1400), dst_fanout=(1, 3),
                                    variants=[  # hard negatives against floods, amplification and beacons
@@ -457,8 +458,8 @@ FLOW_PROFILES = {
                                        dict(name="mirror_sync_pull", ports=[80, 443, 873], window="full_flow", dur=(600, 3600), pkts=(50000, 900000), bytes_per_pkt=(1300, 1460), fwd_frac=(0.04, 0.15), syn_frac=(0.0, 0.01)),
                                        dict(name="dataset_fetch_windowed", ports=[443], pkts=(3000, 15000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.02)),
                                        # legitimate high stream-cancel rates: the lookalike of rapid reset
-                                       dict(name="grpc_stream_cancel", ports=[443, 8443], pkts=(2000, 30000), bytes_per_pkt=(120, 700), fwd_frac=(0.45, 0.7), syn_frac=(0.0, 0.01), h2_rst=(0.2, 0.7), h2_cont=(0, 2), conn=(1, 8)),
-                                       dict(name="h2_api_gateway_fanin", ports=[443], pkts=(4000, 40000), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.65), syn_frac=(0.0, 0.01), h2_rst=(0.0, 0.3), h2_cont=(0, 6), conn=(1, 6))]),
+                                       dict(name="grpc_stream_cancel", ports=[443, 8443], pkts=(2000, 30000), bytes_per_pkt=(120, 700), fwd_frac=(0.45, 0.7), syn_frac=(0.0, 0.01), h2_rst=(0.2, 0.7), h2_cont=(0, 2), conn=(1, 8), h2_rst_ms=(1, 3000)),
+                                       dict(name="h2_api_gateway_fanin", ports=[443], pkts=(4000, 40000), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.65), syn_frac=(0.0, 0.01), h2_rst=(0.0, 0.3), h2_cont=(0, 6), conn=(1, 6), h2_rst_ms=(0.3, 2000))]),  # hedged requests: losers cancelled at once
 }
 # Window evidence per class: (connections to the same dst host+port in the minute, distinct dst ports on that host).
 # None for ports = follow the profile's dst_fanout. Variants may override with "conn" / "dports".
@@ -524,7 +525,7 @@ def tls_context(r, kind):
 DNS_NORMAL, DNS_TUNNEL = ((8, 24), (2.0, 3.9), (0.05, 0.45)), ((23, 120), (2.2, 4.5), (0.42, 0.98))
 
 
-H2_NORMAL = ((0.0, 0.15), (0, 3))  # (RST_STREAM/HEADERS ratio, CONTINUATION frames) for ordinary HTTP/2 traffic
+H2_NORMAL = ((0.0, 0.15), (0, 3), (20, 5000))  # (RST_STREAM/HEADERS ratio, CONTINUATION frames, HEADERS->RST ms) for ordinary HTTP/2 traffic
 
 
 def sig(x, n=6):
@@ -579,6 +580,9 @@ def synth_flow(cls, idx):
         lo, hi = pr.get("h2_cont", H2_NORMAL[1])
         feats["h2_rst_stream_ratio"] = round(r.uniform(*pr.get("h2_rst", H2_NORMAL[0])), 3)
         feats["h2_continuation_frames"] = _log_uniform(r, lo, hi) if lo else r.randint(lo, hi)
+        if feats["h2_rst_stream_ratio"] > 0:  # rapid reset cancels in the same write as HEADERS; real cancels wait on something
+            lo, hi = pr.get("h2_rst_ms", H2_NORMAL[2])
+            feats["h2_rst_latency_ms_p50"] = round(math.exp(r.uniform(math.log(lo), math.log(hi))), 3)
     conn_rng, port_rng = WINDOW_EVIDENCE[cls]
     conn_rng = pr.get("conn", conn_rng)
     port_rng = pr.get("dports", port_rng or pr.get("dst_fanout", (1, 1)))

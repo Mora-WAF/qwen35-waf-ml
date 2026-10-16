@@ -15,6 +15,59 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 | C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
 | D — train and evaluate | A100 fast run: see dated progress entries below | `reports/colab_a100fast/` |
 
+### A100 v8 run completed — 16 October 10:39 (`reports/colab_a100v8/`) — model-evaluated
+
+- Bundle `a7c5f5a8…` (v8), default setup, `WAF_EVAL_EVERY=500`, Drive on. 2133 steps in 4958 s at 5,106 tokens/s (new meter),
+  peak 10.74 GB, mean train loss 0.0292; eval loss 0.0469 (500) → 0.0155 → 0.0107 → 0.0042 (2000) → 0.0040 (2133). Reload 5/5,
+  fingerprint match, `export_fast.zip` intact, SCORES split counts match the build (test 4092, test_unseen 4394, robustness 100).
+- Calibration (`reports/colab_a100v8/calibration.json`, `policy_v8.yaml`; written to `config/policy.yaml`): T = 1.223249,
+  tau 0.0 again. val_calib ECE 0.0097 → 0.0079.
+| Split | v7 | v8 |
+|---|---|---|
+| test accuracy | 0.9894 | 0.9841 |
+| test_unseen accuracy | 0.9616 | 0.9579 |
+| test_unseen attack recall / benign false intervention | 0.969 / 0.0052 | 0.967 / 0.0049 |
+| robustness: insufficient_context / malformed / injection pass (of 25) | 11 / 25 / 21 | **19** / 25 / 21 |
+| robustness: out_of_taxonomy ABSTAIN (of 25) | 0 | 0 |
+  Splits were rebuilt, so per-class numbers compare only loosely.
+- Errors cluster in whole held-out units (the holdout takes whole families/variants), not scattered records:
+  - http2 `mixed_reset` (held out both times): 14/81, 67 → `benign_high_rate_legit`. That is ~60% of the missed unseen
+    attacks. Training shows non-continuation resets only at RST ratio ≥ 0.85, and `mixed_reset` (0.45–0.85) overlaps
+    `grpc_stream_cancel` (0.2–0.7) on every feature. The model learned the ratio threshold and nothing else, because no
+    feature separates an attack reset from a legitimate cancel.
+  - New families with zero transfer: JWT `nbf_not_enforced` 0/4, `duplicate_claim_key_last_wins` 0/5,
+    `key_as_hmac_switch` 0/8; websocket `choir_ws_membership_topic_boundary` 3/10; smuggling `saas_duplicate_cl_first_last`
+    8/13. The evidence is in the input (scenario evidence_present), so these are generalization misses: such classes
+    have few train families (smuggling 5, path_traversal 5, ssti 5, nosqli 7, rce 7 LLM families; JWT 119).
+  - Benign↔benign (hard_negative_dev → standard 20, high_rate → standard 13) and sqli_classic ↔ sqli_obfuscated (25)
+    do not change the intervention decision.
+- Abstention: max-prob tau cannot flag OOD. Out-of-taxonomy flows are called benign_standard_traffic at median 0.997; tau 0.9
+  abstains on 18% of robustness probes while unseen attack recall drops 0.967 → 0.919. Tau 0 is kept.
+- Driver fix: `timeout` without `--foreground` put `colab drivemount` in a background process group (SIGTTIN, Enter never
+  arrived); `run_colab.sh` now uses `timeout --foreground`.
+
+- Baselines rerun on v8 (`reports/baselines.json`; same model input, same scorer):
+| | model test | SVM test | model unseen | SVM unseen |
+|---|---|---|---|---|
+| accuracy | 0.9841 | 0.9338 | 0.9579 | 0.8792 |
+| macro-F1 | 0.9848 | 0.9386 | 0.9466 | 0.8991 |
+| benign FPR | 0.0082 | 0.0822 | 0.0049 | 0.1697 |
+| attack miss | 0.0068 | 0.0340 | 0.0334 | 0.0566 |
+  On the HTTP records, attack-vs-benign accuracy is 0.9922 (model) vs 0.5924 (CRS PL1) on test and 0.9883 vs 0.5065 on unseen.
+  CRS misses 72% of the unseen attacks. The SVM beats the model on unseen recall for http2 (0.90 vs 0.17; but the SVM also
+  calls benign_high_rate_legit correctly only 0.32 of the time), smuggling (1.0 vs 0.62), xss_dom (1.0 vs 0.80) and JWT
+  (0.96 vs 0.83). Surface n-grams catch these held-out families, and the model does not.
+
+Improvement candidates (ranked by unseen errors removed per effort):
+1. HTTP/2 evidence: add a measured feature that separates abusive resets from legitimate cancels regardless of ratio
+   (e.g. streams opened per second per connection, or HEADERS→RST latency), present in every h2-capable class. Then
+   `mixed_reset` is learnable by physics, not by an RST threshold. Needs a `features.yaml` CORE name and a gate/shortcut rerun.
+2. Family breadth for thin classes (smuggling, path_traversal, ssti, nosqli, rce, xss_dom): Codex rounds of ~10 new
+   mechanism families each, then review as in v8. Volume in the same families (v7 → v8) did not move unseen accuracy.
+3. Abstention needs a trained signal: either an explicit unknown/abstain target trained on held-apart out-of-taxonomy
+   flows (taxonomy change), or a deterministic out-of-scope check before the model. Tau tuning alone will not do it.
+4. 70k build (quota 0.5): ~2.8 h of A100 training; do it after 1–2, since breadth is the bottleneck, not count.
+
 ### Fast build v8 and speed probes — 16 October 02:40–04:30 (bundle `a7c5f5a8…`, gate passed)
 
 Data (raw outputs are new `vcx13`–`vcx22` files; nothing existing was edited):
