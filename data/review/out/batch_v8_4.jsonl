@@ -1,0 +1,113 @@
+{"rid": "n27657", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Body selector injects a boolean XPath clause into the rendered /registry/meter query."}
+{"rid": "n27532", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Form searchTerm injects a wildcard and an extra LDAP filter clause into the rendered query."}
+{"rid": "n27286", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Percent-encoded CRLF in the retour query value is written raw into the Location response header."}
+{"rid": "n27665", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "searchTerm breaks out of the XPath string literal with a boolean OR clause."}
+{"rid": "n26912", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "Stored care_summary starts with a formula after tab trimming and is exported to XLSX with infer_cell_formulas on."}
+{"rid": "n26393", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Handshake accepted from origin journey.example although exact match to rail.example is required (cross-site WebSocket)."}
+{"rid": "n27662", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Selector injects a local-name XPath predicate into the rendered meter query."}
+{"rid": "n27462", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "CRLF inside the HTTP/2 :path is serialized verbatim into the HTTP/1.1 request line, adding an X-Office-Queue header."}
+{"rid": "n26272", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": false, "note": "gRPC frame declares 16.9 MB against a 4 KB limit with only 48 bytes captured; no flood or origin evidence."}
+{"rid": "n27212", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain name lookup Amal Idris with no operators or markup in the LDAP filter."}
+{"rid": "n27512", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Lookup value *)(cn:caseIgnoreMatch:= closes the filter and adds a clause."}
+{"rid": "n27314", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Referer header contains CRLF plus a forged client=... log line that is appended unquoted to the access journal."}
+{"rid": "n26298", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Reflection lookup of an internal descriptor outside the allowlist, 118 lookups per minute over a limit of 20."}
+{"rid": "n26290", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "321 client messages in one second against a limit of 23 and a 500 ms expected cadence."}
+{"rid": "n26509", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "637 messages in 2 s against a baseline of 10 per second and a 0.2 typical rate."}
+{"rid": "n26783", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "shift_note starts with a pipe-prefixed @SUM formula, stored with formula_prefix_escape none and exported to CSV."}
+{"rid": "n26615", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "PHP serialized RequiredIf object passed to unserialize with allowed_classes true."}
+{"rid": "n27206", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain LDAP lookup for Elena Rossi with no injection tokens."}
+{"rid": "n27438", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Raw CRLF in the :path pseudo-header becomes an injected X-Shuttle-Bay request header."}
+{"rid": "n27220", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ordinary cn value Ana Costa with no filter syntax."}
+{"rid": "n26416", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Single frame with RSV2 set and no extension negotiated, but origin, rate and principal are normal."}
+{"rid": "n26479", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "251 messages and 1255 subscription operations in one second, far above the subscription and message limits."}
+{"rid": "n27407", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Two percent-decode passes turn the value into CRLF plus a Set-Cookie line in the Location header."}
+{"rid": "n27642", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "searchTerm adds a not() boolean clause to the XPath policyholder predicate."}
+{"rid": "n27578", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "matterContact value *)(|(mail=*) injects an OR filter into the LDAP query."}
+{"rid": "n26751", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "contractor_comment begins with a CR and =CONCAT formula and is exported to CSV unescaped."}
+{"rid": "n27325", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "X-Seminar-Series header carries CRLF and a forged access-log record written unquoted."}
+{"rid": "n27439", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "CRLF in the :authority pseudo-header injects an X-Control-Preset header upstream."}
+{"rid": "n27136", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Clean authority and path on a tracking overview request."}
+{"rid": "n27615", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "lookup value scroll with an OR count predicate breaks out of the XPath title literal."}
+{"rid": "n27612", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "X-Directory-Key header injects a normalize-space predicate into the rendered XPath."}
+{"rid": "n26477", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Two-fragment message whose continuation frame is opcode 2; malformed framing, but normal origin and rate."}
+{"rid": "n27261", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Directory-Key holds the plain name Jonas Berg with no operators."}
+{"rid": "n26947", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Reflection lookup for an extension inside the public namespace allowlist at 1 lookup per minute."}
+{"rid": "n27288", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Double percent-decoding yields CRLF plus a Location line in the Set-Cookie response."}
+{"rid": "n26790", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "defect_summary begins with an @AVERAGE formula and is exported to CSV with no prefix escape."}
+{"rid": "n26681", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Ruby YAML object tag Gem::StubSpecification sent to Psych.unsafe_load."}
+{"rid": "n26632", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Base64 pickle stream references builtins.eval and is loaded with pickle.loads."}
+{"rid": "n26784", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "defect_summary starts with a SUBSTITUTE formula and is exported to CSV unescaped."}
+{"rid": "n26991", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Two-message zone subscription from an authorised operator with exact origin match."}
+{"rid": "n27670", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "searchTerm closes the serial predicate and adds a union path in the rendered XPath."}
+{"rid": "n27287", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Double percent-decoding of redirect_uri produces CRLF and a Location header in the response."}
+{"rid": "n26564", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "BinaryFormatter.Deserialize receives an NRBF stream naming PSObject with no binder."}
+{"rid": "n27500", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "X-Directory-Key injects a memberOf clause into the uid filter."}
+{"rid": "n26958", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Any type resolves to the allowed library.public.ShelfNote on a self-owned shelf."}
+{"rid": "n26769", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "subtitle_credit begins with a -cmd DDE-style payload and is exported to XLSX with formula inference."}
+{"rid": "n27672", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "lookup value adds an exclusive-agreement count clause to the XPath literal."}
+{"rid": "n27660", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "searchTerm injects a not(tamperHold) boolean clause into the rendered XPath."}
+{"rid": "n26453", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": false, "note": "Frame declares about 4.3 GB against a 64 KB frame limit with no payload captured; no flood evidence."}
+{"rid": "n27011", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single heartbeat ping frame on an authorised, origin-matched stream."}
+{"rid": "n27538", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "X-Directory-Key adds a telephoneNumber wildcard clause to the partnerId filter."}
+{"rid": "n26654", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "YAML UnsafeLoader input carries a python/object/new:builtins.type constructor."}
+{"rid": "n26735", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "arrival_note holds a WEBSERVICE formula with an external URL and is exported to XLSX with formula inference."}
+{"rid": "n27417", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Single-decoded weergave value puts CRLF and a Set-Cookie line into the response."}
+{"rid": "n26238", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "updateMask and body set curatorApproved, a privileged field outside the allowed update fields."}
+{"rid": "n26706", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "object_title begins with a pipe-prefixed SUMPRODUCT formula and is exported to CSV unescaped."}
+{"rid": "n27685", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "selector closes the workTitle literal and adds a sum() boolean clause."}
+{"rid": "n27293", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "x-document-language header carries CRLF and an injected X-Guide-Series header on HTTP/1.1 upstream."}
+{"rid": "n26295", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "Resolved customerTenant national-operator is outside the authorised personal-account resource."}
+{"rid": "n26307", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "368 client messages per second against a limit of 24 and a 500 ms expected cadence."}
+{"rid": "n26816", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "parcel_note starts with a tab then a WEBSERVICE formula and is exported to CSV unescaped."}
+{"rid": "n27544", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "ticketAgent query value injects a venue OR clause into the LDAP filter."}
+{"rid": "n27553", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Selector *)(|(venue=annex)(venue=main) injects an OR filter into the rendered LDAP query."}
+{"rid": "n27418", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Single-decoded return_to value places CRLF and a Set-Cookie line into the Location header."}
+{"rid": "n26255", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Reflection lookup of a private symbol outside the allowlist, 97 lookups per minute over a limit of 20."}
+{"rid": "n26638", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Base64 pickle stream references builtins.eval and is loaded with pickle.loads."}
+{"rid": "n26995", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Two-message title subscription from an authorised operator with exact origin match."}
+{"rid": "n26978", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Two-message object feed from an authorised operator with exact origin match."}
+{"rid": "n27269", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "x-clinic-site header carries CRLF and an injected X-Appointment-Desk header upstream."}
+{"rid": "n26320", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "415 client messages per second against a limit of 25 and a 500 ms expected cadence."}
+{"rid": "n27075", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain subtitle and reference text with no formula prefix or markup."}
+{"rid": "n27681", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "workTitle value series' with a namespace-uri OR clause breaks the XPath literal."}
+{"rid": "n27472", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Authority carries CRLF and an injected X-Notice-Channel header on the HTTP/1.1 upstream."}
+{"rid": "n27180", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single percent-encoded ansicht value with no CRLF or payload."}
+{"rid": "n27651", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "lookup value contact' with an OR count predicate breaks the XPath literal."}
+{"rid": "n26796", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "courier_instruction starts with a WEBSERVICE formula and is exported to XLSX with formula inference."}
+{"rid": "n27423", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "OPTIONS :path carries CRLF and an injected X-Projection header into the request line."}
+{"rid": "n26337", "predicted_class": "bola_idor_enumeration", "evidence_sufficient": true, "note": "payrollOwner resolves to central-finance, outside the caller's authorised personal-account resource."}
+{"rid": "n27627", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "badge value purser' with a namespace-uri OR clause breaks the XPath literal."}
+{"rid": "n27235", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain cn value Nikos Pappas with no filter syntax."}
+{"rid": "n26672", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Ruby YAML object tag Gem::Requirement sent to Psych.unsafe_load."}
+{"rid": "n26536", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "XStream payload uses an AnyTypePermission sink with a java.beans.EventHandler gadget."}
+{"rid": "n27217", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain lookup Eva Novak with no operators."}
+{"rid": "n27289", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "X-Study-Topic header carries CRLF and a forged journal record written unquoted."}
+{"rid": "n26764", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "delivery_note starts with a pipe-prefixed COUNTA formula and is exported to XLSX."}
+{"rid": "n27531", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "Search value *)(insuranceExpiry<=... closes the filter and adds a clause."}
+{"rid": "n26282", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Any type resolves to internal library.internal.GrantStaff, which is outside the allowed MemberNote type."}
+{"rid": "n27115", "predicted_class": "deserialization", "evidence_sufficient": false, "note": "Jackson default typing with a LaissezFaire validator accepts an @class key; the export signature is verified, which weakens the case."}
+{"rid": "n27225", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain lookup Elena Rossi with no filter syntax."}
+{"rid": "n27229", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Plain name lookup Hana Mori with no operators."}
+{"rid": "n26854", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "interval_description starts with a tab then an @SUM formula and is exported to CSV unescaped."}
+{"rid": "n26832", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "parcel_note starts with a plus-prefixed LEN formula and is exported to CSV unescaped."}
+{"rid": "n27518", "predicted_class": "ldap_xpath_injection", "evidence_sufficient": true, "note": "searchTerm injects a negated temporaryHold clause into the cn filter."}
+{"rid": "n27358", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Single-decoded ref value places CRLF and a Set-Cookie line into the Location header."}
+{"rid": "n26382", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Handshake accepted from origin exhibition.invalid although exact match to museum.example is required."}
+{"rid": "n26843", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "club_name starts with a plus-prefixed SUMPRODUCT formula and is exported to XLSX with formula inference."}
+{"rid": "n26306", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "368 client messages per second against a limit of 24 and a 500 ms expected cadence."}
+{"rid": "n27128", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "BinaryFormatter sink, but the NRBF payload is a plain string from a verified application export."}
+{"rid": "n26331", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Gzip message of about 150 bytes expands to 33 KB, past the 200x compression ratio limit."}
+{"rid": "n26738", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "location_note starts with a WEBSERVICE formula and is exported to CSV unescaped."}
+{"rid": "n26303", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Gzip message of about 174 bytes expands to 38 KB, past the 200x compression ratio limit."}
+{"rid": "n26311", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Reflection lookup of a private symbol outside the allowlist, 125 lookups per minute over a limit of 20."}
+{"rid": "n26244", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": false, "note": "gRPC frame declares about 16.8 MB with 43 bytes captured; no flood or origin evidence."}
+{"rid": "n26580", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Newtonsoft TypeNameHandling All with an ActivitySurrogateSelector $type gadget."}
+{"rid": "n27448", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Authority carries CRLF and an injected X-Address-Script header on the HTTP/1.1 upstream."}
+{"rid": "n26653", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "YAML UnsafeLoader input carries a python/object/apply:importlib.import_module constructor."}
+{"rid": "n26242", "predicted_class": "websocket_grpc_abuse", "evidence_sufficient": true, "note": "Reflection lookup of an internal descriptor outside the allowlist, 90 lookups per minute over a limit of 20."}
+{"rid": "n27364", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "Authority carries CRLF and an injected X-Dock-Door header on the HTTP/1.1 upstream."}
+{"rid": "n26605", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Multipart PHP serialized Symfony WindowsPipes object passed to unserialize with allowed_classes true."}
+{"rid": "n26776", "predicted_class": "csv_formula_injection", "evidence_sufficient": true, "note": "defect_summary starts with a WEBSERVICE formula and is exported to CSV unescaped."}
+{"rid": "n27363", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "CRLF in the :path pseudo-header is serialized into the request line, injecting an X-Map-Edition header."}
+{"rid": "n27484", "predicted_class": "crlf_header_injection", "evidence_sufficient": true, "note": "CRLF in the :authority pseudo-header injects an X-Help-Topic header upstream."}
+{"rid": "n26539", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "XStream AnyTypePermission sink receives a JndiObjectFactoryBean payload pointing at an LDAP URL."}

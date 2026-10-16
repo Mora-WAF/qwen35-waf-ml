@@ -1,0 +1,3019 @@
+[run_colab 03:42:23] new A100 session p3gcb2
+[colab] Creating session 'p3gcb2'...
+[colab] Session READY.
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/commands/execution.py:227 in exec_command                      │
+│                                                                              │
+│   224 │   │   │   )                                                          │
+│   225 │   │   │   state.prune_session(name)                                  │
+│   226 │   │   │   raise typer.Exit(1)                                        │
+│ ❱ 227 │   │   raise e                                                        │
+│   228 │                                                                      │
+│   229 │   try:                                                               │
+│   230 │   │   is_nb = file and file.endswith(".ipynb")                       │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/commands/execution.py:217 in exec_command                      │
+│                                                                              │
+│   214 │   )                                                                  │
+│   215 │   try:                                                               │
+│   216 │   │   # Ensure we are in /content which is the standard Colab        │
+│       working directory                                                      │
+│ ❱ 217 │   │   runtime.execute_code(                                          │
+│   218 │   │   │   "import os; os.makedirs('/content', exist_ok=True);        │
+│       os.chdir('/content')"                                                  │
+│   219 │   │   )                                                              │
+│   220 │   except Exception as e:                                             │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/runtime.py:243 in execute_code                                 │
+│                                                                              │
+│   240 │   │   │   # execute_interactive returns the raw reply message        │
+│   241 │   │   │   reply_content = reply["content"] if reply else {"status":  │
+│       "error"}                                                               │
+│   242 │   │   else:                                                          │
+│ ❱ 243 │   │   │   reply = self.kernel_client.execute(code, **kwargs)         │
+│   244 │   │   │   if not reply:                                              │
+│   245 │   │   │   │   return []                                              │
+│   246 │   │   │   outputs = reply.get("outputs", [])                         │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/jupyter_kernel_client/client.py:287 in execute                           │
+│                                                                              │
+│   284 │   │   """                                                            │
+│   285 │   │   outputs = []                                                   │
+│   286 │   │   self._set_variables(variables)                                 │
+│ ❱ 287 │   │   reply = self._manager.client.execute_interactive(              │
+│   288 │   │   │   code,                                                      │
+│   289 │   │   │   silent=silent,                                             │
+│   290 │   │   │   store_history=store_history,                               │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/jupyter_kernel_client/wsclient.py:1073 in execute_interactive            │
+│                                                                              │
+│   1070 │   │   │   # wait for output and redisplay it                        │
+│   1071 │   │   │   while True:                                               │
+│   1072 │   │   │   │   if not self.connection_ready.is_set():                │
+│ ❱ 1073 │   │   │   │   │   raise RuntimeError("Connection was lost.")        │
+│   1074 │   │   │   │                                                         │
+│   1075 │   │   │   │   if timeout is not None:                               │
+│   1076 │   │   │   │   │   timeout = max(0, deadline - time.monotonic())     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RuntimeError: Connection was lost.
+[colab] Download failed: File or directory not found: /content/part_a.json
+[run_colab 03:45:29] upload bundle
+[colab] Uploaded 'colab_bundle_fast.zip' to '/content/colab_bundle_fast.zip'
+[run_colab 03:45:37] Part A (progress: /content/progress.json, Drive qwen35_waf/)
+[colab] Parsing notebook 'partA.ipynb'...
+[colab] Executing cell 1/10 - 9a7cf1ea...
+[colab] Executing cell 2/10 - a8ee0062...
+[?25l     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/79.7 kB[0m [31m?[0m eta [36m-:--:--[0m[2K     [91m━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m30.7/79.7 kB[0m [31m1.2 MB/s[0m eta [36m0:00:01[0m[2K     [91m━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━[0m [32m41.0/79.7 kB[0m [31m459.4 kB/s[0m eta [36m0:00:01[0m[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m79.7/79.7 kB[0m [31m718.3 kB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/30.0 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.1/30.0 MB[0m [31m3.7 MB/s[0m eta [36m0:00:08[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.1/30.0 MB[0m [31m3.7 MB/s[0m eta [36m0:00:08[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.3/30.0 MB[0m [31m2.6 MB/s[0m eta [36m0:00:12[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.4/30.0 MB[0m [31m3.1 MB/s[0m eta [36m0:00:10[0m[2K   [91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.6/30.0 MB[0m [31m3.5 MB/s[0m eta [36m0:00:09[0m[2K   [91m━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.9/30.0 MB[0m [31m4.4 MB/s[0m eta [36m0:00:07[0m[2K   [91m━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.3/30.0 MB[0m [31m5.2 MB/s[0m eta [36m0:00:06[0m[2K   [91m━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.9/30.0 MB[0m [31m7.0 MB/s[0m eta [36m0:00:05[0m[2K   [91m━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m2.5/30.0 MB[0m [31m8.0 MB/s[0m eta [36m0:00:04[0m[2K   [91m━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m3.9/30.0 MB[0m [31m11.3 MB/s[0m eta [36m0:00:03[0m[2K   [91m━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m4.8/30.0 MB[0m [31m12.7 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m7.9/30.0 MB[0m [31m19.0 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m8.7/30.0 MB[0m [31m19.3 MB/s[0m eta [36m0:00:02[0m[2K   [91m━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m11.6/30.0 MB[0m [31m42.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━[0m [32m12.5/30.0 MB[0m [31m47.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━[0m [32m15.3/30.0 MB[0m [31m59.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━[0m [32m16.4/30.0 MB[0m [31m53.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━[0m [32m19.0/30.0 MB[0m [31m59.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━[0m [32m20.2/30.0 MB[0m [31m53.5 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━[0m [32m22.7/30.0 MB[0m [31m58.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━[0m [32m24.3/30.0 MB[0m [31m60.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━[0m [32m26.5/30.0 MB[0m [31m57.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━[0m [32m28.3/30.0 MB[0m [31m60.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m30.0/30.0 MB[0m [31m51.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m30.0/30.0 MB[0m [31m51.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m30.0/30.0 MB[0m [31m51.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m30.0/30.0 MB[0m [31m51.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m30.0/30.0 MB[0m [31m51.6 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m30.0/30.0 MB[0m [31m27.3 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/2.4 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m2.4/2.4 MB[0m [31m83.8 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/12.3 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m4.1/12.3 MB[0m [31m270.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m4.1/12.3 MB[0m [31m270.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━[0m [32m8.3/12.3 MB[0m [31m89.9 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━[0m [32m8.3/12.3 MB[0m [31m89.9 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m12.3/12.3 MB[0m [31m64.6 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m12.3/12.3 MB[0m [31m52.7 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/945.8 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m945.8/945.8 kB[0m [31m49.2 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/835.4 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m835.4/835.4 kB[0m [31m50.9 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/43.1 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m4.1/43.1 MB[0m [31m276.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m4.1/43.1 MB[0m [31m276.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m8.2/43.1 MB[0m [31m89.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m8.2/43.1 MB[0m [31m89.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m12.3/43.1 MB[0m [31m64.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m12.3/43.1 MB[0m [31m64.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m16.4/43.1 MB[0m [31m65.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m16.4/43.1 MB[0m [31m65.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━[0m [32m20.3/43.1 MB[0m [31m65.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━[0m [32m20.5/43.1 MB[0m [31m64.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━[0m [32m23.4/43.1 MB[0m [31m65.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━[0m [32m24.5/43.1 MB[0m [31m64.6 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━[0m [32m26.5/43.1 MB[0m [31m47.9 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━[0m [32m28.6/43.1 MB[0m [31m64.5 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━[0m [32m29.7/43.1 MB[0m [31m47.9 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━[0m [32m32.6/43.1 MB[0m [31m64.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━[0m [32m33.2/43.1 MB[0m [31m48.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━[0m [32m36.7/43.1 MB[0m [31m64.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━[0m [32m37.0/43.1 MB[0m [31m49.4 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━[0m [32m40.8/43.1 MB[0m [31m64.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━[0m [32m40.8/43.1 MB[0m [31m64.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m43.1/43.1 MB[0m [31m63.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m43.1/43.1 MB[0m [31m63.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m43.1/43.1 MB[0m [31m63.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m43.1/43.1 MB[0m [31m63.1 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m43.1/43.1 MB[0m [31m35.8 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/3.3 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m3.3/3.3 MB[0m [31m108.9 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/3.4 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m3.4/3.4 MB[0m [31m114.3 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/73.8 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m73.8/73.8 kB[0m [31m6.7 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/3.6 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m3.6/3.6 MB[0m [31m118.4 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/230.5 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m230.5/230.5 kB[0m [31m22.0 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/216.9 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m216.9/216.9 kB[0m [31m21.1 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/45.3 kB[0m [31m?[0m eta [36m-:--:--[0m[2K     [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━[0m [32m30.7/45.3 kB[0m [31m1.1 MB/s[0m eta [36m0:00:01[0m[2K     [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━[0m [32m41.0/45.3 kB[0m [31m468.8 kB/s[0m eta [36m0:00:01[0m[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m45.3/45.3 kB[0m [31m469.8 kB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/819.2 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m81.9/819.2 kB[0m [31m2.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m81.9/819.2 kB[0m [31m2.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m204.8/819.2 kB[0m [31m2.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m256.0/819.2 kB[0m [31m2.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━[0m [32m491.5/819.2 kB[0m [31m2.9 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━[0m [32m614.4/819.2 kB[0m [31m3.3 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m819.2/819.2 kB[0m [31m3.5 MB/s[0m eta [36m0:00:00[0m
+[?25h[colab] Executing cell 3/10 - e07414ae...
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+Unsloth: xformers is installed but cannot load with torch 2.11.0+cu130 (it was built for 2.10.0+cu128), so PyTorch attention is used instead.
+To install a matching xformers, run `unsloth install-kernels xformers`, or `pip uninstall xformers` to hide this. UNSLOTH_ENABLE_LOGGING=1 shows the full error.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+{
+ "gpu": "NVIDIA A100-SXM4-40GB",
+ "gpu_mem_gb": 39.5,
+ "capability": "8.0",
+ "dtype": "bfloat16",
+ "disk_free_gb": 192,
+ "python": "3.13.15",
+ "torch": "2.11.0+cu130",
+ "cuda": "13.0",
+ "unsloth": "2026.10.5",
+ "unsloth_zoo": "2026.10.5",
+ "transformers": "5.17.0",
+ "trl": "1.15.0",
+ "peft": "0.21.2",
+ "accelerate": "1.15.0",
+ "bitsandbytes": "0.50.2",
+ "datasets": "4.8.5",
+ "fla": "0.5.2"
+}
+[colab] Executing cell 4/10 - 8669b3e5...
+bundle sha256 055aea2e8966 | Drive run dir: None
+bundle ok: fast_ gate passed: True
+[colab] Executing cell 5/10 - 58173995...
+==((====))==  Unsloth 2026.10.5: Fast Qwen3_5 patching. Transformers: 5.17.0.
+   \\   /|    NVIDIA A100-SXM4-40GB. Num GPUs = 1. Max memory: 39.494 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.11.0+cu130. CUDA: 8.0. CUDA Toolkit: 13.0. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Unsloth: Explicit target_modules are constrained by the finetune_(vision|language|attention|mlp) filters; adapters attach only where both select.
+trainable 21,233,664 / 4,560,499,200 (0.47%) in 256 tensors | base weights torch.bfloat16
+sample trainable modules: ['down_proj', 'gate_proj', 'k_proj', 'o_proj', 'q_proj', 'up_proj', 'v_proj']
+fla gated-delta-rule kernels: True
+[colab] Executing cell 6/10 - dab8d169...
+supervised: '{"threat_type":"jwt_auth_bypass"}<|im_end|>' | prompt tokens masked: 1432
+supervised: '{"threat_type":"benign_standard_traffic"}<|im_end|>' | prompt tokens masked: 845
+supervised: '{"threat_type":"web_cache_poisoning"}<|im_end|>' | prompt tokens masked: 968
+supervised: '{"threat_type":"benign_hard_negative_search"}<|im_end|>' | prompt tokens masked: 612
+supervised: '{"threat_type":"malicious_file_upload_webshell"}<|im_end|>' | prompt tokens masked: 1072
+32391 train / 1934 val_select rows
+[colab] Executing cell 7/10 - 16c3175d...
+batch 2 x accum 8 | optim adamw_8bit | clip 1.0 | warmup 0.05 | fp16 False | bf16 True
+[colab] Executing cell 8/10 - e5b24686...
+fresh start
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 32,391 | Num Epochs = 1 | Total steps = 100
+O^O/ \_/ \    Batch size per device = 2 | Gradient accumulation steps = 8
+\        /    Data Parallel GPUs = 1 | Total batch size (2 x 8 x 1) = 16
+ "-____-"     Trainable parameters = 21,233,664 of 4,560,499,200 (0.47% trained)
+`causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[ 2/100 : < :, Epoch 0.00/1]                                                    
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 3/100 00:02 < 04:47, 0.34 it/s, Epoch 0.00/1]                                 
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 4/100 00:07 < 05:59, 0.27 it/s, Epoch 0.00/1]                                 
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 5/100 00:10 < 05:20, 0.30 it/s, Epoch 0.00/1]                                 
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 6/100 00:12 < 04:58, 0.31 it/s, Epoch 0.00/1]                                 
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 7/100 00:15 < 04:44, 0.33 it/s, Epoch 0.00/1]                                 
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 8/100 00:17 < 04:32, 0.34 it/s, Epoch 0.00/1]                                 
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 9/100 00:20 < 04:22, 0.35 it/s, Epoch 0.00/1]                                 
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 10/100 00:22 < 04:15, 0.35 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 2/13 00:00 < 00:05, 2.06 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 3/13 00:01 < 00:05, 1.91 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 4/13 00:01 < 00:04, 1.93 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 5/13 00:02 < 00:04, 1.77 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 6/13 00:02 < 00:03, 1.91 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 7/13 00:03 < 00:03, 1.84 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 8/13 00:03 < 00:02, 1.80 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 9/13 00:04 < 00:02, 1.86 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[10/13 00:04 < 00:01, 1.86 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[11/13 00:05 < 00:01, 1.81 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[12/13 00:05 < 00:00, 1.85 it/s]                                                
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[13/13 00:06]                                                                   
+[ 11/100 00:26 < 04:19, 0.34 it/s, Epoch 0.00/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 12/100 01:01 < 09:04, 0.16 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 13/100 01:04 < 08:28, 0.17 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 14/100 01:06 < 07:58, 0.18 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 15/100 01:09 < 07:31, 0.19 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 16/100 01:11 < 07:09, 0.20 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 17/100 01:14 < 06:49, 0.20 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 18/100 01:16 < 06:31, 0.21 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 19/100 01:18 < 06:15, 0.22 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 20/100 01:21 < 06:00, 0.22 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.37 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.77 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.82 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.84 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.82 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+                                      
+
+[13/13 00:06]                                                                   
+[ 21/100 01:23 < 05:47, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 22/100 01:33 < 06:04, 0.21 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 23/100 01:35 < 05:51, 0.22 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 24/100 01:38 < 05:39, 0.22 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 25/100 01:40 < 05:28, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 26/100 01:43 < 05:17, 0.23 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 27/100 01:45 < 05:08, 0.24 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 28/100 01:47 < 04:58, 0.24 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 29/100 01:50 < 04:50, 0.24 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 30/100 01:52 < 04:41, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.37 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.76 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.82 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.84 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.82 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+                                      
+
+[13/13 00:06]                                                                   
+[ 31/100 01:55 < 04:33, 0.25 it/s, Epoch 0.01/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 32/100 02:04 < 04:43, 0.24 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 33/100 02:07 < 04:35, 0.24 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 34/100 02:09 < 04:27, 0.25 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 35/100 02:12 < 04:20, 0.25 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 36/100 02:14 < 04:13, 0.25 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 37/100 02:16 < 04:06, 0.26 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 38/100 02:19 < 03:59, 0.26 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 39/100 02:21 < 03:53, 0.26 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 40/100 02:23 < 03:47, 0.26 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.37 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.77 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.82 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.84 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.81 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+                                      
+
+[13/13 00:06]                                                                   
+[ 41/100 02:26 < 03:41, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 42/100 02:35 < 03:46, 0.26 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 43/100 02:38 < 03:40, 0.26 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 44/100 02:40 < 03:34, 0.26 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 45/100 02:43 < 03:28, 0.26 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 46/100 02:45 < 03:23, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 47/100 02:47 < 03:17, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 48/100 02:50 < 03:12, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 49/100 02:52 < 03:07, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 50/100 02:55 < 03:02, 0.27 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.37 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.77 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.82 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.84 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.82 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+                                      
+
+[13/13 00:06]                                                                   
+[ 51/100 02:57 < 02:57, 0.28 it/s, Epoch 0.02/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 52/100 03:08 < 03:00, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 53/100 03:11 < 02:56, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 54/100 03:13 < 02:51, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 55/100 03:16 < 02:47, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 56/100 03:19 < 02:42, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 57/100 03:21 < 02:37, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 58/100 03:24 < 02:33, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 59/100 03:26 < 02:28, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 60/100 03:29 < 02:24, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.37 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.76 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.81 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.83 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.81 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+                                      
+
+[13/13 00:06]                                                                   
+[ 61/100 03:31 < 02:20, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 62/100 03:41 < 02:20, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 63/100 03:44 < 02:15, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 64/100 03:46 < 02:11, 0.27 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 65/100 03:49 < 02:07, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 66/100 03:51 < 02:02, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 67/100 03:53 < 01:58, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 68/100 03:56 < 01:54, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 69/100 03:58 < 01:50, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 70/100 04:01 < 01:46, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.36 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.77 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.82 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.83 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.81 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+                                      
+
+[13/13 00:06]                                                                   
+[ 71/100 04:03 < 01:42, 0.28 it/s, Epoch 0.03/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 72/100 04:13 < 01:41, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 73/100 04:15 < 01:37, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 74/100 04:18 < 01:33, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 75/100 04:20 < 01:29, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 76/100 04:22 < 01:25, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 77/100 04:25 < 01:21, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 78/100 04:27 < 01:17, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 79/100 04:30 < 01:13, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 80/100 04:32 < 01:09, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.37 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.77 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.82 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.83 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.81 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+                                      
+
+[13/13 00:06]                                                                   
+[ 81/100 04:34 < 01:06, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 82/100 04:44 < 01:04, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 83/100 04:47 < 01:00, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 84/100 04:49 < 00:56, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 85/100 04:51 < 00:52, 0.28 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 86/100 04:54 < 00:49, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 87/100 04:56 < 00:45, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 88/100 04:58 < 00:41, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 89/100 05:01 < 00:38, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 90/100 05:03 < 00:34, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 1/13 : < :]                                                                   
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.37 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.77 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.82 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.84 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.82 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+                                      
+
+[13/13 00:06]                                                                   
+[ 91/100 05:05 < 00:30, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[ 92/100 05:15 < 00:28, 0.29 it/s, Epoch 0.04/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[ 93/100 05:18 < 00:24, 0.29 it/s, Epoch 0.05/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[ 94/100 05:20 < 00:20, 0.29 it/s, Epoch 0.05/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[ 95/100 05:22 < 00:17, 0.29 it/s, Epoch 0.05/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[ 96/100 05:25 < 00:13, 0.29 it/s, Epoch 0.05/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[ 97/100 05:27 < 00:10, 0.29 it/s, Epoch 0.05/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[ 98/100 05:30 < 00:06, 0.29 it/s, Epoch 0.05/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[ 99/100 05:32 < 00:03, 0.29 it/s, Epoch 0.05/1]                                
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[100/100 05:34, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 1/13 : < :]                                                                   
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 2/13 00:00 < 00:08, 1.36 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 3/13 00:01 < 00:05, 1.76 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 4/13 00:01 < 00:04, 1.82 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 5/13 00:02 < 00:04, 1.70 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 6/13 00:02 < 00:03, 1.84 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 7/13 00:03 < 00:03, 1.86 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 8/13 00:03 < 00:02, 1.82 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[ 9/13 00:04 < 00:02, 1.88 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[10/13 00:04 < 00:01, 1.88 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[11/13 00:05 < 00:01, 1.82 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[12/13 00:05 < 00:00, 1.86 it/s]                                                
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+                                      
+
+[13/13 00:06]                                                                   
+[100/100 05:37, Epoch 0.05/1]                                                   
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+ 100   0.127742       0.017879        
+                                      
+[100/100 05:44, Epoch 0/1]                                                      
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.204011       0.162387        
+ 20    0.187758       0.058607        
+ 30    0.108359       0.087905        
+ 40    0.075954       0.178972        
+ 50    0.056302       0.367029        
+ 60    0.118346       0.042519        
+ 70    0.087953       0.015512        
+ 80    0.025164       0.012044        
+ 90    0.127280       0.016261        
+ 100   0.127742       0.017879        
+                                      
+{
+ "global_steps": 100,
+ "train_loss": 0.11018408977426589,
+ "wall_s": 525.3,
+ "tokens_per_s_excl_warmup": 4399.870708511865,
+ "peak_mem_gb": 26.27,
+ "eval_losses": [
+  [
+   10,
+   0.16238676011562347
+  ],
+  [
+   20,
+   0.058607131242752075
+  ],
+  [
+   30,
+   0.0879054144024849
+  ],
+  [
+   40,
+   0.17897245287895203
+  ],
+  [
+   50,
+   0.36702850461006165
+  ],
+  [
+   60,
+   0.042519379407167435
+  ],
+  [
+   70,
+   0.01551192905753851
+  ],
+  [
+   80,
+   0.01204367633908987
+  ],
+  [
+   90,
+   0.01626090705394745
+  ],
+  [
+   100,
+   0.017878973856568336
+  ]
+ ],
+ "resumed_from": null
+}
+estimate: 2025 steps; 1.4 h at observed throughput
+[colab] Executing cell 9/10 - 0e5dd29d...
+`causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+{
+ "n": 60,
+ "raw_json_valid_rate": 1.0,
+ "accuracy_diagnostic": 0.9833333333333333,
+ "latency_p50_s": 0.9581162929534912
+}
+['{"threat_type":"ssrf_cloud_metadata"}', '{"threat_type":"ssrf_cloud_metadata"}', '{"threat_type":"ssrf_cloud_metadata"}', '{"threat_type":"ssrf_cloud_metadata"}', '{"threat_type":"ssrf_cloud_metadata"}']
+[colab] Executing cell 10/10 - 01f29578...
+Unsloth: Restored added_tokens_decoder metadata in /content/export_fast/tokenizer_config.json.
+Part A complete -> /content/part_a.json. Now: Runtime -> Restart session, then run Part B.
+[colab] Saving notebook with outputs to 'partA_output.ipynb'...
+[colab] Downloaded '/content/part_a.json' to '../reports/colab_p3gcb2/part_a.json'
+[colab] Downloaded '/content/train_log.jsonl' to '../reports/colab_p3gcb2/train_log.jsonl'
+[colab] Downloaded '/content/progress.json' to '../reports/colab_p3gcb2/progress.json'
+[run_colab 04:01:11] Part A done: {'global_steps': 100, 'tokens_per_s_excl_warmup': 4399.870708511865, 'peak_mem_gb': 26.27, 'wall_s': 525.3} {'n': 60, 'raw_json_valid_rate': 1.0, 'accuracy_diagnostic': 0.9833333333333333, 'latency_p50_s': 0.9581162929534912}
+[run_colab 04:01:11] PART_A_ONLY: done
+[colab] Stopping session 'p3gcb2'...
+[colab] Session terminated.
+[p1cconv] gpu-a100-s-kkb-ass1c1-24uc3d4vb3s5c | Hardware: A100 | Shape: Standard | Variant: GPU

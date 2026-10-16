@@ -1,0 +1,179 @@
+{
+ "prefix": "fast_",
+ "report_only": true,
+ "classes": {
+  "jwt_auth_bypass": {
+   "n": 941,
+   "pass": 253,
+   "fail": 688,
+   "pass_rate": 0.268863,
+   "failing_ids": [
+    "haiku:jwt_auth_bypass:000042",
+    "haiku:jwt_auth_bypass:000053",
+    "haiku:jwt_auth_bypass:000064",
+    "haiku:jwt_auth_bypass:000073",
+    "haiku:jwt_auth_bypass:000082"
+   ]
+  },
+  "xxe": {
+   "n": 612,
+   "pass": 580,
+   "fail": 32,
+   "pass_rate": 0.947712,
+   "failing_ids": [
+    "haiku:xxe:000023",
+    "xxe_injection_payload_list:xxe:eec736b621d4b750~0",
+    "xxe_injection_payload_list:xxe:047cca2444406579~0",
+    "haiku:xxe:000003",
+    "haiku:xxe:000007"
+   ]
+  },
+  "ldap_xpath_injection": {
+   "n": 675,
+   "pass": 554,
+   "fail": 121,
+   "pass_rate": 0.820741,
+   "failing_ids": [
+    "haiku:ldap_xpath_injection:000233",
+    "haiku:ldap_xpath_injection:000243",
+    "haiku:ldap_xpath_injection:000272",
+    "haiku:ldap_xpath_injection:000273",
+    "haiku:ldap_xpath_injection:000232"
+   ]
+  },
+  "csv_formula_injection": {
+   "n": 672,
+   "pass": 512,
+   "fail": 160,
+   "pass_rate": 0.761905,
+   "failing_ids": [
+    "haiku:csv_formula_injection:000069",
+    "haiku:csv_formula_injection:000144",
+    "haiku:csv_formula_injection:000181",
+    "haiku:csv_formula_injection:000200",
+    "haiku:csv_formula_injection:000209"
+   ]
+  },
+  "crlf_header_injection": {
+   "n": 670,
+   "pass": 463,
+   "fail": 207,
+   "pass_rate": 0.691045,
+   "failing_ids": [
+    "haiku:crlf_header_injection:000187",
+    "haiku:crlf_header_injection:000270",
+    "crlf_injection_payload_list:crlf_header_injection:d9bf9a788eb19700~0",
+    "crlf_injection_payload_list:crlf_header_injection:d9bf9a788eb19700~1",
+    "crlf_injection_payload_list:crlf_header_injection:517e8e93dd35a80f~0"
+   ]
+  },
+  "prototype_pollution": {
+   "n": 871,
+   "pass": 806,
+   "fail": 65,
+   "pass_rate": 0.925373,
+   "failing_ids": [
+    "haiku:prototype_pollution:000031",
+    "haiku:prototype_pollution:000042",
+    "haiku:prototype_pollution:000070",
+    "haiku:prototype_pollution:000071",
+    "haiku:prototype_pollution:000072"
+   ]
+  }
+ },
+ "benign_audit": {
+  "ordinary": {
+   "benign_standard_traffic": {
+    "n": 10990,
+    "any_hit": 13,
+    "checks": {
+     "jwt_auth_bypass": 5,
+     "xxe": 0,
+     "ldap_xpath_injection": 0,
+     "csv_formula_injection": 8,
+     "crlf_header_injection": 0,
+     "prototype_pollution": 0
+    }
+   },
+   "benign_high_rate_legit": {
+    "n": 1393,
+    "any_hit": 0,
+    "checks": {
+     "jwt_auth_bypass": 0,
+     "xxe": 0,
+     "ldap_xpath_injection": 0,
+     "csv_formula_injection": 0,
+     "crlf_header_injection": 0,
+     "prototype_pollution": 0
+    }
+   }
+  },
+  "hard_negative": {
+   "benign_hard_negative_dev": {
+    "n": 3232,
+    "any_hit": 261,
+    "checks": {
+     "jwt_auth_bypass": 0,
+     "xxe": 0,
+     "ldap_xpath_injection": 123,
+     "csv_formula_injection": 38,
+     "crlf_header_injection": 0,
+     "prototype_pollution": 100
+    }
+   },
+   "benign_hard_negative_search": {
+    "n": 1333,
+    "any_hit": 2,
+    "checks": {
+     "jwt_auth_bypass": 0,
+     "xxe": 0,
+     "ldap_xpath_injection": 1,
+     "csv_formula_injection": 1,
+     "crlf_header_injection": 0,
+     "prototype_pollution": 0
+    }
+   }
+  }
+ },
+ "provenance_generator": {
+  "benign_hard_negative_dev": {
+   "synthetic/codex-gpt-6.1-sol": 342,
+   "synthetic/haiku-5.5": 2890
+  },
+  "benign_hard_negative_search": {
+   "synthetic/haiku-5.5": 1333
+  },
+  "benign_high_rate_legit": {
+   "synthetic/codex-gpt-6.1-sol": 143,
+   "synthetic/deterministic": 1250
+  },
+  "benign_standard_traffic": {
+   "observed/deterministic": 1697,
+   "synthetic/codex-gpt-6.1-sol": 1001,
+   "synthetic/deterministic": 4239,
+   "synthetic/haiku-5.5": 4053
+  },
+  "crlf_header_injection": {
+   "hybrid/deterministic": 375,
+   "synthetic/codex-gpt-6.1-sol": 295
+  },
+  "csv_formula_injection": {
+   "synthetic/codex-gpt-6.1-sol": 227,
+   "synthetic/haiku-5.5": 445
+  },
+  "jwt_auth_bypass": {
+   "synthetic/haiku-5.5": 941
+  },
+  "ldap_xpath_injection": {
+   "hybrid/deterministic": 375,
+   "synthetic/codex-gpt-6.1-sol": 300
+  },
+  "prototype_pollution": {
+   "synthetic/haiku-5.5": 871
+  },
+  "xxe": {
+   "hybrid/deterministic": 500,
+   "synthetic/codex-gpt-6.1-sol": 112
+  }
+ }
+}

@@ -1,0 +1,111 @@
+{"rid": "x27838", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Query-string access_token accepted with outcome accepted_query_token_unverified and verify_on_launch false."}
+{"rid": "x27908", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature matches the secret-store key; only lenient padding normalisation, no forgery evidence."}
+{"rid": "x27827", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Scope check is a substring match, so scope unpublish satisfies required publish."}
+{"rid": "x27896", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Valid HS256 signature under retired key v1 with no expiry or forgery evidence; ordinary leave request body."}
+{"rid": "x27884", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "exp claim is a string checked by string compare (claims_accepted_string_compare)."}
+{"rid": "x27977", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Verifier uses default fallback key because the service key is absent; token accepted."}
+{"rid": "x27998", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Legacy HS256 key signature matches with required claims present; no clear bypass evidence."}
+{"rid": "x27925", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Accepted via default_key_signature_match under use_default_key_when_absent policy."}
+{"rid": "x27808", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Retired RS256 key accepted with valid signature; retained retired keys are config, read-only GET, no forgery evidence."}
+{"rid": "x27881", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Non-canonical alg Hs256 accepted case-insensitively with RS256 and HS256 both allowed; signature matched, so only a confusion surface."}
+{"rid": "x27907", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "exp claim is a string checked by string compare (claims_accepted_string_compare)."}
+{"rid": "x27727", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Query access_token accepted with query_token_accepted_unverified_source; verify_on_query_source is false."}
+{"rid": "x27917", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 verified by ATS signing key with lenient padding; ordinary applications POST from a git client."}
+{"rid": "x27759", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 verified with a 6-byte static env secret, weak and brute-forceable."}
+{"rid": "x27799", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "WebSocket upgrade established with token_parsed_not_verified; verification not_run."}
+{"rid": "x27856", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified under a retired kid inside the 720h grace window; ordinary profile PUT."}
+{"rid": "x27847", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified under a retired kid inside the grace window; ordinary profile GET."}
+{"rid": "x27772", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "RS256 verified with a 512-bit RSA modulus, below a sound key-size floor."}
+{"rid": "x27859", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Future iat accepted (accepted_iat_future_claim); future-iat check not enforced."}
+{"rid": "x27769", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "RS256 under a retired key trusted indefinitely; signature verified, ordinary refund body, no forgery evidence."}
+{"rid": "x27953", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Signed payload has duplicate sub keys with last_wins parsing, a claim-parsing flaw; exploitation not shown."}
+{"rid": "x27982", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature and claims pass with an ordinary eSIM profiles GET."}
+{"rid": "x27868", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Query-string token with query_token_signature_not_verified on the CDN path; verification skipped."}
+{"rid": "x27861", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "signature_binding header_only gives signature_not_bound_to_payload, so payload claims are unprotected."}
+{"rid": "x27980", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 AT+JWT verified against JWKS with claims pass; ordinary trips GET."}
+{"rid": "x27743", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Unencoded (b64:false) payload accepted by the verifier; a parser flaw, but no forgery evidence in the telemetry."}
+{"rid": "x27871", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "HS256 signature matches and passes; token carried in query string but verified, read-only status poll."}
+{"rid": "x27988", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified against JWKS with claims pass; ordinary tier-status GET."}
+{"rid": "x27802", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 secret falls back to env default (env_default_fallback) and a super_admin token matches it."}
+{"rid": "x27832", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Missing kid falls back to key index 0 (kid_missing_fallback); key-selection weakness, signature passed, no forgery shown."}
+{"rid": "x27731", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS512 accepted from token header alongside RS256 with a config_static key; algorithm-selection surface, no forgery shown."}
+{"rid": "x27866", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Query-string token with query_token_signature_not_verified on the CDN path; verification skipped."}
+{"rid": "x27722", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified under lenient base64 decoding; signature passes, ordinary refund status GET."}
+{"rid": "x27790", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Issuer key pool shared across tenants, a cross-tenant trust flaw; signature verified against pool key, no forgery shown."}
+{"rid": "x27775", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 verified with a 6-byte static env secret, weak and brute-forceable."}
+{"rid": "x28027", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "JWKS miss falls back to HS256 with a legacy shared secret (legacy_shared_secret); algorithm-confusion path accepted."}
+{"rid": "x27895", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "HS256 signature matches and passes; token in query string but verified, read-only CI status poll."}
+{"rid": "x27999", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 accepted with an SSO client secret bundled in the client and token_use check disabled."}
+{"rid": "x27797", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Verify cache keyed on header and signature prefix only; cached verdict reused without a full signature check."}
+{"rid": "x27842", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "sub array accepted and first element used for ownership (sub_first_element_used_for_ownership), a claim type-coercion error."}
+{"rid": "x27792", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Cached verdict reused with a cache key lacking the payload, so the signature was not checked on this request."}
+{"rid": "x27741", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Unencoded (b64:false) payload accepted; a parser flaw, but no forgery evidence in the telemetry."}
+{"rid": "x27873", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Non-canonical alg Hs256 accepted case-insensitively; signature matched the legitimate key, so only a confusion surface."}
+{"rid": "x27969", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified against JWKS with claims pass; ordinary flight-status GET."}
+{"rid": "x27901", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Accepted via default_key_signature_match under use_default_key_when_absent policy."}
+{"rid": "x27828", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Token with purpose preview accepted on a publish route because purpose_check is not enforced."}
+{"rid": "x28026", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "JWKS miss falls back to HS256 with a legacy shared secret (legacy_shared_secret); accepted with outcome OK."}
+{"rid": "x27822", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 accepted with an empty keyring entry (key_bytes 0) and a fleet:admin scope."}
+{"rid": "x27756", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 verified with a 6-byte static env secret, weak and brute-forceable."}
+{"rid": "x27734", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS512 accepted from token header with a config_static key alongside RS256; algorithm-selection surface, no forgery shown."}
+{"rid": "x27941", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Outer HS256 token verifies and claims pass; the embedded inner token is a claim value, not an accepted credential."}
+{"rid": "x27818", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HMAC key is 6 bytes against a 32-byte minimum (min_key_check not_enforced) and the token is accepted."}
+{"rid": "x27751", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 verified with a 6-byte static env secret, weak and brute-forceable."}
+{"rid": "x27863", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "EdDSA signature length not checked (eddsa_signature_length_not_checked), a partial signature check; role season_admin accepted."}
+{"rid": "x27750", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 verified with a 6-byte static env secret, weak and brute-forceable."}
+{"rid": "x27960", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature and claims pass against the service secret; ordinary sim-status GET."}
+{"rid": "x27852", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Lowercase alg rs256 normalised then verified against JWKS; signature valid, no forgery evidence."}
+{"rid": "x27860", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Allowlist matched case-insensitively in the library but not at the gateway (alg hs256); signature result not shown."}
+{"rid": "x27788", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Issuer key pool shared across tenants; signature verified against pool key, no forgery shown."}
+{"rid": "x27762", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 key derived as sha256(sub) from an attacker-visible subject, so the signing key is computable by anyone."}
+{"rid": "x27820", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "kid absent falls back to index 0 (kid_resolved false); key-selection weakness, signature passed, no forgery shown."}
+{"rid": "x27811", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "kid absent falls back to index 0 (kid_resolved false); key-selection weakness, signature passed, no forgery shown."}
+{"rid": "x27954", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Duplicate sub keys with last_wins parsing; a claim-parsing flaw in a signed payload, no exploitation shown."}
+{"rid": "x27943", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Outer HS256 token verifies and claims pass; embedded inner token is a claim value, ordinary usage alerts GET."}
+{"rid": "x27782", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Query-string access_token on the export route decoded without verification (export_route_decoded_without_verify)."}
+{"rid": "x27774", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Retired RS256 key trusted and signature verified; ordinary refund body, no forgery evidence."}
+{"rid": "x27768", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 key derived as sha256(sub) from an attacker-visible subject, so the signing key is computable by anyone."}
+{"rid": "x27728", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Compressed (zip DEF) payload inflated and consumed before verification (verify_before_decompress false), outcome 202."}
+{"rid": "x27990", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 token without kid verified against the default key (kid_absent_default_key_verified) on a wire-initiation route."}
+{"rid": "x27936", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature and claims pass against the service secret; ordinary offers GET."}
+{"rid": "x27883", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature matches the ATS key with lenient padding; ordinary applications POST from a git client."}
+{"rid": "x28007", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS384 HMAC key sourced from a JWKS oct key, so the verification key may be public; no forgery shown in telemetry."}
+{"rid": "x27991", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 token without kid verified against the default key (kid_absent_default_key_verified) on a wire-initiation route."}
+{"rid": "x27785", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Issuer key pool shared across tenants; signature verified against pool key, no forgery shown."}
+{"rid": "x27719", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified under lenient base64 decoding; ordinary returns portal session POST."}
+{"rid": "x27880", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "HS256 signature matches and passes; token in query string but verified, read-only CI status poll."}
+{"rid": "x27958", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature and claims pass with an ordinary fare-rules GET; lenient JSON decode only."}
+{"rid": "x28003", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS384 HMAC key sourced from a JWKS oct key, so the verification key may be public; no forgery shown in telemetry."}
+{"rid": "x27994", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 token without kid verified against the default key (kid_absent_default_key_verified) on a wire-initiation route."}
+{"rid": "x27882", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "exp claim is a string checked by string compare (claims_accepted_string_compare)."}
+{"rid": "x28009", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS384 HMAC key sourced from a JWKS oct key, so the verification key may be public; no forgery shown in telemetry."}
+{"rid": "x27939", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature and claims pass against the service secret; ordinary plan-change POST."}
+{"rid": "x27726", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified under lenient base64 decoding; ordinary preferences PUT."}
+{"rid": "x27757", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "RS256 verified with a 512-bit RSA modulus (min_rsa_modulus_bits 512), below a sound key-size floor."}
+{"rid": "x28024", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "JWKS miss falls back to HS256 with a legacy shared secret (legacy_shared_secret); accepted with outcome OK."}
+{"rid": "x27946", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Outer HS256 token verifies and claims pass; the embedded inner token is a claim value, ordinary policy GET."}
+{"rid": "x27995", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 verified with a secret constant shipped in the mobile client (mobile_client_constant), so anyone can sign payout-approval tokens."}
+{"rid": "x27846", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Lowercase alg rs256 normalised then verified against JWKS; signature valid, no forgery evidence."}
+{"rid": "x27794", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Cached verdict reused with a cache key lacking the payload, so the signature was not checked on this request."}
+{"rid": "x27864", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Signature mismatch logged but request allowed (signature_mismatch_logged_request_allowed)."}
+{"rid": "x28016", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 verified with a constant mobile client secret (mobile_client_constant) on a payout route."}
+{"rid": "x27739", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "Last Authorization header used while multiple headers are not rejected; a parser ambiguity with one header shown and no forgery evidence."}
+{"rid": "x27891", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature matches the ATS key with lenient padding; ordinary applications POST from a git client."}
+{"rid": "x27816", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HMAC keyring entry has 0 key bytes (key_bytes 0) yet the token is accepted for fleet:admin."}
+{"rid": "x27914", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "HS256 signature matches a retired key version still listed as accepted; ordinary leave-balance GET, no forgery evidence."}
+{"rid": "x27951", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HS256 signature and claims pass with an ordinary roaming-status GET."}
+{"rid": "x27733", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS512 accepted from token header with a config_static key alongside RS256; algorithm-selection surface, no forgery shown."}
+{"rid": "x27716", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Signature reported valid and claims checked, but the token header is missing from telemetry; insufficient evidence for a bypass."}
+{"rid": "x28008", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 verified with a constant mobile client secret (mobile_client_constant) on a payout route."}
+{"rid": "x27966", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified against JWKS with claims pass; ordinary seat-map GET."}
+{"rid": "x27865", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Query-string token with query_token_signature_not_verified on the CDN path; verification skipped."}
+{"rid": "x28033", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Signing input is header_only, so the signature does not cover the payload; token grants tenants:impersonate as tenant_admin."}
+{"rid": "x27993", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 token without kid verified against the default key (kid_absent_default_key_verified) on a wire-initiation route."}
+{"rid": "x27807", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Retired RS256 key accepted (retired_key_expiry none) with valid signature; read-only invoices GET, no forgery evidence."}
+{"rid": "x27989", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 token without kid verified against the default key (kid_absent_default_key_verified) on a wire-initiation route."}
+{"rid": "x27869", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "HS256 signature matches a retired key version still accepted; ordinary leave-balance GET, no forgery evidence."}
+{"rid": "x27921", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "HS256 signature matches and passes; token in query string but verified, read-only CI status poll."}
+{"rid": "x27720", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified under lenient base64 decoding; ordinary recent-orders GET."}
+{"rid": "x27983", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 verified with JWKS and claims pass; ordinary preferences PUT."}
+{"rid": "x27894", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Id token in form body verified with HS256 and leave scope; ordinary approval POST, no forgery evidence."}
+{"rid": "x27974", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Empty signature accepted (signature_check skipped_empty with empty_sig_policy accept)."}

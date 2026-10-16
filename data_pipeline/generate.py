@@ -393,7 +393,9 @@ FLOW_PROFILES = {
                                     variants=[dict(name="slow_post_body", fwd_frac=(0.75, 0.9), bytes_per_pkt=(40, 120)), dict(name="slow_read", fwd_frac=(0.3, 0.45), dur=(60, 300))]),
     "port_scan_recon": dict(fwd_frac=(0.5, 0.65), window="fixed_window", dur=(2, 8), pkts=(500, 5000), proto="tcp",
                             syn_frac=(0.8, 1.0), bytes_per_pkt=(40, 44), dst_fanout=(200, 2000),
-                                    variants=[dict(name="udp_scan", proto="udp", syn_frac=(0, 0), bytes_per_pkt=(28, 80)), dict(name="slow_scan", dur=(60, 600), pkts=(100, 800), dst_fanout=(50, 300))]),
+                                    variants=[dict(name="udp_scan", proto="udp", syn_frac=(0, 0), bytes_per_pkt=(28, 80)), dict(name="slow_scan", dur=(60, 600), pkts=(100, 800), dst_fanout=(50, 300)),
+                                              # moderate rate: fan-out, not packet rate, is the scan evidence (v7 test_unseen: slow scans read as benign)
+                                              dict(name="paced_scan", dur=(15, 60), pkts=(300, 2000), dst_fanout=(100, 600))]),
     "credential_stuffing_bruteforce": dict(fwd_frac=(0.45, 0.6), ports=[21, 22, 443, 3389], window="fixed_window", dur=(10, 60), pkts=(200, 5000),
                                            proto="tcp", syn_frac=(0.1, 0.3), bytes_per_pkt=(300, 900),
                                            dst_fanout=(1, 2),
@@ -550,7 +552,7 @@ def synth_flow(cls, idx):
         "duration_s": dur, "pkts_total": pkts, "bytes_total": total_bytes,
         "pkts_fwd": fwd, "pkts_bwd": bwd, "bytes_fwd": fwd * bpp, "bytes_bwd": bwd * bpp,
         "pkts_per_s": sig(pkts / dur), "bytes_per_s": sig(total_bytes / dur),
-        "pkt_len_min": max(40, bpp - spread), "pkt_len_max": bpp + spread,
+        "pkt_len_min": min(bpp, max(40, bpp - spread)), "pkt_len_max": bpp + spread,  # floor never above the mean (tiny UDP probes)
         "tcp_flags_bitmask": flags if pr["proto"] == "tcp" else 0,
         "ip_proto": 6 if pr["proto"] == "tcp" else 17,
         "dst_port": r.choice(pr["ports"]) if pr.get("ports") else r.randint(1, 65535),

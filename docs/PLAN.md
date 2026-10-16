@@ -15,6 +15,65 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 | C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
 | D — train and evaluate | A100 fast run: see dated progress entries below | `reports/colab_a100fast/` |
 
+### Fast build v8 and speed probes — 16 October 02:40–04:30 (bundle `a7c5f5a8…`, gate passed)
+
+Data (raw outputs are new `vcx13`–`vcx22` files; nothing existing was edited):
+- Codex `gpt-6.1-sol` medium generated new families for websocket_grpc_abuse (vcx13/14, then a targeted vcx19 after Haiku
+  rejected frame-fuzzing and field-authorization records as out of scope), csv_formula_injection (vcx15), deserialization
+  (vcx16), crlf_header_injection (vcx17), ldap_xpath_injection (vcx18), race_condition_toctou_burst (vcx20),
+  malicious_file_upload_webshell (vcx21), open_redirect_cors (vcx22), each with ~30% context-matched benign twins.
+  Blind Haiku review plus a Codex cross-check (`XM_TAG=v8|v8b|v8c|jwt8`, keys locked during review). Rule used: an attack
+  record Haiku accepted but Codex (when it answered) labelled differently is quarantined (`relabel.json` `__quarantine__`);
+  benign twins both reviewers moved to `benign_hard_negative_dev` (53 deserialization twins: signed exports with gadget-free
+  blobs) are relabelled. Codex hit its usage limit on one v8c batch (88 items); rerun after the reset at 05:56: 88/88 agree, nothing changed.
+- **JWT scope widened (user decision): "token verification bypass"** (verifier flaws such as weak/empty secrets, partial
+  claim checks, type coercion, attacker key sources, besides forged/unsigned/algorithm-confused tokens). Recheck of the 333
+  quarantined JWT records under the new brief: Haiku accepts 171, Codex agrees on 139; the 32 Haiku-only are quarantined.
+- Quotas: http2_rapid_reset_continuation, c2_beaconing_anomaly, dns_tunneling_exfil, tls_ja4_ua_spoofing 2000 → 2600
+  (650 records at 0.25). Generator: `pkt_len_min` no longer exceeds the mean (28 tiny UDP-scan records had min > mean); new
+  `paced_scan` port-scan variant (moderate rate: fan-out, not rate, is the evidence). The holdout hash now picks `paced_scan`
+  for test_unseen (`slow_scan` moved to train), so port-scan unseen numbers are not comparable with v7.
+- v8: **46,828 records** (train 34,128 / val 4,214 / test 4,092 / test_unseen 4,394), 41 classes, all in test_unseen, min class
+  605; every class that was under 600 is now ≥ 650. Gate passed (0 failures). Shortcut audit (surface-only NB): multiclass
+  0.473 (v7 0.477), attack-vs-benign 0.578 (v7 0.598); 155 concentrated structural tokens (v7 134): the new ones are context
+  keys shared by an attack class and its own twins at the 30% twin rate.
+- New report-only checks: `eval/oracle_ground_truth.py` (syntax oracle; v8 pass rates xxe 0.95, prototype_pollution 0.93,
+  ldap_xpath 0.82, csv 0.76, crlf 0.69, jwt 0.27 — the JWT check covers token syntax only, verifier-logic records have none;
+  13 of 10,990 benign_standard_traffic records hit a check) and `data_pipeline/flow_physics.py` (0 violations on v8).
+
+Speed probes (A100-40GB, v7 data + probe code, 100 steps, no Drive; throughput now counts optimizer-step time only, so it is
+comparable to real runs; the old meter included eval/save time, which is why the 25-step dry run read 2,548):
+| Probe | Setting | tokens/s | peak GB | Verdict |
+|---|---|---|---|---|
+| P0 | batch 4, Unsloth checkpointing | **5,230** | 10.8 | keep |
+| P1 | + causal-conv1d 1.7.0 (sm80 source build) | 5,107 | 10.8 | no gain |
+| P2 | checkpointing off, batch 4 | OOM | >39 | fails |
+| P3 | checkpointing off, batch 2 × accum 8 | 4,400 | 26.3 | 16% slower |
+Unsloth's offloaded checkpointing is cheap and the batch-4 micro-batch matters more; the default setup stays. Kept: eval and
+checkpoint every 500 steps (`WAF_EVAL_EVERY=500`). Switches remain available (`WAF_GC`, `WAF_CCONV`, `WAF_EVAL_EVERY`).
+Next: final run on v8 with Drive (user grants Drive in a terminal).
+
+### A100 fast run completed — 16 October 03:33 (`reports/colab_a100fast/`) — model-evaluated
+
+- Bundle `b750c924…` (v7 data), batch 4 × accumulation 4, A100-SXM4-40GB bf16. Training 2025 steps in 4906.1 s,
+  4546 tokens/s, peak 10.78 GB, mean train loss 0.0307. Eval loss 0.0836 (250) → 0.0024
+  (1750, flat to 2025). Part A diagnostic: 500 predictions, 100% valid JSON, 99.6% correct, p50 1.0 s. Part B passed: reload 5/5,
+  fingerprint match. Scored: test 3,869, test_unseen 4,089, val_calib 933, val_policy 939, robustness 100.
+- Calibration (`reports/colab_a100fast/calibration.json`, frozen in `config/policy.yaml`): temperature 1.011435, tau 0.0.
+  test: accuracy 0.9894, NLL 0.0514, ECE 0.0024; attack recall
+  0.9979, benign false intervention 0.0046.
+  **test_unseen: accuracy 0.9616, NLL 0.2014, ECE 0.0211; attack recall
+  0.9693, benign false intervention 0.0052.**
+- Weakest test_unseen classes: http2_rapid_reset_continuation 24/60 (held-out `mixed_reset`, RST ratio 0.45–0.85, read as
+  benign_high_rate_legit 36×: overlaps benign `grpc_stream_cancel` 0.2–0.7 by design), port_scan_recon 104/135 (held-out
+  `slow_scan` read as benign 31×: every training scan was fast, so rate, not fan-out, carried the label; v8 adds a `paced_scan`
+  training variant), benign_high_rate_legit 55/68, jwt_auth_bypass 71/78.
+- **Caveat: tau 0.0 never abstains.** Robustness probes (25 each) get median max-probability 0.996 (malformed), 0.976
+  (out-of-taxonomy), 0.928 (classifier injection), 0.765 (insufficient context); abstention 0%. The policy constraint (hard-negative
+  false-intervention cap) is met at tau 0, so nothing pushes tau up. Not deployment-qualified.
+- The original finish script (`/tmp/finish-qwen-a100fast.py`) waits for `colab sessions` to list none, which the speed probes
+  prevent; its checks and calibration were run by hand (same asserts; `a100fast` verified stopped). No commit created.
+
 ### A100 fast batch probe and real-run batch choice — 16 October
 
 - Verified the existing fast bundle SHA-256: `b750c9249e6fd27edafb64c952453ae7354b486155cca1c0a52db822b0a63ab2`; not rebuilt.
@@ -260,6 +319,39 @@ Shortcut audit (surface features, no payload values), v1 → v2: 35-class 49.0% 
 - FuzzDB attack lists at `5656ab2` (SQLi, LFI, LDAP, XPath, NoSQL, OS command, XSS); FuzzDB asks to be cited in publications.
 - Excluded: UNSW-NB15 (academic-use terms), `xss-payload-list` (no license), CSIC 2010 (no attributable distribution). libinjection was not usable (no wheel; building needs Python headers).
 - Generation and review: Claude Haiku subagents spawned from the Claude Code session, no paid API (user decision).
+
+### Speed and run-shape test plan (run 16 October: results in "Fast build v8 and speed probes" above)
+
+What the `a100fast` run showed (A100-SXM4-40GB, batch 4 × accumulation 4, `train_log.jsonl`):
+- Steady-state training ran at **4,546 tokens/s** (2,025 steps, 4,884 s), 1.8× the 2,548 tokens/s from the 25-step dry run.
+  Short runs are dominated by warmup and compile time, so the 10-step batch-16 probe (1,833 tokens/s) and the dry-run
+  estimate (≈3.5 h) were both too pessimistic. Full 100k at this rate: ≈4.5 h of training on one A100 session.
+- Peak memory was 10.78 GB of 40 GB, because `use_gradient_checkpointing="unsloth"` (`training/colab_helpers.py`) recomputes
+  activations. That setting is for the 15 GB T4; on 40 GB it costs compute and saves memory that is not needed.
+- `causal_conv1d` is not installed: training (`causal_conv1d_fn`) and decoding (`causal_conv1d_update`) fall back
+  to the PyTorch reference ("much slower", per the warning). The fla gated-delta-rule kernels are active.
+- Eval loss: 0.0836 (250) → 0.0148 (1000) → 0.0053 (1500) → 0.0024 (1750) → 0.0024 (2000) → 0.0024 (2025). It stopped
+  improving after step 1750. `save_total_limit=3` kept only the last checkpoints, so no learning curve can be scored
+  from this run.
+
+Probes (one A100 session, `PART_A_ONLY=1 NO_DRIVE=1`, same bundle and seed, **100 steps each**; throughput measured
+after step 20, not after 2):
+| Probe | Change | Pass |
+|---|---|---|
+| P0 | baseline: batch 4, checkpointing on | reference tokens/s |
+| P1 | + `causal-conv1d` (prebuilt wheel matching Colab torch/CUDA; no source compile in the session) | warning gone; ≥10% faster than P0 |
+| P2 | P1 + gradient checkpointing off when the GPU has ≥ 40 GB (T4/L4 keep it on) | ≥10% faster than P1; no OOM |
+| P3 | P2 + batch 8 × accumulation 2 | ≥10% faster than P2 |
+For every probe, all losses must be finite and the per-step losses must track P0 (kernel and checkpointing changes
+should not change the math beyond bf16 noise). The full run keeps the fastest passing probe. If none passes, keep the
+current setup.
+
+Run-shape changes for the full run (no probe needed):
+- Keep the adapters from steps at 25%, 50% and 75% of the run, so `test_unseen` can be scored per checkpoint. This gives a
+  learning curve without retraining and shows whether 100k beats 30k.
+- Evaluate every 500 steps instead of 250 (the 8 evals took ≈6 min of the 81 min run).
+- Needs code first: an env knob for checkpointing and batch (like `WAF_BATCH`), the `causal-conv1d` install cell,
+  per-step-fraction checkpoint retention, and a probe-length warmup exclusion in the throughput meter.
 
 ### Open issues
 

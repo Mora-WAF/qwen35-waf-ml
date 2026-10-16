@@ -37,7 +37,10 @@ SEED = 3407
 MODEL_ID = "unsloth/Qwen3.5-4B"
 MODEL_REVISION = "3764fa359b9082ea5a1e4a5e3ac3aaf6e9671636"
 MAX_LEN = 2048
-EVAL_SUBSET = 1000        # interim evals use the first N val_select rows (a full 5k eval took ~56 min on a T4)"""),
+EVAL_SUBSET = 1000        # interim evals use the first N val_select rows (a full 5k eval took ~56 min on a T4)
+EVAL_EVERY = int(os.environ.get("WAF_EVAL_EVERY", 250))  # optimizer steps between eval + checkpoint (real runs)
+GC = {"0": False, "1": True}.get(os.environ.get("WAF_GC", ""), "unsloth")  # gradient checkpointing (off: no recompute, more memory)
+CCONV = os.environ.get("WAF_CCONV") == "1"  # build causal-conv1d (no torch-2.11 wheel upstream; sm80 source build)"""),
 (PY, """# ---- pinned stack (tested on Colab T4, torch 2.11.0+cu130, 2026-10-15). unsloth 2026.10.5 caps
 # transformers<=5.17.0, trl<=1.15.0, datasets<5.0; torch pinned so xformers cannot swap the CUDA build
 !pip install -q "torch==2.11.0" "unsloth==2026.10.5" "unsloth_zoo==2026.10.5" "transformers==5.17.0" "trl==1.15.0" "peft==0.21.2" "accelerate==1.15.0" "bitsandbytes==0.50.2" "datasets==4.8.5" "xformers==0.0.35" "torchao==0.18.0" pyyaml jsonschema
@@ -46,6 +49,8 @@ EVAL_SUBSET = 1000        # interim evals use the first N val_select rows (a ful
 import subprocess
 if float(subprocess.run(["nvidia-smi", "--query-gpu=compute_cap", "--format=csv,noheader"], capture_output=True, text=True).stdout.split()[0]) >= 8:
     !pip install -q "fla-core==0.5.2"
+if CCONV:  # ponytail: sm80-only source build; a failure leaves the PyTorch fallback (recorded in ENV)
+    !CAUSAL_CONV1D_FORCE_BUILD=TRUE TORCH_CUDA_ARCH_LIST="8.0" MAX_JOBS=8 timeout 1500 pip install -q --no-build-isolation "causal-conv1d==1.7.0"
 # If pip reports a torch / CUDA conflict: Runtime -> Restart session, then run from the next cell."""),
 (PY, """import json, os, shutil, subprocess, sys, time, math, hashlib, zipfile, platform, random
 import torch
@@ -107,7 +112,12 @@ fp_ref = gate["tokenizer_fingerprint"]
 for k, v in fp_now.items():
     assert v == fp_ref[k], f"{k} mismatch: Colab {v} vs local gate {fp_ref[k]}"
 assert tok.eos_token == "<|im_end|>", tok.eos_token
-model = FastLanguageModel.get_peft_model(model, **H.LORA, random_state=SEED, max_seq_length=MAX_LEN)
+model = FastLanguageModel.get_peft_model(model, **{**H.LORA, "use_gradient_checkpointing": GC}, random_state=SEED, max_seq_length=MAX_LEN)
+ENV["gradient_checkpointing"] = str(GC)
+try:
+    import causal_conv1d; ENV["causal_conv1d"] = causal_conv1d.__version__
+except ImportError:
+    ENV["causal_conv1d"] = None
 trainable = [(n, p.numel()) for n, p in model.named_parameters() if p.requires_grad]
 n_train, n_all = sum(n for _, n in trainable), sum(p.numel() for p in model.parameters())
 assert not any("visual" in n or "vision" in n for n, _ in trainable), "vision params are trainable"
@@ -132,13 +142,16 @@ from datasets import Dataset
 collate = H.make_collate(tok.pad_token_id)
 
 class Meter(TrainerCallback):
-    \"\"\"Token throughput excluding warmup steps; finite-loss check; progress + complete-checkpoint copies to Drive.\"\"\"
+    \"\"\"Token throughput over optimizer-step time only (evals and saves excluded, so short dry runs measure the same
+    rate as real runs) after warmup steps; finite-loss check; progress + complete-checkpoint copies to Drive.\"\"\"
     def __init__(self, tokens_per_step, warmup=2):
         self.tps, self.warm, self.t0, self.losses, self.tokens = tokens_per_step, warmup, None, [], 0
-        self.last_save = time.time()
+        self.last_save, self.busy, self.step_t = time.time(), 0.0, None
+    def on_step_begin(self, args, state, control, **kw):
+        self.step_t = time.time()
     def on_step_end(self, args, state, control, **kw):
-        if state.global_step == self.warm: self.t0 = time.time(); self.tokens = 0
-        elif state.global_step > self.warm: self.tokens += self.tps
+        if state.global_step == self.warm: self.t0 = time.time(); self.tokens = 0; self.busy = 0.0
+        elif state.global_step > self.warm and self.step_t: self.tokens += self.tps; self.busy += time.time() - self.step_t
         if time.time() - self.last_save > SAVE_EVERY_MIN * 60:
             control.should_save = True  # time-based checkpoint on top of save_steps
     def on_log(self, args, state, control, logs=None, **kw):
@@ -167,14 +180,14 @@ class Meter(TrainerCallback):
             for old in done[:-2]:  # keep the newest 2 complete copies on Drive
                 shutil.rmtree(f"{DRIVE_DIR}/{old}", ignore_errors=True)
     def throughput(self):
-        return self.tokens / (time.time() - self.t0) if self.t0 else None
+        return self.tokens / self.busy if self.t0 and self.busy else None
 
 avg_tokens = sum(len(r["input_ids"]) for r in train_rows) / len(train_rows)
 SHORT = MODE == "smoke" or bool(DRY_RUN_STEPS)
 STEPS = 25 if MODE == "smoke" else (DRY_RUN_STEPS or -1)
 OUT = f"/content/run_{MODE}" + ("_dry" if DRY_RUN_STEPS else "")
-meter = Meter(tokens_per_step=avg_tokens * 16)
-args = H.make_args(OUT, STEPS, 10 if SHORT else 250, smoke=SHORT, seed=SEED, per_device=BATCH)
+meter = Meter(tokens_per_step=avg_tokens * 16, warmup=min(20, STEPS // 5) if STEPS > 0 else 20)
+args = H.make_args(OUT, STEPS, 10 if SHORT else EVAL_EVERY, smoke=SHORT, seed=SEED, per_device=BATCH)
 print("batch", args.per_device_train_batch_size, "x accum", args.gradient_accumulation_steps, "| optim", args.optim.value, "| clip", args.max_grad_norm, "| warmup", args.warmup_steps, "| fp16", args.fp16, "| bf16", args.bf16)
 trainer = Trainer(model=model, args=args, train_dataset=Dataset.from_list(train_rows),
                   eval_dataset=Dataset.from_list(val_rows[:100 if DRY_RUN_STEPS else EVAL_SUBSET]), data_collator=collate, callbacks=[meter])"""),

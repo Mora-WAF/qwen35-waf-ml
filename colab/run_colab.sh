@@ -19,6 +19,7 @@ CELL_S=$([ -n "$DRY" ] && echo 7200 || echo 86400)    # per-cell timeout: the tr
 ENV=(--env "WAF_MODE=$MODE"); [ -n "$DRY" ] && ENV+=(--env "WAF_DRY_RUN_STEPS=$DRY")
 [ -n "${NO_DRIVE:-}" ] && ENV+=(--env "WAF_DRIVE_ROOT=")
 [ -n "${WAF_BATCH:-}" ] && ENV+=(--env "WAF_BATCH=$WAF_BATCH")   # per-device batch override (must divide 16)
+for v in WAF_GC WAF_CCONV WAF_EVAL_EVERY; do [ -n "${!v:-}" ] && ENV+=(--env "$v=${!v}"); done  # speed-probe switches
 REPORT=$([ "$MODE" = smoke ] && echo gpu_smoke_test.json || { [ -n "$DRY" ] && echo "dryrun_${MODE}_report.json" || echo "train_${MODE}_report.json"; })
 
 # Stop the VM on any exit, except when Part A is still training remotely (then the kernel keeps going; rerun to collect).

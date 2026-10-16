@@ -1,0 +1,1379 @@
+{
+ "models": [
+  "codex"
+ ],
+ "items": 333,
+ "answered": {
+  "codex": 333
+ },
+ "agreement_35class": {
+  "codex": 0.508
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 0.532
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {},
+  "benign_standard_traffic": {},
+  "bfla_admin_function_probing": {},
+  "bola_idor_enumeration": {},
+  "bopla_mass_assignment": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {},
+  "crlf_header_injection": {},
+  "csv_formula_injection": {},
+  "deserialization": {},
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http2_rapid_reset_continuation": {},
+  "http_request_smuggling": {},
+  "jwt_auth_bypass": {
+   "codex": 0.51
+  },
+  "ldap_xpath_injection": {},
+  "llm_prompt_injection": {},
+  "malicious_file_upload_webshell": {},
+  "mcp_agentic_tool_abuse": {},
+  "nosqli": {},
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {},
+  "port_scan_recon": {},
+  "prototype_pollution": {},
+  "race_condition_toctou_burst": {},
+  "rce_cmd_injection": {},
+  "slowloris_slowhttp": {},
+  "sqli_classic": {},
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {},
+  "syn_flood_ddos": {},
+  "tls_ja4_ua_spoofing": {},
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {},
+  "xss_dom_polyglot": {},
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 164,
+ "contested_by_class": {
+  "jwt_auth_bypass": 164
+ },
+ "contested": [
+  {
+   "rid": "x27955",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:5",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27888",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:36",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27719",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:16",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27906",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:62",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27880",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:23",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27895",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:47",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27869",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:0",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27739",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:69",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28007",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:5",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27961",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:60",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27855",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:81",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27994",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w00.jsonl:63",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27744",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:76",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27900",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:52",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27717",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:12",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27960",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:6",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27929",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:95",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27726",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:23",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27948",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:30",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28019",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:9",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27996",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:17",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28021",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:93",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27774",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w01.jsonl:72",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28024",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w02.jsonl:24",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27789",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:21",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27991",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w00.jsonl:60",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27892",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:40",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28009",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:53",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27947",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:3",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27988",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:95",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27949",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:31",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27825",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:70",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "x27943",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:26",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27820",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:58",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28025",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w02.jsonl:25",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27786",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:18",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27787",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:19",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27926",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:90",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27733",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:59",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27871",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:11",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27946",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:29",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27840",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:26",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28026",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w02.jsonl:26",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28027",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w02.jsonl:27",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27817",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:46",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27736",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:62",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27737",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:63",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28003",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:41",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28031",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w02.jsonl:31",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27886",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:34",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "x28011",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:57",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27893",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:41",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27832",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:94",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27731",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:57",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27959",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:59",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27928",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:94",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "x27917",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:76",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27829",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:82",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27998",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:21",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27872",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:12",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27941",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:24",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27873",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:14",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27912",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:70",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27815",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:34",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27990",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w00.jsonl:58",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27902",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:54",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27986",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:93",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27811",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:10",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27808",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:89",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28012",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:65",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27957",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:57",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27878",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:2",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27984",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:91",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27837",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:2",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27813",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:22",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27904",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:59",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27924",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:88",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27981",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:89",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27722",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:19",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27985",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:92",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27942",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:25",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27951",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:4",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27875",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:16",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27876",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:17",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27914",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:72",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27849",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:62",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27743",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:75",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27915",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:74",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27745",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:78",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27881",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:26",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28017",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:77",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27913",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:71",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27894",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:46",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "x27945",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:28",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27790",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:22",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27853",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:74",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27921",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:83",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27905",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:60",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27732",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:58",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27723",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:20",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27846",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:48",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27870",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:10",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27964",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:63",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28030",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w02.jsonl:30",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27738",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:67",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27930",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:0",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27918",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:77",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27922",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:86",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28002",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:33",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27741",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:72",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27769",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w01.jsonl:60",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27725",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:22",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27889",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:38",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27834",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:14",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27847",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:50",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27956",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:56",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27891",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:4",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27992",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w00.jsonl:61",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27856",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:86",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27908",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:64",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27785",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:17",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27883",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:28",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27987",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:94",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27720",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:17",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28005",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:45",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27962",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:61",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27784",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:16",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27791",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:23",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28029",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w02.jsonl:29",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27901",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:53",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27879",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:22",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27721",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:18",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27839",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:24",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27980",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:88",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27833",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:12",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28018",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:81",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27963",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:62",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27958",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:58",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27827",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:79",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "x27734",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:60",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27823",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:67",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "x27831",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w03.jsonl:91",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "x27845",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:38",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28014",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w01.jsonl:69",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27740",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:71",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27788",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:20",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27903",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:58",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "x27809",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w02.jsonl:92",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27735",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:61",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27971",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:7",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27742",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:74",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27857",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w04.jsonl:9",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27898",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:5",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27887",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:35",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27939",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:2",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27925",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w06.jsonl:89",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27993",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w00.jsonl:62",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27944",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:27",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27989",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w00.jsonl:57",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27724",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:21",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27983",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:90",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27730",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w00.jsonl:56",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x27931",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs1w07.jsonl:1",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "x28028",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vs2w02.jsonl:28",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

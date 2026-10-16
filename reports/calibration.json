@@ -1,0 +1,277 @@
+{
+ "method": "summed completion log-prob per class, temperature scaling on val_calib, tau on val_policy",
+ "temperature": 1.011435,
+ "tau": 0.0,
+ "max_hard_negative_fir": 0.01,
+ "val_calib": {
+  "uncalibrated": {
+   "n": 933,
+   "accuracy": 0.9925,
+   "nll": 0.0335,
+   "brier": 0.0122,
+   "ece": 0.0048,
+   "bins": [
+    {
+     "lo": 0.4667,
+     "n": 2,
+     "acc": 0.0,
+     "conf": 0.5258
+    },
+    {
+     "lo": 0.6,
+     "n": 1,
+     "acc": 1.0,
+     "conf": 0.6481
+    },
+    {
+     "lo": 0.6667,
+     "n": 2,
+     "acc": 1.0,
+     "conf": 0.7293
+    },
+    {
+     "lo": 0.7333,
+     "n": 2,
+     "acc": 1.0,
+     "conf": 0.7547
+    },
+    {
+     "lo": 0.8,
+     "n": 7,
+     "acc": 0.8571,
+     "conf": 0.8454
+    },
+    {
+     "lo": 0.8667,
+     "n": 10,
+     "acc": 1.0,
+     "conf": 0.8879
+    },
+    {
+     "lo": 0.9333,
+     "n": 909,
+     "acc": 0.9956,
+     "conf": 0.9965
+    }
+   ]
+  },
+  "calibrated": {
+   "n": 933,
+   "accuracy": 0.9925,
+   "nll": 0.0335,
+   "brier": 0.0122,
+   "ece": 0.0047,
+   "bins": [
+    {
+     "lo": 0.4667,
+     "n": 2,
+     "acc": 0.0,
+     "conf": 0.5253
+    },
+    {
+     "lo": 0.6,
+     "n": 1,
+     "acc": 1.0,
+     "conf": 0.6462
+    },
+    {
+     "lo": 0.6667,
+     "n": 2,
+     "acc": 1.0,
+     "conf": 0.7269
+    },
+    {
+     "lo": 0.7333,
+     "n": 2,
+     "acc": 1.0,
+     "conf": 0.7523
+    },
+    {
+     "lo": 0.8,
+     "n": 8,
+     "acc": 0.875,
+     "conf": 0.8453
+    },
+    {
+     "lo": 0.8667,
+     "n": 9,
+     "acc": 1.0,
+     "conf": 0.8876
+    },
+    {
+     "lo": 0.9333,
+     "n": 909,
+     "acc": 0.9956,
+     "conf": 0.9963
+    }
+   ]
+  }
+ },
+ "val_policy_at_tau": {
+  "tau": 0.0,
+  "coverage": 1.0,
+  "attack_intervention_recall": 0.9965,
+  "benign_false_intervention": 0.0083,
+  "hard_negative_false_intervention": 0.0,
+  "accuracy_when_acting": 0.9894,
+  "abstention_rate": 0.0
+ },
+ "test": {
+  "reliability": {
+   "n": 3869,
+   "accuracy": 0.9894,
+   "nll": 0.0514,
+   "brier": 0.0168,
+   "ece": 0.0024,
+   "bins": [
+    {
+     "lo": 0.4,
+     "n": 2,
+     "acc": 0.0,
+     "conf": 0.4563
+    },
+    {
+     "lo": 0.4667,
+     "n": 5,
+     "acc": 0.4,
+     "conf": 0.522
+    },
+    {
+     "lo": 0.5333,
+     "n": 12,
+     "acc": 0.5833,
+     "conf": 0.5682
+    },
+    {
+     "lo": 0.6,
+     "n": 3,
+     "acc": 0.6667,
+     "conf": 0.6338
+    },
+    {
+     "lo": 0.6667,
+     "n": 7,
+     "acc": 0.7143,
+     "conf": 0.7051
+    },
+    {
+     "lo": 0.7333,
+     "n": 13,
+     "acc": 0.6923,
+     "conf": 0.7685
+    },
+    {
+     "lo": 0.8,
+     "n": 21,
+     "acc": 0.8571,
+     "conf": 0.8435
+    },
+    {
+     "lo": 0.8667,
+     "n": 54,
+     "acc": 0.8704,
+     "conf": 0.9034
+    },
+    {
+     "lo": 0.9333,
+     "n": 3752,
+     "acc": 0.9963,
+     "conf": 0.9951
+    }
+   ]
+  },
+  "policy": {
+   "tau": 0.0,
+   "coverage": 1.0,
+   "attack_intervention_recall": 0.9979,
+   "benign_false_intervention": 0.0046,
+   "hard_negative_false_intervention": 0.0,
+   "accuracy_when_acting": 0.9894,
+   "abstention_rate": 0.0
+  }
+ },
+ "test_unseen": {
+  "reliability": {
+   "n": 4089,
+   "accuracy": 0.9616,
+   "nll": 0.2014,
+   "brier": 0.068,
+   "ece": 0.0211,
+   "bins": [
+    {
+     "lo": 0.4,
+     "n": 3,
+     "acc": 0.6667,
+     "conf": 0.4263
+    },
+    {
+     "lo": 0.4667,
+     "n": 30,
+     "acc": 0.5,
+     "conf": 0.5116
+    },
+    {
+     "lo": 0.5333,
+     "n": 30,
+     "acc": 0.6,
+     "conf": 0.5715
+    },
+    {
+     "lo": 0.6,
+     "n": 27,
+     "acc": 0.7037,
+     "conf": 0.6322
+    },
+    {
+     "lo": 0.6667,
+     "n": 46,
+     "acc": 0.8261,
+     "conf": 0.7002
+    },
+    {
+     "lo": 0.7333,
+     "n": 77,
+     "acc": 0.8701,
+     "conf": 0.7721
+    },
+    {
+     "lo": 0.8,
+     "n": 175,
+     "acc": 0.9371,
+     "conf": 0.8391
+    },
+    {
+     "lo": 0.8667,
+     "n": 202,
+     "acc": 0.8812,
+     "conf": 0.9015
+    },
+    {
+     "lo": 0.9333,
+     "n": 3499,
+     "acc": 0.9806,
+     "conf": 0.9943
+    }
+   ]
+  },
+  "policy": {
+   "tau": 0.0,
+   "coverage": 1.0,
+   "attack_intervention_recall": 0.9693,
+   "benign_false_intervention": 0.0052,
+   "hard_negative_false_intervention": 0.0,
+   "accuracy_when_acting": 0.9616,
+   "abstention_rate": 0.0
+  }
+ },
+ "robustness": {
+  "n": 75,
+  "abstained": 0.0,
+  "by_kind": {
+   "insufficient_context": 0.0,
+   "out_of_taxonomy": 0.0,
+   "malformed": 0.0
+  },
+  "entropy_mean": 0.343
+ }
+}

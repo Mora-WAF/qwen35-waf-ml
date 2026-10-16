@@ -63,18 +63,19 @@ def write_brief(tax=None):
     (RV / "taxonomy_brief.md").write_text("\n".join(lines) + "\n")
 
 
-def export_recheck(tag):
+def export_recheck(tag, label=None):
     """Second-opinion round for benign<->benign disputes (label benign, reviewer chose another benign class
-    with sufficient evidence) under the current brief. New rids for the same refs: the latest answered
-    round decides (status())."""
+    with sufficient evidence) under the current brief, or (label=CLASS) for every quarantined item of one class
+    after its scope changed. New rids for the same refs: the latest answered round decides (status())."""
     import glob
     tax = yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
     write_brief(tax)
     from subagents.orchestrator import OUT
     key = json.loads(KEY.read_text())
     disputed = {x["ref"] for x in json.loads((RV / "quarantine.json").read_text())
-                if tax.get(x["label"], {}).get("is_benign") and tax.get(x.get("reviewer") or "", {}).get("is_benign")
-                and x.get("sufficient")}
+                if ((x["label"] == label) if label else
+                    (tax.get(x["label"], {}).get("is_benign") and tax.get(x.get("reviewer") or "", {}).get("is_benign")
+                     and x.get("sufficient")))}
     rows = []
     for ref in sorted(disputed):
         fname, line = ref.rsplit(":", 1)
@@ -345,6 +346,6 @@ if __name__ == "__main__":
     elif sys.argv[1] == "score_xmodel":
         score_xmodel()
     elif sys.argv[1] in ("export_new", "export_recheck"):
-        {"export_new": export_new, "export_recheck": export_recheck}[sys.argv[1]](sys.argv[2])
+        {"export_new": export_new, "export_recheck": export_recheck}[sys.argv[1]](*sys.argv[2:4])  # TAG [LABEL]
     else:
         {"export": export, "export_crs": export_crs, "score": score}[sys.argv[1]]()

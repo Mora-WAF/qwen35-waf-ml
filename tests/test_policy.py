@@ -9,6 +9,7 @@ from eval.policy import decide, load, validate_decision  # noqa: E402
 
 TAX, POL, SCHEMA = load()
 CAL = {**POL, "threshold": 0.9}  # pretend-fitted policy for logic tests
+SHADOW = {**POL, "threshold": None}  # unfitted policy (the shipped file is frozen by eval.calibration --write-policy)
 
 
 def run(raw, mode="L7_HTTP", ctx=None, conf=0.95, pol=CAL):
@@ -35,7 +36,7 @@ def test_invalid_output_abstains(raw):
 
 
 def test_uncalibrated_is_shadow():
-    d, diag = run(out("sqli_classic"), pol=POL)  # shipped policy: threshold null
+    d, diag = run(out("sqli_classic"), pol=SHADOW)
     assert d["verdict"] == "ABSTAIN" and d["confidence"] is None
     assert diag["tentative_class"] == "sqli_classic"
     assert run(out("sqli_classic"), conf=None)[0]["verdict"] == "ABSTAIN"

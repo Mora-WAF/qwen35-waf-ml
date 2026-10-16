@@ -8,13 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v7 (`fast_*`, 41 classes, 44,155 records, hard twins + confuser sets, test_unseen on all 41 classes), gate passed (`reports/pre_colab_gate.json`); notebook
-smoke-tested on a Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the v7 fast bundle on an A100
-(`reports/colab_a100dry/dryrun_fast_report.json`, passed, 2,548 tokens/s); no model evaluated. Next: the real fast run
-on an A100 (~3.5 h, see the progress log). The 16 October batch-16 probe passed (10 steps, 1,833 tokens/s,
-14.81 GB, no notebook errors), slower than batch 4. Real run `a100fast` launched at 01:07 with the default
-batch 4 × accumulation 4 (no `WAF_BATCH` override); Drive mounted, Part A started at 01:09.
-Preserve that split on resume. No trained-model evaluation yet.
+Current state: fast build v7 (41 classes) **model-evaluated** on Colab A100 (`reports/colab_a100fast/`): test accuracy 0.9894, test_unseen 0.9616; calibration froze temperature 1.011435, tau 0.0 in `config/policy.yaml` (tau 0 never abstains: see the progress log). Not deployment-qualified. Fast build v8 (data hardening, JWT scope widened to token verification bypass, speed-probe switches) in progress; see `docs/PLAN.md`.
 A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
@@ -55,6 +49,10 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
   and `nvidia-smi` shows 0 MiB. `colab exec` defaults to a 30 s timeout: pass `--timeout`.
 - Free-tier T4 can return "Service Unavailable" after a few GPU-hours; retry later rather than in a loop.
 - Every session ends with `colab stop`; `colab sessions` must list none.
+- The account runs at most **2 A100 sessions at once** (`colab new` fails on a third): queue probes, and a script that
+  waits for "no sessions" never finishes while another run is up.
+- Speed (16 October probes, A100-40GB): the default batch 4 + Unsloth checkpointing is fastest (5,230 tokens/s);
+  checkpointing off OOMs at batch 4 and is 16% slower at batch 2; causal-conv1d gives no gain.
 - CUDA only: a TPU v5e-1 probe compiled for 33 min and then ran out of memory (Qwen3.5's linear-attention kernels
   are CUDA/Triton-only). Fast 30k → L4, full 100k → A100 or L4 with Drive resume (time table in the progress log).
 - A request that outlives the CLI's 120 s HTTP timeout can still assign a runtime: check `colab sessions` and
@@ -75,7 +73,9 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
   Gemini goes through `agy-delegate`, which passes the prompt as one argument: above ~128 KB it fails with
   `Argument list too long`. Keep xmodel batches small enough (the v4 classes needed 50-item batches).
   Codex (ChatGPT login) with ~16 parallel `codex exec` calls invalidated the refresh token mid-run
-  (`refresh_token_invalidated`, then 401 on every call): keep Codex at ~4 parallel workers. Gemini Flash calls
+  (`refresh_token_invalidated`, then 401 on every call): keep Codex at ~4 parallel workers. ~8 workers ran fine on
+  16 October, but a night of generation plus cross-checks hit the ChatGPT usage limit ("try again at <time>"):
+  `xmodel_run` then writes a `.err` file, and a batch with no answers must not count as disagreement. Gemini Flash calls
   sometimes hang far past the usual ~7 min; the 22-min timeout retries them, or stop and score what came back.
 - **Lineage** decides splits. Assign whole groups, globally (one attacker host can span classes).
   Templated worker output and seed variants share a group via near-dup keys; each CIC attack class

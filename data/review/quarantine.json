@@ -44944,5 +44944,3632 @@
   "reviewer": "xxe",
   "sufficient": false,
   "note": "Only external DTD reference over https, no entity; reconciliation preview, fetch-only"
+ },
+ {
+  "rid": "n26238",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "updateMask and body set curatorApproved, a privileged field outside the allowed update fields."
+ },
+ {
+  "rid": "n26239",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "billingAccount is set to rail-treasury, outside the authorized resource value personal-account for this caller."
+ },
+ {
+  "rid": "n26240",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Any-typed payload resolves to internal RebuildIndex type outside the allowed CatalogNote type."
+ },
+ {
+  "rid": "n26243",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of observatory.internal descriptor outside the public allowlist at 90 lookups per minute against a limit of 20."
+ },
+ {
+  "rid": "n26244",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "gRPC frame declares about 16.8 MB with 43 bytes captured; no flood or origin evidence."
+ },
+ {
+  "rid": "n26245",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "One gRPC message with declared length 50 and 49 bytes captured; a truncated frame with plain content and no rate or payload attack signal."
+ },
+ {
+  "rid": "n26246",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Single gRPC-web frame with a trailer flag value outside the permitted set and benign content; a malformed frame with no rate or payload attack signal."
+ },
+ {
+  "rid": "n26251",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": false,
+  "note": "gRPC PushCaption: 180 identical writes in 1s against limit 20, one state-changing call with no idempotency key visible."
+ },
+ {
+  "rid": "n26252",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Update mask sets waiveInsurance, a privileged field outside allowed_update_fields for a self.write caller."
+ },
+ {
+  "rid": "n26253",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller with self.write sets passengerOwner to dispatch-office outside authorized personal-account values."
+ },
+ {
+  "rid": "n26254",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Any-typed payload resolves to internal ClearFines type inside a LoanNote write by a self.write caller."
+ },
+ {
+  "rid": "n26259",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Single authorized grpc-web message with plain text payload."
+ },
+ {
+  "rid": "n26260",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "gRPC-web frame flag 4 is not a permitted data flag, a protocol anomaly with no listed attack class; rate is normal."
+ },
+ {
+  "rid": "n26266",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller with self.write sets accessTier, listed as a privileged field outside the allowed update fields displayName and note."
+ },
+ {
+  "rid": "n26267",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller with self.write sets holderGroup to all-employees, outside the authorized resource value personal-account."
+ },
+ {
+  "rid": "n26268",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": true,
+  "note": "Protobuf Any resolves to library.internal.UnlockArchive, outside the allowed public types."
+ },
+ {
+  "rid": "n26269",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Caller with reflection.public.read requests a private payroll descriptor and exceeds the lookup limit, outside the public-only scope."
+ },
+ {
+  "rid": "n26270",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of a shipping.internal fleet descriptor outside the allowlist at 104 lookups per minute."
+ },
+ {
+  "rid": "n26272",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "gRPC frame declares 16.9 MB against a 4 KB limit with only 48 bytes captured; no flood or origin evidence."
+ },
+ {
+  "rid": "n26273",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "gRPC LogPlant payload is plain text at normal rate."
+ },
+ {
+  "rid": "n26274",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "gRPC-web frame carries an unpermitted flag byte value; malformed framing with no flood or origin evidence."
+ },
+ {
+  "rid": "n26280",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller with self.write sets privileged releaseHold through updateMask outside allowed_update_fields."
+ },
+ {
+  "rid": "n26281",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Refund payeeAccount station-vault is outside the authorized personal-account value in a write."
+ },
+ {
+  "rid": "n26282",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": true,
+  "note": "Any type resolves to internal library.internal.GrantStaff, which is outside the allowed MemberNote type."
+ },
+ {
+  "rid": "n26283",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of theatre.private DoorControl.SetMasterAccess outside the allowlist at 111 lookups per minute."
+ },
+ {
+  "rid": "n26287",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "gRPC frame declared 41 bytes but captured 34; truncation without attack class evidence."
+ },
+ {
+  "rid": "n26288",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:50",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "gRPC-web frame flag 16 outside the permitted flags; otherwise a normal single write, no attack class fits."
+ },
+ {
+  "rid": "n26291",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:53",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": false,
+  "note": "gRPC-web RecordPlate: 321 identical writes in 1s against limit 23, one state-changing call with no idempotency key visible."
+ },
+ {
+  "rid": "n26294",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:56",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Update mask and body set verifiedBy, a privileged field outside allowed_update_fields for a self.write caller."
+ },
+ {
+  "rid": "n26295",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:57",
+  "kind": "telemetry",
+  "reviewer": "bola_idor_enumeration",
+  "sufficient": true,
+  "note": "Resolved customerTenant national-operator is outside the authorised personal-account resource."
+ },
+ {
+  "rid": "n26296",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "Protobuf Any resolves to internal type library.internal.ExportMembers, outside the allowed public Any types."
+ },
+ {
+  "rid": "n26297",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:59",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of theatre.private RehearsalVault.ReadPrivateNotes outside the allowlist at 118 lookups per minute."
+ },
+ {
+  "rid": "n26301",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:63",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "gRPC-web frame declares 38 bytes but captures 29 with end-stream seen, a truncation anomaly with no listed attack class."
+ },
+ {
+  "rid": "n26302",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:64",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "gRPC-web frame flag 32 outside the permitted flags; otherwise a normal single write, no attack class fits."
+ },
+ {
+  "rid": "n26308",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:70",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "updateMask and body set priceOverride, a privileged field outside the allowed update fields."
+ },
+ {
+  "rid": "n26309",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:71",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Authorized resource is personal-account but operatingAuthority is set to network-control in an allowed write."
+ },
+ {
+  "rid": "n26310",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "Protobuf Any resolves to internal type library.internal.BroadcastAll, outside the allowed public Any types, for a lower-role caller."
+ },
+ {
+  "rid": "n26312",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:74",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of a shipping.internal cargo descriptor outside the public allowlist at 125 lookups per minute."
+ },
+ {
+  "rid": "n26315",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:77",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Single gRPC message with a declared length of 41 and 39 bytes captured, at normal rate with a valid signature."
+ },
+ {
+  "rid": "n26316",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:78",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Single grpc-web message with nonstandard frame flag 64 and no attack class evidence."
+ },
+ {
+  "rid": "n26322",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:84",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller with self.write sets privileged lifetimeAccess through updateMask outside allowed_update_fields."
+ },
+ {
+  "rid": "n26323",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:85",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller with self.write sets issuedTo to signal-directors outside authorized personal-account values."
+ },
+ {
+  "rid": "n26324",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:86",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "Protobuf Any resolves to internal type library.internal.ReclassifySecrets, outside the allowed public Any types."
+ },
+ {
+  "rid": "n26325",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:87",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Public-scope caller requests descriptor for theatre.private.LightingAdmin, outside allowlist, 132 lookups/min vs 20."
+ },
+ {
+  "rid": "n26327",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:89",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Public-scope caller requests extension of observatory.internal.ProposalReviewer, 132 lookups/min vs 20."
+ },
+ {
+  "rid": "n26329",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:91",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Truncated gRPC frame (declared 37 bytes, 33 captured) from a normal peer with ordinary payload; no attack class fits."
+ },
+ {
+  "rid": "n26330",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:92",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Single authenticated gRPC-web message at normal rate with a valid signature, though the frame flag is non-standard."
+ },
+ {
+  "rid": "n26336",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:98",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Update mask sets reserveApproved, a privileged field outside the allowed update fields."
+ },
+ {
+  "rid": "n26337",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:99",
+  "kind": "telemetry",
+  "reviewer": "bola_idor_enumeration",
+  "sufficient": true,
+  "note": "payrollOwner resolves to central-finance, outside the caller's authorised personal-account resource."
+ },
+ {
+  "rid": "n26338",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:100",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Caller with self.write scope sets an @type Any resolving to internal ChangePolicy outside the allowed BranchNote type."
+ },
+ {
+  "rid": "n26339",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:101",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Public-scope caller requests descriptor for theatre.private.VenueFinance.CloseBooks, 139 lookups/min vs 20."
+ },
+ {
+  "rid": "n26340",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:102",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of a shipping.internal insurance descriptor outside the allowlist at 139 lookups per minute."
+ },
+ {
+  "rid": "n26341",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:103",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of an observatory.internal extension descriptor outside the allowlist at 139 lookups per minute."
+ },
+ {
+  "rid": "n26343",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:105",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "gRPC-web frame declares 39 bytes but captures 33 with end-stream seen, a truncation anomaly with no listed attack class."
+ },
+ {
+  "rid": "n26344",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:106",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "One gRPC-web frame with a flag value outside the permitted set and plain content; a malformed frame with no rate or payload attack signal."
+ },
+ {
+  "rid": "n26345",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:107",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "gzip gRPC-web message decodes to about 242 times its declared size, above the 200 ratio limit; decompression abuse is not explicitly in class scope."
+ },
+ {
+  "rid": "n26350",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:112",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller sets privileged publishOriginal to true through the update mask."
+ },
+ {
+  "rid": "n26351",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:113",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller with self.write sets approvalUnit to safety-board outside authorized personal-account values."
+ },
+ {
+  "rid": "n26352",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:114",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Any-typed payload resolves to internal WriteOffLedger outside the allowed FineNote type."
+ },
+ {
+  "rid": "n26353",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:115",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Caller with reflection.public.read requests a private descriptor and exceeds the lookup limit, outside the public-only scope."
+ },
+ {
+  "rid": "n26354",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:116",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of a shipping.internal descriptor outside the public allowlist at 146 lookups per minute."
+ },
+ {
+  "rid": "n26357",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:119",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "One gRPC message with declared length 36 and 28 bytes captured and end-stream received; a truncated frame with benign content and no rate or payload attack signal."
+ },
+ {
+  "rid": "n26358",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:120",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Single authorized gRPC-web message; frame flag 9 is an unexplained anomaly with no attack class evidence."
+ },
+ {
+  "rid": "n26362",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:124",
+  "kind": "telemetry",
+  "reviewer": "race_condition_toctou_burst",
+  "sufficient": false,
+  "note": "gRPC ReportPressure: 556 identical writes in 1s against limit 28, one state-changing call with no idempotency key visible."
+ },
+ {
+  "rid": "n26364",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:126",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Acquisition modify sets purchaseAuthorized, a privileged field outside the allowed update fields, on a self-write."
+ },
+ {
+  "rid": "n26365",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:127",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller with self.write sets settlementAccount to corporate-reserve outside authorized values."
+ },
+ {
+  "rid": "n26366",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:128",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Caller with self.write scope sets an @type Any resolving to internal RotateKeys outside the allowed JournalNote type."
+ },
+ {
+  "rid": "n26368",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:130",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": true,
+  "note": "Reflection lookup of a shipping.internal trade descriptor outside the allowlist at 153 lookups per minute."
+ },
+ {
+  "rid": "n26371",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:133",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Single gRPC message with a truncated frame capture but no attack class evidence."
+ },
+ {
+  "rid": "n26372",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx13.jsonl:134",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "One gRPC-web frame with a flag value outside the permitted set and benign content; a malformed frame with no rate or payload attack signal."
+ },
+ {
+  "rid": "n26398",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authorized planetarium WebSocket with exact origin and two messages in 10 s; the reserved opcode is the only oddity and no attack payload appears."
+ },
+ {
+  "rid": "n26399",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authenticated WebSocket at normal rate with plain JSON payload, though the frame opcode is reserved and unexplained."
+ },
+ {
+  "rid": "n26400",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Frame uses reserved opcode 5 with no extension, a protocol anomaly with no listed attack class; rate is normal."
+ },
+ {
+  "rid": "n26402",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Websocket frame uses reserved opcode 7, a protocol anomaly with no listed attack class; rate is normal."
+ },
+ {
+  "rid": "n26405",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authorized websocket at typical rate; reserved opcode 13 is an anomaly without attack class evidence."
+ },
+ {
+  "rid": "n26406",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Planetarium websocket with exact origin match, valid session and one small palette message at normal rate."
+ },
+ {
+  "rid": "n26409",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authorized WebSocket with exact origin and two messages at typical rate; a set RSV2 bit with no negotiated extension is a malformed-frame anomaly with no attack class evidenced."
+ },
+ {
+  "rid": "n26410",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Frame sets RSV1 with no negotiated extension, a protocol anomaly with no listed attack class; origin and rate are clean."
+ },
+ {
+  "rid": "n26411",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Frame sets RSV2 and RSV3 with no negotiated extension, a protocol anomaly with no listed attack class."
+ },
+ {
+  "rid": "n26412",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Frame sets RSV bits with no negotiated extension, a protocol anomaly with no listed attack class; origin and rate are clean."
+ },
+ {
+  "rid": "n26413",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authenticated WebSocket at normal rate with a plain JSON payload, though RSV bits are set without a negotiated extension."
+ },
+ {
+  "rid": "n26414",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authenticated WebSocket at normal rate with plain JSON payload, though RSV bits are set without a negotiated extension."
+ },
+ {
+  "rid": "n26415",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Theatre WebSocket frame sets RSV3 without any negotiated extension; malformed frame, rate otherwise normal."
+ },
+ {
+  "rid": "n26416",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Single frame with RSV2 set and no extension negotiated, but origin, rate and principal are normal."
+ },
+ {
+  "rid": "n26417",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authorized WebSocket with exact origin and two messages at typical rate; a set RSV1 bit with no negotiated extension is a malformed-frame anomaly but no attack class is evidenced."
+ },
+ {
+  "rid": "n26418",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ferry WebSocket heartbeat at normal rate, exact origin."
+ },
+ {
+  "rid": "n26419",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authorized WebSocket with a non-final pong control frame and a heartbeat payload; a protocol oddity with no attack class evidenced."
+ },
+ {
+  "rid": "n26420",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Sailing WebSocket heartbeat with a fragmented ping (fin clear), 2 msgs in 10s, exact origin, authorized; odd framing, no attack class fit."
+ },
+ {
+  "rid": "n26421",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ferry berth WebSocket heartbeat at typical rate, exact origin."
+ },
+ {
+  "rid": "n26422",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Heartbeat WebSocket with a fragmented ping (fin clear), 2 msgs in 10s, exact origin, authorized; odd framing, no attack class fits."
+ },
+ {
+  "rid": "n26423",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ferry vehicle WebSocket heartbeat at typical rate, exact origin."
+ },
+ {
+  "rid": "n26424",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Passenger WebSocket heartbeat with a fragmented ping (fin clear), 2 msgs in 10s, exact origin; odd framing, no attack class fits."
+ },
+ {
+  "rid": "n26425",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ferry websocket heartbeat within baseline with matching origin."
+ },
+ {
+  "rid": "n26426",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Authenticated WebSocket heartbeat at 0.2 msg/s within baseline, exact origin."
+ },
+ {
+  "rid": "n26427",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Ferry lifeboat WebSocket heartbeat at typical rate, exact origin."
+ },
+ {
+  "rid": "n26428",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:50",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Two-message caption subscription from an authorised operator with exact origin match."
+ },
+ {
+  "rid": "n26429",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:51",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Captions websocket at typical rate with matching origin."
+ },
+ {
+  "rid": "n26430",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:52",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authorized WebSocket with exact origin and one message at typical rate; the text payload carries non-UTF-8 bytes, a malformed-frame oddity with no attack class evidenced."
+ },
+ {
+  "rid": "n26431",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:53",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Captions interpreter websocket with exact origin, valid session and normal rate."
+ },
+ {
+  "rid": "n26432",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:54",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Captions WebSocket with one 17-byte frame at typical rate."
+ },
+ {
+  "rid": "n26433",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:55",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Two-message caption subscription from an authorised operator with exact origin match."
+ },
+ {
+  "rid": "n26434",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:56",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Captions WebSocket with normal frame at typical rate."
+ },
+ {
+  "rid": "n26435",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:57",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Captions websocket at typical rate with matching origin."
+ },
+ {
+  "rid": "n26436",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Captions websocket at typical rate with matching origin."
+ },
+ {
+  "rid": "n26437",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:59",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Captions websocket with exact origin, valid session and normal rate."
+ },
+ {
+  "rid": "n26438",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:60",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Laboratory WebSocket normal close frame at typical rate, exact origin."
+ },
+ {
+  "rid": "n26439",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:61",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Authenticated WebSocket with 2 messages in 10 seconds, allowed origin and authorized route."
+ },
+ {
+  "rid": "n26440",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:62",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Laboratory websocket close frame with a short reason, exact origin and normal rate."
+ },
+ {
+  "rid": "n26441",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:63",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authorized websocket at typical rate; a 1-byte close frame is an anomaly with no attack class evidence."
+ },
+ {
+  "rid": "n26442",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:64",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Laboratory incubator close frame with a short reason, exact origin and normal rate."
+ },
+ {
+  "rid": "n26443",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:65",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Laboratory microscope close frame with a short reason, exact origin and normal rate."
+ },
+ {
+  "rid": "n26444",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:66",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Authorized WebSocket with one close frame carrying a 1-byte payload; a malformed close with no other attack evidence."
+ },
+ {
+  "rid": "n26445",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:67",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Laboratory websocket close frame with a short reason, exact origin and normal rate."
+ },
+ {
+  "rid": "n26446",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:68",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Balance WebSocket at 2 msgs in 10s, valid session, exact origin; close payload oddity but no attack evidence."
+ },
+ {
+  "rid": "n26447",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:69",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Freezer WebSocket close frame at 2 msgs in 10s, valid session, exact origin; no attack content."
+ },
+ {
+  "rid": "n26453",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:75",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Frame declares about 4.3 GB against a 64 KB frame limit with no payload captured; no flood evidence."
+ },
+ {
+  "rid": "n26454",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:76",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Frame declares about 4.3 GB against a 64 KB frame limit with no payload captured; no flood evidence."
+ },
+ {
+  "rid": "n26461",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:83",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated operator render-sample stream with oversized fragmented messages, but no attack payload and a normal message rate."
+ },
+ {
+  "rid": "n26464",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:86",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated operator render-sample stream with oversized fragmented messages, but no attack payload and a normal message rate."
+ },
+ {
+  "rid": "n26468",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:90",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Archive WebSocket normal subscribe and next frames at typical rate, exact origin."
+ },
+ {
+  "rid": "n26469",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:91",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Archive scan WebSocket, 2 msgs in 10s, text then continuation, valid session and exact origin."
+ },
+ {
+  "rid": "n26470",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:92",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Archive channel WebSocket, 2 msgs in 10s, text then continuation, exact origin, authorized route."
+ },
+ {
+  "rid": "n26471",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:93",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Websocket at typical rate with matching origin and authorized route."
+ },
+ {
+  "rid": "n26472",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:94",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Authorized WebSocket with exact origin, two fragmented messages in 10 s at typical rate."
+ },
+ {
+  "rid": "n26473",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:95",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Two-fragment message whose continuation frame is opcode 2; malformed framing, but normal origin and rate."
+ },
+ {
+  "rid": "n26474",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:96",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Authorized WebSocket with exact origin, two fragmented messages in 10 s at typical rate."
+ },
+ {
+  "rid": "n26475",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:97",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Authorized fragmented WebSocket with exact origin and two messages in 10 s at typical rate."
+ },
+ {
+  "rid": "n26476",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:98",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Authenticated WebSocket with a short fragmented grayscale profile message at normal rate."
+ },
+ {
+  "rid": "n26477",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:99",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Two-fragment message whose continuation frame is opcode 2; malformed framing, but normal origin and rate."
+ },
+ {
+  "rid": "n26478",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:100",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Tile WebSocket at 240 msgs in 1s with 1200 subscribe ops from an authorized operator with exact origin; streaming identity present."
+ },
+ {
+  "rid": "n26482",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:104",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated authorized operator, exact origin, but 284 msgs/s and 1420 subscribe ops/s far above baseline; streaming identity present."
+ },
+ {
+  "rid": "n26485",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:107",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Boundaries WebSocket from an authorized operator with exact origin at 317 msgs/s and 1585 subscribe ops; streaming identity present."
+ },
+ {
+  "rid": "n26489",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:111",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated observatory operator on an authorized route with matching origin; the rate matches a live stream."
+ },
+ {
+  "rid": "n26490",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:112",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Exposure WebSocket from an authorized operator with exact origin at 674 msgs in 2s; streaming identity present."
+ },
+ {
+  "rid": "n26493",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:115",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Rotator WebSocket from an authorized operator with exact origin, 785 msgs in 2s; streaming identity present."
+ },
+ {
+  "rid": "n26494",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:116",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Observatory shutter stream at about 411 messages per second with one authorized subscription, above the 10 per second policy."
+ },
+ {
+  "rid": "n26495",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:117",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated observatory operator on an authorized route with matching origin; the rate matches a live feed."
+ },
+ {
+  "rid": "n26499",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:121",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Scoreboard stream at about 318 messages per second with one subscription from an authorized operator, but far above the 10 per second policy."
+ },
+ {
+  "rid": "n26503",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:125",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated scoreboard operator on an authorized route with matching origin; the high rate matches a live feed."
+ },
+ {
+  "rid": "n26504",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:126",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Archery stream at about 411 messages per second with one authorized subscription, above the 10 per second policy."
+ },
+ {
+  "rid": "n26506",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:128",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated scoreboard operator on an authorized route with matching origin; the rate matches a live feed."
+ },
+ {
+  "rid": "n26507",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:129",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated scoreboard operator with matching origin on an authorized route; the rate matches a live feed."
+ },
+ {
+  "rid": "n26508",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:130",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Irrigation stream at about 300 messages per second with one authorized subscription, far above the 10 per second policy."
+ },
+ {
+  "rid": "n26510",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:132",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated greenhouse operator on an authorized route with matching origin; the rate matches a live stream."
+ },
+ {
+  "rid": "n26511",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:133",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Vents WebSocket from an authorized operator with exact origin, 711 msgs in 2s; streaming identity present."
+ },
+ {
+  "rid": "n26513",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:135",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Greenhouse heating WebSocket at 785 msgs in 2s from an authorized operator with exact origin; streaming identity present."
+ },
+ {
+  "rid": "n26516",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:138",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Humidity stream at about 448 messages per second with one authorized subscription, far above the 10 per second policy."
+ },
+ {
+  "rid": "n26517",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx14.jsonl:139",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "Authenticated greenhouse operator streaming on an authorized route; the rate matches a live stream profile."
+ },
+ {
+  "rid": "n26801",
+  "label": "csv_formula_injection",
+  "ref": "csv_formula_injection.vcx15.jsonl:103",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "sample_comment starts with a pipe so the HYPERLINK is not a live formula; lookalike sits in an authoring field."
+ },
+ {
+  "rid": "n26867",
+  "label": "csv_formula_injection",
+  "ref": "csv_formula_injection.vcx15.jsonl:169",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "storage_remark begins with a pipe so +SUM is not a live formula; lookalike sits in an authoring field."
+ },
+ {
+  "rid": "n26897",
+  "label": "csv_formula_injection",
+  "ref": "csv_formula_injection.vcx15.jsonl:199",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "repair_note starts with a pipe so @SUM is not a live formula; lookalike sits in an authoring field."
+ },
+ {
+  "rid": "n27081",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Signed application export restore with a plain string root and no gadget class."
+ },
+ {
+  "rid": "n27082",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Base64 Java serialization stream decodes to a plain string value from a verified application export, with no gadget type."
+ },
+ {
+  "rid": "n27083",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Base64 Java serialization stream decodes to a plain string from a verified application export, with no gadget type."
+ },
+ {
+  "rid": "n27084",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Verified application export with plain string root in ObjectInputStream; no gadget present."
+ },
+ {
+  "rid": "n27085",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Base64 Java serialization stream decodes to a plain winter-collection string from a verified application export, with no gadget type."
+ },
+ {
+  "rid": "n27086",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Base64 Java serialization stream decodes to a plain standard-settings string from a verified application export, with no gadget type."
+ },
+ {
+  "rid": "n27087",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java ObjectInputStream root is a plain string (Equipment list) from a signed application export with no gadget class."
+ },
+ {
+  "rid": "n27088",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java serialized blob is a signed application export restore whose root value is a plain string with no gadget class."
+ },
+ {
+  "rid": "n27089",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Java serialized stream carries only a String root from a signed export with no object filter gadget."
+ },
+ {
+  "rid": "n27090",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java-serialized plain string root from a verified application export; no gadget in the payload."
+ },
+ {
+  "rid": "n27091",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java-serialized plain string root from a verified application export; no gadget type in the payload."
+ },
+ {
+  "rid": "n27092",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Signed application export with a string root value; the encoded blob is an admin restore feature with no gadget."
+ },
+ {
+  "rid": "n27093",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Signed application export with a string root value; the encoded blob is an admin merge feature with no gadget."
+ },
+ {
+  "rid": "n27094",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java ObjectInputStream root is a plain string from a signed application export with no gadget class."
+ },
+ {
+  "rid": "n27095",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream restore is a signed application export with an application data root and no gadget type."
+ },
+ {
+  "rid": "n27096",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "XStream AnyType sink receives only a plain string root from a verified application export; no gadget."
+ },
+ {
+  "rid": "n27097",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream string wrapper for rehearsal notes in a verified application export, plain string value with no gadget."
+ },
+ {
+  "rid": "n27098",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Signed railway-operator XStream resume export with an application data root."
+ },
+ {
+  "rid": "n27099",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream root is a Winter collection string element from a signed application export, no gadget type."
+ },
+ {
+  "rid": "n27100",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream string wrapper for standard settings in a verified application export, plain string value with no gadget."
+ },
+ {
+  "rid": "n27101",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream input is a plain string XML from a signed reconciliation export with no gadget type."
+ },
+ {
+  "rid": "n27102",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream root is a plain string from a verified application export; no gadget type present."
+ },
+ {
+  "rid": "n27103",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "XStream AnyType sink receives only a plain string root from a verified application export; no gadget."
+ },
+ {
+  "rid": "n27104",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream input is a plain string XML from a signed application export with no gadget type."
+ },
+ {
+  "rid": "n27105",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream XML string wrapper is the intended content of an application export clone, with a verified export signature and a plain string value, no gadget."
+ },
+ {
+  "rid": "n27106",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream string wrapper for a weekly rota in a verified application export, plain string value with no gadget."
+ },
+ {
+  "rid": "n27107",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream root is a plain string from a verified application export; no gadget type present."
+ },
+ {
+  "rid": "n27108",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream root is an Archived draft string element from a signed application export, no gadget type."
+ },
+ {
+  "rid": "n27109",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Polymorphic @class in a signed application export restore with a benign class name and no gadget."
+ },
+ {
+  "rid": "n27110",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Jackson @class selector sits in a signed application export preview; the named class is ordinary, but the LaissezFaire polymorphic validator is a deserialization-type surface with no gadget shown."
+ },
+ {
+  "rid": "n27111",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Jackson @class CatalogView in a signed application export, no gadget class on the classpath."
+ },
+ {
+  "rid": "n27112",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Jackson default typing with a LaissezFaire validator accepts an @class key; the export signature is verified, which weakens the case."
+ },
+ {
+  "rid": "n27113",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Jackson @class key sits inside a signed museum-operator application export with application data root."
+ },
+ {
+  "rid": "n27114",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Signed museum-operator application export carries an unresolvable @class key with no gadget class."
+ },
+ {
+  "rid": "n27115",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Jackson default typing with a LaissezFaire validator accepts an @class key; the export signature is verified, which weakens the case."
+ },
+ {
+  "rid": "n27116",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Jackson @class selector in a signed application export clone; the named class is ordinary, but the LaissezFaire polymorphic validator is a deserialization-type surface with no gadget shown."
+ },
+ {
+  "rid": "n27117",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Jackson @class selector in a signed application export replace; the named class is ordinary, but the LaissezFaire polymorphic validator is a deserialization-type surface with no gadget shown."
+ },
+ {
+  "rid": "n27118",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Signed application export with a @class type marker under a lax validator, but the named class does not exist and no gadget is shown."
+ },
+ {
+  "rid": "n27119",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Jackson @class CatalogView in a signed application export, no gadget class on the classpath."
+ },
+ {
+  "rid": "n27120",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Verified application export with @class hint naming a nonexistent class; no gadget present."
+ },
+ {
+  "rid": "n27121",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Verified application export with @class hint naming a nonexistent class; no gadget present."
+ },
+ {
+  "rid": "n27122",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "Polymorphic @class in a signed application export with a benign class name and no gadget."
+ },
+ {
+  "rid": "n27123",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Signed application export with a string root value; the encoded blob is an admin layout-restore feature with no gadget."
+ },
+ {
+  "rid": "n27124",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter string blob from a signed warehouse-operator export with no gadget type."
+ },
+ {
+  "rid": "n27125",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter root is a plain string from a signed application export, no gadget type."
+ },
+ {
+  "rid": "n27126",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "BinaryFormatter checkpoint from a signed application export with string root and no gadget type."
+ },
+ {
+  "rid": "n27127",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter root is a plain string from a signed application export, no gadget type."
+ },
+ {
+  "rid": "n27128",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "BinaryFormatter sink, but the NRBF payload is a plain string from a verified application export."
+ },
+ {
+  "rid": "n27129",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter session stream decodes to a plain string value from a verified application export, with no gadget type."
+ },
+ {
+  "rid": "n27130",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Signed application export with a string root value; the encoded blob is an admin layout-restore feature with no gadget."
+ },
+ {
+  "rid": "n27131",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:50",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Verified application export with plain string root in BinaryFormatter; no gadget present."
+ },
+ {
+  "rid": "n27132",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:51",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "BinaryFormatter package from a signed application export with string root and no gadget type."
+ },
+ {
+  "rid": "n27133",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:52",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter root is a plain string from a signed application export, no gadget type."
+ },
+ {
+  "rid": "n27134",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:53",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter blob is a signed operator export with a plain string root and no gadget type."
+ },
+ {
+  "rid": "n27278",
+  "label": "crlf_header_injection",
+  "ref": "crlf_header_injection.vcx17.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "crlf_header_injection",
+  "sufficient": false,
+  "note": "CRLF in X-Vessel-Name forges a journal line; this is log injection rather than header injection."
+ },
+ {
+  "rid": "n27349",
+  "label": "crlf_header_injection",
+  "ref": "crlf_header_injection.vcx17.jsonl:82",
+  "kind": "telemetry",
+  "reviewer": "crlf_header_injection",
+  "sufficient": false,
+  "note": "CRLF in User-Agent forges an access-log line; this is log injection rather than header injection."
+ },
+ {
+  "rid": "n27373",
+  "label": "crlf_header_injection",
+  "ref": "crlf_header_injection.vcx17.jsonl:106",
+  "kind": "telemetry",
+  "reviewer": "crlf_header_injection",
+  "sufficient": false,
+  "note": "CRLF in X-Residence-Hall forges an access-log line; this is log injection rather than header injection."
+ },
+ {
+  "rid": "n27434",
+  "label": "crlf_header_injection",
+  "ref": "crlf_header_injection.vcx17.jsonl:167",
+  "kind": "telemetry",
+  "reviewer": "crlf_header_injection",
+  "sufficient": false,
+  "note": "CRLF in User-Agent forges a fake access-log line; this is log injection, which is only loosely within header-injection scope."
+ },
+ {
+  "rid": "n27470",
+  "label": "crlf_header_injection",
+  "ref": "crlf_header_injection.vcx17.jsonl:203",
+  "kind": "telemetry",
+  "reviewer": "crlf_header_injection",
+  "sufficient": false,
+  "note": "CRLF in Referer forges an access-log line; this is log injection rather than header injection."
+ },
+ {
+  "rid": "x27716",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.v4.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Signature reported valid and claims checked, but the token header is missing from telemetry; insufficient evidence for a bypass."
+ },
+ {
+  "rid": "x27718",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature verified against the env key after lowercase alg normalisation; ordinary wishlist POST."
+ },
+ {
+  "rid": "x27719",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified under lenient base64 decoding; ordinary returns portal session POST."
+ },
+ {
+  "rid": "x27720",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified under lenient base64 decoding; ordinary recent-orders GET."
+ },
+ {
+  "rid": "x27721",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 accepted through lenient base64 decoding of a padded signature; the signature did verify, so no forgery is shown."
+ },
+ {
+  "rid": "x27722",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified under lenient base64 decoding; signature passes, ordinary refund status GET."
+ },
+ {
+  "rid": "x27723",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 signature segment is padded base64 accepted by a lenient decoder (strict_b64url false); malleability shown, forgery not shown."
+ },
+ {
+  "rid": "x27724",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 accepted through lenient base64 decoding of a padded signature; the signature did verify, so no forgery is shown."
+ },
+ {
+  "rid": "x27725",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 accepted through lenient base64 decoding of a padded signature; the signature did verify, so no forgery is shown."
+ },
+ {
+  "rid": "x27726",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified under lenient base64 decoding; ordinary preferences PUT."
+ },
+ {
+  "rid": "x27730",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:56",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS512 signature matched the config static key; ordinary card-limit POST by the cardholder token."
+ },
+ {
+  "rid": "x27731",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:57",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS512 accepted from token header alongside RS256 with a config_static key; algorithm-selection surface, no forgery shown."
+ },
+ {
+  "rid": "x27732",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS512 signature matched the config static key; ordinary card freeze POST inside the token's permissions."
+ },
+ {
+  "rid": "x27733",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:59",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS512 accepted from token header with a config_static key alongside RS256; algorithm-selection surface, no forgery shown."
+ },
+ {
+  "rid": "x27734",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:60",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS512 accepted from token header with a config_static key alongside RS256; algorithm-selection surface, no forgery shown."
+ },
+ {
+  "rid": "x27735",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:61",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS512 token verified with a static config key; the signature matched and no exploit is shown."
+ },
+ {
+  "rid": "x27736",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:62",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS512 token verified with a static config key; the signature matched and no exploit is shown."
+ },
+ {
+  "rid": "x27737",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:63",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS512 signature matched the config static key; ordinary card-control DELETE by the cardholder token."
+ },
+ {
+  "rid": "x27739",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:69",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Last Authorization header used while multiple headers are not rejected; a parser ambiguity with one header shown and no forgery evidence."
+ },
+ {
+  "rid": "x27741",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Unencoded (b64:false) payload accepted; a parser flaw, but no forgery evidence in the telemetry."
+ },
+ {
+  "rid": "x27743",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w00.jsonl:75",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Unencoded (b64:false) payload accepted by the verifier; a parser flaw, but no forgery evidence in the telemetry."
+ },
+ {
+  "rid": "x27769",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w01.jsonl:60",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "RS256 under a retired key trusted indefinitely; signature verified, ordinary refund body, no forgery evidence."
+ },
+ {
+  "rid": "x27774",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w01.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Retired RS256 key trusted and signature verified; ordinary refund body, no forgery evidence."
+ },
+ {
+  "rid": "x27784",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 verified against a key pool shared across tenants; cross-tenant key trust is a verifier weakness, not shown exploited."
+ },
+ {
+  "rid": "x27785",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Issuer key pool shared across tenants; signature verified against pool key, no forgery shown."
+ },
+ {
+  "rid": "x27786",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 verified against a key pool shared across tenants; cross-tenant key trust is a verifier weakness, not shown exploited."
+ },
+ {
+  "rid": "x27787",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 signature verified against the shared pool key with a claims_supervisor token; ordinary reserves read."
+ },
+ {
+  "rid": "x27788",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Issuer key pool shared across tenants; signature verified against pool key, no forgery shown."
+ },
+ {
+  "rid": "x27789",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 signature verified against a pool key; the shared key pool is a config concern but no forged or unverified token is shown."
+ },
+ {
+  "rid": "x27790",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Issuer key pool shared across tenants, a cross-tenant trust flaw; signature verified against pool key, no forgery shown."
+ },
+ {
+  "rid": "x27791",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 verified against a key pool shared across tenants; cross-tenant key trust is a verifier weakness, not shown exploited."
+ },
+ {
+  "rid": "x27807",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:88",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Retired RS256 key accepted (retired_key_expiry none) with valid signature; read-only invoices GET, no forgery evidence."
+ },
+ {
+  "rid": "x27808",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w02.jsonl:89",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Retired RS256 key accepted with valid signature; retained retired keys are config, read-only GET, no forgery evidence."
+ },
+ {
+  "rid": "x27811",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w03.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "kid absent falls back to index 0 (kid_resolved false); key-selection weakness, signature passed, no forgery shown."
+ },
+ {
+  "rid": "x27813",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w03.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "RS256 token without kid verified via index-0 fallback; the signature passed and no forgery is shown."
+ },
+ {
+  "rid": "x27815",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w03.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 signature passed against key index 0 after kid absence; ordinary CMS webhook test with an in-scope feeds:rebuild token."
+ },
+ {
+  "rid": "x27817",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w03.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "RS256 token without kid verified via index-0 fallback; the signature passed and no forgery is shown."
+ },
+ {
+  "rid": "x27820",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w03.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "kid absent falls back to index 0 (kid_resolved false); key-selection weakness, signature passed, no forgery shown."
+ },
+ {
+  "rid": "x27825",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w03.jsonl:70",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "RS256 token without kid verified via index-0 fallback; the signature passed and no forgery is shown."
+ },
+ {
+  "rid": "x27829",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w03.jsonl:82",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "RS256 token without kid verified via index-0 fallback; the signature passed and no forgery is shown."
+ },
+ {
+  "rid": "x27832",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w03.jsonl:94",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Missing kid falls back to key index 0 (kid_missing_fallback); key-selection weakness, signature passed, no forgery shown."
+ },
+ {
+  "rid": "x27834",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Retired-key token within a configured 720-hour grace period; a stated rotation policy, not an attack."
+ },
+ {
+  "rid": "x27837",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Retired-key token within a configured 720-hour grace period; a stated rotation policy, not an attack."
+ },
+ {
+  "rid": "x27840",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Retired-key token within a configured 720-hour grace period; a stated rotation policy, not an attack."
+ },
+ {
+  "rid": "x27844",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "iat is far in the future and iat_future_check is not enforced; a claim-check gap but no expiry or signature bypass shown."
+ },
+ {
+  "rid": "x27845",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 token with retired kid cit-2024-07 accepted under a 720 h grace; retirement date is not in the telemetry."
+ },
+ {
+  "rid": "x27846",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Lowercase alg rs256 normalised then verified against JWKS; signature valid, no forgery evidence."
+ },
+ {
+  "rid": "x27847",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:50",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified under a retired kid inside the grace window; ordinary profile GET."
+ },
+ {
+  "rid": "x27849",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:62",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Retired-key token within a configured 720-hour grace period; a stated rotation policy, not an attack."
+ },
+ {
+  "rid": "x27852",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Lowercase alg rs256 normalised then verified against JWKS; signature valid, no forgery evidence."
+ },
+ {
+  "rid": "x27853",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:74",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Token with retired kid cit-2024-07 accepted under a 720 h grace; retirement date is not in the telemetry, and path profile/1518 vs sub citizen-13138 shows no ID-sequence evidence."
+ },
+ {
+  "rid": "x27855",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:81",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Token with iat about one year in the future was accepted (iat_future_check not_enforced); claim-check gap, no exploit shown."
+ },
+ {
+  "rid": "x27856",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:86",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified under a retired kid inside the 720h grace window; ordinary profile PUT."
+ },
+ {
+  "rid": "x27857",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w04.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Token with iat about one year in the future was accepted (iat_future_check not_enforced); claim-check gap, no exploit shown."
+ },
+ {
+  "rid": "x27860",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w05.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Allowlist matched case-insensitively in the library but not at the gateway (alg hs256); signature result not shown."
+ },
+ {
+  "rid": "x27869",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS256 signature matches a retired key version still accepted; ordinary leave-balance GET, no forgery evidence."
+ },
+ {
+  "rid": "x27871",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS256 signature matches and passes; token carried in query string but verified, read-only status poll."
+ },
+ {
+  "rid": "x27872",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature matched a retained key version and the git client submits a leave request inside the token scope."
+ },
+ {
+  "rid": "x27873",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Non-canonical alg Hs256 accepted case-insensitively; signature matched the legitimate key, so only a confusion surface."
+ },
+ {
+  "rid": "x27874",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "exp is sent as a string and compared with string_compare; same-length 10-digit values compare like numbers, so an expiry bypass is not shown."
+ },
+ {
+  "rid": "x27875",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS256 accepted after lenient padding normalisation; the signature did verify, so no forgery is shown."
+ },
+ {
+  "rid": "x27877",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 accepted against a pinned key flagged pinned_key_retired; a retired trust anchor still verifies tokens."
+ },
+ {
+  "rid": "x27878",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Hs256 matched case-insensitively and the HMAC verified against the secret store; no bypass evidence."
+ },
+ {
+  "rid": "x27880",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS256 signature matches and passes; token in query string but verified, read-only CI status poll."
+ },
+ {
+  "rid": "x27881",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Non-canonical alg Hs256 accepted case-insensitively with RS256 and HS256 both allowed; signature matched, so only a confusion surface."
+ },
+ {
+  "rid": "x27883",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature matches the ATS key with lenient padding; ordinary applications POST from a git client."
+ },
+ {
+  "rid": "x27887",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature matches the CI secret; the token in the query string is a transport weakness, not a forged or unverified token."
+ },
+ {
+  "rid": "x27888",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Token matched key version v1-retired, which the verifier still accepts with no stated expiry."
+ },
+ {
+  "rid": "x27889",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Case-insensitive alg match with an HS256 signature verified against the secret store; no bypass evidence."
+ },
+ {
+  "rid": "x27890",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "exp sent as a string and compared with string_compare; same-length 10-digit values compare like numbers, so an expiry bypass is not shown."
+ },
+ {
+  "rid": "x27891",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature matches the ATS key with lenient padding; ordinary applications POST from a git client."
+ },
+ {
+  "rid": "x27892",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Signature matched the ats secret after lenient padding normalisation; malleability shown, forgery not shown."
+ },
+ {
+  "rid": "x27894",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Id token in form body verified with HS256 and leave scope; ordinary approval POST, no forgery evidence."
+ },
+ {
+  "rid": "x27895",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS256 signature matches and passes; token in query string but verified, read-only CI status poll."
+ },
+ {
+  "rid": "x27896",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Valid HS256 signature under retired key v1 with no expiry or forgery evidence; ordinary leave request body."
+ },
+ {
+  "rid": "x27899",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:51",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "exp sent as a string and compared with string_compare; same-length 10-digit values compare like numbers, so an expiry bypass is not shown."
+ },
+ {
+  "rid": "x27900",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:52",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS256 accepted after lenient padding normalisation; the signature did verify, so no forgery is shown."
+ },
+ {
+  "rid": "x27902",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:54",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 accepted against a pinned key flagged pinned_key_retired; a retired trust anchor still verifies tokens."
+ },
+ {
+  "rid": "x27904",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:59",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Token passed in a query parameter (access_token) with a clean HS256 verification; a leakage pattern, not an attack."
+ },
+ {
+  "rid": "x27905",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:60",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Token matched key version v1-retired, which the verifier still accepts with no stated expiry."
+ },
+ {
+  "rid": "x27906",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:62",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Literal alg 'Hs256' is normalised case-insensitively, but the HMAC signature matched the onboarding secret-store key, so no forgery is shown."
+ },
+ {
+  "rid": "x27908",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:64",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature matches the secret-store key; only lenient padding normalisation, no forgery evidence."
+ },
+ {
+  "rid": "x27912",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:70",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "id_token passed in a body parameter with a clean HS256 verification; token-type confusion is not shown exploited."
+ },
+ {
+  "rid": "x27913",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:71",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Token passed in a query parameter (access_token) with a clean HS256 verification; a leakage pattern, not an attack."
+ },
+ {
+  "rid": "x27914",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS256 signature matches a retired key version still listed as accepted; ordinary leave-balance GET, no forgery evidence."
+ },
+ {
+  "rid": "x27915",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:74",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Hs256 matched case-insensitively and the HMAC verified against the secret store; no bypass evidence."
+ },
+ {
+  "rid": "x27917",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:76",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 verified by ATS signing key with lenient padding; ordinary applications POST from a git client."
+ },
+ {
+  "rid": "x27919",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:78",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 accepted against a pinned key flagged pinned_key_retired; a retired trust anchor still verifies tokens."
+ },
+ {
+  "rid": "x27921",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:83",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS256 signature matches and passes; token in query string but verified, read-only CI status poll."
+ },
+ {
+  "rid": "x27922",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:86",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Hs256 matched case-insensitively and the HMAC verified against the secret store; no bypass evidence."
+ },
+ {
+  "rid": "x27924",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:88",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS256 accepted after lenient padding normalisation; the signature did verify, so no forgery is shown."
+ },
+ {
+  "rid": "x27926",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:90",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "RS256 accepted against a pinned key flagged pinned_key_retired; a retired trust anchor still verifies tokens."
+ },
+ {
+  "rid": "x27928",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:94",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "id_token passed in a body parameter with a clean HS256 verification; token-type confusion is not shown exploited."
+ },
+ {
+  "rid": "x27929",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w06.jsonl:95",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature matched the CI secret; the token in the query string is a transport weakness, not a forged token."
+ },
+ {
+  "rid": "x27930",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 with exp, aud, iss validation passed against the service secret; ordinary usage read."
+ },
+ {
+  "rid": "x27931",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 with exp, aud, iss validation passed; ordinary bill read."
+ },
+ {
+  "rid": "x27936",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature and claims pass against the service secret; ordinary offers GET."
+ },
+ {
+  "rid": "x27939",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature and claims pass against the service secret; ordinary plan-change POST."
+ },
+ {
+  "rid": "x27941",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Outer HS256 token verifies and claims pass; the embedded inner token is a claim value, not an accepted credential."
+ },
+ {
+  "rid": "x27942",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Outer family:read token verified normally for a GET; the nested inner claim is not used by the verifier."
+ },
+ {
+  "rid": "x27943",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Outer HS256 token verifies and claims pass; embedded inner token is a claim value, ordinary usage alerts GET."
+ },
+ {
+  "rid": "x27944",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Outer token carries only family:read yet the parental-controls write is accepted; an unverified inner nested token claims family:manage."
+ },
+ {
+  "rid": "x27945",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Outer family:read token verified normally for a GET; the nested inner claim is not used by the verifier."
+ },
+ {
+  "rid": "x27946",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Outer HS256 token verifies and claims pass; the embedded inner token is a claim value, ordinary policy GET."
+ },
+ {
+  "rid": "x27947",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 with service secret; exp, aud and iss checks pass; ordinary device list."
+ },
+ {
+  "rid": "x27948",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "PUT address write accepted on a family:read-scoped token; scope is not enforced on the write, but the evidence is indirect."
+ },
+ {
+  "rid": "x27949",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Outer family:read token verified normally for a GET; the nested inner claim is not used by the verifier."
+ },
+ {
+  "rid": "x27951",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature and claims pass with an ordinary roaming-status GET."
+ },
+ {
+  "rid": "x27952",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS256 with full claim checks passed; duplicate_keys last_wins is configured but no duplicate claim is present, and the service account reads its scoped accounts."
+ },
+ {
+  "rid": "x27953",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Signed payload has duplicate sub keys with last_wins parsing, a claim-parsing flaw; exploitation not shown."
+ },
+ {
+  "rid": "x27954",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Duplicate sub keys with last_wins parsing; a claim-parsing flaw in a signed payload, no exploitation shown."
+ },
+ {
+  "rid": "x27955",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 token with strict signature and claim checks passed for a normal email update."
+ },
+ {
+  "rid": "x27956",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:56",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 with exp, aud, iss validation passed; ordinary quotes query."
+ },
+ {
+  "rid": "x27957",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:57",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 with exp, aud, iss validation passed; ordinary hotel availability query."
+ },
+ {
+  "rid": "x27958",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature and claims pass with an ordinary fare-rules GET; lenient JSON decode only."
+ },
+ {
+  "rid": "x27959",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:59",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Strict RS256 verification with exp, aud and iss checks passed and the claims are ordinary."
+ },
+ {
+  "rid": "x27960",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature and claims pass against the service secret; ordinary sim-status GET."
+ },
+ {
+  "rid": "x27961",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:60",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 with exp, aud, iss validation passed; ordinary partner hold POST inside quotes/holds scope."
+ },
+ {
+  "rid": "x27962",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:61",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 with exp, aud, iss validation passed; ordinary inventory status query."
+ },
+ {
+  "rid": "x27963",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:62",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": false,
+  "note": "Token with quotes:read holds:write writes a partner markup field (pct) via PUT; the signature is valid, so this is a write-scope question, not a forgery."
+ },
+ {
+  "rid": "x27964",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:63",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS256 verified with lenient decoding of a padded signature; the HMAC matched, so no forgery is shown."
+ },
+ {
+  "rid": "x27965",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:64",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 JWKS signature and exp, aud, iss checks pass; plain airport search q=Lis."
+ },
+ {
+  "rid": "x27966",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:65",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified against JWKS with claims pass; ordinary seat-map GET."
+ },
+ {
+  "rid": "x27967",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:66",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 signature, exp, aud and iss all pass against JWKS; ordinary check-in."
+ },
+ {
+  "rid": "x27968",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:67",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 JWKS signature and exp, aud, iss checks pass; ordinary baggage lookup."
+ },
+ {
+  "rid": "x27969",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:68",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified against JWKS with claims pass; ordinary flight-status GET."
+ },
+ {
+  "rid": "x27970",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:69",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 token with strict signature and claim checks passed for a normal preference update."
+ },
+ {
+  "rid": "x27971",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 token with strict signature and claim checks passed for a normal notifications read."
+ },
+ {
+  "rid": "x27972",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:70",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 JWKS signature and claims pass; ordinary lounge lookup."
+ },
+ {
+  "rid": "x27973",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:71",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Strict RS256 verification with exp, aud and iss checks passed and the claims are ordinary."
+ },
+ {
+  "rid": "x27980",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:88",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 AT+JWT verified against JWKS with claims pass; ordinary trips GET."
+ },
+ {
+  "rid": "x27981",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:89",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 AT+JWT with JWKS signature and exp, aud, iss checks passing; ordinary profile read."
+ },
+ {
+  "rid": "x27982",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 signature and claims pass with an ordinary eSIM profiles GET."
+ },
+ {
+  "rid": "x27983",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:90",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified with JWKS and claims pass; ordinary preferences PUT."
+ },
+ {
+  "rid": "x27984",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:91",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 AT+JWT with exp, aud and iss validation passed; ordinary preferences read."
+ },
+ {
+  "rid": "x27985",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:92",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "AT+JWT RS256 token with strict signature and claim checks passed for a normal read."
+ },
+ {
+  "rid": "x27986",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:93",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "AT+JWT RS256 token with strict signature and claim checks passed for a normal read."
+ },
+ {
+  "rid": "x27987",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:94",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "AT+JWT RS256 token with strict signature and claim checks passed for a normal feedback POST."
+ },
+ {
+  "rid": "x27988",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs1w07.jsonl:95",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "RS256 verified against JWKS with claims pass; ordinary tier-status GET."
+ },
+ {
+  "rid": "x27996",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS384 verified with a JWKS oct key and the token carries card_program_admin for a cardholder subject, but the route is the subject's own card limits."
+ },
+ {
+  "rid": "x27998",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Legacy HS256 key signature matches with required claims present; no clear bypass evidence."
+ },
+ {
+  "rid": "x28002",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Pinned HS256 with required claims; signature matched the rx legacy secret; ordinary refill POST."
+ },
+ {
+  "rid": "x28003",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS384 HMAC key sourced from a JWKS oct key, so the verification key may be public; no forgery shown in telemetry."
+ },
+ {
+  "rid": "x28005",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Pinned HS256 with required iss, aud, exp; signature matched the rx legacy secret; ordinary refill read."
+ },
+ {
+  "rid": "x28007",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS384 HMAC key sourced from a JWKS oct key, so the verification key may be public; no forgery shown in telemetry."
+ },
+ {
+  "rid": "x28009",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:53",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS384 HMAC key sourced from a JWKS oct key, so the verification key may be public; no forgery shown in telemetry."
+ },
+ {
+  "rid": "x28011",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:57",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Pinned HS256 with required iss, aud, exp; signature matched the rx legacy secret; ordinary refill POST."
+ },
+ {
+  "rid": "x28012",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:65",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS384 verified with a JWKS oct key and the token carries card_program_admin for a cardholder subject, but the route is the subject's own card limits."
+ },
+ {
+  "rid": "x28014",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:69",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Pinned HS256 verification with required iss, aud and exp claims passed for a normal refill request."
+ },
+ {
+  "rid": "x28017",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:77",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "HS384 verified with a JWKS oct key and the token carries card_program_admin for a cardholder subject, but the route is the subject's own card controls."
+ },
+ {
+  "rid": "x28018",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:81",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Pinned HS256 verification with required iss, aud and exp claims passed for a normal refill request."
+ },
+ {
+  "rid": "x28019",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "HS256 with pinned alg, signature matched the rx legacy secret, required claims present; no forgery shown."
+ },
+ {
+  "rid": "x28021",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w01.jsonl:93",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Pinned HS256 with required claims; signature matched the rx legacy secret; ordinary refill read."
+ },
+ {
+  "rid": "x28025",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "On a JWKS miss the verifier falls back to HS256 with a legacy shared secret, an algorithm-confusion surface not shown exploited."
+ },
+ {
+  "rid": "x28029",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "On a JWKS miss the verifier falls back to HS256 with a legacy shared secret, an algorithm-confusion surface not shown exploited."
+ },
+ {
+  "rid": "x28030",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "On a JWKS miss the verifier falls back to HS256 with a legacy shared secret, an algorithm-confusion surface not shown exploited."
+ },
+ {
+  "rid": "x28031",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "On a JWKS miss the verifier falls back to HS256 with a legacy shared secret, an algorithm-confusion surface not shown exploited."
+ },
+ {
+  "rid": "x28035",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:88",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "kid_lookup resolved kid support-2026-q2 and the token was accepted; the empty tenant_default_key fallback is configured but not shown as used."
+ },
+ {
+  "rid": "x28036",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:89",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "A support_agent token, correctly verified, starts impersonation; the scope grants it, so the role boundary is unclear."
+ },
+ {
+  "rid": "x28037",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:91",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Kid-resolved HS256 token verified normally; the tenant default key and impersonation scope are configuration, not exercised attack evidence."
+ },
+ {
+  "rid": "x28038",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:94",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "kid_lookup resolved kid support-2026-q2 and the token was accepted; the empty tenant_default_key fallback (len 0) is configured but not shown as used."
+ },
+ {
+  "rid": "x28039",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vs2w02.jsonl:95",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Kid-resolved HS256 token verified normally; the tenant default key and impersonation scope are configuration, not exercised attack evidence."
+ },
+ {
+  "rid": "n28040",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from coupon-wall.invalid accepted outside the allowed rehearsal origin with a cross-site session cookie; rate 1.0/s is otherwise normal."
+ },
+ {
+  "rid": "n28041",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from coupon-wall.invalid accepted outside the allowed bakery origin with a SameSite=None session cookie; rate 1.0/s is otherwise normal."
+ },
+ {
+  "rid": "n28042",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from coupon-wall.invalid accepted outside the allowed sailing origin with a cross-site session cookie; rate 1.0/s is otherwise normal."
+ },
+ {
+  "rid": "n28055",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Same cast-call upgrade as its allowed-origin twin but from embedded-news.invalid, outside allowed_origins; origin is the only signal."
+ },
+ {
+  "rid": "n28056",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade accepted with a session cookie from origin embedded-news.invalid, outside allowed_origins; origin is the only signal."
+ },
+ {
+  "rid": "n28057",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from embedded-news.invalid accepted outside the allowed sailing origin with a cross-site session cookie; rate 1.1/s is otherwise normal."
+ },
+ {
+  "rid": "n28070",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from sweepstake.invalid accepted outside the allowed rehearsal origin with a cross-site session cookie; rate 1.2/s is otherwise normal."
+ },
+ {
+  "rid": "n28071",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade accepted from origin sweepstake.invalid, outside allowed_origins; normal rate, so origin is the only signal."
+ },
+ {
+  "rid": "n28072",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from sweepstake.invalid accepted outside the allowed sailing origin with a cross-site session cookie; rate 1.2/s is otherwise normal."
+ },
+ {
+  "rid": "n28085",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from event-mirror.invalid accepted outside the allowed rehearsal origin with a cross-site session cookie; rate 1.3/s is otherwise normal."
+ },
+ {
+  "rid": "n28086",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from event-mirror.invalid accepted outside the allowed bakery origin with a cross-site session cookie; rate 1.3/s is otherwise normal."
+ },
+ {
+  "rid": "n28087",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin event-mirror.invalid, outside allowed_origins; normal rate, origin is the only signal."
+ },
+ {
+  "rid": "n28100",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:60",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from recipe-widget.invalid accepted outside the allowed rehearsal origin with a cross-site session cookie; rate 1.4/s is otherwise normal."
+ },
+ {
+  "rid": "n28101",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:61",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade accepted from origin recipe-widget.invalid, outside allowed_origins; normal rate and entitled topic, so origin is the only signal."
+ },
+ {
+  "rid": "n28102",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:62",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from recipe-widget.invalid accepted outside the allowed sailing origin with a cross-site session cookie; rate 1.4/s is otherwise normal."
+ },
+ {
+  "rid": "n28115",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:75",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin guest-poll.invalid, outside allowed_origins; normal rate, origin is the only signal."
+ },
+ {
+  "rid": "n28116",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:76",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade accepted from origin guest-poll.invalid, outside allowed_origins; normal rate and entitled topic, origin is the only signal."
+ },
+ {
+  "rid": "n28117",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:77",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from guest-poll.invalid accepted outside the allowed sailing origin with a cross-site session cookie; rate 1.5/s is otherwise normal."
+ },
+ {
+  "rid": "n28130",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:90",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from travel-banner.invalid accepted outside the allowed rehearsal origin with a cross-site session cookie; rate 1.6/s is otherwise normal."
+ },
+ {
+  "rid": "n28131",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:91",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin travel-banner.invalid, outside allowed_origins; normal rate, origin is the only signal."
+ },
+ {
+  "rid": "n28132",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:92",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin travel-banner.invalid, outside allowed_origins; normal rate, origin is the only signal."
+ },
+ {
+  "rid": "n28145",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:105",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from prize-desk.invalid accepted outside the allowed rehearsal origin with a cross-site session cookie; rate 1.7/s is otherwise normal."
+ },
+ {
+  "rid": "n28146",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:106",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from prize-desk.invalid accepted outside the allowed bakery origin with a cross-site session cookie; rate 1.7/s is otherwise normal."
+ },
+ {
+  "rid": "n28147",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:107",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from prize-desk.invalid accepted outside the allowed sailing origin with a cross-site session cookie; rate 1.7/s is otherwise normal."
+ },
+ {
+  "rid": "n28160",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:120",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from weather-embed.invalid accepted outside the allowed rehearsal origin with a cross-site session cookie; rate 1.8/s is otherwise normal."
+ },
+ {
+  "rid": "n28161",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:121",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin weather-embed.invalid, outside allowed_origins; normal rate and monitor action, origin is the only signal."
+ },
+ {
+  "rid": "n28162",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:122",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin weather-embed.invalid, outside allowed_origins; normal rate, origin is the only signal."
+ },
+ {
+  "rid": "n28175",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:135",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin fan-page.invalid, outside allowed_origins; normal rate and entitlement, origin is the only signal."
+ },
+ {
+  "rid": "n28176",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:136",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin fan-page.invalid, outside allowed_origins; normal rate, origin is the only signal."
+ },
+ {
+  "rid": "n28177",
+  "label": "websocket_grpc_abuse",
+  "ref": "websocket_grpc_abuse.vcx19.jsonl:137",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "Upgrade from origin fan-page.invalid, outside allowed_origins; normal rate and entitlement, origin is the only signal."
+ },
+ {
+  "rid": "n28201",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx19_websocket_grpc_abuse.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": true,
+  "note": "Bidi gRPC stream at 420 msg/s against a 12 msg/s policy limit from a member principal with no service identity."
  }
 ]

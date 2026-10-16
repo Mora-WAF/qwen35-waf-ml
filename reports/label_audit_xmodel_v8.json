@@ -1,0 +1,823 @@
+{
+ "models": [
+  "codex"
+ ],
+ "items": 1469,
+ "answered": {
+  "codex": 1469
+ },
+ "agreement_35class": {
+  "codex": 0.937
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 0.99
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {},
+  "benign_standard_traffic": {
+   "codex": 0.84
+  },
+  "bfla_admin_function_probing": {},
+  "bola_idor_enumeration": {},
+  "bopla_mass_assignment": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {},
+  "crlf_header_injection": {
+   "codex": 0.94
+  },
+  "csv_formula_injection": {
+   "codex": 1.0
+  },
+  "deserialization": {
+   "codex": 1.0
+  },
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http2_rapid_reset_continuation": {},
+  "http_request_smuggling": {},
+  "jwt_auth_bypass": {},
+  "ldap_xpath_injection": {
+   "codex": 1.0
+  },
+  "llm_prompt_injection": {},
+  "malicious_file_upload_webshell": {},
+  "mcp_agentic_tool_abuse": {},
+  "nosqli": {},
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {},
+  "port_scan_recon": {},
+  "prototype_pollution": {},
+  "race_condition_toctou_burst": {},
+  "rce_cmd_injection": {},
+  "slowloris_slowhttp": {},
+  "sqli_classic": {},
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {},
+  "syn_flood_ddos": {},
+  "tls_ja4_ua_spoofing": {},
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {
+   "codex": 0.91
+  },
+  "xss_dom_polyglot": {},
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 93,
+ "contested_by_class": {
+  "benign_standard_traffic": 53,
+  "websocket_grpc_abuse": 26,
+  "crlf_header_injection": 14
+ },
+ "contested": [
+  {
+   "rid": "n27088",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26294",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:56",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n26243",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:5",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "n27134",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:53",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27081",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26336",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:98",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27124",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:43",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27095",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:14",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26252",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:14",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27098",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26239",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:1",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n26297",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:59",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "n27114",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:33",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27373",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:106",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27290",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:23",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n27104",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:23",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27126",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:45",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27132",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:51",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26268",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:30",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "n26350",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:112",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27122",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:41",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27089",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27101",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:20",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27109",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:28",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27130",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:49",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27123",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:42",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27469",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:202",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n27093",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:12",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26266",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:28",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27092",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:11",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27118",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:37",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26366",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:128",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "n27105",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:24",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26322",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:84",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27301",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:34",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n27110",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:29",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27116",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:35",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27117",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:36",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27458",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:191",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n27129",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:48",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27082",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27100",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27083",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26280",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:42",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27097",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:16",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27086",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27085",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27106",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:25",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26267",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:29",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n26238",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:0",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n26295",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:57",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n26337",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:99",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27289",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:22",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n27115",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:34",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27128",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:47",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27103",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:22",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27096",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:15",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27112",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:31",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26308",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:70",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27091",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26253",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:15",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n26240",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:2",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "n27398",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:131",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26351",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:113",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n27409",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:142",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27090",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27107",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:26",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26323",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:85",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n26352",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:114",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "n27422",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:155",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27102",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:21",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27120",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:39",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27277",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27410",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:143",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n27131",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:50",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27446",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:179",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n27374",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:107",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n26365",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:127",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n27084",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27121",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:40",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27087",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26309",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:71",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n27094",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27125",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:44",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27362",
+   "label": "crlf_header_injection",
+   "ref": "crlf_header_injection.vcx17.jsonl:95",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26281",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:43",
+   "votes": {
+    "codex": "bola_idor_enumeration"
+   }
+  },
+  {
+   "rid": "n27133",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:52",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27127",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:46",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27108",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:27",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n26364",
+   "label": "websocket_grpc_abuse",
+   "ref": "websocket_grpc_abuse.vcx13.jsonl:126",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n27099",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27111",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:30",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n27119",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx16_deserialization.jsonl:38",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

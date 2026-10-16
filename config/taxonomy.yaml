@@ -1,7 +1,7 @@
 version: 1
 input_modes: [L7_HTTP, L4_FLOW, HYBRID_CTX]
 domains: [L7_INJECTION, L7_API_PROTOCOL, L7_AI_MODERN, L4_NETWORK_FLOW, BENIGN]
-total_quota: 132000
+total_quota: 134400
 aliases:            # source-migration only
   benign_standard_web: benign_standard_traffic
 classes:
@@ -180,9 +180,9 @@ classes:
     quota: 3000
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Forged, unsigned, or algorithm-confused JSON Web Tokens aimed at bypassing verification."
-    exclusions: ["Decoding a token for inspection is not an attack", "Session fixation without token forgery"]
-    required_evidence: ["Verifier configuration such as allowed algorithms and key source, or test evidence", "Token header and signature material as received", "Evidence the altered token was accepted"]
+    scope: "Token verification bypass: a JWT or comparable signed bearer token accepted without valid verification, either because it is forged, unsigned or algorithm-confused, or because it exploits a verifier flaw (weak, default or empty secret; partial signature or claim checks; exp, nbf, aud, iss or token_use validation or type-coercion errors; attacker-controlled key sources)."
+    exclusions: ["Decoding a token for inspection is not an attack", "Session fixation without token forgery", "A correctly verified token whose claims grant more than the caller should have is an authorization flaw: bola_idor_enumeration, bopla_mass_assignment or bfla_admin_function_probing"]
+    required_evidence: ["Verifier configuration such as allowed algorithms, key source and claim checks, or test evidence", "Token header, claims and signature material as received", "Evidence the token was accepted despite the forgery or verifier flaw"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Client debugger showing decoded claims of its own valid token", "Expired token correctly rejected with a 401 by a documented verifier"]
   bola_idor_enumeration:
@@ -337,7 +337,7 @@ classes:
     benign_counterexamples: ["Authorized vulnerability scan listed in its change ticket", "Cluster manager discovering services across its own nodes"]
   c2_beaconing_anomaly:
     domain: L4_NETWORK_FLOW
-    quota: 2000
+    quota: 2600
     is_benign: false
     input_modes: [L4_FLOW, HYBRID_CTX]
     scope: "Periodic low-volume callbacks with regular intervals and consistent sizes, suggesting command-and-control check-ins."
@@ -347,7 +347,7 @@ classes:
     benign_counterexamples: ["Monitoring agent heartbeat to its vendor every 30 seconds", "Mail client polling IMAP at a fixed interval"]
   dns_tunneling_exfil:
     domain: L4_NETWORK_FLOW
-    quota: 2000
+    quota: 2600
     is_benign: false
     input_modes: [L4_FLOW, HYBRID_CTX]
     scope: "DNS queries carrying encoded data in long or high-entropy labels, or unusual high-volume record types."
@@ -357,7 +357,7 @@ classes:
     benign_counterexamples: ["CDN hostname with long generated subdomain labels", "Antivirus cloud lookup using hash-based hostnames"]
   tls_ja4_ua_spoofing:
     domain: L4_NETWORK_FLOW
-    quota: 2000
+    quota: 2600
     is_benign: false
     input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
     scope: "TLS fingerprint or user agent that does not match the measured client stack, used to impersonate a browser."
@@ -367,7 +367,7 @@ classes:
     benign_counterexamples: ["Corporate proxy re-encrypting traffic with a different TLS stack", "Enterprise SDK sending a generic user agent"]
   http2_rapid_reset_continuation:
     domain: L4_NETWORK_FLOW
-    quota: 2000
+    quota: 2600
     is_benign: false
     input_modes: [L4_FLOW, HYBRID_CTX]
     scope: "HTTP/2 stream-level floods over few connections: streams opened and immediately reset (rapid reset), or long CONTINUATION frame sequences that never end the header block."

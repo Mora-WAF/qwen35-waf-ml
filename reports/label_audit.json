@@ -1,6 +1,6 @@
 {
- "reviewed": 26238,
- "items": 26238,
+ "reviewed": 28677,
+ "items": 28677,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
@@ -22,9 +22,9 @@
    "agreement": 0.66
   },
   "benign_standard_traffic": {
-   "agree": 4707,
-   "insufficient": 300,
-   "disagree": 424,
+   "agree": 5141,
+   "insufficient": 314,
+   "disagree": 476,
    "agreement": 0.92
   },
   "bfla_admin_function_probing": {
@@ -45,22 +45,22 @@
    "agreement": 1.0
   },
   "crlf_header_injection": {
-   "agree": 89,
-   "insufficient": 3,
+   "agree": 309,
+   "insufficient": 8,
    "disagree": 1,
-   "agreement": 0.99
+   "agreement": 1.0
   },
   "csv_formula_injection": {
-   "agree": 465,
-   "insufficient": 21,
-   "disagree": 7,
+   "agree": 692,
+   "insufficient": 24,
+   "disagree": 10,
    "agreement": 0.99
   },
   "deserialization": {
-   "agree": 576,
+   "agree": 756,
    "insufficient": 67,
    "disagree": 16,
-   "agreement": 0.97
+   "agreement": 0.98
   },
   "graphql_abuse": {
    "agree": 913,
@@ -74,16 +74,16 @@
    "agreement": 1.0
   },
   "jwt_auth_bypass": {
-   "agree": 976,
-   "insufficient": 180,
-   "disagree": 168,
-   "agreement": 0.85
+   "agree": 1202,
+   "insufficient": 277,
+   "disagree": 275,
+   "agreement": 0.81
   },
   "ldap_xpath_injection": {
-   "agree": 88,
+   "agree": 308,
    "insufficient": 2,
    "disagree": 2,
-   "agreement": 0.98
+   "agreement": 0.99
   },
   "llm_prompt_injection": {
    "agree": 1100,
@@ -92,7 +92,7 @@
    "agreement": 0.99
   },
   "malicious_file_upload_webshell": {
-   "agree": 608,
+   "agree": 708,
    "insufficient": 13,
    "disagree": 8,
    "agreement": 0.99
@@ -110,7 +110,7 @@
    "agreement": 0.99
   },
   "open_redirect_cors": {
-   "agree": 90,
+   "agree": 210,
    "insufficient": 10,
    "agreement": 1.0
   },
@@ -126,7 +126,7 @@
    "agreement": 0.99
   },
   "race_condition_toctou_burst": {
-   "agree": 576,
+   "agree": 696,
    "insufficient": 0,
    "agreement": 1.0
   },
@@ -166,10 +166,10 @@
    "agreement": 0.99
   },
   "websocket_grpc_abuse": {
-   "agree": 492,
-   "insufficient": 60,
-   "disagree": 76,
-   "agreement": 0.87
+   "agree": 781,
+   "insufficient": 165,
+   "disagree": 217,
+   "agreement": 0.78
   },
   "xss_dom_polyglot": {
    "agree": 90,
@@ -207,7 +207,12 @@
   [
    "jwt_auth_bypass",
    "benign_standard_traffic",
-   159
+   263
+  ],
+  [
+   "websocket_grpc_abuse",
+   "benign_standard_traffic",
+   109
   ],
   [
    "graphql_abuse",
@@ -221,6 +226,11 @@
   ],
   [
    "benign_standard_traffic",
+   "benign_hard_negative_dev",
+   87
+  ],
+  [
+   "benign_standard_traffic",
    "benign_high_rate_legit",
    82
   ],
@@ -230,14 +240,9 @@
    66
   ],
   [
-   "benign_standard_traffic",
-   "benign_hard_negative_dev",
-   38
-  ],
-  [
    "websocket_grpc_abuse",
-   "benign_standard_traffic",
-   36
+   "benign_high_rate_legit",
+   37
   ],
   [
    "benign_high_rate_legit",
@@ -255,6 +260,11 @@
    28
   ],
   [
+   "benign_standard_traffic",
+   "deserialization",
+   27
+  ],
+  [
    "graphql_abuse",
    "benign_standard_traffic",
    26
@@ -263,11 +273,6 @@
    "benign_standard_traffic",
    "jwt_auth_bypass",
    26
-  ],
-  [
-   "benign_standard_traffic",
-   "deserialization",
-   25
   ],
   [
    "benign_hard_negative_dev",
@@ -281,14 +286,9 @@
   ],
   [
    "websocket_grpc_abuse",
-   "benign_high_rate_legit",
-   16
-  ],
-  [
-   "benign_standard_traffic",
-   "bfla_admin_function_probing",
-   16
+   "bopla_mass_assignment",
+   21
   ]
  ],
- "quarantined": 4994
+ "quarantined": 5397
 }

@@ -2,31 +2,33 @@
  "mode": "fast",
  "per_class": 40,
  "quota_fraction": 0.25,
- "total": 44155,
+ "total": 46828,
  "dropped_exact_dup": 73,
  "rejected_token_overflow": {
   "graphql_abuse": 68,
-  "jwt_auth_bypass": 8,
-  "websocket_grpc_abuse": 3,
-  "benign_standard_traffic": 36,
-  "benign_high_rate_legit": 2
+  "jwt_auth_bypass": 9,
+  "websocket_grpc_abuse": 42,
+  "race_condition_toctou_burst": 1,
+  "benign_standard_traffic": 39,
+  "benign_high_rate_legit": 2,
+  "benign_hard_negative_dev": 1
  },
  "files": {
   "fast_train.jsonl": {
-   "records": 32391,
-   "sha256": "33cfaa689dd5c16f669a6e585457f2cc55dd794efb36faca5cda71b2743ea21a"
+   "records": 34128,
+   "sha256": "1fcbda3ae5322e80f541e13316eebc792a0920d52602789cb942d437c442bd34"
   },
   "fast_val.jsonl": {
-   "records": 3806,
-   "sha256": "cb77ee266b3a53df54c9c45f8ccfafce3bc869704c6162db8cfda1ff6f205078"
+   "records": 4214,
+   "sha256": "4b1bc01e1ba413013ac984dbbbfebffc02a74b50092d763a749e6d9bd929ffc5"
   },
   "fast_test.jsonl": {
-   "records": 3869,
-   "sha256": "e66370fa8087caac8e9130f8644f6e0e5b6f48a4e52964e7b969d1bac3beedc2"
+   "records": 4092,
+   "sha256": "bbc3b9843f663b6582a8ba1ee3c1a794f6781f270f204efe4789051a77ec091f"
   },
   "fast_test_unseen.jsonl": {
-   "records": 4089,
-   "sha256": "3bee60165674c0acbdd07356169690e8a0e3184bbc57016f1ce7b161846e99a1"
+   "records": 4394,
+   "sha256": "32e58b985a26c7d0873fb1d4be22add7d12069db26308954b85b767e38e4543c"
   }
  },
  "deficits": {
@@ -58,20 +60,20 @@
    },
    "dns_tunneling_exfil": {
     "observed_groups": 12,
-    "observed": 250,
-    "synthetic": 250,
+    "observed": 325,
+    "synthetic": 325,
     "per_source": {
-     "cic_bell_dns_exf2021": 250
+     "cic_bell_dns_exf2021": 325
     }
    },
    "benign_standard_traffic": {
     "observed_groups": 7283,
-    "observed": 1625,
+    "observed": 1700,
     "synthetic": 833,
     "matched_per_source": {
      "cic_ids2017_mirror": 1188,
      "cic_ids2018": 187,
-     "cic_bell_dns_exf2021": 250
+     "cic_bell_dns_exf2021": 325
     }
    }
   }
@@ -91,9 +93,9 @@
   },
   "jwt_auth_bypass": {
    "status": "ok",
-   "accepted": 811,
+   "accepted": 950,
    "rejected": 0,
-   "quarantined_by_review": 333
+   "quarantined_by_review": 194
   },
   "bola_idor_enumeration": {
    "status": "ok",
@@ -103,9 +105,9 @@
   },
   "websocket_grpc_abuse": {
    "status": "ok",
-   "accepted": 447,
+   "accepted": 699,
    "rejected": 0,
-   "quarantined_by_review": 121
+   "quarantined_by_review": 299
   },
   "llm_prompt_injection": {
    "status": "ok",
@@ -127,15 +129,15 @@
   },
   "deserialization": {
    "status": "ok",
-   "accepted": 509,
+   "accepted": 689,
    "rejected": 0,
    "quarantined_by_review": 83
   },
   "csv_formula_injection": {
    "status": "ok",
-   "accepted": 445,
+   "accepted": 672,
    "rejected": 0,
-   "quarantined_by_review": 27
+   "quarantined_by_review": 30
   },
   "bopla_mass_assignment": {
    "status": "ok",
@@ -151,13 +153,13 @@
   },
   "race_condition_toctou_burst": {
    "status": "ok",
-   "accepted": 576,
+   "accepted": 696,
    "rejected": 0,
    "quarantined_by_review": 0
   },
   "malicious_file_upload_webshell": {
    "status": "ok",
-   "accepted": 597,
+   "accepted": 697,
    "rejected": 0,
    "quarantined_by_review": 19
   },
@@ -181,9 +183,9 @@
   },
   "benign_standard_traffic": {
    "status": "ok",
-   "accepted": 4690,
+   "accepted": 5160,
    "rejected": 0,
-   "quarantined_by_review": 420
+   "quarantined_by_review": 436
   },
   "xss_reflected_stored": {
    "status": "ok",
@@ -205,9 +207,9 @@
   },
   "crlf_header_injection": {
    "status": "ok",
-   "accepted": 80,
+   "accepted": 295,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 5
   },
   "http_request_smuggling": {
    "status": "ok",
@@ -217,7 +219,7 @@
   },
   "ldap_xpath_injection": {
    "status": "ok",
-   "accepted": 80,
+   "accepted": 300,
    "rejected": 0,
    "quarantined_by_review": 0
   },
@@ -229,7 +231,7 @@
   },
   "open_redirect_cors": {
    "status": "ok",
-   "accepted": 79,
+   "accepted": 199,
    "rejected": 0,
    "quarantined_by_review": 1
   },
