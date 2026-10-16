@@ -176,14 +176,17 @@ def score_xmodel():
 RELABEL = RV / "relabel.json"
 
 
-def export_hn(classes=("benign_hard_negative_dev", "benign_hard_negative_search"), batch=100):
+def export_hn(classes=("benign_hard_negative_dev", "benign_hard_negative_search"), batch=100, round_tag=None):
     """Every accepted record of the benign hard-negative classes -> blind batches for an external reviewer
-    (XM_TAG=hn). The key keeps the raw ref so apply_hn() can relabel at ingest."""
+    (XM_TAG=hn). The key keeps the raw ref so apply_hn() can relabel at ingest. round_tag (e.g. vsn01):
+    only that round's raw files."""
     from subagents.orchestrator import OUT
     write_brief()
     rv, key, rows = status(), {}, []
     for cls in classes:
         for fp in sorted(OUT.glob(f"{cls}.jsonl")) + sorted(OUT.glob(f"{cls}.v*.jsonl")):
+            if round_tag and not fp.name.startswith(f"{cls}.{round_tag}"):
+                continue
             for i, line in enumerate(open(fp)):
                 ref = f"{fp.name}:{i}"
                 if line.strip() and rv.get(ref) != "quarantined":
@@ -202,8 +205,9 @@ def export_hn(classes=("benign_hard_negative_dev", "benign_hard_negative_search"
 
 
 def apply_hn():
-    """External verdicts on hard negatives -> relabel.json: another benign class = relabel (benign<->benign
-    moves cannot create false blocks); an attack class = quarantine (never auto-promote benign to attack)."""
+    """External verdicts -> relabel.json: a benign record put in another benign class = relabel (benign<->benign
+    moves cannot create false blocks); any other disagreement = quarantine (never auto-promote benign to attack,
+    never demote an attack record to benign)."""
     import yaml as _y
     tax = _y.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
     key = json.loads(XM_KEY.read_text())
@@ -221,7 +225,7 @@ def apply_hn():
         p = got.get(rid)
         if p is None or p == k["label"] or p not in tax:
             continue
-        if tax[p]["is_benign"]:
+        if tax[p]["is_benign"] and tax[k["label"]]["is_benign"]:
             rel[k["ref"]] = p
             moved[(k["label"], p)] += 1
         else:
@@ -338,8 +342,10 @@ def status():
 
 
 if __name__ == "__main__":
-    if sys.argv[1] in ("export_hn", "apply_hn"):
-        {"export_hn": export_hn, "apply_hn": apply_hn}[sys.argv[1]]()
+    if sys.argv[1] == "export_hn":  # export_hn [ROUND_TAG_PREFIX] [CLASS,CLASS...] (default: the hard-negative classes)
+        export_hn(*([sys.argv[3].split(",")] if len(sys.argv) > 3 else []), round_tag=sys.argv[2] if len(sys.argv) > 2 else None)
+    elif sys.argv[1] == "apply_hn":
+        apply_hn()
     elif sys.argv[1] == "export_xmodel":  # export_xmodel [PREFIX] [CLASS,CLASS...] [PER_CLASS]
         export_xmodel(*(sys.argv[2:3] or ["fast_"]), classes=set(sys.argv[3].split(",")) if len(sys.argv) > 3 else None,
                       **({"per_class": int(sys.argv[4])} if len(sys.argv) > 4 else {}))

@@ -282,3 +282,39 @@ def test_unseen_source_holdout_smallest_big_source():
     # floor: with the source skipped, whole lineage groups go out by hash up to min_unseen, capped at max_source_out
     assert len(holdout_unseen(recs, max_source_out=0.2, min_unseen=15)) == 15
     assert len(holdout_unseen(recs, max_source_out=0.2, min_unseen=50)) == 20
+
+
+def test_low_top_share_dns_exfil_survives_variant_holdout():
+    # whichever variant the holdout takes, train keeps exfil with a benign-range parent_domain_top_share
+    from data_pipeline.dedup_and_split import holdout_unseen
+    variants = G.FLOW_PROFILES["dns_tunneling_exfil"]["variants"]
+    low = {v["name"] for v in variants if v.get("dns_top", (1, 1))[1] <= G.DNS_NORMAL[2][1]}
+    recs = [{"metadata": {"threat_type": "dns_tunneling_exfil", "template_family": "dns_tunneling_exfil_flow",
+                          "generator": "deterministic", "lineage_group": f"{v['name']}{i}",
+                          "mechanism_tags": [f"variant:{v['name']}"], "provenance": "synthetic"}}
+            for v in variants for i in range(30)]
+    out = holdout_unseen(recs, min_unseen=0)
+    assert low - {g.rstrip("0123456789") for g in out}
+
+
+def test_generator_from_round_tag():
+    from subagents.orchestrator import generator_of
+    assert generator_of("benign_hard_negative_dev.vsn01.jsonl") == "sonnet-5.5"
+    assert generator_of("ssti.vcx23.jsonl") == "codex-gpt-6.1-sol"
+    assert generator_of("ssti.vs1w02.jsonl") == "haiku-5.5"
+
+
+def test_apply_hn_never_demotes_attacks(tmp_path, monkeypatch):
+    from subagents import review as R
+    key = {"h0": {"label": "jwt_auth_bypass", "ref": "a:0"}, "h1": {"label": "benign_hard_negative_dev", "ref": "b:0"},
+           "h2": {"label": "benign_standard_traffic", "ref": "c:0"}}
+    (tmp_path / "out").mkdir()
+    (tmp_path / "out" / "codex__batch_0.jsonl").write_text("".join(json.dumps({"rid": r, "predicted_class": p}) + "\n" for r, p in
+        [("h0", "benign_standard_traffic"), ("h1", "benign_standard_traffic"), ("h2", "xxe")]))
+    (tmp_path / "key.json").write_text(json.dumps(key))
+    monkeypatch.setattr(R, "XM", tmp_path)
+    monkeypatch.setattr(R, "XM_KEY", tmp_path / "key.json")
+    monkeypatch.setattr(R, "RELABEL", tmp_path / "relabel.json")
+    R.apply_hn()
+    assert json.loads((tmp_path / "relabel.json").read_text()) == {
+        "a:0": "__quarantine__", "b:0": "benign_standard_traffic", "c:0": "__quarantine__"}

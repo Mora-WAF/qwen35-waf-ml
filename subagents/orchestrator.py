@@ -99,9 +99,10 @@ def existing_families(cls):
     return sorted(fams)
 
 
-def write_jobs_v2(classes, count, families, version, root=ROOT):
+def write_jobs_v2(classes, count, families, version, root=ROOT, focus=None, focus_domains=None):
     """v2 job specs: >= `families` scenario families per class and, for attack classes, a context-matched
-    benign twin file (benign_standard_traffic.<version>_<class>.jsonl). Raw outputs are new files only."""
+    benign twin file (benign_standard_traffic.<version>_<class>.jsonl). Raw outputs are new files only.
+    `focus`: one evidence pattern every record must follow (targeted top-up for a measured model error)."""
     tax = taxonomy(root)
     prompt = (root / "subagents/prompts/scenario_v2.md").read_text()
     written = []
@@ -114,6 +115,7 @@ def write_jobs_v2(classes, count, families, version, root=ROOT):
                "avoid_families": existing_families(cls),
                "out_path": str((OUT / f"{cls}.{version}.jsonl").relative_to(root)),
                "telemetry_schema": "schemas/telemetry.schema.json", "instructions": prompt}
+        job |= {k: v for k, v in (("focus", focus), ("focus_domains", focus_domains)) if v}
         if not spec["is_benign"]:
             job["twin_out_path"] = str((OUT / f"benign_standard_traffic.{version}_{cls}.jsonl").relative_to(root))
         for k in ("out_path", "twin_out_path"):
@@ -226,7 +228,8 @@ def write_twin_jobs(target_ratio=0.35, per_worker=96, slack=1.15, tag="tw"):
             for i, line in enumerate(open(fp)):
                 if not line.strip():
                     continue
-                t = (json.loads(line).get("scenario") or {}).get("twin_of")
+                o = json.loads(line)
+                t = (o.get("scenario") or {}).get("twin_of", o.get("twin_of"))
                 twinned.add(t if isinstance(t, str) else f"{cls}.v{ver}.jsonl:{t}")
                 tw += rv.get(f"{fp.name}:{i}") != "quarantined"
         for fp in sorted(OUT.glob(f"{cls}.v*.jsonl")):
@@ -329,6 +332,13 @@ def canonicalize(tel, key):
     return neutral_context(rng_for("ctx:" + key), tel)
 
 
+def generator_of(fname):
+    """Raw output file -> generator name, from the round tag in the file name (vsn = Sonnet 5.5 workers)."""
+    if re.search(r"\.v(ht|cf|cx)\d", fname):
+        return "codex-gpt-6.1-sol"
+    return "sonnet-5.5" if re.search(r"\.vsn\d", fname) else "haiku-5.5"
+
+
 def ingest(root=ROOT):
     from data_pipeline.generate import assemble
     from training.prepare import deserialize_telemetry  # noqa: F401 (round-trip sanity imported in tests)
@@ -373,7 +383,7 @@ def ingest(root=ROOT):
                 assert tel["mode"] in tax[cls]["input_modes"] or tel["mode"] == "HYBRID_CTX"
                 rec_id = f"haiku:{cls}:{i:06d}"
                 group = near_dup_group(cls, obj["telemetry"])
-                twin_of = (obj.get("scenario") or {}).get("twin_of")
+                twin_of = (obj.get("scenario") or {}).get("twin_of", obj.get("twin_of"))  # workers put it in either place
                 fname = ref.split(":")[0]
                 if isinstance(twin_of, str) and ":" in twin_of:  # twin-only jobs name the exact source line
                     src_name, src_line = twin_of.rsplit(":", 1)
@@ -392,7 +402,7 @@ def ingest(root=ROOT):
                                 "scenario": obj.get("scenario", {}), "needs_review": rv.get(ref) != "agreed",
                                 "blind_review": rv.get(ref, "not_reviewed"),
                                 "transforms": (["host_neutralize"] if hn else []) + ["header_profile_normalize"]},
-                               {"lineage_group": group, "generator": "codex-gpt-6.1-sol" if re.search(r"\.v(ht|cf|cx)\d", fname) else "haiku-5.5",
+                               {"lineage_group": group, "generator": generator_of(fname),
                                 "template_family": f"{cls}:{(obj.get('scenario') or {}).get('family', 'v1_unlabelled')}"})
                 accepted.append(rec)
             except (json.JSONDecodeError, KeyError, jsonschema.ValidationError, AssertionError):
@@ -410,6 +420,10 @@ if __name__ == "__main__":
             print("job:", p)
     elif sys.argv[1:2] == ["jobs_v2"]:  # jobs_v2 COUNT FAMILIES VERSION
         for p in write_jobs_v2(GAP, n, int(sys.argv[3]), sys.argv[4]):
+            print("job:", p)
+    elif sys.argv[1:2] == ["jobs_focus"]:  # jobs_focus CLASS COUNT FAMILIES VERSION "FOCUS" ["DOMAIN;DOMAIN"]
+        for p in write_jobs_v2([sys.argv[2]], int(sys.argv[3]), int(sys.argv[4]), sys.argv[5], focus=sys.argv[6],
+                               focus_domains=sys.argv[7].split(";") if len(sys.argv) > 7 else None):
             print("job:", p)
     elif sys.argv[1:2] == ["jobs_scale"]:  # jobs_scale TAG -> one job per worker, listed in data/jobs/scale_TAG.txt
         jobs = write_jobs_scale(tag=sys.argv[2])

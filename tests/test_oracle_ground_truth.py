@@ -159,3 +159,10 @@ def test_additional_formula_and_token_edges():
 def test_http2_path_is_pseudo_header():
     assert checks(tel(protocol='HTTP/2', target='/a%0aanything'))['crlf_header_injection']
     assert not checks(tel(protocol='HTTP/1.1', target='/a%0aanything'))['crlf_header_injection']
+
+
+def test_benign_xml_with_public_dtd_is_not_xxe():
+    from data_pipeline.generate import BENIGN_XML
+    dtd = [x for x in BENIGN_XML if '<!DOCTYPE' in x]
+    assert len(dtd) >= 5  # external identifiers occur in benign training data, not only in xxe
+    assert not any(checks(tel(x))['xxe'] for x in dtd)

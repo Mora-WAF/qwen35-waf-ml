@@ -138,6 +138,14 @@ BENIGN_XML = [
     '<order><customer>Ana Silva</customer><line sku="A-100" qty="2"/><note>Leave at door &lt;back&gt;</note></order>',
     '<?xml version="1.0" encoding="ISO-8859-1"?><config><lang>de</lang><theme>compact</theme></config>',
     '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Status</title><entry><title>Maintenance 02:00 UTC</title></entry></feed>',
+    # standard published DTDs, no entity declarations: an external identifier alone is not XXE (v10: every train
+    # DOCTYPE with PUBLIC/SYSTEM was xxe, and held-out benign documents with a public DTD went to xxe)
+    '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>Invoice 4471</title></head><body><p>Total: 120.00 EUR</p></body></html>',
+    '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><circle cx="32" cy="32" r="30" fill="#2a6"/></svg>',
+    '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"><plist version="1.0"><dict><key>CFBundleVersion</key><string>5.12.3</string></dict></plist>',
+    '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd"><properties><entry key="locale">pt_PT</entry><entry key="page.size">50</entry></properties>',
+    '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"><article><title>Onboarding guide</title><para>Step 1: request access.</para></article>',
+    '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.3 20210610//EN" "https://jats.nlm.nih.gov/publishing/1.3/JATS-journalpublishing1-3.dtd"><article article-type="research-article"><front><article-meta><title-group><article-title>Soil carbon 2026</article-title></title-group></article-meta></front></article>',
 ]
 QUOTE_SAFE = "%/:~!$'()*,;@[]"  # an attacker's literal %XX is sent as-is; only invalid URL chars get escaped
 
@@ -413,7 +421,10 @@ FLOW_PROFILES = {
     "dns_tunneling_exfil": dict(fwd_frac=(0.45, 0.55), ports=[53], window="full_flow", dur=(30, 300), pkts=(200, 3000), proto="udp",
                                 syn_frac=(0, 0), bytes_per_pkt=(120, 300), dst_fanout=(1, 1), dns=True,
                                     variants=[dict(name="txt_bulk", bytes_per_pkt=(300, 600)), dict(name="slow_drip", dur=(600, 3600), pkts=(30, 200)),
-                                              dict(name="domain_rotation", dns_top=(0.08, 0.4))]),  # tunnel spread over several parent domains: top share is not the evidence
+                                              dict(name="domain_rotation", dns_top=(0.08, 0.4)),  # tunnel spread over several parent domains: top share is not the evidence
+                                              # second low-top-share variant: the holdout takes one variant per class, so a low top share always
+                                              # stays in train (v10: domain_rotation alone was held out and exfil unseen fell 57/57 -> 1/57)
+                                              dict(name="sharded_parents", dns_top=(0.1, 0.42), pkts=(500, 3000), bytes_per_pkt=(150, 400))]),
     "tls_ja4_ua_spoofing": dict(fwd_frac=(0.35, 0.55), ports=[443], window="full_flow", dur=(1, 30), pkts=(20, 400), proto="tcp",
                                 syn_frac=(0.02, 0.08), bytes_per_pkt=(400, 1400), dst_fanout=(1, 1),
                                 ja4=True,

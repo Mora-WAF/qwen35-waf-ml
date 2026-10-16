@@ -15,6 +15,96 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 | C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
 | D — train and evaluate | A100 fast run: see dated progress entries below | `reports/colab_a100fast/` |
 
+### A100 v10 run completed — 16 October 22:15 (`reports/colab_a100v10/`) — model-evaluated, one class regressed
+
+- Bundle `87119b32…`. The first VM (Part A launched 18:45) was reclaimed during weight loading and left no Drive checkpoint;
+  the rerun started fresh at 19:53. 2224 steps in 4,674 s at 3,672 tokens/s, peak 10.76 GB, mean train loss 0.051, eval
+  loss 0.0473 (500) → 0.0027 (2224). Reload 5/5, fingerprint match, scorer vs full forward pass 2.3e-5. Part A
+  diagnostic: 100/100 JSON valid, 0.99.
+- Calibration (`calibration.json`, `policy_v10.yaml`, written to `config/policy.yaml`): T = 1.083 (v9 1.033), tau = 0.641
+  (v9 0.808).
+
+| | test | test_unseen |
+|---|---|---|
+| accuracy (argmax) | 0.9853 (v9 0.9857) | **0.9685** (v9 0.9486; 5,359 records) |
+| SVM baseline accuracy | 0.940 | 0.900 |
+| benign false intervention | 0.0056 (v9 0.0041) | 0.0063 (v9 0.0024) |
+| hard-negative false intervention | 0.0 | **0.0136** (v9 0.0; target ≤ 0.01 on val_policy) |
+| accuracy when acting / abstention | 0.988 / 0.5% | 0.972 / 0.9% (v9 0.969 / 4.2%) |
+| attack intervention recall | 0.994 | 0.972 (v9 0.940) |
+| ECE | 0.0046 | 0.0152 (v9 0.0278) |
+
+  Robustness: insufficient context pass 60 → 88% (abstained 28 → 0%), out-of-taxonomy abstained 60 → 64%, malformed
+  96 → 100%, classifier injection 96 → 100%.
+- Fixed by v10 data (unseen): HTTP/2 `mixed_reset` 15/81 → **80/81**; c2 `long_poll_http` 103/159 → **159/159**; xss_dom
+  167/203 → 165/165; JWT 0.858 → 0.912 (`admin_console_default_dev_hs256_secret` still 0/8, `duplicate_claim_key_last_wins`
+  2 misses).
+- **Regressed: `dns_tunneling_exfil` unseen 57/57 → 1/57** (56 → `benign_standard_traffic`, all variant `domain_rotation`).
+  Cause in the data: `domain_rotation` (top share 0.08–0.4) is the only exfil variant with a low top share, and the holdout
+  puts all of it in test_unseen. Every train exfil record has `parent_domain_top_share` ≥ 0.42 and every benign DNS flow
+  without the high-top-share variants has ≤ 0.45, so top share is still a train-perfect separator. v9 got 57/57 on the
+  same held-out variant, so v9 used other evidence (qname length/entropy) for reasons that did not survive a retrain. Next
+  build: train needs exfil with a low top share (e.g. a second spread-domain variant that stays in train, with only one
+  held out). Without the DNS miss, unseen accuracy would be about 0.979.
+- Other unseen errors: sqli classic↔obfuscated 19 (oracle pair, attack → attack); hard negatives → benign 21 (benign →
+  benign); `travel_gds_xml_schema_header` hard negative → xxe 8 (the hard-negative false interventions);
+  `software_update_cdn` → benign_standard 9.
+- **Hard-negative false intervention, cause:** in v10 train, all 440 `DOCTYPE` declarations with an external identifier
+  (`PUBLIC`/`SYSTEM`) were xxe; benign XML never had one. The held-out `travel_gds_xml_schema_header` documents declare
+  an allow-listed public DTD with no entity declarations, so the model read the external identifier as the attack.
+- **Fixed in code for the next version (not built, not trained; v10 stays the delivered model):**
+  - `generate.py`: new DNS exfil variant `sharded_parents` (top share 0.1–0.42). The holdout hash still picks
+    `domain_rotation`, so unseen DNS stays comparable with v9/v10, and train now has low-top-share exfil. Test:
+    `test_low_top_share_dns_exfil_survives_variant_holdout`.
+  - `generate.py` `BENIGN_XML`: six documents with standard published DTDs (XHTML 1.0, SVG 1.1, Apple plist, Java
+    properties `SYSTEM`, DocBook 4.5, JATS 1.3) and no entity declarations. Benign requests and xxe twins draw from this
+    list, so twins become minimal pairs (external entity vs public DTD). The oracle agrees they are not xxe. Test:
+    `test_benign_xml_with_public_dtd_is_not_xxe`.
+  - Data round `vsn01`–`vsn04` (16 October 22:30, raw outputs only, not built): 200 `benign_hard_negative_dev`
+    records in 31 families from four Sonnet 5.5 workers at medium effort (`orchestrator jobs_focus`, focus: XML
+    business documents whose DOCTYPE has an external `PUBLIC`/`SYSTEM` identifier from the format's vendor or
+    standards body, no internal subset or entities). Domains: banking, payments, insurance, healthcare, government,
+    CMS, logistics, B2B, utilities, IoT, CI, LMS, telecom; airline/travel/GDS excluded (held out). 138 of 200 carry
+    `context.xml_parser` (the key name xxe records use) with catalog-only DTD resolution; the rest have no context.
+    Checks: `orchestrator verify` clean, no `<!ENTITY`/internal subset/non-predefined entity, oracle 0 xxe hits (3
+    ldap/xpath syntax hits: SQL text inside documentation and MyBatis mappers, the intended lookalike content).
+    Codex `gpt-6.1-sol` medium blind cross-check (`XM_TAG=sn1`, answer keys chmod 000 during the run): 200/200
+    answered, 200/200 `benign_hard_negative_dev`, so nothing relabelled or quarantined. Ingest: 200 accepted as
+    generator `sonnet-5.5`. Holdout effect at the next build: `travel_gds_xml_schema_header` stays held out, and 10
+    of the 31 new families go to test_unseen (more unseen XML benign records to measure the fix on).
+  - Data round `vsn11`–`vsn14` (16 October, raw outputs only, not built) for the attack → benign misses on JWT and
+    WebSocket/gRPC. Cause in v10 train: default/sample HS256 secret evidence 2 attacks + 1 benign; unmasked client
+    frames 1 + 1; topic-entitlement records 77 + 59 from one templated hobby-club pattern; duplicate-claim records
+    showed the duplicate only inside base64. Four Sonnet 5.5 medium workers, 40 attacks + 40 context-matched twins
+    each (6 families per round):
+    - `vsn11` JWT weak/default HS256 secret (env fallback, sample/README value, empty key, tutorial key; evidence in
+      `verifier_config`: secret source, known-default list match, length, rotation id).
+    - `vsn12` JWT duplicate JSON keys under last-wins/first-wins parsers, duplicate visible in `payload_json_raw` /
+      `header_json_raw` (checked: base64url decodes to exactly that text, 40/40 attacks hold a duplicate, 0 twins).
+    - `vsn13` WebSocket/STOMP/Socket.IO/MQTT/graphql-ws/gRPC subscriptions outside `entitled_topics` /
+      `authorized_channels` (wildcards, prefix tricks, other tenant ids), no hobby-club template.
+    - `vsn14` frame-level protocol abuse: unmasked client frames, oversized/fragmented control frames, RSV bits,
+      deflate ratio, gRPC streams over `max_concurrent_streams`, HTTP/2 window churn. The first output was 57%
+      near-duplicates (number-only variation) and was regenerated.
+    Checks: `orchestrator verify` clean; no verdict words; every attack/twin pair has the same context key set (23
+    one-sided keys in vsn11/vsn12 pairs, mostly `known_default_secret_list_match` or `duplicate_keys_seen` present on
+    the twin only, were dropped from both sides before review); oracle 0 hits. Codex `gpt-6.1-sol` medium blind
+    review (`XM_TAG=sn2`, keys locked): 318/320 agree; 2 vsn12 twins quarantined as bfla (a `PUT`/`$export` under a
+    read-only scope: Codex was right). Ingest: 318 accepted, all 158 twins in their attack's lineage group. Holdout:
+    every currently held-out JWT/WS family stays held out; 3 new families go to test_unseen.
+  - Bugs fixed on the way: `review.apply_hn` would have relabelled an attack record that a reviewer called benign
+    (now: any disagreement on an attack record quarantines; test `test_apply_hn_never_demotes_attacks`);
+    `orchestrator.ingest` and `write_twin_jobs` read `twin_of` only from `scenario` (workers also write it at the
+    top level, and the twin would have lost its attack's lineage group; no older file had that form).
+  - Not fixable by data alone: v10's held-out `duplicate_claim_key_last_wins` records carry the duplicate only in
+    base64. Options for the next version: a deterministic decoded JWT view (header/payload JSON text) for every
+    record carrying a JWT, added at build and at inference, which is a record-format change; or accept the miss.
+  - Code for this round: `orchestrator.write_jobs_v2(focus=, focus_domains=)` and the `jobs_focus` CLI; the
+    `scenario_v2.md` prompt honours `focus`; `generator_of()` maps the `vsn` tag to `sonnet-5.5`; the holdout treats
+    `sonnet` like `haiku`/`codex` families; `review.export_hn` takes a round tag.
+  - To deliver: rebuild (`data_pipeline.build` → `robustness` → gate) and run the next Colab train; check unseen DNS
+    exfil and the unseen hard-negative false intervention against the 0.01 target.
+
 ### Final-round build v10 — 16 October evening (every v9 caveat closed or recorded)
 
 Changes since v9:

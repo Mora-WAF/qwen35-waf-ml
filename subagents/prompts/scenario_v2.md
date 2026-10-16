@@ -44,6 +44,9 @@ Each line is one JSON object:
 If the job has `focus_domains`, set every family in those application domains (other workers cover
 other domains).
 
+If the job has `focus`, every record must follow it: it names the evidence pattern this round adds (a targeted
+top-up for a measured model error). Families still differ in application, route and document type.
+
 ## Output 2 — `twin_out_path` (only if the job has one; exactly `twin_count` lines, or `count` if absent)
 For `twin_count` lines of output 1 (all lines if absent), spread evenly over the families (round-robin: the first line of
 each family, then the second, ...; families are contiguous, so the first lines alone would leave later families without

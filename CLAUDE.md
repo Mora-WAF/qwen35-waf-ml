@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v10 (bundle `87119b32…`, gate passed) is **training** on Colab A100 session `a100v10` (Part A started 16 Oct 18:45; Drive copy `MyDrive/qwen35_waf/fast_87119b32/`). The local driver was detached on purpose (PC shutdown): Part B and the download still need **`WAF_EVAL_EVERY=500 colab/run_colab.sh a100v10 A100 fast`** rerun from this machine (if the VM was reclaimed, it asks for Drive auth again and resumes from the Drive checkpoint). Then: `eval.calibration reports/colab_a100v10/SCORES_fast.jsonl --write-policy`, copy calibration.json into the run dir, `training.model_card reports/colab_a100v10`, compare with v9 (`reports/colab_a100v9/`). Before the next launch, add a round-trip probe after the Drive mount in `run_colab.sh` (the mount dropped the CLI connection and Part A hung unsent). v9 is the last **model-evaluated** run (test 0.9857, test_unseen 0.9486).
+Current state: fast build v10 (bundle `87119b32…`) is **model-evaluated** (`reports/colab_a100v10/`: calibrated, `policy_v10.yaml` in `config/policy.yaml`, model card written; test 0.9853, test_unseen 0.9685 vs v9 0.9857 / 0.9486). v10 is the delivered model, with two known issues: DNS exfil unseen 57/57 → 1/57 (top-share shortcut) and unseen hard-negative false intervention 0.0136 > 0.01 (external DTD read as xxe). Both are fixed for the next version (`generate.py` plus 200 Sonnet XML hard negatives, round `vsn01`–`vsn04`, Codex-checked), as are the JWT and WebSocket/gRPC attack → benign misses (318 Sonnet records, round `vsn11`–`vsn14`, Codex-checked). The next version has not been built or trained (no rebuild of `datasets_ready/` until then: it holds the v10 data). See the v10 entry in `docs/PLAN.md`. Before the next launch, add a round-trip probe after the Drive mount in `run_colab.sh` (the mount dropped the CLI connection and Part A hung unsent).
 A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
@@ -20,8 +20,12 @@ Run with `.venv/bin/python -m` (Python 3.12 venv; system Python 3.14 lacks the M
 2. `data_pipeline.normalize` → seeds, quality rejects, near-dup clusters
 3. `data_pipeline.flows` → observed flow pool (CIC-IDS2017/2018, CIC-DDoS2019, CIC-Bell-DNS-EXF-2021, NF-ToN);
    labels that the telemetry contradicts are dropped (`flows.CONSISTENT`, counts in `reports/flow_ingest.json`)
-4. `subagents.orchestrator jobs_v2 COUNT FAMILIES vN` → Haiku job specs (families + benign twins; prompt
-   `subagents/prompts/scenario_v2.md`); `subagents.review export_new vN` then `score` → incremental blind review
+4. `subagents.orchestrator jobs_v2 COUNT FAMILIES vN` → job specs (families + benign twins; prompt
+   `subagents/prompts/scenario_v2.md`); `subagents.review export_new vN` then `score` → incremental blind review.
+   Targeted top-up: `jobs_focus CLASS COUNT FAMILIES vsnNN "FOCUS" ["DOMAIN;DOMAIN"]`. Workers since 16 Oct: in-session
+   Sonnet 5.5 subagents at medium effort (round tag `vsn` → generator `sonnet-5.5`), no paid API. Cross-checks and
+   evals: Codex `gpt-6.1-sol` medium only (`XM_EFFORT=medium subagents.xmodel_run codex gpt-6.1-sol`); for benign
+   rounds `XM_TAG=T subagents.review export_hn ROUND` → Codex → `score_xmodel` → `apply_hn`
 5. `data_pipeline.build` → `datasets_ready/` (deletes the old manifest first); then
    `data_pipeline.robustness` → `robustness_pilot.jsonl` (needs the core build: it excludes core lineage)
 6. `tests.validate_pre_colab` → the **gate**; `eval.shortcut_audit` (incl. concentrated structural tokens),
