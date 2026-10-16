@@ -1,0 +1,122 @@
+[run_colab 00:56:23] new A100 session probe16
+NVIDIA A100-SXM4-40GB, 40960 MiB
+
+[run_colab 00:56:33] upload bundle
+[run_colab 00:56:41] Part A (progress: /content/progress.json, Drive qwen35_waf/)
+[run_colab 01:06:59] Part A done: {'global_steps': 10, 'tokens_per_s_excl_warmup': 1833.1091865461017, 'peak_mem_gb': 14.81, 'wall_s': 246.1} {'n': 60, 'raw_json_valid_rate': 1.0, 'accuracy_diagnostic': 0.7, 'latency_p50_s': 0.9545719623565674}
+[run_colab 01:06:59] PART_A_ONLY: done
+[colab] No active sessions found on server.
+nt/wsclient.py:1353 in _recv_reply                    │
+│                                                                              │
+│   1350 │   │   │   │   if channel == "control":                              │
+│   1351 │   │   │   │   │   reply =                                           │
+│        self.control_channel.get_msg(timeout=timeout)                         │
+│   1352 │   │   │   │   else:                                                 │
+│ ❱ 1353 │   │   │   │   │   reply =                                           │
+│        self.shell_channel.get_msg(timeout=timeout)                           │
+│   1354 │   │   │   except queue.Empty as e:                                  │
+│   1355 │   │   │   │   msg = "Timeout waiting for reply"                     │
+│   1356 │   │   │   │   raise TimeoutError(msg) from e                        │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/jupyter_kernel_client/wsclient.py:411 in get_msg                         │
+│                                                                              │
+│    408 │   │   ------                                                        │
+│    409 │   │   Empty exception if no message is received before the timeout. │
+│    410 │   │   """                                                           │
+│ ❱  411 │   │   return self._messages.get(timeout=timeout)                    │
+│    412 │                                                                     │
+│    413 │   def get_msgs(self) -> list[dict[str, t.Any]]:                     │
+│    414 │   │   """Get all available messages.                                │
+│                                                                              │
+│ /home/hamed/.local/share/uv/python/cpython-3.14.6-linux-x86_64-gnu/lib/pytho │
+│ n3.14/queue.py:209 in get                                                    │
+│                                                                              │
+│   206 │   │   │   │   while not self._qsize():                               │
+│   207 │   │   │   │   │   remaining = endtime - time()                       │
+│   208 │   │   │   │   │   if remaining <= 0.0:                               │
+│ ❱ 209 │   │   │   │   │   │   raise Empty                                    │
+│   210 │   │   │   │   │   self.not_empty.wait(remaining)                     │
+│   211 │   │   │   │   │   if self.is_shutdown and not self._qsize():         │
+│   212 │   │   │   │   │   │   raise ShutDown                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+Empty
+
+The above exception was the direct cause of the following exception:
+
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/commands/execution.py:227 in exec_command                      │
+│                                                                              │
+│   224 │   │   │   )                                                          │
+│   225 │   │   │   state.prune_session(name)                                  │
+│   226 │   │   │   raise typer.Exit(1)                                        │
+│ ❱ 227 │   │   raise e                                                        │
+│   228 │                                                                      │
+│   229 │   try:                                                               │
+│   230 │   │   is_nb = file and file.endswith(".ipynb")                       │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/commands/execution.py:217 in exec_command                      │
+│                                                                              │
+│   214 │   )                                                                  │
+│   215 │   try:                                                               │
+│   216 │   │   # Ensure we are in /content which is the standard Colab        │
+│       working directory                                                      │
+│ ❱ 217 │   │   runtime.execute_code(                                          │
+│   218 │   │   │   "import os; os.makedirs('/content', exist_ok=True);        │
+│       os.chdir('/content')"                                                  │
+│   219 │   │   )                                                              │
+│   220 │   except Exception as e:                                             │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/runtime.py:243 in execute_code                                 │
+│                                                                              │
+│   240 │   │   │   # execute_interactive returns the raw reply message        │
+│   241 │   │   │   reply_content = reply["content"] if reply else {"status":  │
+│       "error"}                                                               │
+│   242 │   │   else:                                                          │
+│ ❱ 243 │   │   │   reply = self.kernel_client.execute(code, **kwargs)         │
+│   244 │   │   │   if not reply:                                              │
+│   245 │   │   │   │   return []                                              │
+│   246 │   │   │   outputs = reply.get("outputs", [])                         │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/jupyter_kernel_client/client.py:287 in execute                           │
+│                                                                              │
+│   284 │   │   """                                                            │
+│   285 │   │   outputs = []                                                   │
+│   286 │   │   self._set_variables(variables)                                 │
+│ ❱ 287 │   │   reply = self._manager.client.execute_interactive(              │
+│   288 │   │   │   code,                                                      │
+│   289 │   │   │   silent=silent,                                             │
+│   290 │   │   │   store_history=store_history,                               │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/jupyter_kernel_client/wsclient.py:1112 in execute_interactive            │
+│                                                                              │
+│   1109 │   │   │   # output is done, get the reply                           │
+│   1110 │   │   │   if timeout is not None:                                   │
+│   1111 │   │   │   │   timeout = max(0, deadline - time.monotonic())         │
+│ ❱ 1112 │   │   │   return self._recv_reply(msg_id, timeout=timeout)          │
+│   1113 │                                                                     │
+│   1114 │   def is_alive(self) -> bool:                                       │
+│   1115 │   │   """Is the kernel process still running?"""                    │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/jupyter_kernel_client/wsclient.py:1356 in _recv_reply                    │
+│                                                                              │
+│   1353 │   │   │   │   │   reply =                                           │
+│        self.shell_channel.get_msg(timeout=timeout)                           │
+│   1354 │   │   │   except queue.Empty as e:                                  │
+│   1355 │   │   │   │   msg = "Timeout waiting for reply"                     │
+│ ❱ 1356 │   │   │   │   raise TimeoutError(msg) from e                        │
+│   1357 │   │   │   if reply["parent_header"].get("msg_id") != msg_id:        │
+│   1358 │   │   │   │   self.log.debug("Ignoring message not from request:    │
+│        %s", msg_id)                                                          │
+│   1359 │   │   │   │   continue                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯
+TimeoutError: Timeout waiting for reply
+[run_colab 01:06:34] training: {"train_runtime": 223.5421, "train_samples_per_second": 0.716, "train_steps_per_second": 0.045, "total_flos": 3819766896132096.0, "train_loss": 0.1644623249769211, "epoch": 0.0049382716049382715, "step": 10, "max_steps": 10, "tokens_per_s": 1833.1952813443, "eta_h": 0.0, "peak_mem_gb": 14.81, "time": "2026-10-16 00:05:30"}
+[run_colab 01:11:36] FAILED: Part A ended without part_a.json (see ../reports/colab_probe16/partA.ipynb)
+[a100fast] gpu-a100-s-kkb-usc1b1-3u77v6s0a731r | Hardware: A100 | Shape: Standard | Variant: GPU

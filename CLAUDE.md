@@ -11,7 +11,11 @@ Report only the state the evidence supports: **data-ready** → **notebook smoke
 Current state: fast build v7 (`fast_*`, 41 classes, 44,155 records, hard twins + confuser sets, test_unseen on all 41 classes), gate passed (`reports/pre_colab_gate.json`); notebook
 smoke-tested on a Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the v7 fast bundle on an A100
 (`reports/colab_a100dry/dryrun_fast_report.json`, passed, 2,548 tokens/s); no model evaluated. Next: the real fast run
-on an A100 (~3.5 h, see the progress log). A failed gate or target is a recorded
+on an A100 (~3.5 h, see the progress log). The 16 October batch-16 probe passed (10 steps, 1,833 tokens/s,
+14.81 GB, no notebook errors), slower than batch 4. Real run `a100fast` launched at 01:07 with the default
+batch 4 × accumulation 4 (no `WAF_BATCH` override); Drive mounted, Part A started at 01:09.
+Preserve that split on resume. No trained-model evaluation yet.
+A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
 ## Pipeline order

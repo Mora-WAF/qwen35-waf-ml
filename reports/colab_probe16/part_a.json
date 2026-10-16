@@ -1,0 +1,100 @@
+{
+ "mode": "fast",
+ "dry_run_steps": 10,
+ "seed": 3407,
+ "model_id": "unsloth/Qwen3.5-4B",
+ "revision": "3764fa359b9082ea5a1e4a5e3ac3aaf6e9671636",
+ "env": {
+  "gpu": "NVIDIA A100-SXM4-40GB",
+  "gpu_mem_gb": 39.5,
+  "capability": "8.0",
+  "dtype": "bfloat16",
+  "disk_free_gb": 192,
+  "python": "3.13.15",
+  "torch": "2.11.0+cu130",
+  "cuda": "13.0",
+  "unsloth": "2026.10.5",
+  "unsloth_zoo": "2026.10.5",
+  "transformers": "5.17.0",
+  "trl": "1.15.0",
+  "peft": "0.21.2",
+  "accelerate": "1.15.0",
+  "bitsandbytes": "0.50.2",
+  "datasets": "4.8.5",
+  "fla": "0.5.2",
+  "weights_dtype": "torch.bfloat16",
+  "fla_kernels": true
+ },
+ "fingerprint": {
+  "chat_template_sha256": "8452ca85cb1e0ff04304c02f417a53305d5ba17f6eb9d5693343ad8355f985a8",
+  "system_prompt_sha256": "50e7e18037b1a340302096dcf6b75440aa08020c91a12cd6c5fe5a3e7a0e8a7e"
+ },
+ "trainable_params": 21233664,
+ "train": {
+  "global_steps": 10,
+  "train_loss": 0.1644623249769211,
+  "wall_s": 246.1,
+  "tokens_per_s_excl_warmup": 1833.1091865461017,
+  "peak_mem_gb": 14.81,
+  "losses": [
+   [
+    1,
+    0.17265313863754272
+   ],
+   [
+    2,
+    0.28266850113868713
+   ],
+   [
+    3,
+    0.24854226410388947
+   ],
+   [
+    4,
+    0.21115244925022125
+   ],
+   [
+    5,
+    0.12978434562683105
+   ],
+   [
+    6,
+    0.14195360243320465
+   ],
+   [
+    7,
+    0.11313160508871078
+   ],
+   [
+    8,
+    0.10499976575374603
+   ],
+   [
+    9,
+    0.1027197316288948
+   ],
+   [
+    10,
+    0.1370178461074829
+   ]
+  ],
+  "eval_losses": [
+   [
+    10,
+    0.11665525287389755
+   ]
+  ],
+  "resumed_from": null
+ },
+ "predictions": {
+  "n": 60,
+  "raw_json_valid_rate": 1.0,
+  "accuracy_diagnostic": 0.7,
+  "latency_p50_s": 0.9545719623565674
+ },
+ "export_dir": "/content/export_fast",
+ "bundle_dir": "/content/bundle",
+ "train_file": "fast_train.jsonl",
+ "bundle_sha256": "b750c9249e6fd27edafb64c952453ae7354b486155cca1c0a52db822b0a63ab2",
+ "drive_dir": null
+}

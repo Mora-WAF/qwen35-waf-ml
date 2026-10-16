@@ -4,7 +4,7 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 
 ## Implementation progress (updated 16 October 2026, 00:50)
 
-**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Fast build v7 (41 classes, hard twins, confuser sets, test_unseen on all 41 classes): gate passed (see below); bundle rebuilt.** No model is evaluated. The specification below is unchanged; this section records what exists and what the evidence shows.
+**Achieved state: fast-30k build v3 (35 classes) data-ready (gate passed, 0 failures); notebook smoke-tested on Colab T4 (`reports/gpu_smoke_test.json`) and dry-run on the fast bundle (`reports/dryrun_fast_report.json`, passed). Fast build v7 (41 classes, hard twins, confuser sets, test_unseen on all 41 classes): gate passed (see below); bundle rebuilt.** Latest training/evaluation state: see the dated A100 entries below. The specification below is unchanged; this section records what exists and what the evidence shows.
 
 ### Phase status
 
@@ -13,7 +13,32 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 | A — environment and source contracts | Done, with exclusions | `reports/compatibility.json`, `config/sources.yaml`, `reports/source_audit.json` |
 | B — end-to-end pilot | Done: data v2 + clean GPU smoke test | `reports/pre_colab_gate.json`, `reports/gpu_smoke_test.json`, `reports/gpu_smoke_partA_clean_run.ipynb` |
 | C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
-| D — train and evaluate | Not started (no paid GPU balance) | notebook + bundle ready: `colab/` |
+| D — train and evaluate | A100 fast run: see dated progress entries below | `reports/colab_a100fast/` |
+
+### A100 fast batch probe and real-run batch choice — 16 October
+
+- Verified the existing fast bundle SHA-256: `b750c9249e6fd27edafb64c952453ae7354b486155cca1c0a52db822b0a63ab2`; not rebuilt.
+- Attempted `NO_DRIVE=1 PART_A_ONLY=1 WAF_BATCH=16 colab/run_colab.sh probe16 A100 fast 10 < /dev/null` in the background.
+  The CLI failed during logging initialization: read-only `/home/hamed/.config/colab-cli/colab.log`
+  (`reports/colab_probe16/driver.log`). The session's writable roots are the workspace and `/tmp`;
+  the CLI hardcodes its log path (its `--config` option only redirects session state).
+- The user launched probe16 from a terminal at 00:56; after reopening with Colab config write access and networking,
+  `colab sessions` confirmed the existing A100 probe16 VM. At 01:00 the driver was resumed with the same batch-16
+  command to collect Part A, which `colab status` reported BUSY. The original driver finished and stopped the VM;
+  the collector subsequently reported no remote file because the VM had already stopped (local artifacts are intact).
+- Batch 16 × accumulation 1: **1,833.109 tokens/s** excluding warmup, **14.81 GB** peak, 10 steps, 246.1 s wall;
+  `reports/colab_probe16/part_a.json`, `partA.ipynb` (zero error outputs). Diagnostic predictions: 60, all valid JSON,
+  70% correct (not a model-evaluation claim). `colab sessions` showed none after the probe.
+- Batch 16 is 28.1% slower than the batch-4 baseline (2,548 tokens/s, 10.75 GB), below the required >10% speedup.
+  No batch-8 fallback: batch 16 passed and stayed below 36 GB. Selected the default **batch 4 × accumulation 4**
+  (no `WAF_BATCH` override). Real run launched at 01:07 with `colab/run_colab.sh a100fast A100 fast < /dev/null`.
+  Drive was mounted by the user; Part A started at 01:09. Progress and checkpoints are saved to
+  `MyDrive/qwen35_waf/fast_b750c924/`. All resumes must preserve that batch split.
+  ScheduleWakeup is unavailable in this tool environment. Background finisher `/tmp/finish-qwen-a100fast.py`
+  checks local completion every 60 s and downloads only `/content/progress.json` every 30 min; after successful
+  downloads/shutdown it validates the artifacts, runs local calibration with `--write-policy`, and records the
+  measured results here and in `CLAUDE.md`. Completion marker: `reports/colab_a100fast/local_completion.json`.
+  A driver failure stops the finisher without promoting the state; inspect the driver log and resume at default batch 4.
 
 ### A100 dry run on the v7 fast bundle — 16 October 00:29–00:47 (`reports/colab_a100dry/`) — passed
 
