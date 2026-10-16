@@ -5,6 +5,7 @@ version: 1
 threshold: 0.0
 temperature: 1.223249  # softmax temperature over summed class completion log-probs (eval.calibration, val_calib)
 class_thresholds: {}   # optional per-class overrides, fitted and frozen with `threshold`
+flow_envelope: {}  # benign_standard_traffic flow-feature [lo, hi] (train 0.5-99.5%), frozen by eval.calibration --write-policy
 
 # Context keys (under telemetry `context`) that must be present and non-null before
 # the class may produce a non-abstain verdict (spec §5 evidence table).
@@ -36,3 +37,4 @@ reason_codes:
   uncalibrated: uncalibrated_shadow
   low_confidence: low_confidence
   ineligible_action: action_ineligible
+  out_of_envelope: out_of_distribution_flow

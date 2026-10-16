@@ -66,3 +66,12 @@ def test_alt_action_requires_eligibility():
     assert run(c, mode="L4_FLOW", pol=pol)[1]["reason"] == "ineligible_action"
     d, _ = run(c, mode="L4_FLOW", ctx={"rate_limit_eligible": True}, pol=pol)
     assert (d["verdict"], d["action"]) == ("RATE_LIMIT", "rate_limit_ip")
+
+
+def test_flow_envelope_abstains_on_background_class_only():
+    env = {**CAL, "flow_envelope": {"pkts_per_s": [1.0, 500.0]}}
+    flood = {"pkts_per_s": 90000.0, "dst_port": 80}
+    d, diag = decide(out("benign_standard_traffic"), "L4_FLOW", None, 0.99, TAX, env, flood)
+    assert d["verdict"] == "ABSTAIN" and diag["reason"] == "out_of_envelope"
+    assert decide(out("benign_standard_traffic"), "L4_FLOW", None, 0.99, TAX, env, {"pkts_per_s": 20.0})[0]["verdict"] == "ALLOW"
+    assert decide(out("syn_flood_ddos"), "L4_FLOW", None, 0.99, TAX, env, flood)[0]["verdict"] == "BLOCK"

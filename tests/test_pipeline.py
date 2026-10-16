@@ -276,6 +276,9 @@ def test_unseen_source_holdout_smallest_big_source():
         return {"metadata": {"threat_type": "nosqli", "template_family": "nosqli_httpwrap", "generator": "deterministic",
                              "lineage_group": grp, "mechanism_tags": [f"src:{src}"], "provenance": "hybrid"}}
     recs = [rec("a", f"a{i}") for i in range(70)] + [rec("b", f"b{i}") for i in range(25)] + [rec("c", f"c{i}") for i in range(5)]
-    out = holdout_unseen(recs)
+    out = holdout_unseen(recs, min_unseen=0)
     assert out == {f"b{i}" for i in range(25)}  # smallest source with >= 10% share; 'c' is too small to stand alone
-    assert holdout_unseen(recs, max_source_out=0.2) == set()  # would pull 25% of the class: skipped
+    assert holdout_unseen(recs, max_source_out=0.2, min_unseen=0) == set()  # would pull 25% of the class: skipped
+    # floor: with the source skipped, whole lineage groups go out by hash up to min_unseen, capped at max_source_out
+    assert len(holdout_unseen(recs, max_source_out=0.2, min_unseen=15)) == 15
+    assert len(holdout_unseen(recs, max_source_out=0.2, min_unseen=50)) == 20

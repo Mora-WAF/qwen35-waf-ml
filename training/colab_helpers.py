@@ -108,9 +108,12 @@ def candidate_suffixes(tok, classes):
 
 
 @torch.no_grad()
-def class_logprobs(model, tok, messages, suffixes):
+def class_logprobs(model, tok, messages, suffixes, margin=12.0):
     """Summed completion log-probs, one per class: one prefill of prompt + the shared candidate prefix
-    ({"threat_type":" ...), then all class suffixes in one batch from a replicated cache."""
+    ({"threat_type":" ...), then the class suffixes in one batch from a replicated cache.
+    Pruning (margin=None: off): a class whose first suffix token is > margin nats below the best first token keeps
+    that first-token log-prob, an upper bound of its full score, without the suffix pass. Its softmax mass is then
+    < e^-margin x (classes sharing the best first token), ~2e-5 at 12 nats; most records keep a handful of classes."""
     p = tok(tok.apply_chat_template(messages[:2], tokenize=False, add_generation_prompt=True, enable_thinking=False),
             add_special_tokens=False)["input_ids"]
     k = 0
@@ -122,17 +125,19 @@ def class_logprobs(model, tok, messages, suffixes):
     shared = sum(lp[i, t].item() for i, t in enumerate(suffixes[0][:k]))
     first = lp[-1]
     rest = [s[k:] for s in suffixes]
-    n, L = len(rest), max(len(r) for r in rest)
+    f0 = [first[r[0]].item() for r in rest]
+    keep = [i for i, v in enumerate(f0) if margin is None or v >= max(f0) - margin]
+    scores = [shared + v for v in f0]
+    n, L = len(keep), max(len(rest[i]) for i in keep)
     cache = out.past_key_values
     cache.reorder_cache(torch.zeros(n, dtype=torch.long, device="cuda"))  # batch-replicate (linear-attn states too)
     ids = torch.full((n, L), tok.pad_token_id, device="cuda")
-    for i, r in enumerate(rest):
-        ids[i, :len(r)] = torch.tensor(r, device="cuda")  # right padding: causal, never seen by real tokens
+    for b, i in enumerate(keep):
+        ids[b, :len(rest[i])] = torch.tensor(rest[i], device="cuda")  # right padding: causal, never seen by real tokens
     nxt = torch.log_softmax(model(input_ids=ids, past_key_values=cache, use_cache=True).logits.float(), -1)
-    scores = []
-    for i, r in enumerate(rest):
-        s = first[r[0]].item() + sum(nxt[i, j - 1, r[j]].item() for j in range(1, len(r)))
-        scores.append(shared + s)
+    for b, i in enumerate(keep):
+        r = rest[i]
+        scores[i] = shared + f0[i] + sum(nxt[b, j - 1, r[j]].item() for j in range(1, len(r)))
     return scores
 
 

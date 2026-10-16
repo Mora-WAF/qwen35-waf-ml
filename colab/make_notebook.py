@@ -218,7 +218,7 @@ if MODE != "smoke":  # in a dry run: the full-run estimate on this GPU
 (PY, """# ---- predictions on val_select (diagnostic only; final test is a separate frozen protocol) ------
 FastLanguageModel.for_inference(model)
 preds = []
-for r in val_recs[: 60 if SHORT else 500]:  # ponytail: 500 = +-2% diagnostic; all 1,934 cost ~30 A100-min, B1s scores the rest
+for r in val_recs[: 60 if SHORT else 100]:  # ponytail: JSON-validity / reload diagnostic only (+-4%); B1s scores every split
     t = time.time()
     raw = H.generate_label(model, tok, r["messages"])
     preds.append({"id": r["id"], "gold": r["metadata"]["threat_type"], "raw": raw,
@@ -292,21 +292,25 @@ def brute(msgs, i):  # reference without the cache trick: full forward pass of p
     lp = torch.log_softmax(m(input_ids=torch.tensor([p + suf[i]], device="cuda")).logits[0].float(), -1)
     return sum(lp[len(p) - 1 + j, t].item() for j, t in enumerate(suf[i]))
 
-out_path, t0, diffs = f"/content/SCORES_{MODE}.jsonl", time.time(), []
+out_path, t0, diffs, pdiffs = f"/content/SCORES_{MODE}.jsonl", time.time(), [], []
 with open(out_path, "w") as fh:
     fh.write(json.dumps({"classes": classes, "mode": MODE, "fingerprint": PART_A["fingerprint"]}) + "\\n")
     for n, r in enumerate(recs):
         s = H.class_logprobs(m, tok, r["messages"], suf)
-        if n < 3:  # equivalence check of the replicated-cache scorer on the true and the top class
+        if n < 3:  # equivalence checks: unpruned replicated-cache scorer vs full forward pass on the true and top
+            full = H.class_logprobs(m, tok, r["messages"], suf, margin=None)  # class; pruned vs unpruned probabilities
             for i in {classes.index(r["metadata"]["threat_type"]) if r["metadata"]["threat_type"] in classes else 0,
                       max(range(len(s)), key=s.__getitem__)}:
-                diffs.append(abs(brute(r["messages"], i) - s[i]))
+                diffs.append(abs(brute(r["messages"], i) - full[i]))
+            pa, pb = torch.softmax(torch.tensor(s), 0), torch.softmax(torch.tensor(full), 0)
+            pdiffs.append((pa - pb).abs().max().item())
         fh.write(json.dumps({"id": r["id"], "split": r["metadata"]["split"], "label": r["metadata"]["threat_type"],
                              "kind": r["metadata"].get("robustness_kind"), "scores": s}) + "\\n")
 SCORES = {"n": len(recs), "per_split": per, "s_per_record": round((time.time() - t0) / max(1, len(recs)), 3),
-          "max_abs_diff_vs_bruteforce": max(diffs), "file": out_path}
+          "max_abs_diff_vs_bruteforce": max(diffs), "max_prob_diff_pruned": max(pdiffs), "file": out_path}
 print(json.dumps(SCORES, indent=1))
 assert SCORES["max_abs_diff_vs_bruteforce"] < 0.05, "cached scorer disagrees with the full forward pass"
+assert SCORES["max_prob_diff_pruned"] < 1e-3, "pruned scorer changes the class probabilities"
 del m; gc.collect(); torch.cuda.empty_cache()"""),
 (PY, """# ---- B2: continuation test (smoke only): 20 steps straight vs 10 + save/reload + 10 ----------
 RESUME = None

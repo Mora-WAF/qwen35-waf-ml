@@ -785,9 +785,10 @@ def derive_obfuscated_sqli(classic_seeds):
 def load_seeds(cls):
     p = SEEDS / f"{cls}.jsonl"
     seeds = [json.loads(l) for l in open(p)] if p.exists() else []
-    from subagents.review import status
-    rv = status()
-    seeds = [sd for sd in seeds if rv.get(sd["id"]) != "quarantined"]  # blind-review rejects
+    from subagents.review import relabels, status
+    rv, rel = status(), relabels()
+    seeds = [sd for sd in seeds if rv.get(sd["id"]) != "quarantined"  # blind-review rejects
+             and rel.get(sd["id"]) != "__quarantine__"]  # manual rejects (relabel.json)
     if cls == "sqli_obfuscated":  # 11 observed seeds survive filtering; add deterministic derivatives
         seeds += derive_obfuscated_sqli(load_seeds("sqli_classic"))
     return seeds

@@ -86,7 +86,7 @@ def source_unit(rec):
     return None if src in (None, "generated", "coreruleset") else f"src:{src}"
 
 
-def holdout_unseen(records, frac=0.12, min_source_share=0.10, max_source_out=0.25):
+def holdout_unseen(records, frac=0.12, min_source_share=0.10, max_source_out=0.25, min_unseen=50):
     """Pick whole units per class for a test slice never seen in training (spec §8: reserve a scenario family
     unseen during training). Units: Haiku scenario families (>= 3 per class) and synthetic flow variants (>= 2), and for
     seeded / observed classes with >= 2 sources the smallest source holding >= min_source_share of the class
@@ -122,7 +122,21 @@ def holdout_unseen(records, frac=0.12, min_source_share=0.10, max_source_out=0.2
         groups = out_groups(chosen | {(cls, big[0])})
         if sum(r["metadata"]["threat_type"] == cls and r["metadata"]["lineage_group"] in groups for r in records) <= max_source_out * n[cls]:
             chosen.add((cls, big[0]))
-    return out_groups(chosen)
+    out = out_groups(chosen)
+    # floor: a class whose held-out units are tiny (one seed source, few small LLM families; v9: xss_reflected 5,
+    # xxe 6) also loses whole lineage groups by hash (unseen seed payload clusters) up to min_unseen records,
+    # never more than max_source_out of the class
+    by_cls = defaultdict(lambda: defaultdict(int))
+    for r in records:
+        by_cls[r["metadata"]["threat_type"]][r["metadata"]["lineage_group"]] += 1
+    for cls, groups in by_cls.items():
+        have = sum(v for g, v in groups.items() if g in out)
+        for g in sorted((g for g in groups if g not in out), key=lambda g: hashlib.sha256(f"{cls}|floor|{g}".encode()).hexdigest()):
+            if have >= min_unseen or have + groups[g] > max_source_out * n[cls]:
+                break
+            out.add(g)
+            have += groups[g]
+    return out
 
 
 def split_counts(records):

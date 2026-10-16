@@ -51,6 +51,28 @@ Fixes for the v8 analysis and the pre-run caveat sweep (raw outputs are new file
   (v8 0.578, chance 0.5). Oracle: 22/12,641 benign_standard hits, all reviewed benign by both models (JWT syntax-only
   checks flag legitimate allow-listed `jku`/`x5u`/nested `cty`) or older Haiku-accepted CSV twins. Baselines (v9 splits):
   SVM test 0.932 / unseen 0.890 (macro-F1 0.889, benign FPR 0.141); CRS PL1 attack-vs-benign 0.596 / 0.580.
+- External review of the pipeline (16 October, during the a100v9 run), checked against code and data:
+  - Applied now:
+    - `choose_tau` takes the highest tau within 0.5 pt of the best feasible attack recall (it had always returned
+      0). Its partner is a benign_standard_traffic flow envelope (`flow_envelope` in policy.yaml, train 0.5–99.5%,
+      `eval.policy.outside_envelope`). On v8 scores: tau 0.694; out-of-taxonomy abstention 0/25 → 15/25; insufficient
+      context 0 → 24%; unseen accuracy when acting 0.958 → 0.966; unseen attack recall 0.967 → 0.952 (to
+      log-and-monitor); the envelope abstains on 0.4–0.7% of benign records.
+    - Junk seed `pass  = password` (ldap) quarantined; `load_seeds` honours relabel.json `__quarantine__`.
+  - For the next build:
+    - holdout floor of 50 unseen records per class via hashed lineage groups (v9: xss_reflected 5, xxe 6, ssti 10).
+    - System prompt without the 229-token class list (34% of tokens); needs a data rebuild.
+    - Part B scorer prunes classes whose first token is > 12 nats below the best (exact for kept classes; asserts
+      pruned vs unpruned probabilities < 1e-3).
+    - Part A diagnostic 500 → 100 generations.
+    - `run_colab.sh` must not stop a training VM on one failed `busy` poll.
+  - Rejected:
+    - Oracle as ingest filter: the oracle fails clear XPath (`') and contains(../password,…`) and Unicode-newline
+      CRLF probes, so it would delete valid attacks.
+    - Foreign context schemas against the multiclass context-key signal: keys mark the domain and twins carry them,
+      attack-vs-benign is at chance, and the change would fabricate telemetry.
+    - Label smoothing: calibration is already handled by temperature (ECE 0.008); a generalisation gain would need an
+      A/B run.
 - Open, deliberately: abstention on out-of-taxonomy traffic needs a trained signal (a 42nd class, with the robustness
   probes moved to a disjoint source). That is a spec change for a separate experiment; tau stays a calibration output.
 

@@ -34,9 +34,14 @@ def parse_output(raw, classes):
     return obj["threat_type"]
 
 
-def decide(raw, mode, context, confidence, tax, pol):
+def outside_envelope(features, env):
+    """True when any enveloped flow feature lies outside the frozen [lo, hi] range."""
+    return any(k in features and not lo <= features[k] <= hi for k, (lo, hi) in env.items())
+
+
+def decide(raw, mode, context, confidence, tax, pol, flow_features=None):
     """Returns (decision, diagnostics). `confidence` is the calibrated probability of the
-    emitted class, or None when calibration is unavailable."""
+    emitted class, or None when calibration is unavailable. `flow_features`: telemetry flow.features, if any."""
     classes, rc = tax["classes"], pol["reason_codes"]
     cls = parse_output(raw, classes)
     diag = {"tentative_class": cls, "reason": None}
@@ -59,6 +64,9 @@ def decide(raw, mode, context, confidence, tax, pol):
         return abstain("uncalibrated")
     if confidence < threshold:
         return abstain("low_confidence")
+    # the background class absorbs out-of-taxonomy floods/scans with p ~ 1: outside the benign envelope, abstain
+    if cls == "benign_standard_traffic" and flow_features and outside_envelope(flow_features, pol.get("flow_envelope") or {}):
+        return abstain("out_of_envelope")
 
     if spec["is_benign"]:
         verdict, hint = "ALLOW", rc["allow"]
