@@ -15,6 +15,72 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 | C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
 | D — train and evaluate | A100 fast run: see dated progress entries below | `reports/colab_a100fast/` |
 
+### Final-round build v10 — 16 October evening (every v9 caveat closed or recorded)
+
+Changes since v9:
+- Generator:
+  - HTTP/2: `low_rate_reset` ratio 0.3–1.0 and `multi_connection` 0.5–1.0, so latency becomes necessary.
+  - c2: ports include 8080; benign `keepalive_long_poll` also uses 80/8080.
+  - DNS: kept from v9.
+- Data:
+  - 104 cross-check quarantines (85 disputed attacks, 19 twins read as attacks).
+  - 10 seeds quarantined after manual review: nosqli `';sleep(5000);` and `|| 1==1` (×2) have no NoSQL evidence (the
+    v9 test errors were 11 copies of one of them); xss_dom has three polyglot line fragments, a JS-escaped markup tail,
+    a jsbin harness line and the sink code `setTimeout(location.search…)`; plus the v9 ldap junk seed.
+- Robustness hardening:
+  - 300 benign insufficient-context fragments (quality-rejected seeds without attack syntax, excluding the exact probe
+    payloads).
+  - Classifier-injection augmentation: 3% of seeded attacks carry classifier-directed text in note headers. The same
+    four header names carry ordinary notes on twins and benign requests (v10: 241 attack / 229 benign). Phrasing and
+    header names are disjoint from the robustness probes.
+- Prompt and splits:
+  - System prompt without the class list: median record 624 → 394 tokens.
+  - Unseen floor of 50 records per class.
+  - Scorer prunes classes > 12 nats down on the first token.
+  - Part A diagnostic 100 records; `busy` retry in `run_colab.sh`.
+- Checked and left as they are:
+  - The 29 benign false interventions in v9 are hard negatives both reviewers called benign (model errors, not labels).
+  - The held-out JWT `nbf_not_enforced` records carry no server time, so "nbf in the future" is not observable (an
+    evidence gap in the old family).
+  - Default-secret attack vs twin is a valid hard pair (config-only evidence).
+- Seed cross-review, all 5,828 seeds in use: a Sonnet attempt was discarded (its agents labelled by regex script).
+  Gemini 3.8 Flash (low) then reviewed every seed blind, payload only (agy CLI, then a local OpenAI-compatible endpoint,
+  43 batches). Agreement was 98.9%, 0.96–1.00 per batch (no leak signal). Disputes other than the oracle-defined sqli
+  classic/obfuscated pair (32, exempt) were quarantined: 38 new plus 7 already in the manual review. The 38 were 19
+  xss_reflected/xss_dom swaps, 6 open_redirect → ssrf/crlf, 6 sqli_classic → ldap/rce/xss and 7 scattered. By class
+  agreement: sqli_obfuscated 0.47 (oracle pair), xss_dom 0.91, open_redirect 0.94, everything else ≥ 0.96.
+
+### A100 v9 run completed — 16 October 15:59 (`reports/colab_a100v9/`) — model-evaluated
+
+- Bundle `1f051886…`, 2232 steps in 5,235 s at 5,060 tokens/s, peak 10.75 GB, mean train loss 0.033, eval loss 0.0484 (500) →
+  0.0037 (2232). Reload 5/5, fingerprint match, scorer vs brute force 1.9e-6, export intact. Drive mount: the first launch
+  died on a redundant second mount probe (fixed in `run_colab.sh`).
+- Calibration with the new tau rule and flow envelope (`calibration.json`, `policy_v9.yaml`): T = 1.033 (v8 1.223, less
+  overconfident), tau = 0.808.
+| | test | test_unseen |
+|---|---|---|
+| accuracy (argmax) | 0.9857 (v8 0.9841) | 0.9486 (v8 0.9579; set grew 4,394 → 5,037, different held-out units) |
+| macro-F1 vs SVM | 0.987 vs 0.938 | 0.935 vs 0.889 |
+| benign FPR vs SVM | 0.008 vs 0.080 | 0.009 vs 0.141 |
+| accuracy when acting / abstention | 0.991 / 1.1% | 0.969 / 4.2% |
+| attack intervention recall (abstained → log and monitor) | 0.990 | 0.940 |
+  Robustness: out-of-taxonomy 0 → **60%** abstained, insufficient context 28%, malformed 0 (correct: must not intervene).
+- Fixed by v9 data (unseen, same or new held-out units): smuggling 0.615 → 1.0, websocket 0.90 → 0.97, sqli_classic 0.89 →
+  0.93, JWT 0.83 → 0.86 (`key_as_hmac_switch` 0/8 → 8/8). DNS `domain_rotation` (low top share, held out) is 57/57, so exfil
+  is detected without the top-share shortcut. New families for NoSQLi, RCE, SSTI and path traversal: all 100%.
+- Not fixed or regressed:
+  - **HTTP/2 `mixed_reset` 15/81** (v8 14/81). The hits are at ratio ~0.82 and the misses at ~0.62, with the same 0.3 ms
+    latency. In train, every reset attack had ratio ≥ 0.85, so latency added no information and was not learned. Next
+    build: `low_rate_reset` ratio 0.3–1.0 and `multi_connection` 0.5–1.0 (69–80% below 0.85).
+  - **c2 `long_poll_http` 103/159** (v8 159/159, identical records): misses concentrate on port 8080, a port c2 training
+    never used and benign flows do. Next build: c2 ports include 8080; benign `keepalive_long_poll` also uses 80/8080.
+  - JWT held-out `nbf_not_enforced` 0/4, `duplicate_claim_key_last_wins` 0/5 and `admin_console_default_dev_hs256_secret`
+    0/8, although similar mechanisms are now in train.
+  - xss_dom unseen 147/183 on seeded records; the misses go to xss_reflected_stored (attack → attack).
+- Cross-model check of every remaining LLM record (for the next build): Codex low effort on 11,717 attacks (99.3% agree; 85
+  disputed → quarantined) and 4,904 twins (Codex 2,223 at 0.946, then Sonnet 5.5 low on 2,681 after the Codex usage limit,
+  at 0.934). Twins read as attacks (19) are quarantined. Benign-vs-benign disagreements keep their label.
+
 ### Fast build v9 — 16 October 11:30–13:10 (bundle `1f051886…`, gate passed)
 
 Fixes for the v8 analysis and the pre-run caveat sweep (raw outputs are new files only):

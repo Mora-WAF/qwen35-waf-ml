@@ -53,8 +53,7 @@ def record(rid, kind, tel, label, expected, lineage, extra):
 
 
 def insufficient(n, used):
-    rej = [json.loads(l) for l in open(G.SEEDS / "rejected.jsonl")]
-    rej = [x for x in rej if x["reason"] in ("too_short_ambiguous", "no_attack_syntax")]
+    rej = G.rejected_fragments()  # same pool and stride as G.gen_fragments' exclusion (n = G.REJECTED_PROBES)
     out = []
     for i, x in enumerate(rej[:: max(1, len(rej) // n)][:n]):
         r = G.rng_for(f"insuff:{i}")

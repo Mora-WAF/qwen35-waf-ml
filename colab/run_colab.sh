@@ -56,7 +56,8 @@ if ! fetch part_a.json && ! busy; then
 fi
 # the CLI connection can drop while the kernel trains on: wait for it instead of stopping the VM
 until fetch part_a.json; do
-  busy || die "Part A ended without part_a.json (see $OUT/partA.ipynb)"
+  # one failed status poll must not stop a training VM (the EXIT trap stops it when KEEP=0)
+  busy || { sleep 30; busy; } || { sleep 60; busy; } || die "Part A ended without part_a.json (see $OUT/partA.ipynb)"
   KEEP=1; fetch progress.json && say "training: $(cat "$OUT/progress.json")"; sleep 300; KEEP=0
 done
 fetch train_log.jsonl; fetch progress.json

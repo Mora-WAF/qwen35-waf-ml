@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v8 (41 classes) **model-evaluated** on Colab A100 (`reports/colab_a100v8/`): test accuracy 0.9841, test_unseen 0.9579 (v7: 0.9894 / 0.9616, splits differ); calibration froze temperature 1.223249, tau 0.0 in `config/policy.yaml` (max-prob tau cannot flag out-of-taxonomy inputs: see the progress log). Not deployment-qualified. Fast build v9 (HTTP/2 reset-latency feature, family breadth, JWT verifier mechanisms, twin top-up: 1 concentrated token, DNS shortcut fix) is gate-passed and training as `a100v9`; see `docs/PLAN.md`.
+Current state: fast build v9 (41 classes) **model-evaluated** on Colab A100 (`reports/colab_a100v9/`): test accuracy 0.9857, test_unseen 0.9486 (SVM 0.890); calibration froze T 1.033, tau 0.808 and a benign flow envelope in `config/policy.yaml` (out-of-taxonomy abstention 60%). Not deployment-qualified. Generator fixes for HTTP/2 and c2, 104 cross-check quarantines and the prompt/holdout/scorer changes wait for the next build; see `docs/PLAN.md`.
 A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
@@ -64,20 +64,33 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
   `data/jobs/out/<class>.jsonl` or a new `<class>.vN.jsonl`. These raw outputs are irreplaceable:
   add a new version file; leave existing ones in place, untouched.
 - **Review** is same-model: agreement filters noise, it is not ground truth. Quarantine is applied by
-  `subagents.review.status()` at ingest and seed load; the latest answered round for an item decides.
+  `subagents.review.status()` at ingest and seed load; the latest answered round for an item decides. Manual and
+  cross-model rejects go into `data/review/relabel.json` as `__quarantine__` (job refs and seed ids alike).
+- **Reviewer agents must read every item.** On 16 October several Sonnet seed reviewers labelled 5,800 payloads with
+  regex scripts; their answers were discarded (`data/review/xmodel_seeds/out_invalid_regex_labels`). Say "no scripts for
+  labels" in reviewer prompts and spot-check label distributions against another reviewer before applying a round.
 - **Answer keys are readable by any agent started in the repo.** A Gemini audit run from the repo root read
   `data/review_xmodel_key.json` (13/14 batches at exactly 100%). External models run only through
   `subagents.xmodel_run` (empty temp cwd + `--sandbox`), with `chmod 000 data/review*key*.json` for the whole run
   (the build reads `review_key.json`, so never lock during a build); a run of perfect batches is a leak signal.
 - **External review runs Codex and Gemini together** (`xmodel_run both`), never one alone (user decision).
-  Gemini goes through `agy-delegate`, which passes the prompt as one argument: above ~128 KB it fails with
-  `Argument list too long`. Keep xmodel batches small enough (the v4 classes needed 50-item batches).
+  Gemini goes through the `agy` CLI directly (not the antigravity plugin's `agy-delegate` wrapper):
+  `agy --model "Gemini 3.8 Flash (Low)" --print-timeout 20m --disable-slash-commands --sandbox -p "<prompt>"`.
+  `-p` takes the prompt as one argument (stdin is not read): above ~128 KiB it fails with `Argument list too long`,
+  so `xmodel_run` refuses batches over 120 KB (the v4 classes needed 50-item batches). `--print-timeout` defaults to
+  0 = wait forever, and with slash-command expansion on, payload text like `/etc/passwd` can be expanded; both made
+  calls hang for 22+ min on 16 October (seed review). `xmodel_run` adds a 25-min subprocess cap and a "no tools"
+  line in the prompt. `--mode plan` has no effect once slash commands are disabled. Model names: `agy models`.
+  Faster and steadier: an OpenAI-compatible endpoint (`XM_OPENAI_BASE`, `XM_OPENAI_KEY` from the environment, never
+  a file; model e.g. `ag/gemini-3.8-flash-low`) did 25 half-batches in 4 min at 8 workers, while the agy runs stalled
+  on server-side throttling of ~195-item batches. Keep batches ~100 items.
   Codex (ChatGPT login) with ~16 parallel `codex exec` calls invalidated the refresh token mid-run
   (`refresh_token_invalidated`, then 401 on every call): keep Codex at ~4 parallel workers. ~8 workers ran fine on
   16 October, but a night of generation plus cross-checks hit the ChatGPT usage limit ("try again at <time>"):
   `xmodel_run` then writes a `.err` file, and a batch with no answers must not count as disagreement. On 16 October it
-  hit again after 6 generation jobs + 936 cross-check items + 40 twin jobs; in-session Haiku workers took over generation. Gemini Flash calls
-  sometimes hang far past the usual ~7 min; the 22-min timeout retries them, or stop and score what came back.
+  hit again after 6 generation jobs + 936 cross-check items + 40 twin jobs; in-session Haiku workers took over generation. Gemini calls that still
+  hang hit the 25-min cap and are retried (cached batches are skipped on rerun); 32 parallel calls drew 503s and
+  back-off sleeps, so stay at one worker per remaining batch or fewer.
 - **Lineage** decides splits. Assign whole groups, globally (one attacker host can span classes).
   Templated worker output and seed variants share a group via near-dup keys; each CIC attack class
   is one campaign, so its test coverage comes from NF-ToN or synthetic records.
@@ -89,6 +102,11 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
   the progress log; `concentrated_structural_tokens` must stay near-empty.
 - **Minimal pairs**: seeded records get benign twins (`generate.TWIN_RATE`), Haiku attack classes get
   context-matched twins; a twin shares its attack's lineage group and must not carry a neutralised payload.
+  Twins go round-robin across a job's families (scenario_v2): "the first N lines" left later families twin-less and
+  made their context keys attack-only (v9: 155 concentrated tokens, fixed by a 1,558-twin top-up).
+- **A new feature must be needed in train.** If an existing feature already separates every train record, the model
+  ignores the new one (v9: HTTP/2 reset latency was redundant with RST ratio ≥ 0.85; held-out mixed_reset stayed at
+  15/81). Give some train variants overlapping values on the old feature.
 - **Model input** carries telemetry only; labels, rationale and evidence live in `metadata` / `scenario`.
   Missing values are absent keys, never a fabricated zero.
 - **Source labels** map to a class only when they name it (e.g. CIC `DDoS` is an HTTP flood, so it is

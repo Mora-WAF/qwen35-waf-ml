@@ -52,15 +52,24 @@ def assign_splits(records, ratios=(0.8, 0.1, 0.1), seed=1337):
         n_val = max(3, int(n * ratios[1])) if n >= 5 else 0
         have_test = sum(assigned.get(g) == "test" for g in gids)
         have_val = sum(assigned.get(g, "").startswith("val") for g in gids)
+        # val subpartitions ~2:1:1 by records, not by group count (v9: nosqli val_calib 5 vs val_policy 53)
+        vc = {p: sum(len(by_class_groups[cls][g]) for g in gids if assigned.get(g) == p) for p in VAL_PARTS}
+        val_gids = []
         for gid in gids:
             if gid in assigned:
                 continue
             if have_test < n_test:
                 assigned[gid], have_test = "test", have_test + 1
-            elif have_val < n_val:  # round-robin -> ~2:1:1 select/calib/policy
-                assigned[gid], have_val = VAL_PARTS[have_val % len(VAL_PARTS)], have_val + 1
+            elif have_val < n_val:
+                val_gids.append(gid)
+                have_val += 1
             else:
                 assigned[gid] = "train"
+        # largest group first into the smallest bucket by records (select weighs 2): singletons backfill
+        for gid in sorted(val_gids, key=lambda g: -len(by_class_groups[cls][g])):
+            part = min(VAL_PARTS[:3], key=lambda p: vc[p] / (2 if p == "val_select" else 1))
+            assigned[gid] = part
+            vc[part] += len(by_class_groups[cls][gid])
     for r in records:
         r["metadata"]["split"] = assigned[r["metadata"]["lineage_group"]]
     return records

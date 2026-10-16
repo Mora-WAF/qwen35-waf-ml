@@ -23843,3 +23843,27 @@ Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
 `causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
 {'reload_match': 5, 'of': 5, 'fingerprint_match': True, 'weights_dtype': 'torch.bfloat16'}
 [colab] Executing cell 2/4 - 32dcf110...
+{
+ "n": 11581,
+ "per_split": {
+  "test": 4325,
+  "test_unseen": 5037,
+  "val_policy": 1041,
+  "val_calib": 1078,
+  "robustness": 100
+ },
+ "s_per_record": 0.284,
+ "max_abs_diff_vs_bruteforce": 1.9073331714025699e-06,
+ "file": "/content/SCORES_fast.jsonl"
+}
+[colab] Executing cell 3/4 - eb1ebf86...
+[colab] Executing cell 4/4 - 88392931...
+passed: True -> train_fast_report.json and /content/SCORES_fast.jsonl (download both into reports/; then locally: python -m eval.calibration reports/SCORES_fast.jsonl --write-policy)
+[colab] Saving notebook with outputs to 'partB_output.ipynb'...
+[colab] Downloaded '/content/train_fast_report.json' to '../reports/colab_a100v9/train_fast_report.json'
+[colab] Downloaded '/content/SCORES_fast.jsonl' to '../reports/colab_a100v9/SCORES_fast.jsonl'
+[colab] Downloaded '/content/export_fast.zip' to '../reports/colab_a100v9/export_fast.zip'
+[run_colab 15:59:56] passed: True -> ../reports/colab_a100v9
+[colab] Stopping session 'a100v9'...
+[colab] Session terminated.
+[colab] No active sessions found on server.

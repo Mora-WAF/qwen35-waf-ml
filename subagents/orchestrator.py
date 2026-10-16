@@ -189,11 +189,12 @@ def verify(paths):
             out[path] = ["missing"]
             continue
         rows = [json.loads(x) for x in open(fp) if x.strip()]
+        check = jsonschema.validators.validator_for(tel_schema)(tel_schema).validate
         fams, shapes = set(), set()
         cls = fp.name.split(".")[0]
         for o in rows:
             try:
-                jsonschema.validate(o["telemetry"], tel_schema)
+                check(o["telemetry"])
             except jsonschema.ValidationError:
                 probs.append("schema")
             t = json.dumps(o["telemetry"], sort_keys=True)
@@ -332,8 +333,15 @@ def ingest(root=ROOT):
     from data_pipeline.generate import assemble
     from training.prepare import deserialize_telemetry  # noqa: F401 (round-trip sanity imported in tests)
     tel_schema = json.load(open(root / "schemas/telemetry.schema.json"))
+    check = jsonschema.validators.validator_for(tel_schema)(tel_schema).validate  # compiled once, not per record
     tax = taxonomy(root)
     all_recs, report = [], {}
+    _lines = {}
+
+    def file_lines(p):  # each twin source file read once, not once per twin line
+        if p not in _lines:
+            _lines[p] = [x for x in open(p) if x.strip()] if p.exists() else []
+        return _lines[p]
     for cls in GAP + EXTRA_INGEST:
         fps = sorted(OUT.glob(f"{cls}.jsonl")) + sorted(OUT.glob(f"{cls}.v*.jsonl"))  # v1 + later rounds
         if not fps:
@@ -361,7 +369,7 @@ def ingest(root=ROOT):
                 obj = json.loads(line)
                 tel, hn = _neutralize(obj["telemetry"], f"{cls}:{i}")
                 tel = canonicalize(normalize_headers(tel, f"{cls}:{i}"), f"{cls}:{i}")
-                jsonschema.validate(tel, tel_schema)
+                check(tel)
                 assert tel["mode"] in tax[cls]["input_modes"] or tel["mode"] == "HYBRID_CTX"
                 rec_id = f"haiku:{cls}:{i:06d}"
                 group = near_dup_group(cls, obj["telemetry"])
@@ -369,14 +377,14 @@ def ingest(root=ROOT):
                 fname = ref.split(":")[0]
                 if isinstance(twin_of, str) and ":" in twin_of:  # twin-only jobs name the exact source line
                     src_name, src_line = twin_of.rsplit(":", 1)
-                    src_lines = [x for x in open(OUT / src_name) if x.strip()] if (OUT / src_name).exists() else []
+                    src_lines = file_lines(OUT / src_name)
                     if src_line.isdigit() and int(src_line) < len(src_lines):
                         group = near_dup_group(src_name.split(".")[0], json.loads(src_lines[int(src_line)])["telemetry"])
                 elif twin_of is not None and ".v" in fname and "_" in fname.split(".v", 1)[1]:
                     # context-matched benign twin: same lineage group as its attack record (never split apart)
                     atk_cls = fname.split(".v", 1)[1].split("_", 1)[1].removesuffix(".jsonl")
                     atk_file = OUT / f"{atk_cls}.v{fname.split('.v', 1)[1].split('_', 1)[0]}.jsonl"
-                    atk_lines = [x for x in open(atk_file) if x.strip()]
+                    atk_lines = file_lines(atk_file)
                     if 0 <= int(twin_of) < len(atk_lines):
                         group = near_dup_group(atk_cls, json.loads(atk_lines[int(twin_of)])["telemetry"])
                 rec = assemble(rec_id, out_cls, tel, "synthetic",

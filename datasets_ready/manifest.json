@@ -2,32 +2,31 @@
  "mode": "fast",
  "per_class": 40,
  "quota_fraction": 0.25,
- "total": 49356,
+ "total": 49584,
  "dropped_exact_dup": 73,
  "rejected_token_overflow": {
-  "graphql_abuse": 68,
+  "graphql_abuse": 59,
   "jwt_auth_bypass": 8,
-  "websocket_grpc_abuse": 42,
-  "race_condition_toctou_burst": 1,
-  "benign_standard_traffic": 45,
-  "benign_high_rate_legit": 2
+  "websocket_grpc_abuse": 37,
+  "benign_standard_traffic": 26,
+  "benign_high_rate_legit": 1
  },
  "files": {
   "fast_train.jsonl": {
-   "records": 35711,
-   "sha256": "3dd875de8f0e4122adbdfe442a66b6f1df19810529d8997e008a4ed79908d1d4"
+   "records": 35573,
+   "sha256": "aaf0824fa8826e1856e8c3045e735afd033da7cb582a2f767e3f2242e87dd18c"
   },
   "fast_val.jsonl": {
-   "records": 4283,
-   "sha256": "f1267fc7276c9b4320c8c700aad8f118226aca5e2df0dafe0e1a1912c9c2731e"
+   "records": 4235,
+   "sha256": "0e703c279dc9e143ded0578a990b5e0a6d39f3bc50951a5373fddff5b6e776f5"
   },
   "fast_test.jsonl": {
-   "records": 4325,
-   "sha256": "aa15475feffa9624c4ec01c5a25f39fe220f195be5acff2fb9cf843d613f5203"
+   "records": 4417,
+   "sha256": "e367058187a3e0a8d008d719acdf74404f00a32c0510db829d93f1e0291a2c68"
   },
   "fast_test_unseen.jsonl": {
-   "records": 5037,
-   "sha256": "ba8975626810f65bcfb8fcca6909a9d8e522dce85b350efa464c3afeca50ef0c"
+   "records": 5359,
+   "sha256": "1be6ade2f77140ff8e38f8a3c59d232bed3bbba689dc609051ba627bf20ee965"
   }
  },
  "deficits": {
@@ -86,33 +85,33 @@
   },
   "graphql_abuse": {
    "status": "ok",
-   "accepted": 785,
+   "accepted": 773,
    "rejected": 0,
-   "quarantined_by_review": 263
+   "quarantined_by_review": 275
   },
   "jwt_auth_bypass": {
    "status": "ok",
-   "accepted": 1143,
+   "accepted": 1118,
    "rejected": 0,
-   "quarantined_by_review": 241
+   "quarantined_by_review": 266
   },
   "bola_idor_enumeration": {
    "status": "ok",
-   "accepted": 886,
+   "accepted": 885,
    "rejected": 0,
-   "quarantined_by_review": 10
+   "quarantined_by_review": 11
   },
   "websocket_grpc_abuse": {
    "status": "ok",
-   "accepted": 699,
+   "accepted": 689,
    "rejected": 0,
-   "quarantined_by_review": 299
+   "quarantined_by_review": 309
   },
   "llm_prompt_injection": {
    "status": "ok",
-   "accepted": 1095,
+   "accepted": 1093,
    "rejected": 0,
-   "quarantined_by_review": 17
+   "quarantined_by_review": 19
   },
   "prototype_pollution": {
    "status": "ok",
@@ -134,9 +133,9 @@
   },
   "csv_formula_injection": {
    "status": "ok",
-   "accepted": 672,
+   "accepted": 645,
    "rejected": 0,
-   "quarantined_by_review": 30
+   "quarantined_by_review": 57
   },
   "bopla_mass_assignment": {
    "status": "ok",
@@ -158,15 +157,15 @@
   },
   "malicious_file_upload_webshell": {
    "status": "ok",
-   "accepted": 697,
+   "accepted": 693,
    "rejected": 0,
-   "quarantined_by_review": 19
+   "quarantined_by_review": 23
   },
   "mcp_agentic_tool_abuse": {
    "status": "ok",
-   "accepted": 605,
+   "accepted": 597,
    "rejected": 0,
-   "quarantined_by_review": 11
+   "quarantined_by_review": 19
   },
   "benign_hard_negative_dev": {
    "status": "ok",
@@ -182,9 +181,9 @@
   },
   "benign_standard_traffic": {
    "status": "ok",
-   "accepted": 6861,
+   "accepted": 6842,
    "rejected": 0,
-   "quarantined_by_review": 581
+   "quarantined_by_review": 600
   },
   "xss_reflected_stored": {
    "status": "ok",

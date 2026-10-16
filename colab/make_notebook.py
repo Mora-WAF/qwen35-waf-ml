@@ -233,6 +233,10 @@ model.save_pretrained(EXP); tok.save_pretrained(EXP)
 json.dump({"base_model": MODEL_ID, "revision": MODEL_REVISION, "fingerprint": fp_now, "env": ENV,
            "lora": {k: v for k, v in H.LORA.items() if k != "use_gradient_checkpointing"}},
           open(f"{EXP}/export_info.json", "w"), indent=1)
+open(f"{EXP}/README.md", "w").write(  # replaces PEFT's empty template; training.model_card writes the evaluated card
+    f"# Qwen3.5-4B WAF/NIDS classifier adapter ({MODE}, pre-evaluation)\\n\\nrsLoRA adapter for `{MODEL_ID}` @ `{MODEL_REVISION}`. "
+    f"This is the copy saved right after training. The full model card (data, training, calibrated evaluation, robustness, "
+    f"limitations) is written into the downloaded export by `python -m training.model_card reports/colab_<run>`.\\n")
 json.dump([{"messages": r["messages"][:2], "expect": p["raw"]} for r, p in zip(val_recs, preds[:5])],
           open("/content/reload_sample.json", "w"))
 PART_A = {"mode": MODE, "dry_run_steps": DRY_RUN_STEPS, "seed": SEED, "model_id": MODEL_ID, "revision": MODEL_REVISION, "env": ENV,
@@ -310,7 +314,9 @@ SCORES = {"n": len(recs), "per_split": per, "s_per_record": round((time.time() -
           "max_abs_diff_vs_bruteforce": max(diffs), "max_prob_diff_pruned": max(pdiffs), "file": out_path}
 print(json.dumps(SCORES, indent=1))
 assert SCORES["max_abs_diff_vs_bruteforce"] < 0.05, "cached scorer disagrees with the full forward pass"
-assert SCORES["max_prob_diff_pruned"] < 1e-3, "pruned scorer changes the class probabilities"
+# bf16 logits shift with the suffix batch size (41 vs the kept few): ~0.005 nats on a 25-step model (dry run, 16 Oct),
+# the same size as the full-pass check above. Real pruning error would be mass above e^-12 per pruned class.
+assert SCORES["max_prob_diff_pruned"] < 0.02, "pruned scorer changes the class probabilities"
 del m; gc.collect(); torch.cuda.empty_cache()"""),
 (PY, """# ---- B2: continuation test (smoke only): 20 steps straight vs 10 + save/reload + 10 ----------
 RESUME = None
@@ -351,7 +357,9 @@ REPORT = {**PART_A, "reload": RELOAD, "resume_test": RESUME, "scores": SCORES}
 REPORT["passed"] = bool(PART_A["train"]["global_steps"] >= 20
                         and all(math.isfinite(l) for _, l in PART_A["train"]["losses"])
                         and RELOAD["reload_match"] == RELOAD["of"] and RELOAD["fingerprint_match"]
-                        and (RESUME is None or RESUME["pass"]))
+                        and (RESUME is None or RESUME["pass"])
+                        # colab exec runs on after a failed cell: the scorer checks must gate the verdict too
+                        and SCORES["max_abs_diff_vs_bruteforce"] < 0.05 and SCORES["max_prob_diff_pruned"] < 0.02)
 name = ("gpu_smoke_test.json" if MODE == "smoke" else f"dryrun_{MODE}_report.json" if PART_A.get("dry_run_steps")
         else f"train_{MODE}_report.json")
 json.dump(REPORT, open(f"/content/{name}", "w"), indent=1, default=str)

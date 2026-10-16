@@ -2,10 +2,10 @@
 version: 1
 # Calibrated-probability threshold for any non-ABSTAIN verdict. null = not yet fitted
 # on the calibration-policy partition -> every decision abstains (shadow mode).
-threshold: 0.0
-temperature: 1.223249  # softmax temperature over summed class completion log-probs (eval.calibration, val_calib)
+threshold: 0.807739
+temperature: 1.033497  # softmax temperature over summed class completion log-probs (eval.calibration, val_calib)
 class_thresholds: {}   # optional per-class overrides, fitted and frozen with `threshold`
-flow_envelope: {}  # benign_standard_traffic flow-feature [lo, hi] (train 0.5-99.5%), frozen by eval.calibration --write-policy
+flow_envelope: {"pkts_per_s": [0.0279954, 1000000.0], "bytes_per_s": [0.0, 20750000.0], "pkts_total": [2, 16692], "bytes_total": [0, 26558690], "duration_s": [2e-06, 2994.234]}  # benign_standard_traffic flow-feature [lo, hi] (train 0.5-99.5%), frozen by eval.calibration --write-policy
 
 # Context keys (under telemetry `context`) that must be present and non-null before
 # the class may produce a non-abstain verdict (spec §5 evidence table).

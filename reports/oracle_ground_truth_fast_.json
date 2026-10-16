@@ -3,16 +3,16 @@
  "report_only": true,
  "classes": {
   "jwt_auth_bypass": {
-   "n": 1135,
-   "pass": 306,
-   "fail": 829,
-   "pass_rate": 0.269604,
+   "n": 1110,
+   "pass": 303,
+   "fail": 807,
+   "pass_rate": 0.272973,
    "failing_ids": [
-    "haiku:jwt_auth_bypass:000053",
-    "haiku:jwt_auth_bypass:000054",
-    "haiku:jwt_auth_bypass:000072",
-    "haiku:jwt_auth_bypass:000085",
-    "haiku:jwt_auth_bypass:000086"
+    "haiku:jwt_auth_bypass:000075",
+    "haiku:jwt_auth_bypass:000120",
+    "haiku:jwt_auth_bypass:000146",
+    "haiku:jwt_auth_bypass:000150",
+    "haiku:jwt_auth_bypass:000156"
    ]
   },
   "xxe": {
@@ -21,50 +21,50 @@
    "fail": 32,
    "pass_rate": 0.947712,
    "failing_ids": [
-    "haiku:xxe:000023",
-    "xxe_injection_payload_list:xxe:5b7b8b10c1df37de~0",
-    "xxe_injection_payload_list:xxe:e3aaf71979030018~0",
-    "xxe_injection_payload_list:xxe:cdcc8c132ea5fa66~0",
-    "xxe_injection_payload_list:xxe:23db2b3da5ffc82d~0"
+    "haiku:xxe:000041",
+    "haiku:xxe:000051",
+    "xxe_injection_payload_list:xxe:fa878de1ca8952db~0",
+    "haiku:xxe:000003",
+    "xxe_injection_payload_list:xxe:8decb19eaf42a6d9~0"
    ]
   },
   "ldap_xpath_injection": {
    "n": 675,
-   "pass": 554,
-   "fail": 121,
-   "pass_rate": 0.820741,
+   "pass": 562,
+   "fail": 113,
+   "pass_rate": 0.832593,
    "failing_ids": [
-    "haiku:ldap_xpath_injection:000233",
-    "haiku:ldap_xpath_injection:000283",
-    "payloadsallthethings:ldap_xpath_injection:b71a0948335cc1d6~0",
-    "payloadsallthethings:ldap_xpath_injection:b71a0948335cc1d6~1",
-    "payloadsallthethings:ldap_xpath_injection:b71a0948335cc1d6~2"
+    "haiku:ldap_xpath_injection:000243",
+    "haiku:ldap_xpath_injection:000272",
+    "haiku:ldap_xpath_injection:000227",
+    "haiku:ldap_xpath_injection:000232",
+    "haiku:ldap_xpath_injection:000233"
    ]
   },
   "csv_formula_injection": {
-   "n": 672,
+   "n": 645,
    "pass": 512,
-   "fail": 160,
-   "pass_rate": 0.761905,
+   "fail": 133,
+   "pass_rate": 0.793798,
    "failing_ids": [
-    "haiku:csv_formula_injection:000088",
-    "haiku:csv_formula_injection:000190",
-    "haiku:csv_formula_injection:000285",
-    "haiku:csv_formula_injection:000304",
-    "haiku:csv_formula_injection:000338"
+    "haiku:csv_formula_injection:000069",
+    "haiku:csv_formula_injection:000132",
+    "haiku:csv_formula_injection:000209",
+    "haiku:csv_formula_injection:000219",
+    "haiku:csv_formula_injection:000247"
    ]
   },
   "crlf_header_injection": {
    "n": 670,
-   "pass": 463,
-   "fail": 207,
-   "pass_rate": 0.691045,
+   "pass": 466,
+   "fail": 204,
+   "pass_rate": 0.695522,
    "failing_ids": [
-    "haiku:crlf_header_injection:000163",
-    "haiku:crlf_header_injection:000199",
-    "haiku:crlf_header_injection:000210",
-    "haiku:crlf_header_injection:000211",
-    "haiku:crlf_header_injection:000222"
+    "haiku:crlf_header_injection:000150",
+    "crlf_injection_payload_list:crlf_header_injection:72acca58b28aa13b~0",
+    "crlf_injection_payload_list:crlf_header_injection:72acca58b28aa13b~1",
+    "crlf_injection_payload_list:crlf_header_injection:3ef7d7db89395889~0",
+    "crlf_injection_payload_list:crlf_header_injection:3ef7d7db89395889~1"
    ]
   },
   "prototype_pollution": {
@@ -73,30 +73,30 @@
    "fail": 65,
    "pass_rate": 0.925373,
    "failing_ids": [
-    "haiku:prototype_pollution:000042",
-    "haiku:prototype_pollution:000056",
+    "haiku:prototype_pollution:000034",
+    "haiku:prototype_pollution:000046",
+    "haiku:prototype_pollution:000103",
     "haiku:prototype_pollution:000218",
-    "haiku:prototype_pollution:000242",
-    "haiku:prototype_pollution:000302"
+    "haiku:prototype_pollution:000260"
    ]
   }
  },
  "benign_audit": {
   "ordinary": {
    "benign_standard_traffic": {
-    "n": 12641,
-    "any_hit": 22,
+    "n": 12942,
+    "any_hit": 25,
     "checks": {
-     "jwt_auth_bypass": 14,
+     "jwt_auth_bypass": 13,
      "xxe": 0,
-     "ldap_xpath_injection": 0,
+     "ldap_xpath_injection": 1,
      "csv_formula_injection": 8,
-     "crlf_header_injection": 0,
+     "crlf_header_injection": 3,
      "prototype_pollution": 0
     }
    },
    "benign_high_rate_legit": {
-    "n": 1398,
+    "n": 1399,
     "any_hit": 0,
     "checks": {
      "jwt_auth_bypass": 0,
@@ -144,14 +144,15 @@
    "synthetic/haiku-5.5": 1333
   },
   "benign_high_rate_legit": {
-   "synthetic/codex-gpt-6.1-sol": 148,
+   "synthetic/codex-gpt-6.1-sol": 149,
    "synthetic/deterministic": 1250
   },
   "benign_standard_traffic": {
+   "hybrid/deterministic": 300,
    "observed/deterministic": 1697,
-   "synthetic/codex-gpt-6.1-sol": 2310,
-   "synthetic/deterministic": 4239,
-   "synthetic/haiku-5.5": 4395
+   "synthetic/codex-gpt-6.1-sol": 2317,
+   "synthetic/deterministic": 4240,
+   "synthetic/haiku-5.5": 4388
   },
   "crlf_header_injection": {
    "hybrid/deterministic": 375,
@@ -159,10 +160,10 @@
   },
   "csv_formula_injection": {
    "synthetic/codex-gpt-6.1-sol": 227,
-   "synthetic/haiku-5.5": 445
+   "synthetic/haiku-5.5": 418
   },
   "jwt_auth_bypass": {
-   "synthetic/haiku-5.5": 1135
+   "synthetic/haiku-5.5": 1110
   },
   "ldap_xpath_injection": {
    "hybrid/deterministic": 375,

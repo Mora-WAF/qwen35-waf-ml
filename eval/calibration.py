@@ -65,10 +65,11 @@ def reliability(P, y):
             "brier": round(float(((P - onehot) ** 2).sum(1).mean()), 4), "ece": round(ece, 4), "bins": bins}
 
 
-def policy_rates(P, y, tau, benign, hard_neg):
-    """Binary intervention view: an emitted attack class at conf >= tau intervenes; anything below tau abstains."""
+def policy_rates(P, y, tau, benign, hard_neg, abstain=None):
+    """Binary intervention view: an emitted attack class at conf >= tau intervenes; anything below tau abstains,
+    and so does any record in `abstain` (the policy's flow-envelope guard)."""
     conf, pred = P.max(1), P.argmax(1)
-    act = conf >= tau
+    act = (conf >= tau) & (~abstain if abstain is not None else True)
     attack_true, attack_pred = ~benign[y], ~benign[pred]
     inter = act & attack_pred
     hn = hard_neg[y]
@@ -80,13 +81,13 @@ def policy_rates(P, y, tau, benign, hard_neg):
             "abstention_rate": round(1 - act.mean(), 4)}
 
 
-def choose_tau(P, y, benign, hard_neg, max_hn_fir, max_recall_loss=0.005):
+def choose_tau(P, y, benign, hard_neg, max_hn_fir, max_recall_loss=0.005, abstain=None):
     hn = hard_neg[y]
     ok = [(float(t), r) for t in np.unique(np.concatenate([[0.0], P.max(1)]))
-          for r in [policy_rates(P, y, t, benign, hard_neg)]
+          for r in [policy_rates(P, y, t, benign, hard_neg, abstain)]
           if not hn.any() or r["hard_negative_false_intervention"] <= max_hn_fir]
     if not ok:  # nothing meets it: abstain on all, reported
-        return 1.0 + 1e-9, policy_rates(P, y, 1.0 + 1e-9, benign, hard_neg)
+        return 1.0 + 1e-9, policy_rates(P, y, 1.0 + 1e-9, benign, hard_neg, abstain)
     best = ok[0][1]["attack_intervention_recall"] or 0.0  # recall only falls as tau rises
     return [x for x in ok if (x[1]["attack_intervention_recall"] or 0.0) >= best - max_recall_loss][-1]
 
@@ -135,8 +136,6 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005):
 
     Sc, yc, _ = arrays("val_calib")
     T = fit_temperature(Sc, yc)
-    Sp, yp, _ = arrays("val_policy")
-    tau, at_tau = choose_tau(softmax(Sp, T), yp, benign, hard_neg, max_hn_fir, max_recall_loss)
     feats = flow_features(json.loads(open(path).readline()).get("mode", "fast"))
     env = fit_envelope(feats)
     from eval.policy import outside_envelope
@@ -145,6 +144,10 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005):
     def env_abstain(rs, P):  # model says benign_standard_traffic, flow outside the train envelope
         return np.array([P[i].argmax() == bst and r["id"] in feats and outside_envelope(feats[r["id"]][0], env)
                          for i, r in enumerate(rs)], dtype=bool)
+
+    Sp, yp, rsp = arrays("val_policy")
+    Pp = softmax(Sp, T)
+    tau, at_tau = choose_tau(Pp, yp, benign, hard_neg, max_hn_fir, max_recall_loss, env_abstain(rsp, Pp))
     rep = {"method": "summed completion log-prob per class, temperature scaling on val_calib, tau on val_policy",
            "temperature": round(T, 6), "tau": round(tau, 6), "max_hard_negative_fir": max_hn_fir,
            "val_calib": {"uncalibrated": reliability(softmax(Sc), yc), "calibrated": reliability(softmax(Sc, T), yc)},
@@ -154,22 +157,29 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005):
         if len(y):
             P = softmax(S, T)
             ea = env_abstain(rs, P)
-            rep[split] = {"reliability": reliability(P, y), "policy": policy_rates(P, y, tau, benign, hard_neg),
+            rep[split] = {"reliability": reliability(P, y), "policy": policy_rates(P, y, tau, benign, hard_neg, ea),
                           "envelope_abstained": {"benign": round(float(ea[benign[y]].mean()), 4),
                                                  "attack": round(float(ea[~benign[y]].mean()), 4)}}
-    S, _, rs = arrays("robustness", known=False)
-    if len(rs):  # labels outside the closed set: success = abstain
-        P = softmax(S, T)
-        conf = P.max(1)
-        absn = (conf < tau) | env_abstain(rs, P)
+    rs = by.get("robustness", [])  # every kind, incl. classifier_injection (its labels are real classes)
+    if rs:
+        P = softmax(np.array([r["scores"] for r in rs]), T)
+        pred = P.argmax(1)
+        absn = (P.max(1) < tau) | env_abstain(rs, P)
+        # pass = an acceptable verdict per robustness.py: insufficient_context / malformed must not intervene
+        # (ALLOW or ABSTAIN), out_of_taxonomy must ABSTAIN, classifier_injection must BLOCK or ABSTAIN (never the decoy)
+        ok = {"insufficient_context": absn | benign[pred], "malformed": absn | benign[pred],
+              "out_of_taxonomy": absn, "classifier_injection": absn | ~benign[pred]}
         kinds = {}
-        for r, a in zip(rs, absn):
-            k = kinds.setdefault(r.get("kind", "robustness"), [0, 0])
-            k[0] += a
-            k[1] += 1
+        for i, r in enumerate(rs):
+            k = r.get("kind") or "robustness"
+            v = kinds.setdefault(k, [0, 0, 0])
+            v[0] += bool(ok.get(k, absn)[i])
+            v[1] += bool(absn[i])
+            v[2] += 1
         ent = -(P * np.log(P + 1e-12)).sum(1)
         rep["robustness"] = {"n": len(rs), "abstained": round(float(absn.mean()), 4),
-                             "by_kind": {k: round(a / n, 4) for k, (a, n) in kinds.items()},
+                             "by_kind": {k: {"pass": round(p / n, 4), "abstained": round(a / n, 4), "n": n}
+                                         for k, (p, a, n) in kinds.items()},
                              "entropy_mean": round(float(ent.mean()), 4)}
     (ROOT / "reports/calibration.json").write_text(json.dumps(rep, indent=1))
     if write_policy:  # freeze T and tau in config/policy.yaml (line edits keep the file's comments)

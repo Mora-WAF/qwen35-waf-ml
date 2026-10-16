@@ -1,0 +1,1389 @@
+[run_colab 18:13:09] new A100 session a100dry10
+[colab] Creating session 'a100dry10'...
+[colab] Session READY.
+NVIDIA A100-SXM4-40GB, 40960 MiB
+
+[colab] Download failed: File or directory not found: /content/part_a.json
+[run_colab 18:13:17] upload bundle
+[colab] Uploaded 'colab_bundle_fast.zip' to '/content/colab_bundle_fast.zip'
+[run_colab 18:13:20] Part A (progress: /content/progress.json, Drive qwen35_waf/)
+[colab] Parsing notebook 'partA.ipynb'...
+[colab] Executing cell 1/10 - 2c5f66ec...
+[colab] Executing cell 2/10 - d9c2da39...
+[?25l     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/79.7 kB[0m [31m?[0m eta [36m-:--:--[0m[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m79.7/79.7 kB[0m [31m3.9 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/30.0 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m1.5/30.0 MB[0m [31m45.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m7.0/30.0 MB[0m [31m102.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━[0m [32m15.3/30.0 MB[0m [31m206.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━[0m [32m24.4/30.0 MB[0m [31m256.3 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m30.0/30.0 MB[0m [31m198.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m30.0/30.0 MB[0m [31m198.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m30.0/30.0 MB[0m [31m198.2 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m30.0/30.0 MB[0m [31m81.1 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/2.4 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m2.4/2.4 MB[0m [31m104.9 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/12.3 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━[0m [32m9.1/12.3 MB[0m [31m273.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m12.3/12.3 MB[0m [31m262.4 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m12.3/12.3 MB[0m [31m144.8 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/945.8 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m945.8/945.8 kB[0m [31m72.3 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/835.4 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m835.4/835.4 kB[0m [31m65.3 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/43.1 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m6.9/43.1 MB[0m [31m207.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m14.9/43.1 MB[0m [31m233.7 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━[0m[90m╺[0m[90m━━━━━━━━━━━━━━━━━━━[0m [32m21.7/43.1 MB[0m [31m206.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━━━━━━━━━[0m [32m30.0/43.1 MB[0m [31m235.0 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m[90m━━━━[0m [32m38.6/43.1 MB[0m [31m248.2 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m43.1/43.1 MB[0m [31m257.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m43.1/43.1 MB[0m [31m257.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m43.1/43.1 MB[0m [31m257.1 MB/s[0m eta [36m0:00:01[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m43.1/43.1 MB[0m [31m257.1 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m43.1/43.1 MB[0m [31m61.7 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/3.3 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m3.3/3.3 MB[0m [31m150.2 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m3.3/3.3 MB[0m [31m88.4 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/3.4 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m3.4/3.4 MB[0m [31m123.1 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/73.8 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m73.8/73.8 kB[0m [31m8.8 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/3.6 MB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m3.6/3.6 MB[0m [31m130.2 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/230.5 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m230.5/230.5 kB[0m [31m28.5 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/216.9 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m216.9/216.9 kB[0m [31m25.1 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/45.3 kB[0m [31m?[0m eta [36m-:--:--[0m[2K     [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m45.3/45.3 kB[0m [31m2.7 MB/s[0m eta [36m0:00:00[0m
+[?25h[?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/819.2 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m[91m╸[0m [32m819.2/819.2 kB[0m [31m27.4 MB/s[0m eta [36m0:00:01[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m819.2/819.2 kB[0m [31m19.9 MB/s[0m eta [36m0:00:00[0m
+[?25h[colab] Executing cell 3/10 - 560d93f3...
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+Unsloth: xformers is installed but cannot load with torch 2.11.0+cu130 (it was built for 2.10.0+cu128), so PyTorch attention is used instead.
+To install a matching xformers, run `unsloth install-kernels xformers`, or `pip uninstall xformers` to hide this. UNSLOTH_ENABLE_LOGGING=1 shows the full error.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+{
+ "gpu": "NVIDIA A100-SXM4-40GB",
+ "gpu_mem_gb": 39.5,
+ "capability": "8.0",
+ "dtype": "bfloat16",
+ "disk_free_gb": 192,
+ "python": "3.13.15",
+ "torch": "2.11.0+cu130",
+ "cuda": "13.0",
+ "unsloth": "2026.10.5",
+ "unsloth_zoo": "2026.10.5",
+ "transformers": "5.17.0",
+ "trl": "1.15.0",
+ "peft": "0.21.2",
+ "accelerate": "1.15.0",
+ "bitsandbytes": "0.50.2",
+ "datasets": "4.8.5",
+ "fla": "0.5.2"
+}
+[colab] Executing cell 4/10 - 888993f2...
+bundle sha256 87119b325afe | Drive run dir: None
+bundle ok: fast_ gate passed: True
+[colab] Executing cell 5/10 - 4d0c13c4...
+==((====))==  Unsloth 2026.10.5: Fast Qwen3_5 patching. Transformers: 5.17.0.
+   \\   /|    NVIDIA A100-SXM4-40GB. Num GPUs = 1. Max memory: 39.494 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.11.0+cu130. CUDA: 8.0. CUDA Toolkit: 13.0. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Unsloth: Explicit target_modules are constrained by the finetune_(vision|language|attention|mlp) filters; adapters attach only where both select.
+trainable 21,233,664 / 4,560,499,200 (0.47%) in 256 tensors | base weights torch.bfloat16
+sample trainable modules: ['down_proj', 'gate_proj', 'k_proj', 'o_proj', 'q_proj', 'up_proj', 'v_proj']
+fla gated-delta-rule kernels: True
+[colab] Executing cell 6/10 - 5126a8e2...
+supervised: '{"threat_type":"llm_prompt_injection"}<|im_end|>' | prompt tokens masked: 310
+supervised: '{"threat_type":"udp_amplification"}<|im_end|>' | prompt tokens masked: 316
+supervised: '{"threat_type":"benign_hard_negative_dev"}<|im_end|>' | prompt tokens masked: 309
+supervised: '{"threat_type":"rce_cmd_injection"}<|im_end|>' | prompt tokens masked: 433
+supervised: '{"threat_type":"benign_standard_traffic"}<|im_end|>' | prompt tokens masked: 920
+35573 train / 2118 val_select rows
+[colab] Executing cell 7/10 - 5d9c942e...
+batch 4 x accum 4 | optim adamw_8bit | clip 1.0 | warmup 0.05 | fp16 False | bf16 True
+[colab] Executing cell 8/10 - aeaafb97...
+fresh start
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 35,573 | Num Epochs = 1 | Total steps = 25
+O^O/ \_/ \    Batch size per device = 4 | Gradient accumulation steps = 4
+\        /    Data Parallel GPUs = 1 | Total batch size (4 x 4 x 1) = 16
+ "-____-"     Trainable parameters = 21,233,664 of 4,560,499,200 (0.47% trained)
+Unsloth: Will smartly offload gradients to save VRAM!
+`causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+Unsloth: Double buffering enabled (parallel H2D + compute) for backward pass.
+[ 2/25 : < :, Epoch 0.00/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 3/25 00:02 < 01:04, 0.34 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 4/25 00:05 < 00:55, 0.38 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 5/25 00:08 < 00:59, 0.33 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 6/25 00:11 < 00:53, 0.36 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 7/25 00:13 < 00:48, 0.37 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 8/25 00:15 < 00:43, 0.39 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[ 9/25 00:17 < 00:39, 0.40 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[10/25 00:19 < 00:36, 0.42 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 1/13 : < :]                                                                   
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 2/13 00:00 < 00:03, 3.45 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 3/13 00:00 < 00:02, 3.51 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 4/13 00:01 < 00:03, 2.70 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 5/13 00:01 < 00:03, 2.29 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 6/13 00:02 < 00:02, 2.42 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 7/13 00:02 < 00:02, 2.38 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 8/13 00:03 < 00:02, 2.29 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[ 9/13 00:03 < 00:01, 2.37 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[10/13 00:03 < 00:01, 2.38 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[11/13 00:04 < 00:00, 2.25 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[12/13 00:04 < 00:00, 2.33 it/s]                                                
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+                                      
+
+[13/13 00:04]                                                                   
+[11/25 00:21 < 00:32, 0.43 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[12/25 00:48 < 01:02, 0.21 it/s, Epoch 0.00/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[13/25 00:50 < 00:54, 0.22 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[14/25 00:51 < 00:47, 0.23 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[15/25 00:54 < 00:41, 0.24 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[16/25 00:55 < 00:35, 0.25 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[17/25 00:57 < 00:30, 0.26 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[18/25 01:00 < 00:26, 0.26 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[19/25 01:02 < 00:21, 0.27 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[20/25 01:04 < 00:17, 0.28 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 1/13 : < :]                                                                   
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 2/13 00:00 < 00:07, 1.44 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 3/13 00:00 < 00:04, 2.05 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 4/13 00:01 < 00:04, 2.21 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 5/13 00:01 < 00:03, 2.01 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 6/13 00:02 < 00:03, 2.17 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 7/13 00:02 < 00:02, 2.29 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 8/13 00:03 < 00:02, 2.22 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[ 9/13 00:03 < 00:01, 2.31 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[10/13 00:03 < 00:01, 2.32 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[11/13 00:04 < 00:00, 2.20 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[12/13 00:04 < 00:00, 2.28 it/s]                                                
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+                                      
+
+[13/13 00:05]                                                                   
+[21/25 01:05 < 00:13, 0.29 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+[22/25 01:13 < 00:11, 0.27 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+[23/25 01:15 < 00:07, 0.28 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+[24/25 01:17 < 00:03, 0.28 it/s, Epoch 0.01/1]                                  
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+[25/25 01:19, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 1/13 : < :]                                                                   
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 2/13 00:00 < 00:07, 1.44 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 3/13 00:00 < 00:04, 2.05 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 4/13 00:01 < 00:04, 2.21 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 5/13 00:01 < 00:03, 2.00 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 6/13 00:02 < 00:03, 2.16 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 7/13 00:02 < 00:02, 2.28 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 8/13 00:03 < 00:02, 2.21 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[ 9/13 00:03 < 00:01, 2.31 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[10/13 00:03 < 00:01, 2.32 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[11/13 00:04 < 00:00, 2.19 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[12/13 00:04 < 00:00, 2.27 it/s]                                                
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+                                      
+
+[13/13 00:05]                                                                   
+[25/25 01:20, Epoch 0.01/1]                                                     
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+ 25    0.696731       0.061483        
+                                      
+[25/25 01:26, Epoch 0/1]                                                        
+
+                                      
+ Step  Training Loss  Validation Loss 
+ ──────────────────────────────────── 
+ 10    0.471723       1.096815        
+ 20    0.540235       0.063391        
+ 25    0.696731       0.061483        
+                                      
+{
+ "global_steps": 25,
+ "train_loss": 0.8278775918483734,
+ "wall_s": 270.2,
+ "tokens_per_s_excl_warmup": 3692.2525710924738,
+ "peak_mem_gb": 10.7,
+ "eval_losses": [
+  [
+   10,
+   1.0968151092529297
+  ],
+  [
+   20,
+   0.06339088082313538
+  ],
+  [
+   25,
+   0.061483316123485565
+  ]
+ ],
+ "resumed_from": null
+}
+estimate: 2224 steps; 1.2 h at observed throughput
+[colab] Executing cell 9/10 - 6f138f11...
+`causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+{
+ "n": 60,
+ "raw_json_valid_rate": 1.0,
+ "accuracy_diagnostic": 0.8833333333333333,
+ "latency_p50_s": 0.9299108982086182
+}
+['{"threat_type":"ssrf_cloud_metadata"}', '{"threat_type":"ssrf_cloud_metadata"}', '{"threat_type":"ssrf_cloud_metadata"}', '{"threat_type":"ssrf_cloud_metadata"}', '{"threat_type":"ssrf_cloud_metadata"}']
+[colab] Executing cell 10/10 - 41113a22...
+Unsloth: Restored added_tokens_decoder metadata in /content/export_fast/tokenizer_config.json.
+Part A complete -> /content/part_a.json. Now: Runtime -> Restart session, then run Part B.
+[colab] Saving notebook with outputs to 'partA_output.ipynb'...
+[colab] Downloaded '/content/part_a.json' to '../reports/colab_a100dry10/part_a.json'
+[colab] Downloaded '/content/train_log.jsonl' to '../reports/colab_a100dry10/train_log.jsonl'
+[colab] Downloaded '/content/progress.json' to '../reports/colab_a100dry10/progress.json'
+[run_colab 18:23:31] Part A done: {'global_steps': 25, 'tokens_per_s_excl_warmup': 3692.2525710924738, 'peak_mem_gb': 10.7, 'wall_s': 270.2} {'n': 60, 'raw_json_valid_rate': 1.0, 'accuracy_diagnostic': 0.8833333333333333, 'latency_p50_s': 0.9299108982086182}
+[run_colab 18:23:31] restart kernel (1)
+FRESH
+[run_colab 18:23:47] Part B
+[colab] Parsing notebook 'partB.ipynb'...
+[colab] Executing cell 1/4 - 429ef06e...
+🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+Unsloth: xformers is installed but cannot load with torch 2.11.0+cu130 (it was built for 2.10.0+cu128), so PyTorch attention is used instead.
+To install a matching xformers, run `unsloth install-kernels xformers`, or `pip uninstall xformers` to hide this. UNSLOTH_ENABLE_LOGGING=1 shows the full error.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+==((====))==  Unsloth 2026.10.5: Fast Qwen3_5 patching. Transformers: 5.17.0.
+   \\   /|    NVIDIA A100-SXM4-40GB. Num GPUs = 1. Max memory: 39.494 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.11.0+cu130. CUDA: 8.0. CUDA Toolkit: 13.0. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+`causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+`causal_conv1d_update` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+{'reload_match': 5, 'of': 5, 'fingerprint_match': True, 'weights_dtype': 'torch.bfloat16'}
+[colab] Executing cell 2/4 - 182bed53...
+{
+ "n": 100,
+ "per_split": {
+  "test": 20,
+  "test_unseen": 20,
+  "val_policy": 20,
+  "val_calib": 20,
+  "robustness": 20
+ },
+ "s_per_record": 0.326,
+ "max_abs_diff_vs_bruteforce": 0.00438321684487164,
+ "max_prob_diff_pruned": 0.0047304630279541016,
+ "file": "/content/SCORES_fast.jsonl"
+}
+[0;31m---------------------------------------------------------------------------[0m[0;31mAssertionError[0m                            Traceback (most recent call last)[0;32m/tmp/ipykernel_4224/1720348050.py[0m in [0;36m<cell line: 0>[0;34m()[0m
+[1;32m     46[0m [0mprint[0m[0;34m([0m[0mjson[0m[0;34m.[0m[0mdumps[0m[0;34m([0m[0mSCORES[0m[0;34m,[0m [0mindent[0m[0;34m=[0m[0;36m1[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m     47[0m [0;32massert[0m [0mSCORES[0m[0;34m[[0m[0;34m"max_abs_diff_vs_bruteforce"[0m[0;34m][0m [0;34m<[0m [0;36m0.05[0m[0;34m,[0m [0;34m"cached scorer disagrees with the full forward pass"[0m[0;34m[0m[0;34m[0m[0m
+[0;32m---> 48[0;31m [0;32massert[0m [0mSCORES[0m[0;34m[[0m[0;34m"max_prob_diff_pruned"[0m[0;34m][0m [0;34m<[0m [0;36m1e-3[0m[0;34m,[0m [0;34m"pruned scorer changes the class probabilities"[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m     49[0m [0;32mdel[0m [0mm[0m[0;34m;[0m [0mgc[0m[0;34m.[0m[0mcollect[0m[0;34m([0m[0;34m)[0m[0;34m;[0m [0mtorch[0m[0;34m.[0m[0mcuda[0m[0;34m.[0m[0mempty_cache[0m[0;34m([0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;31mAssertionError[0m: pruned scorer changes the class probabilities
+[colab] Executing cell 3/4 - d078496a...
+==((====))==  Unsloth 2026.10.5: Fast Qwen3_5 patching. Transformers: 5.17.0.
+   \\   /|    NVIDIA A100-SXM4-40GB. Num GPUs = 1. Max memory: 39.494 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.11.0+cu130. CUDA: 8.0. CUDA Toolkit: 13.0. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Unsloth: Explicit target_modules are constrained by the finetune_(vision|language|attention|mlp) filters; adapters attach only where both select.
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 320 | Num Epochs = 1 | Total steps = 20
+O^O/ \_/ \    Batch size per device = 4 | Gradient accumulation steps = 4
+\        /    Data Parallel GPUs = 1 | Total batch size (4 x 4 x 1) = 16
+ "-____-"     Trainable parameters = 21,233,664 of 4,560,499,200 (0.47% trained)
+Unsloth: Will smartly offload gradients to save VRAM!
+Unsloth: Double buffering enabled (parallel H2D + compute) for backward pass.
+[ 2/20 : < :, Epoch 0.05/1]                                                     
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+                     
+[ 3/20 00:01 < 00:30, 0.56 it/s, Epoch 0.10/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+                     
+[ 4/20 00:03 < 00:28, 0.57 it/s, Epoch 0.15/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+                     
+[ 5/20 00:05 < 00:26, 0.57 it/s, Epoch 0.20/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+                     
+[ 6/20 00:07 < 00:24, 0.57 it/s, Epoch 0.25/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+                     
+[ 7/20 00:08 < 00:23, 0.56 it/s, Epoch 0.30/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+                     
+[ 8/20 00:10 < 00:21, 0.56 it/s, Epoch 0.35/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+                     
+[ 9/20 00:12 < 00:19, 0.56 it/s, Epoch 0.40/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+                     
+[10/20 00:14 < 00:17, 0.56 it/s, Epoch 0.45/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+                     
+[11/20 00:15 < 00:15, 0.56 it/s, Epoch 0.50/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+                     
+[12/20 00:18 < 00:14, 0.55 it/s, Epoch 0.55/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+                     
+[13/20 00:19 < 00:12, 0.55 it/s, Epoch 0.60/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+                     
+[14/20 00:21 < 00:10, 0.55 it/s, Epoch 0.65/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+                     
+[15/20 00:23 < 00:09, 0.55 it/s, Epoch 0.70/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+ 13    0.000015      
+                     
+[16/20 00:25 < 00:07, 0.55 it/s, Epoch 0.75/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+ 13    0.000015      
+ 14    0.000013      
+                     
+[17/20 00:27 < 00:05, 0.55 it/s, Epoch 0.80/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000013      
+                     
+[18/20 00:28 < 00:03, 0.55 it/s, Epoch 0.85/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000013      
+ 16    0.000012      
+                     
+[19/20 00:30 < 00:01, 0.56 it/s, Epoch 0.90/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000013      
+ 16    0.000012      
+ 17    0.000012      
+                     
+[20/20 00:32, Epoch 0.95/1]                                                     
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000013      
+ 16    0.000012      
+ 17    0.000012      
+ 18    0.000012      
+                     
+[20/20 00:34, Epoch 1/1]                                                        
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000013      
+ 16    0.000012      
+ 17    0.000012      
+ 18    0.000012      
+ 19    0.000012      
+                     
+[20/20 00:34, Epoch 1/1]                                                        
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.974627      
+ 4     0.052493      
+ 5     0.001721      
+ 6     0.000173      
+ 7     0.000069      
+ 8     0.000041      
+ 9     0.000038      
+ 10    0.000032      
+ 11    0.000026      
+ 12    0.000019      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000013      
+ 16    0.000012      
+ 17    0.000012      
+ 18    0.000012      
+ 19    0.000012      
+ 20    0.000011      
+                     
+==((====))==  Unsloth 2026.10.5: Fast Qwen3_5 patching. Transformers: 5.17.0.
+   \\   /|    NVIDIA A100-SXM4-40GB. Num GPUs = 1. Max memory: 39.494 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.11.0+cu130. CUDA: 8.0. CUDA Toolkit: 13.0. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Unsloth: Explicit target_modules are constrained by the finetune_(vision|language|attention|mlp) filters; adapters attach only where both select.
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 320 | Num Epochs = 1 | Total steps = 20
+O^O/ \_/ \    Batch size per device = 4 | Gradient accumulation steps = 4
+\        /    Data Parallel GPUs = 1 | Total batch size (4 x 4 x 1) = 16
+ "-____-"     Trainable parameters = 21,233,664 of 4,560,499,200 (0.47% trained)
+[ 2/20 : < :, Epoch 0.05/1]                                                     
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+                     
+[ 3/20 00:01 < 00:29, 0.57 it/s, Epoch 0.10/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+                     
+[ 4/20 00:03 < 00:27, 0.57 it/s, Epoch 0.15/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+                     
+[ 5/20 00:05 < 00:26, 0.57 it/s, Epoch 0.20/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.975294      
+                     
+[ 6/20 00:06 < 00:24, 0.58 it/s, Epoch 0.25/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.975294      
+ 4     0.052690      
+                     
+[ 7/20 00:08 < 00:22, 0.57 it/s, Epoch 0.30/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.975294      
+ 4     0.052690      
+ 5     0.001705      
+                     
+[ 8/20 00:10 < 00:21, 0.57 it/s, Epoch 0.35/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.975294      
+ 4     0.052690      
+ 5     0.001705      
+ 6     0.000179      
+                     
+[ 9/20 00:12 < 00:19, 0.57 it/s, Epoch 0.40/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.975294      
+ 4     0.052690      
+ 5     0.001705      
+ 6     0.000179      
+ 7     0.000069      
+                     
+[10/20 00:14 < 00:17, 0.57 it/s, Epoch 0.45/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.975294      
+ 4     0.052690      
+ 5     0.001705      
+ 6     0.000179      
+ 7     0.000069      
+ 8     0.000040      
+                     
+[11/20 00:15 < 00:15, 0.57 it/s, Epoch 0.50/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.975294      
+ 4     0.052690      
+ 5     0.001705      
+ 6     0.000179      
+ 7     0.000069      
+ 8     0.000040      
+ 9     0.000037      
+                     
+[10/20 00:16 < 00:20, 0.49 it/s, Epoch 0/1]                                     
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 1     2.870048      
+ 2     2.929441      
+ 3     0.975294      
+ 4     0.052690      
+ 5     0.001705      
+ 6     0.000179      
+ 7     0.000069      
+ 8     0.000040      
+ 9     0.000037      
+ 10    0.000032      
+                     
+==((====))==  Unsloth 2026.10.5: Fast Qwen3_5 patching. Transformers: 5.17.0.
+   \\   /|    NVIDIA A100-SXM4-40GB. Num GPUs = 1. Max memory: 39.494 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.11.0+cu130. CUDA: 8.0. CUDA Toolkit: 13.0. Triton: 3.6.0
+\        /    Bfloat16 = TRUE. FA [Xformers = None. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Unsloth: Explicit target_modules are constrained by the finetune_(vision|language|attention|mlp) filters; adapters attach only where both select.
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 320 | Num Epochs = 1 | Total steps = 20
+O^O/ \_/ \    Batch size per device = 4 | Gradient accumulation steps = 4
+\        /    Data Parallel GPUs = 1 | Total batch size (4 x 4 x 1) = 16
+ "-____-"     Trainable parameters = 21,233,664 of 4,560,499,200 (0.47% trained)
+[12/20 : < :, Epoch 0.55/1]                                                     
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+                     
+[13/20 00:01 < 00:12, 0.56 it/s, Epoch 0.60/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+                     
+[14/20 00:03 < 00:10, 0.56 it/s, Epoch 0.65/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+                     
+[15/20 00:05 < 00:08, 0.56 it/s, Epoch 0.70/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+ 13    0.000015      
+                     
+[16/20 00:07 < 00:07, 0.56 it/s, Epoch 0.75/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+ 13    0.000015      
+ 14    0.000013      
+                     
+[17/20 00:08 < 00:05, 0.56 it/s, Epoch 0.80/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000012      
+                     
+[18/20 00:10 < 00:03, 0.56 it/s, Epoch 0.85/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000012      
+ 16    0.000012      
+                     
+[19/20 00:12 < 00:01, 0.56 it/s, Epoch 0.90/1]                                  
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000012      
+ 16    0.000012      
+ 17    0.000011      
+                     
+[20/20 00:14, Epoch 0.95/1]                                                     
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000012      
+ 16    0.000012      
+ 17    0.000011      
+ 18    0.000011      
+                     
+[20/20 00:15, Epoch 1/1]                                                        
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000012      
+ 16    0.000012      
+ 17    0.000011      
+ 18    0.000011      
+ 19    0.000011      
+                     
+[20/20 00:16, Epoch 1/1]                                                        
+
+                     
+ Step  Training Loss 
+ ─────────────────── 
+ 11    0.000026      
+ 12    0.000017      
+ 13    0.000015      
+ 14    0.000013      
+ 15    0.000012      
+ 16    0.000012      
+ 17    0.000011      
+ 18    0.000011      
+ 19    0.000011      
+ 20    0.000011      
+                     
+{
+ "steps_compared": [
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20
+ ],
+ "uninterrupted": [
+  2.613161996123381e-05,
+  1.8587219528853893e-05,
+  1.5041685401229188e-05,
+  1.3110562576912344e-05,
+  1.2622561371244956e-05,
+  1.1996733519481495e-05,
+  1.1803020242950879e-05,
+  1.1575790267670527e-05,
+  1.1634637303359341e-05,
+  1.131279168475885e-05
+ ],
+ "continued": [
+  2.5505047233309597e-05,
+  1.748088834574446e-05,
+  1.4895651474944316e-05,
+  1.2629275261133444e-05,
+  1.2288041943975259e-05,
+  1.1896896467078477e-05,
+  1.1329180779284798e-05,
+  1.1177944543305784e-05,
+  1.101403177017346e-05,
+  1.1079598152718972e-05
+ ],
+ "max_abs_loss_diff": 1.1063311831094325e-06,
+ "tolerance": 0.05,
+ "pass": true
+}
+[colab] Executing cell 4/4 - 05101751...
+passed: True -> dryrun_fast_report.json and /content/SCORES_fast.jsonl (download both into reports/; then locally: python -m eval.calibration reports/SCORES_fast.jsonl --write-policy)
+[colab] Saving notebook with outputs to 'partB_output.ipynb'...
+[colab] Downloaded '/content/dryrun_fast_report.json' to '../reports/colab_a100dry10/dryrun_fast_report.json'
+[colab] Downloaded '/content/SCORES_fast.jsonl' to '../reports/colab_a100dry10/SCORES_fast.jsonl'
+[run_colab 18:28:51] passed: True -> ../reports/colab_a100dry10
+[colab] Stopping session 'a100dry10'...
+[colab] Session terminated.
+[colab] No active sessions found on server.

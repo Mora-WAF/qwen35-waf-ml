@@ -127,6 +127,7 @@ def collect(per_class, frac=None):
             recs += G.gen_flow(cls, want - len(picks))
     # HTTP part of benign_standard (twins and Haiku counterparts add more)
     recs += G.gen_benign_std("benign_standard_traffic", per_class // 2 if not frac else int(want_of("benign_standard_traffic")) // 3)
+    recs += G.gen_fragments(300 if frac else per_class)  # insufficient-context fragments: benign by spec
     # record deficits vs quota-intent for pilot
     have = Counter(r["metadata"]["threat_type"] for r in recs)
     for cls in tax:
