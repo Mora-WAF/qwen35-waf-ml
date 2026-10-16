@@ -49327,5 +49327,2939 @@
   "reviewer": "xss_dom_polyglot",
   "sufficient": false,
   "note": "A JavaScript expression string is stored and passed to setTimeout as a string, but the payload has no effect marker, so the attack reading is weak."
+ },
+ {
+  "rid": "n29623",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh31.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "sqli_classic",
+  "sufficient": true,
+  "note": "Plain UNION SELECT text in the JWT kid header reaches the SQL key lookup, which then yields an empty key."
+ },
+ {
+  "rid": "n29647",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh31.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": true,
+  "note": "kid tenant-a/../tenant-b/active traverses to another tenant key file that is empty and verifies the token."
+ },
+ {
+  "rid": "n29659",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh31.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "path_traversal_lfi",
+  "sufficient": true,
+  "note": "kid header keyset\\..\\..\\cache\\empty traverses out of the keyset directory and yields an empty key that verifies the token."
+ },
+ {
+  "rid": "n29677",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Token carries an unrecognized crit extension (x-fleet-zone) that the verifier ignores and still accepts."
+ },
+ {
+  "rid": "n29682",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Token with an unrecognized critical header x-device-group is accepted, which the verifier should reject; the signature itself is valid."
+ },
+ {
+  "rid": "n29696",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "JWE is decrypted with the service's own key and no forged or unverified claim is shown."
+ },
+ {
+  "rid": "n29697",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "A JWE token is accepted on a route configured for JWS with signature_result not_applicable, so the claims were not verified."
+ },
+ {
+  "rid": "n29701",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "JWE is decrypted with the configured key and no forged or unverified claim is shown."
+ },
+ {
+  "rid": "n29715",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Non-canonical HS256 signature with nonzero trailing bits is accepted because the canonical check is disabled."
+ },
+ {
+  "rid": "n29717",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Non-canonical HS256 signature with nonzero trailing bits is accepted because the canonical check is disabled."
+ },
+ {
+  "rid": "n29719",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS256 signature with nonzero trailing bits and padding is accepted (canonical check off), a verifier weakness with no forged claims shown."
+ },
+ {
+  "rid": "n29720",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS256 signature accepted with non-canonical base64url padding and nonzero trailing bits, though HMAC matches after decode, so only malleability is shown."
+ },
+ {
+  "rid": "n29721",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS256 signature accepted with non-canonical base64url padding and nonzero trailing bits, though HMAC matches after decode, so only malleability is shown."
+ },
+ {
+  "rid": "n29722",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "HS256 signature accepted with non-canonical base64url padding and nonzero trailing bits, though HMAC matches after decode, so only malleability is shown."
+ },
+ {
+  "rid": "n29724",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh32.jsonl:51",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Header alg is a fullwidth non-ASCII string that the verifier NFKC-normalizes to HS256 and validates with the config-store key, a normalization bypass shape."
+ },
+ {
+  "rid": "n29743",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "ES256 signature verified against a static key; iat is not checked, a verifier gap but not a forged token."
+ },
+ {
+  "rid": "n29744",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "ES256 token verifies from a static key with exp, nbf and aud enforced, and profile write scope is granted."
+ },
+ {
+  "rid": "n29745",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "ES256 static-key token with exp, nbf and aud checked and passing."
+ },
+ {
+  "rid": "n29746",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "ES256 token has an iat about two years old while iat and max_age are not checked, and the verifier accepts it."
+ },
+ {
+  "rid": "n29747",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "ES256 token iat is in the future and iat and max_age are not checked; the token is accepted."
+ },
+ {
+  "rid": "n29748",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "ES256 session token with aud, exp and nbf passing at server time and signature verified."
+ },
+ {
+  "rid": "n29749",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "ES256 read-only token with nbf passed and exp in the future at server time, with aud checked."
+ },
+ {
+  "rid": "n29750",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "ES256 access cookie is within nbf and exp at server time, with aud and signature verified."
+ },
+ {
+  "rid": "n29751",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "ES256 token verifies from a static key, audience and expiry checks pass, and the bookings scope matches."
+ },
+ {
+  "rid": "n29752",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "ES256 signature verified with exp, nbf and aud enforced; iat unchecked is not an exploitable flaw here."
+ },
+ {
+  "rid": "n29756",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "PS256 token signature verified with exp, nbf and aud checks run."
+ },
+ {
+  "rid": "n29763",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Single-use withdrawal JWT was already used with status 200 and jti_lookup was not consulted, but no burst timing is shown."
+ },
+ {
+  "rid": "n29766",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Single-use seat-hold JWT was already used with status 204 and jti_lookup was not consulted, but no burst timing is shown."
+ },
+ {
+  "rid": "n29768",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh33.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Single-use voucher JWT was already used once and jti_lookup was not consulted, but no burst timing is shown."
+ },
+ {
+  "rid": "n29798",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "GraphQL ticket query is a single plain field with a valid token."
+ },
+ {
+  "rid": "n29801",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "search text refund status has no operators, quotes or markup."
+ },
+ {
+  "rid": "n29813",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "tenant-union verify ok with claims enforced; only the lenient iss prefix rule is present."
+ },
+ {
+  "rid": "n29814",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Tenant-matched key verifies and iss, aud, exp, nbf pass; weak iss prefix, union key set and a 32-byte signature warrant review."
+ },
+ {
+  "rid": "n29815",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "tenant-union verify ok with claims enforced; only the lenient iss prefix rule is present."
+ },
+ {
+  "rid": "n29817",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "tenant-union verify ok with claims enforced; only the lenient iss prefix rule is present."
+ },
+ {
+  "rid": "n29819",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Valid tenant-x RS256 token verifies against its own key; loose iss prefix is a verifier weakness but no forged or unverified token is shown."
+ },
+ {
+  "rid": "n29821",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": true,
+  "note": "Tenant-matched RS256 token with matching iss prefix, aud, exp and nbf; the config weakness is noted but no forged token."
+ },
+ {
+  "rid": "n29822",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "tenant-union verify: tid matches the issuer path and the signature is ok; the lenient iss prefix rule is not shown to be exploited."
+ },
+ {
+  "rid": "n29823",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Duplicate role claim where the verifier reads customer and the consumer forwards admin (first-key versus last-key parser differential)."
+ },
+ {
+  "rid": "n29825",
+  "label": "jwt_auth_bypass",
+  "ref": "jwt_auth_bypass.vh34.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": false,
+  "note": "Duplicate role claim where the verifier reads shopper and the forwarded role is staff (first-key versus last-key parser differential)."
+ },
+ {
+  "rid": "n29873",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Adjuster writes contact_phone, but writable_by_role lists only policyholder for that property."
+ },
+ {
+  "rid": "n29874",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "claims_reviewer writes caption and rotation, which the schema marks writable only for member; owner is member."
+ },
+ {
+  "rid": "n29875",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "payments_operator writes notification_email, which the schema marks writable only for claimant; owner is claimant."
+ },
+ {
+  "rid": "n29876",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Underwriter writes customer_note, which the schema marks writable only for insured, and role inheritance is off."
+ },
+ {
+  "rid": "n29877",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Repair supervisor writes partner_comment, which the schema marks writable only for repair_partner, and role inheritance is off."
+ },
+ {
+  "rid": "n29878",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": false,
+  "note": "reviewer PATCH writes a description property that the schema marks writable only for the beneficiary role."
+ },
+ {
+  "rid": "n29879",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Records manager writes label, which the schema marks writable only for customer, and role inheritance is off."
+ },
+ {
+  "rid": "n29881",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "security_admin writes description, but the schema lists it as writable only for developer."
+ },
+ {
+  "rid": "n29882",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller is dashboard_admin, but the written title and refresh_seconds are writable only for analyst, not the caller role."
+ },
+ {
+  "rid": "n29885",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "compliance_admin writes delivery_hour and format, which the schema marks writable only for report_operator; owner is operator-mira."
+ },
+ {
+  "rid": "n29886",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller is organization_admin, but cost_center is writable only for project_manager, not the caller role."
+ },
+ {
+  "rid": "n29889",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller is metrology_operator, but nickname and chart_period are writable only for the tenant role."
+ },
+ {
+  "rid": "n29891",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "admin caller writes display_name and notification_mode, which the schema marks writable only for occupant."
+ },
+ {
+  "rid": "n29892",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "bopla_mass_assignment",
+  "sufficient": true,
+  "note": "Caller is safety_engineer, but the written fields are listed only as writable for caretaker, not the caller role."
+ },
+ {
+  "rid": "n29924",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t003_bfla_admin_function_probing.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Footer HTML saved by a template_admin with a role check evaluated, in a CMS theme editor PUT; markup is the intended content."
+ },
+ {
+  "rid": "n30089",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t009_crlf_header_injection.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_search",
+  "sufficient": false,
+  "note": "receipt lookup carries double-encoded link syntax but no CR or LF, so no header injection is shown."
+ },
+ {
+  "rid": "n30090",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t009_crlf_header_injection.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "percent-encoded Link value has no CR or LF, so no header framing is injected."
+ },
+ {
+  "rid": "n30093",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t009_crlf_header_injection.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Link header value with angle brackets and rel parameter in an API response, with no CR or LF."
+ },
+ {
+  "rid": "n30140",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java stream decodes to a java.lang.String class descriptor only, so no gadget class is present."
+ },
+ {
+  "rid": "n30141",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Base64 Java serialized String in the document field; serialized-object lookalike, filtered to String with no gadget."
+ },
+ {
+  "rid": "n30142",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Base64 Java serialized String checkpoint with a String-only filter and no gadget."
+ },
+ {
+  "rid": "n30144",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Base64 Java serialized String in the bundle field; serialized-object lookalike with a String-only filter and no gadget."
+ },
+ {
+  "rid": "n30145",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java session blob is restricted to String with a serialization filter and no class descriptor beyond it."
+ },
+ {
+  "rid": "n30149",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream unmarshals only the allowed DispatchPlan type from an ordinary plan document."
+ },
+ {
+  "rid": "n30150",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XStream restricted to the DispatchPlan type with plain XML content."
+ },
+ {
+  "rid": "n30151",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "XStream input is plain dispatch-plan XML restricted to one allowed type with no gadget types."
+ },
+ {
+  "rid": "n30160",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter stream decodes to a System.String only with an empty type-name field, so no gadget type."
+ },
+ {
+  "rid": "n30161",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter workspace decodes to a System.String only, so no gadget type is present."
+ },
+ {
+  "rid": "n30162",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter document decodes to string-only JSON with no gadget type."
+ },
+ {
+  "rid": "n30163",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter stream restricted to a System.String root with plain JSON content; serialized-object lookalike, no gadget."
+ },
+ {
+  "rid": "n30164",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "BinaryFormatter stream is restricted to System.String with no type names, so no gadget chain is present."
+ },
+ {
+  "rid": "n30165",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter bundle decodes to a System.String only, so no gadget type is present."
+ },
+ {
+  "rid": "n30166",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "BinaryFormatter session decodes to a System.String only, so no gadget type is present."
+ },
+ {
+  "rid": "n30167",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "$type names an allowed contract type under a binder that restricts types, so no gadget type is present."
+ },
+ {
+  "rid": "n30168",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "$type names a contract DTO allowed by the binder, with no gadget type, in a cue-sheet developer validation route."
+ },
+ {
+  "rid": "n30169",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "$type names only the allow-listed Theatre.CueDocument DTO under a binder, so no gadget type is reachable."
+ },
+ {
+  "rid": "n30170",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "JSON checkpoint carries a $type under TypeNameHandling=All, but the SerializationBinder restricts it to a DTO and no gadget type appears."
+ },
+ {
+  "rid": "n30171",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Layout JSON carries a $type under TypeNameHandling=All, but the SerializationBinder restricts it to a DTO and no gadget type appears."
+ },
+ {
+  "rid": "n30172",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "$type names a Theatre DTO under the binder allow-list, so no gadget type is reachable, in a cue-authoring feature."
+ },
+ {
+  "rid": "n30173",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:34",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "TypeNameHandling $type names an allowed DTO inside the binder; serialized-type lookalike with no gadget class."
+ },
+ {
+  "rid": "n30174",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:35",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ViewState embeds only System.String."
+ },
+ {
+  "rid": "n30175",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:36",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ViewState has MAC disabled, but the embedded type is System.String only with no gadget."
+ },
+ {
+  "rid": "n30176",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:37",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ViewState decodes to a System.String only, with no gadget type, in a laboratory upload feature."
+ },
+ {
+  "rid": "n30177",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:38",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ViewState blob embeds only System.String with MAC disabled; serialized-object lookalike with no gadget type."
+ },
+ {
+  "rid": "n30178",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:39",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ViewState embeds only a System.String, with no gadget type."
+ },
+ {
+  "rid": "n30179",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:40",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ViewState embeds only System.String."
+ },
+ {
+  "rid": "n30180",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:41",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ViewState decodes to a System.String only, with no gadget type, in a laboratory reconcile feature."
+ },
+ {
+  "rid": "n30181",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:42",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP serialized array of scalars with allowed_classes false and no objects."
+ },
+ {
+  "rid": "n30182",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:43",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP unserialize runs with allowed_classes false and an array root of scalar values."
+ },
+ {
+  "rid": "n30183",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:44",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP serialized array of scalars with allowed_classes false and no object types."
+ },
+ {
+  "rid": "n30184",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:45",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP-serialized body is a plain array of scalars with allowed_classes false."
+ },
+ {
+  "rid": "n30185",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:46",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP serialized body holds only scalar values with allowed_classes false, so there is no object payload."
+ },
+ {
+  "rid": "n30186",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:47",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP serialized bundle holds scalar values only with allowed_classes false, so there is no object payload."
+ },
+ {
+  "rid": "n30187",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:48",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP unserialize runs with allowed_classes false and an array root, so the serialized session is plain data."
+ },
+ {
+  "rid": "n30188",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:49",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": true,
+  "note": "Attacker-supplied phar:// path triggers automatic metadata unserialize of an uploaded archive via file_exists."
+ },
+ {
+  "rid": "n30189",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:50",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "phar:// preview whose metadata holds only scalars and arrays; no gadget or exploit payload is shown."
+ },
+ {
+  "rid": "n30190",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:51",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "User-supplied phar:// URI drives metadata unserialize, but the metadata is array and scalar only so no gadget is visible."
+ },
+ {
+  "rid": "n30191",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:52",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "User-supplied phar:// URI drives metadata unserialize, but the metadata is array and scalar only so no gadget is visible."
+ },
+ {
+  "rid": "n30192",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:53",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "User-supplied phar:// URI drives metadata unserialize, but metadata is array and scalar only so no gadget is visible."
+ },
+ {
+  "rid": "n30193",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:54",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "phar:// URI triggers metadata unserialize of an uploaded archive, but the metadata holds only scalars and no gadget class is visible."
+ },
+ {
+  "rid": "n30194",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:55",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "A phar:// wrapper points at an uploaded archive whose metadata is unserialized on file_exists, though the metadata preview shows only a plain array."
+ },
+ {
+  "rid": "n30195",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:56",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Base64 pickle body goes to pickle.loads, though it has no GLOBAL opcode and decodes to plain scalar data."
+ },
+ {
+  "rid": "n30196",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:57",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "pickle dict of scalars with no globals."
+ },
+ {
+  "rid": "n30197",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:58",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Pickle payload is a dict of scalars with no GLOBAL or REDUCE opcode and no class lookup requested."
+ },
+ {
+  "rid": "n30198",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:59",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Pickle payload is a dict of scalars with protocol 2 and no class or GLOBAL references."
+ },
+ {
+  "rid": "n30199",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:60",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "pickle payload restricts to dict, list, str, int and float with no GLOBAL opcode, so no gadget is possible."
+ },
+ {
+  "rid": "n30200",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:61",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "pickle dict of scalars with find_class unused and no global references."
+ },
+ {
+  "rid": "n30201",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:62",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "pickle payload restricts to dict and scalars with no GLOBAL opcode, so no gadget is possible."
+ },
+ {
+  "rid": "n30205",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:66",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "YAML checkpoint is plain scalar data with no unsafe tags."
+ },
+ {
+  "rid": "n30209",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:70",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Marshal.load is restricted to Hash, Array, String and Integer with no class lookup; plain snapshot data."
+ },
+ {
+  "rid": "n30210",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:71",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Marshal payload loads only a Hash of strings and integers, with the loaded constant Hash and no gadget."
+ },
+ {
+  "rid": "n30211",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:72",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Marshal blob decodes to a Hash of strings and integers with no class objects."
+ },
+ {
+  "rid": "n30212",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:73",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Marshal 4.8 payload is a Hash of strings and ints with no object class references."
+ },
+ {
+  "rid": "n30213",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:74",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Ruby Marshal payload is sent to Marshal.load with no class allowlist, though the decoded object is a plain Hash of strings and integers."
+ },
+ {
+  "rid": "n30214",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:75",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Marshal blob decodes to a Hash of strings and arrays with no class objects."
+ },
+ {
+  "rid": "n30215",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:76",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Marshal session payload is a Hash of strings and ints with no object class references."
+ },
+ {
+  "rid": "n30222",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:83",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "YAML session document is plain data with no object tags, so no gadget chain is shown."
+ },
+ {
+  "rid": "n30226",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:87",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "node-serialize input is plain JSON with no function marker and function revival disabled."
+ },
+ {
+  "rid": "n30229",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t012_deserialization.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Client-supplied X-Widget-State header is pickle.loads input, though the decoded state is a plain dict of scalars and lists."
+ },
+ {
+  "rid": "n30230",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t012_deserialization.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "pickle.loads on a client header whose decoded dict holds plain dashboard settings; serialized-object lookalike, no gadget shown."
+ },
+ {
+  "rid": "n30231",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t012_deserialization.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "X-Widget-State pickle decodes to a plain dict of settings strings with no GLOBAL opcodes and parses ok."
+ },
+ {
+  "rid": "n30232",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t012_deserialization.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "pickle widget state contains only dict, str and int values, with no GLOBAL opcodes."
+ },
+ {
+  "rid": "n30233",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t013_deserialization.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java resume token is restricted by a String-only serialization filter and carries ordinary resume content."
+ },
+ {
+  "rid": "n30234",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t013_deserialization.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java stream token is a String-only serialization with maxdepth 1; serialized-object lookalike with no gadget class."
+ },
+ {
+  "rid": "n30236",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t013_deserialization.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java resume token is restricted to a String-only serialization filter with matching owner and ordinary chunk content."
+ },
+ {
+  "rid": "n30237",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Multipart file is a Java serialized stream read by ObjectInputStream with no filter, though the decoded object is a plain JSON string."
+ },
+ {
+  "rid": "n30238",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java serialized stream holds only a string, with no class descriptors."
+ },
+ {
+  "rid": "n30239",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java-serialized import file decodes to a single TC_STRING with no class descriptor, in a batch importer."
+ },
+ {
+  "rid": "n30240",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "PHP unserialize sink has no class restriction stated and takes untrusted input, though the payload is data-only."
+ },
+ {
+  "rid": "n30241",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP serialized array of scalars in a queue payload, with no object types."
+ },
+ {
+  "rid": "n30242",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP serialized array of scalars in a queue payload, with no object types."
+ },
+ {
+  "rid": "n30243",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP serialized array with int and string values only; serialized-object lookalike in a queue job field with no gadget."
+ },
+ {
+  "rid": "n30244",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "joblib dict of scalars with no globals."
+ },
+ {
+  "rid": "n30245",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "joblib dict of scalars with no globals."
+ },
+ {
+  "rid": "n30246",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Joblib (pickle) blob decodes to plain dict data with no gadget; serialized-object lookalike."
+ },
+ {
+  "rid": "n30250",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "Untrusted v8-serialized body is passed to v8.deserialize, though the decoded content is plain batch data with no gadget type."
+ },
+ {
+  "rid": "n30251",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "V8 serialized blob holds only scalar fields with no gadget types."
+ },
+ {
+  "rid": "n30252",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java-serialized SCORM upload decodes to a single TC_STRING with no class descriptor or gadget."
+ },
+ {
+  "rid": "n30253",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java serialized stream holds only a string, with no class descriptors."
+ },
+ {
+  "rid": "n30254",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Java serialized stream holds only a string, with no class descriptors."
+ },
+ {
+  "rid": "n30255",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "PHP unserialize backup restore has no class restriction stated and takes untrusted input, though the payload is data-only."
+ },
+ {
+  "rid": "n30256",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP serialized array in an admin backup-restore import holds only string and int fields with no object types."
+ },
+ {
+  "rid": "n30257",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "PHP-serialized backup body holds only a string and an int in an admin restore feature, with no object types."
+ },
+ {
+  "rid": "n30258",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Pickle body decodes to a plain dict of strings and ints with no class or GLOBAL opcodes, in an LTI score feature."
+ },
+ {
+  "rid": "n30259",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Pickle payload decodes to plain dict and list data with no reduce gadget; serialized-object lookalike in an LTI sync route."
+ },
+ {
+  "rid": "n30260",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "pickle payload contains only dict and string opcodes with no global or reduce, so no gadget is shown."
+ },
+ {
+  "rid": "n30265",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "SOAP body uses a CLR type namespace typed-object encoding for SoapFormatter, which is a serialized-object vector, but no gadget type is shown."
+ },
+ {
+  "rid": "n30266",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": true,
+  "note": "SoapFormatter body names a CLR type (Registry.Sync.Registry) with no type binder, so an object graph reaches the deserializer."
+ },
+ {
+  "rid": "n30267",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:30",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": true,
+  "note": "SoapFormatter parses an untrusted CLR type reference in the SOAP body with no type binder restriction stated."
+ },
+ {
+  "rid": "n30268",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:31",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Flash cookie is a Marshal blob that decodes to a plain notice string; serialized-object lookalike with no gadget."
+ },
+ {
+  "rid": "n30269",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:32",
+  "kind": "telemetry",
+  "reviewer": "deserialization",
+  "sufficient": false,
+  "note": "A client-supplied Ruby Marshal flash cookie is read by Marshal.load, though its decoded content is a plain notice hash."
+ },
+ {
+  "rid": "n30270",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Flash cookie decodes to a Hash of plain notice and term strings with no class references."
+ },
+ {
+  "rid": "n30337",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "http_request_smuggling",
+  "sufficient": true,
+  "note": "duplicate CL and TE: front end does not recognise the mixed-case TE and frames by CL, back end frames by chunked."
+ },
+ {
+  "rid": "n30346",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "http_request_smuggling",
+  "sufficient": true,
+  "note": "HTTP/2 DATA carries 70 octets while the downgraded Content-Length is 64 and the front end skips length validation, leaving a 6-octet remainder for the next request."
+ },
+ {
+  "rid": "n30347",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "http_request_smuggling",
+  "sufficient": true,
+  "note": "HTTP/2 DATA is 61 octets against a downgraded Content-Length of 42 with validate_data_length false, leaving 19 octets for the back end."
+ },
+ {
+  "rid": "n30348",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "http_request_smuggling",
+  "sufficient": true,
+  "note": "HTTP/2 downgrade serializes an injected CRLF plus Transfer-Encoding in the note header, desyncing back-end framing from the 65-octet body."
+ },
+ {
+  "rid": "n30349",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "http_request_smuggling",
+  "sufficient": true,
+  "note": "HTTP/2 downgrade serializes an injected CRLF plus Transfer-Encoding header value, desyncing back-end framing from the 36-octet front-end body."
+ },
+ {
+  "rid": "n30354",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "http_request_smuggling",
+  "sufficient": true,
+  "note": "Content-Length 74 and Transfer-Encoding chunked are both present, with front and back applying different framing rules."
+ },
+ {
+  "rid": "n30355",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "http_request_smuggling",
+  "sufficient": true,
+  "note": "Request carries Content-Length 67 and Transfer-Encoding chunked together, with front and back applying different framing rules."
+ },
+ {
+  "rid": "n30372",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t018_jwt_auth_bypass.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "bfla_admin_function_probing",
+  "sufficient": false,
+  "note": "tenant_admin token with scope tenants:impersonate calls an admin impersonation route, but no route role guard evidence is shown."
+ },
+ {
+  "rid": "n30563",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t025_mcp_agentic_tool_abuse.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Fetch is to an allowlisted zoning host within scope, but the URL argument came from an untrusted applicant upload result."
+ },
+ {
+  "rid": "n30577",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "in-scope path matches the stated task, but the arguments came from a tool result rather than the user."
+ },
+ {
+  "rid": "n30579",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Agent fetch is to an allowlisted carrier host matching the task, but the URL argument came from an untrusted tool result."
+ },
+ {
+  "rid": "n30581",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Allowlisted label host and matching purpose, but the URL was taken from an untrusted tool result."
+ },
+ {
+  "rid": "n30584",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Status command is allowlisted with no shell metacharacters, but its arguments came from an untrusted barcode reader result."
+ },
+ {
+  "rid": "n30590",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Share call goes to an allowlisted dispatch domain within scope, but its arguments came from an untrusted tool result."
+ },
+ {
+  "rid": "n30594",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Write path is under the granted staging root and base64 decodes to a benign tip, but the decoded view shows allow_external_admin=true, which conflicts with the telemetry."
+ },
+ {
+  "rid": "n30595",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "Agent writes content enabling allow_external_admin=true, which the staging task did not request, using a path from an untrusted tool result."
+ },
+ {
+  "rid": "n30596",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "mcp_agentic_tool_abuse",
+  "sufficient": true,
+  "note": "write_asset content sets allow_external_admin=true, an unrequested change outside the caption task, taken from untrusted tool output."
+ },
+ {
+  "rid": "n30597",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "In-scope probe to an allowlisted CDN, but the URL came from a tool result and the redirect target is public."
+ },
+ {
+  "rid": "n30598",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "In-scope probe to an allowlisted CDN, but the URL came from a tool result and the redirect target is public."
+ },
+ {
+  "rid": "n30601",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Replay parser call uses only allowlisted flags within sandbox scope, but its arguments came from an untrusted tool result."
+ },
+ {
+  "rid": "n30609",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:33",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Wallet adjustment of 50 is within the 500 per-call limit and matches the task, but its arguments came from an untrusted moderator note."
+ },
+ {
+  "rid": "n30682",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t029_open_redirect_cors.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "open_redirect_cors",
+  "sufficient": false,
+  "note": "CORS copies any request Origin with credentials and no allowlist; the sampled origin happens to be allow-listed."
+ },
+ {
+  "rid": "n30686",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t029_open_redirect_cors.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "CORS preflight from the exact allowed member origin, though the rule is a prefix match that is weak in principle."
+ },
+ {
+  "rid": "n30688",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t029_open_redirect_cors.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Preflight from an allowed origin, though the suffix CORS check lacks a label boundary, and no attacker origin appears."
+ },
+ {
+  "rid": "n30690",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t029_open_redirect_cors.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Preflight from the legitimate allowed origin, though the CORS regex has an unescaped dot, and no attacker origin appears."
+ },
+ {
+  "rid": "n30691",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t029_open_redirect_cors.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "CORS rule matches any origin containing weaving.example, but the presented origin is the exact legitimate member origin."
+ },
+ {
+  "rid": "n30730",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Double-decoded scan path stays under base_root with no traversal, in a museum acquisitions feature."
+ },
+ {
+  "rid": "n30731",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "plate value is a path-like file reference with no traversal, though containment is not configured."
+ },
+ {
+  "rid": "n30734",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Template path has no traversal tokens; containment is not configured but the value is a plain relative template name."
+ },
+ {
+  "rid": "n30735",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Reference path minerals/quartz has no traversal tokens; containment is not configured but it is a plain content path."
+ },
+ {
+  "rid": "n30738",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "slip path is a plain relative file name with no traversal or null byte in the body."
+ },
+ {
+  "rid": "n30742",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "reference is a plain relative path under base_root with no traversal, in a file-handler admin content feature."
+ },
+ {
+  "rid": "n30743",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Zip member charts/dyes/indigo-swatch.txt resolves under the content root and is a regular file, in a textile chart upload feature."
+ },
+ {
+  "rid": "n30747",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "phar:// cue path stays under the theatre content root with phar metadata unserialize false, so only the stream scheme is present."
+ },
+ {
+  "rid": "n30748",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "phar:// clip path stays under the content root with metadata unserialize disabled."
+ },
+ {
+  "rid": "n30752",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Voucher path has no traversal tokens; containment is not configured but the value is a plain relative trip document path."
+ },
+ {
+  "rid": "n30756",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Image path has no traversal tokens; containment is not configured but the value is a plain photo path."
+ },
+ {
+  "rid": "n30759",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Crop path has no traversal tokens; containment is not configured and the value is a plain photo path."
+ },
+ {
+  "rid": "n30764",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Double-decoded path has no traversal tokens; containment is not configured but the value is a plain receipt filename in a merchant billing route."
+ },
+ {
+  "rid": "n30766",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "view value is a path-like locale fragment with no traversal sequence, though containment is not configured."
+ },
+ {
+  "rid": "n30767",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "languageFile is a plain relative locale path under base_root with no traversal, in a booking template feature."
+ },
+ {
+  "rid": "n30768",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "fragment value is a path-like locale include without traversal, though containment is not configured."
+ },
+ {
+  "rid": "n30769",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Template path is a plain locale fragment with no traversal tokens; php_include with containment not configured."
+ },
+ {
+  "rid": "n30770",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "fragment path has no traversal, though containment is not configured."
+ },
+ {
+  "rid": "n30777",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Path checkout/pizza-summary has no traversal tokens; containment is not configured but it is a plain template name."
+ },
+ {
+  "rid": "n30778",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "footerFile is a plain relative partial path with no traversal, in a storefront theme lookalike."
+ },
+ {
+  "rid": "n30779",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Partial path cards/bakery-compact has no traversal tokens; containment is not configured but it is a plain theme template name."
+ },
+ {
+  "rid": "n30780",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t032_path_traversal_lfi.jsonl:29",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Fragment path has no traversal tokens; containment is not configured and it is a plain group notice name."
+ },
+ {
+  "rid": "n30845",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t034_race_condition_toctou_burst.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Single payout request with no burst, no repeats and no idempotency key, so no race evidence in the telemetry."
+ },
+ {
+  "rid": "n30872",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "two requests share one idempotency key and produce a single seat decrement."
+ },
+ {
+  "rid": "n30874",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Two requests share one idempotency key and produce a single effect (one reserved seat) on a 2.4 s retry cadence."
+ },
+ {
+  "rid": "n30888",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "two requests 1.6 s apart share one idempotency key and produce a single applied grant."
+ },
+ {
+  "rid": "n30890",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Two requests with one idempotency key yield one applied grant on a 2.1 s retry cadence."
+ },
+ {
+  "rid": "n30891",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": true,
+  "note": "Two grant POSTs 3.2 s apart under one idempotency key with a single effect (grants_applied 1)."
+ },
+ {
+  "rid": "n30893",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "alias is a plain hostname in a shell-bound getent command with no separators, in a resolver console feature."
+ },
+ {
+  "rid": "n30894",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Device name is a plain printer identifier with no shell metacharacters, though the sink concatenates raw text into an lp command."
+ },
+ {
+  "rid": "n30897",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Repository URL is passed as argv to git ls-remote without a shell and with no option, and upload-pack dispatch is null."
+ },
+ {
+  "rid": "n30898",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": false,
+  "note": "ssh argv contains only -oConnectTimeout=10 with no separators or substitution, in a developer test endpoint; the option-injection shape is present but no malicious option appears."
+ },
+ {
+  "rid": "n30899",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ssh option string is an ops link feature's intended content with a benign ServerAliveInterval value, so no exploit payload is shown."
+ },
+ {
+  "rid": "n30900",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "ssh option -oConnectionAttempts=2 is passed as argv without a shell, with no ProxyCommand or separator, in an ops config route."
+ },
+ {
+  "rid": "n30901",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "client_flags -oBatchMode=yes is passed as argv without a shell, with no ProxyCommand or separator, in an ops feature."
+ },
+ {
+  "rid": "n30902",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Filenames are passed as argv without a shell and carry no option or separator, in an archive-builder preservation feature."
+ },
+ {
+  "rid": "n30905",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Endpoint URL is a plain https address with no shell metacharacters, though the sink concatenates it raw into a shell command."
+ },
+ {
+  "rid": "n30906",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Calibration assignments are env-style key=value text with no separators or substitution, in a materials developer simulation route."
+ },
+ {
+  "rid": "n30907",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Environment assignments in a shell-bound command carry no separators or substitution, in a simulation runner feature."
+ },
+ {
+  "rid": "n30908",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "exec sink receives only a Windows path with no shell metacharacters, so no payload is present."
+ },
+ {
+  "rid": "n30909",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Windows path value passed to dir has no separators or metacharacters beyond the path; path-shaped content in an exec sink."
+ },
+ {
+  "rid": "n30910",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Path is a plain Windows CSV file with no command separators, though the sink concatenates raw text into a PowerShell command."
+ },
+ {
+  "rid": "n30913",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:21",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "exec sink receives only a plain server file path with no shell metacharacters."
+ },
+ {
+  "rid": "n30915",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Absolute fixture path passed to a shell-bound ffmpeg command with no separators or substitution, in an oral-history preview feature."
+ },
+ {
+  "rid": "n30916",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Input is a plain PDF path with no shell metacharacters, though the sink concatenates raw text into a shell command."
+ },
+ {
+  "rid": "n30917",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:25",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Map file is a plain fixture path with no shell metacharacters, though the sink concatenates raw text into a shell command."
+ },
+ {
+  "rid": "n30924",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "image_ref is a plain filename in a shell-bound convert command with no metacharacters, in a support-desk feature."
+ },
+ {
+  "rid": "n30925",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "clip is a plain filename in a shell-bound soxi command with no metacharacters, in a support-desk feature."
+ },
+ {
+  "rid": "n30926",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "file reference passed to exiftool is a plain filename with no shell metacharacters."
+ },
+ {
+  "rid": "n30930",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "heading is plain text quoted inside a shell-bound cover-build command with no injected metacharacters, in a reporting feature."
+ },
+ {
+  "rid": "n30931",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "filename is a plain value in a shell-bound fee-export command with no metacharacters, in a statement export feature."
+ },
+ {
+  "rid": "n30936",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "hostname is plain in a cmd.exe nslookup command with no separators, in a support-desk tool."
+ },
+ {
+  "rid": "n30940",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:22",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Host is a plain DNS name with no shell metacharacters, though the sink concatenates raw text into a getent command."
+ },
+ {
+  "rid": "n30941",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Source URL is a plain https address with no shell metacharacters, though the sink concatenates it raw into a shell command."
+ },
+ {
+  "rid": "n30945",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:27",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Checksum artifact is a plain CSV name with no shell metacharacters, though the sink concatenates raw text into a shell command."
+ },
+ {
+  "rid": "n30946",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vcx9t039_rce_cmd_injection.jsonl:28",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "report_file is a plain filename in a shell-bound wc command with no separators, in a partner reporting feature."
+ },
+ {
+  "rid": "n30950",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": true,
+  "note": "x5c chain is pinned but the token expired in 2025 and outcome is accepted."
+ },
+ {
+  "rid": "n30951",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": true,
+  "note": "Token expired in 2025 and was accepted from a pinned JWKS with only exp and aud checked."
+ },
+ {
+  "rid": "n30952",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": true,
+  "note": "token exp 1760463600 is about a year before server time yet accepted with SIG_OK, so expiry is not enforced."
+ },
+ {
+  "rid": "n30953",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": true,
+  "note": "Token with an expiry of 2025 is accepted with SIG_OK because the verifier configures no exp or claim checks."
+ },
+ {
+  "rid": "n30955",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": true,
+  "note": "Token expired in 2025 (exp 1760483600) and was accepted via an x5u chain despite exp being checked."
+ },
+ {
+  "rid": "n30956",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Mail rule accepted by a pinned x5c chain, though the token's exp is in 2025 and no server time is recorded."
+ },
+ {
+  "rid": "n30960",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": true,
+  "note": "Key fetched from a jku header and token with exp in 2025 accepted although exp is in claims_checked."
+ },
+ {
+  "rid": "n30961",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": true,
+  "note": "x5u chain is pinned but the token expired in 2025 and was accepted with only exp checked."
+ },
+ {
+  "rid": "n30963",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh31_jwt_auth_bypass.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "jwt_auth_bypass",
+  "sufficient": true,
+  "note": "Token expired in 2025 and was accepted with outcome SIG_OK, though only exp and aud are checked."
+ },
+ {
+  "rid": "n30980",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh32_jwt_auth_bypass.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Nested JWT where the outer RS256 and inner HS256 signatures both verify, though the inner HMAC key source is not shown."
+ },
+ {
+  "rid": "n30983",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh32_jwt_auth_bypass.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Nested JWT where the outer RS256 and inner HS256 signatures both verify, though the inner HMAC key source is not shown."
+ },
+ {
+  "rid": "n30990",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh33_jwt_auth_bypass.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "RS256 token verified with exp, aud and iss passing and nbf already past at server time; nbf not enforced but no forged or invalid token was accepted."
+ },
+ {
+  "rid": "n30991",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vh33_jwt_auth_bypass.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "token nbf is 300 seconds in the past, so the unchecked nbf does not change the outcome."
+ },
+ {
+  "rid": "n31046",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h040_ssrf_cloud_metadata.jsonl:26",
+  "kind": "telemetry",
+  "reviewer": "benign_high_rate_legit",
+  "sufficient": false,
+  "note": "syndication sync client on a fixed schedule with one public feed, a sync pattern rather than a flood."
+ },
+ {
+  "rid": "n31145",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h043_web_cache_poisoning.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Allow-listed banner variant is reflected escaped and carries no payload, though the cache holds the unkeyed value."
+ },
+ {
+  "rid": "n31151",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h044_web_cache_poisoning.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Unkeyed X-Forwarded-Port is reflected but carries only the expected default 443, with no attacker-chosen value shown."
+ },
+ {
+  "rid": "n31161",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h045_web_cache_poisoning.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Unkeyed X-Original-Host equals the configured host, so the reflected value is not attacker-controlled."
+ },
+ {
+  "rid": "n31162",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h045_web_cache_poisoning.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Unkeyed X-Original-Host carries the configured origin value, with no attacker-chosen host in the cache samples."
+ },
+ {
+  "rid": "n31163",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h045_web_cache_poisoning.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "Unkeyed X-Scheme https is reflected into a cached canonical link, but the value is the expected default, not attacker input."
+ },
+ {
+  "rid": "n31168",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h045_web_cache_poisoning.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "unkeyed port header carries the default 443 value and no attacker-chosen content is shown."
+ },
+ {
+  "rid": "n31214",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h048_websocket_grpc_abuse.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": false,
+  "note": "New watch stream on chlorophyll while entitled topics list only ordinary-updates, but no authorization result is recorded."
+ },
+ {
+  "rid": "n31215",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h048_websocket_grpc_abuse.jsonl:20",
+  "kind": "telemetry",
+  "reviewer": "benign_standard_traffic",
+  "sufficient": false,
+  "note": "two open streams at low rate with normal ages; the Watch follow payload is not clearly an unentitled subscription."
+ },
+ {
+  "rid": "n31218",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h048_websocket_grpc_abuse.jsonl:23",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": true,
+  "note": "bidi stream subscribes to models.licensed_mesh, which is not among the peer's entitled topics."
+ },
+ {
+  "rid": "n31219",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h048_websocket_grpc_abuse.jsonl:24",
+  "kind": "telemetry",
+  "reviewer": "websocket_grpc_abuse",
+  "sufficient": true,
+  "note": "subscribes to collections.curator_notes, which is not among the peer's entitled topics."
+ },
+ {
+  "rid": "n31261",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML upload is offered only as an attachment with escaped source display and no script."
+ },
+ {
+  "rid": "n31262",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG menu art is served as an image resource with no script and no markup in the page."
+ },
+ {
+  "rid": "n31263",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML identity preview uploaded and shown as escaped text."
+ },
+ {
+  "rid": "n31264",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML upload is offered as an escaped attachment download with no inline script execution."
+ },
+ {
+  "rid": "n31265",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML banner is stored and displayed as escaped text with no server execution in a content upload."
+ },
+ {
+  "rid": "n31266",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Logo SVG contains only text markup with no script, rendered as an image in an asset upload feature."
+ },
+ {
+  "rid": "n31267",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Building document upload with HTML markup is an authoring feature rendered as escaped source in an attachment download."
+ },
+ {
+  "rid": "n31268",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Stored SVG upload is served as an image resource with no script, in a media authoring feature."
+ },
+ {
+  "rid": "n31269",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML address upload stored as an attachment and shown as escaped text."
+ },
+ {
+  "rid": "n31270",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "lease HTML is offered as an escaped attachment download with no inline execution."
+ },
+ {
+  "rid": "n31271",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG catalog cover is served as an image resource with no script."
+ },
+ {
+  "rid": "n31272",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Invoice HTML is offered as an attachment download with escaped output in an accounting upload."
+ },
+ {
+  "rid": "n31273",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Sales presentation HTML upload is a content-authoring feature served as an escaped attachment download, with no script."
+ },
+ {
+  "rid": "n31274",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML logo is offered as an attachment and displayed as escaped text, so no script runs."
+ },
+ {
+  "rid": "n31275",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML evidence upload is stored as a download with escaped output and server execution disabled; plain statement text."
+ },
+ {
+  "rid": "n31276",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG notice contains only a text element and is rasterized for display with no script or markup in the page."
+ },
+ {
+  "rid": "n31277",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML badge is served as an attachment download with escaped text, so no markup executes."
+ },
+ {
+  "rid": "n31278",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Quarterly report HTML is a reporting upload served as an escaped attachment download, with plain table markup."
+ },
+ {
+  "rid": "n31279",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML viewing-pack upload is offered as an attachment with escaped output and no server execution."
+ },
+ {
+  "rid": "n31280",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG bag artwork is rasterized as an image with no markup in the page."
+ },
+ {
+  "rid": "n31281",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML attachment is served as a download with a CSP and no script, in a support-ticket feature."
+ },
+ {
+  "rid": "n31282",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG leaf upload rendered as an image element with no markup in the page."
+ },
+ {
+  "rid": "n31283",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Campaign creative HTML is an authoring upload shown as escaped source in a reviewer preview, with no script."
+ },
+ {
+  "rid": "n31284",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:3",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Guide HTML is stored as a download with no inline render and a CSP; ordinary knowledge-base content."
+ },
+ {
+  "rid": "n31285",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG theme rendered as an image element with no script."
+ },
+ {
+  "rid": "n31286",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Uploaded HTML brand file holds only heading and paragraph markup with no script, served as a download in an authoring feature."
+ },
+ {
+  "rid": "n31287",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML evidence file is served as a download with no script, in a case-evidence upload feature."
+ },
+ {
+  "rid": "n31288",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG poster upload rendered as an image element with no script."
+ },
+ {
+  "rid": "n31289",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:8",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Dashboard resource HTML is a reporting upload delivered as an attachment download with no inline rendering."
+ },
+ {
+  "rid": "n31290",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "uploaded transcript HTML is offered as an attachment download with no inline rendering."
+ },
+ {
+  "rid": "n31291",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Uploaded workshop HTML holds plain paragraph markup with no script; attachment download in an authoring feature."
+ },
+ {
+  "rid": "n31292",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG landing asset is rasterized for preview with no script and a restrictive CSP."
+ },
+ {
+  "rid": "n31293",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML receipt upload served as an attachment, with no inline rendering."
+ },
+ {
+  "rid": "n31294",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML asset upload served as an attachment with no inline rendering."
+ },
+ {
+  "rid": "n31295",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Widget bundle HTML is an authoring upload served as an attachment download, with plain markup and no script."
+ },
+ {
+  "rid": "n31296",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML macro file is stored and previewed as escaped text with no script, in a helpdesk macro feature."
+ },
+ {
+  "rid": "n31297",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG attachment is stored and embedded as an image element with no script."
+ },
+ {
+  "rid": "n31298",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:17",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "HTML template upload shown as escaped text under CSP, with no script."
+ },
+ {
+  "rid": "n31299",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Logo SVG holds only a path element with no script, served as an image in an admin content upload."
+ },
+ {
+  "rid": "n31300",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "uploaded HTML is offered as an attachment download with no inline rendering."
+ },
+ {
+  "rid": "n31333",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG banner read for dimensions with entity resolution disabled and no script, in a listing upload feature."
+ },
+ {
+  "rid": "n31334",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Menu XML has no DOCTYPE or ENTITY declarations and external entities are disabled, in a merchant menu import feature."
+ },
+ {
+  "rid": "n31337",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG banner is read for dimensions with DTD and network resolution disabled and no script, in a banner upload feature."
+ },
+ {
+  "rid": "n31338",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG logo upload with no DOCTYPE, and external entities and DTD access disabled."
+ },
+ {
+  "rid": "n31343",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:10",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "catalog XML upload is authoring content with no DOCTYPE or ENTITY declarations."
+ },
+ {
+  "rid": "n31344",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XML invoice with no DOCTYPE and DTD processing prohibited."
+ },
+ {
+  "rid": "n31345",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:12",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "presentation XML with DTD loading disabled and no DOCTYPE."
+ },
+ {
+  "rid": "n31346",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:13",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG logo upload with no DOCTYPE, entity resolution off, and no network access."
+ },
+ {
+  "rid": "n31347",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Statement XML has no DOCTYPE or ENTITY declarations and external entities are disabled, in a case evidence import feature."
+ },
+ {
+  "rid": "n31351",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG pack asset has no DOCTYPE and the XML parser has external entities disabled."
+ },
+ {
+  "rid": "n31352",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XML artwork upload with DTD prohibited and the label read as literal text."
+ },
+ {
+  "rid": "n31353",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:0",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "diagnostic XML upload with external general entities disabled and no DOCTYPE."
+ },
+ {
+  "rid": "n31354",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:1",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG upload with DTD and entity processing disabled and no script, in a group-file authoring feature."
+ },
+ {
+  "rid": "n31355",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:2",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "creative XML is authoring content with external entity resolution disabled."
+ },
+ {
+  "rid": "n31357",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:4",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XML theme file with no DOCTYPE in a profile upload with external file entities disabled."
+ },
+ {
+  "rid": "n31358",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:5",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG brand upload with no DOCTYPE or script, in a content-authoring feature."
+ },
+ {
+  "rid": "n31359",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XML evidence has external entity resolution disabled and renders only as an indexed capture."
+ },
+ {
+  "rid": "n31360",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG poster is stored with DTD and external entities disabled and no script, in an event authoring upload."
+ },
+ {
+  "rid": "n31362",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "Transcript XML has external entities disabled and is stored as a plain chat record."
+ },
+ {
+  "rid": "n31364",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:11",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG hero asset is stored with no server handler and with plain title markup in an authoring upload."
+ },
+ {
+  "rid": "n31367",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:14",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "widget XML manifest is authoring content with external DTD and entity expansion disabled."
+ },
+ {
+  "rid": "n31368",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:15",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XML macro upload with no DOCTYPE and external general entities disabled."
+ },
+ {
+  "rid": "n31369",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:16",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG attachment is stored with external entities disabled and no render to browser, in a forum upload."
+ },
+ {
+  "rid": "n31371",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:18",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "SVG logo has no DOCTYPE or ENTITY, is not rendered to the browser, and external entities are disabled."
+ },
+ {
+  "rid": "n31372",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:19",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "catalog XML upload with external entities disabled and no DOCTYPE."
+ },
+ {
+  "rid": "n31379",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:6",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XML sensor description with libxml2 entity resolution disabled and no DOCTYPE."
+ },
+ {
+  "rid": "n31380",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:7",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XML template with external entities disabled and no DOCTYPE."
+ },
+ {
+  "rid": "n31382",
+  "label": "benign_standard_traffic",
+  "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:9",
+  "kind": "telemetry",
+  "reviewer": "benign_hard_negative_dev",
+  "sufficient": true,
+  "note": "XML device manifest with no DOCTYPE and external entities disabled."
  }
 ]

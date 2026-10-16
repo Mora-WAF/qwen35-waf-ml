@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v8 (41 classes) **model-evaluated** on Colab A100 (`reports/colab_a100v8/`): test accuracy 0.9841, test_unseen 0.9579 (v7: 0.9894 / 0.9616, splits differ); calibration froze temperature 1.223249, tau 0.0 in `config/policy.yaml` (max-prob tau cannot flag out-of-taxonomy inputs: see the progress log). Not deployment-qualified. Ranked improvements (HTTP/2 reset evidence, family breadth, trained abstention) are in `docs/PLAN.md`.
+Current state: fast build v8 (41 classes) **model-evaluated** on Colab A100 (`reports/colab_a100v8/`): test accuracy 0.9841, test_unseen 0.9579 (v7: 0.9894 / 0.9616, splits differ); calibration froze temperature 1.223249, tau 0.0 in `config/policy.yaml` (max-prob tau cannot flag out-of-taxonomy inputs: see the progress log). Not deployment-qualified. Fast build v9 (HTTP/2 reset-latency feature, family breadth, JWT verifier mechanisms, twin top-up: 1 concentrated token, DNS shortcut fix) is gate-passed and training as `a100v9`; see `docs/PLAN.md`.
 A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
@@ -75,7 +75,8 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
   Codex (ChatGPT login) with ~16 parallel `codex exec` calls invalidated the refresh token mid-run
   (`refresh_token_invalidated`, then 401 on every call): keep Codex at ~4 parallel workers. ~8 workers ran fine on
   16 October, but a night of generation plus cross-checks hit the ChatGPT usage limit ("try again at <time>"):
-  `xmodel_run` then writes a `.err` file, and a batch with no answers must not count as disagreement. Gemini Flash calls
+  `xmodel_run` then writes a `.err` file, and a batch with no answers must not count as disagreement. On 16 October it
+  hit again after 6 generation jobs + 936 cross-check items + 40 twin jobs; in-session Haiku workers took over generation. Gemini Flash calls
   sometimes hang far past the usual ~7 min; the 22-min timeout retries them, or stop and score what came back.
 - **Lineage** decides splits. Assign whole groups, globally (one attacker host can span classes).
   Templated worker output and seed variants share a group via near-dup keys; each CIC attack class

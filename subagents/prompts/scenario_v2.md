@@ -45,7 +45,9 @@ If the job has `focus_domains`, set every family in those application domains (o
 other domains).
 
 ## Output 2 — `twin_out_path` (only if the job has one; exactly `twin_count` lines, or `count` if absent)
-For the first `twin_count` lines of output 1 (all lines if absent), in order, write the **benign twin**: the same application,
+For `twin_count` lines of output 1 (all lines if absent), spread evenly over the families (round-robin: the first line of
+each family, then the second, ...; families are contiguous, so the first lines alone would leave later families without
+twins and their context keys would mark the attack class), in increasing line order, write the **benign twin**: the same application,
 route, `context_schema` keys and request shape, with values showing legitimate behaviour (within
 configured limits, authorized object, correctly signed token, allow-listed destination, trusted
 content, escaped output, ...). The twin must be clearly benign on the evidence, not merely

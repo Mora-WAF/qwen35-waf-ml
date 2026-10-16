@@ -412,7 +412,8 @@ FLOW_PROFILES = {
                                     variants=[dict(name="long_poll_http", ports=[80, 8080], dur=(900, 3600), pkts=(60, 300)), dict(name="sparse_beacon", pkts=(8, 30), dur=(1200, 3600))]),
     "dns_tunneling_exfil": dict(fwd_frac=(0.45, 0.55), ports=[53], window="full_flow", dur=(30, 300), pkts=(200, 3000), proto="udp",
                                 syn_frac=(0, 0), bytes_per_pkt=(120, 300), dst_fanout=(1, 1), dns=True,
-                                    variants=[dict(name="txt_bulk", bytes_per_pkt=(300, 600)), dict(name="slow_drip", dur=(600, 3600), pkts=(30, 200))]),
+                                    variants=[dict(name="txt_bulk", bytes_per_pkt=(300, 600)), dict(name="slow_drip", dur=(600, 3600), pkts=(30, 200)),
+                                              dict(name="domain_rotation", dns_top=(0.08, 0.4))]),  # tunnel spread over several parent domains: top share is not the evidence
     "tls_ja4_ua_spoofing": dict(fwd_frac=(0.35, 0.55), ports=[443], window="full_flow", dur=(1, 30), pkts=(20, 400), proto="tcp",
                                 syn_frac=(0.02, 0.08), bytes_per_pkt=(400, 1400), dst_fanout=(1, 1),
                                 ja4=True,
@@ -428,6 +429,8 @@ FLOW_PROFILES = {
                                     syn_frac=(0.01, 0.05), bytes_per_pkt=(400, 1400), dst_fanout=(1, 2),
                                     variants=[  # benign UDP/DNS/QUIC/NTP so protocol and port are not attack-only
                                         dict(name="dns_lookup", proto="udp", ports=[53], dur=(0.01, 2), pkts=(2, 12), bytes_per_pkt=(60, 300), fwd_frac=(0.4, 0.6), syn_frac=(0, 0), dns=True),
+                                        # one app polling its own backend: most queries to one parent domain (observed benign captures mix a whole network)
+                                        dict(name="dns_single_app", proto="udp", ports=[53], window="full_flow", dur=(30, 900), pkts=(20, 400), bytes_per_pkt=(70, 260), fwd_frac=(0.45, 0.55), syn_frac=(0, 0), dns=True, dns_top=(0.45, 0.98)),
                                         dict(name="quic_web", proto="udp", ports=[443], dur=(1, 90), pkts=(20, 900), bytes_per_pkt=(200, 1350), fwd_frac=(0.25, 0.5), syn_frac=(0, 0)),
                                         dict(name="ntp_sync", proto="udp", ports=[123], dur=(0.01, 1), pkts=(2, 4), bytes_per_pkt=(76, 90), fwd_frac=(0.5, 0.5), syn_frac=(0, 0)),
                                         dict(name="windowed_web", window="fixed_window", dur=(4, 6), pkts=(5, 300)),
@@ -448,6 +451,8 @@ FLOW_PROFILES = {
                                    variants=[  # hard negatives against floods, amplification and beacons
                                        dict(name="bulk_backup", ports=[22, 443, 873], window="full_flow", dur=(300, 3600), pkts=(50000, 900000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.6, 0.7)),
                                        dict(name="dns_resolver_burst", proto="udp", ports=[53], pkts=(1500, 12000), bytes_per_pkt=(80, 400), fwd_frac=(0.45, 0.55), syn_frac=(0, 0), dns=True),
+                                       # CDN / telemetry SDK burst: hashed, high-entropy labels under one parent domain
+                                       dict(name="dns_cdn_burst", proto="udp", ports=[53], pkts=(1000, 8000), bytes_per_pkt=(90, 300), fwd_frac=(0.45, 0.55), syn_frac=(0, 0), dns=True, dns_top=(0.4, 0.95), dns_len=(16, 40), dns_ent=(3.2, 4.2)),
                                        dict(name="video_stream_udp", proto="udp", ports=[443, 3478], pkts=(3000, 20000), bytes_per_pkt=(900, 1350), fwd_frac=(0.05, 0.2), syn_frac=(0, 0)),
                                        # legitimate login and API bursts: the lookalike of credential stuffing
                                        dict(name="sso_login_peak", ports=[443], pkts=(800, 6000), bytes_per_pkt=(400, 1100), fwd_frac=(0.25, 0.42), syn_frac=(0.05, 0.15), conn=(2, 20)),  # responses dominate: successful logins load pages
@@ -566,6 +571,7 @@ def synth_flow(cls, idx):
         feats["iat_cv"] = round(r.uniform(0.4, 2.5), 4)
     if pr.get("dns") or (feats["dst_port"] == 53 and pr["proto"] == "udp"):
         (ln, ent, top) = DNS_TUNNEL if cls == "dns_tunneling_exfil" else DNS_NORMAL
+        ln, ent, top = pr.get("dns_len", ln), pr.get("dns_ent", ent), pr.get("dns_top", top)
         feats["qname_len_mean"] = round(r.uniform(*ln), 2)
         feats["qname_entropy_bits_per_char"] = round(r.uniform(*ent), 3)
         feats["parent_domain_top_share"] = round(r.uniform(*top), 3)

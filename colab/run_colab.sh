@@ -46,8 +46,9 @@ if ! fetch part_a.json && ! busy; then
     # interactive only: headless, its auth prompt blocks the kernel and the mount from another terminal queues behind it
     # --foreground: plain timeout puts drivemount in a background process group, so its Enter prompt stops on SIGTTIN
     [ -t 0 ] && timeout --foreground 600 colab drivemount -s "$NAME" 2>&1 | tee -a "$LOG" | grep -aE "colab\]|https:"
-    for _ in $(seq 60); do mounted && break; say "waiting for Drive: run 'colab drivemount -s $NAME' in a terminal"; sleep 15; done
-    mounted || die "Drive not mounted (or rerun with NO_DRIVE=1)"
+    # keep the loop's answer: a second probe can hit a dropped CLI connection right after a good mount (16 Oct a100v9)
+    ok=0; for _ in $(seq 60); do mounted && { ok=1; break; }; say "waiting for Drive: run 'colab drivemount -s $NAME' in a terminal"; sleep 15; done
+    [ $ok = 1 ] || die "Drive not mounted (or rerun with NO_DRIVE=1)"
   fi
   say "Part A (progress: /content/progress.json, Drive qwen35_waf/)"
   timeout $(( CELL_S + 600 )) colab exec -s "$NAME" "${ENV[@]}" --timeout "$CELL_S" -f partA.ipynb >>"$LOG" 2>&1

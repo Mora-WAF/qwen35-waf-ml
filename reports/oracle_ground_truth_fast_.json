@@ -3,16 +3,16 @@
  "report_only": true,
  "classes": {
   "jwt_auth_bypass": {
-   "n": 941,
-   "pass": 253,
-   "fail": 688,
-   "pass_rate": 0.268863,
+   "n": 1135,
+   "pass": 306,
+   "fail": 829,
+   "pass_rate": 0.269604,
    "failing_ids": [
-    "haiku:jwt_auth_bypass:000042",
     "haiku:jwt_auth_bypass:000053",
-    "haiku:jwt_auth_bypass:000064",
-    "haiku:jwt_auth_bypass:000073",
-    "haiku:jwt_auth_bypass:000082"
+    "haiku:jwt_auth_bypass:000054",
+    "haiku:jwt_auth_bypass:000072",
+    "haiku:jwt_auth_bypass:000085",
+    "haiku:jwt_auth_bypass:000086"
    ]
   },
   "xxe": {
@@ -22,10 +22,10 @@
    "pass_rate": 0.947712,
    "failing_ids": [
     "haiku:xxe:000023",
-    "xxe_injection_payload_list:xxe:eec736b621d4b750~0",
-    "xxe_injection_payload_list:xxe:047cca2444406579~0",
-    "haiku:xxe:000003",
-    "haiku:xxe:000007"
+    "xxe_injection_payload_list:xxe:5b7b8b10c1df37de~0",
+    "xxe_injection_payload_list:xxe:e3aaf71979030018~0",
+    "xxe_injection_payload_list:xxe:cdcc8c132ea5fa66~0",
+    "xxe_injection_payload_list:xxe:23db2b3da5ffc82d~0"
    ]
   },
   "ldap_xpath_injection": {
@@ -35,10 +35,10 @@
    "pass_rate": 0.820741,
    "failing_ids": [
     "haiku:ldap_xpath_injection:000233",
-    "haiku:ldap_xpath_injection:000243",
-    "haiku:ldap_xpath_injection:000272",
-    "haiku:ldap_xpath_injection:000273",
-    "haiku:ldap_xpath_injection:000232"
+    "haiku:ldap_xpath_injection:000283",
+    "payloadsallthethings:ldap_xpath_injection:b71a0948335cc1d6~0",
+    "payloadsallthethings:ldap_xpath_injection:b71a0948335cc1d6~1",
+    "payloadsallthethings:ldap_xpath_injection:b71a0948335cc1d6~2"
    ]
   },
   "csv_formula_injection": {
@@ -47,11 +47,11 @@
    "fail": 160,
    "pass_rate": 0.761905,
    "failing_ids": [
-    "haiku:csv_formula_injection:000069",
-    "haiku:csv_formula_injection:000144",
-    "haiku:csv_formula_injection:000181",
-    "haiku:csv_formula_injection:000200",
-    "haiku:csv_formula_injection:000209"
+    "haiku:csv_formula_injection:000088",
+    "haiku:csv_formula_injection:000190",
+    "haiku:csv_formula_injection:000285",
+    "haiku:csv_formula_injection:000304",
+    "haiku:csv_formula_injection:000338"
    ]
   },
   "crlf_header_injection": {
@@ -60,11 +60,11 @@
    "fail": 207,
    "pass_rate": 0.691045,
    "failing_ids": [
-    "haiku:crlf_header_injection:000187",
-    "haiku:crlf_header_injection:000270",
-    "crlf_injection_payload_list:crlf_header_injection:d9bf9a788eb19700~0",
-    "crlf_injection_payload_list:crlf_header_injection:d9bf9a788eb19700~1",
-    "crlf_injection_payload_list:crlf_header_injection:517e8e93dd35a80f~0"
+    "haiku:crlf_header_injection:000163",
+    "haiku:crlf_header_injection:000199",
+    "haiku:crlf_header_injection:000210",
+    "haiku:crlf_header_injection:000211",
+    "haiku:crlf_header_injection:000222"
    ]
   },
   "prototype_pollution": {
@@ -73,21 +73,21 @@
    "fail": 65,
    "pass_rate": 0.925373,
    "failing_ids": [
-    "haiku:prototype_pollution:000031",
     "haiku:prototype_pollution:000042",
-    "haiku:prototype_pollution:000070",
-    "haiku:prototype_pollution:000071",
-    "haiku:prototype_pollution:000072"
+    "haiku:prototype_pollution:000056",
+    "haiku:prototype_pollution:000218",
+    "haiku:prototype_pollution:000242",
+    "haiku:prototype_pollution:000302"
    ]
   }
  },
  "benign_audit": {
   "ordinary": {
    "benign_standard_traffic": {
-    "n": 10990,
-    "any_hit": 13,
+    "n": 12641,
+    "any_hit": 22,
     "checks": {
-     "jwt_auth_bypass": 5,
+     "jwt_auth_bypass": 14,
      "xxe": 0,
      "ldap_xpath_injection": 0,
      "csv_formula_injection": 8,
@@ -96,7 +96,7 @@
     }
    },
    "benign_high_rate_legit": {
-    "n": 1393,
+    "n": 1398,
     "any_hit": 0,
     "checks": {
      "jwt_auth_bypass": 0,
@@ -110,7 +110,7 @@
   },
   "hard_negative": {
    "benign_hard_negative_dev": {
-    "n": 3232,
+    "n": 3371,
     "any_hit": 261,
     "checks": {
      "jwt_auth_bypass": 0,
@@ -137,21 +137,21 @@
  },
  "provenance_generator": {
   "benign_hard_negative_dev": {
-   "synthetic/codex-gpt-6.1-sol": 342,
-   "synthetic/haiku-5.5": 2890
+   "synthetic/codex-gpt-6.1-sol": 414,
+   "synthetic/haiku-5.5": 2957
   },
   "benign_hard_negative_search": {
    "synthetic/haiku-5.5": 1333
   },
   "benign_high_rate_legit": {
-   "synthetic/codex-gpt-6.1-sol": 143,
+   "synthetic/codex-gpt-6.1-sol": 148,
    "synthetic/deterministic": 1250
   },
   "benign_standard_traffic": {
    "observed/deterministic": 1697,
-   "synthetic/codex-gpt-6.1-sol": 1001,
+   "synthetic/codex-gpt-6.1-sol": 2310,
    "synthetic/deterministic": 4239,
-   "synthetic/haiku-5.5": 4053
+   "synthetic/haiku-5.5": 4395
   },
   "crlf_header_injection": {
    "hybrid/deterministic": 375,
@@ -162,7 +162,7 @@
    "synthetic/haiku-5.5": 445
   },
   "jwt_auth_bypass": {
-   "synthetic/haiku-5.5": 941
+   "synthetic/haiku-5.5": 1135
   },
   "ldap_xpath_injection": {
    "hybrid/deterministic": 375,

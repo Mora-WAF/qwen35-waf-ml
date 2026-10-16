@@ -1,6 +1,6 @@
 {
- "reviewed": 29613,
- "items": 29613,
+ "reviewed": 31483,
+ "items": 31483,
  "caveat": "same-model review; agreement filters noise but is not independent ground truth",
  "per_class": {
   "benign_hard_negative_dev": {
@@ -22,10 +22,10 @@
    "agreement": 0.66
   },
   "benign_standard_traffic": {
-   "agree": 5355,
-   "insufficient": 316,
-   "disagree": 478,
-   "agreement": 0.92
+   "agree": 6737,
+   "insufficient": 388,
+   "disagree": 726,
+   "agreement": 0.9
   },
   "bfla_admin_function_probing": {
    "agree": 616,
@@ -74,10 +74,10 @@
    "agreement": 1.0
   },
   "jwt_auth_bypass": {
-   "agree": 1202,
-   "insufficient": 277,
-   "disagree": 275,
-   "agreement": 0.81
+   "agree": 1419,
+   "insufficient": 303,
+   "disagree": 298,
+   "agreement": 0.83
   },
   "ldap_xpath_injection": {
    "agree": 308,
@@ -207,7 +207,12 @@
   [
    "jwt_auth_bypass",
    "benign_standard_traffic",
-   263
+   283
+  ],
+  [
+   "benign_standard_traffic",
+   "benign_hard_negative_dev",
+   277
   ],
   [
    "websocket_grpc_abuse",
@@ -225,11 +230,6 @@
    90
   ],
   [
-   "benign_standard_traffic",
-   "benign_hard_negative_dev",
-   89
-  ],
-  [
    "ssti",
    "benign_hard_negative_dev",
    89
@@ -237,7 +237,7 @@
   [
    "benign_standard_traffic",
    "benign_high_rate_legit",
-   82
+   88
   ],
   [
    "benign_standard_traffic",
@@ -245,9 +245,19 @@
    66
   ],
   [
+   "benign_standard_traffic",
+   "deserialization",
+   44
+  ],
+  [
    "websocket_grpc_abuse",
    "benign_high_rate_legit",
    37
+  ],
+  [
+   "benign_standard_traffic",
+   "jwt_auth_bypass",
+   34
   ],
   [
    "benign_high_rate_legit",
@@ -265,18 +275,8 @@
    28
   ],
   [
-   "benign_standard_traffic",
-   "deserialization",
-   27
-  ],
-  [
    "graphql_abuse",
    "benign_standard_traffic",
-   26
-  ],
-  [
-   "benign_standard_traffic",
-   "jwt_auth_bypass",
    26
   ],
   [
@@ -290,5 +290,5 @@
    22
   ]
  ],
- "quarantined": 5481
+ "quarantined": 5807
 }

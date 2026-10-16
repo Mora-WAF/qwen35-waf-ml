@@ -1,0 +1,118 @@
+{"rid": "n30257", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "PHP-serialized backup body holds only a string and an int in an admin restore feature, with no object types."}
+{"rid": "n30966", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "RS256 token verifies, signature and exp/aud/iss checks pass, and scope quotes:write matches the request."}
+{"rid": "n30225", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "node-serialize field is a plain JSON object with no function marker and function revival disabled."}
+{"rid": "n31152", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Unkeyed X-Forwarded-Port reflected in the page is the expected origin value 443, not attacker input."}
+{"rid": "n30949", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "x5u host is allow-listed and leaf-pinned, chain check passes, and claims are valid."}
+{"rid": "n29961", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Caller role economy_ops matches route_required_role and the role guard executed."}
+{"rid": "n29829", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Duplicate role claim: verifier reads customer (first key wins) while the forwarded value is merchant (last key wins)."}
+{"rid": "n30156", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Multipart checkpoint is plain JSON with fixed fields, and polymorphic typing is restricted with no type field."}
+{"rid": "n29721", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS256 signature accepted with non-canonical base64url padding and nonzero trailing bits, though HMAC matches after decode, so only malleability is shown."}
+{"rid": "n31217", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Server-streaming gRPC at 1.4 messages/s with 2 open streams against limits of 6, on an entitled topic."}
+{"rid": "n30306", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Only Transfer-Encoding chunked is present with no Content-Length, and both parsers frame 46 octets."}
+{"rid": "n30589", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "send_email is inside the granted mail scope, the recipient domain is allow-listed, and the call matches the task."}
+{"rid": "n30258", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Pickle body decodes to a plain dict of strings and ints with no class or GLOBAL opcodes, in an LTI score feature."}
+{"rid": "n29968", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "DELETE on an admin route requires leaderboard_admin, which the caller holds, and the role guard executed."}
+{"rid": "n30231", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "X-Widget-State pickle decodes to a plain dict of settings strings with no GLOBAL opcodes and parses ok."}
+{"rid": "n29873", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "Adjuster writes contact_phone, but writable_by_role lists only policyholder for that property."}
+{"rid": "n30212", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Marshal 4.8 payload is a Hash of strings and ints with no object class references."}
+{"rid": "n30184", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "PHP-serialized body is a plain array of scalars with allowed_classes false."}
+{"rid": "n31206", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Websocket subscribes to a topic the peer is entitled to, at a normal message rate."}
+{"rid": "n31043", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Thumbnail source resolves to a public address with no internal fetch target."}
+{"rid": "n30505", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Picker-Note is ordinary pick-list text with no instruction override or tool request."}
+{"rid": "n30607", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "adjust_wallet delta 120 is under the 500 limit, economy:write is granted, and the call matches ticket W-422."}
+{"rid": "n30446", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Lookup value GRN7514302 is a plain serial with no quote or operator tokens."}
+{"rid": "n30865", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single approval consumption with no burst, repeats, or idempotency conflict."}
+{"rid": "n31045", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Feed URL resolves to a public address with a normal sync schedule."}
+{"rid": "n30741", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Guide path ./pilots/guides/east-channel.png normalises inside the content root with no traversal tokens."}
+{"rid": "n30613", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "resources/read targets the session player's own inventory, and owner matches session."}
+{"rid": "n29973", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "PUT on the flag route requires platform_admin, which the caller holds, and the role guard executed."}
+{"rid": "n30757", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Photo name DEMO-GARDEN/garden-front.webp stays inside the listing directory with no traversal."}
+{"rid": "n30071", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "X-Request-Tag value is preventivo-rimborso with no CR, LF or encoded line break."}
+{"rid": "n30347", "predicted_class": "http_request_smuggling", "evidence_sufficient": true, "note": "HTTP/2 DATA is 61 octets against a downgraded Content-Length of 42 with validate_data_length false, leaving 19 octets for the back end."}
+{"rid": "n30080", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Response header value is plain case reference text with no line breaks."}
+{"rid": "n31130", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "HTTPS replay fetch to a public global address with private ranges denied."}
+{"rid": "n30718", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "returnTo equals the only allowed activation exit path /esim/devices."}
+{"rid": "n30042", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Owner writes delivery_hour and format, which are both writable for report_operator."}
+{"rid": "n30651", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "pickupCode is a plain string, and operator objects are not allowed on the route."}
+{"rid": "n29791", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Refresh token (token_use refresh, typ refresh+jwt) accepted as a bearer because token_use and typ are not checked."}
+{"rid": "n31276", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "SVG notice contains only a text element and is rasterized for display with no script or markup in the page."}
+{"rid": "n30188", "predicted_class": "deserialization", "evidence_sufficient": true, "note": "Attacker-supplied phar:// path triggers automatic metadata unserialize of an uploaded archive via file_exists."}
+{"rid": "n30813", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Push payload carries only an ordinary changes summary with no prototype keys."}
+{"rid": "n30068", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Double-percent-encoded value decodes to plain French words with no CR or LF."}
+{"rid": "n31374", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "SOAP envelope is plain XML with no DOCTYPE or ENTITY declarations."}
+{"rid": "n29925", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "DELETE on a template route requires template_admin, which the caller holds, and the role check was evaluated."}
+{"rid": "n31198", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Websocket session with no subscribe frames and a normal client message rate."}
+{"rid": "n30648", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "applicant value learner.demo is a plain string and operator objects are disallowed."}
+{"rid": "n30412", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Login value slund is plain text with no LDAP filter syntax."}
+{"rid": "n30713", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "CORS origin https://code.press.example matches the exact allow-listed origin."}
+{"rid": "n29622", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Signing key is taken from the attacker-supplied header JWK with no JWKS pins, and the token is accepted."}
+{"rid": "n30102", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "x-instructions-format value is the plain word standard-print with no line breaks."}
+{"rid": "n30754", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Document path resolves under the documents root with no traversal tokens."}
+{"rid": "n30898", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "ssh argv contains only -oConnectTimeout=10 with no separators or substitution, in a developer test endpoint; the option-injection shape is present but no malicious option appears."}
+{"rid": "n30469", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Alias mesh-subghz-east is plain text with no filter syntax."}
+{"rid": "n30804", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Metadata body has only an ordinary archive object with no prototype keys."}
+{"rid": "n30320", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "No Transfer-Encoding is sent and Content-Length 40 matches the body for both parsers."}
+{"rid": "n30785", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Band range body has only ordinary range keys with no prototype path."}
+{"rid": "n30495", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Email value has no quote or wildcard tokens, only an encoded at-sign."}
+{"rid": "n30322", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Clean form body with matching Content-Length and no framing conflict."}
+{"rid": "n30176", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "ViewState decodes to a System.String only, with no gadget type, in a laboratory upload feature."}
+{"rid": "n31073", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Document fetch target is a public address with no internal host."}
+{"rid": "n30838", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single request with no burst, no repeats, and one permitted effect."}
+{"rid": "n30605", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "tools/list relay returns only read-only tools that all appear in the granted manifest."}
+{"rid": "n31040", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Theme install fetches a public manifest with activate set to 0 and no internal target."}
+{"rid": "n30049", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Owner writes display_units and label, both writable for caretaker, with no read-only fields touched."}
+{"rid": "n30844", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single payout request with no burst or repeated effect."}
+{"rid": "n30867", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Single approval consumption with no burst or repeats."}
+{"rid": "n29694", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "JWE accepted on a JWS-only route with signature not applicable, so no signature was verified."}
+{"rid": "n30198", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "Pickle payload is a dict of scalars with protocol 2 and no class or GLOBAL references."}
+{"rid": "n29690", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Nested inner HS256 JWT has an empty signature and its signature is not checked, yet its claims are parsed and accepted."}
+{"rid": "n30760", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Cover file DEMO-CANAL/cover-2x.webp stays under the listing root."}
+{"rid": "n29626", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "x5u certificate is fetched from raw IP 198.51.100.77 with no host allow-list or chain pinning, and the chain is accepted."}
+{"rid": "n30761", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Double-decoded path DEMO-CURRY/customer-invoice.pdf has no traversal segments."}
+{"rid": "n30122", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Location value is a same-origin internal reference path with no external host."}
+{"rid": "n30180", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "ViewState decodes to a System.String only, with no gadget type, in a laboratory reconcile feature."}
+{"rid": "n29640", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Signing key comes from the attacker-supplied header JWK with no pins, and the token is accepted."}
+{"rid": "n30527", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Dispute chat text is ordinary, contains no instruction override, and requests no tool calls."}
+{"rid": "n30794", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Survey body has only an ordinary answers object with no prototype keys."}
+{"rid": "n31274", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "HTML logo is offered as an attachment and displayed as escaped text, so no script runs."}
+{"rid": "n29777", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "ID token (token_use id) is accepted as an API bearer because token_use is not checked."}
+{"rid": "n30498", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Technician visit notes are plain text with no injection content, and the drafting tool only writes drafts."}
+{"rid": "n31052", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Artwork URL is a public host with a normal request rate."}
+{"rid": "n31277", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "HTML badge is served as an attachment download with escaped text, so no markup executes."}
+{"rid": "n29824", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Duplicate role claim: verifier sees customer while the forwarded value is agent-admin."}
+{"rid": "n30747", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "phar:// cue path stays under the theatre content root with phar metadata unserialize false, so only the stream scheme is present."}
+{"rid": "n29723", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Fullwidth alg value is accepted only after NFKC normalisation, so the raw alg fails the allow-list while verification proceeds."}
+{"rid": "n29645", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Self-issued x5c chain of length 1 is accepted with zero trust anchors loaded."}
+{"rid": "n30038", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Owner writes the description field, which is writable for developer, with no read-only role change."}
+{"rid": "n30529", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Withdrawal memo is ordinary text with no injection content, and no tool calls are requested."}
+{"rid": "n30523", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Applicant note is ordinary text, and no tool calls are requested."}
+{"rid": "n30927", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Shell sink receives the plain filename billing-queue-hold-music.mp3 with no separator or substitution characters."}
+{"rid": "n30334", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Both parsers agree on chunked framing and both count 75 octets, so no desync occurs."}
+{"rid": "n31314", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Invitation message is plain text, JSON-escaped into the script element."}
+{"rid": "n29722", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS256 signature accepted with non-canonical base64url padding and nonzero trailing bits, though HMAC matches after decode, so only malleability is shown."}
+{"rid": "n30630", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Layout name packing-daily maps to a fixed preset and the body has no operator objects."}
+{"rid": "n30588", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "share_document is in scope, the recipient domain is allow-listed, and the call matches the task."}
+{"rid": "n30076", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Store value lisboa is a plain word with no cookie or header delimiters."}
+{"rid": "n30406", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Search term alindholm is plain text with no filter syntax."}
+{"rid": "n30168", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": false, "note": "$type names a contract DTO allowed by the binder, with no gadget type, in a cue-sheet developer validation route."}
+{"rid": "n30705", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Logout redirect equals the exact allowed path /registry/signed-out."}
+{"rid": "n30101", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Authority value is a plain hostname with no CR or LF."}
+{"rid": "n29623", "predicted_class": "sqli_classic", "evidence_sufficient": true, "note": "Plain UNION SELECT text in the JWT kid header reaches the SQL key lookup, which then yields an empty key."}
+{"rid": "n31292", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "SVG landing asset is rasterized for preview with no script and a restrictive CSP."}
+{"rid": "n29720", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": false, "note": "HS256 signature accepted with non-canonical base64url padding and nonzero trailing bits, though HMAC matches after decode, so only malleability is shown."}
+{"rid": "n29621", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "Self-issued x5c chain of length 2 is accepted with zero trust anchors loaded."}
+{"rid": "n30825", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Override body has only ordinary rollingUpdate keys with no prototype path."}
+{"rid": "n30639", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Refresh request is a plain token string with a device label."}
+{"rid": "n29624", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "HS256 signature is verified using the RSA public key PEM as the HMAC secret, which is algorithm confusion."}
+{"rid": "n29619", "predicted_class": "jwt_auth_bypass", "evidence_sufficient": true, "note": "jku host sso.telemetry-ops.invalid.cdn-edge.example.org passes a prefix allow-list, so an attacker-controlled key source is fetched."}
+{"rid": "n31371", "predicted_class": "benign_hard_negative_dev", "evidence_sufficient": true, "note": "SVG logo has no DOCTYPE or ENTITY, is not rendered to the browser, and external entities are disabled."}
+{"rid": "n30823", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Override body has only ordinary configuration keys with no prototype path."}
+{"rid": "n30380", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Signature verifies, issuer and audience match, and the resource grant is matched."}
+{"rid": "n31042", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Thumbnail source resolves to a public address with no internal target."}
+{"rid": "n29881", "predicted_class": "bopla_mass_assignment", "evidence_sufficient": true, "note": "security_admin writes description, but the schema lists it as writable only for developer."}
+{"rid": "n30553", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Dispute reason is ordinary text with no injection content, and no tool calls are requested."}
+{"rid": "n31145", "predicted_class": "benign_standard_traffic", "evidence_sufficient": false, "note": "Allow-listed banner variant is reflected escaped and carries no payload, though the cache holds the unkeyed value."}
+{"rid": "n30493", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Login value rita.costa is plain text with no XPath syntax."}
+{"rid": "n30536", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Ticket asks an ordinary documentation question with no injection content and no tool calls."}
+{"rid": "n30496", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Alias elena.pruebas is plain text with no XPath syntax."}
+{"rid": "n30085", "predicted_class": "benign_standard_traffic", "evidence_sufficient": true, "note": "Reference header value is plain text with no line breaks."}

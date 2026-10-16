@@ -1,0 +1,1958 @@
+{
+ "models": [
+  "codex"
+ ],
+ "items": 1770,
+ "answered": {
+  "codex": 1770
+ },
+ "agreement_35class": {
+  "codex": 0.867
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 0.983
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {},
+  "benign_standard_traffic": {
+   "codex": 0.86
+  },
+  "bfla_admin_function_probing": {},
+  "bola_idor_enumeration": {},
+  "bopla_mass_assignment": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {},
+  "crlf_header_injection": {},
+  "csv_formula_injection": {},
+  "deserialization": {},
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http2_rapid_reset_continuation": {},
+  "http_request_smuggling": {},
+  "jwt_auth_bypass": {
+   "codex": 0.92
+  },
+  "ldap_xpath_injection": {},
+  "llm_prompt_injection": {},
+  "malicious_file_upload_webshell": {},
+  "mcp_agentic_tool_abuse": {},
+  "nosqli": {},
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {},
+  "port_scan_recon": {},
+  "prototype_pollution": {},
+  "race_condition_toctou_burst": {},
+  "rce_cmd_injection": {},
+  "slowloris_slowhttp": {},
+  "sqli_classic": {},
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {},
+  "syn_flood_ddos": {},
+  "tls_ja4_ua_spoofing": {},
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {},
+  "xss_dom_polyglot": {},
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 236,
+ "contested_by_class": {
+  "benign_standard_traffic": 217,
+  "jwt_auth_bypass": 19
+ },
+ "contested": [
+  {
+   "rid": "n31286",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31266",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30874",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:5",
+   "votes": {
+    "codex": "benign_high_rate_legit"
+   }
+  },
+  {
+   "rid": "n31299",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30268",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:31",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30259",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:22",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30890",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:21",
+   "votes": {
+    "codex": "benign_high_rate_legit"
+   }
+  },
+  {
+   "rid": "n31350",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30147",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31335",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30234",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t013_deserialization.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30163",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:24",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31291",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30177",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:38",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31377",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29746",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh33.jsonl:13",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n30173",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:34",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31366",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31348",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:15",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30141",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30144",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30152",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30246",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29715",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:42",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n29717",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:44",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n31336",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30243",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30142",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30230",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t012_deserialization.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30582",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31343",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30089",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t009_crlf_header_injection.jsonl:30",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31262",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31264",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31297",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:16",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30167",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:28",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31367",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:14",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31351",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30888",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:19",
+   "votes": {
+    "codex": "benign_high_rate_legit"
+   }
+  },
+  {
+   "rid": "n31290",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31271",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29730",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:57",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n31280",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31355",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30164",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:25",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31270",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29878",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:5",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n31372",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31300",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31353",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30260",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:23",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30151",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:12",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31345",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:12",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29924",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t003_bfla_admin_function_probing.jsonl:27",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30265",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:28",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31339",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31273",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:12",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30170",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:31",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30744",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31349",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:16",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30256",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30891",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:22",
+   "votes": {
+    "codex": "benign_high_rate_legit"
+   }
+  },
+  {
+   "rid": "n29750",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh33.jsonl:17",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n29719",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:46",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n29877",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:4",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n31381",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31340",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30910",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31375",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29748",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh33.jsonl:15",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n30194",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:55",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30171",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:32",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31341",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30237",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29876",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:3",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n31365",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:12",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30218",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:79",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30213",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:74",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30250",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31295",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:14",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30235",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t013_deserialization.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31267",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30195",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:56",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30378",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t018_jwt_auth_bypass.jsonl:22",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31283",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30269",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:32",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31342",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30346",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:14",
+   "votes": {
+    "codex": "http_request_smuggling"
+   }
+  },
+  {
+   "rid": "n30139",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30148",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30229",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t012_deserialization.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31278",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29691",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:18",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n31289",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30143",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30185",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:46",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30252",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:15",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31268",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30160",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:21",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31261",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31354",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30239",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29745",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh33.jsonl:12",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n31333",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30193",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:54",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31373",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31363",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31370",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30901",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30169",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:30",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30166",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:27",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30197",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:58",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30165",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:26",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31360",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30175",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:36",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31281",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31356",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31287",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30266",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:29",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31337",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30172",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:33",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30162",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:23",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30210",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:71",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31296",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:15",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31361",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30140",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30161",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:22",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30186",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:47",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29716",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:43",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n29892",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:19",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n30349",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:17",
+   "votes": {
+    "codex": "http_request_smuggling"
+   }
+  },
+  {
+   "rid": "n30190",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:51",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30233",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t013_deserialization.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30209",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:70",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31284",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30192",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:53",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30187",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:48",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30240",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30298",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t015_graphql_abuse.jsonl:24",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30348",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:16",
+   "votes": {
+    "codex": "http_request_smuggling"
+   }
+  },
+  {
+   "rid": "n30255",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31378",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30191",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:52",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31275",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:14",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30199",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:60",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30182",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:43",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31279",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29882",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:9",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n30236",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t013_deserialization.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31364",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:11",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29714",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:41",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n31369",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:16",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30595",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30145",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29718",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:45",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n29752",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh33.jsonl:19",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n31265",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31359",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31272",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:11",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29886",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:13",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n31228",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h051_xss_dom_polyglot.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30201",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:62",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30267",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:30",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30149",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29889",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t001_bfla_admin_function_probing.jsonl:16",
+   "votes": {
+    "codex": "bopla_mass_assignment"
+   }
+  },
+  {
+   "rid": "n31362",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30257",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:20",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29721",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:48",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n30258",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:21",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30231",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t012_deserialization.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30212",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:73",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30184",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:45",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30347",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t017_http_request_smuggling.jsonl:15",
+   "votes": {
+    "codex": "http_request_smuggling"
+   }
+  },
+  {
+   "rid": "n31276",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:15",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30188",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:49",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31374",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30176",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:37",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30198",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:59",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30180",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:41",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31274",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31277",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:16",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30747",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:20",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29722",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:49",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n30168",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:29",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31292",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:11",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29720",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:47",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n31371",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30906",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t038_rce_cmd_injection.jsonl:14",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30215",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:76",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30270",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:33",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29744",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh33.jsonl:11",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n30594",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t026_mcp_agentic_tool_abuse.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31334",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31347",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:14",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30211",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:72",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29830",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh34.jsonl:37",
+   "votes": {
+    "codex": "bfla_admin_function_probing"
+   }
+  },
+  {
+   "rid": "n31358",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30872",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t037_race_condition_toctou_burst.jsonl:3",
+   "votes": {
+    "codex": "benign_high_rate_legit"
+   }
+  },
+  {
+   "rid": "n30183",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:44",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30251",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:14",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31298",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30241",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30232",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t012_deserialization.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30253",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:16",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31293",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:12",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30200",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:61",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31344",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:11",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30238",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30189",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:50",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30254",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30242",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30178",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:39",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30244",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31338",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31285",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30748",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t031_path_traversal_lfi.jsonl:21",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30150",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:11",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30174",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:35",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n29727",
+   "label": "jwt_auth_bypass",
+   "ref": "jwt_auth_bypass.vh32.jsonl:54",
+   "votes": {
+    "codex": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "n30181",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:42",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31269",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31357",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31282",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31219",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h048_websocket_grpc_abuse.jsonl:24",
+   "votes": {
+    "codex": "websocket_grpc_abuse"
+   }
+  },
+  {
+   "rid": "n30214",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:75",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31368",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h057_xxe.jsonl:15",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31294",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30179",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:40",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30196",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t011_deserialization.jsonl:57",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n30245",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx9t014_deserialization.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31380",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31346",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31288",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h054_xss_reflected_stored.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31379",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h058_xxe.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31263",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h053_xss_reflected_stored.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "n31352",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vtw9h056_xxe.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

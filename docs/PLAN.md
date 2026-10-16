@@ -15,6 +15,45 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 | C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
 | D — train and evaluate | A100 fast run: see dated progress entries below | `reports/colab_a100fast/` |
 
+### Fast build v9 — 16 October 11:30–13:10 (bundle `1f051886…`, gate passed)
+
+Fixes for the v8 analysis and the pre-run caveat sweep (raw outputs are new files only):
+- **HTTP/2 evidence**: new synthetic feature `h2_rst_latency_ms_p50`, the median delay from HEADERS to the client's
+  RST_STREAM (`config/features.yaml`, `generate.py`, physics rule "latency without resets"). Rapid reset uses 0.05–3 ms;
+  paced `low_rate_reset` uses 0.1–40 ms; benign cancels: gRPC deadlines 1–3000, hedged gateway requests 0.3–2000, browser
+  navigation 30–8000, ordinary 20–5000 ms. The overlap is deliberate (16–30% of gRPC and gateway cancels fall under 3 ms),
+  so latency and reset ratio have to be used together. The held-out `mixed_reset` variant now sits at a p50 of 0.33 ms.
+- **Family breadth** (Codex `gpt-6.1-sol` medium, vcx23–28, 12 families × 120 attacks + 36 twins each): train LLM families
+  went 5–8 → 16–18 for smuggling, path traversal, SSTI, NoSQLi, RCE and xss_dom. Blind Haiku review plus Codex: 119–120/120
+  pass for 5 classes. On SSTI, Haiku sent 75/120 to `benign_hard_negative_dev` (harmless `|length` / `|join` template
+  authoring with no probe); they stay quarantined.
+- **JWT verifier mechanisms**: vh31–34 cover 24 mechanisms that had at most one family (jku/x5u/x5c/jwk key sources, kid
+  injection, crit, nested cty, JWE-for-JWS, psychic ECDSA, non-canonical base64url, unicode alg; nbf/iat/exp skew, jti
+  replay, refresh/ID token as access token, aud/iss, duplicate claims, type confusion). 193/240 pass both reviewers. Codex
+  hit its ChatGPT usage limit mid-round, so this round and 19 of the twin jobs ran as in-session Haiku (generator recorded
+  from the file tag).
+- **Context-key shortcuts**: the 155 v8 concentrated tokens (and 40 new ones) came from scenario_v2's "twins for the
+  first `twin_count` lines". Families are contiguous, so the later families had no twins. The prompt now spreads twins
+  round-robin. Top-up: 1,458 twins (≥50% per flagged family), then 100 targeted twins that keep each remaining header or
+  context key. Review: 143 twins that both reviewers moved went to `benign_hard_negative_dev`; the weak deserialization,
+  xss_reflected and xxe twins were quarantined. Concentrated tokens 155 → **1** (`hdr=`: the empty header name in seeded
+  smuggling payloads is the attack evidence).
+- **DNS exfil shortcut (open issue 2)**: `parent_domain_top_share` alone separated exfil from benign at 0.997, both on
+  observed CIC-Bell and in synthetic data (ranges 0.42–0.98 vs 0.05–0.45). New variants: benign `dns_single_app` (one app,
+  top share 0.45–0.98), benign `dns_cdn_burst` (hashed high-entropy labels under one parent) and exfil `domain_rotation`
+  (top share 0.08–0.4). The single threshold now reaches 0.892, and the holdout hash picked `domain_rotation` for test_unseen.
+- sqli classic/obfuscated confusion (v8): the labels agree with `normalize.is_obfuscated_sql` (0 classic seeds flagged;
+  the obfuscated ones are derived encodings). This is a model confusion between two attack classes, not label noise.
+- Fixed: `xmodel_run` and `review.export_recheck` used `str.splitlines()`, which also breaks on U+0085/U+2028 inside
+  payloads (a v9b batch line was cut and the run crashed). Both now use `split("\n")`.
+- v9: **49,356 records** (train 35,711 / val 4,283 / test 4,325 / test_unseen 5,037), 41 classes, all in test_unseen, min
+  605. Gate passed (0 failures); flow physics 0 errors; shortcut NB multiclass 0.455 (v8 0.473), attack-vs-benign **0.511**
+  (v8 0.578, chance 0.5). Oracle: 22/12,641 benign_standard hits, all reviewed benign by both models (JWT syntax-only
+  checks flag legitimate allow-listed `jku`/`x5u`/nested `cty`) or older Haiku-accepted CSV twins. Baselines (v9 splits):
+  SVM test 0.932 / unseen 0.890 (macro-F1 0.889, benign FPR 0.141); CRS PL1 attack-vs-benign 0.596 / 0.580.
+- Open, deliberately: abstention on out-of-taxonomy traffic needs a trained signal (a 42nd class, with the robustness
+  probes moved to a disjoint source). That is a spec change for a separate experiment; tau stays a calibration output.
+
 ### A100 v8 run completed — 16 October 10:39 (`reports/colab_a100v8/`) — model-evaluated
 
 - Bundle `a7c5f5a8…` (v8), default setup, `WAF_EVAL_EVERY=500`, Drive on. 2133 steps in 4958 s at 5,106 tokens/s (new meter),

@@ -43,7 +43,8 @@ def run(tag, model, b, tries=4):
     out = XM / "out" / f"{tag}__batch_{b}.jsonl"
     if out.exists() and out.stat().st_size:
         return f"{tag} {b}: cached"
-    lines = [x for x in (XM / f"batch_{b}.jsonl").read_text().splitlines() if x.strip()]
+    # split("\n"), not splitlines(): payload text may hold U+0085 / U+2028, which splitlines() also breaks on
+    lines = [x for x in (XM / f"batch_{b}.jsonl").read_text().split("\n") if x.strip()]
     rids = {json.loads(x)["rid"] for x in lines}
     prompt = PROMPT.format(brief=(ROOT / "data/review/taxonomy_brief.md").read_text(), n=len(lines), items="\n".join(lines))
     for attempt in range(tries):

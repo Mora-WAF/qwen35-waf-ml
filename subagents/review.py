@@ -82,7 +82,7 @@ def export_recheck(tag, label=None):
         fp = OUT / fname
         if not fp.exists():
             continue
-        lines = open(fp).read().splitlines()
+        lines = open(fp).read().split("\n")  # same indexing as `for line in open(fp)`; splitlines() also breaks on U+0085
         label = next(k["label"] for k in key.values() if k["ref"] == ref)
         rid = f"x{len(key):05d}"
         key[rid] = {"label": label, "ref": ref, "kind": "telemetry"}
