@@ -1,0 +1,147 @@
+{
+ "kev_entries": 1748,
+ "catalog": "known_exploited_vulnerabilities.json",
+ "coverage": {
+  "covered": {
+   "n": 524,
+   "share": 0.3
+  },
+  "context": {
+   "n": 267,
+   "share": 0.153
+  },
+  "not_detectable": {
+   "n": 489,
+   "share": 0.28
+  },
+  "unmapped": {
+   "n": 468,
+   "share": 0.268
+  }
+ },
+ "demand_by_class": [
+  {
+   "class": "rce_cmd_injection",
+   "kev_cves": 142,
+   "ransomware_known": 16
+  },
+  {
+   "class": "jwt_auth_bypass / bfla_admin_function_probing",
+   "kev_cves": 130,
+   "ransomware_known": 41
+  },
+  {
+   "class": "bola_idor_enumeration / bfla / bopla",
+   "kev_cves": 120,
+   "ransomware_known": 28
+  },
+  {
+   "class": "path_traversal_lfi",
+   "kev_cves": 105,
+   "ransomware_known": 33
+  },
+  {
+   "class": "ssti",
+   "kev_cves": 84,
+   "ransomware_known": 16
+  },
+  {
+   "class": "deserialization",
+   "kev_cves": 70,
+   "ransomware_known": 29
+  },
+  {
+   "class": "xss_reflected_stored",
+   "kev_cves": 34,
+   "ransomware_known": 5
+  },
+  {
+   "class": "sqli_classic",
+   "kev_cves": 32,
+   "ransomware_known": 11
+  },
+  {
+   "class": "ssrf_cloud_metadata",
+   "kev_cves": 21,
+   "ransomware_known": 10
+  },
+  {
+   "class": "malicious_file_upload_webshell",
+   "kev_cves": 21,
+   "ransomware_known": 6
+  },
+  {
+   "class": "race_condition_toctou_burst",
+   "kev_cves": 17,
+   "ransomware_known": 2
+  },
+  {
+   "class": "xxe",
+   "kev_cves": 8,
+   "ransomware_known": 1
+  },
+  {
+   "class": "http_request_smuggling",
+   "kev_cves": 4,
+   "ransomware_known": 2
+  },
+  {
+   "class": "prototype_pollution",
+   "kev_cves": 1,
+   "ransomware_known": 0
+  },
+  {
+   "class": "crlf_header_injection",
+   "kev_cves": 1,
+   "ransomware_known": 1
+  },
+  {
+   "class": "open_redirect_cors",
+   "kev_cves": 1,
+   "ransomware_known": 0
+  }
+ ],
+ "top_unmapped_cwes": [
+  [
+   "(none)",
+   175
+  ],
+  [
+   "CWE-20",
+   92
+  ],
+  [
+   "CWE-200",
+   24
+  ],
+  [
+   "CWE-399",
+   18
+  ],
+  [
+   "CWE-74",
+   12
+  ],
+  [
+   "CWE-189",
+   6
+  ],
+  [
+   "CWE-295",
+   5
+  ],
+  [
+   "CWE-352",
+   5
+  ],
+  [
+   "CWE-552",
+   4
+  ],
+  [
+   "CWE-754",
+   4
+  ]
+ ],
+ "note": "metadata only; 'covered' means a class exists for the technique, not that every exploit is detected"
+}

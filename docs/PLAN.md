@@ -15,6 +15,127 @@ Reviewed: 15 October 2026. This document replaces the original specification. It
 | C — scale, freeze, package | Fast-30k build v3 (`fast_*`), cross-model review, real-flow sources; gate passed (v3); 41-class v4 in progress; full 100k build not run | `reports/pre_colab_gate.json`, `reports/coverage.json`, `reports/label_audit_xmodel*.json`, `reports/baselines.json`, `reports/flow_ingest.json` |
 | D — train and evaluate | A100 fast run: see dated progress entries below | `reports/colab_a100fast/` |
 
+### Gaps and weak points to fix in the next version — 17 October (v10 evaluation + public benchmarks)
+
+**Status after the overnight work of 17 October** (nothing built or trained; all changes take effect at the next build;
+tests 124 pass):
+
+| Gap | Status | What changed |
+|---|---|---|
+| 4 JWT duplicate claim in base64 | fixed (code) | `training.prepare.add_decoded_views`: a `jwt` view (header.payload JSON text as encoded, duplicates kept) for every JWT; applied at `generate.assemble` (all records) and in the endpoint (`WAF_DECODED_VIEWS=1` for the next model; off for v10, which never saw views) |
+| 5 ldap ↔ sqli confusion | data (Sonnet `vsn31`) | 40 LDAP/XPath attacks + 40 twins with backend context, avoiding the SQL-style tautology; Codex + Gemini checked |
+| 6 out-of-taxonomy abstention | analysed, not fixable here | all 25 probes land in `benign_standard_traffic` at 0.64–0.999; the 9 that are not abstained (Bot, Infiltration) have every flow feature inside the benign train 0.5–99.5% range, so no envelope or threshold can separate them. Needs host/session-level telemetry (multi-flow periodicity), not a model change |
+| 7 Base64 payloads | fixed (code) | `base64` decoded views (printable text only, binary IDs skipped, JSON/form/multipart/path/cookie/header values); generator `B64_RATE` 6% Base64 layer for seeded attacks (twins inherit it) and benign values alike |
+| 8 benign phrases with shell/SQL words | data (Sonnet `vsn21`–`vsn23`) | 180 `benign_hard_negative_search` records; Codex and Gemini: 180/180 benign; 17 both called standard traffic → relabelled `benign_standard_traffic` |
+| 9 scanner User-Agents | decision: no model class | a tool name in a header is not attack evidence on its own (spec: suspicion ≠ grounds to block); belongs in the sensor's deterministic tier-0 rules (tag + rate limit), not the classifier |
+| 10 Log4Shell | decision: `ssti` scope widened | taxonomy `ssti` now covers expression-language and message-lookup injection (CWE-917); training examples still to generate (a dedicated round was not run) |
+| 11 SSI | decision + data (Sonnet `vsn32`) | taxonomy `rce_cmd_injection` names SSI exec directives; 40 attacks + 40 twins |
+| 13 size padding | fixed (code) | `prepare.collapse_runs` (runs of > 64 identical characters → 64) and `prepare.budget_windows` (body windows, head and tail always included, scored separately, the most attack-like window decides): the 128 KB padded GoTestWAF case becomes one 525-token prompt with the payload visible |
+| 14 over-budget real traffic | fixed (code) | one `prepare.fit_budget` (sensor contract, also used by `eval.public_bench`); `generate.truncation_augment` puts the sensor's truncated cookie + `truncated: true` on 4% of HTTP records of every class |
+| 15 envelope floats | fixed | `eval.calibration` writes YAML-safe floats (`2.0e-06`), test |
+| 16 NetFlow v1 without packet lengths | fixed (code) | synthetic flows of every class drop `pkt_len_min/max` at `NO_PKT_LEN_RATE` 15% |
+| 17 capacity / quota | fixed (code) | `deploy.sh` tries instance types in order (`ml.g6.xlarge`, then `ml.g5.xlarge`; `INSTANCES` overrides) and treats a rolled-back update as a failure |
+| 18 Drive round trip | fixed | `run_colab.sh` requires a kernel round trip after the Drive mount before sending Part A |
+| 19 latency | measured: no gain yet | `deploy/speed.py` on `ml.g5.xlarge` (A10G), 96 test records: per-record 0.27 s/record (3.75/s); the batched scorer 1.06 / 0.85 / 0.71 s/record at 8 / 16 / 32 per call, i.e. slower: its second pass recomputes the whole prompt for every kept class. Both paths agree (same top class 96/96, max prob diff 0.03). The endpoint default is back to per-record. `fla` loads; `causal-conv1d` does not (prebuilt wheel ABI mismatch: undefined `c10::detail::torchCheckFail`). Kernels gave no measurable gain (0.21 s before, with the new windowing step now included). Colab L4 confirms it (HF per-record 3.56/s, batched 0.75/s). vLLM 0.30 single-token scoring is slower still (Qwen3.5 prefix cache uses 528-token blocks, only full blocks are reused, so ~400-token prompts are recomputed per request). Next: the generation-based vLLM scorer (`colab/vllm_bench.py vllm_gen`, written, not run) and a batch that reuses the prompt cache |
+| 12 weaker GoTestWAF categories | waits for the next model | recheck after 7 (Base64 views) is trained in |
+
+**CVE coverage (17 Oct, metadata only).** The taxonomy is per technique; v10 train has no CVE-labelled records
+(HTTP/2 Rapid Reset CVE-2023-44487 is the one CVE with its own class, 457 records). `eval.kev_coverage` maps the CWEs
+of the 1,748 CISA KEV entries (catalogue 2026.10.16): 30% fall in classes detectable from the request, 15% need
+gateway context (authentication / access control), 28% are not visible to a request classifier (memory corruption,
+local, supply chain), 27% are generic or missing CWEs. Thinnest classes against in-the-wild exploitation (train
+records per KEV CVE): rce_cmd_injection 5.8, deserialization 7.1 (29 ransomware-linked), ssti / code injection 7.7,
+path_traversal_lfi 8.8 (`reports/kev_coverage.json`). Extending coverage with CVE-specific exploit requests
+(e.g. converting nuclei-templates probes) was not done in this session; data for these classes has to come from
+another process. On open-appsec, Log4Shell (220) was 99.5% blocked and Shellshock (48) 100% with no dedicated
+training: technique classes carry most of the CVE coverage.
+
+Status per item: **fixed (code)** / **fixed (data, not built)** = ready for the next build; **open** = needs work or a
+decision. Benchmark numbers: `reports/benchmarks_v10.json` (`eval.public_bench`), GoTestWAF scored on the endpoint.
+
+From the v10 evaluation (test / test_unseen):
+1. **DNS exfil top-share shortcut** (unseen 57/57 → 1/57; also 5 benign `dns_single_app` flows on test flagged as
+   exfil). Fixed (code): `sharded_parents` variant keeps low-top-share exfil in train.
+2. **External DTD read as XXE** (unseen hard-negative false intervention 0.0136 > 0.01). Fixed (code + data):
+   six standard-DTD documents in `BENIGN_XML`, 200 Sonnet hard negatives `vsn01`–`vsn04`.
+3. **JWT and WebSocket/gRPC attack → benign misses** (default/sample HS256 secret 0/8, topic entitlement, unmasked
+   frames). Fixed (data): 318 Sonnet records `vsn11`–`vsn14`, Codex-checked.
+4. **JWT duplicate claim visible only in base64** (held-out `duplicate_claim_key_last_wins`). Open, decision: add a
+   decoded JWT view (header/payload JSON text) to every record carrying a JWT, at build and at inference
+   (record-format change), or accept the miss.
+5. **Attack ↔ attack confusions** (no enforcement impact, the action is BLOCK either way): ldap_xpath → sqli_classic
+   (test 0.86), sqli_classic ↔ sqli_obfuscated (19 unseen, oracle-defined boundary), xss_dom → xss_reflected (7).
+   Open: more ldap/xpath seeds without SQL-like `' or '1'='1` overlap; consider merging the two sqli classes.
+6. **Out-of-taxonomy abstention 64%** (robustness probes). Open: more out-of-taxonomy probes in val_policy, or a
+   per-class threshold for the classes that absorb unknown traffic.
+
+From GoTestWAF (792 cases; 62.7% blocked, 78% flagged as attack; URL-encoded 87.7% blocked / 98.9% flagged):
+7. **Base64-encoded payloads**: 21% blocked, 45% flagged (235 cases). Open: a sensor-side decoded view for values
+   that decode as Base64 to printable text (same mechanism as `decoded_views`), plus Base64 variants in the seeded
+   classes so the model learns to read the view.
+8. **False positives on short benign phrases that start with a shell or SQL word**: 13.5% of GoTestWAF's 141 benign
+   texts blocked ("ls 300 lexus", "nc 8000 controller", "exec noun", "_SELECT all the rows…", "DELETE 75oBC$",
+   0.7–1.0 confidence). Open: a Sonnet round of `benign_hard_negative_search` / `benign_standard_traffic` free-text
+   values (product names, chat, search) starting with command/SQL keywords, Codex-checked.
+9. **Scanner and attack-tool User-Agents pass** (sqlmap, nuclei, ffuf, OpenVAS, Burp Collaborator: 1/9 flagged).
+   Open, taxonomy decision: a scanner-fingerprint class, or map them to an existing recon class with a policy action
+   (rate limit / monitor) rather than BLOCK.
+10. **Log4Shell `${jndi:…}` classified as ssti** (still blocked). Open: decide the class (JNDI / expression-language
+    injection under rce or ssti) and add seeds.
+11. **SSI (server-side include) 8% blocked, 62% flagged**: not in the taxonomy. Open: map to rce_cmd_injection or
+    ssti and add seeds.
+12. **Weaker categories**: NoSQL 44% blocked, LDAP 54%, SQLi 58%, Shell 59% (mostly the Base64 half, see 7). Recheck
+    after 7; then add seed diversity where URL-encoded detection stays low.
+13. **Size-padding evasion**: the attack placed after 8–128 KB of filler (15 cases) exceeds the 2048-token budget and
+    is not inspected, i.e. a bypass. Open: sensor-side chunked inspection (sliding windows over long values/bodies,
+    each scored) or a non-LLM pre-filter for long inputs.
+
+From open-appsec (real browsing traffic; build 17 Oct):
+14. **45% of legitimate requests exceed the 2048-token budget** (median 1,666 tokens, p90 8,464; cookies are the
+    largest part in 3,765 of 4,675). Malicious requests: 0.2%. Open: make a fit-to-budget step part of the sensor
+    contract (`eval.public_bench.fit_budget`: shorten cookie values, header values, body, URL; set
+    `truncated: true`) and add truncated records to training, which has none. Consider raising MAX_TOKENS to 4096
+    (training cost roughly doubles for long records).
+
+Deployment and pipeline:
+15. **Policy envelope bound read as a string**: the frozen `flow_envelope` stores `2e-06`, which PyYAML loads as a
+    string; `decide()` raised on every flow the model called `benign_standard_traffic` (found by the UNSW run; HTTP
+    unaffected). Fixed (code): `outside_envelope` casts bounds to float, test
+    `test_flow_envelope_from_frozen_policy_yaml`; the endpoint ships the working-tree `eval/policy.py`. Still to do:
+    `eval.calibration --write-policy` should write YAML-safe floats.
+16. **NetFlow v1 inputs lack packet-length features** (NF-UNSW-NB15 v1). `flows.nf_features` now accepts v1 and leaves
+    them out. Open: decide whether production NetFlow exporters provide min/max packet length; if not, train with
+    those features randomly absent.
+17. **No GPU quota on EC2** (0 vCPUs of G/P in all regions) and `ml.g6.xlarge` had no capacity: deploy uses
+    `ml.g5.xlarge`. Request an EC2 G quota if a self-managed instance is wanted; add InstancePools fallback
+    (g6 → g5) to the endpoint config.
+18. Still open from before: add a round-trip probe after the Drive mount in `colab/run_colab.sh`.
+19. **Latency and throughput are not inline-WAF grade**: 0.21 s median / 0.33 s p90 per request and about 5 req/s per
+    `ml.g5.xlarge` (records scored one at a time; Qwen3.5's `fla` and `causal-conv1d` kernels missing, PyTorch
+    fallback). Inline WAFs add about 1–5 ms. Plan: (a) fast kernels in the endpoint image, (b) cross-record batching in
+    the handler (measured next, 17 Oct), (c) a tiered deployment: inline rules / allow-list on every request, the LLM
+    only on flagged requests plus a sample, or async (shadow) scoring; (d) later, distil a small classifier from the
+    LLM's labels for the inline tier. vLLM serving is not planned for now.
+
+### v10 deployed to SageMaker — 17 October 00:19 (`deploy/`)
+
+- Endpoint `qwen35-waf-v10` (us-east-1, `ml.g5.xlarge`, A10G 24 GB; `ml.g6.xlarge` failed with
+  InsufficientInstanceCapacity). EC2 was not possible: the account has 0 vCPUs of G/P quota in every region, while
+  SageMaker endpoint quotas are separate (g5.xlarge 2, g6.xlarge 1).
+- `deploy/deploy.sh` packages the adapter plus the bundle's own code, taxonomy and schemas (`87119b32`) with
+  `policy_v10.yaml`. The AWS Hugging Face image (PyTorch 2.6, transformers 5.5.3) upgrades to transformers 5.17 /
+  peft 0.21.2 at start. `deploy/sagemaker/inference.py` loads the pinned base from the Hub, merges the adapter, runs
+  `class_logprobs` → softmax(T) → `eval.policy.decide`, and refuses to start if 5 test records drift > 0.05 nats
+  (startup about 7 min after the instance is up). Role `qwen35-waf-sagemaker` (read on its own bucket, image pull,
+  logs), private bucket `qwen35-waf-models-<account>`. `deploy/teardown.sh [--all]` deletes it.
+- Check against the A100 scores (`deploy/client.py`, 40 test + 40 test_unseen records, random): same top class 80/80,
+  calibrated probability difference median 3e-6, max 0.030; argmax accuracy 40/40 and 39/40 (the miss is a
+  hard negative → benign_standard_traffic, abstained low_confidence). Latency on the A10G: median 0.23 s, p90 0.36 s,
+  max 0.69 s per record (scoring with the prefix cache, not generation). A real-time call must finish in 60 s, so the
+  client sends batches of 8.
+- The self-check alone is weak (on confident records only the top class is compared, both ≈ 0); the 80-record
+  comparison is the evidence.
+
 ### A100 v10 run completed — 16 October 22:15 (`reports/colab_a100v10/`) — model-evaluated, one class regressed
 
 - Bundle `87119b32…`. The first VM (Part A launched 18:45) was reclaimed during weight loading and left no Drive checkpoint;

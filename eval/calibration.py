@@ -185,7 +185,7 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005):
     if write_policy:  # freeze T and tau in config/policy.yaml (line edits keep the file's comments)
         pol_p = ROOT / "config/policy.yaml"
         txt = pol_p.read_text()
-        for key, val in (("threshold", round(tau, 6)), ("temperature", round(T, 6)), ("flow_envelope", json.dumps(env))):
+        for key, val in (("threshold", round(tau, 6)), ("temperature", round(T, 6)), ("flow_envelope", yaml.safe_dump(env, default_flow_style=True, width=10**9).strip())):
             txt, n = re.subn(rf"^{key}: [^#\n]*?(\s*(?:#.*)?)$", lambda m: f"{key}: {val}{m.group(1)}", txt, count=1, flags=re.M)
             assert n == 1, f"config/policy.yaml has no top-level {key}: line"
         pol_p.write_text(txt)

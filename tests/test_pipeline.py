@@ -59,7 +59,7 @@ def test_flow_features_consistent():
             assert math.isclose(f["pkts_per_s"], f["pkts_total"] / f["duration_s"], rel_tol=1e-3)
             assert math.isclose(f["bytes_per_s"], f["bytes_total"] / f["duration_s"], rel_tol=1e-3)
             assert 0 <= f["tcp_flags_bitmask"] <= 255
-            assert f["pkts_fwd"] + f["pkts_bwd"] == f["pkts_total"] and f["pkt_len_min"] <= f["pkt_len_max"]
+            assert f["pkts_fwd"] + f["pkts_bwd"] == f["pkts_total"] and f.get("pkt_len_min", 0) <= f.get("pkt_len_max", 0)  # absent at NO_PKT_LEN_RATE
             assert set(f) <= VOCAB, set(f) - VOCAB
 
 
@@ -318,3 +318,49 @@ def test_apply_hn_never_demotes_attacks(tmp_path, monkeypatch):
     R.apply_hn()
     assert json.loads((tmp_path / "relabel.json").read_text()) == {
         "a:0": "__quarantine__", "b:0": "benign_standard_traffic", "c:0": "__quarantine__"}
+
+
+def test_decoded_views_jwt_base64_and_limits():
+    import base64
+    from training.prepare import MAX_VIEWS, add_decoded_views
+    b64 = lambda s: base64.urlsafe_b64encode(s.encode()).decode().rstrip("=")
+    jwt = b64('{"alg":"HS256"}') + "." + b64('{"sub":"a","sub":"b"}') + ".c2ln"
+    tel = {"http": {"target": "/x", "headers": [["Authorization", "Bearer " + jwt]],
+                    "query": [["q", base64.b64encode(b"<script>x</script>").decode()], ["sid", "a1b2c3d4e5f6a7b8c9d0e1f2"]]}}
+    views = {(v["field"], v["decoder"]): v["value"] for v in add_decoded_views(tel)["http"]["decoded_views"]}
+    assert views[("header.authorization", "jwt")] == '{"alg":"HS256"}.{"sub":"a","sub":"b"}'  # duplicate key kept
+    assert views[("query.q", "base64")] == "<script>x</script>"
+    assert ("query.sid", "base64") not in views  # decodes to binary: an ID, not text
+    assert len(add_decoded_views(tel)["http"]["decoded_views"]) == len(views)  # idempotent
+    many = {"http": {"target": "/", "query": [[f"k{i}", base64.b64encode(f"value number {i}".encode()).decode()] for i in range(20)]}}
+    assert len(add_decoded_views(many)["http"]["decoded_views"]) == MAX_VIEWS
+
+
+def test_base64_layer_round_trips_through_the_sensor_view():
+    from training.prepare import add_decoded_views
+    for sink in ("query", "form", "json", "multipart", "path", "cookie"):
+        tel = add_decoded_views(G.build_request(G.rng_for("b64" + sink), sink, "q", "1' OR '1'='1", [], layer="base64"))
+        assert any(v["decoder"] == "base64" and v["value"] == "1' OR '1'='1" for v in tel["http"]["decoded_views"]), sink
+
+
+def test_truncation_augment_is_label_independent_and_well_formed():
+    hits = 0
+    for i in range(500):
+        tel = G.build_request(G.rng_for(f"t{i}"), "query", "q", "x", [])
+        out = G.truncation_augment(tel, f"rec:{i}")
+        if out.get("truncated"):
+            hits += 1
+            ck = next(v for k, v in out["http"]["headers"] if k == "Cookie")
+            assert ck == "; ".join(f"{k}={v}" for k, v in out["http"]["cookies"]) and len(out["http"]["cookies"][-1][1]) == 64
+    assert 5 <= hits <= 40  # ~TRUNC_RATE of 500, decided by the record id only (never by the class)
+
+
+def test_budget_windows_collapse_padding_and_window_long_bodies():
+    from training.prepare import budget_windows
+    count = lambda t: len(json.dumps(t)) // 4  # stand-in tokenizer: 4 characters per token
+    pad = {"http": {"target": "/f", "headers": [], "body": "q=" + "A" * 200_000 + " UNION SELECT pw FROM users"}}
+    (w,) = budget_windows(pad, count)
+    assert w["truncated"] and "UNION SELECT" in w["http"]["body"] and count(w) <= 2048
+    text = " ".join(f"word{i}" for i in range(4000)) + " TAIL-MARK"
+    ws = budget_windows({"http": {"target": "/f", "headers": [], "body": text}}, count)
+    assert 1 < len(ws) <= 8 and all(count(x) <= 2048 for x in ws) and "TAIL-MARK" in ws[-1]["http"]["body"]

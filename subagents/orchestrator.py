@@ -111,7 +111,7 @@ def write_jobs_v2(classes, count, families, version, root=ROOT, focus=None, focu
         job = {"class": cls, "count": count, "families": families, "domain": spec["domain"],
                "input_modes": spec["input_modes"], "scope": spec["scope"], "exclusions": spec["exclusions"],
                "required_evidence": spec["required_evidence"], "benign_counterexamples": spec["benign_counterexamples"],
-               "is_benign": spec["is_benign"], "context_schema": CONTEXT_SCHEMA[cls],
+               "is_benign": spec["is_benign"], "context_schema": CONTEXT_SCHEMA.get(cls, []),
                "avoid_families": existing_families(cls),
                "out_path": str((OUT / f"{cls}.{version}.jsonl").relative_to(root)),
                "telemetry_schema": "schemas/telemetry.schema.json", "instructions": prompt}
@@ -154,7 +154,7 @@ def write_jobs_scale(target_frac=0.25, per_worker=96, families=12, twin_count=10
             job = {"class": cls, "count": per_worker, "families": families, "domain": spec["domain"],
                    "input_modes": spec["input_modes"], "scope": spec["scope"], "exclusions": spec["exclusions"],
                    "required_evidence": spec["required_evidence"], "benign_counterexamples": spec["benign_counterexamples"],
-                   "is_benign": spec["is_benign"], "context_schema": CONTEXT_SCHEMA[cls], "avoid_families": avoid,
+                   "is_benign": spec["is_benign"], "context_schema": CONTEXT_SCHEMA.get(cls, []), "avoid_families": avoid,
                    "focus_domains": [DOMAINS[(2 * k + i) % len(DOMAINS)] for i in range(2)],
                    "out_path": str((OUT / f"{cls}.{ver}.jsonl").relative_to(ROOT)),
                    "telemetry_schema": "schemas/telemetry.schema.json", "instructions": prompt}

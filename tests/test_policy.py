@@ -5,7 +5,8 @@ from pathlib import Path
 import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-from eval.policy import decide, load, validate_decision  # noqa: E402
+import yaml  # noqa: E402
+from eval.policy import decide, load, outside_envelope, validate_decision  # noqa: E402
 
 TAX, POL, SCHEMA = load()
 CAL = {**POL, "threshold": 0.9}  # pretend-fitted policy for logic tests
@@ -75,3 +76,18 @@ def test_flow_envelope_abstains_on_background_class_only():
     assert d["verdict"] == "ABSTAIN" and diag["reason"] == "out_of_envelope"
     assert decide(out("benign_standard_traffic"), "L4_FLOW", None, 0.99, TAX, env, {"pkts_per_s": 20.0})[0]["verdict"] == "ALLOW"
     assert decide(out("syn_flood_ddos"), "L4_FLOW", None, 0.99, TAX, env, flood)[0]["verdict"] == "BLOCK"
+
+
+def test_flow_envelope_from_frozen_policy_yaml():
+    # the frozen policy stores 2e-06, which PyYAML loads as a string: the check must still compare numbers
+    pol = yaml.safe_load('flow_envelope: {"duration_s": [2e-06, 2994.234]}')
+    assert isinstance(pol["flow_envelope"]["duration_s"][0], str)
+    assert not outside_envelope({"duration_s": 1.5}, pol["flow_envelope"])
+    assert outside_envelope({"duration_s": 5000.0}, pol["flow_envelope"])
+
+
+def test_envelope_written_by_calibration_reloads_as_numbers():
+    env = {"duration_s": [2e-06, 2994.234], "pkts_total": [2, 14807]}
+    text = yaml.safe_dump(env, default_flow_style=True, width=10**9).strip()  # what eval.calibration writes
+    back = yaml.safe_load("flow_envelope: " + text)["flow_envelope"]
+    assert back == env and all(isinstance(x, (int, float)) for v in back.values() for x in v)

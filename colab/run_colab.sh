@@ -49,6 +49,9 @@ if ! fetch part_a.json && ! busy; then
     # keep the loop's answer: a second probe can hit a dropped CLI connection right after a good mount (16 Oct a100v9)
     ok=0; for _ in $(seq 60); do mounted && { ok=1; break; }; say "waiting for Drive: run 'colab drivemount -s $NAME' in a terminal"; sleep 15; done
     [ $ok = 1 ] || die "Drive not mounted (or rerun with NO_DRIVE=1)"
+    # the mount can drop the CLI connection; a Part A sent then hangs unsent (16 Oct a100v10): require a round trip
+    rt=0; for _ in $(seq 6); do n=$RANDOM$RANDOM; pyexec "print('rt', $n)" 30 | grep -q "rt $n" && { rt=1; break; }; say "kernel round trip failed, retrying"; sleep 10; done
+    [ $rt = 1 ] || die "no kernel round trip after the Drive mount (rerun the same command)"
   fi
   say "Part A (progress: /content/progress.json, Drive qwen35_waf/)"
   timeout $(( CELL_S + 600 )) colab exec -s "$NAME" "${ENV[@]}" --timeout "$CELL_S" -f partA.ipynb >>"$LOG" 2>&1

@@ -8,7 +8,7 @@ format, and before reporting status: it holds the spec and the progress log.
 
 Report only the state the evidence supports: **data-ready** → **notebook smoke-tested** (needs a
 `reports/gpu_smoke_test.json` from a real GPU run) → **model-evaluated** → **deployment-qualified**.
-Current state: fast build v10 (bundle `87119b32…`) is **model-evaluated** (`reports/colab_a100v10/`: calibrated, `policy_v10.yaml` in `config/policy.yaml`, model card written; test 0.9853, test_unseen 0.9685 vs v9 0.9857 / 0.9486). v10 is the delivered model, with two known issues: DNS exfil unseen 57/57 → 1/57 (top-share shortcut) and unseen hard-negative false intervention 0.0136 > 0.01 (external DTD read as xxe). Both are fixed for the next version (`generate.py` plus 200 Sonnet XML hard negatives, round `vsn01`–`vsn04`, Codex-checked), as are the JWT and WebSocket/gRPC attack → benign misses (318 Sonnet records, round `vsn11`–`vsn14`, Codex-checked). The next version has not been built or trained (no rebuild of `datasets_ready/` until then: it holds the v10 data). See the v10 entry in `docs/PLAN.md`. Before the next launch, add a round-trip probe after the Drive mount in `run_colab.sh` (the mount dropped the CLI connection and Part A hung unsent).
+Current state (17 Oct 09:40): fast build v10 (bundle `87119b32…`) is the delivered, **model-evaluated** model (test 0.9853, test_unseen 0.9685). Next version: code + data fixes for every gap are in place but **not built or trained** (`datasets_ready/` still holds the v10 data; do not rebuild until the next version starts). Read `reports/overnight_2026-10-17.md` first, then the "Gaps and weak points" entry in `docs/PLAN.md` (status table). Nothing runs: no AWS resources exist (all torn down), no Colab session. Open: (1) vLLM generation-method benchmark (`STAGES="merge:2400 vllm_gen:2400 report:300" colab/run_vllm_bench.sh vllmbench L4 400`), (2) a batched scorer that reuses the prompt cache, (3) `causal-conv1d` built for the endpoint ABI, (4) data for rce/deserialization/code-injection/traversal (KEV-ranked, `reports/kev_coverage.json`) from another process, (5) build + train the next version.
 A failed gate or target is a recorded
 result; record it in the progress log of `docs/PLAN.md`.
 
@@ -36,6 +36,12 @@ Run with `.venv/bin/python -m` (Python 3.12 venv; system Python 3.14 lacks the M
 8. `training.make_bundle --prefix fast_` → Colab zip (refuses a failed gate); `colab/make_notebook.py` regenerates the notebook
 
 Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/bin/python -m pytest -q tests`.
+
+## Deployment (SageMaker real-time endpoint)
+
+`deploy/deploy.sh` → endpoint `qwen35-waf-v10` (us-east-1; `INSTANCE=ml.g5.xlarge` when g6 has no capacity; EC2 has
+0 GPU quota). Test with `.venv/bin/python deploy/client.py FILE.jsonl [--limit N] [--out F]`. It bills per hour while it
+exists: `deploy/teardown.sh` (endpoint, configs, models), `--all` also bucket and role. Details in `docs/PLAN.md`.
 
 ## Colab (the `colab` CLI is installed and authenticated)
 

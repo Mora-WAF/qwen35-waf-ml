@@ -60,7 +60,7 @@ classes:
     quota: 3500
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Command separators or substitution injected into input passed to a shell or process execution."
+    scope: "Command separators or substitution injected into input passed to a shell or process execution, including server-side include (SSI) exec directives in SSI-parsed pages."
     exclusions: ["Traversal without command syntax belongs to path_traversal_lfi", "Template expression evaluation belongs to ssti", "Command text in help pages or docs", "Executable files delivered by upload belong to malicious_file_upload_webshell", "Shell commands in an AI agent tool call belong to mcp_agentic_tool_abuse"]
     required_evidence: ["Input field reaching a shell or exec sink per trusted app context", "Command separator or substitution tokens in the raw value", "Observed execution output or timing when available"]
     precedence: {over: [], rule: "none"}
@@ -70,7 +70,7 @@ classes:
     quota: 3000
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Server-side template injection where input is evaluated by a template engine expression context."
+    scope: "Server-side template or expression-language injection where input is evaluated by a template engine, an expression language or a message-lookup context (for example logging-library lookups, CWE-917)."
     exclusions: ["Client-side template injection in browser frameworks belongs to xss_dom_polyglot", "Literal braces in JSON or code samples", "Command execution belongs to rce_cmd_injection"]
     required_evidence: ["Input placed in a server-rendered template context", "Engine-specific expression syntax evaluated or echoed in the response", "Template engine identity or response-diff evidence"]
     precedence: {over: [], rule: "none"}

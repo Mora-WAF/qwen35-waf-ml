@@ -94,7 +94,8 @@ def cic_features(r):
 
 
 def nf_features(r):
-    """One NF-ToN-IoT-v2 row -> (features, reject_reason). Duration in milliseconds; 0 is common."""
+    """One NetFlow row (NF v2, or v1 without packet-length columns) -> (features, reject_reason). Duration in
+    milliseconds; 0 is common. v1 has no SHORTEST/LONGEST_FLOW_PKT: those features are left out, not invented."""
     dur = r["FLOW_DURATION_MILLISECONDS"]
     if dur < 0:
         return None, "negative_duration"
@@ -103,9 +104,10 @@ def nf_features(r):
         return None, "invalid_counts"
     f = {"duration_s": sig(dur / 1e3), "pkts_total": pi + po, "bytes_total": bi + bo,
          "pkts_fwd": pi, "pkts_bwd": po, "bytes_fwd": bi, "bytes_bwd": bo,
-         "pkt_len_min": int(r["SHORTEST_FLOW_PKT"]), "pkt_len_max": int(r["LONGEST_FLOW_PKT"]),
          "tcp_flags_bitmask": int(r["TCP_FLAGS"]), "dst_port": int(r["L4_DST_PORT"]),
          "ip_proto": int(r["PROTOCOL"])}
+    if "SHORTEST_FLOW_PKT" in r:
+        f |= {"pkt_len_min": int(r["SHORTEST_FLOW_PKT"]), "pkt_len_max": int(r["LONGEST_FLOW_PKT"])}
     return _rates(f), None
 
 

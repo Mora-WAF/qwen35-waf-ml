@@ -35,8 +35,9 @@ def parse_output(raw, classes):
 
 
 def outside_envelope(features, env):
-    """True when any enveloped flow feature lies outside the frozen [lo, hi] range."""
-    return any(k in features and not lo <= features[k] <= hi for k, (lo, hi) in env.items())
+    """True when any enveloped flow feature lies outside the frozen [lo, hi] range. Bounds are cast to float:
+    PyYAML reads an exponent without a decimal point (the frozen `2e-06`) as a string."""
+    return any(k in features and not float(lo) <= features[k] <= float(hi) for k, (lo, hi) in env.items())
 
 
 def decide(raw, mode, context, confidence, tax, pol, flow_features=None):

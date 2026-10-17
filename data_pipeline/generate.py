@@ -8,6 +8,7 @@ Three deterministic roles here (LLM-worker roles go in subagents/):
 The scenario params ARE the label oracle (label_evidence.method == scenario_oracle). No string
 is trusted as proof of exploitability. All randomness is seeded by record id -> reproducible.
 """
+import base64
 import hashlib
 import json
 import math
@@ -147,6 +148,7 @@ BENIGN_XML = [
     '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd"><article><title>Onboarding guide</title><para>Step 1: request access.</para></article>',
     '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE article PUBLIC "-//NLM//DTD JATS (Z39.96) Journal Publishing DTD v1.3 20210610//EN" "https://jats.nlm.nih.gov/publishing/1.3/JATS-journalpublishing1-3.dtd"><article article-type="research-article"><front><article-meta><title-group><article-title>Soil carbon 2026</article-title></title-group></article-meta></front></article>',
 ]
+B64_RATE = 0.06  # share of HTTP values sent Base64-encoded, same for seeded attacks (and their twins) and benign
 QUOTE_SAFE = "%/:~!$'()*,;@[]"  # an attacker's literal %XX is sent as-is; only invalid URL chars get escaped
 
 
@@ -205,8 +207,11 @@ def _json_unicode_escape(s):
 def build_request(r, sink, param, value, extra, layer=None):
     """One HTTP request with `value` placed at `sink`. raw target = what the client sent;
     query/body pairs = the server's single-pass decoding; decoded_views only for deeper layers.
-    layer: optional extra client-side encoding ("double_url" | "json_unicode"), recorded as a view."""
+    layer: optional extra client-side encoding ("double_url" | "json_unicode", recorded as a view here; "base64":
+    the value travels Base64-encoded and training.prepare.add_decoded_views adds the view, as the sensor does)."""
     from urllib.parse import quote, unquote, unquote_plus
+    if layer == "base64":  # base64url in a path segment, standard elsewhere (both are common in APIs)
+        value = (base64.urlsafe_b64encode if sink == "path" else base64.b64encode)(value.encode()).decode()
     host, path = r.choice(HOSTS), r.choice(ENDPOINTS)
     headers = _headers(r, host)
     http = {"method": "GET", "target": path, "protocol": r.choice(["HTTP/1.1", "HTTP/1.1", "HTTP/2"]),
@@ -379,6 +384,8 @@ def wrap_http(seed, twin=False):
     layer = None
     if cls in EXTRA_ENCODE and r.random() < 0.2:
         layer = "json_unicode" if sink == "json" else "double_url"
+    elif sink not in ("xml", "multipart_xml", "referer") and r.random() < B64_RATE:
+        layer = "base64"
     if twin:
         tr = rng_for("twin:" + seed["id"])
         p = tr.choice(BENIGN_XML) if sink in ("xml", "multipart_xml") else benign_value(param, tr)
@@ -541,6 +548,7 @@ def tls_context(r, kind):
 DNS_NORMAL, DNS_TUNNEL = ((8, 24), (2.0, 3.9), (0.05, 0.45)), ((23, 120), (2.2, 4.5), (0.42, 0.98))
 
 
+NO_PKT_LEN_RATE = 0.15  # synthetic flows of every class drop pkt_len_min/max at this rate (NF-UNSW-NB15 v1 has none)
 H2_NORMAL = ((0.0, 0.15), (0, 3), (20, 5000))  # (RST_STREAM/HEADERS ratio, CONTINUATION frames, HEADERS->RST ms) for ordinary HTTP/2 traffic
 
 
@@ -605,6 +613,8 @@ def synth_flow(cls, idx):
     port_rng = pr.get("dports", port_rng or pr.get("dst_fanout", (1, 1)))
     feats["conn_count_60s"] = _log_uniform(r, *conn_rng)
     feats["distinct_dst_ports_60s"] = _log_uniform(r, *port_rng)
+    if r.random() < NO_PKT_LEN_RATE:  # exporters without packet-length fields (NetFlow v1): absence is not a label
+        del feats["pkt_len_min"], feats["pkt_len_max"]
     tel = {"schema_version": 1, "mode": "L4_FLOW",
            "decision_stage": "flow_complete" if pr["window"] == "full_flow" else "flow_window",
            "observed_until": pr["window"], "truncated": False,
@@ -637,21 +647,73 @@ def synth_benign_http(cls, idx):
     layer = None
     if r.random() < 0.08:
         layer = "json_unicode" if sink == "json" else "double_url"
+    elif sink not in ("xml", "multipart_xml", "referer") and r.random() < B64_RATE:
+        layer = "base64"
     tel = add_backend(r, build_request(r, sink, param, value, pairs[:-1], layer))
     if r.random() < 0.3:  # referrals from the same neutral hosts the attack seeds are rewritten to
         tel["http"]["headers"].append(["Referer", f"https://{r.choice(NEUTRAL_HOSTS)}/"])
     return tel, {"profile": cls, "sink": sink}
 
 
+# ---- Recorded requests (public benchmarks, CVE detection templates) ------------------------------
+def telemetry_from_request(r, method, url, headers, body):
+    """A recorded HTTP request -> telemetry, the way build_request represents one (decoded query pairs, cookie
+    pairs, depth-2 URL views, form views)."""
+    from urllib.parse import parse_qsl, quote, unquote, urlsplit
+    hdrs = [[k, str(v)] for k, v in headers.items()]
+    if not any(k.lower() == "host" for k, _ in hdrs):  # the malicious set omits Host; HTTP/1.1 always carries one
+        hdrs.insert(0, ["Host", r.choice(HOSTS)])
+    q = parse_qsl(urlsplit(url).query, keep_blank_values=True)
+    http = {"method": method, "target": url, "protocol": "HTTP/1.1", "headers": hdrs,
+            "query": [[k, v] for k, v in q] or None, "cookies": None, "body": body or None,
+            "body_encoding": "utf8" if body else "none"}
+    ck = next((v for k, v in hdrs if k.lower() == "cookie"), None)
+    if ck:
+        http["cookies"] = [[a.strip(), unquote(b)] for a, _, b in (c.partition("=") for c in ck.split(";")) if a.strip()]
+    views = [{"field": f"query.{k}", "decoder": "url", "depth": 2, "value": unquote(v)}
+             for k, v in (http["query"] or []) if "%" in v and unquote(v) != v]
+    ctype = next((v for k, v in hdrs if k.lower() == "content-type"), "")
+    if body and "x-www-form-urlencoded" in ctype:
+        views += [{"field": f"body.{k}", "decoder": "form", "depth": 1, "value": v}
+                  for k, v in parse_qsl(body, keep_blank_values=True) if quote(v, safe="") != v]
+    if views:
+        http["decoded_views"] = views
+    tel = {"schema_version": 1, "mode": "L7_HTTP", "decision_stage": "request_headers_body" if body else "request_headers",
+           "observed_until": "request_received", "truncated": False, "http": http}
+    return neutral_context(r, tel)
+
+
+
 # ---- Record assembly -------------------------------------------------------------------------
+TRUNC_RATE = 0.04  # share of HTTP records (every class) that went through the sensor's fit-to-budget step
+TRUNC_COOKIES = ["_ga_session", "ab_bucket", "ui_prefs", "consent_v2", "_analytics_id", "cart_state", "recent_views"]
+
+
+def truncation_augment(tel, rec_id):
+    """The sensor shortens over-budget requests (training.prepare.fit_budget: cookie values cut to 64 characters,
+    telemetry marked truncated). Real browsing traffic does this to about half its requests (open-appsec, 17 Oct);
+    training had none. A long first-party cookie, already cut by the sensor, plus the flag on TRUNC_RATE of HTTP
+    records of every class, so neither is a label."""
+    h, r = tel.get("http"), rng_for("trunc:" + rec_id)
+    if not h or r.random() >= TRUNC_RATE:
+        return tel
+    alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
+    h["cookies"] = (h.get("cookies") or []) + [[r.choice(TRUNC_COOKIES), "".join(r.choice(alphabet) for _ in range(64))]]
+    h["headers"] = [kv for kv in h["headers"] if kv[0].lower() != "cookie"] + [
+        ["Cookie", "; ".join(f"{k}={v}" for k, v in h["cookies"])]]
+    tel["truncated"] = True
+    return tel
+
+
 def assemble(rec_id, cls, tel, provenance, evidence, meta_extra):
-    from training.prepare import serialize_telemetry, control_strings, load_tokenizer
+    from training.prepare import add_decoded_views, serialize_telemetry, control_strings, load_tokenizer
     global _CTRL
     try:
         ctrl = _CTRL
     except NameError:
         ctrl = _CTRL = control_strings(load_tokenizer())
-    user = serialize_telemetry(tel, ctrl)
+    tel = truncation_augment(tel, rec_id)
+    user = serialize_telemetry(add_decoded_views(tel), ctrl)  # same sensor enrichment as at inference
     messages = [{"role": "system", "content": system_prompt()},
                 {"role": "user", "content": user},
                 {"role": "assistant", "content": json.dumps({"threat_type": cls}, separators=(",", ":"))}]

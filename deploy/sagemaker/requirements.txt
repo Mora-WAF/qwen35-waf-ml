@@ -1,0 +1,6 @@
+transformers==5.17.0
+peft==0.21.2
+accelerate==1.15.0
+# Qwen3.5 linear-attention kernels (otherwise the PyTorch fallback); prebuilt for torch 2.6 / cu12 / py312
+https://github.com/Dao-AILab/causal-conv1d/releases/download/v1.7.0/causal_conv1d-1.7.0+cu12torch2.6cxx11abiFALSE-cp312-cp312-linux_x86_64.whl
+flash-linear-attention==0.5.2

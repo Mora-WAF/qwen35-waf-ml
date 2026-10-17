@@ -1,0 +1,40 @@
+{
+ "n": 96,
+ "runs": [
+  {
+   "scoring": "sequential",
+   "batch": 8,
+   "server_s_per_record": 0.2664,
+   "wall_s_per_record": 0.3813,
+   "records_per_s_server": 3.75
+  },
+  {
+   "scoring": "batched",
+   "batch": 8,
+   "server_s_per_record": 1.0558,
+   "wall_s_per_record": 1.1667,
+   "records_per_s_server": 0.95,
+   "max_top_prob_diff_vs_sequential": 0.01658,
+   "same_top_class": 96
+  },
+  {
+   "scoring": "batched",
+   "batch": 16,
+   "server_s_per_record": 0.8535,
+   "wall_s_per_record": 0.9195,
+   "records_per_s_server": 1.17,
+   "max_top_prob_diff_vs_sequential": 0.03199,
+   "same_top_class": 96
+  },
+  {
+   "scoring": "batched",
+   "batch": 32,
+   "server_s_per_record": 0.706,
+   "wall_s_per_record": 0.7445,
+   "records_per_s_server": 1.42,
+   "max_top_prob_diff_vs_sequential": 0.01659,
+   "same_top_class": 96
+  }
+ ],
+ "time": "2026-10-17 08:37:47"
+}
