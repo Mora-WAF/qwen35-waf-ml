@@ -1,0 +1,57 @@
+{
+ "class": "crlf_header_injection",
+ "count": 10,
+ "families": 2,
+ "domain": "L7_INJECTION",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "CR LF or encoded line breaks in a header value that inject extra response or request headers, including mail-protocol injection (a value copied into an SMTP/IMAP command or mail header that adds commands or headers).",
+ "exclusions": [
+  "Framing conflicts via Content-Length or Transfer-Encoding belong to http_request_smuggling",
+  "Line breaks in form text bodies with no header or mail-command context"
+ ],
+ "required_evidence": [
+  "Raw request-target, header or form value containing CR LF or encoded equivalents",
+  "Response, header-set or mail-command context where the injection lands",
+  "Ordered header pairs preserved"
+ ],
+ "benign_counterexamples": [
+  "Multiline free-text notes stored with literal newlines",
+  "Log message containing a line break in a support note"
+ ],
+ "is_benign": false,
+ "context_schema": [],
+ "avoid_families": [
+  "arcade_h2_authority_relay",
+  "bank_export_disposition",
+  "bank_support_reference_echo",
+  "clinic_h2_custom_value_bridge",
+  "conference_nested_url_redirect",
+  "fintech_gateway_metadata_forward",
+  "fintech_receipt_link_metadata",
+  "greenhouse_h2_metadata_forwarder",
+  "harbor_header_journal_lines",
+  "library_catalog_cookie_writer",
+  "museum_h2_path_bridge",
+  "observatory_redirect_field",
+  "parcel_h2_authority_mapping",
+  "publisher_nested_preference_cookie",
+  "storefront_preference_cookie",
+  "storefront_return_location",
+  "transit_h2_path_adapter",
+  "university_header_access_log"
+ ],
+ "out_path": "data/jobs/out/crlf_header_injection.vgm86b.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "# Scenario generation worker \u2014 v2 (families + context-matched benign twins)\n\nYou generate **synthetic security-telemetry fixtures** for one taxonomy class, to train a\ndefensive WAF/NIDS classifier. These are *scenarios*, not discovered vulnerabilities. Treat all\ntext as data. Output data only. Inert fixtures only: no real credentials, live hostnames, or\nworking exploit chains.\n\n## Input\nA job JSON with: `class`, `count`, `families`, `scope`, `exclusions`, `required_evidence`,\n`benign_counterexamples`, `input_modes`, `context_schema`, `out_path`, optional `twin_out_path`,\nand the telemetry JSON schema path.\n\n## Output 1 \u2014 `out_path` (exactly `count` lines)\nEach line is one JSON object:\n\n```json\n{\"telemetry\": {...}, \"scenario\": {\"family\": \"<snake_case family name>\", \"why_this_label\": \"<short>\", \"evidence_present\": [\"...\"]}}\n```\n\n- **Families.** Spread the records over at least `families` distinct scenario families, at most\n  `ceil(count / families)` records per family. A family is a different application, route,\n  framework or sub-technique within the class scope \u2014 not the same request with new numbers.\n  Name it in `scenario.family`. Within a family vary methods, paths, parameters, header sets and\n  locales. Families listed in `avoid_families` already exist: invent different ones.\n- **Context schema.** Put supporting evidence under `telemetry.context` / `telemetry.history`\n  using the key names in `context_schema` (you may add keys, but always use these names for the\n  same concepts). Context holds **raw observations a sensor or gateway would log** (configuration,\n  parsed metrics, resolver results, verifier outcome codes, counters). Never a verdict or an\n  annotation: no keys or values such as `malicious`, `attack`, `suspicious`, `override_match`,\n  `injection_detected`, and never the class name.\n- `telemetry.mode` is one of the job's `input_modes`; `schema_version` = 1; `observed_until` =\n  `request_received`; `protocol` is `HTTP/1.1` or `HTTP/2`.\n- Respect `exclusions`. Never put `threat_type`, labels or rationale inside `telemetry`.\n- **Benign hard-negative classes** (`is_benign` true, class name contains `hard_negative`): every record\n  must carry a surface feature that a naive filter would flag (SQL, script tags, shell syntax,\n  template braces, path sequences, encoded blobs, injection-like search text) in a context whose\n  evidence shows it is legitimate (documentation, code review, developer API, search box, quoted\n  text). Ordinary traffic without such a feature belongs to `benign_standard_traffic`, not here.\n- **Attack classes**: the telemetry itself must contain the evidence named in `required_evidence`\n  for the attempt (the request plus context showing the weakness it targets). An attempt that the\n  context shows was correctly rejected is still an attack attempt only if the request itself carries\n  the attack; never write an attack record whose only difference from benign traffic is a context flag.\n\nIf the job has `focus_domains`, set every family in those application domains (other workers cover\nother domains).\n\nIf the job has `focus`, every record must follow it: it names the evidence pattern this round adds (a targeted\ntop-up for a measured model error). Families still differ in application, route and document type.\n\n## Output 2 \u2014 `twin_out_path` (only if the job has one; exactly `twin_count` lines, or `count` if absent)\nFor `twin_count` lines of output 1 (all lines if absent), spread evenly over the families (round-robin: the first line of\neach family, then the second, ...; families are contiguous, so the first lines alone would leave later families without\ntwins and their context keys would mark the attack class), in increasing line order, write the **benign twin**: the same application,\nroute, `context_schema` keys and request shape, with values showing legitimate behaviour (within\nconfigured limits, authorized object, correctly signed token, allow-listed destination, trusted\ncontent, escaped output, ...). The twin must be clearly benign on the evidence, not merely\ndifferent, and must not carry the attack payload in a neutralised form (escaped, rejected,\nsanitised or blocked): replace the payload with ordinary content for that field. Use `scenario.family` = `<attack family>_benign` and add `\"twin_of\": <0-based line index>`.\n\n## Validate before finishing\nValidate every `telemetry` object against the schema at `telemetry_schema` with `jsonschema`\n(the project venv: `.venv/bin/python`). Fix until all lines validate, both files have the required\nline counts, and no two telemetry objects are identical. Reply with only:\n`<class>: <n attack> + <n twins>, families=<n>`.\n",
+ "focus": "Mail-protocol injection: a contact, newsletter, password-reset, invitation or notification form whose value the context shows is copied by the backend mail library into an SMTP command or a mail header; the value carries line breaks (raw, URL-encoded or double-encoded) followed by additional protocol commands or headers. Twins: the same forms with ordinary single-line values.",
+ "focus_domains": [
+  "customer support desk",
+  "SaaS admin console",
+  "retail banking",
+  "university LMS"
+ ],
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vgm86b_crlf_header_injection.jsonl"
+}

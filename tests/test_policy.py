@@ -91,3 +91,23 @@ def test_envelope_written_by_calibration_reloads_as_numbers():
     text = yaml.safe_dump(env, default_flow_style=True, width=10**9).strip()  # what eval.calibration writes
     back = yaml.safe_load("flow_envelope: " + text)["flow_envelope"]
     assert back == env and all(isinstance(x, (int, float)) for v in back.values() for x in v)
+
+
+def test_scanner_user_agent_monitors_benign_and_keeps_block():
+    ua = [["Host", "a"], ["User-Agent", "Mozilla/5.0 (compatible; Nuclei/v3.4.1)"]]
+    d, diag = decide(out("benign_standard_traffic"), "L7_HTTP", None, 0.95, TAX, CAL, None, ua)
+    validate_decision(d, TAX, SCHEMA)
+    assert (d["verdict"], d["action"], d["rule_hint"]) == ("ABSTAIN", "log_and_monitor", "tier0_scanner_nuclei")
+    assert diag["scanner_user_agent"] == "nuclei"
+    d, _ = decide(out("sqli_classic"), "L7_HTTP", None, 0.95, TAX, CAL, None, [["User-Agent", "sqlmap/1.8"]])
+    assert d["verdict"] == "BLOCK"  # the model's attack verdict stands
+    d, _ = decide(out("benign_standard_traffic"), "L7_HTTP", None, 0.95, TAX, CAL, None, [["User-Agent", "Mozilla/5.0 Burpee garden app"]])
+    assert d["verdict"] == "ALLOW"  # whole-word match only
+
+
+def test_over_budget_request_is_monitored_not_guessed():
+    from eval.policy import over_budget_decision
+    d = over_budget_decision(POL)
+    validate_decision(d, TAX, SCHEMA)
+    assert (d["verdict"], d["action"], d["rule_hint"]) == ("ABSTAIN", "log_and_monitor", "over_token_budget")
+    assert over_budget_decision({"reason_codes": {}})["rule_hint"] == "over_token_budget"  # v10's frozen policy has no key

@@ -38,3 +38,8 @@ reason_codes:
   low_confidence: low_confidence
   ineligible_action: action_ineligible
   out_of_envelope: out_of_distribution_flow
+  over_budget: over_token_budget
+# Tier-0 scanner rule (18 Oct, user decision): a known scanner / attack-tool User-Agent is not attack evidence on its
+# own, so it never turns a benign verdict into BLOCK; a benign verdict becomes log_and_monitor, tagged tier0_scanner_<tool>. Case-insensitive tokens.
+scanner_user_agents: [sqlmap, nuclei, ffuf, gobuster, dirbuster, nikto, openvas, nessus, acunetix, wpscan, masscan,
+                      zgrab, burp, nmap, feroxbuster, wfuzz, arachni, w3af, qualys, jaeles]

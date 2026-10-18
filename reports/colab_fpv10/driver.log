@@ -1,0 +1,108 @@
+selfcheck: [('haiku:ssrf_cloud_metadata:000058', 'L7_HTTP'), ('haiku:ssrf_cloud_metadata:000089', 'HYBRID_CTX'), ('gen:flow:syn_flood_ddos:000288', 'L4_FLOW'), ('gen:flow:syn_flood_ddos:000386', 'L4_FLOW'), ('gen:flow:syn_flood_ddos:000487', 'L4_FLOW')]
+[deploy 20:24:17] package 79M
+[deploy 20:24:17] PACKAGE_ONLY -> /tmp/tmp.zvpHNBx9B6/model.tar.gz
+[vllm_bench 20:24:21] new L4 session fpv10
+[colab] Creating session 'fpv10'...
+[colab] Session READY.
+GPU 0: NVIDIA L4 (UUID: GPU-d2951f96-5667-5b99-95c5-c7e4dafe0361)
+
+STEP-OK 2906828502
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.00' to '/content/pkg.part.00'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.01' to '/content/pkg.part.01'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.02' to '/content/pkg.part.02'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.03' to '/content/pkg.part.03'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.04' to '/content/pkg.part.04'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.05' to '/content/pkg.part.05'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.06' to '/content/pkg.part.06'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.07' to '/content/pkg.part.07'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.08' to '/content/pkg.part.08'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.part.09' to '/content/pkg.part.09'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/pkg.sha256' to '/content/pkg.sha256'
+[colab] Uploaded '/tmp/tmp.zvpHNBx9B6/sample.jsonl' to '/content/sample.jsonl'
+[colab] Uploaded 'colab/vllm_bench.py' to '/content/vllm_bench.py'
+[colab] Uploaded '/tmp/claude-1000/-home-hamed-ai-lab-training-llm/754bed18-0e54-4322-b5ee-7d383437f53c/scratchpad/oas_legit.jsonl.gz' to '/content/fp_in.jsonl.gz'
+[vllm_bench 20:25:55] unpack + pip (vllm 0.30.0 brings torch 2.13)
+STEP-OK 2130012570
+RC=0
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/commands/execution.py:227 in exec_command                      │
+│                                                                              │
+│   224 │   │   │   )                                                          │
+│   225 │   │   │   state.prune_session(name)                                  │
+│   226 │   │   │   raise typer.Exit(1)                                        │
+│ ❱ 227 │   │   raise e                                                        │
+│   228 │                                                                      │
+│   229 │   try:                                                               │
+│   230 │   │   is_nb = file and file.endswith(".ipynb")                       │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/commands/execution.py:217 in exec_command                      │
+│                                                                              │
+│   214 │   )                                                                  │
+│   215 │   try:                                                               │
+│   216 │   │   # Ensure we are in /content which is the standard Colab        │
+│       working directory                                                      │
+│ ❱ 217 │   │   runtime.execute_code(                                          │
+│   218 │   │   │   "import os; os.makedirs('/content', exist_ok=True);        │
+│       os.chdir('/content')"                                                  │
+│   219 │   │   )                                                              │
+│   220 │   except Exception as e:                                             │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/runtime.py:243 in execute_code                                 │
+│                                                                              │
+│   240 │   │   │   # execute_interactive returns the raw reply message        │
+│   241 │   │   │   reply_content = reply["content"] if reply else {"status":  │
+│       "error"}                                                               │
+│   242 │   │   else:                                                          │
+│ ❱ 243 │   │   │   reply = self.kernel_client.execute(code, **kwargs)         │
+│   244 │   │   │   if not reply:                                              │
+│   245 │   │   │   │   return []                                              │
+│   246 │   │   │   outputs = reply.get("outputs", [])                         │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/jupyter_kernel_client/client.py:287 in execute                           │
+│                                                                              │
+│   284 │   │   """                                                            │
+│   285 │   │   outputs = []                                                   │
+│   286 │   │   self._set_variables(variables)                                 │
+│ ❱ 287 │   │   reply = self._manager.client.execute_interactive(              │
+│   288 │   │   │   code,                                                      │
+│   289 │   │   │   silent=silent,                                             │
+│   290 │   │   │   store_history=store_history,                               │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/jupyter_kernel_client/wsclient.py:1073 in execute_interactive            │
+│                                                                              │
+│   1070 │   │   │   # wait for output and redisplay it                        │
+│   1071 │   │   │   while True:                                               │
+│   1072 │   │   │   │   if not self.connection_ready.is_set():                │
+│ ❱ 1073 │   │   │   │   │   raise RuntimeError("Connection was lost.")        │
+│   1074 │   │   │   │                                                         │
+│   1075 │   │   │   │   if timeout is not None:                               │
+│   1076 │   │   │   │   │   timeout = max(0, deadline - time.monotonic())     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+RuntimeError: Connection was lost.
+[vllm_bench 20:30:58] start of stage2 not confirmed, retrying
+STEP-OK 1541012378
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.0/8.0 MB 153.4 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 928.0/928.0 kB 66.2 MB/s eta 0:00:00
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+cudf-cu13 26.6.0 requires numba<0.65.0,>=0.60.0, but you have numba 0.65.0 which is incompatible.
+cuml-cu13 26.6.0 requires numba<0.65.0,>=0.60.0, but you have numba 0.65.0 which is incompatible.
+google-adk 2.7.1 requires opentelemetry-api<=1.42.1,>=1.39, but you have opentelemetry-api 1.45.1 which is incompatible.
+google-adk 2.7.1 requires opentelemetry-sdk<=1.42.1,>=1.39, but you have opentelemetry-sdk 1.45.1 which is incompatible.
+numba-cuda 0.28.2 requires cuda-core<1.0.0,>=0.5.1, but you have cuda-core 1.2.2 which is incompatible.
+[vllm_bench 20:35:01] stage merge
+STEP-OK 49621238
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Loading weights:  76%|███████▌  | 548/723 [00:00<00:00, 5476.45it/s]
+Loading weights: 100%|██████████| 723/723 [00:00<00:00, 5386.55it/s]
+
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]
+Writing model shards: 100%|██████████| 1/1 [00:23<00:00, 23.05s/it]
+Writing model shards: 100%|██████████| 1/1 [00:23<00:00, 23.05s/it]
+merged -> /content/merged
+[vllm_bench 20:36:41] stage fp
+STEP-OK 2459732372

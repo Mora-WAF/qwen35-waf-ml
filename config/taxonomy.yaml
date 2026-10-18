@@ -100,9 +100,9 @@ classes:
     quota: 1500
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "CR LF or encoded line breaks in a header value that inject extra response or request headers."
-    exclusions: ["Framing conflicts via Content-Length or Transfer-Encoding belong to http_request_smuggling", "Line breaks in form text bodies with no header context"]
-    required_evidence: ["Raw request-target or header value containing CR LF or encoded equivalents", "Response or header-set context where the injection lands", "Ordered header pairs preserved"]
+    scope: "CR LF or encoded line breaks in a header value that inject extra response or request headers, including mail-protocol injection (a value copied into an SMTP/IMAP command or mail header that adds commands or headers)."
+    exclusions: ["Framing conflicts via Content-Length or Transfer-Encoding belong to http_request_smuggling", "Line breaks in form text bodies with no header or mail-command context"]
+    required_evidence: ["Raw request-target, header or form value containing CR LF or encoded equivalents", "Response, header-set or mail-command context where the injection lands", "Ordered header pairs preserved"]
     precedence: {over: [], rule: "Yields to http_request_smuggling when the input manipulates request framing or parser disagreement."}
     benign_counterexamples: ["Multiline free-text notes stored with literal newlines", "Log message containing a line break in a support note"]
   ldap_xpath_injection:

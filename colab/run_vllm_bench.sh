@@ -40,6 +40,7 @@ up() { for _ in 1 2 3; do timeout 900 colab upload -s "$NAME" "$1" "$2" >>"$LOG"
 (cd "$S" && split -b 8m -d pkg.zip pkg.part. && sha256sum pkg.zip | cut -c1-64 > pkg.sha256)
 for f in "$S"/pkg.part.* "$S/pkg.sha256" "$S/sample.jsonl"; do up "$f" "/content/$(basename "$f")" || die "upload $(basename "$f")"; done
 up colab/vllm_bench.py /content/vllm_bench.py || die "upload script"
+if [ -n "${FP_IN:-}" ]; then up "$FP_IN" /content/fp_in.jsonl.gz || die "upload fp input"; fi  # gzip, < 10 MB
 # a long call can lose the CLI connection (01:58: "Connection was lost" during merge): every stage runs detached on
 # the VM and is polled with short calls, so a dropped connection costs one poll, not the stage
 RUNS=0
@@ -67,7 +68,13 @@ say "unpack + pip (vllm 0.30.0 brings torch 2.13)"
 run 600 "cd /content && cat pkg.part.* > pkg.zip && sha256sum pkg.zip | cut -c1-64 | cmp -s - pkg.sha256 && mkdir -p pkg && cd pkg && unzip -q -o ../pkg.zip" || die "unpack (checksum)"
 run 1500 "pip uninstall -y -q torchao; pip install -q vllm==0.30.0 transformers==5.17.0 peft==0.21.2 jsonschema" || die pip  # Colab torchao 0.10 breaks peft imports
 for st in ${STAGES:-merge:2400 hf:2400 vllm:2400 report:300}; do  # STAGES="merge:2400 vllm_gen:2400 report:300"
-  say "stage ${st%%:*}"; run "${st##*:}" "cd /content && python3 vllm_bench.py ${st%%:*}" || die "stage ${st%%:*} (see $LOG)"
+  say "stage ${st%%:*}"; run "${st##*:}" "cd /content && PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python3 vllm_bench.py ${st%%:*}" || die "stage ${st%%:*} (see $LOG)"
 done
-timeout 300 colab download -s "$NAME" /content/vllm_bench.json "reports/vllm_bench_$GPU.json" >>"$LOG" 2>&1 || die download
-say "done -> reports/vllm_bench_$GPU.json"; cat "reports/vllm_bench_$GPU.json"
+if [ -n "${FP_IN:-}" ]; then
+  timeout 600 colab download -s "$NAME" /content/fp_out.jsonl "${FP_OUT:-reports/benchmarks/openappsec_legit.results.jsonl}" >>"$LOG" 2>&1 || die "download fp"
+  say "done -> ${FP_OUT:-reports/benchmarks/openappsec_legit.results.jsonl}"
+fi
+case " ${STAGES:-report} " in *report*)
+  timeout 300 colab download -s "$NAME" /content/vllm_bench.json "reports/vllm_bench_$GPU.json" >>"$LOG" 2>&1 || die download
+  say "done -> reports/vllm_bench_$GPU.json"; cat "reports/vllm_bench_$GPU.json";;
+esac

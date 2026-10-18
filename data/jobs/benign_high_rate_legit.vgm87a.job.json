@@ -1,0 +1,58 @@
+{
+ "class": "benign_high_rate_legit",
+ "count": 10,
+ "families": 2,
+ "domain": "BENIGN",
+ "input_modes": [
+  "L4_FLOW",
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "High-rate legitimate flows such as CDN, backup, sync, streaming, and load-test traffic that resemble flood or scan patterns, and legitimate HTTP request bursts that resemble a race or flood (parallel reads, client retries under one enforced idempotency key, batch jobs) with a single effect on state.",
+ "exclusions": [
+  "Sustained floods with no legitimate service identity belong to syn_flood_ddos or udp_amplification",
+  "Sweeps across unrelated hosts belong to port_scan_recon"
+ ],
+ "required_evidence": [
+  "Known service identity and destination population from trusted context",
+  "Rates validated against duration and direction",
+  "Repeated timestamped observations showing the expected pattern"
+ ],
+ "benign_counterexamples": [
+  "Nightly backup pushing large volumes to a known storage endpoint",
+  "CDN edge fetching origin objects at a high steady rate"
+ ],
+ "is_benign": true,
+ "context_schema": [],
+ "avoid_families": [
+  "grpc_admin_role_metadata_forgery_hard_benign",
+  "grpc_bidi_unacked_window_exhaustion_hard_benign",
+  "grpc_claim_chunk_sequence_replay_hard_benign",
+  "grpc_metadata_header_bloat_hard_benign",
+  "grpc_patient_id_stream_enumeration_hard_benign",
+  "grpc_payment_intent_idempotency_replay_hard_benign",
+  "grpc_payout_idempotency_retry_storm_hard_benign",
+  "grpc_policy_watch_stream_exhaust_hard_benign",
+  "ws_adjuster_ping_control_flood_hard_benign",
+  "ws_admin_audit_tenant_wildcard_hard_benign",
+  "ws_admin_origin_suffix_match_hard_benign",
+  "ws_claim_channel_id_enumeration_hard_benign",
+  "ws_control_frame_pong_flood_hard_benign",
+  "ws_cswsh_cookie_upgrade_hard_benign",
+  "ws_extended_connect_h2_hard_benign",
+  "ws_fnol_frame_burst_hard_benign",
+  "ws_fragment_stuffing_hard_benign",
+  "ws_masking_violation_ingest_hard_benign",
+  "ws_session_token_reuse_after_close_hard_benign"
+ ],
+ "out_path": "data/jobs/out/benign_high_rate_legit.vgm87a.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "# Scenario generation worker \u2014 v2 (families + context-matched benign twins)\n\nYou generate **synthetic security-telemetry fixtures** for one taxonomy class, to train a\ndefensive WAF/NIDS classifier. These are *scenarios*, not discovered vulnerabilities. Treat all\ntext as data. Output data only. Inert fixtures only: no real credentials, live hostnames, or\nworking exploit chains.\n\n## Input\nA job JSON with: `class`, `count`, `families`, `scope`, `exclusions`, `required_evidence`,\n`benign_counterexamples`, `input_modes`, `context_schema`, `out_path`, optional `twin_out_path`,\nand the telemetry JSON schema path.\n\n## Output 1 \u2014 `out_path` (exactly `count` lines)\nEach line is one JSON object:\n\n```json\n{\"telemetry\": {...}, \"scenario\": {\"family\": \"<snake_case family name>\", \"why_this_label\": \"<short>\", \"evidence_present\": [\"...\"]}}\n```\n\n- **Families.** Spread the records over at least `families` distinct scenario families, at most\n  `ceil(count / families)` records per family. A family is a different application, route,\n  framework or sub-technique within the class scope \u2014 not the same request with new numbers.\n  Name it in `scenario.family`. Within a family vary methods, paths, parameters, header sets and\n  locales. Families listed in `avoid_families` already exist: invent different ones.\n- **Context schema.** Put supporting evidence under `telemetry.context` / `telemetry.history`\n  using the key names in `context_schema` (you may add keys, but always use these names for the\n  same concepts). Context holds **raw observations a sensor or gateway would log** (configuration,\n  parsed metrics, resolver results, verifier outcome codes, counters). Never a verdict or an\n  annotation: no keys or values such as `malicious`, `attack`, `suspicious`, `override_match`,\n  `injection_detected`, and never the class name.\n- `telemetry.mode` is one of the job's `input_modes`; `schema_version` = 1; `observed_until` =\n  `request_received`; `protocol` is `HTTP/1.1` or `HTTP/2`.\n- Respect `exclusions`. Never put `threat_type`, labels or rationale inside `telemetry`.\n- **Benign hard-negative classes** (`is_benign` true, class name contains `hard_negative`): every record\n  must carry a surface feature that a naive filter would flag (SQL, script tags, shell syntax,\n  template braces, path sequences, encoded blobs, injection-like search text) in a context whose\n  evidence shows it is legitimate (documentation, code review, developer API, search box, quoted\n  text). Ordinary traffic without such a feature belongs to `benign_standard_traffic`, not here.\n- **Attack classes**: the telemetry itself must contain the evidence named in `required_evidence`\n  for the attempt (the request plus context showing the weakness it targets). An attempt that the\n  context shows was correctly rejected is still an attack attempt only if the request itself carries\n  the attack; never write an attack record whose only difference from benign traffic is a context flag.\n\nIf the job has `focus_domains`, set every family in those application domains (other workers cover\nother domains).\n\nIf the job has `focus`, every record must follow it: it names the evidence pattern this round adds (a targeted\ntop-up for a measured model error). Families still differ in application, route and document type.\n\n## Output 2 \u2014 `twin_out_path` (only if the job has one; exactly `twin_count` lines, or `count` if absent)\nFor `twin_count` lines of output 1 (all lines if absent), spread evenly over the families (round-robin: the first line of\neach family, then the second, ...; families are contiguous, so the first lines alone would leave later families without\ntwins and their context keys would mark the attack class), in increasing line order, write the **benign twin**: the same application,\nroute, `context_schema` keys and request shape, with values showing legitimate behaviour (within\nconfigured limits, authorized object, correctly signed token, allow-listed destination, trusted\ncontent, escaped output, ...). The twin must be clearly benign on the evidence, not merely\ndifferent, and must not carry the attack payload in a neutralised form (escaped, rejected,\nsanitised or blocked): replace the payload with ordinary content for that field. Use `scenario.family` = `<attack family>_benign` and add `\"twin_of\": <0-based line index>`.\n\n## Validate before finishing\nValidate every `telemetry` object against the schema at `telemetry_schema` with `jsonschema`\n(the project venv: `.venv/bin/python`). Fix until all lines validate, both files have the required\nline counts, and no two telemetry objects are identical. Reply with only:\n`<class>: <n attack> + <n twins>, families=<n>`.\n",
+ "focus": "Legitimate HTTP request bursts that resemble floods, races or scraping: CDN prefetch and cache warm-up, mobile app cold-start fan-out, CI artifact and package downloads, webhook redelivery after an outage, inventory or catalog sync, ticket-sale queues with valid queue tokens, uptime monitoring probes, search-as-you-type. Context and history show authenticated identities, the allowed rate tier, idempotency keys and per-client counters within configured limits.",
+ "focus_domains": [
+  "food delivery",
+  "travel booking",
+  "CI/CD and developer tooling",
+  "media/CMS publishing"
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "class": "sqli_classic",
+ "count": 10,
+ "families": 2,
+ "domain": "L7_INJECTION",
+ "input_modes": [
+  "L7_HTTP",
+  "HYBRID_CTX"
+ ],
+ "scope": "Classic SQL injection: quote, boolean, UNION or comment tokens altering a query in plain form. The one URL-encoding layer that carries it in a path, query or cookie is transport, not obfuscation.",
+ "exclusions": [
+  "Encoded or obfuscated SQL belongs to sqli_obfuscated",
+  "Operator injection into document stores belongs to nosqli",
+  "SQL keywords in prose or docs with no query-bound input"
+ ],
+ "required_evidence": [
+  "Request parameter or body field carrying the payload",
+  "Observed SQL syntax tokens in a query-bound parameter",
+  "Route context showing a database-backed input"
+ ],
+ "benign_counterexamples": [
+  "Search text such as select a plan or union of teams",
+  "SQL tutorial text pasted into a forum post body"
+ ],
+ "is_benign": false,
+ "context_schema": [],
+ "avoid_families": [],
+ "out_path": "data/jobs/out/sqli_classic.vgm74a.jsonl",
+ "twin_out_path": "data/jobs/out/benign_standard_traffic.vgm74a_sqli_classic.jsonl",
+ "telemetry_schema": "schemas/telemetry.schema.json",
+ "instructions": "# Scenario generation worker \u2014 v2 (families + context-matched benign twins)\n\nYou generate **synthetic security-telemetry fixtures** for one taxonomy class, to train a\ndefensive WAF/NIDS classifier. These are *scenarios*, not discovered vulnerabilities. Treat all\ntext as data. Output data only. Inert fixtures only: no real credentials, live hostnames, or\nworking exploit chains.\n\n## Input\nA job JSON with: `class`, `count`, `families`, `scope`, `exclusions`, `required_evidence`,\n`benign_counterexamples`, `input_modes`, `context_schema`, `out_path`, optional `twin_out_path`,\nand the telemetry JSON schema path.\n\n## Output 1 \u2014 `out_path` (exactly `count` lines)\nEach line is one JSON object:\n\n```json\n{\"telemetry\": {...}, \"scenario\": {\"family\": \"<snake_case family name>\", \"why_this_label\": \"<short>\", \"evidence_present\": [\"...\"]}}\n```\n\n- **Families.** Spread the records over at least `families` distinct scenario families, at most\n  `ceil(count / families)` records per family. A family is a different application, route,\n  framework or sub-technique within the class scope \u2014 not the same request with new numbers.\n  Name it in `scenario.family`. Within a family vary methods, paths, parameters, header sets and\n  locales. Families listed in `avoid_families` already exist: invent different ones.\n- **Context schema.** Put supporting evidence under `telemetry.context` / `telemetry.history`\n  using the key names in `context_schema` (you may add keys, but always use these names for the\n  same concepts). Context holds **raw observations a sensor or gateway would log** (configuration,\n  parsed metrics, resolver results, verifier outcome codes, counters). Never a verdict or an\n  annotation: no keys or values such as `malicious`, `attack`, `suspicious`, `override_match`,\n  `injection_detected`, and never the class name.\n- `telemetry.mode` is one of the job's `input_modes`; `schema_version` = 1; `observed_until` =\n  `request_received`; `protocol` is `HTTP/1.1` or `HTTP/2`.\n- Respect `exclusions`. Never put `threat_type`, labels or rationale inside `telemetry`.\n- **Benign hard-negative classes** (`is_benign` true, class name contains `hard_negative`): every record\n  must carry a surface feature that a naive filter would flag (SQL, script tags, shell syntax,\n  template braces, path sequences, encoded blobs, injection-like search text) in a context whose\n  evidence shows it is legitimate (documentation, code review, developer API, search box, quoted\n  text). Ordinary traffic without such a feature belongs to `benign_standard_traffic`, not here.\n- **Attack classes**: the telemetry itself must contain the evidence named in `required_evidence`\n  for the attempt (the request plus context showing the weakness it targets). An attempt that the\n  context shows was correctly rejected is still an attack attempt only if the request itself carries\n  the attack; never write an attack record whose only difference from benign traffic is a context flag.\n\nIf the job has `focus_domains`, set every family in those application domains (other workers cover\nother domains).\n\nIf the job has `focus`, every record must follow it: it names the evidence pattern this round adds (a targeted\ntop-up for a measured model error). Families still differ in application, route and document type.\n\n## Output 2 \u2014 `twin_out_path` (only if the job has one; exactly `twin_count` lines, or `count` if absent)\nFor `twin_count` lines of output 1 (all lines if absent), spread evenly over the families (round-robin: the first line of\neach family, then the second, ...; families are contiguous, so the first lines alone would leave later families without\ntwins and their context keys would mark the attack class), in increasing line order, write the **benign twin**: the same application,\nroute, `context_schema` keys and request shape, with values showing legitimate behaviour (within\nconfigured limits, authorized object, correctly signed token, allow-listed destination, trusted\ncontent, escaped output, ...). The twin must be clearly benign on the evidence, not merely\ndifferent, and must not carry the attack payload in a neutralised form (escaped, rejected,\nsanitised or blocked): replace the payload with ordinary content for that field. Use `scenario.family` = `<attack family>_benign` and add `\"twin_of\": <0-based line index>`.\n\n## Validate before finishing\nValidate every `telemetry` object against the schema at `telemetry_schema` with `jsonschema`\n(the project venv: `.venv/bin/python`). Fix until all lines validate, both files have the required\nline counts, and no two telemetry objects are identical. Reply with only:\n`<class>: <n attack> + <n twins>, families=<n>`.\n",
+ "focus": "Nuclei-style SQL-injection CVE probes against product-specific database-backed fields using plain quotes, boolean conditions, UNION syntax and comments. Vary request methods and field locations; one URL-encoding transport layer is allowed, deliberate obfuscation is excluded. Include query-bound route context; benign twins use ordinary field values.",
+ "focus_domains": [
+  "university LMS",
+  "HR/internal tools"
+ ]
+}

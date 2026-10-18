@@ -117,6 +117,88 @@ Deployment and pipeline:
     only on flagged requests plus a sample, or async (shadow) scoring; (d) later, distil a small classifier from the
     LLM's labels for the inline tier. vLLM serving is not planned for now.
 
+### 18 October — KEV data rounds, review fixes, cached batch scorer (not trained; v10 stays the delivered model)
+
+- Cross-checks now run through the local OpenAI-compatible proxy (`.env`: `base_api`, `GEMINI_API_KEY`):
+  `cx/gpt-6.1-sol` (+ `reasoning_effort` = `XM_EFFORT`) and `ag/gemini-3.8-flash-medium` (`xmodel_run both`). New
+  `subagents/gen_http.py`: generation through the same proxy (job spec + scenario_v2 prompt, schema/count/twin checks,
+  never overwrites a raw file). Round tag `vgm` → generator `gemini-3.8-flash` (holdout treats it like the others).
+- Data (raw outputs, blind-reviewed by Sol + Flash, keys locked):
+  - `vsn41` rce_cmd_injection (appliance diagnostics, argument injection) 40 + 40 twins; `vsn42` deserialization 40 + 40.
+    Sonnet 5.5 workers; both reviewers 80/80 each. The same Sonnet workers for ssti (`vsn43`) and path traversal
+    (`vsn44`) were stopped by a safety classifier and wrote nothing.
+  - `vcx43` / `vgm43` ssti and `vcx44` / `vgm44` path_traversal_lfi, 20 + 20 each (Sol / Gemini). Review `sn7`: Flash
+    160/160, Sol disputes 2 attacks (→ rce) → quarantined. Quality caveats: Sol's log4j family has no JNDI lookup
+    (env/lower lookups only) and its traversal targets carry a `fixture-` prefix (not flagged by the shortcut audit:
+    `fixture-` is common in attack and benign records alike).
+- Fixes: `orchestrator.canonicalize` rewrites the attack-only placeholder hosts `attacker.example` / `evil.example`
+  (19 records) to neutral hosts; `normalize_headers` keeps a generic header (User-Agent, Accept-Language, ...) that
+  carries injection syntax (5 ingested attacks had lost their only evidence: Log4j / Shellshock in the User-Agent);
+  `review.apply_hn` counts every reviewer (the second reviewer's file overwrote the first one's answers; no
+  attack-label dispute was lost in earlier rounds, checked); `export_hn` takes comma-separated round tags.
+- Scorer: `colab_helpers.batch_class_logprobs` (left-padded prefill + class suffixes from the replicated per-record
+  cache, no prompt recomputation), equal to `class_logprobs` on a tiny random Qwen3.5 on CPU
+  (`tests/test_scorer.py`); added to `colab/vllm_bench.py hf` and to the endpoint package (`deploy.sh` copies
+  `colab_helpers.py`). v10 bundle kept as `colab/colab_bundle_fast_v10.zip` (deploy + bench read it).
+- Rebuild (all rounds above): gate passed; shortcut audit: only `hdr=` concentrated in http_request_smuggling (34).
+- Weakness scan (v10): in-distribution accuracy ≥ 0.95 except dns_tunneling_exfil unseen (fixed in code),
+  benign_high_rate_legit unseen 0.855, jwt_auth_bypass unseen 0.912. GoTestWAF: Base64 is the gap (SQLi 0.04,
+  NoSQL 0.00, LDAP 0.08, Shell 0.19, XSS 0.25 blocked; fixed in code, needs training); URL-encoded XSS 0.88,
+  SSTI 0.83, NoSQL 0.88; Mail injection (IMAP/SMTP) has no class.
+- Still missing (data): Log4Shell / JNDI lookups (4 records), JWT / BFLA / BOLA records from real CVE requests,
+  CVE-request coverage in general. Source check: `raw_cache/nuclei_templates` (4,381 CVE templates, pinned, unused)
+  covers rce 829, auth bypass 983, traversal 779, sqli 492, xss 1,057, ssrf 178, upload 187, deserialization 101,
+  ssti 51, xxe 40, bola 25, jwt 12 templates; a converter was not written (safety classifier). The focus texts for
+  these rounds have to come from the user. Also open: mail-injection class decision, training the next version.
+
+### 18 October, later — user specs, NoSQL/SOAP/mail/high-rate rounds, build passed (not trained)
+
+- User-written focus specs (Log4Shell/JNDI, JWT, BFLA, BOLA, 12 nuclei-style CVE classes, vsn51–53) run through
+  `subagents.gen_http`, split Sol (`vcx61`–`vcx81`, 20 + 20) / Gemini (`vgm61`–`vgm81`, 10 + 10 halves: Gemini cuts
+  long outputs at ~20 lines). Own specs: NoSQL (`vcx82`/`vgm82`), SOAP-carried sqli/xss/rce (`vcx83`–`85`), mail-protocol
+  injection → `crlf_header_injection` (`vcx86`, taxonomy scope widened, GoTestWAF "Mail Injection" mapped to crlf),
+  benign high-rate HTTP bursts (`vcx87`/`vgm87`, no twins). `vgm81c` (Gemini JWT nuclei half) returned nothing 3 times.
+- Quality: `gen_http` rejects near-duplicate output (distinct near-dup shapes < 0.8); ingest drops `X-Fixture-*`
+  headers (Sol marker header, balanced attack/benign); sweep quarantined 44 (38 near-dup surplus of templated Gemini
+  halves `vgm67a`/`vgm80b`, artifact words that survive ingest) + 7 records naming their class in telemetry (gate
+  caught 4). `sqli_classic` added to `orchestrator.EXTRA_INGEST` (worker rounds of that class were never ingested).
+- Review `sn8` (1,990 items, Sol + Flash via proxy): Sol 0.978, Flash 0.946 agreement; 25 quarantined (vcx77 deser
+  9 → hard negative: Sol's own over-sanitised records; vcx83 SOAP sqli 7 → obfuscated), 2 relabels.
+- Flow: two short full-download benign variants (`os_patch_download`, `game_patch_download`; names hash above the
+  held-out `software_update_cdn`, which stays held out), test `test_short_benign_downloads_survive_variant_holdout`.
+- Policy: tier-0 scanner rule (`config/policy.yaml` `scanner_user_agents`, `eval.policy.scanner_tool`): a benign
+  verdict with a scanner User-Agent → ABSTAIN / log_and_monitor, `tier0_scanner_<tool>`; attack verdicts unchanged
+  (the decision schema allows RATE_LIMIT only with an attack class). Endpoint passes headers. User decisions: keep both
+  sqli classes; mail injection → crlf.
+- Build: 52,673 records, gate passed; shortcut audit unchanged (`hdr=` smuggling 34), surface-only NB 0.417;
+  TF-IDF SVM test 0.938 / unseen 0.896. Class counts vs v10 grow where the rounds went (benign_standard +1,359,
+  jwt +191, bola +124, bfla +120, ...); no silent drops at the token budget.
+- Scorer (Colab L4, 400 test records): per-record 3.52 rec/s, cached batch (`batch_class_logprobs`) 4.17 / 3.95 / 3.71
+  at batch 4 / 8 / 16, old batched 0.73, vLLM generation 10.57. Agreement with the A100 scores: rerun `vllmbench5`
+  (the first report was lost: `run_vllm_bench.sh` was edited while it ran).
+- Found: open-appsec's 10,380 legitimate requests were never scored (no real-traffic false-positive rate for v10);
+  scoring v10 on Colab L4 (`fpv10`, `colab/vllm_bench.py fp`, the endpoint's own predict_fn).
+- Gemma 4 E2B-it on TPU v5e-1 (user request): JAX + Tunix chosen (Tunix has `gemma4_e2b_it` with PLE and KV sharing
+  and an HF safetensors loader; PyPI 0.1.7 lacks `skip_lm_head` → tunix main `ba95987`, qwix 0.1.8).
+  `training/gemma_tpu/data.py` (Gemma template + control strings, buckets 512/1024/2048: train 23,945/11,785/900,
+  7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
+  the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
+
+### 18 October, 22:15 — v10 on real legitimate traffic (open-appsec, partial) and the over-budget gap
+
+- `fpv10` (Colab L4, the endpoint's predict_fn + frozen policy_v10), first 6,944 of 10,380 legitimate browsing requests:
+  ALLOW 6,023, ABSTAIN 498 (low_confidence 472, insufficient_evidence 26), **BLOCK 34 (0.49%)** (graphql_abuse 9,
+  ssti 6, path_traversal 5, rce 4, xss 3, sqli_obfuscated 3, crlf 3), and **389 (5.6%) with no decision**:
+  "does not fit the 2048-token budget even when fitted".
+- Cause: ~72 cookies per request (max 89). `prepare.fit_budget` keeps every cookie twice (the parsed `cookies` list and
+  the rebuilt `Cookie` header, which is not capped like other headers); at the tightest cap (8 characters per value)
+  the cookie names and values alone are ~1,050 tokens.
+- Now (user decision): a request that fits no budget gets ABSTAIN / log_and_monitor, rule `over_token_budget`
+  (`eval.policy.over_budget_decision`, used by the endpoint; v10's frozen policy has no key, the default applies).
+- **Next build (not done, sensor contract change, needs a retrain):** in `fit_budget`, cap the `Cookie` header like
+  every other header (the parsed pairs carry the values) and add a last fit level that keeps the first 48 cookies
+  (+ a count of dropped ones); then rebuild `truncation_augment` records accordingly, rescore open-appsec.
+
 ### v10 deployed to SageMaker — 17 October 00:19 (`deploy/`)
 
 - Endpoint `qwen35-waf-v10` (us-east-1, `ml.g5.xlarge`, A10G 24 GB; `ml.g6.xlarge` failed with

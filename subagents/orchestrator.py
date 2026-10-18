@@ -34,7 +34,10 @@ EXTRA_INGEST = ["benign_standard_traffic",  # context-matched benign counterpart
                 "benign_high_rate_legit",  # hard twins of rate-lookalike classes (prompt hard_twins_v1.md)
                 # Codex scenario families for seeded classes (round vcx): named families make test_unseen possible
                 "crlf_header_injection", "http_request_smuggling", "ldap_xpath_injection", "nosqli", "open_redirect_cors",
-                "path_traversal_lfi", "rce_cmd_injection", "ssti", "xss_dom_polyglot"]
+                "path_traversal_lfi", "rce_cmd_injection", "ssti", "xss_dom_polyglot",
+                "sqli_classic"]  # 18 Oct: nuclei-style and SOAP rounds (vcx74/vgm74, SOAP round) were not ingested
+# injection syntax in a generic header: the header is the payload carrier, so it survives normalize_headers
+HEADER_PAYLOAD = re.compile(r"\$\{|\(\)\s*\{|[<>`]|\$\(|\.\./|%[0-9a-fA-F]{2}|\|\s*[a-z]")
 GENERIC_HEADERS = {"host", "user-agent", "accept", "accept-language", "accept-encoding", "connection",
                    "dnt", "upgrade-insecure-requests"}  # + sec-fetch-* / sec-ch-ua*
 
@@ -294,9 +297,12 @@ def normalize_headers(tel, key):
     if not h:
         return tel
     r = rng_for("hdr:" + key)
-    keep = [kv for kv in h["headers"] if kv[0].lower() not in GENERIC_HEADERS
-            and not kv[0].lower().startswith(("sec-fetch-", "sec-ch-ua"))]
-    h["headers"] = _headers(r, r.choice(HOSTS)) + keep
+    keep = [kv for kv in h["headers"] if (kv[0].lower() not in GENERIC_HEADERS
+            and not kv[0].lower().startswith(("sec-fetch-", "sec-ch-ua")))
+            or (kv[0].lower() != "host" and HEADER_PAYLOAD.search(str(kv[1])))]  # the evidence itself (Log4j UA, Shellshock)
+    keep = [kv for kv in keep if not kv[0].lower().startswith("x-fixture")]  # generator marker headers (18 Oct, Sol)
+    kept = {k.lower() for k, _ in keep}
+    h["headers"] = [kv for kv in _headers(r, r.choice(HOSTS)) if kv[0].lower() not in kept] + keep
     return tel
 
 

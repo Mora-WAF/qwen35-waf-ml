@@ -179,7 +179,10 @@ def predict_fn(data, st):
     for n, tel in enumerate(records):  # malformed telemetry fails alone: the policy's own abstain, never a guess
         try:
             ws = P.budget_windows(tel, lambda x: len(_prompt_ids(st, json.loads(json.dumps(x)))))
-            assert ws, f"does not fit the {P.MAX_TOKENS}-token budget even when fitted"
+            if not ws:  # fits no budget even when fitted (5.6% of open-appsec browsing traffic, ~72 cookies): monitor
+                out[n] = {"decision": POL.over_budget_decision(pol), "diagnostics": {"reason": "over_budget"},
+                          "truncated": True, "windows": 0}
+                continue
             prompts += ws
             owner += [n] * len(ws)
         except Exception as e:
@@ -199,7 +202,8 @@ def predict_fn(data, st):
         i = int(p.argmax())
         raw = json.dumps({"threat_type": st["classes"][i]}, separators=(",", ":"))
         feats = (tel.get("flow") or {}).get("features")
-        d, diag = POL.decide(raw, tel.get("mode"), tel.get("context"), float(p[i]), st["tax"], pol, feats)
+        d, diag = POL.decide(raw, tel.get("mode"), tel.get("context"), float(p[i]), st["tax"], pol, feats,
+                             (tel.get("http") or {}).get("headers"))
         top = sorted(zip(st["classes"], p.tolist()), key=lambda kv: -kv[1])[:3]
         out[n] = {"decision": d, "diagnostics": diag, "top": [[c, round(v, 6)] for c, v in top],
                   "windows": owner.count(n), "truncated": bool(tel.get("truncated")), "latency_s": round(per, 3)}

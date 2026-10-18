@@ -76,14 +76,19 @@ def hf():
     msgs = [[{"role": "system", "content": P.system_prompt()},
              {"role": "user", "content": P.serialize_telemetry(t, st["controls"])}] for t in tels]
     cached, t_cached = {}, {}
-    for b in (8, 16, 32):
-        H.batch_class_logprobs(model, tok, msgs[:b], st["suf"], batch=b)  # warm-up at this shape
-        torch.cuda.synchronize()
-        t0 = time.time()
-        cached[b] = H.batch_class_logprobs(model, tok, msgs, st["suf"], batch=b)
-        torch.cuda.synchronize()
-        t_cached[b] = time.time() - t0
-        print(f"hf cached batch {b}: {len(tels) / t_cached[b]:.2f} rec/s", flush=True)
+    for b in (4, 8, 16):  # 18 Oct: batch 32 ran out of memory on the L4 (22 GB) in this stage
+        try:
+            H.batch_class_logprobs(model, tok, msgs[:b], st["suf"], batch=b, max_rows=32)  # warm-up at this shape
+            torch.cuda.synchronize()
+            t0 = time.time()
+            cached[b] = H.batch_class_logprobs(model, tok, msgs, st["suf"], batch=b, max_rows=32)
+            torch.cuda.synchronize()
+            t_cached[b] = time.time() - t0
+            print(f"hf cached batch {b}: {len(tels) / t_cached[b]:.2f} rec/s", flush=True)
+        except torch.OutOfMemoryError:
+            cached.pop(b, None)
+            print(f"hf cached batch {b}: out of memory", flush=True)
+            torch.cuda.empty_cache()
     json.dump({"seq": seq, "batched": bat, "t_seq": t_seq, "t_batched": t_bat, "cached": cached, "t_cached": t_cached,
                "gpu": torch.cuda.get_device_name(),
                "kernels": {m: m in sys.modules for m in ("fla", "causal_conv1d")}}, open(f"{OUT}/hf_scores.json", "w"))
@@ -184,6 +189,38 @@ def vllm_gen(K=20):
     print(f"vllm_gen {len(tels) / t:.2f} rec/s")
 
 
+def fp():
+    """Real-traffic false positives: the endpoint's own predict_fn (sensor windows + frozen policy) on the open-appsec
+    legitimate requests in /content/fp_in.jsonl.gz -> /content/fp_out.jsonl (resumable: done ids are skipped)."""
+    import gzip
+    import torch
+    import yaml  # noqa: F401
+    from pathlib import Path as _P
+    from transformers import AutoTokenizer, Qwen3_5ForConditionalGeneration
+    from eval import policy as POL
+    from training import colab_helpers as H, prepare as P
+    import inference as I
+    tok = AutoTokenizer.from_pretrained(f"{OUT}/merged")
+    model = Qwen3_5ForConditionalGeneration.from_pretrained(f"{OUT}/merged", dtype=torch.bfloat16, device_map="cuda").eval()
+    tax, pol, _ = POL.load(_P(f"{PKG}/code"))
+    classes = list(tax["classes"])
+    st = {"model": model, "tok": tok, "tax": tax, "pol": pol, "classes": classes, "selfcheck_max_diff": None,
+          "suf": H.candidate_suffixes(tok, classes), "controls": P.control_strings(tok)}
+    out_p = f"{OUT}/fp_out.jsonl"
+    done = {json.loads(x)["id"] for x in open(out_p)} if os.path.exists(out_p) else set()
+    recs = [r for r in map(json.loads, gzip.open(f"{OUT}/fp_in.jsonl.gz", "rt")) if r["id"] not in done]
+    t0 = time.time()
+    with open(out_p, "a") as fh:
+        for i in range(0, len(recs), 16):
+            chunk = recs[i:i + 16]
+            res = I.predict_fn(([r["telemetry"] for r in chunk], "sequential"), st)["results"]
+            for r, x in zip(chunk, res):
+                fh.write(json.dumps({"id": r["id"], **x}) + "\n")
+            fh.flush()
+            if i % 800 == 0:
+                print(f"fp {len(done) + i + len(chunk)} done, {(i + len(chunk)) / (time.time() - t0):.2f} rec/s", flush=True)
+
+
 def report():
     import numpy as np
     recs = records()
@@ -226,4 +263,4 @@ def report():
 
 
 if __name__ == "__main__":
-    {"merge": merge, "hf": hf, "vllm": vllm, "vllm_gen": vllm_gen, "report": report}[sys.argv[1]]()
+    {"merge": merge, "hf": hf, "vllm": vllm, "vllm_gen": vllm_gen, "fp": fp, "report": report}[sys.argv[1]]()

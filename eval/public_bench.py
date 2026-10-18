@@ -41,7 +41,8 @@ ATTACK = "attack"  # expected label for an attack outside the taxonomy (any atta
 GTW_TYPES = {"SQL Injection": ["sqli_classic", "sqli_obfuscated"], "XSS": ["xss_reflected_stored", "xss_dom_polyglot"],
              "RCE": ["rce_cmd_injection"], "Shell": ["rce_cmd_injection"], "Path Traversal": ["path_traversal_lfi"],
              "LFI": ["path_traversal_lfi"], "LDAP Injection": ["ldap_xpath_injection"], "NoSQL Injection": ["nosqli"],
-             "SST Injection": ["ssti"], "CRLF Injection": ["crlf_header_injection"], "XXE": ["xxe"]}
+             "SST Injection": ["ssti"], "CRLF Injection": ["crlf_header_injection"], "XXE": ["xxe"],
+             "Mail Injection": ["crlf_header_injection"]}  # 18 Oct: mail-protocol injection mapped to crlf (user decision)
 OAS_TYPES = {"sqli": GTW_TYPES["SQL Injection"], "xss": GTW_TYPES["XSS"], "cmdexe": ["rce_cmd_injection"],
              "traversal": ["path_traversal_lfi"], "xxe": ["xxe"], "log4shell": ATTACK, "shellshock": ATTACK}
 UNSW_TYPES = {"Reconnaissance": ["port_scan_recon"],

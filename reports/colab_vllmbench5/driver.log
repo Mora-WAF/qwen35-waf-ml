@@ -1,0 +1,79 @@
+selfcheck: [('haiku:ssrf_cloud_metadata:000058', 'L7_HTTP'), ('haiku:ssrf_cloud_metadata:000089', 'HYBRID_CTX'), ('gen:flow:syn_flood_ddos:000288', 'L4_FLOW'), ('gen:flow:syn_flood_ddos:000386', 'L4_FLOW'), ('gen:flow:syn_flood_ddos:000487', 'L4_FLOW')]
+[deploy 20:29:45] package 79M
+[deploy 20:29:45] PACKAGE_ONLY -> /tmp/tmp.kjmVnP3gBs/model.tar.gz
+[vllm_bench 20:29:50] new L4 session vllmbench5
+[colab] Creating session 'vllmbench5'...
+[colab] Session READY.
+GPU 0: NVIDIA L4 (UUID: GPU-919bd73a-7e03-7e47-d4a2-dd027a51662f)
+
+STEP-OK 2461725925
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.00' to '/content/pkg.part.00'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.01' to '/content/pkg.part.01'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.02' to '/content/pkg.part.02'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.03' to '/content/pkg.part.03'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.04' to '/content/pkg.part.04'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.05' to '/content/pkg.part.05'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.06' to '/content/pkg.part.06'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.07' to '/content/pkg.part.07'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.08' to '/content/pkg.part.08'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.part.09' to '/content/pkg.part.09'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/pkg.sha256' to '/content/pkg.sha256'
+[colab] Uploaded '/tmp/tmp.kjmVnP3gBs/sample.jsonl' to '/content/sample.jsonl'
+[colab] Uploaded 'colab/vllm_bench.py' to '/content/vllm_bench.py'
+[vllm_bench 20:31:20] unpack + pip (vllm 0.30.0 brings torch 2.13)
+STEP-OK 1141510256
+RC=0
+STEP-OK 874016034
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.0/8.0 MB 160.7 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 928.0/928.0 kB 62.3 MB/s eta 0:00:00
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+cudf-cu13 26.6.0 requires numba<0.65.0,>=0.60.0, but you have numba 0.65.0 which is incompatible.
+cuml-cu13 26.6.0 requires numba<0.65.0,>=0.60.0, but you have numba 0.65.0 which is incompatible.
+google-adk 2.7.1 requires opentelemetry-api<=1.42.1,>=1.39, but you have opentelemetry-api 1.45.1 which is incompatible.
+google-adk 2.7.1 requires opentelemetry-sdk<=1.42.1,>=1.39, but you have opentelemetry-sdk 1.45.1 which is incompatible.
+numba-cuda 0.28.2 requires cuda-core<1.0.0,>=0.5.1, but you have cuda-core 1.2.2 which is incompatible.
+[vllm_bench 20:35:55] stage merge
+STEP-OK 2923425235
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Loading weights:  64%|██████▍   | 462/723 [00:00<00:00, 4615.27it/s]
+Loading weights: 100%|██████████| 723/723 [00:00<00:00, 4732.57it/s]
+
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]
+Writing model shards: 100%|██████████| 1/1 [00:22<00:00, 22.85s/it]
+Writing model shards: 100%|██████████| 1/1 [00:22<00:00, 22.85s/it]
+merged -> /content/merged
+[vllm_bench 20:37:38] stage hf
+STEP-OK 248573355
+Loading weights:  97%|█████████▋| 698/723 [00:02<00:00, 799.31it/s]
+Loading weights: 100%|██████████| 723/723 [00:02<00:00, 313.90it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+hf cached batch 4: 4.27 rec/s
+hf cached batch 8: 4.04 rec/s
+hf cached batch 16: 3.79 rec/s
+hf sequential 3.56 rec/s, batched 0.75 rec/s
+[vllm_bench 20:54:41] stage vllm_gen
+STEP-OK 214311366
+INFO 10-18 20:00:35 [hf.py:642] Detected the chat template content format to be 'openai'. You can set `--chat-template-content-format` to override this.
+(EngineCore pid=8609) WARNING 10-18 20:00:35 [jit_monitor.py:141] Triton kernel JIT compilation during inference: _topk_log_softmax_kernel. This causes a latency spike; consider extending warmup to cover this shape/config.
+vllm_gen 12.07 rec/s
+INFO 10-18 20:01:09 [utils.py:632] [shutdown] Process manager: send sigterm to process EngineCore
+(EngineCore pid=8609) INFO 10-18 20:01:09 [core.py:1342] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=8609) INFO 10-18 20:01:09 [core.py:1493] [shutdown] EngineCore: start mode=abort timeout=0s
+(EngineCore pid=8609) INFO 10-18 20:01:09 [core.py:1524] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=8609) INFO 10-18 20:01:09 [core.py:1355] [shutdown] EngineCore: exiting busy loop
+[vllm_bench 21:01:51] stage report
+STEP-OK 239146981
+  }
+ },
+ "gpu": "NVIDIA L4",
+ "hf_kernels": {
+  "fla": false,
+  "causal_conv1d": false
+ }
+}
+[colab] Downloaded '/content/vllm_bench.json' to 'reports/vllm_bench_L4.json'
+[vllm_bench 21:02:55] done -> reports/vllm_bench_L4.json
+[colab] Stopping session 'vllmbench5'...
+[colab] Session terminated.
+[fpv10] gpu-l4-s-kkb-ass1b0-3q1rtubjyyp0r | Hardware: L4 | Shape: Standard | Variant: GPU

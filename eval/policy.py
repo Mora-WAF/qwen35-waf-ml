@@ -6,6 +6,7 @@ missing/insufficient calibrated confidence, or ineligible alternative actions.
 """
 import json
 import math
+import re
 from pathlib import Path
 
 import jsonschema
@@ -40,12 +41,22 @@ def outside_envelope(features, env):
     return any(k in features and not float(lo) <= features[k] <= float(hi) for k, (lo, hi) in env.items())
 
 
-def decide(raw, mode, context, confidence, tax, pol, flow_features=None):
+def scanner_tool(headers, pol):
+    """Tier-0: the scanner token in the User-Agent (config/policy.yaml scanner_user_agents), or None."""
+    ua = next((str(v).lower() for k, v in headers or [] if str(k).lower() == "user-agent"), "")
+    return next((t for t in pol.get("scanner_user_agents") or [] if re.search(rf"\b{re.escape(t)}\b", ua)), None)
+
+
+def decide(raw, mode, context, confidence, tax, pol, flow_features=None, headers=None):
     """Returns (decision, diagnostics). `confidence` is the calibrated probability of the
-    emitted class, or None when calibration is unavailable. `flow_features`: telemetry flow.features, if any."""
+    emitted class, or None when calibration is unavailable. `flow_features`: telemetry flow.features, if any.
+    `headers`: telemetry http.headers, for the tier-0 scanner rule (a benign verdict becomes log_and_monitor)."""
     classes, rc = tax["classes"], pol["reason_codes"]
     cls = parse_output(raw, classes)
     diag = {"tentative_class": cls, "reason": None}
+    tool = scanner_tool(headers, pol)
+    if tool:
+        diag["scanner_user_agent"] = tool
 
     def abstain(reason):
         diag["reason"] = reason
@@ -69,6 +80,10 @@ def decide(raw, mode, context, confidence, tax, pol, flow_features=None):
     if cls == "benign_standard_traffic" and flow_features and outside_envelope(flow_features, pol.get("flow_envelope") or {}):
         return abstain("out_of_envelope")
 
+    if spec["is_benign"] and tool:  # tier-0: a scanner is not passed as ordinary traffic, nor blocked on the name
+        diag["reason"] = "scanner_user_agent"  # (the schema allows RATE_LIMIT only with an attack class: monitor)
+        return {"verdict": "ABSTAIN", "domain": "UNKNOWN", "threat_type": "unknown", "confidence": None,
+                "action": "log_and_monitor", "rule_hint": f"tier0_scanner_{re.sub(r'[^a-z0-9_]', '_', tool)}"[:48]}, diag
     if spec["is_benign"]:
         verdict, hint = "ALLOW", rc["allow"]
     else:
@@ -82,6 +97,12 @@ def decide(raw, mode, context, confidence, tax, pol, flow_features=None):
     return {"verdict": verdict, "domain": spec["domain"], "threat_type": cls,
             "confidence": float(confidence), "action": VERDICT_ACTION[verdict],
             "rule_hint": hint}, diag
+
+
+def over_budget_decision(pol):
+    """A request the sensor cannot fit into the token budget is never guessed: log and monitor (18 Oct)."""
+    return {"verdict": "ABSTAIN", "domain": "UNKNOWN", "threat_type": "unknown", "confidence": None,
+            "action": "log_and_monitor", "rule_hint": pol["reason_codes"].get("over_budget", "over_token_budget")}
 
 
 def validate_decision(d, tax, schema):

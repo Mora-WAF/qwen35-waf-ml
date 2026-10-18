@@ -2,10 +2,10 @@
  "mode": "fast",
  "per_class": 40,
  "quota_fraction": 0.25,
- "total": 50757,
+ "total": 52673,
  "dropped_exact_dup": 73,
  "rejected_token_overflow": {
-  "graphql_abuse": 59,
+  "graphql_abuse": 58,
   "jwt_auth_bypass": 8,
   "websocket_grpc_abuse": 37,
   "benign_standard_traffic": 29,
@@ -13,20 +13,20 @@
  },
  "files": {
   "fast_train.jsonl": {
-   "records": 35340,
-   "sha256": "fbab85c3dcd18c6b10586bb468753dbe88ec10a7d6b5e4377cedc24a53e35eb8"
+   "records": 36636,
+   "sha256": "e2f627947ceba2229b6b5815036aaf45760e66a6847ecb2209587422b7ba68f8"
   },
   "fast_val.jsonl": {
-   "records": 5572,
-   "sha256": "f311d0fe380af3da7d52c27faae4ee224d904e460c1fadab36d76e2710b4960b"
+   "records": 5779,
+   "sha256": "5950615457136018f9a06ae28d6323dcf2300ea9556156fe271e32dfd4b3f647"
   },
   "fast_test.jsonl": {
-   "records": 4368,
-   "sha256": "4a288d4e9022690f9b300beebd0d82bbe52e797019d872aab514dcb8a6e003d0"
+   "records": 4599,
+   "sha256": "4613dc97ee9deadcf61ccf25508263bf856cb3eb87db0afc290efe9dd1d10b03"
   },
   "fast_test_unseen.jsonl": {
-   "records": 5477,
-   "sha256": "2893cedde4976e490a4da163f1a115b47da6bca70fa4dd89fe1e4926f65db0fe"
+   "records": 5659,
+   "sha256": "25c1e2aa3f4c82172f4723ea22368d8b2960d76f93926133186044803d43841e"
   }
  },
  "deficits": {
@@ -79,7 +79,7 @@
  "haiku_jobs": {
   "ssrf_cloud_metadata": {
    "status": "ok",
-   "accepted": 1162,
+   "accepted": 1202,
    "rejected": 0,
    "quarantined_by_review": 22
   },
@@ -91,15 +91,15 @@
   },
   "jwt_auth_bypass": {
    "status": "ok",
-   "accepted": 1198,
+   "accepted": 1309,
    "rejected": 0,
-   "quarantined_by_review": 266
+   "quarantined_by_review": 270
   },
   "bola_idor_enumeration": {
    "status": "ok",
-   "accepted": 885,
+   "accepted": 1009,
    "rejected": 0,
-   "quarantined_by_review": 11
+   "quarantined_by_review": 27
   },
   "websocket_grpc_abuse": {
    "status": "ok",
@@ -127,9 +127,9 @@
   },
   "deserialization": {
    "status": "ok",
-   "accepted": 729,
+   "accepted": 756,
    "rejected": 0,
-   "quarantined_by_review": 83
+   "quarantined_by_review": 96
   },
   "csv_formula_injection": {
    "status": "ok",
@@ -145,7 +145,7 @@
   },
   "bfla_admin_function_probing": {
    "status": "ok",
-   "accepted": 616,
+   "accepted": 736,
    "rejected": 0,
    "quarantined_by_review": 0
   },
@@ -157,7 +157,7 @@
   },
   "malicious_file_upload_webshell": {
    "status": "ok",
-   "accepted": 693,
+   "accepted": 733,
    "rejected": 0,
    "quarantined_by_review": 23
   },
@@ -181,31 +181,31 @@
   },
   "benign_standard_traffic": {
    "status": "ok",
-   "accepted": 7240,
+   "accepted": 8188,
    "rejected": 0,
-   "quarantined_by_review": 602
+   "quarantined_by_review": 629
   },
   "xss_reflected_stored": {
    "status": "ok",
-   "accepted": 120,
+   "accepted": 197,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 3
   },
   "xxe": {
    "status": "ok",
-   "accepted": 112,
+   "accepted": 150,
    "rejected": 0,
-   "quarantined_by_review": 8
+   "quarantined_by_review": 10
   },
   "benign_high_rate_legit": {
    "status": "ok",
-   "accepted": 100,
+   "accepted": 139,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 1
   },
   "crlf_header_injection": {
    "status": "ok",
-   "accepted": 295,
+   "accepted": 335,
    "rejected": 0,
    "quarantined_by_review": 5
   },
@@ -223,7 +223,7 @@
   },
   "nosqli": {
    "status": "ok",
-   "accepted": 199,
+   "accepted": 239,
    "rejected": 0,
    "quarantined_by_review": 1
   },
@@ -235,27 +235,33 @@
   },
   "path_traversal_lfi": {
    "status": "ok",
-   "accepted": 239,
+   "accepted": 279,
    "rejected": 0,
    "quarantined_by_review": 1
   },
   "rce_cmd_injection": {
    "status": "ok",
-   "accepted": 280,
+   "accepted": 360,
    "rejected": 0,
    "quarantined_by_review": 0
   },
   "ssti": {
    "status": "ok",
-   "accepted": 143,
+   "accepted": 221,
    "rejected": 0,
-   "quarantined_by_review": 97
+   "quarantined_by_review": 99
   },
   "xss_dom_polyglot": {
    "status": "ok",
    "accepted": 199,
    "rejected": 0,
    "quarantined_by_review": 1
+  },
+  "sqli_classic": {
+   "status": "ok",
+   "accepted": 73,
+   "rejected": 0,
+   "quarantined_by_review": 7
   }
  },
  "cross_split_overlap": 0,

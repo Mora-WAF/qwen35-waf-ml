@@ -479,6 +479,10 @@ FLOW_PROFILES = {
                                        # sibling download regimes: no benign behaviour rests on a single variant
                                        dict(name="backup_restore_download", ports=[443, 22], window="full_flow", dur=(300, 3600), pkts=(20000, 500000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
                                        dict(name="mirror_sync_pull", ports=[80, 443, 873], window="full_flow", dur=(600, 3600), pkts=(50000, 900000), bytes_per_pkt=(1300, 1460), fwd_frac=(0.04, 0.15), syn_frac=(0.0, 0.01)),
+                                       # short full downloads (18 Oct: held-out software_update_cdn 9/61 -> benign_standard;
+                                       # every train download sibling ran 300-3600 s). Names hash above it: it stays held out
+                                       dict(name="os_patch_download", ports=[443, 80], window="full_flow", dur=(20, 600), pkts=(3000, 80000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.01)),
+                                       dict(name="game_patch_download", ports=[443], window="full_flow", dur=(60, 1200), pkts=(8000, 150000), bytes_per_pkt=(1250, 1460), fwd_frac=(0.03, 0.15), syn_frac=(0.0, 0.01)),
                                        dict(name="dataset_fetch_windowed", ports=[443], pkts=(3000, 15000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.02)),
                                        # legitimate high stream-cancel rates: the lookalike of rapid reset
                                        dict(name="grpc_stream_cancel", ports=[443, 8443], pkts=(2000, 30000), bytes_per_pkt=(120, 700), fwd_frac=(0.45, 0.7), syn_frac=(0.0, 0.01), h2_rst=(0.2, 0.7), h2_cont=(0, 2), conn=(1, 8), h2_rst_ms=(1, 3000)),
