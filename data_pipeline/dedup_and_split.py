@@ -79,7 +79,7 @@ def holdout_unit(rec):
     """The generalisation unit a record belongs to, or None: a named Haiku scenario family, or a synthetic
     flow variant other than the base profile. Seeded classes have none (their diversity is seed lineage)."""
     m = rec["metadata"]
-    if m["generator"].startswith(("haiku", "codex", "sonnet")) and ":" in m["template_family"]:
+    if m["generator"].startswith(("haiku", "codex", "sonnet", "gemini")) and ":" in m["template_family"]:
         fam = m["template_family"].split(":", 1)[1]
         return None if fam == "v1_unlabelled" or fam.endswith("_benign") else fam
     var = next((t.split(":", 1)[1] for t in m["mechanism_tags"] if t.startswith("variant:")), None)
@@ -109,7 +109,7 @@ def holdout_unseen(records, frac=0.12, min_source_share=0.10, max_source_out=0.2
         u = holdout_unit(r)
         if u:
             units[c].add(u)
-            has_family |= {c} if r["metadata"]["generator"].startswith(("haiku", "codex", "sonnet")) else set()
+            has_family |= {c} if r["metadata"]["generator"].startswith(("haiku", "codex", "sonnet", "gemini")) else set()
         su = source_unit(r)
         if su:
             src_n[c][su] += 1

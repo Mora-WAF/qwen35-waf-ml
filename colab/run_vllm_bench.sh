@@ -24,14 +24,17 @@ import json, random, sys
 from training.prepare import deserialize_telemetry
 f = open("reports/colab_a100v10/SCORES_fast.jsonl"); f.readline()
 scores = {r["id"]: r["scores"] for r in map(json.loads, f) if r["split"] == "test"}
-rows = [json.loads(l) for l in open("datasets_ready/fast_test.jsonl")]
+import zipfile  # the v10 test set (the A100 scores belong to it), not whatever datasets_ready/ holds now
+rows = [json.loads(l) for l in zipfile.ZipFile("colab/colab_bundle_fast_v10.zip").open("datasets_ready/fast_test.jsonl")]
 rows = random.Random(7).sample([r for r in rows if r["id"] in scores], int(sys.argv[2]))
 open(sys.argv[1], "w").write("".join(json.dumps({"id": r["id"], "telemetry": deserialize_telemetry(r["messages"][1]["content"]),
                                                  "scores": scores[r["id"]]}) + "\n" for r in rows))
 EOF
 say "new $GPU session $NAME"
 timeout 900 colab new -s "$NAME" --gpu "$GPU" >>"$LOG" 2>&1 || die "colab new"
-step 300 "import subprocess; print(subprocess.run(['nvidia-smi','-L'],capture_output=True,text=True).stdout)" || die "kernel not answering"
+ok=0; for _ in 1 2 3; do  # the first call after READY can lose the connection (18 Oct)
+  step 300 "import subprocess; print(subprocess.run(['nvidia-smi','-L'],capture_output=True,text=True).stdout)" && { ok=1; break; }; sleep 30
+done; [ $ok = 1 ] || die "kernel not answering"
 up() { for _ in 1 2 3; do timeout 900 colab upload -s "$NAME" "$1" "$2" >>"$LOG" 2>&1 && return 0; sleep 20; done; return 1; }  # 500s right after READY
 # one Jupyter contents request carries ~10 MB at most (the 79 MB package fails with HTTP 500): upload 8 MB parts
 (cd "$S" && split -b 8m -d pkg.zip pkg.part. && sha256sum pkg.zip | cut -c1-64 > pkg.sha256)

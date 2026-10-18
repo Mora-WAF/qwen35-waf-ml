@@ -306,6 +306,10 @@ STRIP_CONTEXT_KEYS = {"override_match", "payload_feature", "endpoint", "client",
                       "is_malicious", "suspicious", "detected", "attack_type"}
 # v1 synonyms of the v2 canonical context names (CONTEXT_SCHEMA); renamed when the canonical key is absent
 LEGACY_RENAME = {"sink": "merge_sink", "key_path": "raw_body_key_path", "raw_key_structure": "raw_body_key_path"}
+# placeholder hosts workers put in attack payloads only ("attacker"/"evil" became attack-only tokens, 18 Oct)
+PLACEHOLDER_HOST = re.compile(r"(?i)(attacker|evil)\.example\b")  # no leading \b: %2Fevil.example
+NEUTRAL_HOSTS = ["cdn-metrics.example.net", "img-cache.example.org", "sync.example.com", "telemetry.example.io",
+                 "edge-07.example.net", "assets.example.org"]
 OBSERVED_UNTIL = {"flow_window": "fixed_window", "flow_complete": "full_flow", "session_history": "session_window"}
 
 
@@ -329,13 +333,20 @@ def canonicalize(tel, key):
     h = tel.get("http")
     if h:
         h["protocol"] = {"HTTP/2.0": "HTTP/2", "HTTP/3.0": "HTTP/3", "http/1.1": "HTTP/1.1"}.get(h["protocol"], h["protocol"])
+    s = json.dumps(tel)
+    if PLACEHOLDER_HOST.search(s):
+        host = rng_for("host:" + key).choice(NEUTRAL_HOSTS)
+        tel = json.loads(PLACEHOLDER_HOST.sub(host, s))
     return neutral_context(rng_for("ctx:" + key), tel)
 
 
 def generator_of(fname):
-    """Raw output file -> generator name, from the round tag in the file name (vsn = Sonnet 5.5 workers)."""
+    """Raw output file -> generator name, from the round tag in the file name (vsn = Sonnet 5.5 workers,
+    vgm = Gemini 3.8 Flash medium via subagents.gen_http)."""
     if re.search(r"\.v(ht|cf|cx)\d", fname):
         return "codex-gpt-6.1-sol"
+    if re.search(r"\.vgm\d", fname):
+        return "gemini-3.8-flash"
     return "sonnet-5.5" if re.search(r"\.vsn\d", fname) else "haiku-5.5"
 
 

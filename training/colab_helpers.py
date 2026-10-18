@@ -119,7 +119,8 @@ def class_logprobs(model, tok, messages, suffixes, margin=12.0):
     k = 0
     while all(len(s) > k + 1 and s[k] == suffixes[0][k] for s in suffixes):
         k += 1  # shared prefix: identical for every class, kept in the sum so scores are full log P(completion)
-    ctx = torch.tensor([p + suffixes[0][:k]], device="cuda")
+    dev = model.device
+    ctx = torch.tensor([p + suffixes[0][:k]], device=dev)
     out = model(input_ids=ctx, use_cache=True)
     lp = torch.log_softmax(out.logits[0, len(p) - 1:].float(), -1)  # predicts ctx[len(p):] then the first suffix token
     shared = sum(lp[i, t].item() for i, t in enumerate(suffixes[0][:k]))
@@ -130,15 +131,78 @@ def class_logprobs(model, tok, messages, suffixes, margin=12.0):
     scores = [shared + v for v in f0]
     n, L = len(keep), max(len(rest[i]) for i in keep)
     cache = out.past_key_values
-    cache.reorder_cache(torch.zeros(n, dtype=torch.long, device="cuda"))  # batch-replicate (linear-attn states too)
-    ids = torch.full((n, L), tok.pad_token_id, device="cuda")
+    cache.reorder_cache(torch.zeros(n, dtype=torch.long, device=dev))  # batch-replicate (linear-attn states too)
+    ids = torch.full((n, L), tok.pad_token_id, device=dev)
     for b, i in enumerate(keep):
-        ids[b, :len(rest[i])] = torch.tensor(rest[i], device="cuda")  # right padding: causal, never seen by real tokens
+        ids[b, :len(rest[i])] = torch.tensor(rest[i], device=dev)  # right padding: causal, never seen by real tokens
     nxt = torch.log_softmax(model(input_ids=ids, past_key_values=cache, use_cache=True).logits.float(), -1)
     for b, i in enumerate(keep):
         r = rest[i]
         scores[i] = shared + f0[i] + sum(nxt[b, j - 1, r[j]].item() for j in range(1, len(r)))
     return scores
+
+
+@torch.no_grad()
+def batch_class_logprobs(model, tok, messages_list, suffixes, margin=12.0, batch=8, max_rows=64):
+    """class_logprobs for many records, same scores and pruning, without recomputing any prompt: pass 1 prefills
+    `batch` left-padded prompts (+ the shared answer prefix) at once; pass 2 decodes each record's kept class suffixes
+    from its own cache row, replicated per kept class (cache.reorder_cache), at most `max_rows` rows per call.
+    Left padding is exact for both layer types: full attention masks it, and the linear-attention layers zero padded
+    inputs (apply_mask_to_padding_states), so their conv and recurrent states start from zero as without padding.
+    Position ids come from the mask, so every real token has the position it has unpadded."""
+    import copy
+    dev, pad = model.device, tok.pad_token_id
+    lm = getattr(model.model, "language_model", model.model)  # text decoder of Qwen3_5ForConditionalGeneration
+    k = 0
+    while all(len(s) > k + 1 and s[k] == suffixes[0][k] for s in suffixes):
+        k += 1
+    rest = [s[k:] for s in suffixes]
+    prompts = [tok(tok.apply_chat_template(m[:2], tokenize=False, add_generation_prompt=True, enable_thinking=False),
+                   add_special_tokens=False)["input_ids"] for m in messages_list]
+    out = [None] * len(prompts)
+    order = sorted(range(len(prompts)), key=lambda i: len(prompts[i]))  # similar lengths share a batch: less padding
+    for c0 in range(0, len(order), batch):
+        idx = order[c0:c0 + batch]
+        ctx = [prompts[i] + suffixes[0][:k] for i in idx]
+        L = max(map(len, ctx))
+        ids = torch.full((len(idx), L), pad, device=dev)
+        mask = torch.zeros((len(idx), L), dtype=torch.long, device=dev)
+        for b, c in enumerate(ctx):
+            ids[b, L - len(c):] = torch.tensor(c, device=dev)
+            mask[b, L - len(c):] = 1
+        o = lm(input_ids=ids, attention_mask=mask, position_ids=(mask.cumsum(-1) - 1).clamp(min=0), use_cache=True)
+        # positions L-len(c)+len(p)-1 .. L-1 predict the shared prefix tokens, then the first suffix token
+        rows = [(b, L - len(c) + len(prompts[i]) - 1 + j) for b, (i, c) in enumerate(zip(idx, ctx)) for j in range(k + 1)]
+        lp = torch.log_softmax(model.lm_head(o.last_hidden_state[[r[0] for r in rows], [r[1] for r in rows]]).float(), -1)
+        lp = lp.view(len(idx), k + 1, -1)
+        pend = []  # (batch row, class) pairs that need pass 2
+        for b, i in enumerate(idx):
+            shared = sum(lp[b, j, t].item() for j, t in enumerate(suffixes[0][:k]))
+            f0 = [lp[b, k, r[0]].item() for r in rest]
+            out[i] = [shared + v for v in f0]
+            pend += [(b, c) for c, v in enumerate(f0) if v >= max(f0) - margin and len(rest[c]) > 1]
+        groups = [pend[g:g + max_rows] for g in range(0, len(pend), max_rows)]
+        for g, grp in enumerate(groups):
+            cache = o.past_key_values if g == len(groups) - 1 else copy.deepcopy(o.past_key_values)
+            sel = torch.tensor([b for b, _ in grp], device=dev)
+            cache.reorder_cache(sel)
+            Ls = max(len(rest[c]) for _, c in grp)
+            ids2 = torch.full((len(grp), Ls), pad, device=dev)
+            m2 = torch.zeros((len(grp), Ls), dtype=torch.long, device=dev)
+            for r, (_, c) in enumerate(grp):
+                ids2[r, :len(rest[c])] = torch.tensor(rest[c], device=dev)  # right padding: causal, never seen
+                m2[r, :len(rest[c])] = 1
+            pos2 = mask[sel].sum(-1, keepdim=True) + torch.arange(Ls, device=dev)
+            hs = lm(input_ids=ids2, attention_mask=torch.cat([mask[sel], m2], 1), position_ids=pos2,
+                    past_key_values=cache, use_cache=True).last_hidden_state
+            want = [(r, j - 1, rest[c][j]) for r, (_, c) in enumerate(grp) for j in range(1, len(rest[c]))]
+            lp2 = torch.log_softmax(model.lm_head(hs[[w[0] for w in want], [w[1] for w in want]]).float(), -1)
+            tot = [0.0] * len(grp)
+            for n, (r, _, t) in enumerate(want):
+                tot[r] += lp2[n, t].item()
+            for r, (b, c) in enumerate(grp):
+                out[idx[b]][c] += tot[r]
+    return out
 
 
 if __name__ == "__main__":  # self-check of the tiers (no GPU needed)

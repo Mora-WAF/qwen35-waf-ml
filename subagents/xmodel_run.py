@@ -11,6 +11,8 @@ usage: python -m subagents.xmodel_run TAG "MODEL NAME" [BATCH ...]   (e.g. gemin
                                             (OpenAI-compatible chat endpoint; key from the environment, never a file)
        python -m subagents.xmodel_run codex gpt-6.1-sol   (Codex CLI; read-only sandbox; XM_EFFORT=medium)
        python -m subagents.xmodel_run both [BATCH ...]    (Codex + Gemini on the same batches, concurrently)
+       set -a; . ./.env; set +a; XM_OPENAI_BASE=$base_api XM_OPENAI_KEY=$GEMINI_API_KEY python -m subagents.xmodel_run both
+                                            (cx/gpt-6.1-sol at XM_EFFORT + ag/gemini-3.8-flash-medium, both via the proxy)
 Answer keys must be unreadable while it runs (chmod 000 data/review*_key.json): read-only still reads.
 """
 import json
@@ -46,7 +48,9 @@ def chat(model, prompt, timeout=600):
     """One OpenAI-compatible chat completion (XM_OPENAI_BASE / XM_OPENAI_KEY); accepts a JSON or an SSE reply."""
     req = urllib.request.Request(os.environ["XM_OPENAI_BASE"].rstrip("/") + "/chat/completions", method="POST",
                                  data=json.dumps({"model": model, "stream": False,
-                                                  "messages": [{"role": "user", "content": prompt}]}).encode(),
+                                                  "messages": [{"role": "user", "content": prompt}]}
+                                                 | ({"reasoning_effort": os.environ.get("XM_EFFORT", "medium")}
+                                                    if model.startswith("cx/") else {})).encode(),
                                  headers={"Authorization": f"Bearer {os.environ['XM_OPENAI_KEY']}",
                                           "Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -72,7 +76,7 @@ def run(tag, model, b, tries=4):
     for attempt in range(tries):
         # isolated: empty working dir + sandbox, so the agent cannot open the answer key or any repo file
         with tempfile.TemporaryDirectory() as iso:
-            if os.environ.get("XM_OPENAI_BASE"):  # HTTP backend: the model sees only the prompt, no files or tools
+            if "/" in model:  # proxy model id (cx/..., ag/...): HTTP backend: the model sees only the prompt, no files or tools
                 try:
                     p = subprocess.CompletedProcess([], 0, chat(model, prompt), "")
                 except Exception as e:  # network / HTTP / timeout: a failed attempt, retried below
@@ -112,7 +116,9 @@ def run(tag, model, b, tries=4):
     return f"{tag} {b}: FAILED ({len(got)}/{len(rids)})"
 
 
-REVIEWERS = {"codex": "gpt-6.1-sol", "gemini": "Gemini 3.8 Flash (High)"}
+# both through the local proxy when XM_OPENAI_BASE is set (.env base_api; Sol at XM_EFFORT), else the codex / agy CLIs
+REVIEWERS = ({"codex": "cx/gpt-6.1-sol", "gemini": "ag/gemini-3.8-flash-medium"} if os.environ.get("XM_OPENAI_BASE")
+             else {"codex": "gpt-6.1-sol", "gemini": "Gemini 3.8 Flash (Medium)"})
 
 
 if __name__ == "__main__":

@@ -2,31 +2,31 @@
  "mode": "fast",
  "per_class": 40,
  "quota_fraction": 0.25,
- "total": 49584,
+ "total": 50757,
  "dropped_exact_dup": 73,
  "rejected_token_overflow": {
   "graphql_abuse": 59,
   "jwt_auth_bypass": 8,
   "websocket_grpc_abuse": 37,
-  "benign_standard_traffic": 26,
+  "benign_standard_traffic": 29,
   "benign_high_rate_legit": 1
  },
  "files": {
   "fast_train.jsonl": {
-   "records": 35573,
-   "sha256": "aaf0824fa8826e1856e8c3045e735afd033da7cb582a2f767e3f2242e87dd18c"
+   "records": 35340,
+   "sha256": "fbab85c3dcd18c6b10586bb468753dbe88ec10a7d6b5e4377cedc24a53e35eb8"
   },
   "fast_val.jsonl": {
-   "records": 4235,
-   "sha256": "0e703c279dc9e143ded0578a990b5e0a6d39f3bc50951a5373fddff5b6e776f5"
+   "records": 5572,
+   "sha256": "f311d0fe380af3da7d52c27faae4ee224d904e460c1fadab36d76e2710b4960b"
   },
   "fast_test.jsonl": {
-   "records": 4417,
-   "sha256": "e367058187a3e0a8d008d719acdf74404f00a32c0510db829d93f1e0291a2c68"
+   "records": 4368,
+   "sha256": "4a288d4e9022690f9b300beebd0d82bbe52e797019d872aab514dcb8a6e003d0"
   },
   "fast_test_unseen.jsonl": {
-   "records": 5359,
-   "sha256": "1be6ade2f77140ff8e38f8a3c59d232bed3bbba689dc609051ba627bf20ee965"
+   "records": 5477,
+   "sha256": "2893cedde4976e490a4da163f1a115b47da6bca70fa4dd89fe1e4926f65db0fe"
   }
  },
  "deficits": {
@@ -91,7 +91,7 @@
   },
   "jwt_auth_bypass": {
    "status": "ok",
-   "accepted": 1118,
+   "accepted": 1198,
    "rejected": 0,
    "quarantined_by_review": 266
   },
@@ -103,7 +103,7 @@
   },
   "websocket_grpc_abuse": {
    "status": "ok",
-   "accepted": 689,
+   "accepted": 769,
    "rejected": 0,
    "quarantined_by_review": 309
   },
@@ -127,7 +127,7 @@
   },
   "deserialization": {
    "status": "ok",
-   "accepted": 689,
+   "accepted": 729,
    "rejected": 0,
    "quarantined_by_review": 83
   },
@@ -169,21 +169,21 @@
   },
   "benign_hard_negative_dev": {
    "status": "ok",
-   "accepted": 3280,
+   "accepted": 3480,
    "rejected": 0,
    "quarantined_by_review": 1240
   },
   "benign_hard_negative_search": {
    "status": "ok",
-   "accepted": 1363,
+   "accepted": 1543,
    "rejected": 0,
    "quarantined_by_review": 277
   },
   "benign_standard_traffic": {
    "status": "ok",
-   "accepted": 6842,
+   "accepted": 7240,
    "rejected": 0,
-   "quarantined_by_review": 600
+   "quarantined_by_review": 602
   },
   "xss_reflected_stored": {
    "status": "ok",
@@ -217,7 +217,7 @@
   },
   "ldap_xpath_injection": {
    "status": "ok",
-   "accepted": 300,
+   "accepted": 340,
    "rejected": 0,
    "quarantined_by_review": 0
   },
@@ -235,21 +235,21 @@
   },
   "path_traversal_lfi": {
    "status": "ok",
-   "accepted": 200,
+   "accepted": 239,
    "rejected": 0,
-   "quarantined_by_review": 0
+   "quarantined_by_review": 1
   },
   "rce_cmd_injection": {
    "status": "ok",
-   "accepted": 200,
+   "accepted": 280,
    "rejected": 0,
    "quarantined_by_review": 0
   },
   "ssti": {
    "status": "ok",
-   "accepted": 104,
+   "accepted": 143,
    "rejected": 0,
-   "quarantined_by_review": 96
+   "quarantined_by_review": 97
   },
   "xss_dom_polyglot": {
    "status": "ok",

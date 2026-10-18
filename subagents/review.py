@@ -179,13 +179,13 @@ RELABEL = RV / "relabel.json"
 def export_hn(classes=("benign_hard_negative_dev", "benign_hard_negative_search"), batch=100, round_tag=None):
     """Every accepted record of the benign hard-negative classes -> blind batches for an external reviewer
     (XM_TAG=hn). The key keeps the raw ref so apply_hn() can relabel at ingest. round_tag (e.g. vsn01):
-    only that round's raw files."""
+    only that round's raw files (comma-separated: several rounds)."""
     from subagents.orchestrator import OUT
     write_brief()
     rv, key, rows = status(), {}, []
     for cls in classes:
         for fp in sorted(OUT.glob(f"{cls}.jsonl")) + sorted(OUT.glob(f"{cls}.v*.jsonl")):
-            if round_tag and not fp.name.startswith(f"{cls}.{round_tag}"):
+            if round_tag and not any(fp.name.startswith(f"{cls}.{t}") for t in round_tag.split(",")):
                 continue
             for i, line in enumerate(open(fp)):
                 ref = f"{fp.name}:{i}"
@@ -205,9 +205,10 @@ def export_hn(classes=("benign_hard_negative_dev", "benign_hard_negative_search"
 
 
 def apply_hn():
-    """External verdicts -> relabel.json: a benign record put in another benign class = relabel (benign<->benign
-    moves cannot create false blocks); any other disagreement = quarantine (never auto-promote benign to attack,
-    never demote an attack record to benign)."""
+    """External verdicts -> relabel.json: a benign record that every reviewer puts in the same other benign class =
+    relabel (benign<->benign moves cannot create false blocks); a reviewer calling a benign record an attack, or any
+    reviewer disagreeing on an attack record = quarantine (never auto-promote benign to attack, never demote an
+    attack record to benign). Every reviewer's answer counts (Codex and Gemini answer the same rids)."""
     import yaml as _y
     tax = _y.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
     key = json.loads(XM_KEY.read_text())
@@ -216,21 +217,23 @@ def apply_hn():
         for line in open(fp):
             try:
                 o = json.loads(line)
-                got[o["rid"]] = o.get("predicted_class")
+                got.setdefault(o["rid"], []).append(o.get("predicted_class"))
             except (json.JSONDecodeError, KeyError):
                 continue
     rel = json.loads(RELABEL.read_text()) if RELABEL.exists() else {}
     moved, quar = Counter(), Counter()
     for rid, k in key.items():
-        p = got.get(rid)
-        if p is None or p == k["label"] or p not in tax:
+        ps = [p for p in got.get(rid, []) if p in tax]
+        off = [p for p in ps if p != k["label"]]
+        if not off:
             continue
-        if tax[p]["is_benign"] and tax[k["label"]]["is_benign"]:
-            rel[k["ref"]] = p
-            moved[(k["label"], p)] += 1
+        if tax[k["label"]]["is_benign"] and all(tax[p]["is_benign"] for p in off):
+            if len(set(ps)) == 1:  # every reviewer moved it to the same benign class
+                rel[k["ref"]] = ps[0]
+                moved[(k["label"], ps[0])] += 1
         else:
             rel[k["ref"]] = "__quarantine__"
-            quar[(k["label"], p)] += 1
+            quar[(k["label"], next(p for p in off if not tax[p]["is_benign"] or not tax[k["label"]]["is_benign"]))] += 1
     RELABEL.write_text(json.dumps(rel, indent=1))
     print(json.dumps({"answered": len(got), "of": len(key), "relabelled": {f"{a}->{b}": n for (a, b), n in moved.items()},
                       "quarantined": {f"{a}->{b}": n for (a, b), n in quar.items()}}, indent=1))

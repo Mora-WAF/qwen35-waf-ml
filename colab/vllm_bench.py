@@ -3,7 +3,8 @@
 Stages, each in its own process (python vllm_bench.py STAGE), so GPU memory is released between them:
   merge   base model + rsLoRA adapter merged on CPU -> /content/merged (vLLM then serves a plain model)
   hf      HF transformers: the evaluated per-record scorer (colab_helpers.class_logprobs) and the endpoint's batched
-          scorer (deploy/sagemaker/inference._batch_scores) on the same records
+          scorer (deploy/sagemaker/inference._batch_scores) and the cached-prefix batch (colab_helpers.batch_class_logprobs)
+          on the same records
   vllm    vLLM with prefix caching. prompt_logprobs would skip the prefix cache, so every needed log-prob is one
           single-token request restricted to the target token (allowed_token_ids); vLLM reports the raw log-prob,
           taken before that restriction. Same pruning as class_logprobs (first class token for all 41 classes,
@@ -72,7 +73,19 @@ def hf():
         bat += I._batch_scores(st, tels[i:i + 32])
     torch.cuda.synchronize()
     t_bat = time.time() - t0
-    json.dump({"seq": seq, "batched": bat, "t_seq": t_seq, "t_batched": t_bat, "gpu": torch.cuda.get_device_name(),
+    msgs = [[{"role": "system", "content": P.system_prompt()},
+             {"role": "user", "content": P.serialize_telemetry(t, st["controls"])}] for t in tels]
+    cached, t_cached = {}, {}
+    for b in (8, 16, 32):
+        H.batch_class_logprobs(model, tok, msgs[:b], st["suf"], batch=b)  # warm-up at this shape
+        torch.cuda.synchronize()
+        t0 = time.time()
+        cached[b] = H.batch_class_logprobs(model, tok, msgs, st["suf"], batch=b)
+        torch.cuda.synchronize()
+        t_cached[b] = time.time() - t0
+        print(f"hf cached batch {b}: {len(tels) / t_cached[b]:.2f} rec/s", flush=True)
+    json.dump({"seq": seq, "batched": bat, "t_seq": t_seq, "t_batched": t_bat, "cached": cached, "t_cached": t_cached,
+               "gpu": torch.cuda.get_device_name(),
                "kernels": {m: m in sys.modules for m in ("fla", "causal_conv1d")}}, open(f"{OUT}/hf_scores.json", "w"))
     print(f"hf sequential {len(tels) / t_seq:.2f} rec/s, batched {len(tels) / t_bat:.2f} rec/s")
 
@@ -199,6 +212,9 @@ def report():
         rep |= {"gpu": hfs["gpu"], "hf_kernels": hfs["kernels"]}
         rep["records_per_s"] |= {"hf_sequential": round(n / hfs["t_seq"], 2), "hf_batched": round(n / hfs["t_batched"], 2)}
         rep["agreement"] |= {"hf_sequential_vs_a100": cmp(hfs["seq"], ref), "hf_batched_vs_a100": cmp(hfs["batched"], ref)}
+        for b, sc in (hfs.get("cached") or {}).items():
+            rep["records_per_s"][f"hf_cached_b{b}"] = round(n / hfs["t_cached"][b], 2)
+            rep["agreement"][f"hf_cached_b{b}_vs_a100"] = cmp(sc, ref)
     if vl:
         rep["records_per_s"]["vllm_single_token"] = round(n / vl["t"], 2)
         rep["agreement"]["vllm_single_token_vs_a100"] = cmp(vl["scores"], ref)

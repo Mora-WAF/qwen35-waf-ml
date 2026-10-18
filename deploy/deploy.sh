@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Deploy the v10 classifier to a SageMaker real-time endpoint (us-east-1, ml.g6.xlarge = L4 24 GB).
-#   deploy/deploy.sh [RUN_DIR] [BUNDLE_ZIP]     defaults: reports/colab_a100v10, colab/colab_bundle_fast.zip
+#   deploy/deploy.sh [RUN_DIR] [BUNDLE_ZIP]     defaults: reports/colab_a100v10, colab/colab_bundle_fast_v10.zip
 # Creates (if missing) the execution role, a private bucket, then model -> endpoint config -> endpoint, and waits.
 # The endpoint bills per hour while it exists: deploy/teardown.sh deletes it.
 # Code, taxonomy and schemas come from the bundle the run trained on; policy and calibration from the run dir.
 set -euo pipefail
 cd "$(dirname "$0")/.."
-RUN=${1:-reports/colab_a100v10} BUNDLE=${2:-colab/colab_bundle_fast.zip}
+RUN=${1:-reports/colab_a100v10} BUNDLE=${2:-colab/colab_bundle_fast_v10.zip}
 REGION=us-east-1 NAME=qwen35-waf-v10 INSTANCE=${INSTANCE:-ml.g6.xlarge}  # INSTANCES="a b" overrides the fallback order
 ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
 BUCKET=qwen35-waf-models-$ACCOUNT ROLE=qwen35-waf-sagemaker
@@ -20,6 +20,7 @@ unzip -q "$RUN/export_fast.zip" -d "$PKG/adapter"
 unzip -q "$BUNDLE" 'training/*' 'eval/*' 'config/taxonomy.yaml' 'schemas/decision.schema.json' -d "$PKG/code"
 cp "$RUN/policy_v10.yaml" "$PKG/code/config/policy.yaml"
 cp eval/policy.py "$PKG/code/eval/policy.py"  # decision-wrapper fixes after the bundle (17 Oct: envelope bounds as float)
+cp training/colab_helpers.py "$PKG/code/training/colab_helpers.py"  # + batch_class_logprobs (18 Oct; scores unchanged)
 cp training/prepare.py "$PKG/code/training/prepare.py"  # + sensor contract (decoded views, budget windows); prompt and
                                                           # serialization unchanged from the bundle (checked 17 Oct)
 cp deploy/sagemaker/inference.py deploy/sagemaker/requirements.txt "$PKG/code/"
