@@ -184,6 +184,54 @@ Deployment and pipeline:
   7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
   the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
 
+### 19 October ~13:00 — Gemma cicfix run launched unattended on a free Colab account (results to Drive)
+
+- Free account (`colab usage` 0.00 units). `colab new --tpu v5e1` hit the CLI's 120 s ReadTimeout twice; the second
+  still assigned `tpu-v5e1-s-kkb-usw1c0-3e77avfsyjyn7` (listed as `[?]`), adopted by adding a `SessionState` with
+  that endpoint to `~/.config/colab-cli/sessions.json` (the CLI refreshes url/token itself).
+- `training/gemma_tpu/drive_runner.py`: one blocking kernel cell (`colab exec -f`; the CLI never interrupts on
+  timeout, the busy kernel keeps the runtime alive) runs `train_tunix.py train` (r16, 1 epoch, ckpt every 250 steps),
+  rsyncs `/content/out` → `MyDrive/waf_gemma/colab_cicfix/` every 5 min, writes `DONE`, flushes Drive, `runtime.unassign()`.
+  Rerun on a fresh VM resumes from the Drive ckpt. Data `colab/gemma_data_cicfix.tgz`; Python 3.13, JAX 0.11.
+- Running: 2,141 steps (cicfix train +924), loss 0.514 at step 40, HBM 9.5 GB; ~40 min train + ~50 min scoring.
+- **Lost** minutes later: the next check found no assignment on the server (`colab sessions`: none). Last local log
+  step 40, no error. Cause unknown until the Drive folder is read: `DONE` with a code = trainer exited and the runner
+  unassigned; no `DONE` = Colab reclaimed the free runtime with no client attached.
+- Fix (user runs it later with the PC on): `drive_runner.py` removed (a blocking cell would also block the driver's
+  polls). `training/gemma_tpu/run_tpu.sh` now: retries `colab new` and adopts a `[?]` orphan; `DRIVE=1` (default) waits
+  up to 15 min for the user's `colab drivemount`, restores `/content/out` from `MyDrive/waf_gemma/colab_NAME` on a new
+  VM (resume from ckpt.npz), mirrors it back every 5 min; ckpt every 250 steps; exits with LOST when the session is
+  gone instead of polling for 33 h. Command: `training/gemma_tpu/run_tpu.sh cicfix reports/gemma_tpu/colab/gemma_data_cicfix.tgz`.
+- Collect: copy the Drive folder to `reports/gemma_tpu/colab_cicfix/`, merge scores like `SCORES_fast.jsonl`, then
+  `eval.calibration --act-on attack_mass` (+ top_class) and the val_select CIC-2017 late-20% check; `colab sessions`
+  must list none (stop `cicfix` if the in-VM unassign was a no-op).
+
+### 19 October — Gemma weak spots; attack-mass rule made deployable (no training run)
+
+- Gemma weak spots (`reports/gemma_tpu/REPORT.md` + per-class test_unseen vs Qwen v11): (1) real CIC-2017 port scan
+  0/500, brute force 0/470, slowloris 10/185 (Qwen 149) — split bug, fix = train on `datasets_cicfix/`; (2) attack
+  recall 0.974 vs 0.984 from attack-vs-attack doubt — attack-mass rule; (3) whole unseen families missed to benign where
+  Qwen is right: web_cache_poisoning `telco_esim_redirect_scheme` 8/8 (X-Forwarded-Proto "http" reflected into a cached
+  Location), websocket `ci_log_tail_ws_reserved_bits_oversize` 5/6 (max_frame_bytes_seen vs limit), http2 rapid reset
+  3/81 → benign_high_rate_legit. Train has 100 / 94 other families of those classes: a model transfer gap, not missing
+  data; topping up those exact families would spoil test_unseen. xss polyglot → reflected (7) and benign ↔ benign
+  confusions do not change the verdict.
+- `act_on` is now a frozen policy field: `eval.calibration --act-on attack_mass --write-policy --policy FILE` writes
+  it (the refusal is gone), `deploy/sagemaker/inference.py` passes it to `eval.policy.decision_view` (absent = top_class,
+  so `policy.yaml` / `policy_v10.yaml` / `policy_v11.yaml` behave as before). `config/policy_gemma.yaml`: Gemma 1 epoch,
+  attack_mass, T 1.038, tau 0.877 (test_unseen recall 0.983, benign FI 0.0010, hard-neg FI 0). Test
+  `test_frozen_policies_name_a_decision_view`; 132 pass.
+- Next (user: run later, not now): `training/gemma_tpu/run_tpu.sh cicfix reports/gemma_tpu/colab/gemma_data_cicfix.tgz`
+  (r16, 1 epoch, ~1.6 h, ~4.5 units), then calibrate with `--act-on attack_mass` and score the 231 held-out late
+  CIC-2017 flows in val_select.
+
+### 19 October 02:11 — Gemma 2 epochs overfits (`reports/gemma_tpu/colab_ep2/`); report `reports/gemma_tpu/REPORT.md`
+
+- 4,166 steps (fixed schedule: planned = taken) in 86 min. Test 0.9913 (best of all models, recall 0.994, benign FI
+  0.0011) but test_unseen **0.9770** (1 epoch 0.9802), NLL 0.074 vs 0.066, unseen benign FI 0.0051 vs 0.0031, hard-neg FI
+  0.0016 vs 0. Keep one epoch. Attack-mass rule: unseen recall 0.977, benign FI 0.0031. CIC-2017 flows still 0/500,
+  0/470, slowloris 0/185 (data bug, not epochs). Colab balance 128.08 → 98.49 over the session; no session running.
+
 ### 19 October 00:20 — data bug: real CIC-IDS2017 port scans and SSH brute force pass both models
 
 - Every CIC-IDS2017 attack flow has the lineage group `cic:172.16.0.1->192.168.10.50` (one attacker host, all

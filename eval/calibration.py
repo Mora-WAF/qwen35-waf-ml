@@ -120,9 +120,7 @@ def fit_envelope(feats):
 
 
 def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005, out="reports/calibration.json",
-         act_on="top_class"):
-    if write_policy and act_on != "top_class":  # deploy/sagemaker/inference.py emits the argmax class
-        raise SystemExit("--write-policy only with --act-on top_class: the endpoint scorer has no attack_mass view")
+         act_on="top_class", policy="config/policy.yaml"):
     rows = [json.loads(x) for x in open(path)]
     classes = rows[0]["classes"]
     rows = rows[1:]
@@ -191,11 +189,11 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005, out="
                              "entropy_mean": round(float(ent.mean()), 4)}
     (ROOT / out).write_text(json.dumps(rep, indent=1))
     if write_policy:  # freeze T and tau in config/policy.yaml (line edits keep the file's comments)
-        pol_p = ROOT / "config/policy.yaml"
+        pol_p = ROOT / policy
         txt = pol_p.read_text()
-        for key, val in (("threshold", round(tau, 6)), ("temperature", round(T, 6)), ("flow_envelope", yaml.safe_dump(env, default_flow_style=True, width=10**9).strip())):
+        for key, val in (("threshold", round(tau, 6)), ("temperature", round(T, 6)), ("act_on", act_on), ("flow_envelope", yaml.safe_dump(env, default_flow_style=True, width=10**9).strip())):
             txt, n = re.subn(rf"^{key}: [^#\n]*?(\s*(?:#.*)?)$", lambda m: f"{key}: {val}{m.group(1)}", txt, count=1, flags=re.M)
-            assert n == 1, f"config/policy.yaml has no top-level {key}: line"
+            assert n == 1, f"{policy} has no top-level {key}: line"
         pol_p.write_text(txt)
     print(json.dumps({k: v for k, v in rep.items() if k not in ("val_calib",)}, indent=1)[:3000])
     return rep
@@ -214,6 +212,7 @@ if __name__ == "__main__":
     ap.add_argument("--write-policy", action="store_true")
     ap.add_argument("--out", default="reports/calibration.json", help="report path (another model: keep the Qwen one)")
     ap.add_argument("--act-on", choices=("top_class", "attack_mass"), default="top_class",
-                    help="decision view (eval.policy.decision_view); attack_mass is offline-only for now")
+                    help="decision view (eval.policy.decision_view), frozen into the policy as act_on")
+    ap.add_argument("--policy", default="config/policy.yaml", help="policy file --write-policy freezes (another model: its own copy)")
     a = ap.parse_args()
-    main(a.scores, a.max_hn_fir, a.write_policy, a.max_recall_loss, a.out, a.act_on)
+    main(a.scores, a.max_hn_fir, a.write_policy, a.max_recall_loss, a.out, a.act_on, a.policy)

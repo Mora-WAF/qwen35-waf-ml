@@ -4,6 +4,7 @@ version: 1
 # on the calibration-policy partition -> every decision abstains (shadow mode).
 threshold: 0.772001
 temperature: 1.043846  # softmax temperature over summed class completion log-probs (eval.calibration, val_calib)
+act_on: top_class  # decision view (eval.policy.decision_view): top_class | attack_mass, frozen by eval.calibration --write-policy
 class_thresholds: {}   # optional per-class overrides, fitted and frozen with `threshold`
 flow_envelope: {bytes_per_s: [0.0, 30952400.0], bytes_total: [0, 29971940], duration_s: [2.0e-06, 3113.269], pkts_per_s: [0.0256965, 1000000.0], pkts_total: [2, 21107]}  # benign_standard_traffic flow-feature [lo, hi] (train 0.5-99.5%), frozen by eval.calibration --write-policy
 

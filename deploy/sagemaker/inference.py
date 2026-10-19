@@ -199,10 +199,11 @@ def predict_fn(data, st):
         if n not in best or risk > best[n][0]:
             best[n] = (risk, w, p)
     for n, (_, tel, p) in best.items():
-        i = int(p.argmax())
+        conf, i = POL.decision_view(p[None], np.isin(np.arange(len(p)), benign), pol.get("act_on", "top_class"))
+        conf, i = float(conf[0]), int(i[0])
         raw = json.dumps({"threat_type": st["classes"][i]}, separators=(",", ":"))
         feats = (tel.get("flow") or {}).get("features")
-        d, diag = POL.decide(raw, tel.get("mode"), tel.get("context"), float(p[i]), st["tax"], pol, feats,
+        d, diag = POL.decide(raw, tel.get("mode"), tel.get("context"), conf, st["tax"], pol, feats,
                              (tel.get("http") or {}).get("headers"))
         top = sorted(zip(st["classes"], p.tolist()), key=lambda kv: -kv[1])[:3]
         out[n] = {"decision": d, "diagnostics": diag, "top": [[c, round(v, 6)] for c, v in top],

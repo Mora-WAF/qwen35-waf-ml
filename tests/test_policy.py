@@ -123,3 +123,10 @@ def test_decision_view_attack_mass():
     assert list(pred) == [0, 2, 2] and conf[0] == 0.5
     conf, pred = decision_view(P, benign, "attack_mass")
     assert list(pred) == [0, 2, 2] and abs(conf[0] - 0.9) < 1e-9 and abs(conf[1] - 0.55) < 1e-9 and abs(conf[2] - 0.6) < 1e-9
+
+
+def test_frozen_policies_name_a_decision_view():
+    from eval.policy import decision_view
+    root = Path(__file__).resolve().parent.parent / "config"
+    for f in ("policy.yaml", "policy_gemma.yaml"):  # the scorer passes act_on to decision_view
+        decision_view([[0.6, 0.4]], [False, True], yaml.safe_load(open(root / f)).get("act_on", "top_class"))
