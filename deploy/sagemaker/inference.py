@@ -1,12 +1,16 @@
-"""SageMaker handler (Hugging Face inference toolkit): the v10 scoring path behind a real-time endpoint.
+"""SageMaker handler (Hugging Face inference toolkit): the evaluated scoring path behind a real-time endpoint.
 
 Same path as the evaluated model: telemetry -> training.prepare messages -> colab_helpers.class_logprobs (summed
 completion log-prob of all 41 classes) -> softmax(scores / T) -> eval.policy.decide with the frozen policy.
 model_fn loads the pinned base from the Hugging Face Hub, merges the rsLoRA adapter shipped in model.tar.gz and
 refuses to start unless 5 test records reproduce the A100 scores (selfcheck.jsonl).
 
-Request:  {"records": [<telemetry object>, ...]}  (or a single telemetry object)
+Request:  {"records": [<telemetry object>, ...], "return_probs": false}  (or a single telemetry object)
 Response: {"results": [{"decision": {...}, "diagnostics": {...}, "top": [[class, p], ...], "latency_s": s}, ...]}
+          return_probs: each result also carries "probs" (the calibrated distribution of the window that decided, in
+          taxonomy order) and "temperature", so another member's distribution can be combined offline (eval.ensemble).
+serving.json (written by deploy.sh from the bundle): whether the model was trained with the sensor's jwt/base64
+decoded views; WAF_DECODED_VIEWS=0/1 overrides it.
 """
 import json
 import os
@@ -79,7 +83,16 @@ def model_fn(model_dir, context=None):
     return st
 
 
-DECODED_VIEWS = os.environ.get("WAF_DECODED_VIEWS", "0") == "1"  # v10 was trained without jwt/base64 views: off
+def _decoded_views():
+    """Train/serve parity for the sensor's jwt/base64 views: v10 was trained without them, v11 (18 Oct build) with.
+    serving.json records what the bundle's training records carry; without it, off (the v10 packages)."""
+    if os.environ.get("WAF_DECODED_VIEWS") in ("0", "1"):
+        return os.environ["WAF_DECODED_VIEWS"] == "1"
+    f = HERE / "serving.json"
+    return bool(json.load(open(f)).get("decoded_views")) if f.exists() else False
+
+
+DECODED_VIEWS = _decoded_views()
 
 
 def _enrich(tel):
@@ -162,8 +175,8 @@ def _batch_scores(st, tels, margin=12.0):
 def input_fn(body, content_type="application/json"):
     obj = json.loads(body)
     if isinstance(obj, dict) and "records" in obj:
-        return obj["records"], obj.get("scoring", "sequential")
-    return [obj], "sequential"  # measured 17 Oct (deploy/speed.py, A10G): per-record 0.27 s/record, batched 0.71-1.06
+        return obj["records"], obj.get("scoring", "sequential"), bool(obj.get("return_probs"))
+    return [obj], "sequential", False  # measured 17 Oct (deploy/speed.py, A10G): per-record 0.27 s/record, batched 0.71-1.06
     # (its second pass recomputes the whole prompt for every kept class; a cached-prefix batch is still to write)
 
 
@@ -171,7 +184,7 @@ def predict_fn(data, st):
     """Each record becomes the prompts the sensor contract allows (P.budget_windows: itself, run-collapsed, or body
     windows); all prompts of the call are scored together; a record's decision comes from its most attack-like
     window (largest probability mass on attack classes)."""
-    records, scoring = data
+    records, scoring, return_probs = (*data, False)[:3]
     out, pol, T = [None] * len(records), st["pol"], float(st["pol"]["temperature"])
     benign = [i for i, c in enumerate(st["classes"]) if st["tax"]["classes"][c]["is_benign"]]
     t0 = time.time()
@@ -199,17 +212,13 @@ def predict_fn(data, st):
         if n not in best or risk > best[n][0]:
             best[n] = (risk, w, p)
     for n, (_, tel, p) in best.items():
-        conf, i = POL.decision_view(p[None], np.isin(np.arange(len(p)), benign), pol.get("act_on", "top_class"))
-        conf, i = float(conf[0]), int(i[0])
-        raw = json.dumps({"threat_type": st["classes"][i]}, separators=(",", ":"))
-        feats = (tel.get("flow") or {}).get("features")
-        d, diag = POL.decide(raw, tel.get("mode"), tel.get("context"), conf, st["tax"], pol, feats,
-                             (tel.get("http") or {}).get("headers"))
-        top = sorted(zip(st["classes"], p.tolist()), key=lambda kv: -kv[1])[:3]
-        out[n] = {"decision": d, "diagnostics": diag, "top": [[c, round(v, 6)] for c, v in top],
+        d, diag, top = POL.decide_from_probs(p, tel, st["tax"], pol)  # the same path as the offline re-decisions
+        out[n] = {"decision": d, "diagnostics": diag, "top": top,
                   "windows": owner.count(n), "truncated": bool(tel.get("truncated")), "latency_s": round(per, 3)}
+        if return_probs:
+            out[n] |= {"probs": [round(float(v), 7) for v in p], "temperature": T}
     return {"results": out, "scoring": scoring, "batch_s": round(time.time() - t0, 3),
-            "selfcheck_max_diff": st["selfcheck_max_diff"]}
+            "selfcheck_max_diff": st["selfcheck_max_diff"], "decoded_views": DECODED_VIEWS}
 
 
 def output_fn(pred, accept="application/json"):

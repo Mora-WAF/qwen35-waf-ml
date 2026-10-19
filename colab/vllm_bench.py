@@ -1,4 +1,4 @@
-"""vLLM vs HF transformers on the same GPU, for the v10 classifier (runs on a Colab VM; driver: colab/run_vllm_bench.sh).
+"""vLLM vs HF transformers on the same GPU, for the packaged classifier (runs on a Colab VM; driver: colab/run_vllm_bench.sh).
 
 Stages, each in its own process (python vllm_bench.py STAGE), so GPU memory is released between them:
   merge   base model + rsLoRA adapter merged on CPU -> /content/merged (vLLM then serves a plain model)
@@ -190,8 +190,9 @@ def vllm_gen(K=20):
 
 
 def fp():
-    """Real-traffic false positives: the endpoint's own predict_fn (sensor windows + frozen policy) on the open-appsec
-    legitimate requests in /content/fp_in.jsonl.gz -> /content/fp_out.jsonl (resumable: done ids are skipped)."""
+    """The endpoint's own predict_fn (sensor windows + frozen policy, decoded views per the package's serving.json) on
+    the records in /content/fp_in.jsonl.gz (open-appsec legitimate requests, or every public benchmark:
+    eval.public_bench pack) -> /content/fp_out.jsonl with each record's calibrated distribution (resumable)."""
     import gzip
     import torch
     import yaml  # noqa: F401
@@ -213,7 +214,7 @@ def fp():
     with open(out_p, "a") as fh:
         for i in range(0, len(recs), 16):
             chunk = recs[i:i + 16]
-            res = I.predict_fn(([r["telemetry"] for r in chunk], "sequential"), st)["results"]
+            res = I.predict_fn(([r["telemetry"] for r in chunk], "sequential", True), st)["results"]  # + probs (ensemble)
             for r, x in zip(chunk, res):
                 fh.write(json.dumps({"id": r["id"], **x}) + "\n")
             fh.flush()
@@ -228,7 +229,9 @@ def report():
     def opt(name):
         return json.load(open(f"{OUT}/{name}")) if os.path.exists(f"{OUT}/{name}") else None
     hfs, vl, vg = opt("hf_scores.json"), opt("vllm_scores.json"), opt("vllm_gen_scores.json")
-    T, TAU = 1.083018, 0.640928
+    import yaml
+    pol = yaml.safe_load(open(f"{PKG}/code/config/policy.yaml"))  # the packaged run's frozen policy (v10: 1.083 / 0.641)
+    T, TAU = float(pol["temperature"]), float(pol["threshold"])
 
     def probs(s):
         z = np.array(s) / T

@@ -63,6 +63,22 @@ The wrapper checks **presence**, not the truth of contextual evidence. Its calle
 
 These are offline recommendations. The repository contains no live enforcement path for them. `rule_hint` is a fixed descriptive code, not generated executable rule text.
 
+## Flow envelope and ensembles
+
+A flow the model calls `benign_standard_traffic` also has to lie inside the **flow envelope**: the 0.5–99.5% range of
+benign training flows per feature (rates, sizes, duration). Outside it, the wrapper abstains, because out-of-taxonomy
+floods land in the background class with high confidence. Exporters round time: NetFlow and IPFIX record
+milliseconds, CICFlowMeter microseconds. A recorded duration of 0 therefore means "under 1 ms", so
+`outside_envelope()` treats it as the interval [0, 1 ms) and counts the flow as outside only if no duration in that
+interval fits. Its missing rates are then above total / 1 ms, and it counts as outside if that already exceeds the
+rate bound. Policy key `flow_envelope_resolution: {}` restores exact comparison.
+
+An **ensemble policy** (`config/policy_ensemble.yaml`, built by `eval/ensemble.py`) averages the members' calibrated
+distributions, each with its own frozen temperature. It re-tempers the mean and then decides like a single model,
+with its own temperature and threshold fitted on `val_calib` and `val_policy`. `eval.policy.decide_from_probs()`
+is the one decision path for the endpoint and for offline re-decisions of benchmark results
+(`eval/public_bench.py redecide | gemma | ensemble | compare`).
+
 ## Read metrics without fooling yourself
 
 | Metric | Meaning | Important limit |

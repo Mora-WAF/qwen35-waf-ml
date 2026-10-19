@@ -1,0 +1,294 @@
+{
+ "method": "summed completion log-prob per class, temperature scaling on val_calib, tau on val_policy",
+ "act_on": "top_class",
+ "temperature": 0.89782,
+ "tau": 0.640153,
+ "max_hard_negative_fir": 0.01,
+ "val_calib": {
+  "uncalibrated": {
+   "n": 1198,
+   "accuracy": 0.9942,
+   "nll": 0.032,
+   "brier": 0.0125,
+   "ece": 0.0076,
+   "bins": [
+    {
+     "lo": 0.4667,
+     "n": 3,
+     "acc": 1.0,
+     "conf": 0.5187
+    },
+    {
+     "lo": 0.5333,
+     "n": 2,
+     "acc": 1.0,
+     "conf": 0.5559
+    },
+    {
+     "lo": 0.6,
+     "n": 2,
+     "acc": 0.5,
+     "conf": 0.6329
+    },
+    {
+     "lo": 0.6667,
+     "n": 3,
+     "acc": 1.0,
+     "conf": 0.7141
+    },
+    {
+     "lo": 0.7333,
+     "n": 6,
+     "acc": 0.8333,
+     "conf": 0.774
+    },
+    {
+     "lo": 0.8,
+     "n": 7,
+     "acc": 0.7143,
+     "conf": 0.8397
+    },
+    {
+     "lo": 0.8667,
+     "n": 24,
+     "acc": 1.0,
+     "conf": 0.9121
+    },
+    {
+     "lo": 0.9333,
+     "n": 1151,
+     "acc": 0.9974,
+     "conf": 0.9954
+    }
+   ]
+  },
+  "calibrated": {
+   "n": 1198,
+   "accuracy": 0.9942,
+   "nll": 0.0315,
+   "brier": 0.0122,
+   "ece": 0.0051,
+   "bins": [
+    {
+     "lo": 0.4667,
+     "n": 2,
+     "acc": 1.0,
+     "conf": 0.5149
+    },
+    {
+     "lo": 0.5333,
+     "n": 3,
+     "acc": 1.0,
+     "conf": 0.5542
+    },
+    {
+     "lo": 0.6,
+     "n": 2,
+     "acc": 0.5,
+     "conf": 0.6488
+    },
+    {
+     "lo": 0.7333,
+     "n": 6,
+     "acc": 0.8333,
+     "conf": 0.7656
+    },
+    {
+     "lo": 0.8,
+     "n": 7,
+     "acc": 0.7143,
+     "conf": 0.8361
+    },
+    {
+     "lo": 0.8667,
+     "n": 15,
+     "acc": 1.0,
+     "conf": 0.9111
+    },
+    {
+     "lo": 0.9333,
+     "n": 1163,
+     "acc": 0.9974,
+     "conf": 0.9966
+    }
+   ]
+  }
+ },
+ "val_policy_at_tau": {
+  "tau": 0.640153,
+  "coverage": 0.9924,
+  "attack_intervention_recall": 0.9942,
+  "benign_false_intervention": 0.002,
+  "hard_negative_false_intervention": 0.0,
+  "accuracy_when_acting": 0.9923,
+  "abstention_rate": 0.0076
+ },
+ "flow_envelope": {
+  "bytes_per_s": [
+   0.0,
+   30952400.0
+  ],
+  "bytes_total": [
+   0,
+   29971940
+  ],
+  "duration_s": [
+   2e-06,
+   3113.269
+  ],
+  "pkts_per_s": [
+   0.0256965,
+   1000000.0
+  ],
+  "pkts_total": [
+   2,
+   21107
+  ]
+ },
+ "envelope_from": "reports/colab_a100v11/policy_v11.yaml",
+ "records_with_flow_features": 0,
+ "test": {
+  "reliability": {
+   "n": 4599,
+   "accuracy": 0.9904,
+   "nll": 0.0349,
+   "brier": 0.0151,
+   "ece": 0.002,
+   "bins": [
+    {
+     "lo": 0.4667,
+     "n": 17,
+     "acc": 0.5294,
+     "conf": 0.5115
+    },
+    {
+     "lo": 0.5333,
+     "n": 10,
+     "acc": 0.6,
+     "conf": 0.567
+    },
+    {
+     "lo": 0.6,
+     "n": 7,
+     "acc": 0.7143,
+     "conf": 0.6323
+    },
+    {
+     "lo": 0.6667,
+     "n": 12,
+     "acc": 0.5,
+     "conf": 0.7053
+    },
+    {
+     "lo": 0.7333,
+     "n": 18,
+     "acc": 0.7778,
+     "conf": 0.771
+    },
+    {
+     "lo": 0.8,
+     "n": 23,
+     "acc": 0.8261,
+     "conf": 0.8389
+    },
+    {
+     "lo": 0.8667,
+     "n": 66,
+     "acc": 0.9394,
+     "conf": 0.9072
+    },
+    {
+     "lo": 0.9333,
+     "n": 4446,
+     "acc": 0.9973,
+     "conf": 0.9966
+    }
+   ]
+  },
+  "policy": {
+   "tau": 0.640153,
+   "coverage": 0.993,
+   "attack_intervention_recall": 0.9941,
+   "benign_false_intervention": 0.0011,
+   "hard_negative_false_intervention": 0.0,
+   "accuracy_when_acting": 0.9932,
+   "abstention_rate": 0.007
+  },
+  "envelope_abstained": {
+   "benign": 0.0,
+   "attack": 0.0
+  }
+ },
+ "test_unseen": {
+  "reliability": {
+   "n": 5658,
+   "accuracy": 0.9871,
+   "nll": 0.0552,
+   "brier": 0.0245,
+   "ece": 0.0064,
+   "bins": [
+    {
+     "lo": 0.4667,
+     "n": 28,
+     "acc": 0.7143,
+     "conf": 0.5121
+    },
+    {
+     "lo": 0.5333,
+     "n": 26,
+     "acc": 0.7692,
+     "conf": 0.5677
+    },
+    {
+     "lo": 0.6,
+     "n": 27,
+     "acc": 0.7407,
+     "conf": 0.635
+    },
+    {
+     "lo": 0.6667,
+     "n": 39,
+     "acc": 0.7692,
+     "conf": 0.6994
+    },
+    {
+     "lo": 0.7333,
+     "n": 42,
+     "acc": 0.881,
+     "conf": 0.7717
+    },
+    {
+     "lo": 0.8,
+     "n": 60,
+     "acc": 0.8833,
+     "conf": 0.8376
+    },
+    {
+     "lo": 0.8667,
+     "n": 210,
+     "acc": 0.9571,
+     "conf": 0.9077
+    },
+    {
+     "lo": 0.9333,
+     "n": 5226,
+     "acc": 0.9958,
+     "conf": 0.9953
+    }
+   ]
+  },
+  "policy": {
+   "tau": 0.640153,
+   "coverage": 0.9878,
+   "attack_intervention_recall": 0.9895,
+   "benign_false_intervention": 0.001,
+   "hard_negative_false_intervention": 0.0,
+   "accuracy_when_acting": 0.9903,
+   "abstention_rate": 0.0122
+  },
+  "envelope_abstained": {
+   "benign": 0.0,
+   "attack": 0.0
+  }
+ }
+}

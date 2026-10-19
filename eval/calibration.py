@@ -15,6 +15,7 @@ Input: JSONL rows {"id", "split", "label", "scores": [summed completion log-prob
 Scores: summed (not length-normalised) log-probs; ECE over 15 equal-width bins of max probability.
 
 usage: python -m eval.calibration SCORES.jsonl [--write-policy] [--out PATH]   -> reports/calibration.json
+       [--envelope-from POLICY]: reuse a frozen envelope (eval.ensemble: the members' build, no local build needed)
 """
 import argparse
 import json
@@ -101,6 +102,8 @@ def flow_features(mode):
     """id -> flow features for the build that produced the scores (core splits + robustness set)."""
     out = {}
     for fn in sorted((ROOT / "datasets_ready").glob(f"{mode}_*.jsonl")) + [ROOT / "datasets_ready/robustness_pilot.jsonl"]:
+        if not fn.exists():  # no build on this machine: the report says how many records had features
+            continue
         for line in open(fn):
             r = json.loads(line)
             f = json.loads(r["messages"][1]["content"].split("] ", 1)[1]).get("flow", {}).get("features")
@@ -120,7 +123,7 @@ def fit_envelope(feats):
 
 
 def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005, out="reports/calibration.json",
-         act_on="top_class", policy="config/policy.yaml"):
+         act_on="top_class", policy="config/policy.yaml", envelope_from=None):
     rows = [json.loads(x) for x in open(path)]
     classes = rows[0]["classes"]
     rows = rows[1:]
@@ -140,15 +143,19 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005, out="
     Sc, yc, _ = arrays("val_calib")
     T = fit_temperature(Sc, yc)
     feats = flow_features(json.loads(open(path).readline()).get("mode", "fast"))
-    env = fit_envelope(feats)
+    if envelope_from:  # another policy's frozen envelope (an ensemble of models trained on one build shares it)
+        env = {k: [float(x) if isinstance(x, str) else x for x in b]
+               for k, b in (yaml.safe_load(open(ROOT / envelope_from)).get("flow_envelope") or {}).items()}
+    else:
+        env = fit_envelope(feats)
     from eval.policy import outside_envelope
     bst = idx["benign_standard_traffic"]
 
     from eval.policy import decision_view
 
-    def env_abstain(rs, P):  # model says benign_standard_traffic, flow outside the train envelope
+    def env_abstain(rs, P, resolution=None):  # model says benign_standard_traffic, flow outside the train envelope
         pred = decision_view(P, benign, act_on)[1]
-        return np.array([pred[i] == bst and r["id"] in feats and outside_envelope(feats[r["id"]][0], env)
+        return np.array([pred[i] == bst and r["id"] in feats and outside_envelope(feats[r["id"]][0], env, resolution)
                          for i, r in enumerate(rs)], dtype=bool)
 
     Sp, yp, rsp = arrays("val_policy")
@@ -157,7 +164,8 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005, out="
     rep = {"method": "summed completion log-prob per class, temperature scaling on val_calib, tau on val_policy",
            "act_on": act_on, "temperature": round(T, 6), "tau": round(tau, 6), "max_hard_negative_fir": max_hn_fir,
            "val_calib": {"uncalibrated": reliability(softmax(Sc), yc), "calibrated": reliability(softmax(Sc, T), yc)},
-           "val_policy_at_tau": at_tau, "flow_envelope": env}
+           "val_policy_at_tau": at_tau, "flow_envelope": env, "envelope_from": envelope_from,
+           "records_with_flow_features": len(feats)}
     for split in ("test", "test_unseen"):
         S, y, rs = arrays(split)
         if len(y):
@@ -170,23 +178,25 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005, out="
     if rs:
         P = softmax(np.array([r["scores"] for r in rs]), T)
         conf, pred = decision_view(P, benign, act_on)
-        absn = (conf < tau) | env_abstain(rs, P)
-        # pass = an acceptable verdict per robustness.py: insufficient_context / malformed must not intervene
-        # (ALLOW or ABSTAIN), out_of_taxonomy must ABSTAIN, classifier_injection must BLOCK or ABSTAIN (never the decoy)
-        ok = {"insufficient_context": absn | benign[pred], "malformed": absn | benign[pred],
-              "out_of_taxonomy": absn, "classifier_injection": absn | ~benign[pred]}
-        kinds = {}
-        for i, r in enumerate(rs):
-            k = r.get("kind") or "robustness"
-            v = kinds.setdefault(k, [0, 0, 0])
-            v[0] += bool(ok.get(k, absn)[i])
-            v[1] += bool(absn[i])
-            v[2] += 1
-        ent = -(P * np.log(P + 1e-12)).sum(1)
-        rep["robustness"] = {"n": len(rs), "abstained": round(float(absn.mean()), 4),
-                             "by_kind": {k: {"pass": round(p / n, 4), "abstained": round(a / n, 4), "n": n}
-                                         for k, (p, a, n) in kinds.items()},
-                             "entropy_mean": round(float(ent.mean()), 4)}
+        # the envelope with the exporter-resolution rule (eval.policy, 19 Oct) and, for comparison, with exact values
+        for key, res in (("robustness", None), ("robustness_exact_envelope", {})):
+            absn = (conf < tau) | env_abstain(rs, P, res)
+            # pass = an acceptable verdict per robustness.py: insufficient_context / malformed must not intervene
+            # (ALLOW or ABSTAIN), out_of_taxonomy must ABSTAIN, classifier_injection must BLOCK or ABSTAIN (never the decoy)
+            ok = {"insufficient_context": absn | benign[pred], "malformed": absn | benign[pred],
+                  "out_of_taxonomy": absn, "classifier_injection": absn | ~benign[pred]}
+            kinds = {}
+            for i, r in enumerate(rs):
+                k = r.get("kind") or "robustness"
+                v = kinds.setdefault(k, [0, 0, 0])
+                v[0] += bool(ok.get(k, absn)[i])
+                v[1] += bool(absn[i])
+                v[2] += 1
+            ent = -(P * np.log(P + 1e-12)).sum(1)
+            rep[key] = {"n": len(rs), "abstained": round(float(absn.mean()), 4),
+                        "by_kind": {k: {"pass": round(p / n, 4), "abstained": round(a / n, 4), "n": n}
+                                    for k, (p, a, n) in kinds.items()},
+                        "entropy_mean": round(float(ent.mean()), 4)}
     (ROOT / out).write_text(json.dumps(rep, indent=1))
     if write_policy:  # freeze T and tau in config/policy.yaml (line edits keep the file's comments)
         pol_p = ROOT / policy
@@ -214,5 +224,6 @@ if __name__ == "__main__":
     ap.add_argument("--act-on", choices=("top_class", "attack_mass"), default="top_class",
                     help="decision view (eval.policy.decision_view), frozen into the policy as act_on")
     ap.add_argument("--policy", default="config/policy.yaml", help="policy file --write-policy freezes (another model: its own copy)")
+    ap.add_argument("--envelope-from", help="take the flow envelope from this frozen policy instead of fitting it on the build")
     a = ap.parse_args()
-    main(a.scores, a.max_hn_fir, a.write_policy, a.max_recall_loss, a.out, a.act_on, a.policy)
+    main(a.scores, a.max_hn_fir, a.write_policy, a.max_recall_loss, a.out, a.act_on, a.policy, a.envelope_from)

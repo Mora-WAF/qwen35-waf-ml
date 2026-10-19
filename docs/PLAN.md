@@ -184,6 +184,58 @@ Deployment and pipeline:
   7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
   the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
 
+### 19 October ~15:30 — no-training improvements: Qwen v11 + Gemma ensemble, envelope resolution fix, v11 benchmark path (no GPU run)
+
+Nothing trained and nothing scored on a GPU in this session: the cloud container has no Colab CLI, AWS credentials or
+GPU, and Hugging Face is blocked. Tests 142 pass (local Python 3.13 venv, Qwen tokenizer from the v11 export, offline).
+
+- **Ensemble** (`eval/ensemble.py`, frozen `config/policy_ensemble.yaml`, report `reports/ensemble/REPORT.json`): the
+  mean of the members' calibrated distributions (Qwen v11 T 1.0438, Gemma 1 epoch T 1.0384), re-tempered (T 0.898) with
+  tau 0.640 on val_policy; envelope = v11's. The decision view was chosen on val_policy, not test: top_class and
+  attack_mass tie on recall 0.994 / benign FI 0.002; top_class abstains less (0.0076 vs 0.0085). Records scored by
+  both: test 4,599, test_unseen 5,658 (Gemma lacks one).
+
+| test_unseen, frozen policies | Qwen v11 | Gemma (attack_mass) | ensemble |
+|---|---|---|---|
+| accuracy / NLL / ECE | 0.9800 / 0.071 / 0.0049 | 0.9802 / 0.066 / 0.0071 | **0.9871 / 0.055** / 0.0064 |
+| attack intervention recall | 0.9841 | 0.9830 | **0.9895** |
+| benign false intervention | 0.0041 | **0.0010** | **0.0010** |
+| hard-negative FI / abstention | 0.0 / 0.0157 | 0.0 / 0.0168 | 0.0 / **0.0122** |
+
+  test: recall 0.9926 → 0.9941, benign FI 0.0026 → 0.0011, accuracy 0.9898 → 0.9904. Paired enforcement errors vs
+  Qwen (record level; lineage groups are not in the score files, so not independent): test_unseen 43 fixed / 17 new
+  (exact McNemar p ≈ 0.001), test 15 / 8 (p ≈ 0.21). Not measured: the robustness set (Gemma has no robustness scores;
+  the Gemma export below now includes it). Not deployable yet: the endpoint has no Gemma scorer (Tunix LoRA → HF
+  Gemma 4 on GPU not written); the ensemble is evaluated offline, benchmarks included.
+- **Envelope resolution fix** (`eval.policy.outside_envelope`, `ENVELOPE_RESOLUTION`): a recorded `duration_s` of 0
+  is "under the exporter's resolution" (1 ms: NetFlow / IPFIX), so the CIC-fitted lower bound 2e-06 no longer abstains
+  every sub-millisecond NetFlow flow; the missing rates are bounded below by total / 1 ms (a big burst stays outside).
+  Policy key `flow_envelope_resolution: {}` = old behaviour. deploy.sh ships the working-tree `eval/policy.py`, so the
+  v10 and v11 frozen policies get it too. Measured on the v10 UNSW results (`eval.public_bench redecide`, exact for the
+  top_class view): benign abstention **32.1% → 9.7%** (651 ABSTAIN → ALLOW of 2,916), false blocks unchanged 4,
+  GoTestWAF unchanged (`reports/benchmarks_compare_v10_envfix.json`). The envelope can only turn ALLOW into ABSTAIN, so
+  no BLOCK changes by construction. Remaining 219: 26 longer than 3,113 s, the rest > 31 MB/s within 1 ms. Caveat: of
+  the 4,153 UNSW attack rows (never scored), 1,845 have duration 0; the old rule abstained on all of them by artefact,
+  the new one on 11: their verdict is now the model's. Out-of-taxonomy robustness probes (NF-ToN backdoor / ransomware /
+  mitm are NetFlow too): `eval.calibration` now reports `robustness` and `robustness_exact_envelope`; rerun it on the
+  build machine (in `deploy/run_benchmarks.sh report`).
+- **Found and fixed on the v11 serving path:** `inference.py` defaulted the jwt/base64 decoded views to off (right for
+  v10), so a v11 package scored without the views it was trained with (the 18 Oct build applies them to every record).
+  `deploy/package_meta.py` now writes `serving.json` from the bundle itself (views on when re-applying them changes
+  ≤ 0.5% of its HTTP training records) and the handler reads it (`WAF_DECODED_VIEWS` still overrides). The self-check
+  records came from whatever `datasets_ready/` held, not from the run's bundle: now from the bundle.
+  `colab/run_vllm_bench.sh` took its sample from the v10 run/bundle and `vllm_bench.py report` used v10's T / tau
+  whatever was packaged: both now follow RUN_DIR / BUNDLE_ZIP and the package's policy.
+- **Benchmark path for v11, Gemma and the ensemble** (`deploy/run_benchmarks.sh prep|qwen|gemma|report`; not run):
+  `eval.public_bench` gains pack / unpack / retag (training overlap vs the v11 build) / redecide / gemma / ensemble /
+  compare and tag-aware report (`NAME.TAG.results.jsonl`; v10 keeps its files). The endpoint returns the deciding
+  window's calibrated distribution on request (`return_probs`); `eval.policy.decide_from_probs` is the one decision path
+  for the endpoint and every offline re-decision. One L4 run scores all three benchmarks incl. the 4,153 UNSW attack
+  rows and the remaining 1,084 benign (input uploaded in 8 MB parts). `training.gemma_tpu.data bench` exports the same
+  records with the endpoint's sensor contract (budget windows, decoded views) + the robustness set;
+  `run_tpu.sh` score-only mode (`GEMMA_SCORE`, `GEMMA_LORA` uploaded in checksum-verified parts). Both Colab drivers
+  were smoke-tested against a mock colab CLI (parts upload, checksum, stages, download); the real runs are still to do.
+
 ### 19 October ~13:00 — Gemma cicfix run launched unattended on a free Colab account (results to Drive)
 
 - Free account (`colab usage` 0.00 units). `colab new --tpu v5e1` hit the CLI's 120 s ReadTimeout twice; the second

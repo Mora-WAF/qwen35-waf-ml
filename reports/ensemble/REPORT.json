@@ -1,0 +1,185 @@
+{
+ "members": [
+  {
+   "name": "qwen35_4b_v11",
+   "scores": "reports/colab_a100v11/SCORES_fast.jsonl",
+   "policy": "reports/colab_a100v11/policy_v11.yaml",
+   "temperature": 1.043846,
+   "fingerprint": {
+    "chat_template_sha256": "8452ca85cb1e0ff04304c02f417a53305d5ba17f6eb9d5693343ad8355f985a8",
+    "system_prompt_sha256": "630f85e6a579685318ded73bc652414d8ee5e914be300ce690c96b5e533c9dec"
+   }
+  },
+  {
+   "name": "gemma4_e2b_it_1ep",
+   "scores": "reports/gemma_tpu/SCORES_fast.jsonl",
+   "policy": "config/policy_gemma.yaml",
+   "temperature": 1.038391,
+   "fingerprint": null
+  }
+ ],
+ "records": {
+  "merged": {
+   "val_calib": 1198,
+   "val_policy": 1178,
+   "test": 4599,
+   "test_unseen": 5658
+  },
+  "dropped": {
+   "qwen35_4b_v11": {
+    "robustness": 100,
+    "test_unseen": 1
+   },
+   "gemma4_e2b_it_1ep": {
+    "val_select": 3403
+   }
+  }
+ },
+ "policy": "config/policy_ensemble.yaml",
+ "temperature": 0.89782,
+ "tau": 0.640153,
+ "act_on": "top_class",
+ "val_policy_at_tau": {
+  "tau": 0.640153,
+  "coverage": 0.9924,
+  "attack_intervention_recall": 0.9942,
+  "benign_false_intervention": 0.002,
+  "hard_negative_false_intervention": 0.0,
+  "accuracy_when_acting": 0.9923,
+  "abstention_rate": 0.0076
+ },
+ "not_measured": "robustness set (the Gemma member has no robustness scores); flow-envelope abstention on the test splits when the build is not on this machine (records_with_flow_features)",
+ "records_with_flow_features": 0,
+ "test": {
+  "qwen35_4b_v11": {
+   "n": 4599,
+   "accuracy": 0.9898,
+   "nll": 0.0388,
+   "ece": 0.0029,
+   "argmax_attack_to_benign": 11,
+   "argmax_benign_to_attack": 10,
+   "policy": {
+    "act_on": "top_class",
+    "tau": 0.772001,
+    "coverage": 0.99,
+    "attack_intervention_recall": 0.9926,
+    "benign_false_intervention": 0.0026,
+    "hard_negative_false_intervention": 0.0,
+    "accuracy_when_acting": 0.9936,
+    "abstention_rate": 0.01
+   }
+  },
+  "gemma4_e2b_it_1ep": {
+   "n": 4599,
+   "accuracy": 0.9885,
+   "nll": 0.0456,
+   "ece": 0.002,
+   "argmax_attack_to_benign": 12,
+   "argmax_benign_to_attack": 8,
+   "policy": {
+    "act_on": "attack_mass",
+    "tau": 0.877005,
+    "coverage": 0.9907,
+    "attack_intervention_recall": 0.9882,
+    "benign_false_intervention": 0.0016,
+    "hard_negative_false_intervention": 0.0023,
+    "accuracy_when_acting": 0.9908,
+    "abstention_rate": 0.0093
+   }
+  },
+  "ensemble": {
+   "n": 4599,
+   "accuracy": 0.9904,
+   "nll": 0.0349,
+   "ece": 0.002,
+   "argmax_attack_to_benign": 11,
+   "argmax_benign_to_attack": 6,
+   "policy": {
+    "act_on": "top_class",
+    "tau": 0.640153,
+    "coverage": 0.993,
+    "attack_intervention_recall": 0.9941,
+    "benign_false_intervention": 0.0011,
+    "hard_negative_false_intervention": 0.0,
+    "accuracy_when_acting": 0.9932,
+    "abstention_rate": 0.007
+   }
+  },
+  "paired_enforcement_errors_vs_ensemble": {
+   "qwen35_4b_v11": {
+    "member_wrong_ensemble_right": 15,
+    "member_right_ensemble_wrong": 8
+   },
+   "gemma4_e2b_it_1ep": {
+    "member_wrong_ensemble_right": 22,
+    "member_right_ensemble_wrong": 5
+   }
+  }
+ },
+ "test_unseen": {
+  "qwen35_4b_v11": {
+   "n": 5658,
+   "accuracy": 0.98,
+   "nll": 0.0707,
+   "ece": 0.0049,
+   "argmax_attack_to_benign": 21,
+   "argmax_benign_to_attack": 10,
+   "policy": {
+    "act_on": "top_class",
+    "tau": 0.772001,
+    "coverage": 0.9843,
+    "attack_intervention_recall": 0.9841,
+    "benign_false_intervention": 0.0041,
+    "hard_negative_false_intervention": 0.0,
+    "accuracy_when_acting": 0.9867,
+    "abstention_rate": 0.0157
+   }
+  },
+  "gemma4_e2b_it_1ep": {
+   "n": 5658,
+   "accuracy": 0.9802,
+   "nll": 0.0658,
+   "ece": 0.0071,
+   "argmax_attack_to_benign": 29,
+   "argmax_benign_to_attack": 11,
+   "policy": {
+    "act_on": "attack_mass",
+    "tau": 0.877005,
+    "coverage": 0.9832,
+    "attack_intervention_recall": 0.983,
+    "benign_false_intervention": 0.001,
+    "hard_negative_false_intervention": 0.0,
+    "accuracy_when_acting": 0.9862,
+    "abstention_rate": 0.0168
+   }
+  },
+  "ensemble": {
+   "n": 5658,
+   "accuracy": 0.9871,
+   "nll": 0.0552,
+   "ece": 0.0064,
+   "argmax_attack_to_benign": 10,
+   "argmax_benign_to_attack": 3,
+   "policy": {
+    "act_on": "top_class",
+    "tau": 0.640153,
+    "coverage": 0.9878,
+    "attack_intervention_recall": 0.9895,
+    "benign_false_intervention": 0.001,
+    "hard_negative_false_intervention": 0.0,
+    "accuracy_when_acting": 0.9903,
+    "abstention_rate": 0.0122
+   }
+  },
+  "paired_enforcement_errors_vs_ensemble": {
+   "qwen35_4b_v11": {
+    "member_wrong_ensemble_right": 43,
+    "member_right_ensemble_wrong": 17
+   },
+   "gemma4_e2b_it_1ep": {
+    "member_wrong_ensemble_right": 47,
+    "member_right_ensemble_wrong": 23
+   }
+  }
+ }
+}

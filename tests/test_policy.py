@@ -86,6 +86,23 @@ def test_flow_envelope_from_frozen_policy_yaml():
     assert outside_envelope({"duration_s": 5000.0}, pol["flow_envelope"])
 
 
+def test_zero_duration_is_below_exporter_resolution_not_outside():
+    # NetFlow records milliseconds: a 2-packet flow of 0 ms lies inside a CIC-fitted [2e-06, ...] duration box
+    env = {"duration_s": ["2e-06", 3113.0], "pkts_per_s": [0.03, 1e6], "bytes_per_s": [0.0, 3.1e7], "pkts_total": [2, 21107]}
+    short = {"duration_s": 0, "pkts_total": 2, "bytes_total": 120}
+    assert not outside_envelope(short, env)
+    assert outside_envelope(short, env, resolution={})  # exact comparison: the behaviour before 19 Oct
+    assert outside_envelope({**short, "pkts_total": 1}, env)  # the other bounds still apply
+    assert outside_envelope({**short, "pkts_total": 5000}, env)  # 5,000 packets in < 1 ms: > 1e6 pkt/s, a burst
+    assert outside_envelope({**short, "bytes_total": 40_000}, env)  # > 4e7 B/s
+    assert outside_envelope({"duration_s": 1e-6, "pkts_total": 2}, env)  # a measured 1 us stays below 2 us
+    assert outside_envelope(short, {"duration_s": [0.01, 3113.0]})  # [0, 1 ms) lies wholly below a 10 ms bound
+    pol = {**CAL, "flow_envelope": env}
+    assert decide(out("benign_standard_traffic"), "L4_FLOW", None, 0.99, TAX, pol, short)[0]["verdict"] == "ALLOW"
+    d, diag = decide(out("benign_standard_traffic"), "L4_FLOW", None, 0.99, TAX, {**pol, "flow_envelope_resolution": {}}, short)
+    assert d["verdict"] == "ABSTAIN" and diag["reason"] == "out_of_envelope"
+
+
 def test_envelope_written_by_calibration_reloads_as_numbers():
     env = {"duration_s": [2e-06, 2994.234], "pkts_total": [2, 14807]}
     text = yaml.safe_dump(env, default_flow_style=True, width=10**9).strip()  # what eval.calibration writes
@@ -128,5 +145,47 @@ def test_decision_view_attack_mass():
 def test_frozen_policies_name_a_decision_view():
     from eval.policy import decision_view
     root = Path(__file__).resolve().parent.parent / "config"
-    for f in ("policy.yaml", "policy_gemma.yaml"):  # the scorer passes act_on to decision_view
+    for f in ("policy.yaml", "policy_gemma.yaml", "policy_ensemble.yaml"):  # the scorer passes act_on to decision_view
         decision_view([[0.6, 0.4]], [False, True], yaml.safe_load(open(root / f)).get("act_on", "top_class"))
+
+
+def test_ensemble_probs_is_the_tempered_mean_of_member_distributions():
+    import numpy as np
+    from eval.policy import ensemble_log_mean, ensemble_probs
+    pol = yaml.safe_load(open(Path(__file__).resolve().parent.parent / "config/policy_ensemble.yaml"))
+    assert [m["name"] for m in pol["ensemble"]["members"]] == ["qwen35_4b_v11", "gemma4_e2b_it_1ep"]
+    a, b = np.array([0.7, 0.2, 0.1]), np.array([0.1, 0.8, 0.1])
+    p = ensemble_probs([a, b], {**pol, "temperature": 1.0})
+    assert np.allclose(p, (a + b) / 2) and np.allclose(np.exp(ensemble_log_mean([a, b])), (a + b) / 2)
+    hot = ensemble_probs([a, b], {**pol, "temperature": 0.5})  # T < 1 sharpens the mean
+    assert hot.argmax() == p.argmax() and hot.max() > p.max() and np.isclose(hot.sum(), 1.0)
+    with pytest.raises(AssertionError):
+        ensemble_probs([a], pol)  # one distribution per member
+    d, _ = decide(out("benign_standard_traffic"), "L7_HTTP", None, float(p.max()), TAX, pol)
+    validate_decision(d, TAX, SCHEMA)
+
+
+def test_ensemble_merge_matches_members_and_drops_unshared_records(tmp_path):
+    import numpy as np
+    from eval import calibration as CAL
+    from eval.ensemble import merge
+    classes = list(TAX["classes"])
+    rng = np.random.default_rng(0)
+
+    def member(name, ids, T):
+        rows = [{"classes": classes, "mode": "fast"}]
+        rows += [{"id": i, "split": "test", "kind": None, "label": classes[0], "scores": rng.normal(-10, 3, len(classes)).tolist()}
+                 for i in ids]
+        (tmp_path / f"{name}.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
+        (tmp_path / f"{name}.yaml").write_text(f"temperature: {T}\n")
+        return rows, (name, str(tmp_path / f"{name}.jsonl"), str(tmp_path / f"{name}.yaml"))
+    ra, ma = member("a", ["r1", "r2", "r3"], 1.2)
+    rb, mb = member("b", ["r2", "r3", "r4"], 0.8)
+    head, counts = merge([ma, mb], str(tmp_path / "ens.jsonl"))
+    assert counts["merged"] == {"test": 2} and counts["dropped"] == {"a": {"test": 1}, "b": {"test": 1}}
+    got = {r["id"]: r for r in map(json.loads, open(tmp_path / "ens.jsonl").read().splitlines()[1:])}
+    sa, sb = {r["id"]: r["scores"] for r in ra[1:]}, {r["id"]: r["scores"] for r in rb[1:]}
+    for i in ("r2", "r3"):
+        want = (CAL.softmax(sa[i], 1.2) + CAL.softmax(sb[i], 0.8)) / 2
+        assert np.allclose(CAL.softmax(got[i]["scores"]), want, atol=1e-5)
+    assert [m["temperature"] for m in head["ensemble"]["members"]] == [1.2, 0.8]

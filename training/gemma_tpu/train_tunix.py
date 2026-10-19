@@ -327,8 +327,9 @@ def score(splits, loaded=None, margin=12.0):
                         for j, (r, c) in enumerate(grp):
                             rows[r][c] += float(sum(lp2[j, q, tt[j, q]] for q in range(K) if tm[j, q]))
                     for r in range(n):
+                        lab = int(d["label"][sl][r])  # -1: no class (benchmark attack outside the taxonomy, robustness)
                         fh.write(json.dumps({"id": str(d["ids"][sl][r]), "split": str(d["split"][sl][r]), "kind": None,
-                                             "label": classes[d["label"][sl][r]], "scores": rows[r]}) + "\n")
+                                             "label": classes[lab] if lab >= 0 else None, "scores": rows[r]}) + "\n")
             fh.close()
             print("scored", split, flush=True)
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
-# vLLM vs HF transformers benchmark of the v10 classifier on a Colab GPU (no Drive, no browser step).
+# vLLM vs HF transformers benchmark of the classifier (v10 by default) on a Colab GPU (no Drive, no browser step).
 #   colab/run_vllm_bench.sh [NAME] [GPU] [N]     defaults: vllmbench L4 400
 # new VM -> upload model package + N test records with their A100 scores -> pip -> merge -> hf -> vllm -> report
 # -> download reports/vllm_bench_<GPU>.json -> stop the VM (always, via the EXIT trap).
 # Env: RUN_DIR BUNDLE_ZIP (deploy.sh args, e.g. reports/colab_a100v11 colab/colab_bundle_fast.zip), FP_IN FP_OUT, STAGES.
+# Public benchmarks with the v11 model (all three in one VM): deploy/run_benchmarks.sh qwen
 set -uo pipefail
 NAME=${1:-vllmbench} GPU=${2:-L4} N=${3:-400}
 cd "$(dirname "$0")/.."
@@ -20,13 +21,13 @@ print('STEP-OK $n')" | tee -a "$LOG" | grep -q "STEP-OK $n"
 S=$(mktemp -d); trap 'rm -rf "$S"; timeout 180 colab stop -s "$NAME" >>"$LOG" 2>&1; colab sessions 2>&1 | tail -3 | tee -a "$LOG"' EXIT
 PACKAGE_ONLY="$S/model.tar.gz" deploy/deploy.sh ${RUN_DIR:-} ${BUNDLE_ZIP:-} >>"$LOG" 2>&1 || die "package"
 mkdir "$S/pkg" && tar -xzf "$S/model.tar.gz" -C "$S/pkg" && (cd "$S/pkg" && zip -qr "$S/pkg.zip" .) || die "zip"  # .tar.gz uploads fail with HTTP 500
-.venv/bin/python - "$S/sample.jsonl" "$N" <<'EOF'
+.venv/bin/python - "$S/sample.jsonl" "$N" "${RUN_DIR:-reports/colab_a100v10}" "${BUNDLE_ZIP:-colab/colab_bundle_fast_v10.zip}" <<'EOF'
 import json, random, sys
 from training.prepare import deserialize_telemetry
-f = open("reports/colab_a100v10/SCORES_fast.jsonl"); f.readline()
+f = open(f"{sys.argv[3]}/SCORES_fast.jsonl"); f.readline()
 scores = {r["id"]: r["scores"] for r in map(json.loads, f) if r["split"] == "test"}
-import zipfile  # the v10 test set (the A100 scores belong to it), not whatever datasets_ready/ holds now
-rows = [json.loads(l) for l in zipfile.ZipFile("colab/colab_bundle_fast_v10.zip").open("datasets_ready/fast_test.jsonl")]
+import zipfile  # the run's own test set (its A100 scores belong to it), not whatever datasets_ready/ holds now
+rows = [json.loads(l) for l in zipfile.ZipFile(sys.argv[4]).open("datasets_ready/fast_test.jsonl")]
 rows = random.Random(7).sample([r for r in rows if r["id"] in scores], int(sys.argv[2]))
 open(sys.argv[1], "w").write("".join(json.dumps({"id": r["id"], "telemetry": deserialize_telemetry(r["messages"][1]["content"]),
                                                  "scores": scores[r["id"]]}) + "\n" for r in rows))
@@ -41,7 +42,10 @@ up() { for _ in 1 2 3; do timeout 900 colab upload -s "$NAME" "$1" "$2" >>"$LOG"
 (cd "$S" && split -b 8m -d pkg.zip pkg.part. && sha256sum pkg.zip | cut -c1-64 > pkg.sha256)
 for f in "$S"/pkg.part.* "$S/pkg.sha256" "$S/sample.jsonl"; do up "$f" "/content/$(basename "$f")" || die "upload $(basename "$f")"; done
 up colab/vllm_bench.py /content/vllm_bench.py || die "upload script"
-if [ -n "${FP_IN:-}" ]; then up "$FP_IN" /content/fp_in.jsonl.gz || die "upload fp input"; fi  # gzip, < 10 MB
+if [ -n "${FP_IN:-}" ]; then  # gzip; in 8 MB parts like the package (every benchmark together is larger)
+  FP_ABS=$(realpath "$FP_IN") && mkdir "$S/fp" && (cd "$S/fp" && split -b 8m -d "$FP_ABS" fp.part. && sha256sum "$FP_ABS" | cut -c1-64 > fp.sha256) || die "split fp input"
+  for f in "$S"/fp/fp.part.* "$S/fp/fp.sha256"; do up "$f" "/content/$(basename "$f")" || die "upload $(basename "$f")"; done
+fi
 # a long call can lose the CLI connection (01:58: "Connection was lost" during merge): every stage runs detached on
 # the VM and is polled with short calls, so a dropped connection costs one poll, not the stage
 RUNS=0
@@ -67,6 +71,9 @@ print(open('/content/$id.log', errors='replace').read()[-1500:] if os.path.exist
 }
 say "unpack + pip (vllm 0.30.0 brings torch 2.13)"
 run 600 "cd /content && cat pkg.part.* > pkg.zip && sha256sum pkg.zip | cut -c1-64 | cmp -s - pkg.sha256 && mkdir -p pkg && cd pkg && unzip -q -o ../pkg.zip" || die "unpack (checksum)"
+if [ -n "${FP_IN:-}" ]; then
+  run 300 "cd /content && cat fp.part.* > fp_in.jsonl.gz && sha256sum fp_in.jsonl.gz | cut -c1-64 | cmp -s - fp.sha256" || die "fp input (checksum)"
+fi
 run 1500 "pip uninstall -y -q torchao; pip install -q vllm==0.30.0 transformers==5.17.0 peft==0.21.2 jsonschema" || die pip  # Colab torchao 0.10 breaks peft imports
 for st in ${STAGES:-merge:2400 hf:2400 vllm:2400 report:300}; do  # STAGES="merge:2400 vllm_gen:2400 report:300"
   say "stage ${st%%:*}"; run "${st##*:}" "cd /content && PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True python3 vllm_bench.py ${st%%:*}" || die "stage ${st%%:*} (see $LOG)"

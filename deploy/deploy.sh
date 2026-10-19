@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Deploy the v10 classifier to a SageMaker real-time endpoint (us-east-1, ml.g6.xlarge = L4 24 GB).
+# Deploy the classifier (v10 by default; v11: reports/colab_a100v11 colab/colab_bundle_fast.zip) to a SageMaker real-time endpoint (us-east-1, ml.g6.xlarge = L4 24 GB).
 #   deploy/deploy.sh [RUN_DIR] [BUNDLE_ZIP]     defaults: reports/colab_a100v10, colab/colab_bundle_fast_v10.zip
 # Creates (if missing) the execution role, a private bucket, then model -> endpoint config -> endpoint, and waits.
 # The endpoint bills per hour while it exists: deploy/teardown.sh deletes it.
@@ -24,35 +24,7 @@ cp training/colab_helpers.py "$PKG/code/training/colab_helpers.py"  # + batch_cl
 cp training/prepare.py "$PKG/code/training/prepare.py"  # + sensor contract (decoded views, budget windows); prompt and
                                                           # serialization unchanged from the bundle (checked 17 Oct)
 cp deploy/sagemaker/inference.py deploy/sagemaker/requirements.txt "$PKG/code/"
-.venv/bin/python - "$RUN" "$PKG/code" <<'EOF'
-import json, sys
-from training.prepare import deserialize_telemetry
-run, out = sys.argv[1], sys.argv[2]
-rep = json.load(open(f"{run}/train_fast_report.json"))
-json.dump(rep["fingerprint"], open(f"{out}/fingerprint.json", "w"))
-scores = {}
-f = open(f"{run}/SCORES_fast.jsonl"); f.readline()
-for line in f:
-    r = json.loads(line)
-    if r["split"] == "test":
-        scores[r["id"]] = r["scores"]
-picked, modes = [], set()
-for line in open("datasets_ready/fast_test.jsonl"):  # one record per input mode first, then fill to 5
-    r = json.loads(line)
-    tel = deserialize_telemetry(r["messages"][1]["content"])
-    if r["id"] in scores and (tel["mode"] not in modes or len(modes) >= 3):
-        modes.add(tel["mode"]); picked.append({"id": r["id"], "telemetry": tel, "scores": scores[r["id"]]})
-    if len(picked) == 5:
-        break
-# plus the 3 hardest test records (smallest top-2 gap): confident records only check the top class, which is ~0 anyway
-gap = sorted(scores, key=lambda i: (lambda s: s[0] - s[1])(sorted(scores[i], reverse=True)))[:3]
-for line in open("datasets_ready/fast_test.jsonl"):
-    r = json.loads(line)
-    if r["id"] in gap and r["id"] not in {x["id"] for x in picked}:
-        picked.append({"id": r["id"], "telemetry": deserialize_telemetry(r["messages"][1]["content"]), "scores": scores[r["id"]]})
-open(f"{out}/selfcheck.jsonl", "w").write("".join(json.dumps(x) + "\n" for x in picked))
-print("selfcheck:", [(x["id"], x["telemetry"]["mode"]) for x in picked])
-EOF
+.venv/bin/python -m deploy.package_meta "$RUN" "$BUNDLE" "$PKG/code"  # fingerprint, self-check records (from the bundle), serving.json
 tar -czf "$PKG/model.tar.gz" -C "$PKG" adapter code
 say "package $(du -h "$PKG/model.tar.gz" | cut -f1)"
 [ -n "${PACKAGE_ONLY:-}" ] && { cp "$PKG/model.tar.gz" "$PACKAGE_ONLY"; say "PACKAGE_ONLY -> $PACKAGE_ONLY"; exit 0; }
