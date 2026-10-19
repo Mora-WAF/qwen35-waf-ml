@@ -68,7 +68,7 @@ sources:
   revision: d5cb9da4522c1a1e20e0e393bc992b506adb8c55
   default_branch: main
   license_spdx: Apache-2.0
-  license_note: 'GitHub API license spdx_id: Apache-2.0 | files: regression tests for rule families 930/932/941/942/944 only
+  license_note: 'GitHub API license spdx_id: Apache-2.0 | files: regression tests for rule families 921/930-934/941/942/944 only
     (positives used as annotated fixtures)'
   files:
   - path: tests/regression/tests/REQUEST-930-APPLICATION-ATTACK-LFI/930100.yaml
@@ -395,7 +395,121 @@ sources:
     size_bytes: 1853
   - path: tests/regression/tests/REQUEST-944-APPLICATION-ATTACK-JAVA/944300.yaml
     size_bytes: 246212
-  total_size_bytes: 2330651
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921110.yaml
+    size_bytes: 7137
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921120.yaml
+    size_bytes: 3531
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921130.yaml
+    size_bytes: 3239
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921140.yaml
+    size_bytes: 1306
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921150.yaml
+    size_bytes: 1189
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921151.yaml
+    size_bytes: 2054
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921160.yaml
+    size_bytes: 3818
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921180.yaml
+    size_bytes: 3136
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921190.yaml
+    size_bytes: 2139
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921200.yaml
+    size_bytes: 17185
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921210.yaml
+    size_bytes: 1695
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921220.yaml
+    size_bytes: 649
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921230.yaml
+    size_bytes: 626
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921240.yaml
+    size_bytes: 1177
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921250.yaml
+    size_bytes: 1798
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921421.yaml
+    size_bytes: 5517
+  - path: tests/regression/tests/REQUEST-921-PROTOCOL-ATTACK/921422.yaml
+    size_bytes: 7739
+  - path: tests/regression/tests/REQUEST-931-APPLICATION-ATTACK-RFI/931100.yaml
+    size_bytes: 3618
+  - path: tests/regression/tests/REQUEST-931-APPLICATION-ATTACK-RFI/931110.yaml
+    size_bytes: 2366
+  - path: tests/regression/tests/REQUEST-931-APPLICATION-ATTACK-RFI/931120.yaml
+    size_bytes: 4099
+  - path: tests/regression/tests/REQUEST-931-APPLICATION-ATTACK-RFI/931130.yaml
+    size_bytes: 12521
+  - path: tests/regression/tests/REQUEST-931-APPLICATION-ATTACK-RFI/931131.yaml
+    size_bytes: 1296
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933100.yaml
+    size_bytes: 49796
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933110.yaml
+    size_bytes: 22179
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933111.yaml
+    size_bytes: 5159
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933120.yaml
+    size_bytes: 8051
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933130.yaml
+    size_bytes: 3651
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933131.yaml
+    size_bytes: 2165
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933135.yaml
+    size_bytes: 6580
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933140.yaml
+    size_bytes: 1208
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933150.yaml
+    size_bytes: 22716
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933151.yaml
+    size_bytes: 4878
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933152.yaml
+    size_bytes: 4930
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933153.yaml
+    size_bytes: 5008
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933160.yaml
+    size_bytes: 28933
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933161.yaml
+    size_bytes: 8143
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933170.yaml
+    size_bytes: 7613
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933180.yaml
+    size_bytes: 22897
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933190.yaml
+    size_bytes: 1287
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933200.yaml
+    size_bytes: 6529
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933210.yaml
+    size_bytes: 12553
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933211.yaml
+    size_bytes: 12556
+  - path: tests/regression/tests/REQUEST-933-APPLICATION-ATTACK-PHP/933220.yaml
+    size_bytes: 11863
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934100.yaml
+    size_bytes: 19792
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934101.yaml
+    size_bytes: 6835
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934110.yaml
+    size_bytes: 6318
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934120.yaml
+    size_bytes: 36291
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934130.yaml
+    size_bytes: 7534
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934140.yaml
+    size_bytes: 24116
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934150.yaml
+    size_bytes: 1029
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934160.yaml
+    size_bytes: 14824
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934170.yaml
+    size_bytes: 3360
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934180.yaml
+    size_bytes: 2135
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934190.yaml
+    size_bytes: 11434
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934200.yaml
+    size_bytes: 9841
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934210.yaml
+    size_bytes: 6823
+  - path: tests/regression/tests/REQUEST-934-APPLICATION-ATTACK-GENERIC/934220.yaml
+    size_bytes: 3793
+  total_size_bytes: 2821306
   status: available
   intended_use: Rule-specific positive and negative fixtures
   restriction: Rule match/non-match is an annotation signal, not universal malicious/benign truth
