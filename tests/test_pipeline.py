@@ -556,3 +556,12 @@ def test_robustness_exclusion_keeps_a_blocked_campaign_host_used(tmp_path, monke
     monkeypatch.setattr(RB, "ROOT", tmp_path)
     used = RB.core_groups()
     assert "cic:172.16.0.1->192.168.10.50" in used and "seed:abc" in used  # OOT flows of that host stay excluded
+
+
+def test_identical_input_with_two_labels_is_dropped_not_resolved_by_order():
+    from data_pipeline.dedup_and_split import drop_label_conflicts
+    recs = [_rec("sqli_classic", "g1", "same"), _rec("benign_standard_traffic", "g2", "same"),
+            _rec("sqli_classic", "g3", "dup"), _rec("sqli_classic", "g4", "dup"), _rec("xss_reflected_stored", "g5", "x")]
+    kept, conflicts = drop_label_conflicts(recs)
+    assert conflicts == {"benign_standard_traffic|sqli_classic": 1}
+    assert sorted(r["metadata"]["lineage_group"] for r in kept) == ["g3", "g4", "g5"]  # same-label dups stay for dedup()

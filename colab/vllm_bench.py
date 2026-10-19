@@ -10,6 +10,8 @@ Stages, each in its own process (python vllm_bench.py STAGE), so GPU memory is r
           taken before that restriction. Same pruning as class_logprobs (first class token for all 41 classes,
           remaining tokens for classes within 12 nats).
   report  scores vs the A100 run (sample.jsonl) and vs each other, records/s -> /content/vllm_bench.json
+  fp / gemma_fp  every record of /content/fp_in.jsonl.gz through the Qwen endpoint's predict_fn / Gemma on HF
+          (eval.public_bench pack; deploy/run_benchmarks.sh gpu)
 Inputs in /content: pkg/ (the SageMaker model.tar.gz: adapter/ + code/), sample.jsonl (telemetry + A100 scores).
 """
 import json
@@ -222,6 +224,46 @@ def fp():
                 print(f"fp {len(done) + i + len(chunk)} done, {(i + len(chunk)) / (time.time() - t0):.2f} rec/s", flush=True)
 
 
+def gemma_fp():
+    """Gemma 4 E2B (the TPU adapter on HF transformers, training.gemma_tpu.hf_scorer) on the same records as fp: sensor
+    contract 1 with the decoded views (the v11 build Gemma trained on), windows by Gemma's own token budget, the window
+    with the most attack mass decides, Gemma's frozen policy -> /content/gemma_fp_out.jsonl with each record's
+    calibrated distribution (resumable). Refuses to score unless the HF port reproduces the TPU scores
+    (/content/gemma_selfcheck.jsonl: same top class, probability difference < 0.05)."""
+    import gzip
+    import yaml
+    from pathlib import Path as _P
+    from eval import policy as POL
+    from training.gemma_tpu import data as GD, hf_scorer as HS
+    tax, _, _ = POL.load(_P(f"{PKG}/code"))
+    pol = yaml.safe_load(open(f"{OUT}/policy_gemma.yaml"))
+    classes, T = list(tax["classes"]), float(pol["temperature"])
+    model, tok = HS.load(f"{OUT}/gemma_lora.npz")
+    diff = HS.selfcheck(model, tok, [json.loads(x) for x in open(f"{OUT}/gemma_selfcheck.jsonl")], T, classes)
+    print(f"gemma selfcheck vs TPU: max probability difference {diff:.4f}", flush=True)
+    suf = GD.class_suffixes(tok, classes)
+    out_p = f"{OUT}/gemma_fp_out.jsonl"
+    done = {json.loads(x)["id"] for x in open(out_p)} if os.path.exists(out_p) else set()
+    recs = [r for r in map(json.loads, gzip.open(f"{OUT}/fp_in.jsonl.gz", "rt")) if r["id"] not in done]
+    t0 = time.time()
+    with open(out_p, "a") as fh:
+        for i in range(0, len(recs), 16):
+            chunk = recs[i:i + 16]
+            for x in HS.score_records(model, tok, chunk, tax, pol, suf, contract=1):
+                fh.write(json.dumps(x) + "\n")
+            fh.flush()
+            if i % 800 == 0:
+                print(f"gemma_fp {len(done) + i + len(chunk)} done, {(i + len(chunk)) / (time.time() - t0):.2f} rec/s", flush=True)
+    # the robustness set (if uploaded): raw class scores in the notebook's score-file format, for eval.ensemble
+    if os.path.exists(f"{OUT}/robust_in.jsonl"):
+        rob = [json.loads(x) for x in open(f"{OUT}/robust_in.jsonl")]
+        with open(f"{OUT}/gemma_robustness_scores.jsonl", "w") as fh:
+            fh.write(json.dumps({"classes": classes, "mode": "fast"}) + "\n")
+            for x in HS.robustness_scores(model, tok, rob, tax, T, suf, contract=1):
+                fh.write(json.dumps(x) + "\n")
+        print(f"gemma robustness scores: {len(rob)} records", flush=True)
+
+
 def report():
     import numpy as np
     recs = records()
@@ -266,4 +308,4 @@ def report():
 
 
 if __name__ == "__main__":
-    {"merge": merge, "hf": hf, "vllm": vllm, "vllm_gen": vllm_gen, "fp": fp, "report": report}[sys.argv[1]]()
+    {"merge": merge, "hf": hf, "vllm": vllm, "vllm_gen": vllm_gen, "fp": fp, "gemma_fp": gemma_fp, "report": report}[sys.argv[1]]()

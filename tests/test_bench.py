@@ -268,3 +268,49 @@ def test_fit_contract_evidence_from_the_build():
     t = _http("a=1")
     t["http"]["cookies_truncated"] = 3
     assert fit_contract([_http("a=1"), t]) == 2
+
+
+def test_predict_fn_serves_the_ensemble_like_the_offline_combination(inference):
+    """Ensemble package: Qwen (member 0) and Gemma (member 1) distributions at their own temperatures, averaged and
+    decided once with the ensemble policy; the same numbers as eval.policy.ensemble_probs on each member's output.
+    Tiny random models on CPU; Qwen's tokenizer stands in for Gemma's."""
+    import torch
+    from transformers import Gemma4ForCausalLM, Gemma4TextConfig, Qwen3_5ForCausalLM, Qwen3_5TextConfig
+    from training import colab_helpers as H
+    from training.gemma_tpu import hf_scorer as HS
+    I = inference
+    try:
+        tok = P.load_tokenizer()
+    except Exception as e:
+        pytest.skip(f"tokenizer not available: {e}")
+    torch.manual_seed(0)
+    qwen = Qwen3_5ForCausalLM(Qwen3_5TextConfig(
+        vocab_size=len(tok), hidden_size=64, intermediate_size=128, num_hidden_layers=4,
+        layer_types=["linear_attention", "linear_attention", "linear_attention", "full_attention"], num_attention_heads=4,
+        num_key_value_heads=2, head_dim=16, linear_num_key_heads=2, linear_num_value_heads=4, linear_key_head_dim=16,
+        linear_value_head_dim=16, pad_token_id=tok.pad_token_id)).float().eval()
+    gemma = Gemma4ForCausalLM(Gemma4TextConfig(
+        vocab_size=len(tok), hidden_size=32, intermediate_size=64, num_hidden_layers=8, num_attention_heads=2,
+        num_key_value_heads=1, head_dim=16, global_head_dim=32, hidden_size_per_layer_input=4, vocab_size_per_layer_input=len(tok),
+        num_kv_shared_layers=3, use_double_wide_mlp=True, final_logit_softcapping=30.0, sliding_window=64,
+        layer_types=["sliding_attention", "sliding_attention", "full_attention", "sliding_attention", "sliding_attention",
+                     "full_attention", "sliding_attention", "full_attention"], pad_token_id=tok.pad_token_id)).float().eval()
+    pol = yaml.safe_load(open(ROOT / "config/policy_ensemble.yaml"))
+    suf = H.candidate_suffixes(tok, CLASSES)
+    st = {"model": qwen, "tok": tok, "tax": TAX, "pol": pol, "classes": CLASSES, "selfcheck_max_diff": 0.0, "suf": suf,
+          "controls": P.control_strings(tok),
+          "gemma": {"model": gemma, "tok": tok, "suf": suf, "T": I._member_temperature(pol, 1), "selfcheck_max_diff": 0.0}}
+    recs = [_http("a=1"), _http("q=" + "select " * 20, jwt=True),
+            {"schema_version": 1, "mode": "L4_FLOW", "flow": {"features": {"duration_s": 0, "pkts_total": 2}}}]
+    res = I.predict_fn(([json.loads(json.dumps(r)) for r in recs], "sequential", True), st)["results"]
+    Tq, Tg = I._member_temperature(pol, 0), I._member_temperature(pol, 1)
+    assert (Tq, Tg) == (1.043846, 1.038391) and float(pol["temperature"]) != Tq
+    for r, x in zip(recs, res):
+        msgs = [{"role": "system", "content": P.system_prompt()},
+                {"role": "user", "content": P.serialize_telemetry(I._enrich(json.loads(json.dumps(r))), st["controls"])}]
+        pq = CAL.softmax(H.class_logprobs(qwen, tok, msgs, suf), Tq)
+        gp, _ = HS.record_probs(gemma, tok, [{"id": "0", "telemetry": json.loads(json.dumps(r))}], TAX, Tg, suf, contract=I.FIT_CONTRACT)
+        want = POL.ensemble_probs([pq, gp["0"]], pol)
+        assert np.abs(np.array(x["probs"]) - want).max() < 1e-4 and x["temperature"] == float(pol["temperature"])
+        assert np.abs(np.array(x["member_probs"][0]) - pq).max() < 1e-4
+        assert x["decision"]["verdict"] == POL.decide_from_probs(want, r, TAX, pol)[0]["verdict"]

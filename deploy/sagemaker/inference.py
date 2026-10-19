@@ -12,6 +12,11 @@ Response: {"results": [{"decision": {...}, "diagnostics": {...}, "top": [[class,
           taxonomy order) and "temperature", so another member's distribution can be combined offline (eval.ensemble).
 serving.json (written by deploy.sh from the bundle): whether the model was trained with the sensor's jwt/base64
 decoded views (WAF_DECODED_VIEWS=0/1 overrides it) and which sensor contract (fit_budget version) its build used.
+Ensemble package (deploy.sh ENSEMBLE=1, 19 Oct): gemma/ holds the TPU-trained Gemma 4 E2B adapter (lora.npz, run on
+HF transformers by training.gemma_tpu.hf_scorer) and its TPU selfcheck records; config/policy.yaml is the ensemble
+policy. Each member's distribution uses its own frozen temperature (the policy's ensemble block), their mean is
+re-tempered and decided once (eval.policy.ensemble_probs), as eval.public_bench ensemble does offline. model_fn
+refuses to start unless both members reproduce their reference scores.
 """
 import json
 import os
@@ -37,6 +42,23 @@ def _softmax(s, T):
     return e / e.sum()
 
 
+def _member_temperature(pol, i):
+    """Temperature of ensemble member i (0 = this Qwen model, 1 = Gemma); a single-model policy's own temperature."""
+    return float(pol["ensemble"]["members"][i]["temperature"]) if "ensemble" in pol else float(pol["temperature"])
+
+
+def _load_gemma(gdir, st):
+    """The Gemma member of an ensemble package: base from the Hub + the TPU adapter as hooks, checked against its TPU
+    scores (same top class, probability difference < SELFCHECK_A100_DIFF)."""
+    from training.gemma_tpu import data as GD, hf_scorer as HS
+    model, tok = HS.load(str(gdir / "lora.npz"))
+    T = _member_temperature(st["pol"], 1)
+    checks = [json.loads(line) for line in open(gdir / "selfcheck.jsonl")]
+    diff = HS.selfcheck(model, tok, checks, T, st["classes"], tol=SELFCHECK_A100_DIFF)
+    print(f"[selfcheck] gemma on HF vs TPU: max prob diff {diff:.4f}, same top class {len(checks)}/{len(checks)}", flush=True)
+    return {"model": model, "tok": tok, "suf": GD.class_suffixes(tok, st["classes"]), "T": T, "selfcheck_max_diff": diff}
+
+
 def model_fn(model_dir, context=None):
     from peft import PeftModel
     from transformers import AutoTokenizer, Qwen3_5ForConditionalGeneration
@@ -51,7 +73,7 @@ def model_fn(model_dir, context=None):
     st = {"model": model, "tok": tok, "tax": tax, "pol": pol, "classes": classes,
           "suf": H.candidate_suffixes(tok, classes), "controls": P.control_strings(tok)}
     checks = [json.loads(line) for line in open(HERE / "selfcheck.jsonl")]
-    T = float(pol["temperature"])
+    T = _member_temperature(pol, 0)  # an ensemble policy's own temperature applies to the mean, not to this member
     tels = [x["telemetry"] for x in checks]
     srv = _cached_scores(st, [json.loads(json.dumps(t)) for t in tels])  # the serving path (19 Oct: cached batch)
     bat = _batch_scores(st, [json.loads(json.dumps(t)) for t in tels])  # the 17 Oct batched path (scoring="batched")
@@ -85,6 +107,12 @@ def model_fn(model_dir, context=None):
     # hardest test record, a near tie between two attack classes (both BLOCK)
     assert max(r[0] for r in seq_a100) < SELFCHECK_A100_DIFF, "per-record path disagrees with the A100"
     st["selfcheck_max_diff"] = max(r[0] for r in vs_a100)
+    gdir = Path(model_dir) / "gemma"
+    if (gdir / "lora.npz").exists():
+        assert "ensemble" in pol, "package has a Gemma member but config/policy.yaml is not an ensemble policy"
+        st["gemma"] = _load_gemma(gdir, st)
+    else:
+        assert "ensemble" not in pol, "ensemble policy without its Gemma member (gemma/lora.npz)"
     return st
 
 
@@ -213,7 +241,7 @@ def predict_fn(data, st):
     windows); all prompts of the call are scored together; a record's decision comes from its most attack-like
     window (largest probability mass on attack classes)."""
     records, scoring, return_probs = (*data, False)[:3]
-    out, pol, T = [None] * len(records), st["pol"], float(st["pol"]["temperature"])
+    out, pol, T = [None] * len(records), st["pol"], _member_temperature(st["pol"], 0)
     benign = [i for i, c in enumerate(st["classes"]) if st["tax"]["classes"][c]["is_benign"]]
     t0 = time.time()
     prompts, owner = [], []
@@ -241,14 +269,35 @@ def predict_fn(data, st):
         risk = 1.0 - float(p[benign].sum())
         if n not in best or risk > best[n][0]:
             best[n] = (risk, w, p)
+    gp = _gemma_probs(st, records, best) if st.get("gemma") else {}
     for n, (_, tel, p) in best.items():
+        member = None
+        if st.get("gemma"):  # ensemble: both members' distributions, decided once on the whole record
+            if gp[n] is None:  # Gemma's token budget cannot fit it: never guessed (eval.public_bench ensemble)
+                out[n] = {"decision": POL.over_budget_decision(pol), "diagnostics": {"reason": "over_budget"},
+                          "truncated": True, "windows": owner.count(n)}
+                continue
+            member, tel = (p, gp[n]), records[n]
+            p = POL.ensemble_probs([p, gp[n]], pol)
         d, diag, top = POL.decide_from_probs(p, tel, st["tax"], pol)  # the same path as the offline re-decisions
         out[n] = {"decision": d, "diagnostics": diag, "top": top,
                   "windows": owner.count(n), "truncated": bool(tel.get("truncated")), "latency_s": round(per, 3)}
         if return_probs:
-            out[n] |= {"probs": [round(float(v), 7) for v in p], "temperature": T}
+            out[n] |= {"probs": [round(float(v), 7) for v in p],
+                       "temperature": float(pol["temperature"]) if member else T}
+            if member:
+                out[n]["member_probs"] = [[round(float(v), 7) for v in q] for q in member]
     return {"results": out, "scoring": scoring, "batch_s": round(time.time() - t0, 3),
             "selfcheck_max_diff": st["selfcheck_max_diff"], "decoded_views": DECODED_VIEWS, "fit_contract": FIT_CONTRACT}
+
+
+def _gemma_probs(st, records, best):
+    """{record index: Gemma's calibrated distribution of its most attack-like window, or None (fits no budget)}."""
+    from training.gemma_tpu import hf_scorer as HS
+    g = st["gemma"]
+    recs = [{"id": str(n), "telemetry": json.loads(json.dumps(records[n]))} for n in best]
+    probs, _ = HS.record_probs(g["model"], g["tok"], recs, st["tax"], g["T"], g["suf"], contract=FIT_CONTRACT)
+    return {int(k): v for k, v in probs.items()}
 
 
 def output_fn(pred, accept="application/json"):

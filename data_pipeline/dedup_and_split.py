@@ -19,6 +19,20 @@ def content_hash(rec):
     return hashlib.sha256(rec["messages"][1]["content"].encode()).hexdigest()
 
 
+def drop_label_conflicts(records):
+    """An identical model input that occurs with different labels is contradictory for a single-label classifier:
+    dedup() would keep whichever copy came first. Every copy is dropped instead. Returns (kept, conflicts) with
+    conflicts = {"classA|classB": inputs} (sorted class pair per conflicting input)."""
+    labels = defaultdict(set)
+    for r in records:
+        labels[content_hash(r)].add(r["metadata"]["threat_type"])
+    bad = {h: ls for h, ls in labels.items() if len(ls) > 1}
+    conflicts = defaultdict(int)
+    for ls in bad.values():
+        conflicts["|".join(sorted(ls))] += 1
+    return [r for r in records if content_hash(r) not in bad], dict(conflicts)
+
+
 def dedup(records):
     """Drop exact user-content duplicates, keeping the first. Returns (kept, n_dropped)."""
     seen, kept = set(), []

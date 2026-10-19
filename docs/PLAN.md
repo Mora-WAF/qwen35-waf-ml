@@ -184,6 +184,43 @@ Deployment and pipeline:
   7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
   the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
 
+### 19 October ~19:00 — error dig-down, label-conflict fix, Gemma on HF transformers, ensemble endpoint (no GPU run)
+
+Tests 158 pass (1 skipped: needs `peft`). Nothing below ran on a GPU; the GPU paths verify themselves at start.
+
+- **v11 / ensemble test_unseen errors traced to their raw lines** (`haiku:<class>:<i>` = the i-th line of
+  `<class>.jsonl` + `<class>.v*.jsonl`, sorted). 31 verdict-changing errors in 9 held-out families; seeded records
+  (sqli: 3) cannot be traced here (no seed files). Findings:
+  - `csv_formula_injection.vs1w02` 43/45/47 (both models: benign): plain text that only starts with a trigger
+    character ("@Liability accepted in writing", "+Costs claimed …") with escaping disabled, while 44/46 carry real
+    formulas (`=SUM(...)`, `=WEBSERVICE(...)`). Consistent with the taxonomy (trigger character + unescaped export =
+    attack), so not quarantined; **open user decision**: whether the class needs formula syntax, not only a trigger.
+  - `benign_hard_negative_dev.vht08_mcp_agentic_tool_abuse` 23/25/28/29 (both: mcp abuse): correct minimal pairs
+    (the same `send_email` call; benign when the user asked for it, attack when a tool result seeded it). The models
+    over-flag in the conservative direction; a capability limit, not label noise.
+  - Qwen-only misses that the ensemble fixes: JWT `admin_console_default_dev_hs256_secret` 5, MCP
+    `claims_payout_action_out_of_book` 4, GraphQL hard benign `claims_bulk_lookup_alias_storm` 6 false blocks.
+  - Both miss `websocket … ci_log_tail_ws_reserved_bits_oversize` 3 (transfer gap, as the Gemma report found).
+- **Label conflicts** (`dedup_and_split.drop_label_conflicts`, build): an identical model input with two labels was
+  resolved by file order in `dedup`; every copy is now dropped and counted per class pair
+  (`manifest.dropped_label_conflicts`). Effect on the v11 data not measurable here.
+- **Gemma 4 E2B on HF transformers** (`training/gemma_tpu/hf_scorer.py`): the TPU adapter's qwix einsum factors
+  re-arranged (not re-fitted) into linear LoRA factors of the same HF modules (q / shared-A k,v / o / MLP; 205 modules,
+  global layers head_dim 512, KV-shared layers 15-34 without k/v in both stacks), applied unmerged as hooks
+  (scale 8, model dtype) + the TPU scorer's two passes with the final-logit softcap. CPU tests: the factors reproduce
+  the qwix einsum deltas exactly, hooks equal merged weights, the scorer equals brute-force completion log-probs, and
+  the stage's record path decides like the endpoint. `selfcheck` (vs the TPU test scores, same top class, < 0.05)
+  guards every GPU use.
+- **One-VM benchmark run** (`deploy/run_benchmarks.sh gpu`): Qwen v11 `fp` + Gemma `gemma_fp` (+ the robustness probes,
+  for the ensemble's robustness) on one Colab L4; the TPU path stays as `gemma`. Driver smoke-tested with a mock
+  colab CLI (adapter in 8 MB parts, checksum, stages, downloads).
+- **Ensemble endpoint** (`ENSEMBLE=1 deploy/deploy.sh reports/colab_a100v11 colab/colab_bundle_fast.zip`): the package
+  adds `gemma/` (adapter + TPU selfcheck records) and the ensemble policy; `model_fn` refuses to start unless both members
+  reproduce their reference scores; `predict_fn` uses each member's own temperature, the mean re-tempered, one decision
+  (as `eval.public_bench ensemble`); Gemma over budget -> over_budget. CPU test through `predict_fn` with tiny models.
+  Weights ~20 GB on one GPU: defaults to `ml.g6e.xlarge` (L40S 48 GB; the account's SageMaker quota for it is
+  unknown); `HF_TOKEN` passes through if the Gemma repo needs it. Not deployed.
+
 ### 19 October ~17:30 — serving speed path, next-build data and training changes (code + tests; nothing built or trained)
 
 None of this needs a GPU to write, but most of it takes effect only at the next build (v12) and its training run.

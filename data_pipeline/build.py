@@ -155,11 +155,12 @@ def enforce_budget(recs):
 
 
 def build(per_class=24, ratios=(0.8, 0.1, 0.1), frac=None, prefix="pilot_"):
-    from data_pipeline.dedup_and_split import (dedup, assign_splits, split_counts, holdout_unseen,
+    from data_pipeline.dedup_and_split import (dedup, drop_label_conflicts, assign_splits, split_counts, holdout_unseen,
                                                cross_split_overlap, lineage_overlap)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "manifest.json").unlink(missing_ok=True)  # a crashed build must never leave a gate-passable manifest
     recs, deficits, haiku_report = collect(per_class, frac)
+    recs, label_conflicts = drop_label_conflicts(recs)  # same input, two labels: neither copy is trained on
     recs, dropped = dedup(recs)
     recs, overflow = enforce_budget(recs)
     unseen = holdout_unseen(recs)
@@ -188,6 +189,7 @@ def build(per_class=24, ratios=(0.8, 0.1, 0.1), frac=None, prefix="pilot_"):
         by_split[sp if sp == "test_unseen" else sp.split("_")[0]].append(r)
     files = {k: f"{prefix}{k}.jsonl" for k in by_split}
     manifest = {"mode": prefix.rstrip("_"), "per_class": per_class, "quota_fraction": frac, "total": len(recs), "dropped_exact_dup": dropped,
+                "dropped_label_conflicts": label_conflicts,
                 "rejected_token_overflow": overflow,
                 "files": {}, "deficits": deficits, "haiku_jobs": haiku_report,
                 "cross_split_overlap": len(xo), "lineage_overlap": len(lo),
