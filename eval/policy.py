@@ -41,6 +41,22 @@ def outside_envelope(features, env):
     return any(k in features and not float(lo) <= features[k] <= float(hi) for k, (lo, hi) in env.items())
 
 
+def decision_view(P, benign, act_on="top_class"):
+    """(confidence, class index) per row of calibrated probabilities P [n, classes]; `benign` [classes] bool.
+    top_class: the argmax class and its probability (the deployed rule). attack_mass: attack vs benign first
+    (summed probabilities), then the top class of the winning side, confidence = that side's mass: a request split
+    between two attack classes (sqli_classic 0.5 / sqli_obfuscated 0.4) is still a confident attack."""
+    import numpy as np
+    P, benign = np.asarray(P), np.asarray(benign, bool)
+    if act_on == "top_class":
+        return P.max(1), P.argmax(1)
+    assert act_on == "attack_mass", act_on
+    A = P[:, ~benign].sum(1)
+    att = np.flatnonzero(~benign)[P[:, ~benign].argmax(1)]
+    ben = np.flatnonzero(benign)[P[:, benign].argmax(1)]
+    return np.where(A >= 0.5, A, 1 - A), np.where(A >= 0.5, att, ben)
+
+
 def scanner_tool(headers, pol):
     """Tier-0: the scanner token in the User-Agent (config/policy.yaml scanner_user_agents), or None."""
     ua = next((str(v).lower() for k, v in headers or [] if str(k).lower() == "user-agent"), "")

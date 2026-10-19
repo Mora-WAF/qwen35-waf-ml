@@ -1,0 +1,42 @@
+[run_tpu 23:59:30] new TPU session ep2
+[colab] Creating session 'ep2'...
+[colab] Session READY.
+[run_tpu 23:59:34] install tunix + qwix
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 69.4 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 76.7/76.7 kB 8.7 MB/s eta 0:00:00
+
+[colab] Uploaded 'reports/gemma_tpu/colab/gemma_data.tgz' to '/content/data.tgz'
+13
+
+[colab] Uploaded 'training/gemma_tpu/train_tunix.py' to '/content/train_tunix.py'
+[run_tpu 00:01:31] 
+[colab] Stopping session 'ep2'...
+[colab] Session terminated.
+[run_tpu 00:02:18] stopped ep2
+[run_tpu 00:02:33] new TPU session ep2
+[colab] Creating session 'ep2'...
+[colab] Session READY.
+[run_tpu 00:02:37] install tunix + qwix
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 3.3/3.3 MB 123.2 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 76.7/76.7 kB 7.9 MB/s eta 0:00:00
+
+[colab] Uploaded 'reports/gemma_tpu/colab/gemma_data.tgz' to '/content/data.tgz'
+13
+
+[colab] Uploaded 'training/gemma_tpu/train_tunix.py' to '/content/train_tunix.py'
+[run_tpu 00:04:39] launch train (GEMMA_EPOCHS=2)
+launched
+
+[run_tpu 00:04:45] 
+[run_tpu 00:09:47] 
+[run_tpu 00:14:49] {'step': 220, 'of': 4166, 'loss': 0.05123, 'elapsed_s': 445, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_us
+[run_tpu 00:19:51] {'step': 480, 'of': 4166, 'loss': 0.02074, 'elapsed_s': 757, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_us
+[run_tpu 00:24:53] {'step': 740, 'of': 4166, 'loss': 0.01958, 'elapsed_s': 1059, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_u
+[run_tpu 00:30:05] {'step': 980, 'of': 4166, 'loss': 0.01314, 'elapsed_s': 1351, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_u
+[run_tpu 00:35:06] {'step': 1240, 'of': 4166, 'loss': 0.00598, 'elapsed_s': 1664, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 00:40:09] {'step': 1480, 'of': 4166, 'loss': 0.01048, 'elapsed_s': 1949, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 00:45:11] {'step': 1740, 'of': 4166, 'loss': 0.00354, 'elapsed_s': 2266, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 00:50:22] {'step': 1980, 'of': 4166, 'loss': 0.00377, 'elapsed_s': 2558, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 00:55:24] {'step': 2240, 'of': 4166, 'loss': 0.00295, 'elapsed_s': 2869, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 01:00:26] {'step': 2500, 'of': 4166, 'loss': 0.00315, 'elapsed_s': 3179, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 01:05:27] {'step': 2760, 'of': 4166, 'loss': 0.00387, 'elapsed_s': 3483, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_

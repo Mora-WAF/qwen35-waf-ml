@@ -111,3 +111,15 @@ def test_over_budget_request_is_monitored_not_guessed():
     validate_decision(d, TAX, SCHEMA)
     assert (d["verdict"], d["action"], d["rule_hint"]) == ("ABSTAIN", "log_and_monitor", "over_token_budget")
     assert over_budget_decision({"reason_codes": {}})["rule_hint"] == "over_token_budget"  # v10's frozen policy has no key
+
+
+def test_decision_view_attack_mass():
+    from eval.policy import decision_view
+    benign = [False, False, True]  # two attack classes, one benign
+    P = [[0.50, 0.40, 0.10],  # split between attacks: top_class 0.5, attack_mass 0.9 on class 0
+         [0.20, 0.25, 0.55],  # benign wins at 0.55 under both views
+         [0.30, 0.10, 0.60]]
+    conf, pred = decision_view(P, benign, "top_class")
+    assert list(pred) == [0, 2, 2] and conf[0] == 0.5
+    conf, pred = decision_view(P, benign, "attack_mass")
+    assert list(pred) == [0, 2, 2] and abs(conf[0] - 0.9) < 1e-9 and abs(conf[1] - 0.55) < 1e-9 and abs(conf[2] - 0.6) < 1e-9

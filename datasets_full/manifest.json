@@ -1,0 +1,359 @@
+{
+ "mode": "full",
+ "per_class": 24,
+ "quota_fraction": 1.0,
+ "total": 121789,
+ "dropped_exact_dup": 620,
+ "rejected_token_overflow": {
+  "graphql_abuse": 58,
+  "jwt_auth_bypass": 8,
+  "websocket_grpc_abuse": 37,
+  "benign_standard_traffic": 29,
+  "benign_high_rate_legit": 1
+ },
+ "files": {
+  "full_train.jsonl": {
+   "records": 90115,
+   "sha256": "2da375db9e1f8a11a1b24aee44f0dee15a9cfc5ed7f4d7492625cc2e380d1ea4"
+  },
+  "full_val.jsonl": {
+   "records": 10412,
+   "sha256": "4f8afb0a7c2d2e0fcc98b4192af2d7fc26c569497937b34d65badcbe9fa2b29f"
+  },
+  "full_test.jsonl": {
+   "records": 11177,
+   "sha256": "adb70715622b9cf42106409201df8dddd9f682ba39a8df69d82e719edc080d48"
+  },
+  "full_test_unseen.jsonl": {
+   "records": 10085,
+   "sha256": "5c4ec5338a079bcba20030fd6c5221a03d69e453b0ed92d9fbdda7d8ed136c62"
+  }
+ },
+ "deficits": {
+  "deserialization": {
+   "have": 756,
+   "target": 2000,
+   "reason": "insufficient independent seeds"
+  },
+  "csv_formula_injection": {
+   "have": 645,
+   "target": 1500,
+   "reason": "insufficient independent seeds"
+  },
+  "malicious_file_upload_webshell": {
+   "have": 733,
+   "target": 2000,
+   "reason": "insufficient independent seeds"
+  },
+  "ssrf_cloud_metadata": {
+   "have": 1202,
+   "target": 4000,
+   "reason": "insufficient independent seeds"
+  },
+  "graphql_abuse": {
+   "have": 773,
+   "target": 3000,
+   "reason": "insufficient independent seeds"
+  },
+  "jwt_auth_bypass": {
+   "have": 1309,
+   "target": 3000,
+   "reason": "insufficient independent seeds"
+  },
+  "bola_idor_enumeration": {
+   "have": 1009,
+   "target": 3000,
+   "reason": "insufficient independent seeds"
+  },
+  "websocket_grpc_abuse": {
+   "have": 769,
+   "target": 1500,
+   "reason": "insufficient independent seeds"
+  },
+  "bopla_mass_assignment": {
+   "have": 615,
+   "target": 2000,
+   "reason": "insufficient independent seeds"
+  },
+  "bfla_admin_function_probing": {
+   "have": 736,
+   "target": 2000,
+   "reason": "insufficient independent seeds"
+  },
+  "race_condition_toctou_burst": {
+   "have": 696,
+   "target": 2000,
+   "reason": "insufficient independent seeds"
+  },
+  "llm_prompt_injection": {
+   "have": 1093,
+   "target": 4000,
+   "reason": "insufficient independent seeds"
+  },
+  "prototype_pollution": {
+   "have": 871,
+   "target": 3000,
+   "reason": "insufficient independent seeds"
+  },
+  "web_cache_poisoning": {
+   "have": 844,
+   "target": 3000,
+   "reason": "insufficient independent seeds"
+  },
+  "mcp_agentic_tool_abuse": {
+   "have": 597,
+   "target": 2000,
+   "reason": "insufficient independent seeds"
+  },
+  "benign_hard_negative_dev": {
+   "have": 3572,
+   "target": 10000,
+   "reason": "insufficient independent seeds"
+  },
+  "benign_hard_negative_search": {
+   "have": 1497,
+   "target": 5000,
+   "reason": "insufficient independent seeds"
+  },
+  "_mixed_observed_synthetic": {
+   "slowloris_slowhttp": {
+    "observed_groups": 2,
+    "observed": 1500,
+    "synthetic": 1500,
+    "per_source": {
+     "cic_ids2017_mirror": 750,
+     "cic_ids2018": 750
+    }
+   },
+   "port_scan_recon": {
+    "observed_groups": 1,
+    "observed": 2000,
+    "synthetic": 2000,
+    "per_source": {
+     "cic_ids2017_mirror": 2000
+    }
+   },
+   "credential_stuffing_bruteforce": {
+    "observed_groups": 1,
+    "observed": 2000,
+    "synthetic": 2000,
+    "per_source": {
+     "cic_ids2017_mirror": 2000
+    }
+   },
+   "dns_tunneling_exfil": {
+    "observed_groups": 12,
+    "observed": 1300,
+    "synthetic": 1300,
+    "per_source": {
+     "cic_bell_dns_exf2021": 1300
+    }
+   },
+   "benign_standard_traffic": {
+    "observed_groups": 7283,
+    "observed": 5050,
+    "synthetic": 3333,
+    "matched_per_source": {
+     "cic_ids2017_mirror": 3000,
+     "cic_ids2018": 750,
+     "cic_bell_dns_exf2021": 1300
+    }
+   }
+  }
+ },
+ "haiku_jobs": {
+  "ssrf_cloud_metadata": {
+   "status": "ok",
+   "accepted": 1202,
+   "rejected": 0,
+   "quarantined_by_review": 22
+  },
+  "graphql_abuse": {
+   "status": "ok",
+   "accepted": 773,
+   "rejected": 0,
+   "quarantined_by_review": 275
+  },
+  "jwt_auth_bypass": {
+   "status": "ok",
+   "accepted": 1309,
+   "rejected": 0,
+   "quarantined_by_review": 270
+  },
+  "bola_idor_enumeration": {
+   "status": "ok",
+   "accepted": 1009,
+   "rejected": 0,
+   "quarantined_by_review": 27
+  },
+  "websocket_grpc_abuse": {
+   "status": "ok",
+   "accepted": 769,
+   "rejected": 0,
+   "quarantined_by_review": 309
+  },
+  "llm_prompt_injection": {
+   "status": "ok",
+   "accepted": 1093,
+   "rejected": 0,
+   "quarantined_by_review": 19
+  },
+  "prototype_pollution": {
+   "status": "ok",
+   "accepted": 871,
+   "rejected": 0,
+   "quarantined_by_review": 9
+  },
+  "web_cache_poisoning": {
+   "status": "ok",
+   "accepted": 844,
+   "rejected": 0,
+   "quarantined_by_review": 12
+  },
+  "deserialization": {
+   "status": "ok",
+   "accepted": 756,
+   "rejected": 0,
+   "quarantined_by_review": 96
+  },
+  "csv_formula_injection": {
+   "status": "ok",
+   "accepted": 645,
+   "rejected": 0,
+   "quarantined_by_review": 57
+  },
+  "bopla_mass_assignment": {
+   "status": "ok",
+   "accepted": 615,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "bfla_admin_function_probing": {
+   "status": "ok",
+   "accepted": 736,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "race_condition_toctou_burst": {
+   "status": "ok",
+   "accepted": 696,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "malicious_file_upload_webshell": {
+   "status": "ok",
+   "accepted": 733,
+   "rejected": 0,
+   "quarantined_by_review": 23
+  },
+  "mcp_agentic_tool_abuse": {
+   "status": "ok",
+   "accepted": 597,
+   "rejected": 0,
+   "quarantined_by_review": 19
+  },
+  "benign_hard_negative_dev": {
+   "status": "ok",
+   "accepted": 3480,
+   "rejected": 0,
+   "quarantined_by_review": 1240
+  },
+  "benign_hard_negative_search": {
+   "status": "ok",
+   "accepted": 1543,
+   "rejected": 0,
+   "quarantined_by_review": 277
+  },
+  "benign_standard_traffic": {
+   "status": "ok",
+   "accepted": 8188,
+   "rejected": 0,
+   "quarantined_by_review": 629
+  },
+  "xss_reflected_stored": {
+   "status": "ok",
+   "accepted": 197,
+   "rejected": 0,
+   "quarantined_by_review": 3
+  },
+  "xxe": {
+   "status": "ok",
+   "accepted": 150,
+   "rejected": 0,
+   "quarantined_by_review": 10
+  },
+  "benign_high_rate_legit": {
+   "status": "ok",
+   "accepted": 139,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "crlf_header_injection": {
+   "status": "ok",
+   "accepted": 335,
+   "rejected": 0,
+   "quarantined_by_review": 5
+  },
+  "http_request_smuggling": {
+   "status": "ok",
+   "accepted": 199,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "ldap_xpath_injection": {
+   "status": "ok",
+   "accepted": 340,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "nosqli": {
+   "status": "ok",
+   "accepted": 239,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "open_redirect_cors": {
+   "status": "ok",
+   "accepted": 199,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "path_traversal_lfi": {
+   "status": "ok",
+   "accepted": 279,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "rce_cmd_injection": {
+   "status": "ok",
+   "accepted": 360,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "ssti": {
+   "status": "ok",
+   "accepted": 221,
+   "rejected": 0,
+   "quarantined_by_review": 99
+  },
+  "xss_dom_polyglot": {
+   "status": "ok",
+   "accepted": 199,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "sqli_classic": {
+   "status": "ok",
+   "accepted": 73,
+   "rejected": 0,
+   "quarantined_by_review": 7
+  }
+ },
+ "cross_split_overlap": 0,
+ "lineage_overlap": 0,
+ "limitations": [
+  "CIC-IDS2017 attack classes are single campaigns (one lineage group each); they land wholly in one split, test coverage for those classes comes from NF-ToN or synthetic",
+  "synthetic flow/benign/haiku records are independent draws (own lineage group) but share per-class template families across splits; no unseen-family holdout in pilot",
+  "near-duplicate (non-exact) seed variants not yet clustered"
+ ]
+}

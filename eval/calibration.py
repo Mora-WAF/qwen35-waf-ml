@@ -14,7 +14,7 @@ Input: JSONL rows {"id", "split", "label", "scores": [summed completion log-prob
      have no allowed class, so a closed-set softmax can only abstain on them through low confidence.
 Scores: summed (not length-normalised) log-probs; ECE over 15 equal-width bins of max probability.
 
-usage: python -m eval.calibration SCORES.jsonl [--write-policy]   -> reports/calibration.json
+usage: python -m eval.calibration SCORES.jsonl [--write-policy] [--out PATH]   -> reports/calibration.json
 """
 import argparse
 import json
@@ -65,10 +65,11 @@ def reliability(P, y):
             "brier": round(float(((P - onehot) ** 2).sum(1).mean()), 4), "ece": round(ece, 4), "bins": bins}
 
 
-def policy_rates(P, y, tau, benign, hard_neg, abstain=None):
+def policy_rates(P, y, tau, benign, hard_neg, abstain=None, act_on="top_class"):
     """Binary intervention view: an emitted attack class at conf >= tau intervenes; anything below tau abstains,
-    and so does any record in `abstain` (the policy's flow-envelope guard)."""
-    conf, pred = P.max(1), P.argmax(1)
+    and so does any record in `abstain` (the policy's flow-envelope guard). `act_on`: eval.policy.decision_view."""
+    from eval.policy import decision_view
+    conf, pred = decision_view(P, benign, act_on)
     act = (conf >= tau) & (~abstain if abstain is not None else True)
     attack_true, attack_pred = ~benign[y], ~benign[pred]
     inter = act & attack_pred
@@ -81,13 +82,14 @@ def policy_rates(P, y, tau, benign, hard_neg, abstain=None):
             "abstention_rate": round(1 - act.mean(), 4)}
 
 
-def choose_tau(P, y, benign, hard_neg, max_hn_fir, max_recall_loss=0.005, abstain=None):
+def choose_tau(P, y, benign, hard_neg, max_hn_fir, max_recall_loss=0.005, abstain=None, act_on="top_class"):
+    from eval.policy import decision_view
     hn = hard_neg[y]
-    ok = [(float(t), r) for t in np.unique(np.concatenate([[0.0], P.max(1)]))
-          for r in [policy_rates(P, y, t, benign, hard_neg, abstain)]
+    ok = [(float(t), r) for t in np.unique(np.concatenate([[0.0], decision_view(P, benign, act_on)[0]]))
+          for r in [policy_rates(P, y, t, benign, hard_neg, abstain, act_on)]
           if not hn.any() or r["hard_negative_false_intervention"] <= max_hn_fir]
     if not ok:  # nothing meets it: abstain on all, reported
-        return 1.0 + 1e-9, policy_rates(P, y, 1.0 + 1e-9, benign, hard_neg, abstain)
+        return 1.0 + 1e-9, policy_rates(P, y, 1.0 + 1e-9, benign, hard_neg, abstain, act_on)
     best = ok[0][1]["attack_intervention_recall"] or 0.0  # recall only falls as tau rises
     return [x for x in ok if (x[1]["attack_intervention_recall"] or 0.0) >= best - max_recall_loss][-1]
 
@@ -117,7 +119,10 @@ def fit_envelope(feats):
     return env
 
 
-def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005):
+def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005, out="reports/calibration.json",
+         act_on="top_class"):
+    if write_policy and act_on != "top_class":  # deploy/sagemaker/inference.py emits the argmax class
+        raise SystemExit("--write-policy only with --act-on top_class: the endpoint scorer has no attack_mass view")
     rows = [json.loads(x) for x in open(path)]
     classes = rows[0]["classes"]
     rows = rows[1:]
@@ -141,15 +146,18 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005):
     from eval.policy import outside_envelope
     bst = idx["benign_standard_traffic"]
 
+    from eval.policy import decision_view
+
     def env_abstain(rs, P):  # model says benign_standard_traffic, flow outside the train envelope
-        return np.array([P[i].argmax() == bst and r["id"] in feats and outside_envelope(feats[r["id"]][0], env)
+        pred = decision_view(P, benign, act_on)[1]
+        return np.array([pred[i] == bst and r["id"] in feats and outside_envelope(feats[r["id"]][0], env)
                          for i, r in enumerate(rs)], dtype=bool)
 
     Sp, yp, rsp = arrays("val_policy")
     Pp = softmax(Sp, T)
-    tau, at_tau = choose_tau(Pp, yp, benign, hard_neg, max_hn_fir, max_recall_loss, env_abstain(rsp, Pp))
+    tau, at_tau = choose_tau(Pp, yp, benign, hard_neg, max_hn_fir, max_recall_loss, env_abstain(rsp, Pp), act_on)
     rep = {"method": "summed completion log-prob per class, temperature scaling on val_calib, tau on val_policy",
-           "temperature": round(T, 6), "tau": round(tau, 6), "max_hard_negative_fir": max_hn_fir,
+           "act_on": act_on, "temperature": round(T, 6), "tau": round(tau, 6), "max_hard_negative_fir": max_hn_fir,
            "val_calib": {"uncalibrated": reliability(softmax(Sc), yc), "calibrated": reliability(softmax(Sc, T), yc)},
            "val_policy_at_tau": at_tau, "flow_envelope": env}
     for split in ("test", "test_unseen"):
@@ -157,14 +165,14 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005):
         if len(y):
             P = softmax(S, T)
             ea = env_abstain(rs, P)
-            rep[split] = {"reliability": reliability(P, y), "policy": policy_rates(P, y, tau, benign, hard_neg, ea),
+            rep[split] = {"reliability": reliability(P, y), "policy": policy_rates(P, y, tau, benign, hard_neg, ea, act_on),
                           "envelope_abstained": {"benign": round(float(ea[benign[y]].mean()), 4),
                                                  "attack": round(float(ea[~benign[y]].mean()), 4)}}
     rs = by.get("robustness", [])  # every kind, incl. classifier_injection (its labels are real classes)
     if rs:
         P = softmax(np.array([r["scores"] for r in rs]), T)
-        pred = P.argmax(1)
-        absn = (P.max(1) < tau) | env_abstain(rs, P)
+        conf, pred = decision_view(P, benign, act_on)
+        absn = (conf < tau) | env_abstain(rs, P)
         # pass = an acceptable verdict per robustness.py: insufficient_context / malformed must not intervene
         # (ALLOW or ABSTAIN), out_of_taxonomy must ABSTAIN, classifier_injection must BLOCK or ABSTAIN (never the decoy)
         ok = {"insufficient_context": absn | benign[pred], "malformed": absn | benign[pred],
@@ -181,7 +189,7 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005):
                              "by_kind": {k: {"pass": round(p / n, 4), "abstained": round(a / n, 4), "n": n}
                                          for k, (p, a, n) in kinds.items()},
                              "entropy_mean": round(float(ent.mean()), 4)}
-    (ROOT / "reports/calibration.json").write_text(json.dumps(rep, indent=1))
+    (ROOT / out).write_text(json.dumps(rep, indent=1))
     if write_policy:  # freeze T and tau in config/policy.yaml (line edits keep the file's comments)
         pol_p = ROOT / "config/policy.yaml"
         txt = pol_p.read_text()
@@ -204,5 +212,8 @@ if __name__ == "__main__":
     ap.add_argument("--max-hn-fir", type=float, default=0.01)
     ap.add_argument("--max-recall-loss", type=float, default=0.005, help="attack recall tau may give up for abstention")
     ap.add_argument("--write-policy", action="store_true")
+    ap.add_argument("--out", default="reports/calibration.json", help="report path (another model: keep the Qwen one)")
+    ap.add_argument("--act-on", choices=("top_class", "attack_mass"), default="top_class",
+                    help="decision view (eval.policy.decision_view); attack_mass is offline-only for now")
     a = ap.parse_args()
-    main(a.scores, a.max_hn_fir, a.write_policy, a.max_recall_loss)
+    main(a.scores, a.max_hn_fir, a.write_policy, a.max_recall_loss, a.out, a.act_on)

@@ -18,7 +18,7 @@ PKG=$(mktemp -d); trap 'rm -rf "$PKG"' EXIT
 mkdir -p "$PKG/adapter" "$PKG/code"
 unzip -q "$RUN/export_fast.zip" -d "$PKG/adapter"
 unzip -q "$BUNDLE" 'training/*' 'eval/*' 'config/taxonomy.yaml' 'schemas/decision.schema.json' -d "$PKG/code"
-cp "$RUN/policy_v10.yaml" "$PKG/code/config/policy.yaml"
+cp "$(ls "$RUN"/policy_v*.yaml | head -1)" "$PKG/code/config/policy.yaml"  # the run's own frozen policy
 cp eval/policy.py "$PKG/code/eval/policy.py"  # decision-wrapper fixes after the bundle (17 Oct: envelope bounds as float)
 cp training/colab_helpers.py "$PKG/code/training/colab_helpers.py"  # + batch_class_logprobs (18 Oct; scores unchanged)
 cp training/prepare.py "$PKG/code/training/prepare.py"  # + sensor contract (decoded views, budget windows); prompt and

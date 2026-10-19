@@ -1,0 +1,64 @@
+{
+ "load_s": 26.7,
+ "hbm_after_load_gb": {
+  "bytes_in_use": 8.76,
+  "peak_bytes_in_use": 9.46,
+  "bytes_limit": 15.75
+ },
+ "devices": "[TpuDevice(id=0, process_index=0, coords=(0,0,0), core_on_chip=0)]",
+ "buckets": {
+  "512": {
+   "micro_batch": 8,
+   "first_step_s": 66.1,
+   "step_s": 0.46,
+   "records_per_s": 17.4,
+   "tokens_per_s": 8908,
+   "loss_first_last": [
+    4.9112,
+    0.0094
+   ],
+   "hbm_gb": {
+    "bytes_in_use": 9.17,
+    "peak_bytes_in_use": 9.46,
+    "bytes_limit": 15.75
+   },
+   "train_records": 23945
+  },
+  "1024": {
+   "micro_batch": 4,
+   "first_step_s": 55.4,
+   "step_s": 0.471,
+   "records_per_s": 8.49,
+   "tokens_per_s": 8696,
+   "loss_first_last": [
+    0.0008,
+    0.0
+   ],
+   "hbm_gb": {
+    "bytes_in_use": 9.28,
+    "peak_bytes_in_use": 9.46,
+    "bytes_limit": 15.75
+   },
+   "train_records": 11785
+  },
+  "2048": {
+   "micro_batch": 2,
+   "first_step_s": 52.0,
+   "step_s": 0.538,
+   "records_per_s": 3.72,
+   "tokens_per_s": 7620,
+   "loss_first_last": [
+    5.9468,
+    0.0
+   ],
+   "hbm_gb": {
+    "bytes_in_use": 9.4,
+    "peak_bytes_in_use": 9.48,
+    "bytes_limit": 15.75
+   },
+   "train_records": 900
+  }
+ },
+ "train_records": 36630,
+ "estimate_epoch_h": 0.84
+}

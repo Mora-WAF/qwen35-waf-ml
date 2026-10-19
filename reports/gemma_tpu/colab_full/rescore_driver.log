@@ -1,0 +1,13 @@
+[colab] Session READY.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 76.7/76.7 kB 7.2 MB/s eta 0:00:00
+
+[colab] Uploaded 'reports/gemma_tpu/colab/gemma_data.tgz' to '/content/gemma_data.tgz'
+[colab] Uploaded 'training/gemma_tpu/train_tunix.py' to '/content/train_tunix.py'
+[colab] Uploaded 'reports/gemma_tpu/colab_full/nan_ids.txt' to '/content/nan_ids.txt'
+[colab] Upload failed: 400 Client Error: Bad Request for url: https://8080-t1v-n-d3399043-w-0-c.us-west1-1.prod.colab.dev/api/contents/content/out/lora.npz?authuser=0&colab-runtime-proxy-token=eyJhbGciOiJFUzI1NiIsICJraWQiOiJxT1lrZ0EifQ.eyJhdWQiOiJ0cHUtdjVlMS1zLWtrYi11c3cxYzEtMzZnZmFoMDV6dzA5YSIsICJleHAiOjE3OTIzNjY2MDQsICJwb3J0Ijo4MDgwfQ.8MgQv2Jy9ieVpB24SYzw2DLhsYHmzmF2Tr0A2KqiP0FQ36yXlu2u5YQ7otOib8ysO_NKchd_WDcYCMPUOFBoQA
+                             ~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/numpy/lib/_npyio_impl.py", line 459, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+                              ~~~~^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/content/out/lora.npz'
+

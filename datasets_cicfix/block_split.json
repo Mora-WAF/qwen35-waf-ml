@@ -1,0 +1,34 @@
+{
+ "source_build": "datasets_ready",
+ "prefix": "fast_",
+ "holdout": 0.2,
+ "moved": {
+  "credential_stuffing_bruteforce": {
+   "to_train": 376,
+   "held_out": 94,
+   "held_out_split": [
+    "val"
+   ]
+  },
+  "port_scan_recon": {
+   "to_train": 400,
+   "held_out": 100,
+   "held_out_split": [
+    "val"
+   ]
+  },
+  "slowloris_slowhttp": {
+   "to_train": 148,
+   "held_out": 37,
+   "held_out_split": [
+    "val"
+   ]
+  }
+ },
+ "counts": {
+  "train": 37560,
+  "val": 4855,
+  "test": 4599,
+  "test_unseen": 5659
+ }
+}

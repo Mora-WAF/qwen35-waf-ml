@@ -184,12 +184,86 @@ Deployment and pipeline:
   7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
   the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
 
-### 18 October, 22:15 — v10 on real legitimate traffic (open-appsec, partial) and the over-budget gap
+### 19 October 00:20 — data bug: real CIC-IDS2017 port scans and SSH brute force pass both models
 
-- `fpv10` (Colab L4, the endpoint's predict_fn + frozen policy_v10), first 6,944 of 10,380 legitimate browsing requests:
-  ALLOW 6,023, ABSTAIN 498 (low_confidence 472, insufficient_evidence 26), **BLOCK 34 (0.49%)** (graphql_abuse 9,
-  ssti 6, path_traversal 5, rce 4, xss 3, sqli_obfuscated 3, crlf 3), and **389 (5.6%) with no decision**:
-  "does not fit the 2048-token budget even when fitted".
+- Every CIC-IDS2017 attack flow has the lineage group `cic:172.16.0.1->192.168.10.50` (one attacker host, all
+  classes), so the build puts the whole campaign in one split: val_select in the fast build. Train still holds 941
+  CIC-2017 **benign** flows and 0 CIC-2017 attack flows, so the CIC-2017 feature-set shape means benign in training
+  (the 1:1 benign/attack matching per source holds over the build, not per split).
+- Effect, scored on the 1,215 val_select CIC-2017 records: Qwen v11 (L4, the endpoint's `predict_fn` with
+  `policy_v11.yaml`, `reports/gemma_tpu/qwen11_valselect_cic2017.results.jsonl`) puts port scan 0/500 and credential
+  stuffing 0/470 on benign (500 + 468 ALLOW); slowloris 149/185 right (CIC-2018 slowloris is in train); benign 60/60.
+  Gemma: port scan 0/500, credential stuffing 0/470, slowloris 10/185. The deployed v11 policy allows real port scans
+  and SSH brute force with CIC-2017-shaped telemetry. Not visible in test / test_unseen (no CIC-2017 attacks there).
+- Fix (`data_pipeline/block_split.py`, post-processing, other splits unchanged): order each affected class by source
+  row id; the earlier 80% go to train, the latest 20% stay held out (a later-traffic test of the same campaign, weaker
+  than an unseen source; NF-ToN port scan / brute force have no timestamps, so no window count, so they cannot serve).
+  `datasets_cicfix/`: train +924 (credential stuffing 376, port scan 400, slowloris 148), 231 held out in val_select;
+  test and test_unseen byte-identical. Gemma export `reports/gemma_tpu/data_cicfix/`. Not trained yet (Colab budget).
+  Next Qwen build: apply it (or fix the split rule) before training.
+- Also 18-19 Oct: decision view `attack_mass` (`eval.policy.decision_view`, `eval.calibration --act-on`; offline only,
+  `--write-policy` refuses it). Refit tau rises 0.76 → 0.88. Gemma test_unseen recall 0.974 → 0.983, benign false
+  intervention 0.0031 → 0.0010, test recall 0.990 → 0.988; Qwen v11 test_unseen recall 0.984 → 0.981. Helps Gemma, not
+  Qwen. Full-quota build (`datasets_full/`, never `datasets_ready/`): 121,789 records (2.3x fast), 17 of 41 classes short
+  of quota (LLM-generated classes do not scale); not trained (cost). TPU runs `ple32` (rank 32 + PLE projections) and
+  `sched1` (1-epoch fixed-schedule reference) were stopped after ~20 min to save Colab units; `ep2` (2 epochs) running.
+
+### Gemma 4 E2B-it on TPU v5e-1 — 18 October 21:59–23:50 (`reports/gemma_tpu/`) — model-evaluated, on par with Qwen v11
+
+- Same data build as v11 (`datasets_ready/` fast, exported by `training.gemma_tpu.data`: train 36,630 in buckets
+  512/1,024/2,048, 7 records over budget). JAX 0.11 + Tunix `ba95987` + qwix 0.1.8 on Colab TPU v5e-1 (session
+  `gemmatpu`, driven by `colab exec`; trainer as a detached subprocess). LoRA r16 (23.8M params), same recipe as Qwen.
+- Small test first (`GEMMA_LIMIT=64`, 12 steps): train, checkpoint, resume (`resumed at step 10 micro 52`), scoring all
+  passed. Probe: 8.9k tokens/s, HBM peak 9.5 / 15.75 GB, compile 52-66 s per bucket.
+- Real run: 1 epoch, 2,076 optimizer steps (not 2,290: micro-batches of 8/4/2 overshoot the effective batch of 16, so
+  the cosine schedule ended at ~91% of its length; minor), 2,673 s training, loss 0.535 (step 40) → 0.0017; scoring
+  val/test/test_unseen ~50 min. Outputs: `colab_full/` (`lora.npz`, logs, scores), merged `SCORES_fast.jsonl`,
+  `calibration.json` (`eval.calibration --out`, no policy write).
+- Scorer bug, fixed: 53 records with prompts of 498-502 tokens in the 512 bucket overflowed it for longer class
+  completions (out-of-bounds gather = NaN). Pass 2 now moves to the next bucket; the 53 were rescored on a second
+  TPU session (`GEMMA_ONLY`); classes above 0.7% probability matched the first run within 0.016 nats, same argmax.
+- Results (T 1.038, tau 0.759) vs Qwen v11 on the same build: test acc 0.9885 vs 0.9898, NLL 0.046 vs 0.039, ECE 0.002
+  vs 0.003; test_unseen acc **0.9802 vs 0.9800**, NLL 0.066 vs 0.071, ECE 0.007 vs 0.005; policy test_unseen coverage
+  0.975 vs 0.984, attack recall 0.974 vs 0.984, benign FI 0.0031 vs 0.0041, accuracy when acting 0.991 vs 0.987.
+  A 2B-effective model on a TPU v5e-1 in 45 min matches the 4B Qwen on accuracy; Qwen acts more often.
+- val_select (Gemma only: the Qwen scorer skips it) is 0.648: whole CIC-IDS2017 campaigns sit there (port_scan 500,
+  credential_stuffing 470, slowloris 185 observed flows) and Gemma calls them benign; train has only synthetic records
+  for port scan and credential stuffing (slowloris also CIC-2018). A synthetic → observed transfer gap; check Qwen on
+  the same records before deciding whether it is model-specific.
+- Ops: never import jax in the notebook kernel (it takes the TPU: `TPU is already in use`); uploads over ~10 MB fail
+  (400): `lora.npz` (95 MB) went up in 9 MB parts. Both sessions stopped.
+
+### A100 v11 run completed — 18 October 23:38 (`reports/colab_a100v11/`) — model-evaluated, better than v10 on every headline metric
+
+- Bundle `24402349…` (52,673 records). 2,290 steps in 4,939 s at 3,792 tokens/s, peak 10.56 GB; Part A diagnostic 100/100
+  JSON valid, 1.00; reload 5/5, fingerprint match. Calibration (`calibration.json`, `policy_v11.yaml`, written to
+  `config/policy.yaml`): T = 1.044 (v10 1.083), tau = 0.772 (v10 0.641).
+
+| | test v10 → v11 | test_unseen v10 → v11 |
+|---|---|---|
+| accuracy (argmax) | 0.9853 → **0.9898** | 0.9685 → **0.9800** |
+| benign false intervention | 0.0056 → **0.0026** | 0.0063 → **0.0041** |
+| hard-negative false intervention | 0.0 → 0.0 | 0.0136 → **0.0** (target ≤ 0.01 met) |
+| attack intervention recall | 0.9939 → 0.9926 | 0.9718 → **0.9841** |
+| accuracy when acting / abstention | 0.988 / 0.5% → 0.994 / 1.0% | 0.972 / 0.9% → 0.987 / 1.6% |
+| ECE | 0.0046 → 0.0029 | 0.0152 → 0.0049 |
+
+  Robustness: out-of-taxonomy abstained 64% → **84%**; insufficient context 88% (same); malformed and classifier
+  injection 100% pass (malformed now abstains 16%).
+- Fixed on unseen: dns_tunneling_exfil 0.018 → **1.0**; benign_high_rate_legit 0.855 → 0.97; jwt_auth_bypass
+  0.912 → 0.965; rce 0.98 → 1.0; ssti 0.98 → 1.0; web_cache_poisoning 0.958 → 1.0.
+- Regressed on unseen: sqli_classic 0.916 → 0.888 (15 → sqli_obfuscated, the oracle pair; 3 → benign);
+  mcp_agentic_tool_abuse 1.0 → 0.942 (4 → benign_standard_traffic). Attack → benign misses on unseen: 21 in total.
+- Not yet measured for v11: GoTestWAF / open-appsec (attacks + the 10,380 legitimate requests) / UNSW, and the
+  public benchmark per-category comparison with v10 (packaging defaults to the v10 run dir: pass the v11 run dir).
+
+### 18 October, 22:55 — v10 on real legitimate traffic (open-appsec) and the over-budget gap
+
+- `fpv10` (Colab L4, the endpoint's predict_fn + frozen policy_v10), all 10,380 legitimate browsing requests (692 sites,
+  `reports/benchmarks/openappsec_legit_v10.results.jsonl`): ALLOW 9,187 (88.5%), ABSTAIN 698 (6.7%), **BLOCK 59 (0.57%)**
+  (crlf 13, graphql_abuse 10, ssti 10, path_traversal 8, sqli_obfuscated 7, xss 6, rce 4, deserialization 1; 42 of 692
+  sites), and **436 (4.2%) with no decision** ("does not fit the 2048-token budget even when fitted"). The false-block
+  rate matches v10's benign false intervention on test (0.56%).
 - Cause: ~72 cookies per request (max 89). `prepare.fit_budget` keeps every cookie twice (the parsed `cookies` list and
   the rebuilt `Cookie` header, which is not capped like other headers); at the tightest cap (8 characters per value)
   the cookie names and values alone are ~1,050 tokens.

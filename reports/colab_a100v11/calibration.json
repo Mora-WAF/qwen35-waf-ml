@@ -1,0 +1,336 @@
+{
+ "method": "summed completion log-prob per class, temperature scaling on val_calib, tau on val_policy",
+ "temperature": 1.043846,
+ "tau": 0.772001,
+ "max_hard_negative_fir": 0.01,
+ "val_calib": {
+  "uncalibrated": {
+   "n": 1198,
+   "accuracy": 0.99,
+   "nll": 0.0395,
+   "brier": 0.0174,
+   "ece": 0.0045,
+   "bins": [
+    {
+     "lo": 0.4667,
+     "n": 1,
+     "acc": 1.0,
+     "conf": 0.5311
+    },
+    {
+     "lo": 0.5333,
+     "n": 1,
+     "acc": 1.0,
+     "conf": 0.5927
+    },
+    {
+     "lo": 0.6,
+     "n": 2,
+     "acc": 0.5,
+     "conf": 0.644
+    },
+    {
+     "lo": 0.6667,
+     "n": 5,
+     "acc": 0.6,
+     "conf": 0.7094
+    },
+    {
+     "lo": 0.7333,
+     "n": 2,
+     "acc": 1.0,
+     "conf": 0.7632
+    },
+    {
+     "lo": 0.8,
+     "n": 8,
+     "acc": 0.625,
+     "conf": 0.8492
+    },
+    {
+     "lo": 0.8667,
+     "n": 16,
+     "acc": 0.875,
+     "conf": 0.92
+    },
+    {
+     "lo": 0.9333,
+     "n": 1163,
+     "acc": 0.9966,
+     "conf": 0.9959
+    }
+   ]
+  },
+  "calibrated": {
+   "n": 1198,
+   "accuracy": 0.99,
+   "nll": 0.0394,
+   "brier": 0.0174,
+   "ece": 0.0045,
+   "bins": [
+    {
+     "lo": 0.4667,
+     "n": 1,
+     "acc": 1.0,
+     "conf": 0.5298
+    },
+    {
+     "lo": 0.5333,
+     "n": 1,
+     "acc": 1.0,
+     "conf": 0.5851
+    },
+    {
+     "lo": 0.6,
+     "n": 2,
+     "acc": 0.5,
+     "conf": 0.637
+    },
+    {
+     "lo": 0.6667,
+     "n": 5,
+     "acc": 0.6,
+     "conf": 0.701
+    },
+    {
+     "lo": 0.7333,
+     "n": 2,
+     "acc": 1.0,
+     "conf": 0.7536
+    },
+    {
+     "lo": 0.8,
+     "n": 8,
+     "acc": 0.625,
+     "conf": 0.8387
+    },
+    {
+     "lo": 0.8667,
+     "n": 22,
+     "acc": 0.9091,
+     "conf": 0.917
+    },
+    {
+     "lo": 0.9333,
+     "n": 1157,
+     "acc": 0.9965,
+     "conf": 0.9954
+    }
+   ]
+  }
+ },
+ "val_policy_at_tau": {
+  "tau": 0.772001,
+  "coverage": 0.9898,
+  "attack_intervention_recall": 0.9912,
+  "benign_false_intervention": 0.002,
+  "hard_negative_false_intervention": 0.0,
+  "accuracy_when_acting": 0.9914,
+  "abstention_rate": 0.0102
+ },
+ "flow_envelope": {
+  "pkts_per_s": [
+   0.0256965,
+   1000000.0
+  ],
+  "bytes_per_s": [
+   0.0,
+   30952400.0
+  ],
+  "pkts_total": [
+   2,
+   21107
+  ],
+  "bytes_total": [
+   0,
+   29971940
+  ],
+  "duration_s": [
+   2e-06,
+   3113.269
+  ]
+ },
+ "test": {
+  "reliability": {
+   "n": 4599,
+   "accuracy": 0.9898,
+   "nll": 0.0388,
+   "brier": 0.0168,
+   "ece": 0.0029,
+   "bins": [
+    {
+     "lo": 0.4,
+     "n": 2,
+     "acc": 0.5,
+     "conf": 0.4295
+    },
+    {
+     "lo": 0.4667,
+     "n": 6,
+     "acc": 0.1667,
+     "conf": 0.5187
+    },
+    {
+     "lo": 0.5333,
+     "n": 8,
+     "acc": 0.375,
+     "conf": 0.565
+    },
+    {
+     "lo": 0.6,
+     "n": 9,
+     "acc": 0.5556,
+     "conf": 0.6238
+    },
+    {
+     "lo": 0.6667,
+     "n": 11,
+     "acc": 0.7273,
+     "conf": 0.6908
+    },
+    {
+     "lo": 0.7333,
+     "n": 13,
+     "acc": 1.0,
+     "conf": 0.7656
+    },
+    {
+     "lo": 0.8,
+     "n": 17,
+     "acc": 0.8824,
+     "conf": 0.8401
+    },
+    {
+     "lo": 0.8667,
+     "n": 93,
+     "acc": 0.8817,
+     "conf": 0.9065
+    },
+    {
+     "lo": 0.9333,
+     "n": 4440,
+     "acc": 0.9964,
+     "conf": 0.9958
+    }
+   ]
+  },
+  "policy": {
+   "tau": 0.772001,
+   "coverage": 0.9896,
+   "attack_intervention_recall": 0.9926,
+   "benign_false_intervention": 0.0026,
+   "hard_negative_false_intervention": 0.0,
+   "accuracy_when_acting": 0.9936,
+   "abstention_rate": 0.0104
+  },
+  "envelope_abstained": {
+   "benign": 0.0011,
+   "attack": 0.0
+  }
+ },
+ "test_unseen": {
+  "reliability": {
+   "n": 5659,
+   "accuracy": 0.98,
+   "nll": 0.0707,
+   "brier": 0.0322,
+   "ece": 0.0049,
+   "bins": [
+    {
+     "lo": 0.4,
+     "n": 3,
+     "acc": 0.3333,
+     "conf": 0.4472
+    },
+    {
+     "lo": 0.4667,
+     "n": 16,
+     "acc": 0.5,
+     "conf": 0.5148
+    },
+    {
+     "lo": 0.5333,
+     "n": 11,
+     "acc": 0.6364,
+     "conf": 0.5658
+    },
+    {
+     "lo": 0.6,
+     "n": 21,
+     "acc": 0.5714,
+     "conf": 0.6299
+    },
+    {
+     "lo": 0.6667,
+     "n": 22,
+     "acc": 0.4545,
+     "conf": 0.6886
+    },
+    {
+     "lo": 0.7333,
+     "n": 25,
+     "acc": 0.8,
+     "conf": 0.7678
+    },
+    {
+     "lo": 0.8,
+     "n": 47,
+     "acc": 0.8085,
+     "conf": 0.8358
+    },
+    {
+     "lo": 0.8667,
+     "n": 182,
+     "acc": 0.8132,
+     "conf": 0.9078
+    },
+    {
+     "lo": 0.9333,
+     "n": 5332,
+     "acc": 0.9944,
+     "conf": 0.9943
+    }
+   ]
+  },
+  "policy": {
+   "tau": 0.772001,
+   "coverage": 0.9843,
+   "attack_intervention_recall": 0.9841,
+   "benign_false_intervention": 0.0041,
+   "hard_negative_false_intervention": 0.0,
+   "accuracy_when_acting": 0.9867,
+   "abstention_rate": 0.0157
+  },
+  "envelope_abstained": {
+   "benign": 0.0,
+   "attack": 0.0
+  }
+ },
+ "robustness": {
+  "n": 100,
+  "abstained": 0.25,
+  "by_kind": {
+   "insufficient_context": {
+    "pass": 0.88,
+    "abstained": 0.0,
+    "n": 25
+   },
+   "out_of_taxonomy": {
+    "pass": 0.84,
+    "abstained": 0.84,
+    "n": 25
+   },
+   "malformed": {
+    "pass": 1.0,
+    "abstained": 0.16,
+    "n": 25
+   },
+   "classifier_injection": {
+    "pass": 1.0,
+    "abstained": 0.0,
+    "n": 25
+   }
+  },
+  "entropy_mean": 0.1379
+ }
+}

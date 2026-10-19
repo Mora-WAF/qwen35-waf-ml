@@ -3,6 +3,7 @@
 #   colab/run_vllm_bench.sh [NAME] [GPU] [N]     defaults: vllmbench L4 400
 # new VM -> upload model package + N test records with their A100 scores -> pip -> merge -> hf -> vllm -> report
 # -> download reports/vllm_bench_<GPU>.json -> stop the VM (always, via the EXIT trap).
+# Env: RUN_DIR BUNDLE_ZIP (deploy.sh args, e.g. reports/colab_a100v11 colab/colab_bundle_fast.zip), FP_IN FP_OUT, STAGES.
 set -uo pipefail
 NAME=${1:-vllmbench} GPU=${2:-L4} N=${3:-400}
 cd "$(dirname "$0")/.."
@@ -17,7 +18,7 @@ print('STEP-OK $n')" | tee -a "$LOG" | grep -q "STEP-OK $n"
 }
 
 S=$(mktemp -d); trap 'rm -rf "$S"; timeout 180 colab stop -s "$NAME" >>"$LOG" 2>&1; colab sessions 2>&1 | tail -3 | tee -a "$LOG"' EXIT
-PACKAGE_ONLY="$S/model.tar.gz" deploy/deploy.sh >>"$LOG" 2>&1 || die "package"
+PACKAGE_ONLY="$S/model.tar.gz" deploy/deploy.sh ${RUN_DIR:-} ${BUNDLE_ZIP:-} >>"$LOG" 2>&1 || die "package"
 mkdir "$S/pkg" && tar -xzf "$S/model.tar.gz" -C "$S/pkg" && (cd "$S/pkg" && zip -qr "$S/pkg.zip" .) || die "zip"  # .tar.gz uploads fail with HTTP 500
 .venv/bin/python - "$S/sample.jsonl" "$N" <<'EOF'
 import json, random, sys

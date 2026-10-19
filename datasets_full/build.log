@@ -1,0 +1,87 @@
+{
+ "total": 121789,
+ "dropped": 620,
+ "overflow": {
+  "graphql_abuse": 58,
+  "jwt_auth_bypass": 8,
+  "websocket_grpc_abuse": 37,
+  "benign_standard_traffic": 29,
+  "benign_high_rate_legit": 1
+ },
+ "files": {
+  "full_train.jsonl": 90115,
+  "full_val.jsonl": 10412,
+  "full_test.jsonl": 11177,
+  "full_test_unseen.jsonl": 10085
+ },
+ "deficits": {
+  "deserialization": [
+   756,
+   2000
+  ],
+  "csv_formula_injection": [
+   645,
+   1500
+  ],
+  "malicious_file_upload_webshell": [
+   733,
+   2000
+  ],
+  "ssrf_cloud_metadata": [
+   1202,
+   4000
+  ],
+  "graphql_abuse": [
+   773,
+   3000
+  ],
+  "jwt_auth_bypass": [
+   1309,
+   3000
+  ],
+  "bola_idor_enumeration": [
+   1009,
+   3000
+  ],
+  "websocket_grpc_abuse": [
+   769,
+   1500
+  ],
+  "bopla_mass_assignment": [
+   615,
+   2000
+  ],
+  "bfla_admin_function_probing": [
+   736,
+   2000
+  ],
+  "race_condition_toctou_burst": [
+   696,
+   2000
+  ],
+  "llm_prompt_injection": [
+   1093,
+   4000
+  ],
+  "prototype_pollution": [
+   871,
+   3000
+  ],
+  "web_cache_poisoning": [
+   844,
+   3000
+  ],
+  "mcp_agentic_tool_abuse": [
+   597,
+   2000
+  ],
+  "benign_hard_negative_dev": [
+   3572,
+   10000
+  ],
+  "benign_hard_negative_search": [
+   1497,
+   5000
+  ]
+ }
+}

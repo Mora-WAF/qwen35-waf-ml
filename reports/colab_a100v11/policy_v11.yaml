@@ -1,0 +1,45 @@
+# Offline decision policy (spec §7). Recommendations only; nothing is executed against traffic.
+version: 1
+# Calibrated-probability threshold for any non-ABSTAIN verdict. null = not yet fitted
+# on the calibration-policy partition -> every decision abstains (shadow mode).
+threshold: 0.772001
+temperature: 1.043846  # softmax temperature over summed class completion log-probs (eval.calibration, val_calib)
+class_thresholds: {}   # optional per-class overrides, fitted and frozen with `threshold`
+flow_envelope: {bytes_per_s: [0.0, 30952400.0], bytes_total: [0, 29971940], duration_s: [2.0e-06, 3113.269], pkts_per_s: [0.0256965, 1000000.0], pkts_total: [2, 21107]}  # benign_standard_traffic flow-feature [lo, hi] (train 0.5-99.5%), frozen by eval.calibration --write-policy
+
+# Context keys (under telemetry `context`) that must be present and non-null before
+# the class may produce a non-abstain verdict (spec §5 evidence table).
+required_context:
+  bola_idor_enumeration: [authz_context]
+  jwt_auth_bypass: [verifier_config]
+  xss_dom_polyglot: [sink_context]
+  csv_formula_injection: [sink_context]
+  web_cache_poisoning: [cache_config]
+  open_redirect_cors: [browser_or_cors_config]
+  http_request_smuggling: [parser_stack]
+  llm_prompt_injection: [trust_boundary]
+  bopla_mass_assignment: [object_schema]
+  bfla_admin_function_probing: [caller_role, route_required_role]
+  race_condition_toctou_burst: [route_semantics]
+  mcp_agentic_tool_abuse: [tool_manifest]
+
+# Non-default attack actions. Absent entry -> BLOCK. Entry present but its eligibility
+# flag (context key, must be true) missing -> ABSTAIN. Each entry needs its own evaluation.
+class_actions: {}
+#  credential_stuffing_bruteforce: {verdict: RATE_LIMIT, eligibility: rate_limit_eligible}
+
+# Fixed reason codes; rule_hint is never model text. Default for unlisted attack: "ml_<class>".
+reason_codes:
+  allow: none
+  malformed_output: malformed_output
+  unsupported_mode: unsupported_context
+  missing_evidence: insufficient_evidence
+  uncalibrated: uncalibrated_shadow
+  low_confidence: low_confidence
+  ineligible_action: action_ineligible
+  out_of_envelope: out_of_distribution_flow
+  over_budget: over_token_budget
+# Tier-0 scanner rule (18 Oct, user decision): a known scanner / attack-tool User-Agent is not attack evidence on its
+# own, so it never turns a benign verdict into BLOCK; a benign verdict becomes log_and_monitor, tagged tier0_scanner_<tool>. Case-insensitive tokens.
+scanner_user_agents: [sqlmap, nuclei, ffuf, gobuster, dirbuster, nikto, openvas, nessus, acunetix, wpscan, masscan,
+                      zgrab, burp, nmap, feroxbuster, wfuzz, arachni, w3af, qualys, jaeles]

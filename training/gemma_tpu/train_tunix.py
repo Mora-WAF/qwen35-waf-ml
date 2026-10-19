@@ -13,7 +13,6 @@ default Tunix loss builds a one-hot over the 262k vocabulary at every position, 
 import dataclasses
 import functools
 import json
-import math
 import os
 import sys
 import time
@@ -30,9 +29,14 @@ DATA = Path(os.environ.get("GEMMA_DATA", "/content/data"))
 OUT = Path(os.environ.get("GEMMA_OUT", "/content/out"))
 CKPT_EVERY = int(os.environ.get("GEMMA_CKPT_EVERY", 100))  # optimizer steps between OUT/ckpt.npz saves
 LIMIT = int(os.environ.get("GEMMA_LIMIT", 0))  # >0: first N records per split bucket (small end-to-end test)
+ONLY = set(Path(os.environ["GEMMA_ONLY"]).read_text().split()) if os.environ.get("GEMMA_ONLY") else None  # id file: rescore
 MICRO = {512: 8, 1024: 4, 2048: 2}  # records per micro-batch per bucket (tokens per step ~4k)
-EFFECTIVE_BATCH, LR, WARMUP, WD, CLIP, RANK = 16, 1e-4, 0.05, 0.01, 1.0, 16
+EFFECTIVE_BATCH, LR, WARMUP, WD, CLIP = 16, 1e-4, 0.05, 0.01, 1.0
+RANK = int(os.environ.get("GEMMA_RANK", 16))
+EPOCHS = int(os.environ.get("GEMMA_EPOCHS", 1))
 LORA_TARGETS = ".*q_einsum|.*k_einsum|.*kv_einsum|.*attn_vec_einsum|.*gate_proj|.*up_proj|.*down_proj"
+if os.environ.get("GEMMA_PLE_LORA"):  # also the per-layer-embedding projections (Gemma E2B's PLE path)
+    LORA_TARGETS += "|.*per_layer_input_gate|.*per_layer_projection|.*per_layer_model_projection"
 META = json.loads((DATA / "meta.json").read_text())
 
 
@@ -73,7 +77,7 @@ def batch_inputs(tokens, length):
 
 def final_logits(model, h):
     """LM head (tied embedding) with f32 accumulation; casting the 262k x 1536 table to f32 would cost 1.5 GB."""
-    lg = jnp.einsum("bkd,vd->bkv", h.astype(jnp.bfloat16), model.embedder.input_embedding.value,
+    lg = jnp.einsum("bkd,vd->bkv", h.astype(jnp.bfloat16), model.embedder.input_embedding[...],
                     preferred_element_type=jnp.float32)
     cap = model.config.final_logit_softcap
     return jnp.tanh(lg / cap) * cap if cap else lg
@@ -130,20 +134,39 @@ def load_split(split):
     for b in META["buckets"]:
         fp = DATA / f"{split}_{b}.npz"
         if fp.exists():
-            out[b] = {k: v[:LIMIT] if LIMIT else v for k, v in np.load(fp).items()}
+            d = dict(np.load(fp))
+            sel = np.isin(d["ids"], list(ONLY)) if ONLY else slice(LIMIT or None)
+            out[b] = {k: v[sel] for k, v in d.items()}
     return out
 
 
-def micro_batches(split, rng, epochs=1, skip=0):
-    """(bucket, batch dict) in random order; each micro-batch has MICRO[bucket] records (the last one is padded with
-    zero-mask copies, so shapes never change). `skip`: micro-batches already consumed (resume; same rng seed)."""
-    data, order = load_split(split), []
-    for b, d in data.items():
-        n, mb = len(d["tokens"]), MICRO[b]
-        for _ in range(epochs):
-            idx = rng.permutation(n)
-            order += [(b, idx[i:i + mb]) for i in range(0, n, mb)]
-    rng.shuffle(order)
+def batch_order(data, rng, epochs=1):
+    """[(bucket, record indices)] in random order, one shuffled pass per epoch (epochs never mix)."""
+    order = []
+    for _ in range(epochs):
+        ep = []
+        for b, d in data.items():
+            idx, mb = rng.permutation(len(d["tokens"])), MICRO[b]
+            ep += [(b, idx[i:i + mb]) for i in range(0, len(idx), mb)]
+        rng.shuffle(ep)
+        order += ep
+    return order
+
+
+def count_steps(order):
+    """Optimizer steps train() takes over `order`: micro-batches of 8/4/2 overshoot the effective batch, so this is
+    fewer than records / 16 (18 Oct: 2,076, not 2,290; the cosine schedule then never reached its end)."""
+    seen = steps = 0
+    for _, idx in order:
+        seen += len(idx)
+        if seen >= EFFECTIVE_BATCH:
+            seen, steps = 0, steps + 1
+    return steps + (seen > 0)
+
+
+def micro_batches(data, order, skip=0):
+    """(bucket, batch dict, real records) for `order`; each micro-batch has MICRO[bucket] records (the last one is
+    padded with zero-mask copies, so shapes never change). `skip`: micro-batches already consumed (resume)."""
     for b, idx in order[skip:]:
         d, mb = data[b], MICRO[b]
         pad = mb - len(idx)
@@ -200,7 +223,8 @@ def train():
     _, grad_step = make_steps(gd)
     data = load_split("train")
     n = sum(len(d["tokens"]) for d in data.values())
-    total = math.ceil(n / EFFECTIVE_BATCH)
+    order = batch_order(data, np.random.default_rng(3407), EPOCHS)
+    total = count_steps(order)
     tx, apply_step = make_optimizer(total)
     opt_state = tx.init(lora)
     step, mi, ck = 0, 0, OUT / "ckpt.npz"
@@ -214,7 +238,7 @@ def train():
     t0 = time.time()
     with jax.set_mesh(mesh):
         acc, seen, losses = zeros_like(lora), 0, []
-        for b, batch, real in micro_batches("train", np.random.default_rng(3407), skip=mi):
+        for b, batch, real in micro_batches(data, order, skip=mi):
             loss, acc = grad_step(lora, frozen, batch, acc, real / EFFECTIVE_BATCH)  # grad of the effective-batch mean
             seen, mi = seen + real, mi + 1
             losses.append(loss)
@@ -232,8 +256,10 @@ def train():
                     os.replace(OUT / "ckpt.tmp.npz", ck)
         if seen:
             lora, opt_state = apply_step(lora, opt_state, acc)
+            step += 1
         np.savez(OUT / "lora.npz", **flat(lora))
-        (OUT / "train_report.json").write_text(json.dumps({"steps": step, "records": n, "wall_s": round(time.time() - t0),
+        (OUT / "train_report.json").write_text(json.dumps({"steps": step, "planned_steps": total, "epochs": EPOCHS, "rank": RANK,
+                                                           "lora_targets": LORA_TARGETS, "records": n, "wall_s": round(time.time() - t0),
                                                            "hbm_gb": hbm()}, indent=1))
     return gd, lora, frozen, mesh
 
@@ -282,13 +308,17 @@ def score(splits, loaded=None, margin=12.0):
                     # pass 2: kept classes, prompt + full completion, log-probs of tokens after the first class token
                     for g0 in range(0, len(pend), mb):
                         grp = pend[g0:g0 + mb]
-                        toks2 = np.full((mb, L), META["pad_id"], np.int32)
+                        # another class's completion can be longer than the record's own: a prompt near the bucket
+                        # size then overflows it (out-of-bounds gather = NaN, 53 records on 18 Oct): next bucket up
+                        need = max(pl[r] + len(suf[c]) for r, c in grp)
+                        L2 = next(x for x in sorted(META["buckets"]) + [need] if x >= need and x >= L)
+                        toks2 = np.full((mb, L2), META["pad_id"], np.int32)
                         tp, tt, tm = (np.zeros((mb, K), np.int32) for _ in range(3))
                         lens2 = np.ones(mb, np.int32)
                         for j, (r, c) in enumerate(grp):
                             seq = list(d["tokens"][sl][r][:pl[r]]) + suf[c]
-                            toks2[j, :min(L, len(seq))] = seq[:L]
-                            lens2[j] = min(L, len(seq))
+                            toks2[j, :len(seq)] = seq
+                            lens2[j] = len(seq)
                             ts = list(range(pl[r] + k + 1, len(seq)))[:K]
                             tp[j, :len(ts)] = [t - 1 for t in ts]
                             tt[j, :len(ts)] = [seq[t] for t in ts]

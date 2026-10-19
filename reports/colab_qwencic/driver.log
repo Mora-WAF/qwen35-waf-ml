@@ -1,0 +1,60 @@
+selfcheck: [('haiku:ssrf_cloud_metadata:000000', 'HYBRID_CTX'), ('haiku:ssrf_cloud_metadata:000006', 'L7_HTTP'), ('gen:flow:syn_flood_ddos:000017', 'L4_FLOW'), ('gen:flow:syn_flood_ddos:000020', 'L4_FLOW'), ('gen:flow:syn_flood_ddos:000024', 'L4_FLOW'), ('haiku:benign_standard_traffic:000511', 'HYBRID_CTX'), ('command_injection_payload_list:rce_cmd_injection:ab29f35cfdd76d00~0', 'L7_HTTP'), ('open_redirect_payload_list:open_redirect_cors:244ea4911ea239ae~4', 'L7_HTTP')]
+[deploy 00:02:45] package 79M
+[deploy 00:02:45] PACKAGE_ONLY -> /tmp/tmp.N5krDI2IAo/model.tar.gz
+[vllm_bench 00:02:50] new L4 session qwencic
+[colab] Creating session 'qwencic'...
+[colab] Session READY.
+GPU 0: NVIDIA L4 (UUID: GPU-7997fecb-984d-f88a-316f-ee69238fc837)
+
+STEP-OK 1070529085
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.00' to '/content/pkg.part.00'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.01' to '/content/pkg.part.01'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.02' to '/content/pkg.part.02'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.03' to '/content/pkg.part.03'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.04' to '/content/pkg.part.04'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.05' to '/content/pkg.part.05'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.06' to '/content/pkg.part.06'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.07' to '/content/pkg.part.07'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.08' to '/content/pkg.part.08'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.part.09' to '/content/pkg.part.09'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/pkg.sha256' to '/content/pkg.sha256'
+[colab] Uploaded '/tmp/tmp.N5krDI2IAo/sample.jsonl' to '/content/sample.jsonl'
+[colab] Uploaded 'colab/vllm_bench.py' to '/content/vllm_bench.py'
+[colab] Uploaded 'reports/gemma_tpu/valselect_cic2017.jsonl.gz' to '/content/fp_in.jsonl.gz'
+[vllm_bench 00:05:06] unpack + pip (vllm 0.30.0 brings torch 2.13)
+STEP-OK 1081332157
+RC=0
+STEP-OK 2732413570
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.0/8.0 MB 140.0 MB/s eta 0:00:00
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 928.0/928.0 kB 67.2 MB/s eta 0:00:00
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+cudf-cu13 26.6.0 requires numba<0.65.0,>=0.60.0, but you have numba 0.65.0 which is incompatible.
+cuml-cu13 26.6.0 requires numba<0.65.0,>=0.60.0, but you have numba 0.65.0 which is incompatible.
+google-adk 2.7.1 requires opentelemetry-api<=1.42.1,>=1.39, but you have opentelemetry-api 1.45.1 which is incompatible.
+google-adk 2.7.1 requires opentelemetry-sdk<=1.42.1,>=1.39, but you have opentelemetry-sdk 1.45.1 which is incompatible.
+numba-cuda 0.28.2 requires cuda-core<1.0.0,>=0.5.1, but you have cuda-core 1.2.2 which is incompatible.
+[vllm_bench 00:09:11] stage merge
+STEP-OK 107120299
+Loading weights:   0%|          | 0/723 [00:00<?, ?it/s]
+Loading weights:  58%|█████▊    | 416/723 [00:00<00:00, 4129.05it/s]
+Loading weights: 100%|██████████| 723/723 [00:00<00:00, 4348.14it/s]
+
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]
+Writing model shards: 100%|██████████| 1/1 [00:21<00:00, 21.99s/it]
+Writing model shards: 100%|██████████| 1/1 [00:21<00:00, 21.99s/it]
+merged -> /content/merged
+[vllm_bench 00:10:53] stage fp
+STEP-OK 1276214869
+Loading weights:  58%|█████▊    | 417/723 [00:02<00:01, 216.16it/s]
+Loading weights:  75%|███████▌  | 545/723 [00:02<00:00, 498.55it/s]
+Loading weights:  97%|█████████▋| 698/723 [00:02<00:00, 778.51it/s]
+Loading weights: 100%|██████████| 723/723 [00:02<00:00, 316.42it/s]
+[transformers] `causal_conv1d_fn` is falling back to its reference PyTorch implementation because `causal_conv1d` is not installed. This is correct but much slower; install `causal_conv1d` for the optimized kernel.
+[transformers] `chunk_gated_delta_rule` is falling back to its reference PyTorch implementation because `flash-linear-attention` is not installed. This is correct but much slower; install `flash-linear-attention` for the optimized kernel.
+fp 16 done, 1.72 rec/s
+fp 816 done, 3.39 rec/s
+[colab] Downloaded '/content/fp_out.jsonl' to 'reports/gemma_tpu/qwen11_valselect_cic2017.results.jsonl'
+[vllm_bench 00:20:40] done -> reports/gemma_tpu/qwen11_valselect_cic2017.results.jsonl
+[colab] Stopping session 'qwencic'...
+[colab] Session terminated.
+[ep2] tpu-v5e1-s-kkb-usw1c1-26t2lr5a6ourx | Hardware: V5E1 | Shape: Standard | Variant: TPU

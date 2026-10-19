@@ -10,7 +10,7 @@ Arrays per bucket (right padding with the pad id):
   split [N] (the record's own split, e.g. val_calib / val_policy: eval.calibration needs it).
 meta.json: classes, the class completion suffixes (scoring), shared prefix length, tokenizer fingerprint, counts.
 
-usage: .venv/bin/python -m training.gemma_tpu.data [--prefix fast_] [--max-tokens 2048]
+usage: .venv/bin/python -m training.gemma_tpu.data [--prefix fast_] [--max-tokens 2048] [--src DIR] [--out DIR]
 """
 import argparse
 import hashlib
@@ -68,21 +68,21 @@ def class_suffixes(tok, classes):
     return out
 
 
-def main(prefix="fast_", max_tokens=P.MAX_TOKENS):
+def main(prefix="fast_", max_tokens=P.MAX_TOKENS, src="datasets_ready", out="reports/gemma_tpu/data"):
     tok = load_tokenizer()
     ctrl = P.control_strings(tok)
     classes = list(yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"])
     cidx = {c: i for i, c in enumerate(classes)}
     suf = class_suffixes(tok, classes)
     assert max(map(len, suf)) <= K, f"class completion longer than K={K}"
-    out = ROOT / "reports/gemma_tpu/data"
+    out = ROOT / out
     out.mkdir(parents=True, exist_ok=True)
     meta = {"model": MODEL_ID, "revision": MODEL_REVISION, "classes": classes, "suffixes": suf, "K": K,
             "buckets": list(BUCKETS), "pad_id": tok.pad_token_id,
             "chat_template_sha256": hashlib.sha256(tok.chat_template.encode()).hexdigest(),
             "system_prompt_sha256": P.sha256(P.system_prompt()), "splits": {}}
     for split in ("train", "val", "test", "test_unseen"):
-        fp = ROOT / f"datasets_ready/{prefix}{split}.jsonl"
+        fp = ROOT / src / f"{prefix}{split}.jsonl"
         if not fp.exists():
             continue
         rows, dropped = {b: [] for b in BUCKETS}, 0
@@ -123,5 +123,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--prefix", default="fast_")
     ap.add_argument("--max-tokens", type=int, default=P.MAX_TOKENS)
+    ap.add_argument("--src", default="datasets_ready", help="build directory (e.g. datasets_full)")
+    ap.add_argument("--out", default="reports/gemma_tpu/data")
     a = ap.parse_args()
-    main(a.prefix, a.max_tokens)
+    main(a.prefix, a.max_tokens, a.src, a.out)
