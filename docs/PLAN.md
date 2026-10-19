@@ -184,6 +184,51 @@ Deployment and pipeline:
   7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
   the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
 
+### 19 October ~17:30 — serving speed path, next-build data and training changes (code + tests; nothing built or trained)
+
+None of this needs a GPU to write, but most of it takes effect only at the next build (v12) and its training run.
+Built here: nothing (no raw cache in this container). Tests 153 pass (1 skipped: the LoRA test needs `peft`; it passed
+with `peft` 0.21.2 installed, where `test_make_args_builds_on_pinned_transformers` fails only because `accelerate`
+is then installed too, also on the unchanged code).
+
+- **Endpoint scorer → cached batch** (`inference._cached_scores` = `colab_helpers.batch_class_logprobs`, batch
+  `WAF_CACHED_BATCH` 4; left-to-do item): request default `scoring="cached"` (L4 18 Oct: 4.17 vs 3.52 rec/s per record,
+  400/400 same top class, max probability difference 0.022 vs the A100). The startup self-check now asserts the cached
+  path against the A100 scores (the 17 Oct batched path is still selectable and logged). `colab/vllm_bench.py fp`
+  (benchmark runs) uses the serving default. CPU test: tiny Qwen3.5 through `predict_fn`, cached = per-record within
+  1e-3, same verdicts. `deploy/speed.py` measures it.
+- **LoRA on the linear-attention layers** (`colab_helpers.LORA_TARGETS`, `WAF_LORA=full|v11`, default full):
+  `in_proj_qkv`, `in_proj_z`, `in_proj_a`, `in_proj_b`, `out_proj` added (names from transformers 5.17
+  `Qwen3_5GatedDeltaNet`). The v11 adapter had attention LoRA in 8 of 32 layers only (read from its safetensors). The
+  notebook asserts that some `.linear_attn.` module is trainable when the full set is on, records
+  `lora_target_modules` in part_a / the report (Part B's resume test and `training.model_card` use the run's own set;
+  runs before 19 Oct are reported as the v11 set). Estimated +~10M trainable parameters; gain not measured. Run
+  `WAF_LORA=v11` on the same build for the ablation.
+- **CIC campaign split fixed in the build** (`data_pipeline.build` → `block_split.block_campaigns`, every observed source):
+  an observed attack class of a source with no record in train (one CIC-2017 attacker host = one lineage group) trains
+  on its earlier 80% by capture order and keeps the latest 20% held out; unseen-source holdouts are left alone.
+  `align_unseen_sources`: a source whose attacks are all in test_unseen takes its benign flows out of train too. The build
+  asserts no observed source keeps benign but no attack flows in train; manifest `observed_campaign_blocks`,
+  `unseen_source_benign_moved`, `observed_per_split`. `robustness.core_groups` keeps the campaign host's base group
+  excluded (the block suffixes would otherwise have let OOT probes share the host with training).
+- **Payload placements** (`generate.SINKS`): new `header` sink (User-Agent, X-Forwarded-For, X-Api-Version, X-Client-Ref,
+  X-Device-Id, custom X- names) for sqli_classic / sqli_obfuscated / xss_reflected_stored / rce / ssti / crlf, raw
+  header values (line breaks percent-encoded), URL and Base64 layers visible through views (`header.<name>`); XSS also
+  in the URL path. Benign records (`BENIGN_SINKS`) and twins use the same header names with ordinary values (sample:
+  header sink 17% of those attack classes, 10% of benign). Coverage tag `loc:header` from the generator's own sink
+  record (label evidence, never model input). Shortcut audit to recheck at the build.
+- **Sensor contract 2** (`prepare.SENSOR_CONTRACT`, PLAN 18 Oct 22:15): `fit_budget` caps the rebuilt Cookie header like
+  any header and adds a last level keeping the first 48 cookies with `http.cookies_truncated` (schema updated); an
+  89-cookie request that fit no budget under contract 1 now fits (test). `truncation_augment` puts the new shape on 30% of
+  its truncated records, every class. Contract follows the build: `serving.json fit_contract` (from the bundle's training
+  records), so v10 / v11 packages keep contract 1; the Gemma benchmark export uses 1 (`--fit-contract`); the built
+  benchmark files were fitted with 1.
+- **Robustness set 25 → 100 per kind** (`generate.REJECTED_PROBES`, `fragment_probes`): insufficient-context probes are
+  exactly the fragments training excludes, at most half the rejected-seed pool. Effective at the next robustness build.
+- Not done (needs a decision or data): an HTTP-flood / application-DoS class (taxonomy change; 2.6M labelled CIC / NF-ToN
+  rows unmapped), more CSE-CIC-IDS2018 days, CRS 921/931/933/934 fixtures (per-rule mapping + review round), single-token
+  labels / classification head.
+
 ### 19 October ~15:30 — no-training improvements: Qwen v11 + Gemma ensemble, envelope resolution fix, v11 benchmark path (no GPU run)
 
 Nothing trained and nothing scored on a GPU in this session: the cloud container has no Colab CLI, AWS credentials or

@@ -224,7 +224,8 @@ def build(name):
         r["tokens"] = n_tokens(tok, ctrl, r["telemetry"])
         r["fitted"] = False
         if r["tokens"] > P.MAX_TOKENS and r["telemetry"].get("http") and name == "openappsec":
-            t = P.fit_budget(r["telemetry"], lambda x: n_tokens(tok, ctrl, x))  # the sensor contract
+            # the sensor contract of the v10 / v11 builds (contract 1): the endpoint refits with its own contract
+            t = P.fit_budget(r["telemetry"], lambda x: n_tokens(tok, ctrl, x), contract=1)
             if t is not None:  # GoTestWAF's padded cases stay unscored: they test exactly this evasion
                 r["telemetry"], r["tokens_original"], r["tokens"], r["fitted"] = t, r["tokens"], n_tokens(tok, ctrl, t), True
                 rep["fitted"] += 1

@@ -1,7 +1,8 @@
 """SageMaker handler (Hugging Face inference toolkit): the evaluated scoring path behind a real-time endpoint.
 
-Same path as the evaluated model: telemetry -> training.prepare messages -> colab_helpers.class_logprobs (summed
-completion log-prob of all 41 classes) -> softmax(scores / T) -> eval.policy.decide with the frozen policy.
+Same path as the evaluated model: telemetry -> training.prepare messages -> summed completion log-prob of all 41 classes
+(colab_helpers.batch_class_logprobs by default, the per-record class_logprobs' scores without prompt recomputation)
+-> softmax(scores / T) -> eval.policy.decide_from_probs with the frozen policy.
 model_fn loads the pinned base from the Hugging Face Hub, merges the rsLoRA adapter shipped in model.tar.gz and
 refuses to start unless 5 test records reproduce the A100 scores (selfcheck.jsonl).
 
@@ -10,7 +11,7 @@ Response: {"results": [{"decision": {...}, "diagnostics": {...}, "top": [[class,
           return_probs: each result also carries "probs" (the calibrated distribution of the window that decided, in
           taxonomy order) and "temperature", so another member's distribution can be combined offline (eval.ensemble).
 serving.json (written by deploy.sh from the bundle): whether the model was trained with the sensor's jwt/base64
-decoded views; WAF_DECODED_VIEWS=0/1 overrides it.
+decoded views (WAF_DECODED_VIEWS=0/1 overrides it) and which sensor contract (fit_budget version) its build used.
 """
 import json
 import os
@@ -51,17 +52,21 @@ def model_fn(model_dir, context=None):
           "suf": H.candidate_suffixes(tok, classes), "controls": P.control_strings(tok)}
     checks = [json.loads(line) for line in open(HERE / "selfcheck.jsonl")]
     T = float(pol["temperature"])
-    bat = _batch_scores(st, [x["telemetry"] for x in checks])  # the serving path
-    seq = [_scores(st, x["telemetry"]) for x in checks]  # the evaluated path
+    tels = [x["telemetry"] for x in checks]
+    srv = _cached_scores(st, [json.loads(json.dumps(t)) for t in tels])  # the serving path (19 Oct: cached batch)
+    bat = _batch_scores(st, [json.loads(json.dumps(t)) for t in tels])  # the 17 Oct batched path (scoring="batched")
+    seq = [_scores(st, json.loads(json.dumps(t))) for t in tels]  # the evaluated path
 
     def gap(a, b):  # (max |p_a - p_b|, same top class, worst class); probabilities, as Part B judges pruning
         pa, pb = _softmax(a, T), _softmax(b, T)
         i = int(np.abs(pa - pb).argmax())
         return float(np.abs(pa - pb).max()), int(pa.argmax()) == int(pb.argmax()), classes[i]
-    vs_seq = [gap(b_, s_) for b_, s_ in zip(bat, seq)]
-    vs_a100 = [gap(b_, x["scores"]) for b_, x in zip(bat, checks)]
+    vs_seq = [gap(b_, s_) for b_, s_ in zip(srv, seq)]
+    vs_a100 = [gap(b_, x["scores"]) for b_, x in zip(srv, checks)]
+    bat_a100 = [gap(b_, x["scores"]) for b_, x in zip(bat, checks)]
     seq_a100 = [gap(s_, x["scores"]) for s_, x in zip(seq, checks)]
-    for name, rows in (("batched vs per-record", vs_seq), ("batched vs A100", vs_a100), ("per-record vs A100", seq_a100)):
+    for name, rows in (("cached vs per-record", vs_seq), ("cached vs A100", vs_a100), ("batched vs A100", bat_a100),
+                       ("per-record vs A100", seq_a100)):
         k = max(range(len(rows)), key=lambda i: rows[i][0])
         print(f"[selfcheck] {name}: max prob diff {rows[k][0]:.4f} ({checks[k]['id']}, {rows[k][2]}); "
               f"same top class {sum(r[1] for r in rows)}/{len(rows)}", flush=True)
@@ -73,9 +78,9 @@ def model_fn(model_dir, context=None):
         why = f"{type(e).__name__}: {e}"[:200]
     print(f"[selfcheck] kernels {fast}; causal_conv1d import: {why}; torch cxx11 abi "
           f"{torch._C._GLIBCXX_USE_CXX11_ABI}", flush=True)
-    # the A100 scores are the evaluated reference: the serving (batched) path must reproduce them. The per-record
-    # path is logged only: with the fla kernels its replicated-cache decode drifts more (17 Oct: 0.030 vs batched)
-    assert all(r[1] for r in vs_a100) and max(r[0] for r in vs_a100) < SELFCHECK_A100_DIFF, "batched path disagrees with the A100"
+    # the A100 scores are the evaluated reference: the serving (cached batch) path must reproduce them (Colab L4,
+    # 18 Oct: batch 4 same top class 400/400, max probability difference 0.022); the 17 Oct batched path is logged
+    assert all(r[1] for r in vs_a100) and max(r[0] for r in vs_a100) < SELFCHECK_A100_DIFF, "cached batch path disagrees with the A100"
     # the default (per-record) path: within the same probability tolerance; its one top-class flip on 17 Oct was the
     # hardest test record, a near tie between two attack classes (both BLOCK)
     assert max(r[0] for r in seq_a100) < SELFCHECK_A100_DIFF, "per-record path disagrees with the A100"
@@ -83,16 +88,25 @@ def model_fn(model_dir, context=None):
     return st
 
 
+def _serving():
+    f = HERE / "serving.json"
+    return json.load(open(f)) if f.exists() else {}
+
+
 def _decoded_views():
     """Train/serve parity for the sensor's jwt/base64 views: v10 was trained without them, v11 (18 Oct build) with.
     serving.json records what the bundle's training records carry; without it, off (the v10 packages)."""
     if os.environ.get("WAF_DECODED_VIEWS") in ("0", "1"):
         return os.environ["WAF_DECODED_VIEWS"] == "1"
-    f = HERE / "serving.json"
-    return bool(json.load(open(f)).get("decoded_views")) if f.exists() else False
+    return bool(_serving().get("decoded_views"))
 
 
-DECODED_VIEWS = _decoded_views()
+def _fit_contract():
+    """Sensor contract (training.prepare.SENSOR_CONTRACT) of the build the model trained on; without it 1 (v10, v11)."""
+    return int(_serving().get("fit_contract", 1))
+
+
+DECODED_VIEWS, FIT_CONTRACT = _decoded_views(), _fit_contract()
 
 
 def _enrich(tel):
@@ -112,6 +126,19 @@ def _scores(st, tel):  # the evaluated per-record path (colab_helpers.class_logp
     msgs = [{"role": "system", "content": P.system_prompt()},
             {"role": "user", "content": P.serialize_telemetry(_enrich(tel), st["controls"])}]
     return H.class_logprobs(st["model"], st["tok"], msgs, st["suf"])
+
+
+CACHED_BATCH = int(os.environ.get("WAF_CACHED_BATCH", 4))  # 18 Oct, Colab L4: 4.17 / 3.95 / 3.71 rec/s at 4 / 8 / 16
+
+
+@torch.no_grad()
+def _cached_scores(st, tels):
+    """The serving path (19 Oct): colab_helpers.batch_class_logprobs, same scores and pruning as the per-record
+    class_logprobs without recomputing any prompt (left-padded prefill of CACHED_BATCH prompts, class suffixes from each
+    record's replicated cache). 18 Oct, L4: 4.17 rec/s at batch 4 vs 3.52 per record."""
+    msgs = [[{"role": "system", "content": P.system_prompt()},
+             {"role": "user", "content": P.serialize_telemetry(_enrich(t), st["controls"])}] for t in tels]
+    return H.batch_class_logprobs(st["model"], st["tok"], msgs, st["suf"], batch=CACHED_BATCH, max_rows=32)
 
 
 @torch.no_grad()
@@ -175,9 +202,10 @@ def _batch_scores(st, tels, margin=12.0):
 def input_fn(body, content_type="application/json"):
     obj = json.loads(body)
     if isinstance(obj, dict) and "records" in obj:
-        return obj["records"], obj.get("scoring", "sequential"), bool(obj.get("return_probs"))
-    return [obj], "sequential", False  # measured 17 Oct (deploy/speed.py, A10G): per-record 0.27 s/record, batched 0.71-1.06
-    # (its second pass recomputes the whole prompt for every kept class; a cached-prefix batch is still to write)
+        return obj["records"], obj.get("scoring", "cached"), bool(obj.get("return_probs"))
+    return [obj], "cached", False
+    # scoring: "cached" (default since 19 Oct: batch_class_logprobs), "sequential" (the evaluated per-record path,
+    # 0.27 s/record on the A10G, 17 Oct), "batched" (17 Oct: 0.71-1.06 s/record, its second pass recomputes every prompt)
 
 
 def predict_fn(data, st):
@@ -191,7 +219,7 @@ def predict_fn(data, st):
     prompts, owner = [], []
     for n, tel in enumerate(records):  # malformed telemetry fails alone: the policy's own abstain, never a guess
         try:
-            ws = P.budget_windows(tel, lambda x: len(_prompt_ids(st, json.loads(json.dumps(x)))))
+            ws = P.budget_windows(tel, lambda x: len(_prompt_ids(st, json.loads(json.dumps(x)))), contract=FIT_CONTRACT)
             if not ws:  # fits no budget even when fitted (5.6% of open-appsec browsing traffic, ~72 cookies): monitor
                 out[n] = {"decision": POL.over_budget_decision(pol), "diagnostics": {"reason": "over_budget"},
                           "truncated": True, "windows": 0}
@@ -202,8 +230,10 @@ def predict_fn(data, st):
             out[n] = {"decision": None, "error": f"{type(e).__name__}: {e}"[:300]}
     if scoring == "sequential":
         sc = [_scores(st, w) for w in prompts]
-    else:
+    elif scoring == "batched":
         sc = _batch_scores(st, prompts) if prompts else []
+    else:
+        sc = _cached_scores(st, prompts) if prompts else []
     per = (time.time() - t0) / max(1, len(set(owner)))
     best = {}
     for n, w, s in zip(owner, prompts, sc):
@@ -218,7 +248,7 @@ def predict_fn(data, st):
         if return_probs:
             out[n] |= {"probs": [round(float(v), 7) for v in p], "temperature": T}
     return {"results": out, "scoring": scoring, "batch_s": round(time.time() - t0, 3),
-            "selfcheck_max_diff": st["selfcheck_max_diff"], "decoded_views": DECODED_VIEWS}
+            "selfcheck_max_diff": st["selfcheck_max_diff"], "decoded_views": DECODED_VIEWS, "fit_contract": FIT_CONTRACT}
 
 
 def output_fn(pred, accept="application/json"):

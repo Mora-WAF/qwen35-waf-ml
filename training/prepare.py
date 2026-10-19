@@ -133,6 +133,13 @@ def add_decoded_views(tel):
 # ---- token budget (sensor contract): every prompt the model sees fits MAX_TOKENS -----------------------------------
 RUN_RE = re.compile(r"(.)\1{64,}", re.S)
 FIT_CAPS = ((64, 512, 4000, 1024), (32, 256, 2000, 512), (16, 128, 1000, 256), (8, 64, 400, 128))  # cookie, header, body, url
+# Sensor contract version. 1: v10 / v11 builds. 2 (19 Oct, next build): the Cookie header is capped like any header
+# (the parsed cookie pairs carry the values; contract 1 rebuilt it in full, so every cookie name counted twice), and a
+# last level keeps the first MAX_COOKIES cookies with `cookies_truncated` = how many were dropped (open-appsec: 4.2% of
+# real browsing requests, ~72 cookies each, fit no budget under contract 1). A model is served with the contract its
+# build used (deploy/package_meta.py: serving.json fit_contract).
+SENSOR_CONTRACT = 2
+MAX_COOKIES = 48
 
 
 def _cap(s, n):
@@ -163,15 +170,24 @@ def collapse_runs(tel):
     return tel
 
 
-def fit_budget(tel, count, budget=MAX_TOKENS):
+def fit_budget(tel, count, budget=MAX_TOKENS, contract=SENSOR_CONTRACT):
     """Shorten cookie values, then header values, the body and the URL (each keeps its start) until count(tel) fits;
-    marks the copy truncated. Returns the fitted copy, or None when even the tightest caps do not fit."""
-    for ck, hv, body, tgt in FIT_CAPS:
+    marks the copy truncated. Contract 2 also caps the rebuilt Cookie header and, last, keeps the first MAX_COOKIES
+    cookies (http.cookies_truncated = dropped). Returns the fitted copy, or None when even the tightest level does not fit."""
+    levels = [(*c, None) for c in FIT_CAPS] + ([(*FIT_CAPS[-1], MAX_COOKIES)] if contract >= 2 else [])
+    for ck, hv, body, tgt, keep in levels:
         t = json.loads(json.dumps(tel))
         h = t["http"]
         if h.get("cookies"):
+            if keep and len(h["cookies"]) > keep:
+                h["cookies_truncated"] = len(h["cookies"]) - keep
+                h["cookies"] = h["cookies"][:keep]
             h["cookies"] = [[k, _cap(v, ck)] for k, v in h["cookies"]]
-        h["headers"] = [[k, "; ".join(f"{a}={_cap(b, ck)}" for a, b in h["cookies"]) if k.lower() == "cookie" and h.get("cookies")
+
+        def cookie_header():
+            v = "; ".join(f"{a}={_cap(b, ck)}" for a, b in h["cookies"])
+            return _cap(v, hv) if contract >= 2 else v
+        h["headers"] = [[k, cookie_header() if k.lower() == "cookie" and h.get("cookies")
                          else _cap(v, hv)] for k, v in h.get("headers") or []]
         h["body"] = _cap(h.get("body"), body)
         h["target"] = _cap(h["target"], tgt)
@@ -185,7 +201,7 @@ def fit_budget(tel, count, budget=MAX_TOKENS):
     return None
 
 
-def budget_windows(tel, count, budget=MAX_TOKENS, max_windows=8):
+def budget_windows(tel, count, budget=MAX_TOKENS, max_windows=8, contract=SENSOR_CONTRACT):
     """The prompts a sensor sends for one request: [tel] when it fits; otherwise the request with repeated-character
     runs collapsed, and, if still too long, windows over its body (overlapping, head and tail always included, the
     rest of the request fitted), each scored separately. [] when nothing fits."""
@@ -206,13 +222,13 @@ def budget_windows(tel, count, budget=MAX_TOKENS, max_windows=8):
         for s in starts:
             w = json.loads(json.dumps(t))
             w["http"]["body"], w["truncated"] = body[s:s + width], True
-            f = w if count(w) <= budget else fit_budget(w, count, budget)
+            f = w if count(w) <= budget else fit_budget(w, count, budget, contract)
             if f is None:
                 break
             out.append(f)
         else:
             return out
-    f = fit_budget(t, count, budget)
+    f = fit_budget(t, count, budget, contract)
     return [f] if f else []
 
 

@@ -1,5 +1,5 @@
-"""Endpoint speed check: the same records scored per record ("sequential", the evaluated path) and batched
-(several call sizes). Reports server time per record and records/s, and the largest score difference between the
+"""Endpoint speed check: the same records scored per record ("sequential", the evaluated path), with the cached batch
+scorer ("cached", the serving default since 19 Oct) and the older batched path (several call sizes). Reports server time per record and records/s, and the largest score difference between the
 two paths (they must agree).
 
 usage: .venv/bin/python deploy/speed.py [N]      (N records from datasets_ready/fast_test.jsonl, default 96)
@@ -45,8 +45,8 @@ def main(n=96):
     report = []
     seq, ref = run(tels, "sequential", 8)
     report.append(seq)
-    for b in (8, 16, 32):
-        r, got = run(tels, "batched", b)
+    for scoring, b in (("cached", 8), ("cached", 16), ("batched", 8), ("batched", 16), ("batched", 32)):  # cached: the default
+        r, got = run(tels, scoring, b)
         r["max_top_prob_diff_vs_sequential"] = round(max(abs(a["top"][0][1] - c["top"][0][1]) for a, c in zip(ref, got)), 5)
         r["same_top_class"] = sum(a["top"][0][0] == c["top"][0][0] for a, c in zip(ref, got))
         report.append(r)

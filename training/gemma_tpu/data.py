@@ -130,7 +130,7 @@ def prompt_ids(tok, ctrl, tel):
     return tok(tok.apply_chat_template(m, tokenize=False, add_generation_prompt=True), add_special_tokens=False)["input_ids"]
 
 
-def bench_rows(recs, ids_of, budget):
+def bench_rows(recs, ids_of, budget, contract=1):
     """Sensor contract per record, as deploy/sagemaker/inference.predict_fn applies it: P.budget_windows over the raw
     telemetry, counted with the decoded views added; each window -> its prompt ids (views added). -> (rows, manifest)
     rows: (window id "<record>#<k>", prompt ids); manifest: record id -> windows (0 = fits no budget), truncated."""
@@ -138,7 +138,7 @@ def bench_rows(recs, ids_of, budget):
         return P.add_decoded_views(json.loads(json.dumps(x)))
     rows, man = [], {}
     for r in recs:
-        ws = P.budget_windows(r["telemetry"], lambda x: len(ids_of(enriched(x))), budget)
+        ws = P.budget_windows(r["telemetry"], lambda x: len(ids_of(enriched(x))), budget, contract=contract)
         man[r["id"]] = {"windows": len(ws), "bench": r.get("bench"),
                         "truncated": bool(r["telemetry"].get("truncated")) or any(bool(w.get("truncated")) for w in ws)}
         rows += [(f"{r['id']}#{k}", ids_of(enriched(w))) for k, w in enumerate(ws)]
@@ -170,7 +170,7 @@ def write_prompt_buckets(out, split, rows, labels, pad_id):
 
 
 def bench(names=("gotestwaf", "openappsec", "unsw"), robustness=False, out="reports/gemma_tpu/data_bench",
-          max_tokens=P.MAX_TOKENS):
+          max_tokens=P.MAX_TOKENS, contract=1):  # contract: the sensor contract of the build Gemma trained on (v11: 1)
     tok = load_tokenizer()
     ctrl = P.control_strings(tok)
     classes = list(yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"])
@@ -183,7 +183,7 @@ def bench(names=("gotestwaf", "openappsec", "unsw"), robustness=False, out="repo
     ids_of = lambda tel: prompt_ids(tok, ctrl, tel)  # noqa: E731
     budget = max_tokens - K  # prompt + the longest class completion fit the largest bucket
     recs = [json.loads(line) for n in names for line in open(ROOT / f"reports/benchmarks/{n}.jsonl")]
-    rows, man = bench_rows(recs, ids_of, budget)
+    rows, man = bench_rows(recs, ids_of, budget, contract)
     first = lambda e: classes.index(e[0]) if isinstance(e, list) else classes.index("benign_standard_traffic") if e == "benign" else -1  # noqa: E731
     exp = {r["id"]: first(r["expected"]) for r in recs}
     meta = {**{k: ref[k] for k in ("model", "revision", "classes", "suffixes", "K", "buckets", "pad_id",
@@ -194,14 +194,14 @@ def bench(names=("gotestwaf", "openappsec", "unsw"), robustness=False, out="repo
     if robustness:  # the robustness set (training-format records): ensemble robustness needs Gemma scores of it
         rob = [json.loads(line) for line in open(ROOT / "datasets_ready/robustness_pilot.jsonl")]
         rr = [{"id": r["id"], "telemetry": P.deserialize_telemetry(r["messages"][1]["content"])} for r in rob]
-        rows_r, man_r = bench_rows(rr, ids_of, budget)
+        rows_r, man_r = bench_rows(rr, ids_of, budget, contract)
         lab = {r["id"]: classes.index(r["metadata"]["threat_type"]) if r["metadata"]["threat_type"] in classes else -1 for r in rob}
         meta["splits"]["robustness"] = {"buckets": write_prompt_buckets(out, "robustness", rows_r,
                                                                         {w: lab[w.rpartition("#")[0]] for w, _ in rows_r},
                                                                         tok.pad_token_id), "records": len(rr), "windows": len(rows_r)}
         man |= {k: {**v, "bench": "robustness"} for k, v in man_r.items()}
     (out / "meta.json").write_text(json.dumps(meta, indent=1))
-    (out / "bench_manifest.json").write_text(json.dumps({"budget": budget, "records": man}, indent=1))
+    (out / "bench_manifest.json").write_text(json.dumps({"budget": budget, "fit_contract": contract, "records": man}, indent=1))
     print(json.dumps(meta["splits"], indent=1))
 
 
@@ -213,8 +213,9 @@ if __name__ == "__main__":
         ap.add_argument("--names", default="gotestwaf,openappsec,unsw")
         ap.add_argument("--robustness", action="store_true", help="also datasets_ready/robustness_pilot.jsonl")
         ap.add_argument("--out", default="reports/gemma_tpu/data_bench")
+        ap.add_argument("--fit-contract", type=int, default=1, help="sensor contract of the trained model's build (v11: 1)")
         a = ap.parse_args()
-        bench(a.names.split(","), a.robustness, a.out)
+        bench(a.names.split(","), a.robustness, a.out, contract=a.fit_contract)
         sys.exit(0)
     ap = argparse.ArgumentParser()
     ap.add_argument("--prefix", default="fast_")

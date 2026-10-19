@@ -110,14 +110,23 @@ _BROWSERS = {"chrome_win", "chrome_mac", "chrome_android", "edge", "firefox_linu
 # kept for callers that pick a named profile; values are sampled per record
 HEADER_PROFILES = UA_FAMILIES
 # allowed payload positions per class (where the mechanism can actually be delivered)
-SINKS = {"sqli_classic": ["query", "form", "json", "cookie", "multipart", "referer", "path"],
-         "sqli_obfuscated": ["query", "form", "json", "cookie", "multipart", "referer"],
-         "nosqli": ["json", "query", "form"], "xss_reflected_stored": ["query", "form", "json", "multipart", "referer", "cookie"],
-         "xss_dom_polyglot": ["query", "form", "json", "referer"], "rce_cmd_injection": ["query", "form", "json", "multipart", "cookie"],
-         "ssti": ["query", "form", "json", "multipart"], "xxe": ["xml", "multipart_xml"], "crlf_header_injection": ["query", "path", "referer"],
+# "header" (19 Oct): a header the application logs, forwards or reflects (User-Agent, X-Forwarded-For, an API-version
+# or custom X- header): stored XSS in log viewers, SQL from logged client IPs, Shellshock / Log4Shell-style lookups.
+# The v11 build placed these classes only in query/body/cookie/Referer; GoTestWAF's Header placement blocked 64%.
+# "path" for XSS: reflected path segments (404 pages, breadcrumbs). Benign records use both sinks at a similar rate.
+SINKS = {"sqli_classic": ["query", "form", "json", "cookie", "multipart", "referer", "path", "header"],
+         "sqli_obfuscated": ["query", "form", "json", "cookie", "multipart", "referer", "header"],
+         "nosqli": ["json", "query", "form"],
+         "xss_reflected_stored": ["query", "form", "json", "multipart", "referer", "cookie", "header", "path"],
+         "xss_dom_polyglot": ["query", "form", "json", "referer"],
+         "rce_cmd_injection": ["query", "form", "json", "multipart", "cookie", "header"],
+         "ssti": ["query", "form", "json", "multipart", "header"], "xxe": ["xml", "multipart_xml"],
+         "crlf_header_injection": ["query", "path", "referer", "header"],
          "ldap_xpath_injection": ["query", "form", "json"], "path_traversal_lfi": ["query", "path", "cookie", "multipart"],
          "open_redirect_cors": ["query", "form"]}
-BENIGN_SINKS = ["query", "query", "form", "json", "cookie", "xml", "multipart", "referer", "path"]
+BENIGN_SINKS = ["query", "query", "form", "json", "cookie", "xml", "multipart", "referer", "path", "header"]
+HEADER_SINKS = ["User-Agent", "X-Forwarded-For", "X-Api-Version", "X-Client-Ref", "X-Device-Id", "custom"]
+_CUSTOM_HEADER_WORDS = ["Trace", "Session-Ref", "App-Build", "Partner-Key", "Tenant", "Campaign", "Locale-Hint", "Origin-App"]
 # extra encoding layer an attacker may add on top of transport encoding (not for SQL: an encoded SQLi
 # is sqli_obfuscated by taxonomy precedence). Applied to benign values at a lower rate so the layer
 # itself is not a label.
@@ -200,6 +209,30 @@ def _benign_pairs(r, k):
     return [[key, r.choice(BENIGN_VALUES[key])] for key in keys]
 
 
+def header_sink_name(r):
+    """The header a header-borne value travels in; "custom" draws an application-specific X- header (GoTestWAF sends
+    random X-<hex> names)."""
+    name = r.choice(HEADER_SINKS)
+    if name != "custom":
+        return name
+    return f"X-{r.choice(_CUSTOM_HEADER_WORDS)}" if r.random() < 0.6 else "X-" + "".join(r.choice("0123456789abcdef") for _ in range(8))
+
+
+def benign_header_value(name, r):
+    """An ordinary value for a header sink: what clients and proxies really send there."""
+    low = name.lower()
+    if low == "user-agent":
+        return UA_FAMILIES[r.choice(sorted(UA_FAMILIES))](r)
+    if low == "x-forwarded-for":
+        hops = [f"{r.randint(1, 223)}.{r.randint(0, 255)}.{r.randint(0, 255)}.{r.randint(1, 254)}" for _ in range(r.choice([1, 1, 2, 3]))]
+        return ", ".join(hops)
+    if low == "x-api-version":
+        return r.choice(["1", "2", "v3", "2024-06-01", "2025-11-15", "1.4"])
+    if low == "x-device-id":
+        return "%08x-%04x-%04x-%04x-%012x" % tuple(r.getrandbits(b) for b in (32, 16, 16, 16, 48))
+    return r.choice(GENERIC_BENIGN) if r.random() < 0.3 else "".join(r.choice("ABCDEFGHJKLMNPQRSTUVWXYZ23456789") for _ in range(r.randint(8, 24)))
+
+
 def _json_unicode_escape(s):
     return "".join(f"\\u{ord(c):04x}" if c in "<>'\"&;`$(){}|/\\" else c for c in s)
 
@@ -220,9 +253,22 @@ def build_request(r, sink, param, value, extra, layer=None):
     orig = value
     if layer == "double_url" and sink not in ("json", "xml", "multipart_xml"):
         value = quote(value, safe="")  # the server's first decode yields this; a second decode yields orig
+        # (header: the attacker's one encoding layer, decoded by the application that reads the header)
     enc = quote(value, safe=QUOTE_SAFE)
     pairs_raw = [[k, quote(v, safe=QUOTE_SAFE)] for k, v in extra]
-    if sink == "referer":  # reflected-in-logs / analytics sinks read the Referer query
+    if sink == "header":  # `param` is the header name; header values are not URL-decoded by the server
+        hv = value.replace("\r", "%0d").replace("\n", "%0a")  # a raw line break cannot travel inside one header
+        i = next((k for k, (n, _) in enumerate(headers) if n.lower() == param.lower()), None)
+        if i is None:
+            headers.append([param, hv])
+        else:
+            headers[i] = [param, hv]
+        if layer == "double_url":
+            views.append({"field": f"header.{param.lower()}", "decoder": "url", "depth": 1, "value": orig})
+        if extra:
+            http["target"] += "?" + "&".join(f"{k}={v}" for k, v in pairs_raw)
+            http["query"] = [[k, unquote_plus(v)] for k, v in pairs_raw]
+    elif sink == "referer":  # reflected-in-logs / analytics sinks read the Referer query
         headers.append(["Referer", f"https://{r.choice(HOSTS)}{r.choice(ENDPOINTS)}?{param}={enc}"])
         views.append({"field": "header.referer", "decoder": "url", "depth": 1, "value": value})
         if extra:
@@ -369,16 +415,20 @@ def add_backend(r, tel, cls=None):
     return tel
 
 
-def wrap_http(seed, twin=False):
+def wrap_http(seed, twin=False, info=None):
     """Seed -> request. twin=True: the SAME request (host, path, headers, sink, param, extra fields,
-    encoding layer) carrying an ordinary value instead of the payload -> a minimal-pair benign record."""
+    encoding layer) carrying an ordinary value instead of the payload -> a minimal-pair benign record.
+    info: optional dict that receives the chosen sink (label evidence and coverage tags; never model input)."""
     if seed["class"] == "http_request_smuggling":
         return wrap_http_raw(seed)
     r = rng_for(seed["id"])
     cls = seed["class"]
     p, _ = neutralize_hosts(seed["payload"], r)
     sink = r.choice(SINKS[cls])
-    param = r.choice(sorted(REDIRECT_PARAMS)) if cls == "open_redirect_cors" else r.choice(PARAMS)
+    if info is not None:
+        info["sink"] = sink
+    param = (r.choice(sorted(REDIRECT_PARAMS)) if cls == "open_redirect_cors" else header_sink_name(r) if sink == "header"
+             else r.choice(PARAMS))
     extra = _benign_pairs(r, r.choice([0, 0, 1, 2]))
     extra = [kv for kv in extra if kv[0] != param]
     layer = None
@@ -388,7 +438,8 @@ def wrap_http(seed, twin=False):
         layer = "base64"
     if twin:
         tr = rng_for("twin:" + seed["id"])
-        p = tr.choice(BENIGN_XML) if sink in ("xml", "multipart_xml") else benign_value(param, tr)
+        p = (tr.choice(BENIGN_XML) if sink in ("xml", "multipart_xml") else benign_header_value(param, tr) if sink == "header"
+             else benign_value(param, tr))
     tel = build_request(r, sink, param, p, extra, layer)
     return add_backend(rng_for("backend:" + seed["id"]), tel, cls), "hybrid"  # twin: same backend as its attack
 
@@ -648,6 +699,9 @@ def synth_benign_http(cls, idx):
     sink = r.choice(BENIGN_SINKS)
     if sink == "xml" or (sink == "multipart" and r.random() < 0.3):  # legit XML: content type is not an XXE signal
         value, sink = r.choice(BENIGN_XML), ("xml" if sink == "xml" else "multipart_xml")
+    elif sink == "header":  # the same header names the attack classes use, with ordinary values
+        param = header_sink_name(r)
+        value = benign_header_value(param, r)
     layer = None
     if r.random() < 0.08:
         layer = "json_unicode" if sink == "json" else "double_url"
@@ -691,6 +745,9 @@ def telemetry_from_request(r, method, url, headers, body):
 # ---- Record assembly -------------------------------------------------------------------------
 TRUNC_RATE = 0.04  # share of HTTP records (every class) that went through the sensor's fit-to-budget step
 TRUNC_COOKIES = ["_ga_session", "ab_bucket", "ui_prefs", "consent_v2", "_analytics_id", "cart_state", "recent_views"]
+TRUNC_DROP_SHARE = 0.3  # of truncated records (contract 2): many cookies, the first MAX_COOKIES kept, `cookies_truncated` set
+TRUNC_MANY_COOKIES = [f"{p}{i}" for p in ("_ga_", "_gid", "_fbp", "AMCV_", "OptanonAlert", "_hj", "mbox", "s_cc", "_uetsid",
+                                          "_pin_unauth", "lang_pref", "exp_") for i in range(4)]
 
 
 def truncation_augment(tel, rec_id):
@@ -701,10 +758,18 @@ def truncation_augment(tel, rec_id):
     h, r = tel.get("http"), rng_for("trunc:" + rec_id)
     if not h or r.random() >= TRUNC_RATE:
         return tel
+    from training.prepare import MAX_COOKIES, SENSOR_CONTRACT
     alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
     h["cookies"] = (h.get("cookies") or []) + [[r.choice(TRUNC_COOKIES), "".join(r.choice(alphabet) for _ in range(64))]]
-    h["headers"] = [kv for kv in h["headers"] if kv[0].lower() != "cookie"] + [
-        ["Cookie", "; ".join(f"{k}={v}" for k, v in h["cookies"])]]
+    cookie = "; ".join(f"{k}={v}" for k, v in h["cookies"])
+    if SENSOR_CONTRACT >= 2:
+        if r.random() < TRUNC_DROP_SHARE:  # the last level: the sensor kept the first MAX_COOKIES cookies (values cut to 8)
+            names = r.sample(TRUNC_MANY_COOKIES, k=min(len(TRUNC_MANY_COOKIES), MAX_COOKIES - len(h["cookies"])))
+            h["cookies"] += [[n, "".join(r.choice(alphabet) for _ in range(8))] for n in names]
+            h["cookies_truncated"] = r.randint(1, 45)
+            cookie = "; ".join(f"{k}={v}" for k, v in h["cookies"])
+        cookie = cookie[:512]  # contract 2 caps the rebuilt Cookie header like any header (prepare.fit_budget)
+    h["headers"] = [kv for kv in h["headers"] if kv[0].lower() != "cookie"] + [["Cookie", cookie]]
     tel["truncated"] = True
     return tel
 
@@ -769,7 +834,7 @@ def note_header(rec_id, tel, kind):
 
 # Insufficient-context fragments (spec: must not intervene). Quality-rejected seeds without attack syntax, wrapped as
 # benign requests; the exact payloads robustness.insufficient probes with stay out of training.
-REJECTED_PROBES = 25  # robustness.py --per-kind default
+REJECTED_PROBES = 100  # robustness.py --per-kind default (25 until 19 Oct: one probe moved a pass rate by 4 points)
 
 
 def rejected_fragments():
@@ -777,9 +842,16 @@ def rejected_fragments():
     return [x for x in rej if x["reason"] in ("too_short_ambiguous", "no_attack_syntax")]
 
 
+def fragment_probes(rej):
+    """The rejected fragments the robustness set probes with (evenly spaced over the pool), never in training:
+    REJECTED_PROBES of them, at most half the pool so training keeps insufficient-context fragments too."""
+    n = min(REJECTED_PROBES, len(rej) // 2)
+    return rej[:: max(1, len(rej) // n)][:n] if n else []
+
+
 def gen_fragments(n):
     rej = rejected_fragments()
-    probes = {x["payload"] for x in rej[:: max(1, len(rej) // REJECTED_PROBES)][:REJECTED_PROBES]}
+    probes = {x["payload"] for x in fragment_probes(rej)}
     out = []
     for i, x in enumerate([x for x in rej if x["payload"] not in probes][:n]):
         r = rng_for(f"frag:{i}")
@@ -795,10 +867,11 @@ def gen_fragments(n):
 def gen_twin(seed, rec_id):
     """Benign minimal pair: identical request minus the payload. Same lineage group as the attack
     record, so the pair never straddles a split."""
-    tel, _ = wrap_http({**seed, "id": rec_id}, twin=True)
+    info = {}
+    tel, _ = wrap_http({**seed, "id": rec_id}, twin=True, info=info)
     note_header("twin:" + rec_id, tel, "twin")
     return assemble(f"twin:{rec_id}", "benign_standard_traffic", tel, "synthetic",
-                    {"method": "scenario_oracle", "oracle": "minimal_pair_twin", "twin_of": rec_id},
+                    {"method": "scenario_oracle", "oracle": "minimal_pair_twin", "twin_of": rec_id, "sink": info.get("sink")},
                     {"lineage_group": seed.get("cluster", seed["id"]), "template_family": "minimal_pair_twin"})
 
 
@@ -809,7 +882,8 @@ def gen_from_seed(seed, n):
         rec_id = f"{seed['id']}~{i}"
         if seed["class"] != "http_request_smuggling" and rng_for("twin?" + rec_id).random() < TWIN_RATE:
             out.append(gen_twin(seed, rec_id))
-        tel, prov = wrap_http({**seed, "id": rec_id})
+        info = {}
+        tel, prov = wrap_http({**seed, "id": rec_id}, info=info)
         if seed["class"] != "http_request_smuggling":  # raw request blocks keep their exact bytes
             note_header(rec_id, tel, "attack")
         out.append(assemble(rec_id, seed["class"], tel, prov,
@@ -817,7 +891,7 @@ def gen_from_seed(seed, n):
                              "derived_from": seed.get("parent_id"), "derivation": seed.get("transforms", []),
                              "transforms": [t for t, rx in (("host_neutralize", SHORTCUT_HOST), ("entity_rename", CLASS_TOKEN))
                                             if rx.search(seed["payload"])],
-                             "sink": "raw_block" if seed["class"] == "http_request_smuggling" else "per_record"},
+                             "sink": "raw_block" if seed["class"] == "http_request_smuggling" else info.get("sink", "per_record")},
                             {"source": seed["source"], "source_revision": seed["source_revision"],
                              "original_id": seed["id"], "license_ref": seed["license_ref"] or "unknown",
                              "lineage_group": seed.get("cluster", seed["id"]), "seed_ids": [seed["id"]],

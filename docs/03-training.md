@@ -16,7 +16,7 @@ The local settings in [colab_helpers.py](../training/colab_helpers.py) are:
 | ------------------ | ----------------------------------------------------------------------------------------- |
 | Rank / alpha       | `r=16`, `lora_alpha=32`                                                               |
 | Adapter settings   | `use_rslora=True`, dropout `0`, bias `none`                                         |
-| Target projections | `q_proj`, `k_proj`, `v_proj`, `o_proj`, `gate_proj`, `up_proj`, `down_proj` |
+| Target projections | `WAF_LORA=full` (default since 19 Oct): `q_proj`, `k_proj`, `v_proj`, `o_proj` (8 full-attention layers), `in_proj_qkv`, `in_proj_z`, `in_proj_a`, `in_proj_b`, `out_proj` (24 Gated DeltaNet `linear_attn` layers), `gate_proj`, `up_proj`, `down_proj`. `WAF_LORA=v11`: the v11 set without the `linear_attn` projections (that adapter left the token mixer of 24 of 32 layers frozen) |
 | Base loading       | 16-bit; `load_in_4bit=False`                                                            |
 | Sequence budget    | 2,048 tokens including the full conversation/template                                     |
 | Initial schedule   | One epoch, learning rate `1e-4`, cosine decay, 5% warmup                                |

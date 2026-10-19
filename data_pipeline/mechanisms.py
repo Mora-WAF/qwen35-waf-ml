@@ -2,7 +2,7 @@
 Tags drive the coverage matrix (eval.coverage); they never enter model input.
 
 Tags are structural, taken from what the generator already knows rather than from payload text:
-  loc:<sink>        delivery location (query, path, form, json, multipart, cookie, referer, xml, raw_block, flow)
+  loc:<sink>        delivery location (query, path, form, json, multipart, cookie, referer, header, xml, raw_block, flow)
   enc:<decoder>     extra decoding layers recorded in decoded_views (url depth 2, json_unicode, chunked)
   src:<source>      seed source list / dataset (seeded and observed records)
   family:<name>     scenario family declared by a Haiku worker (scenario.family)
@@ -37,7 +37,9 @@ def _loc(tel):
 
 
 def tags(tel, evidence, meta):
-    out = {f"loc:{_loc(tel)}"}
+    ev = evidence or {}
+    sink = ev.get("sink") or (ev.get("scenario") or {}).get("sink")  # the generator's own record of a header sink
+    out = {f"loc:{'header' if sink == 'header' else _loc(tel)}"}
     for v in (tel.get("http") or {}).get("decoded_views", []):
         if v["decoder"] != "url" or v["depth"] > 1:
             out.add(f"enc:{v['decoder']}{v['depth'] if v['decoder'] == 'url' else ''}")

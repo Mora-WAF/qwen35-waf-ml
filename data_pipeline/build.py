@@ -168,6 +168,16 @@ def build(per_class=24, ratios=(0.8, 0.1, 0.1), frac=None, prefix="pilot_"):
     for r in recs:
         if r["metadata"]["lineage_group"] in unseen:
             r["metadata"]["split"] = "test_unseen"
+    # single-campaign observed classes (every CIC-IDS2017 attack is one attacker host = one lineage group) land wholly
+    # outside train while the source's benign flows are in it: the source's feature-set shape then means benign
+    # (18-19 Oct: real port scans 0/500 and brute force 0/470 allowed). Earlier capture -> train, the latest 20% held out.
+    from data_pipeline.block_split import align_unseen_sources, block_campaigns, observed_per_split
+    blocked = block_campaigns(recs)
+    aligned = align_unseen_sources(recs)  # a source held out as unseen leaves train with its benign flows too
+    per_split = observed_per_split(recs)
+    shape_only = [src for src, sp in per_split.items() if sp.get("train", {}).get("benign") and not sp.get("train", {}).get("attack")
+                  and any(v["attack"] for v in sp.values())]
+    assert not shape_only, f"observed sources with benign but no attack flows in train: {shape_only}"
     xo, lo = cross_split_overlap(recs), lineage_overlap(recs)
     assert not lo, f"lineage overlap across splits: {list(lo)[:5]}"
     assert not xo, f"content overlap across splits: {len(xo)} hashes"
@@ -181,8 +191,10 @@ def build(per_class=24, ratios=(0.8, 0.1, 0.1), frac=None, prefix="pilot_"):
                 "rejected_token_overflow": overflow,
                 "files": {}, "deficits": deficits, "haiku_jobs": haiku_report,
                 "cross_split_overlap": len(xo), "lineage_overlap": len(lo),
-                "limitations": ["CIC-IDS2017 attack classes are single campaigns (one lineage group each); "
-                                "they land wholly in one split, test coverage for those classes comes from NF-ToN or synthetic",
+                "observed_campaign_blocks": blocked, "unseen_source_benign_moved": aligned, "observed_per_split": per_split,
+                "limitations": ["CIC-IDS2017 attack classes are single campaigns (one attacker host): the build trains on "
+                                "the earlier 80% of each (capture order) and holds out the latest 20% (observed_campaign_blocks), "
+                                "a later-traffic test of the same campaign, weaker than an unseen source",
                                 "synthetic flow/benign/haiku records are independent draws (own lineage group) but share per-class template families across splits; no unseen-family holdout in pilot",
                                 "near-duplicate (non-exact) seed variants not yet clustered"]}
     for split, fname in files.items():

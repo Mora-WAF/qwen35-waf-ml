@@ -3,14 +3,25 @@
 Part B runs after a kernel restart, so anything both parts need lives here, in the bundle.
 """
 import json
+import os
 
 import torch
 
 from training import prepare as P
 
+# Qwen3.5-4B: 8 of 32 decoder layers are full attention (q/k/v/o_proj), 24 are Gated DeltaNet (`linear_attn`:
+# in_proj_qkv, in_proj_z, in_proj_a, in_proj_b, out_proj). The v11 target list named the full-attention and MLP
+# projections only, so the v11 adapter (21.2M parameters) left the token mixer of 24 layers frozen (19 Oct, read from
+# its safetensors). From 19 Oct the default ("full") adapts them too; WAF_LORA=v11 reproduces the v11 adapter.
+LORA_TARGETS = {
+    "v11": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+    "full": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj",
+             "in_proj_qkv", "in_proj_z", "in_proj_a", "in_proj_b", "out_proj"],
+}
+LORA_SET = os.environ.get("WAF_LORA", "full")
 LORA = dict(r=16, lora_alpha=32, use_rslora=True, lora_dropout=0, bias="none",
-            target_modules=["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
-            use_gradient_checkpointing="unsloth")
+            target_modules=LORA_TARGETS[LORA_SET], use_gradient_checkpointing="unsloth")
+LINEAR_ATTN_TARGETS = [t for t in LORA_TARGETS["full"] if t not in LORA_TARGETS["v11"]]
 
 
 def dtype_is_bf16():

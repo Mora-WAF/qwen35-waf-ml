@@ -4,7 +4,8 @@
   selfcheck.jsonl    test records of the bundle with the run's own scores (one per input mode first, then the 3 hardest)
   serving.json       train/serve parity of the sensor's jwt/base64 decoded views: on when re-applying
                      training.prepare.add_decoded_views to the bundle's HTTP training records changes (almost) none of
-                     them, i.e. the build already carried the views (v11); off when many gain a view (v10)
+                     them, i.e. the build already carried the views (v11); off when many gain a view (v10); and the
+                     sensor contract (fit_contract) the build's truncation records show
 
 The records come from the bundle, never from datasets_ready/: a v10 package built on a machine whose datasets_ready
 holds a later build must still check v10 records against the v10 scores.
@@ -31,6 +32,12 @@ def views_evidence(tels):
         before = len(h.get("decoded_views") or [])
         gaining += len(add_decoded_views(json.loads(json.dumps(tel)))["http"].get("decoded_views") or []) > before
     return total > 0 and gaining <= MAX_GAINING * total, total, gaining
+
+
+def fit_contract(tels):
+    """Sensor contract of a build: 2 when any training record went through the cookie-dropping level
+    (http.cookies_truncated, contract 2's truncation_augment), else 1 (v10, v11)."""
+    return 2 if any("cookies_truncated" in (t.get("http") or {}) for t in tels) else 1
 
 
 def pick_selfcheck(test_rows, scores, n_first=5, n_hard=3):
@@ -65,10 +72,10 @@ def main(run, bundle, out):
     assert missing <= 0.01 * len(test), f"{missing} of {len(test)} bundle test records have no score in {run}: run and bundle do not belong together"
     picked = pick_selfcheck(test, scores)
     open(f"{out}/selfcheck.jsonl", "w").write("".join(json.dumps(x) + "\n" for x in picked))
-    views, total, gaining = views_evidence(deserialize_telemetry(json.loads(line)["messages"][1]["content"])
-                                           for line in z.open("datasets_ready/fast_train.jsonl"))
+    train = [deserialize_telemetry(json.loads(line)["messages"][1]["content"]) for line in z.open("datasets_ready/fast_train.jsonl")]
+    views, total, gaining = views_evidence(train)
     serving = {"decoded_views": views, "train_http_records": total, "records_gaining_views": gaining,
-               "bundle": bundle, "run": run}
+               "fit_contract": fit_contract(train), "bundle": bundle, "run": run}
     json.dump(serving, open(f"{out}/serving.json", "w"), indent=1)
     print("selfcheck:", [(x["id"], x["telemetry"]["mode"]) for x in picked])
     print("serving:", serving)

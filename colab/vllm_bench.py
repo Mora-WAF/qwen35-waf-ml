@@ -214,7 +214,7 @@ def fp():
     with open(out_p, "a") as fh:
         for i in range(0, len(recs), 16):
             chunk = recs[i:i + 16]
-            res = I.predict_fn(([r["telemetry"] for r in chunk], "sequential", True), st)["results"]  # + probs (ensemble)
+            res = I.predict_fn(([r["telemetry"] for r in chunk], "cached", True), st)["results"]  # the serving path, + probs
             for r, x in zip(chunk, res):
                 fh.write(json.dumps({"id": r["id"], **x}) + "\n")
             fh.flush()

@@ -221,3 +221,50 @@ def test_results_pipeline_redecide_gemma_ensemble_compare(bench, tmp_path):
     full = PB.compare(["v11", "gemma", "ensemble"], str(tmp_path / "cmp.json"))
     assert full["gotestwaf"]["shared"] == 40 and full["unsw"]["shared"] == 40
     assert set(full["unsw"]["shared_all"]["ensemble"]) >= {"attack_n", "block_rate", "benign_n", "false_block_rate"}
+
+
+def test_predict_fn_cached_serving_path_matches_the_evaluated_path(inference):
+    """The default scoring ("cached": batch_class_logprobs) gives the per-record class_logprobs scores through the
+    whole predict_fn (windows, views, decision). Tiny random Qwen3.5 on CPU; needs the pinned tokenizer."""
+    import torch
+    from transformers import Qwen3_5ForCausalLM, Qwen3_5TextConfig
+    from training import colab_helpers as H
+    I = inference
+    try:
+        tok = P.load_tokenizer()
+    except Exception as e:
+        pytest.skip(f"tokenizer not available: {e}")
+    torch.manual_seed(0)
+    cfg = Qwen3_5TextConfig(vocab_size=len(tok), hidden_size=64, intermediate_size=128, num_hidden_layers=4,
+                            layer_types=["linear_attention", "linear_attention", "linear_attention", "full_attention"],
+                            num_attention_heads=4, num_key_value_heads=2, head_dim=16, linear_num_key_heads=2,
+                            linear_num_value_heads=4, linear_key_head_dim=16, linear_value_head_dim=16,
+                            pad_token_id=tok.pad_token_id)
+    model = Qwen3_5ForCausalLM(cfg).float().eval()
+    pol = yaml.safe_load(open(ROOT / "config/policy.yaml"))
+    st = {"model": model, "tok": tok, "tax": TAX, "pol": pol, "classes": CLASSES, "selfcheck_max_diff": 0.0,
+          "suf": H.candidate_suffixes(tok, CLASSES), "controls": P.control_strings(tok)}
+    recs = [_http("a=1"), _http("q=" + "select " * 30, jwt=True), _http("x=2"),
+            {"schema_version": 1, "mode": "L4_FLOW", "flow": {"features": {"duration_s": 0, "pkts_total": 2}}}]
+    seq = I.predict_fn(([json.loads(json.dumps(r)) for r in recs], "sequential", True), st)["results"]
+    cached = I.predict_fn(([json.loads(json.dumps(r)) for r in recs], "cached", True), st)["results"]
+    assert I.input_fn(json.dumps({"records": recs}))[1] == "cached"  # the default
+    for a, b in zip(seq, cached):
+        assert np.abs(np.array(a["probs"]) - np.array(b["probs"])).max() < 1e-3
+        assert a["decision"]["verdict"] == b["decision"]["verdict"]
+
+
+def test_serving_json_sets_the_fit_contract(tmp_path, monkeypatch, inference):
+    I = inference
+    monkeypatch.setattr(I, "HERE", tmp_path)
+    assert I._fit_contract() == 1  # v10 / v11 packages
+    (tmp_path / "serving.json").write_text(json.dumps({"decoded_views": True, "fit_contract": 2}))
+    assert I._fit_contract() == 2
+
+
+def test_fit_contract_evidence_from_the_build():
+    from deploy.package_meta import fit_contract
+    assert fit_contract([_http("a=1"), {"mode": "L4_FLOW", "flow": {}}]) == 1
+    t = _http("a=1")
+    t["http"]["cookies_truncated"] = 3
+    assert fit_contract([_http("a=1"), t]) == 2

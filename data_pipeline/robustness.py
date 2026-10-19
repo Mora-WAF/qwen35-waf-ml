@@ -8,7 +8,8 @@ Four kinds, each with its published expected policy behaviour:
   classifier_injection  unused attack seeds + text instructing the classifier            -> true class, never the injected label
 
 Every lineage group is checked disjoint from the core build.
-usage: python -m data_pipeline.robustness [--per-kind 25]
+usage: python -m data_pipeline.robustness [--per-kind 100]   (19 Oct: 25 -> 100; insufficient_context is capped by the
+       rejected-seed pool, at most half of which is held out of training)
 """
 import argparse
 import base64
@@ -40,7 +41,8 @@ def core_groups():
     used = set()
     for f in sorted(p for p in (ROOT / "datasets_ready").glob("*.jsonl") if not p.name.startswith("robustness")):
         for line in open(f):
-            used.add(json.loads(line)["metadata"]["lineage_group"])
+            g = json.loads(line)["metadata"]["lineage_group"]
+            used |= {g, g.split("#", 1)[0]}  # block_campaigns' "#<class>#early|late" parts keep their host's group used
     return used
 
 
@@ -53,9 +55,10 @@ def record(rid, kind, tel, label, expected, lineage, extra):
 
 
 def insufficient(n, used):
-    rej = G.rejected_fragments()  # same pool and stride as G.gen_fragments' exclusion (n = G.REJECTED_PROBES)
+    rej = G.rejected_fragments()
+    probes = G.fragment_probes(rej)  # exactly the payloads G.gen_fragments keeps out of training (fewer when the pool is small)
     out = []
-    for i, x in enumerate(rej[:: max(1, len(rej) // n)][:n]):
+    for i, x in enumerate(probes[:n]):
         r = G.rng_for(f"insuff:{i}")
         tel = G.build_request(r, "query", r.choice(G.PARAMS), x["payload"], G._benign_pairs(r, 1))
         grp = f"robust:insuff:{x['class']}:{i}"
@@ -142,7 +145,7 @@ def classifier_injection(n, used):
     return out
 
 
-def build(per_kind=25):
+def build(per_kind=G.REJECTED_PROBES):
     used = core_groups()
     recs = insufficient(per_kind, used) + out_of_taxonomy(per_kind, used) + malformed(per_kind, used) \
         + classifier_injection(per_kind, used)
@@ -157,5 +160,5 @@ def build(per_kind=25):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--per-kind", type=int, default=25)
+    ap.add_argument("--per-kind", type=int, default=G.REJECTED_PROBES)
     print(dict(build(ap.parse_args().per_kind)))

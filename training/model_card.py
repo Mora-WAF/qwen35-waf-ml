@@ -86,6 +86,7 @@ def card(run, bundle, baselines=None):
         base = None  # computed on another build
     pc = per_class(run, cal["temperature"], classes)
     t, sc = rep["train"], rep["scores"]
+    targets = rep.get("lora_target_modules") or H.LORA_TARGETS["v11"]  # runs before 19 Oct did not record it: the v11 set
     acc = {s: sum(c for c, _ in pc[s].values()) / max(1, sum(n for _, n in pc[s].values())) for s in pc}
     by_domain = collections.defaultdict(list)
     for c, v in tax.items():
@@ -102,7 +103,7 @@ def card(run, bundle, baselines=None):
          "## Model details", "",
          f"- Base model: `{rep['model_id']}` @ `{rep['revision']}` (bf16 weights, 16-bit LoRA, no quantisation)",
          f"- Adapter: rank {H.LORA['r']}, alpha {H.LORA['lora_alpha']}, rsLoRA, dropout {H.LORA['lora_dropout']}, "
-         f"targets {', '.join(H.LORA['target_modules'])}; {rep['trainable_params']:,} trainable parameters",
+         f"targets {', '.join(targets)}; {rep['trainable_params']:,} trainable parameters",
          "- Output: `{\"threat_type\": \"<class>\"}` then end of turn; thinking disabled in the chat template",
          f"- Fingerprints: chat template `{rep['fingerprint']['chat_template_sha256'][:16]}…`, system prompt "
          f"`{rep['fingerprint']['system_prompt_sha256'][:16]}…`; training bundle `{rep['bundle_sha256'][:16]}…`",
@@ -187,7 +188,7 @@ def card(run, bundle, baselines=None):
           "## Provenance", "",
           f"Training report, calibration and scores: `reports/{run.name}/`. Pipeline, spec and progress log: `docs/PLAN.md`."]
     info = {"base_model": rep["model_id"], "revision": rep["revision"], "fingerprint": rep["fingerprint"],
-            "bundle_sha256": rep["bundle_sha256"], "env": rep["env"], "lora": H.LORA,
+            "bundle_sha256": rep["bundle_sha256"], "env": rep["env"], "lora": {**H.LORA, "target_modules": targets},
             "training": {"global_steps": t["global_steps"], "effective_batch": H.EFFECTIVE_BATCH, "learning_rate": 1e-4,
                          "epochs": 1, "max_tokens": P.MAX_TOKENS, "seed": rep["seed"], "train_loss": t["train_loss"],
                          "eval_losses": t["eval_losses"], "wall_s": t["wall_s"]},

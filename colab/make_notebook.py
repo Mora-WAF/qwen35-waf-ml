@@ -121,6 +121,9 @@ except ImportError:
 trainable = [(n, p.numel()) for n, p in model.named_parameters() if p.requires_grad]
 n_train, n_all = sum(n for _, n in trainable), sum(p.numel() for p in model.parameters())
 assert not any("visual" in n or "vision" in n for n, _ in trainable), "vision params are trainable"
+if set(H.LINEAR_ATTN_TARGETS) <= set(H.LORA["target_modules"]):  # WAF_LORA=full: the Gated DeltaNet projections too
+    assert any(".linear_attn." in n for n, _ in trainable), "WAF_LORA=full but no linear_attn module got an adapter"
+ENV["lora_set"] = H.LORA_SET
 ENV["weights_dtype"] = str(next(p for n, p in model.named_parameters() if "lora" not in n).dtype)
 print(f"trainable {n_train:,} / {n_all:,} ({100*n_train/n_all:.2f}%) in {len(trainable)} tensors | base weights {ENV['weights_dtype']}")
 print("sample trainable modules:", sorted({n.split('.lora')[0].split('.')[-1] for n, _ in trainable}))
@@ -240,7 +243,8 @@ open(f"{EXP}/README.md", "w").write(  # replaces PEFT's empty template; training
 json.dump([{"messages": r["messages"][:2], "expect": p["raw"]} for r, p in zip(val_recs, preds[:5])],
           open("/content/reload_sample.json", "w"))
 PART_A = {"mode": MODE, "dry_run_steps": DRY_RUN_STEPS, "seed": SEED, "model_id": MODEL_ID, "revision": MODEL_REVISION, "env": ENV,
-          "fingerprint": fp_now, "trainable_params": n_train, "train": TRAIN, "predictions": PRED,
+          "fingerprint": fp_now, "trainable_params": n_train, "lora_target_modules": H.LORA["target_modules"],
+          "train": TRAIN, "predictions": PRED,
           "export_dir": EXP, "bundle_dir": B, "train_file": FILES[MODE], "bundle_sha256": BUNDLE_SHA, "drive_dir": DRIVE_DIR}
 json.dump(PART_A, open("/content/part_a.json", "w"), indent=1, default=str)
 if DRIVE_DIR:  # Part A results + adapter survive the VM
@@ -334,7 +338,8 @@ if MODE == "smoke" or PART_A.get("dry_run_steps"):
         m2, proc2 = FastLanguageModel.from_pretrained(model_name=PART_A["model_id"], revision=PART_A["revision"],
                                                       max_seq_length=P.MAX_TOKENS, load_in_4bit=False, load_in_16bit=True)
         tok2 = getattr(proc2, "tokenizer", proc2)
-        m2 = FastLanguageModel.get_peft_model(m2, **H.LORA, random_state=SEED, max_seq_length=P.MAX_TOKENS)
+        lora = {**H.LORA, "target_modules": PART_A.get("lora_target_modules", H.LORA["target_modules"])}  # as Part A trained
+        m2 = FastLanguageModel.get_peft_model(m2, **lora, random_state=SEED, max_seq_length=P.MAX_TOKENS)
         rows = H.encode(tok2, H.load_records(B, PART_A["train_file"])[:20 * 16])
         t = Trainer(model=m2, args=H.make_args(out, 20, 10, smoke=True, seed=SEED, evaluate=False),
                     train_dataset=Dataset.from_list(rows), data_collator=H.make_collate(tok2.pad_token_id),
