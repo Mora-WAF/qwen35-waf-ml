@@ -196,6 +196,17 @@ Deployment and pipeline:
   requests (single-token class labels before vLLM), TGI is archived, Trivy's releases were compromised in March 2026.
 - Open before Phase 0 ends: Gemma retrained on the next build (CIC split fix, contract 2), Gemma GPU latency and
   serving parity, real-traffic false blocks; team decisions listed in the plan's last section.
+- Revised the same evening after an adversarial review (25 findings, 7 blocking): fail closed by default (fail-open only
+  for listed public routes, counted), over-limit bodies rejected (413) instead of passed uninspected, veto only when the
+  model saw everything CRS matched, CRS-blocked requests scored async until the veto phase, the 12 context classes
+  log-only (BOLA left to the application), flows scored per connection as trained, one redaction rule per store,
+  owners per component, failure table, kill switches and virtual patches, gate table with a 600-review floor, Phase 0
+  8 weeks with single-token labels, all 37 class actions in an appendix.
+- **Found in the existing code (not only the plan), open:** (1) decoded-view train/serve skew: the generator writes
+  `url` (depth 1–2), `form`, `json_unicode` and `chunked` views, the serving path (`prepare.add_decoded_views`, used by
+  `deploy/sagemaker/inference.py`) only `jwt` and `base64`; (2) `eval.policy.decide` abstains (`missing_evidence`)
+  when the attack-mass rule's top attack class lacks its required context, even at attack mass 0.99, so payload text
+  that tips the top class to a context class turns an attack into ABSTAIN. Both are Phase 0 items in the plan.
 
 ### 19 October ~19:00 — error dig-down, label-conflict fix, Gemma on HF transformers, ensemble endpoint (no GPU run)
 
