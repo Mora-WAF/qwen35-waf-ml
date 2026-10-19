@@ -46,6 +46,8 @@ The completion sequence is **data-ready → notebook smoke-tested → model-eval
 
 During documentation work, `datasets_ready/manifest.json` disappeared after its initial inspection, consistent with a separate rebuild starting. These counts describe the previously inspected complete build. If the manifest is absent, the build is incomplete; if a new manifest exists, rerun its gate before claiming current data readiness. A retained old gate report is insufficient.
 
+[WAF system plan](WAF_SYSTEM_PLAN.md) proposes the production system around the fine-tuned Gemma model (19 October 2026): Envoy with Coraza and OWASP CRS inline, the model as a second opinion, and a gated rollout.
+
 [PLAN.md](PLAN.md) remains the master specification and progress log. Its original body describes a 35-class, 120k-record target; later progress entries and the current configuration describe the 41-class implementation. The `fast_` name is a run profile, not a guarantee of exactly 30,000 rows. Read the current manifest for actual counts. The full-training dataset and deployment qualification remain separate work.
 
 These guides explain local implementation and stored evidence. They do not certify upstream licenses, package availability, or production accuracy.

@@ -184,6 +184,19 @@ Deployment and pipeline:
   7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
   the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
 
+### 19 October ~21:30 — production system plan around the Gemma model (docs only; nothing built, trained or run)
+
+- `docs/WAF_SYSTEM_PLAN.md` (diagrams in `docs/assets/waf-system/`): Envoy + Coraza/OWASP CRS inline on every request,
+  Gemma 4 E2B as a second opinion on flagged requests (250 ms deadline, rules-only fallback) and out of band on mirrored
+  traffic and Zeek/NetFlow flows; four services to write (waf-sensor, waf-model, decision combiner, flow featurizer);
+  rollout shadow → CRS enforces → Gemma enforces per class → veto and flows, each behind a gate.
+- Versions and licenses were read from the projects' GitHub sources on 19 Oct (other project sites were unreachable).
+  Facts that change the design: coraza-proxy-wasm is slow and stale (Coraza is embedded in the sensor instead), Envoy
+  ext_proc's `message_timeout` defaults to 200 ms (set 300 ms), vLLM skips its prefix cache for prompt-logprob
+  requests (single-token class labels before vLLM), TGI is archived, Trivy's releases were compromised in March 2026.
+- Open before Phase 0 ends: Gemma retrained on the next build (CIC split fix, contract 2), Gemma GPU latency and
+  serving parity, real-traffic false blocks; team decisions listed in the plan's last section.
+
 ### 19 October ~19:00 — error dig-down, label-conflict fix, Gemma on HF transformers, ensemble endpoint (no GPU run)
 
 Tests 158 pass (1 skipped: needs `peft`). Nothing below ran on a GPU; the GPU paths verify themselves at start.
