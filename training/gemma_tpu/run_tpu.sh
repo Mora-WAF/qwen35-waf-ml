@@ -16,7 +16,9 @@ set -uo pipefail
 NAME=$1 TGZ=$2; shift 2
 cd "$(dirname "$0")/../.."  # paths (DATA_TGZ, GEMMA_LORA) are relative to the repository root
 SCORE=${GEMMA_SCORE:-}
-if [ -n "$SCORE" ]; then DRIVE=${DRIVE:-0}; [ -f "${GEMMA_LORA:-}" ] || { echo "GEMMA_SCORE needs GEMMA_LORA=<lora.npz>"; exit 1; }
+# GEMMA_SCORE with DRIVE=1 and no GEMMA_LORA: finish a lost run's scoring from the adapter in the Drive mirror
+# (no adapter there or no mount: falls back to a full train run)
+if [ -n "$SCORE" ]; then DRIVE=${DRIVE:-0}; [ -f "${GEMMA_LORA:-}" ] || [ "$DRIVE" = 1 ] || { echo "GEMMA_SCORE needs GEMMA_LORA=<lora.npz> or DRIVE=1"; exit 1; }
 else DRIVE=${DRIVE:-1}; fi
 DST=/content/drive/MyDrive/waf_gemma/colab_$NAME
 OUT=reports/gemma_tpu/colab_$NAME; mkdir -p "$OUT"; LOG=$OUT/driver.log
@@ -60,7 +62,7 @@ if alive; then say "reusing $NAME"; else
   sh_ "mkdir -p /content/data /content/out && tar xzf /content/data.tgz -C /content/data && ls /content/data | wc -l" >>"$LOG"
 fi
 timeout 300 colab upload -s "$NAME" training/gemma_tpu/train_tunix.py /content/train_tunix.py >>"$LOG" 2>&1 || { say "FAILED: upload trainer"; exit 1; }
-if [ -n "$SCORE" ] && ! sh_ "[ -f /content/out/lora.npz ] && sha256sum /content/out/lora.npz | cut -c1-64 | cmp -s - /content/lora.sha256 && echo LORA-OK" | grep -q LORA-OK; then
+if [ -n "$SCORE" ] && [ -n "${GEMMA_LORA:-}" ] && ! sh_ "[ -f /content/out/lora.npz ] && sha256sum /content/out/lora.npz | cut -c1-64 | cmp -s - /content/lora.sha256 && echo LORA-OK" | grep -q LORA-OK; then
   say "upload adapter $GEMMA_LORA in parts"
   up_parts "$GEMMA_LORA" lora && sh_ "mkdir -p /content/out && cp /content/lora.npz /content/out/lora.npz && echo copied" | grep -q copied \
     || { say "FAILED: adapter upload / checksum"; exit 1; }
@@ -75,6 +77,9 @@ if [ "$DRIVE" = 1 ]; then
     # a new VM resumes from the mirror; the mirror loop runs until the VM goes
     sh_ "mkdir -p $DST /content/out; [ -f $DST/ckpt.npz ] && [ ! -f /content/out/ckpt.npz ] && rsync -a $DST/ /content/out/ && echo 'restored from Drive'; [ -f /content/.mirror ] || { touch /content/.mirror; setsid nohup bash -c 'while sleep 300; do rsync -a /content/out/ $DST/; done' >/dev/null 2>&1 & }; echo ok" >>"$LOG"
   else say "no Drive mount: continuing without the mirror (a lost VM restarts from scratch)"; DRIVE=0; fi
+fi
+if [ -n "$SCORE" ] && [ -z "${GEMMA_LORA:-}" ] && ! sh_ "[ -f /content/out/lora.npz ] && echo HAVE" | grep -q HAVE; then
+  say "no adapter in the Drive mirror: full train run instead"; SCORE=""
 fi
 CMD=${SCORE:+score $SCORE}; CMD=${CMD:-train}
 if ! sh_ "pgrep -f '[t]rain_tunix.py' >/dev/null && echo RUNNING; grep -c FULL_EXIT /content/out/full.log 2>/dev/null" | grep -qE "RUNNING|^1"; then
@@ -91,7 +96,7 @@ done
 echo "$st" | grep -q "FULL_EXIT 0" || say "run did not exit 0 (see full.log)"
 [ "$DRIVE" = 1 ] && sh_ "rsync -a /content/out/ $DST/ && echo synced" 600 >>"$LOG"
 FILES="full.log train_log.jsonl train_report.json lora.npz SCORES_val.jsonl SCORES_test.jsonl SCORES_test_unseen.jsonl"
-[ -n "$SCORE" ] && FILES="full.log $(for s in $SCORE; do printf 'SCORES_%s.jsonl ' "$s"; done)"
+[ -n "$SCORE" ] && [ -n "${GEMMA_LORA:-}" ] && FILES="full.log $(for s in $SCORE; do printf 'SCORES_%s.jsonl ' "$s"; done)"
 for f in $FILES; do
   timeout 900 colab download -s "$NAME" "/content/out/$f" "$OUT/$f" >>"$LOG" 2>&1 || say "no $f"
 done

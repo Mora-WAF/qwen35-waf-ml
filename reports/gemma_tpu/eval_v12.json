@@ -1,0 +1,231 @@
+{
+ "test": {
+  "acc_v12": 0.9822,
+  "acc_18oct": 0.9885,
+  "n_v12": 4888,
+  "per_class": {
+   "benign_hard_negative_dev": {
+    "v12": "303/315",
+    "18oct": "306/312"
+   },
+   "benign_hard_negative_search": {
+    "v12": "128/131",
+    "18oct": "127/131"
+   },
+   "benign_high_rate_legit": {
+    "v12": "137/138",
+    "18oct": "132/136"
+   },
+   "benign_standard_traffic": {
+    "v12": "1494/1529",
+    "18oct": "1289/1310"
+   },
+   "credential_stuffing_bruteforce": {
+    "v12": "44/45",
+    "18oct": "42/45"
+   },
+   "deserialization": {
+    "v12": "71/72",
+    "18oct": "65/66"
+   },
+   "dns_tunneling_exfil": {
+    "v12": "55/56",
+    "18oct": "56/56"
+   },
+   "graphql_abuse": {
+    "v12": "60/61",
+    "18oct": "63/63"
+   },
+   "http2_rapid_reset_continuation": {
+    "v12": "55/56",
+    "18oct": "55/56"
+   },
+   "http_flood_app_dos": {
+    "v12": "30/32",
+    "18oct": "-"
+   },
+   "jwt_auth_bypass": {
+    "v12": "115/116",
+    "18oct": "114/115"
+   },
+   "ldap_xpath_injection": {
+    "v12": "83/95",
+    "18oct": "62/62"
+   },
+   "malicious_file_upload_webshell": {
+    "v12": "68/68",
+    "18oct": "63/64"
+   },
+   "nosqli": {
+    "v12": "68/71",
+    "18oct": "69/71"
+   },
+   "open_redirect_cors": {
+    "v12": "63/64",
+    "18oct": "63/64"
+   },
+   "path_traversal_lfi": {
+    "v12": "129/130",
+    "18oct": "123/123"
+   },
+   "rce_cmd_injection": {
+    "v12": "125/125",
+    "18oct": "116/117"
+   },
+   "sqli_obfuscated": {
+    "v12": "72/78",
+    "18oct": "74/77"
+   },
+   "ssrf_cloud_metadata": {
+    "v12": "106/107",
+    "18oct": "103/104"
+   },
+   "websocket_grpc_abuse": {
+    "v12": "62/65",
+    "18oct": "62/65"
+   },
+   "xss_reflected_stored": {
+    "v12": "113/114",
+    "18oct": "114/114"
+   }
+  }
+ },
+ "test_unseen": {
+  "acc_v12": 0.9738,
+  "acc_18oct": 0.9802,
+  "n_v12": 5718,
+  "per_class": {
+   "benign_hard_negative_dev": {
+    "v12": "428/443",
+    "18oct": "441/447"
+   },
+   "benign_high_rate_legit": {
+    "v12": "53/54",
+    "18oct": "60/67"
+   },
+   "benign_standard_traffic": {
+    "v12": "1245/1271",
+    "18oct": "1224/1250"
+   },
+   "credential_stuffing_bruteforce": {
+    "v12": "49/50",
+    "18oct": "50/50"
+   },
+   "csv_formula_injection": {
+    "v12": "88/90",
+    "18oct": "87/90"
+   },
+   "deserialization": {
+    "v12": "79/80",
+    "18oct": "83/83"
+   },
+   "dns_tunneling_exfil": {
+    "v12": "48/50",
+    "18oct": "49/50"
+   },
+   "http2_rapid_reset_continuation": {
+    "v12": "80/81",
+    "18oct": "78/81"
+   },
+   "http_flood_app_dos": {
+    "v12": "33/50",
+    "18oct": "-"
+   },
+   "jwt_auth_bypass": {
+    "v12": "141/141",
+    "18oct": "139/142"
+   },
+   "mcp_agentic_tool_abuse": {
+    "v12": "67/69",
+    "18oct": "69/69"
+   },
+   "nosqli": {
+    "v12": "208/212",
+    "18oct": "209/212"
+   },
+   "open_redirect_cors": {
+    "v12": "46/50",
+    "18oct": "49/50"
+   },
+   "rce_cmd_injection": {
+    "v12": "49/50",
+    "18oct": "50/50"
+   },
+   "slowloris_slowhttp": {
+    "v12": "91/92",
+    "18oct": "92/92"
+   },
+   "sqli_classic": {
+    "v12": "196/232",
+    "18oct": "210/232"
+   },
+   "sqli_obfuscated": {
+    "v12": "188/205",
+    "18oct": "194/205"
+   },
+   "ssti": {
+    "v12": "50/50",
+    "18oct": "49/50"
+   },
+   "web_cache_poisoning": {
+    "v12": "95/96",
+    "18oct": "88/96"
+   },
+   "websocket_grpc_abuse": {
+    "v12": "70/76",
+    "18oct": "70/76"
+   },
+   "xss_dom_polyglot": {
+    "v12": "153/165",
+    "18oct": "154/165"
+   }
+  }
+ },
+ "observed_val_select": {
+  "cic_bell_dns_exf2021/dns_tunneling_exfil": {
+   "right": 29,
+   "n": 29,
+   "predicted": {
+    "dns_tunneling_exfil": 29
+   }
+  },
+  "cic_ids2017_mirror/benign_standard_traffic": {
+   "right": 76,
+   "n": 78,
+   "predicted": {
+    "benign_standard_traffic": 76,
+    "slowloris_slowhttp": 2
+   }
+  },
+  "cic_ids2017_mirror/credential_stuffing_bruteforce": {
+   "right": 94,
+   "n": 94,
+   "predicted": {
+    "credential_stuffing_bruteforce": 94
+   }
+  },
+  "cic_ids2017_mirror/http_flood_app_dos": {
+   "right": 74,
+   "n": 74,
+   "predicted": {
+    "http_flood_app_dos": 74
+   }
+  },
+  "cic_ids2017_mirror/port_scan_recon": {
+   "right": 96,
+   "n": 100,
+   "predicted": {
+    "port_scan_recon": 96,
+    "benign_standard_traffic": 4
+   }
+  },
+  "cic_ids2017_mirror/slowloris_slowhttp": {
+   "right": 32,
+   "n": 37,
+   "predicted": {
+    "slowloris_slowhttp": 32,
+    "http_flood_app_dos": 5
+   }
+  }
+ }
+}

@@ -1,0 +1,330 @@
+{
+ "method": "summed completion log-prob per class, temperature scaling on val_calib, tau on val_policy",
+ "act_on": "attack_mass",
+ "temperature": 1.053474,
+ "tau": 0.724528,
+ "max_hard_negative_fir": 0.01,
+ "val_calib": {
+  "uncalibrated": {
+   "n": 1216,
+   "accuracy": 0.9852,
+   "nll": 0.0492,
+   "brier": 0.0232,
+   "ece": 0.0051,
+   "bins": [
+    {
+     "lo": 0.4,
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.4113
+    },
+    {
+     "lo": 0.4667,
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.531
+    },
+    {
+     "lo": 0.5333,
+     "n": 2,
+     "acc": 0.5,
+     "conf": 0.5741
+    },
+    {
+     "lo": 0.6,
+     "n": 4,
+     "acc": 0.75,
+     "conf": 0.6409
+    },
+    {
+     "lo": 0.6667,
+     "n": 7,
+     "acc": 0.4286,
+     "conf": 0.7091
+    },
+    {
+     "lo": 0.7333,
+     "n": 6,
+     "acc": 0.8333,
+     "conf": 0.7782
+    },
+    {
+     "lo": 0.8,
+     "n": 12,
+     "acc": 0.8333,
+     "conf": 0.8323
+    },
+    {
+     "lo": 0.8667,
+     "n": 26,
+     "acc": 0.8462,
+     "conf": 0.8997
+    },
+    {
+     "lo": 0.9333,
+     "n": 1157,
+     "acc": 0.9974,
+     "conf": 0.9966
+    }
+   ]
+  },
+  "calibrated": {
+   "n": 1216,
+   "accuracy": 0.9852,
+   "nll": 0.049,
+   "brier": 0.0231,
+   "ece": 0.0057,
+   "bins": [
+    {
+     "lo": 0.4,
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.4013
+    },
+    {
+     "lo": 0.4667,
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.5285
+    },
+    {
+     "lo": 0.5333,
+     "n": 3,
+     "acc": 0.6667,
+     "conf": 0.5748
+    },
+    {
+     "lo": 0.6,
+     "n": 3,
+     "acc": 0.6667,
+     "conf": 0.637
+    },
+    {
+     "lo": 0.6667,
+     "n": 7,
+     "acc": 0.4286,
+     "conf": 0.6955
+    },
+    {
+     "lo": 0.7333,
+     "n": 9,
+     "acc": 0.8889,
+     "conf": 0.7728
+    },
+    {
+     "lo": 0.8,
+     "n": 12,
+     "acc": 0.75,
+     "conf": 0.835
+    },
+    {
+     "lo": 0.8667,
+     "n": 28,
+     "acc": 0.8929,
+     "conf": 0.8979
+    },
+    {
+     "lo": 0.9333,
+     "n": 1152,
+     "acc": 0.9974,
+     "conf": 0.996
+    }
+   ]
+  }
+ },
+ "val_policy_at_tau": {
+  "tau": 0.724528,
+  "coverage": 0.9908,
+  "attack_intervention_recall": 0.9958,
+  "benign_false_intervention": 0.0021,
+  "hard_negative_false_intervention": 0.0089,
+  "accuracy_when_acting": 0.9933,
+  "abstention_rate": 0.0092
+ },
+ "flow_envelope": {
+  "pkts_per_s": [
+   0.0306202,
+   1000000.0
+  ],
+  "bytes_per_s": [
+   0.0,
+   14833300.0
+  ],
+  "pkts_total": [
+   2,
+   15955
+  ],
+  "bytes_total": [
+   0,
+   24069864
+  ],
+  "duration_s": [
+   2e-06,
+   2994.234
+  ]
+ },
+ "envelope_from": null,
+ "records_with_flow_features": 12207,
+ "test": {
+  "reliability": {
+   "n": 4888,
+   "accuracy": 0.9822,
+   "nll": 0.0604,
+   "brier": 0.0282,
+   "ece": 0.0053,
+   "bins": [
+    {
+     "lo": 0.3333,
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.3602
+    },
+    {
+     "lo": 0.4,
+     "n": 1,
+     "acc": 0.0,
+     "conf": 0.4266
+    },
+    {
+     "lo": 0.4667,
+     "n": 11,
+     "acc": 0.3636,
+     "conf": 0.5165
+    },
+    {
+     "lo": 0.5333,
+     "n": 8,
+     "acc": 0.25,
+     "conf": 0.5751
+    },
+    {
+     "lo": 0.6,
+     "n": 20,
+     "acc": 0.8,
+     "conf": 0.63
+    },
+    {
+     "lo": 0.6667,
+     "n": 24,
+     "acc": 0.6667,
+     "conf": 0.7
+    },
+    {
+     "lo": 0.7333,
+     "n": 34,
+     "acc": 0.7353,
+     "conf": 0.7674
+    },
+    {
+     "lo": 0.8,
+     "n": 55,
+     "acc": 0.7818,
+     "conf": 0.8392
+    },
+    {
+     "lo": 0.8667,
+     "n": 98,
+     "acc": 0.8776,
+     "conf": 0.9061
+    },
+    {
+     "lo": 0.9333,
+     "n": 4636,
+     "acc": 0.9942,
+     "conf": 0.9962
+    }
+   ]
+  },
+  "policy": {
+   "tau": 0.724528,
+   "coverage": 0.9943,
+   "attack_intervention_recall": 0.9921,
+   "benign_false_intervention": 0.008,
+   "hard_negative_false_intervention": 0.0022,
+   "accuracy_when_acting": 0.9844,
+   "abstention_rate": 0.0057
+  },
+  "envelope_abstained": {
+   "benign": 0.0014,
+   "attack": 0.0
+  }
+ },
+ "test_unseen": {
+  "reliability": {
+   "n": 5718,
+   "accuracy": 0.9738,
+   "nll": 0.0861,
+   "brier": 0.0412,
+   "ece": 0.0063,
+   "bins": [
+    {
+     "lo": 0.4,
+     "n": 4,
+     "acc": 0.0,
+     "conf": 0.4509
+    },
+    {
+     "lo": 0.4667,
+     "n": 16,
+     "acc": 0.5,
+     "conf": 0.5069
+    },
+    {
+     "lo": 0.5333,
+     "n": 45,
+     "acc": 0.6444,
+     "conf": 0.571
+    },
+    {
+     "lo": 0.6,
+     "n": 50,
+     "acc": 0.68,
+     "conf": 0.6334
+    },
+    {
+     "lo": 0.6667,
+     "n": 53,
+     "acc": 0.5849,
+     "conf": 0.7003
+    },
+    {
+     "lo": 0.7333,
+     "n": 73,
+     "acc": 0.726,
+     "conf": 0.7675
+    },
+    {
+     "lo": 0.8,
+     "n": 82,
+     "acc": 0.8902,
+     "conf": 0.8343
+    },
+    {
+     "lo": 0.8667,
+     "n": 181,
+     "acc": 0.9116,
+     "conf": 0.9081
+    },
+    {
+     "lo": 0.9333,
+     "n": 5214,
+     "acc": 0.9925,
+     "conf": 0.9952
+    }
+   ]
+  },
+  "policy": {
+   "tau": 0.724528,
+   "coverage": 0.9895,
+   "attack_intervention_recall": 0.979,
+   "benign_false_intervention": 0.0046,
+   "hard_negative_false_intervention": 0.0016,
+   "accuracy_when_acting": 0.9772,
+   "abstention_rate": 0.0105
+  },
+  "envelope_abstained": {
+   "benign": 0.0,
+   "attack": 0.0
+  }
+ }
+}

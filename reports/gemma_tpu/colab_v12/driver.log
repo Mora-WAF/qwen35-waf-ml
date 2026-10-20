@@ -31,3 +31,191 @@ launched
 [run_tpu 01:47:31] {'step': 2020, 'of': 2225, 'loss': 0.00375, 'elapsed_s': 2881, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
 [run_tpu 01:52:35] {'step': 2220, 'of': 2225, 'loss': 0.00741, 'elapsed_s': 3115, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
 [run_tpu 01:57:37] {'step': 2220, 'of': 2225, 'loss': 0.00741, 'elapsed_s': 3115, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 02:02:40] {'step': 2220, 'of': 2225, 'loss': 0.00741, 'elapsed_s': 3115, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 02:07:48] {'step': 2220, 'of': 2225, 'loss': 0.00741, 'elapsed_s': 3115, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 02:12:51] scored val
+[run_tpu 02:17:54] scored val
+[run_tpu 02:22:57] scored val
+[run_tpu 02:28:00] scored test
+[run_tpu 02:33:04] scored test
+[run_tpu 02:38:06] scored test
+[run_tpu 02:43:09] [colab] Session 'v12' appears to be lost (404/401). Cleaning up.
+[run_tpu 02:44:12] LOST: v12 is gone from the server; rerun this line (DRIVE=1 resumes from the Drive ckpt)
+[run_tpu 02:45:40] new TPU session v12
+[colab] Creating session 'v12'...
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/commands/session.py:141 in new                                 │
+│                                                                              │
+│   138 │                                                                      │
+│   139 │   typer.echo(f"[colab] Creating session '{name}'...")                │
+│   140 │   try:                                                               │
+│ ❱ 141 │   │   res = state.client.assign(                                     │
+│   142 │   │   │   uuid.uuid4(), variant=variant, accelerator=accelerator,    │
+│       shape=shape                                                            │
+│   143 │   │   )                                                              │
+│   144 │   except TooManyAssignmentsError:                                    │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/client.py:285 in assign                                        │
+│                                                                              │
+│   282 │   │   except ColabRequestError as e:                                 │
+│   283 │   │   │   if get_status_code(e) == 412:                              │
+│   284 │   │   │   │   raise TooManyAssignmentsError(str(e))                  │
+│ ❱ 285 │   │   │   raise e                                                    │
+│   286 │   │                                                                  │
+│   287 │   │   return res                                                     │
+│   288                                                                        │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/client.py:279 in assign                                        │
+│                                                                              │
+│   276 │   │   │   return assignment                                          │
+│   277 │   │                                                                  │
+│   278 │   │   try:                                                           │
+│ ❱ 279 │   │   │   res = self._post_assignment(                               │
+│   280 │   │   │   │   notebook_hash, assignment.token, variant, accelerator, │
+│       shape                                                                  │
+│   281 │   │   │   )                                                          │
+│   282 │   │   except ColabRequestError as e:                                 │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/client.py:329 in _post_assignment                              │
+│                                                                              │
+│   326 │   ) -> PostAssignmentResponse:                                       │
+│   327 │   │   url = self._build_assign_url(notebook_hash, variant,           │
+│       accelerator, shape)                                                    │
+│   328 │   │   headers = {COLAB_XSRF_TOKEN_HEADER["key"]: xsrf_token}         │
+│ ❱ 329 │   │   return self._issue_request(                                    │
+│   330 │   │   │   url, method="POST", headers=headers,                       │
+│       schema=PostAssignmentResponse                                          │
+│   331 │   │   )                                                              │
+│   332                                                                        │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/client.py:229 in _issue_request                                │
+│                                                                              │
+│   226 │   │   self.logger.debug(f"Response Headers: {response.headers}")     │
+│   227 │   │   self.logger.debug(f"Response Body: {response.text}")           │
+│   228 │   │   if not response.ok:                                            │
+│ ❱ 229 │   │   │   raise ColabRequestError(                                   │
+│   230 │   │   │   │   f"Failed to issue request {method} {endpoint}:         │
+│       {response.reason}",                                                    │
+│   231 │   │   │   │   request=response.request,                              │
+│   232 │   │   │   │   response=response,                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ColabRequestError: Failed to issue request POST 
+https://colab.research.google.com/tun/m/assign?nbh=6bb71985_38c0_409b_899f_1ead5
+c9b2746........&variant=TPU&accelerator=V5E1: Service Unavailable
+[run_tpu 02:46:04] colab new failed (try 1), retry in 2 min
+[colab] Creating session 'v12'...
+╭───────────────────── Traceback (most recent call last) ──────────────────────╮
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/commands/session.py:141 in new                                 │
+│                                                                              │
+│   138 │                                                                      │
+│   139 │   typer.echo(f"[colab] Creating session '{name}'...")                │
+│   140 │   try:                                                               │
+│ ❱ 141 │   │   res = state.client.assign(                                     │
+│   142 │   │   │   uuid.uuid4(), variant=variant, accelerator=accelerator,    │
+│       shape=shape                                                            │
+│   143 │   │   )                                                              │
+│   144 │   except TooManyAssignmentsError:                                    │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/client.py:285 in assign                                        │
+│                                                                              │
+│   282 │   │   except ColabRequestError as e:                                 │
+│   283 │   │   │   if get_status_code(e) == 412:                              │
+│   284 │   │   │   │   raise TooManyAssignmentsError(str(e))                  │
+│ ❱ 285 │   │   │   raise e                                                    │
+│   286 │   │                                                                  │
+│   287 │   │   return res                                                     │
+│   288                                                                        │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/client.py:279 in assign                                        │
+│                                                                              │
+│   276 │   │   │   return assignment                                          │
+│   277 │   │                                                                  │
+│   278 │   │   try:                                                           │
+│ ❱ 279 │   │   │   res = self._post_assignment(                               │
+│   280 │   │   │   │   notebook_hash, assignment.token, variant, accelerator, │
+│       shape                                                                  │
+│   281 │   │   │   )                                                          │
+│   282 │   │   except ColabRequestError as e:                                 │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/client.py:329 in _post_assignment                              │
+│                                                                              │
+│   326 │   ) -> PostAssignmentResponse:                                       │
+│   327 │   │   url = self._build_assign_url(notebook_hash, variant,           │
+│       accelerator, shape)                                                    │
+│   328 │   │   headers = {COLAB_XSRF_TOKEN_HEADER["key"]: xsrf_token}         │
+│ ❱ 329 │   │   return self._issue_request(                                    │
+│   330 │   │   │   url, method="POST", headers=headers,                       │
+│       schema=PostAssignmentResponse                                          │
+│   331 │   │   )                                                              │
+│   332                                                                        │
+│                                                                              │
+│ /home/hamed/.local/share/uv/tools/google-colab-cli/lib/python3.14/site-packa │
+│ ges/colab_cli/client.py:229 in _issue_request                                │
+│                                                                              │
+│   226 │   │   self.logger.debug(f"Response Headers: {response.headers}")     │
+│   227 │   │   self.logger.debug(f"Response Body: {response.text}")           │
+│   228 │   │   if not response.ok:                                            │
+│ ❱ 229 │   │   │   raise ColabRequestError(                                   │
+│   230 │   │   │   │   f"Failed to issue request {method} {endpoint}:         │
+│       {response.reason}",                                                    │
+│   231 │   │   │   │   request=response.request,                              │
+│   232 │   │   │   │   response=response,                                     │
+╰──────────────────────────────────────────────────────────────────────────────╯
+ColabRequestError: Failed to issue request POST 
+https://colab.research.google.com/tun/m/assign?nbh=694ea66a_6ca1_4625_bf0c_2201b
+b1b5436........&variant=TPU&accelerator=V5E1: Service Unavailable
+[run_tpu 02:48:28] colab new failed (try 2), retry in 2 min
+[colab] Session 'v12' not found.
+[run_tpu 02:49:06] stopped v12
+[run_tpu 02:51:59] new TPU session v12
+[colab] Creating session 'v12'...
+[colab] Session READY.
+[run_tpu 02:52:02] install tunix + qwix
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+torch-tpu 0.2.0rc4 requires libtpu>=0.0.50, but you have libtpu 0.0.44.1 which is incompatible.
+
+[colab] Uploaded '/tmp/tmp.4sRnVz6tr3/data.part.00' to '/content/data.part.00'
+[colab] Uploaded '/tmp/tmp.4sRnVz6tr3/data.part.01' to '/content/data.part.01'
+[colab] Uploaded '/tmp/tmp.4sRnVz6tr3/data.sha256' to '/content/data.sha256'
+13
+
+[colab] Uploaded 'training/gemma_tpu/train_tunix.py' to '/content/train_tunix.py'
+[run_tpu 02:53:52] upload adapter reports/gemma_tpu/colab_v12/lora.npz in parts
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.00' to '/content/lora.part.00'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.01' to '/content/lora.part.01'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.02' to '/content/lora.part.02'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.03' to '/content/lora.part.03'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.04' to '/content/lora.part.04'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.05' to '/content/lora.part.05'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.06' to '/content/lora.part.06'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.07' to '/content/lora.part.07'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.08' to '/content/lora.part.08'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.09' to '/content/lora.part.09'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.10' to '/content/lora.part.10'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.part.11' to '/content/lora.part.11'
+[colab] Uploaded '/tmp/tmp.YB52tC2DWt/lora.sha256' to '/content/lora.sha256'
+[run_tpu 02:54:41] launch score test_unseen ()
+launched
+
+[run_tpu 02:54:47] 
+[run_tpu 02:59:50] 
+[run_tpu 03:04:53] 
+[run_tpu 03:09:56] 
+[run_tpu 03:14:59] 
+[run_tpu 03:20:02] 
+[run_tpu 03:25:04] FULL_EXIT 0
+[colab] Downloaded '/content/out/full.log' to 'reports/gemma_tpu/colab_v12/full.log'
+[colab] Downloaded '/content/out/SCORES_test_unseen.jsonl' to 'reports/gemma_tpu/colab_v12/SCORES_test_unseen.jsonl'
+[run_tpu 03:25:08] done -> reports/gemma_tpu/colab_v12
+[colab] Stopping session 'v12'...
+[colab] Session terminated.
+[run_tpu 03:25:09] stopped v12

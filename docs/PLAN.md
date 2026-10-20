@@ -202,6 +202,21 @@ Deployment and pipeline:
 - Qwen bundle rebuilt: `colab/colab_bundle_fast.zip` `854a8a37…`. Gemma export `reports/gemma_tpu/data_v12/` → `colab/gemma_data_v12.tgz`; run `run_tpu.sh v12` on a free TPU v5e-1
   (Qwen does not train on TPU; no GPU on the free plan).
 
+- **Gemma v12 result** (`reports/gemma_tpu/colab_v12/REPORT.md`): 2,225 steps in 52 min. test 0.9822 / test_unseen
+  0.9738 (18 Oct Gemma on the v11 build: 0.9885 / 0.9802; the test sets differ). Attack-mass rule: unseen recall
+  0.979, benign FI 0.0046, hard-neg FI 0.0016. **CIC-2017 data bug fixed**: real held-out port scans 96/100, brute
+  force 94/94, slowloris 32/37 (18 Oct: 0/500, 0/470, 10/185). New errors: 17 real CIC-2018 benign flows in test called
+  slowloris (test benign FI 0.008); paced http_flood holdout 33/50 (17 → benign_high_rate_legit, overlaps
+  `proxy_nat_fanin` by design); sqli_classic unseen 196/232 (14 seeded payloads → benign); ldap test 83/95 (seeded
+  payload lists, not the new rounds). Next build: CIC-2018 benign flows in train, paced flood variants in train,
+  check the 14 sqli payloads. Qwen not trained (free Colab).
+- Run notes: the Colab TPU image now ships `torch_tpu` (crash on import: libtpu `0.0.44.1`) → `train_tunix.py` sets
+  `TORCH_DEVICE_BACKEND_AUTOLOAD=0`. The free VM was reclaimed at 02:43 during test_unseen scoring and the account then
+  got `Service Unavailable`. Adapter + val/test scores copied from its Drive mirror (rclone `colabold`, read-only);
+  test_unseen scored on a second free account (colab CLI token switched; the old one is
+  `~/.config/colab-cli/token.old-account.json`). `run_tpu.sh`: `DRIVE=1 GEMMA_SCORE=...` without `GEMMA_LORA` scores
+  from the Drive mirror's adapter.
+
 ### 20 October ~01:00 — csv_formula_injection decided; CRS 921/931/933/934 focus template (user to fill)
 
 - **csv_formula_injection** (open decision from 19 Oct ~19:00, user: "go with the suggestion"): the unescaped leading
