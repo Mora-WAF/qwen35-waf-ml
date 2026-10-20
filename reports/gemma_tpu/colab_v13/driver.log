@@ -1,0 +1,21 @@
+[run_tpu 13:06:20] new TPU session v13
+[colab] Creating session 'v13'...
+[colab] Session READY.
+[run_tpu 13:06:24] install tunix + qwix
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+torch-tpu 0.2.0rc4 requires libtpu>=0.0.50, but you have libtpu 0.0.44.1 which is incompatible.
+
+[colab] Uploaded '/tmp/tmp.Xyw5Utnf8c/data.part.00' to '/content/data.part.00'
+[colab] Uploaded '/tmp/tmp.Xyw5Utnf8c/data.part.01' to '/content/data.part.01'
+[colab] Uploaded '/tmp/tmp.Xyw5Utnf8c/data.sha256' to '/content/data.sha256'
+13
+
+[colab] Uploaded 'training/gemma_tpu/train_tunix.py' to '/content/train_tunix.py'
+[run_tpu 13:08:17] ACTION: run 'colab drivemount -s v13' in another terminal (waiting up to 15 min)
+[run_tpu 13:09:55] Drive mirror -> /content/drive/MyDrive/waf_gemma/colab_v13
+ok
+
+[run_tpu 13:09:58] launch train ()
+launched
+
+[run_tpu 13:10:04] 

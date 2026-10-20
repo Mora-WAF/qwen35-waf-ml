@@ -30,19 +30,23 @@ def _capture_order(r):
 
 
 def block_campaigns(records, holdout=0.2, sources=None):
-    """In place on build records (metadata split / lineage_group): every observed attack class of a source that has
-    no observed record of that source in train, and is not held out as unseen, is ordered by capture (source row id);
-    the earlier 1 - holdout moves to train (`#early`), the latest stay in their split (`#late`). sources: None = all.
-    Returns {"source/class": {to_train, held_out, held_out_split}}."""
+    """In place on build records (metadata split / lineage_group): every observed class of a source (attack or benign)
+    that has no observed record of that source and class in train, and is not held out as unseen, is ordered by capture
+    (source row id); the earlier 1 - holdout moves to train (`#early`), the latest stay in their split (`#late`).
+    A class that landed wholly in train (the group draw depends on every other record) keeps the same later-traffic
+    check: its latest share goes to val_select. sources: None = all. Returns {"source/class": {to_train, held_out, held_out_split}}.
+    Benign too since 20 Oct: all 187 CIC-2018 benign flows sat in test while its slowloris flows were in train, so the
+    source's feature-set shape meant slowloris and Gemma v12 called 17 of them slowloris (the mirror of the CIC-2017 bug)."""
     cand = defaultdict(list)
     for r in records:
         m = r["metadata"]
-        if m["provenance"] == "observed" and not m["threat_type"].startswith("benign") and (sources is None or m["source"] in sources):
+        if m["provenance"] == "observed" and (sources is None or m["source"] in sources):
             cand[(m["source"], m["threat_type"])].append(r)
     moved = {}
     for (src, cls), rs in sorted(cand.items()):
         splits = {r["metadata"]["split"] for r in rs}
-        if "train" in splits or "test_unseen" in splits or len(rs) < 2:  # unseen sources stay unseen
+        all_train = splits == {"train"}
+        if (not all_train and "train" in splits) or "test_unseen" in splits or len(rs) < 2:  # unseen sources stay unseen
             continue
         rs.sort(key=_capture_order)
         n_keep = max(1, round(len(rs) * holdout))
@@ -52,7 +56,10 @@ def block_campaigns(records, holdout=0.2, sources=None):
             m["lineage_group"] = f"{m['lineage_group']}#{cls}#{'early' if early else 'late'}"
             if early:
                 m["split"] = "train"
-        moved[f"{src}/{cls}"] = {"to_train": len(rs) - n_keep, "held_out": n_keep, "held_out_split": sorted(splits)}
+            elif all_train:
+                m["split"] = "val_select"
+        moved[f"{src}/{cls}"] = {"to_train": len(rs) - n_keep, "held_out": n_keep,
+                                 "held_out_split": ["val_select"] if all_train else sorted(splits)}
     return moved
 
 

@@ -135,7 +135,7 @@ def bench_rows(recs, ids_of, budget, contract=1):
     telemetry, counted with the decoded views added; each window -> its prompt ids (views added). -> (rows, manifest)
     rows: (window id "<record>#<k>", prompt ids); manifest: record id -> windows (0 = fits no budget), truncated."""
     def enriched(x):
-        return P.add_decoded_views(json.loads(json.dumps(x)))
+        return P.add_decoded_views(json.loads(json.dumps(x)), contract)
     rows, man = [], {}
     for r in recs:
         ws = P.budget_windows(r["telemetry"], lambda x: len(ids_of(enriched(x))), budget, contract=contract)

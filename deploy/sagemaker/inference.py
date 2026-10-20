@@ -138,7 +138,7 @@ DECODED_VIEWS, FIT_CONTRACT = _decoded_views(), _fit_contract()
 
 
 def _enrich(tel):
-    return P.add_decoded_views(tel) if DECODED_VIEWS else tel
+    return P.add_decoded_views(tel, FIT_CONTRACT) if DECODED_VIEWS else tel
 
 
 def _prompt_ids(st, tel):

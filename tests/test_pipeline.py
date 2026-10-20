@@ -260,6 +260,10 @@ def test_synthetic_http_floods_are_consistent_and_have_lookalikes():
     look = [G.synth_flow("benign_high_rate_legit", i) for i in range(3000)]
     hi = [t["flow"]["features"]["conn_count_60s"] for t, sc in look if sc["variant"] in ("proxy_nat_fanin", "crawler_burst")]
     assert hi and max(hi) >= 400
+    # and a train flood variant sits inside the fan-in range, so the count cannot be the whole rule (v12: paced 33/50)
+    low = [t["flow"]["features"]["conn_count_60s"] for t, sc in (G.synth_flow("http_flood_app_dos", i) for i in range(600))
+           if sc["variant"] in ("botnet_slice_flood", "rotating_path_flood")]
+    assert low and min(low) < 300
 
 
 def test_calibration_recovers_temperature_and_respects_hn_constraint():
@@ -441,17 +445,23 @@ def test_single_campaign_observed_class_trains_on_its_earlier_captures():
     recs = [_obs(f"ps{i}", "port_scan_recon", "cic17", camp, "val_select", 100 - i) for i in range(10)]
     recs += [_obs(f"bf{i}", "credential_stuffing_bruteforce", "cic17", camp, "val_select", i) for i in range(5)]
     recs += [_obs(f"b{i}", "benign_standard_traffic", "cic17", f"h{i}", "train", i) for i in range(15)]
-    recs += [_obs(f"sl{i}", "slowloris_slowhttp", "cic18", "c18", "train", i) for i in range(4)]  # already in train
+    recs += [_obs("bt", "benign_standard_traffic", "cic17", "ht", "test", 99)]  # benign groups spread over splits
+    recs += [_obs(f"sl{i}", "slowloris_slowhttp", "cic18", "c18", "train", i) for i in range(4)]  # wholly in train
+    recs += [_obs(f"sm{i}", "slowloris_slowhttp", "cic17", f"m{i}", "train" if i else "test", i) for i in range(4)]  # mixed: untouched
     recs += [_obs(f"u{i}", "slowloris_slowhttp", "cic17", camp + "u", "test_unseen", i) for i in range(4)]  # unseen source
+    recs += [_obs(f"n{i}", "benign_standard_traffic", "cic18", f"n{i % 3}", "test", i) for i in range(10)]  # benign side alone outside train
     moved = block_campaigns(recs)
-    assert set(moved) == {"cic17/port_scan_recon", "cic17/credential_stuffing_bruteforce"}
+    assert set(moved) == {"cic17/port_scan_recon", "cic17/credential_stuffing_bruteforce", "cic18/benign_standard_traffic",
+                          "cic18/slowloris_slowhttp"}
+    assert sum(r["metadata"]["split"] == "train" for r in recs if r["id"].startswith("n")) == 8
     ps = sorted((r for r in recs if r["id"].startswith("ps")), key=lambda r: int(r["metadata"]["original_id"]))
     assert [r["metadata"]["split"] for r in ps] == ["train"] * 8 + ["val_select"] * 2  # the latest 20% held out
     assert ps[0]["metadata"]["lineage_group"].endswith("#port_scan_recon#early")
     assert ps[-1]["metadata"]["lineage_group"].endswith("#port_scan_recon#late")
     assert all(r["metadata"]["split"] == "test_unseen" for r in recs if r["id"].startswith("u"))
-    assert all(r["metadata"]["split"] == "train" for r in recs if r["id"].startswith("sl"))
-    assert observed_per_split(recs)["cic17"]["train"] == {"attack": 12, "benign": 15}
+    assert [r["metadata"]["split"] for r in recs if r["id"].startswith("sl")] == ["train"] * 3 + ["val_select"]  # latest held out
+    assert [r["metadata"]["split"] for r in recs if r["id"].startswith("sm")] == ["test"] + ["train"] * 3
+    assert observed_per_split(recs)["cic17"]["train"] == {"attack": 15, "benign": 15}
     # every group in one split (the blocks are separate groups)
     where = {}
     for r in recs:

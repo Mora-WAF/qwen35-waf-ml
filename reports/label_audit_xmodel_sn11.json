@@ -1,0 +1,409 @@
+{
+ "models": [
+  "codex",
+  "gemini"
+ ],
+ "items": 320,
+ "answered": {
+  "codex": 320,
+  "gemini": 320
+ },
+ "agreement_35class": {
+  "codex": 0.878,
+  "gemini": 0.856
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 0.994,
+  "gemini": 0.969
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {},
+  "benign_standard_traffic": {
+   "codex": 0.76,
+   "gemini": 0.78
+  },
+  "bfla_admin_function_probing": {},
+  "bola_idor_enumeration": {},
+  "bopla_mass_assignment": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {},
+  "crlf_header_injection": {},
+  "csv_formula_injection": {},
+  "deserialization": {},
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http2_rapid_reset_continuation": {},
+  "http_flood_app_dos": {},
+  "http_request_smuggling": {},
+  "jwt_auth_bypass": {},
+  "ldap_xpath_injection": {},
+  "llm_prompt_injection": {},
+  "malicious_file_upload_webshell": {},
+  "mcp_agentic_tool_abuse": {},
+  "nosqli": {},
+  "open_redirect_cors": {
+   "codex": 0.97,
+   "gemini": 0.97
+  },
+  "path_traversal_lfi": {},
+  "port_scan_recon": {},
+  "prototype_pollution": {},
+  "race_condition_toctou_burst": {},
+  "rce_cmd_injection": {},
+  "slowloris_slowhttp": {},
+  "sqli_classic": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {},
+  "syn_flood_ddos": {},
+  "tls_ja4_ua_spoofing": {},
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {
+   "codex": 1.0,
+   "gemini": 0.9
+  },
+  "xss_dom_polyglot": {
+   "codex": 1.0,
+   "gemini": 0.88
+  },
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 36,
+ "contested_by_class": {
+  "benign_standard_traffic": 36
+ },
+ "contested": [
+  {
+   "rid": "h00160",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00161",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00162",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00163",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00164",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00165",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00166",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00167",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00168",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00169",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00170",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00171",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:11",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00172",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:12",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00173",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00174",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:14",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00175",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:15",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00176",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:16",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00177",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00178",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:18",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00179",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx96_sqli_classic.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00250",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00251",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00252",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00253",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00254",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00255",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00256",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00257",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00258",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00259",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm96b_sqli_classic.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00262",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm97a_xss_dom_polyglot.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00267",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm97a_xss_dom_polyglot.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00270",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm97b_xss_dom_polyglot.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_search",
+    "gemini": "benign_hard_negative_search"
+   }
+  },
+  {
+   "rid": "h00272",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm97b_xss_dom_polyglot.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_search",
+    "gemini": "benign_hard_negative_search"
+   }
+  },
+  {
+   "rid": "h00273",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm97b_xss_dom_polyglot.jsonl:3",
+   "votes": {
+    "codex": "xss_dom_polyglot",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00276",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm97b_xss_dom_polyglot.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

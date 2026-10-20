@@ -2,7 +2,7 @@
  "mode": "fast",
  "per_class": 40,
  "quota_fraction": 0.25,
- "total": 54747,
+ "total": 55128,
  "dropped_exact_dup": 77,
  "dropped_label_conflicts": {},
  "rejected_token_overflow": {
@@ -14,20 +14,20 @@
  },
  "files": {
   "fast_train.jsonl": {
-   "records": 39158,
-   "sha256": "d7ecfebd2052bce7aec83efa05abd826a8c5d53bb9d8e31bfe7c7e50711dee18"
+   "records": 39539,
+   "sha256": "f675c040f0e8e6fd37866cfac06585c9bcd624fa338170e73e3110b5179936b4"
   },
   "fast_val.jsonl": {
-   "records": 4981,
-   "sha256": "a2fc114397a7d0b4f584b94739bfe56e11d1b8d6360b30019577dc02f9a33fac"
+   "records": 5144,
+   "sha256": "c0abf8156c133693186a97697725502a4aa92b5572b607b30714a64ffda085c9"
   },
   "fast_test.jsonl": {
-   "records": 4888,
-   "sha256": "8e633a77f1b678c34d2c2c0ae2cf351542545a8a1bc20d713000dd05c99eeb62"
+   "records": 4685,
+   "sha256": "cbc313239972ad47c0d315083879730bc15027f6610ebc4b9e75b393c63fd456"
   },
   "fast_test_unseen.jsonl": {
-   "records": 5720,
-   "sha256": "e9ed09fa836fb6e8078a2d07c9019c246df16d04e55362a8226939c89c03f35c"
+   "records": 5760,
+   "sha256": "d444dafe4138b6cc19b1a658effda7ebe891de1b12165ec8868b40dc9ce58959"
   }
  },
  "deficits": {
@@ -112,9 +112,9 @@
   },
   "websocket_grpc_abuse": {
    "status": "ok",
-   "accepted": 769,
+   "accepted": 805,
    "rejected": 0,
-   "quarantined_by_review": 309
+   "quarantined_by_review": 313
   },
   "llm_prompt_injection": {
    "status": "ok",
@@ -190,9 +190,9 @@
   },
   "benign_standard_traffic": {
    "status": "ok",
-   "accepted": 8672,
+   "accepted": 8871,
    "rejected": 0,
-   "quarantined_by_review": 630
+   "quarantined_by_review": 631
   },
   "xss_reflected_stored": {
    "status": "ok",
@@ -238,9 +238,9 @@
   },
   "open_redirect_cors": {
    "status": "ok",
-   "accepted": 199,
+   "accepted": 237,
    "rejected": 0,
-   "quarantined_by_review": 1
+   "quarantined_by_review": 3
   },
   "path_traversal_lfi": {
    "status": "ok",
@@ -262,13 +262,13 @@
   },
   "xss_dom_polyglot": {
    "status": "ok",
-   "accepted": 199,
+   "accepted": 274,
    "rejected": 0,
-   "quarantined_by_review": 1
+   "quarantined_by_review": 6
   },
   "sqli_classic": {
    "status": "ok",
-   "accepted": 73,
+   "accepted": 113,
    "rejected": 0,
    "quarantined_by_review": 7
   }
@@ -276,6 +276,20 @@
  "cross_split_overlap": 0,
  "lineage_overlap": 0,
  "observed_campaign_blocks": {
+  "cic_bell_dns_exf2021/benign_standard_traffic": {
+   "to_train": 260,
+   "held_out": 65,
+   "held_out_split": [
+    "val_select"
+   ]
+  },
+  "cic_bell_dns_exf2021/dns_tunneling_exfil": {
+   "to_train": 260,
+   "held_out": 65,
+   "held_out_split": [
+    "val_select"
+   ]
+  },
   "cic_ids2017_mirror/credential_stuffing_bruteforce": {
    "to_train": 376,
    "held_out": 94,
@@ -303,6 +317,20 @@
    "held_out_split": [
     "val_select"
    ]
+  },
+  "cic_ids2018/benign_standard_traffic": {
+   "to_train": 150,
+   "held_out": 37,
+   "held_out_split": [
+    "val_select"
+   ]
+  },
+  "cic_ids2018/slowloris_slowhttp": {
+   "to_train": 120,
+   "held_out": 30,
+   "held_out_split": [
+    "test"
+   ]
   }
  },
  "unseen_source_benign_moved": {},
@@ -310,47 +338,47 @@
   "cic_ids2017_mirror": {
    "train": {
     "attack": 1222,
-    "benign": 1249
+    "benign": 1243
    },
    "val_select": {
     "attack": 305,
-    "benign": 78
+    "benign": 100
+   },
+   "val_calib": {
+    "attack": 0,
+    "benign": 30
+   },
+   "test": {
+    "attack": 0,
+    "benign": 148
    },
    "val_policy": {
     "attack": 0,
     "benign": 38
-   },
-   "test": {
-    "attack": 0,
-    "benign": 159
-   },
-   "val_calib": {
-    "attack": 0,
-    "benign": 35
    }
   },
   "cic_ids2018": {
    "train": {
-    "attack": 150,
-    "benign": 0
+    "attack": 120,
+    "benign": 150
    },
    "test": {
+    "attack": 30,
+    "benign": 0
+   },
+   "val_select": {
     "attack": 0,
-    "benign": 187
+    "benign": 37
    }
   },
   "cic_bell_dns_exf2021": {
    "train": {
-    "attack": 267,
-    "benign": 325
-   },
-   "test": {
-    "attack": 29,
-    "benign": 0
+    "attack": 260,
+    "benign": 260
    },
    "val_select": {
-    "attack": 29,
-    "benign": 0
+    "attack": 65,
+    "benign": 65
    }
   }
  },

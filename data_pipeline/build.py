@@ -177,9 +177,10 @@ def build(per_class=24, ratios=(0.8, 0.1, 0.1), frac=None, prefix="pilot_"):
     blocked = block_campaigns(recs)
     aligned = align_unseen_sources(recs)  # a source held out as unseen leaves train with its benign flows too
     per_split = observed_per_split(recs)
-    shape_only = [src for src, sp in per_split.items() if sp.get("train", {}).get("benign") and not sp.get("train", {}).get("attack")
-                  and any(v["attack"] for v in sp.values())]
-    assert not shape_only, f"observed sources with benign but no attack flows in train: {shape_only}"
+    # either side alone in train teaches "this source's shape = that side" (CIC-2017: benign only; CIC-2018: attack only)
+    shape_only = [src for src, sp in per_split.items() for a, b in (("benign", "attack"), ("attack", "benign"))
+                  if sp.get("train", {}).get(a) and not sp.get("train", {}).get(b) and any(v[b] for v in sp.values())]
+    assert not shape_only, f"observed sources with only benign or only attack flows in train: {shape_only}"
     xo, lo = cross_split_overlap(recs), lineage_overlap(recs)
     assert not lo, f"lineage overlap across splits: {list(lo)[:5]}"
     assert not xo, f"content overlap across splits: {len(xo)} hashes"

@@ -16,13 +16,13 @@ import json
 import sys
 import zipfile
 
-from training.prepare import add_decoded_views, deserialize_telemetry
+from training.prepare import _http_values, add_decoded_views, deserialize_telemetry
 
 MAX_GAINING = 0.005  # share of HTTP training records that may gain a view and still count as trained with views
 
 
-def views_evidence(tels):
-    """(decoded_views, HTTP records, records gaining a view when the sensor views are re-applied)."""
+def views_evidence(tels, contract):
+    """(decoded_views, HTTP records, records gaining a view when the sensor views of `contract` are re-applied)."""
     total = gaining = 0
     for tel in tels:
         h = tel.get("http")
@@ -30,13 +30,20 @@ def views_evidence(tels):
             continue
         total += 1
         before = len(h.get("decoded_views") or [])
-        gaining += len(add_decoded_views(json.loads(json.dumps(tel)))["http"].get("decoded_views") or []) > before
+        gaining += len(add_decoded_views(json.loads(json.dumps(tel)), contract)["http"].get("decoded_views") or []) > before
     return total > 0 and gaining <= MAX_GAINING * total, total, gaining
 
 
 def fit_contract(tels):
-    """Sensor contract of a build: 2 when any training record went through the cookie-dropping level
-    (http.cookies_truncated, contract 2's truncation_augment), else 1 (v10, v11)."""
+    """Sensor contract of a build: 3 when a training record carries a base64 view of a value under 16 characters
+    (contract 3's short views), 2 when any went through the cookie-dropping level (http.cookies_truncated, contract 2's
+    truncation_augment), else 1 (v10, v11)."""
+    def short_view(h):
+        vals = dict(_http_values(h))
+        return any(v["decoder"] == "base64" and len(str(vals.get(v["field"], "x" * 16)).strip()) < 16
+                   for v in h.get("decoded_views") or [])
+    if any(short_view(t["http"]) for t in tels if t.get("http")):
+        return 3
     return 2 if any("cookies_truncated" in (t.get("http") or {}) for t in tels) else 1
 
 
@@ -73,9 +80,10 @@ def main(run, bundle, out):
     picked = pick_selfcheck(test, scores)
     open(f"{out}/selfcheck.jsonl", "w").write("".join(json.dumps(x) + "\n" for x in picked))
     train = [deserialize_telemetry(json.loads(line)["messages"][1]["content"]) for line in z.open("datasets_ready/fast_train.jsonl")]
-    views, total, gaining = views_evidence(train)
+    contract = fit_contract(train)
+    views, total, gaining = views_evidence(train, contract)
     serving = {"decoded_views": views, "train_http_records": total, "records_gaining_views": gaining,
-               "fit_contract": fit_contract(train), "bundle": bundle, "run": run}
+               "fit_contract": contract, "bundle": bundle, "run": run}
     json.dump(serving, open(f"{out}/serving.json", "w"), indent=1)
     print("selfcheck:", [(x["id"], x["telemetry"]["mode"]) for x in picked])
     print("serving:", serving)

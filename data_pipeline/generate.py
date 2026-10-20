@@ -502,7 +502,14 @@ FLOW_PROFILES = {
                                          dict(name="https_get_flood", ports=[443, 8443], bytes_per_pkt=(100, 1400), conn=(400, 20000)),
                                          dict(name="post_body_flood", fwd_frac=(0.6, 0.85), bytes_per_pkt=(300, 1400), conn=(300, 8000)),
                                          dict(name="aggregate_window", window="fixed_window", dur=(4, 6), pkts=(5000, 80000), syn_frac=(0.05, 0.2), conn=(500, 30000)),
-                                         dict(name="paced_flood", dur=(0.05, 20), conn=(200, 600))]),  # near the benign high tail: rate, not volume, is the evidence
+                                         dict(name="paced_flood", dur=(0.05, 20), conn=(200, 600)),  # near the benign high tail: rate, not volume, is the evidence
+                                         # one bot's slice of a distributed flood: a connection count inside proxy_nat_fanin's range, so the
+                                         # request-heavy shape (forward share, small responses) carries the label (Gemma v12: held-out
+                                         # paced_flood 33/50, 17 -> benign_high_rate_legit; no train flood sat below 300 / min with short
+                                         # connections). The name hashes above paced_flood: that one stays held out
+                                         dict(name="botnet_slice_flood", dur=(0.01, 10), pkts=(5, 30), fwd_frac=(0.5, 0.7), bytes_per_pkt=(60, 400), conn=(200, 600)),
+                                         # sibling in the same range (no boundary rests on one variant; also hashes above paced_flood)
+                                         dict(name="rotating_path_flood", dur=(0.02, 15), pkts=(6, 40), fwd_frac=(0.45, 0.65), bytes_per_pkt=(80, 500), conn=(200, 800))]),
     "benign_standard_traffic": dict(fwd_frac=(0.25, 0.6), ports=[443, 80, 8080, 22, 993, 5432], window="full_flow", dur=(1, 120), pkts=(10, 500), proto="tcp",
                                     syn_frac=(0.01, 0.05), bytes_per_pkt=(400, 1400), dst_fanout=(1, 2),
                                     variants=[  # benign UDP/DNS/QUIC/NTP so protocol and port are not attack-only

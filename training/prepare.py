@@ -54,6 +54,10 @@ def escape_controls(json_text, controls):
 # ---- sensor-side decoding (applied at build AND at inference, so the model sees the same views in both) ---------
 JWT_RE = re.compile(r"\beyJ[A-Za-z0-9_-]{2,}\.[A-Za-z0-9_-]{2,}\.[A-Za-z0-9_-]*")
 B64_RE = re.compile(r"[A-Za-z0-9+/_-]{16,}={0,2}")
+# contract 3: 12-15 character values too, when they decode to printable ASCII (an 8-character random cookie decodes to
+# "printable" Unicode about once in 400; ASCII-only at 12+ characters about once in 7,000). Gemma v12: Base64-encoded
+# admin'-- (YWRtaW4nLS0=), 1' AND 1=2 and " OR 1=1 -- got no view and were called benign.
+B64_SHORT_RE, B64_SHORT_MIN = re.compile(r"[A-Za-z0-9+/_-]{8,15}={0,2}"), 12
 MAX_VIEWS, MAX_VIEW_CHARS = 8, 512
 
 
@@ -98,10 +102,21 @@ def _http_values(h):
     return out
 
 
-def add_decoded_views(tel):
+def _b64view(s, contract):
+    if B64_RE.fullmatch(s):
+        return _b64text(s)
+    if contract >= 3 and len(s) >= B64_SHORT_MIN and B64_SHORT_RE.fullmatch(s):
+        text = _b64text(s)
+        return text if text and text.isascii() and all(c.isprintable() or c in "\t\r\n" for c in text) else None
+    return None
+
+
+def add_decoded_views(tel, contract=None):
     """Deterministic sensor enrichment: a `jwt` view (header and payload JSON text exactly as encoded, so duplicate
-    keys stay visible) for every JWT, and a `base64` view for values that decode to printable text. Idempotent;
-    capped at MAX_VIEWS views of MAX_VIEW_CHARS characters so the token budget is not consumed."""
+    keys stay visible) for every JWT, and a `base64` view for values that decode to printable text (contract 3: from
+    12 characters, else 16). Idempotent; capped at MAX_VIEWS views of MAX_VIEW_CHARS characters so the token budget is
+    not consumed. contract: the sensor contract of the model's build (None = SENSOR_CONTRACT)."""
+    contract = SENSOR_CONTRACT if contract is None else contract
     h = tel.get("http")
     if not h:
         return tel
@@ -120,7 +135,7 @@ def add_decoded_views(tel):
                 added += 1
             continue
         s = val.strip()
-        text = _b64text(s) if B64_RE.fullmatch(s) else None
+        text = _b64view(s, contract)
         if text and (field, "base64") not in have:
             views.append({"field": field, "decoder": "base64", "depth": 1, "value": text[:MAX_VIEW_CHARS]})
             have.add((field, "base64"))
@@ -137,8 +152,9 @@ FIT_CAPS = ((64, 512, 4000, 1024), (32, 256, 2000, 512), (16, 128, 1000, 256), (
 # (the parsed cookie pairs carry the values; contract 1 rebuilt it in full, so every cookie name counted twice), and a
 # last level keeps the first MAX_COOKIES cookies with `cookies_truncated` = how many were dropped (open-appsec: 4.2% of
 # real browsing requests, ~72 cookies each, fit no budget under contract 1). A model is served with the contract its
-# build used (deploy/package_meta.py: serving.json fit_contract).
-SENSOR_CONTRACT = 2
+# build used (deploy/package_meta.py: serving.json fit_contract). 3 (20 Oct, next build): contract 2 + base64 views of
+# 12-15 character values (add_decoded_views).
+SENSOR_CONTRACT = 3
 MAX_COOKIES = 48
 
 

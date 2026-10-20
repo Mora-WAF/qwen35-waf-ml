@@ -71,9 +71,21 @@ def test_views_evidence_tells_a_build_with_views_from_one_without():
     from deploy.package_meta import views_evidence
     raw = [_http("q=1", jwt=True) for _ in range(50)] + [_http("q=2") for _ in range(50)]
     with_views = [P.add_decoded_views(json.loads(json.dumps(t))) for t in raw]
-    assert views_evidence(with_views) == (True, 100, 0)  # v11-style build: re-applying adds nothing
-    assert views_evidence(raw) == (False, 100, 50)  # v10-style build: every JWT record gains a view
-    assert views_evidence([{"mode": "L4_FLOW", "flow": {}}]) == (False, 0, 0)  # no HTTP records: no evidence, off
+    assert views_evidence(with_views, 3) == (True, 100, 0)  # v11-style build: re-applying adds nothing
+    assert views_evidence(raw, 3) == (False, 100, 50)  # v10-style build: every JWT record gains a view
+    assert views_evidence([{"mode": "L4_FLOW", "flow": {}}], 3) == (False, 0, 0)  # no HTTP records: no evidence, off
+
+
+def test_short_base64_views_are_contract_3_and_detected():
+    from deploy.package_meta import fit_contract, views_evidence
+    tel = {"mode": "L7_HTTP", "http": {"target": "/x", "cookies": [["limit", "YWRtaW4nLS0="], ["_ga", "8JQ5zd8O"]],
+                                       "query": [["q", "MScgQU5EIDE9Mg=="], ["sid", "a92b069cab0f"]]}}
+    v2 = P.add_decoded_views(json.loads(json.dumps(tel)), 2)
+    assert not v2["http"].get("decoded_views")  # contract 2 (v12 build): 16 characters minimum
+    v3 = P.add_decoded_views(json.loads(json.dumps(tel)), 3)
+    assert {(v["field"], v["value"]) for v in v3["http"]["decoded_views"]} == {("cookie.limit", "admin'--"), ("query.q", "1' AND 1=2")}
+    assert fit_contract([v3]) == 3 and fit_contract([v2]) == 1
+    assert views_evidence([v2], 2) == (True, 1, 0) and views_evidence([v2], 3) == (False, 1, 1)  # a v12 package keeps its views
 
 
 def test_selfcheck_picks_modes_first_then_the_hardest():
