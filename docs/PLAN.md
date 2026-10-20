@@ -184,6 +184,35 @@ Deployment and pipeline:
   7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
   the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
 
+### 20 October ~22:30 — WAF system built (`../waf-system/`), Gemma benchmarked on an L4 and moved to a second tier
+
+- **Built** from `docs/WAF_SYSTEM_PLAN.md` in `waf-system/` (Go 1.26 through docker, Python 3.12): sensor (`combiner`,
+  `prefilter`, `catalog`, `engine` = Coraza 3.8.1 + CRS 4.25.2, `pipeline`, `extproc`, Valkey publisher and decision
+  reader), async worker + `VllmScorer` + `GemmaScorer` + `FakeScorer`, Zeek flow featurizer, redaction + review sampler,
+  benchmark harness, Envoy 1.40 compose stack. Tests: Go (all packages) and 26 Python tests pass.
+- **Through real Envoy** (shadow, then enforcing): CRS blocks SQLi/XSS/LFI/RCE with 403, benign passes, the sensor's
+  fail-open routes answer 200 with the sensor down; second-tier loop (attacks -> stream -> worker -> corroborated
+  challenge -> clean requests from that client get 429) works with the fake scorer.
+- **CRS regression** (`reports/crs_regress.json` in `waf-system/`, PL4, through the engine): 4,575 / 4,804 pass; 224 of
+  the 229 failures are rules on `XML://@*` (Coraza has no XPath). Added the pre-filter trigger `xml_body`.
+- **Plan corrections found by building**: Envoy 1.40 does not keep the raw URI on path normalisation (`:path=/b` for
+  `/a/../b`, no `x-envoy-original-path`); tau is 0.706 for the v13 policy; fail-closed sensor outage returns 504.
+- **Gemma v13 on a Colab L4** (300 `test_unseen` records, `waf-system/reports/bench_L4.json`, `gemma_vllm_L4.json`):
+  HF `GemmaScorer` 1.19 / 1.08 / 1.04 / 1.12 records/s at batch 1 / 4 / 8 / 16 (batch 1: p50 659 ms, p95 1.8 s, p99
+  5.5 s); repo HF text-only 1.60; vLLM 0.30.0 4.38. The worker's `VllmScorer` (windows, policy, decisions end to end) 3.49 / 4.79 / 4.83 records/s at batch 1 / 16 / 64
+  (batch 1: p50 270 ms, p95 441 ms, p99 686 ms), same detection numbers as HF (`waf-system/reports/bench_vllm_L4.json`). Self-check vs TPU scores: 0.0118 (HF), 0.0245 (vLLM); vLLM greedy
+  generation agrees on clear records. Sample quality (HF run): 94.9% of attacks blocked, 0 benign false blocks, 3.3%
+  abstain, 0 over budget. The `GemmaScorer` figure is below the repo scorer's, probably because the adapter path loads the full
+  multimodal model with 205 hooks (not isolated).
+- **Decision (user)**: Gemma runs on vLLM as an asynchronous second tier, never inline. `WAF_SYSTEM_PLAN.md` revised:
+  Revision 20 October block, queue and decision design, Model serving, Decision layer (phases, client decisions, veto
+  and inline class actions parked), capacity (41 calls/s example: 11 L4 on vLLM ~ $6.5k/month EC2; 36 on HF), release
+  gates, risks, Appendix A/B. The three PNG diagrams still show Gemma inline (captioned; not re-rendered).
+- **Not done**: Phase 0 single-token-label retrain (now a cost optimisation), report-a-block endpoint, go-ftw in CI, `dns.log`
+  featurizer, per-client queue caps, CrowdSec adapter, residential-ASN exemption, vLLM 0.32 retest, real-traffic
+  false-decision rate. Completion state of the WAF system: **notebook-level N/A; offline-built, locally tested, not
+  deployment-qualified.**
+
 ### 20 October ~13:00 — v13 data: fixes for the Gemma v12 errors, 5 focus rounds, build gated; Gemma v13 on TPU
 
 - **CIC-2018 benign → slowloris (17 test false blocks)**: the mirror of the CIC-2017 bug. All 187 CIC-2018 benign flows

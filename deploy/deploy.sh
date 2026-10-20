@@ -5,9 +5,9 @@
 #     config/policy_ensemble.yaml: both models on one GPU (~20 GB of weights), so ml.g6e.xlarge (L40S 48 GB) first;
 #     HF_TOKEN, if set here, goes into the container environment (google/gemma-4-E2B-it may need Hub access).
 #   GEMMA_ONLY=1 deploy/deploy.sh [GEMMA_RUN] [BUNDLE_ZIP]   Gemma 4 E2B alone (defaults: reports/gemma_tpu/colab_v13,
-#     colab/colab_bundle_fast.zip, GEMMA_POLICY=config/policy_gemma_v13.yaml) on ml.g4dn.xlarge (T4 16 GB, the cheapest
-#     GPU; ~10 GB bf16 weights), ml.g6.xlarge when g4dn has no capacity; endpoint waf-gemma-v13. If the T4 fails the
-#     self-check in bf16: GEMMA_DTYPE=float16, or INSTANCE=ml.g6.xlarge.
+#     colab/colab_bundle_fast.zip, GEMMA_POLICY=config/policy_gemma_v13.yaml) on ml.g6.xlarge (L4, native bf16),
+#     ml.g4dn.xlarge (T4, cheaper) when g6 has no capacity; endpoint waf-gemma-v13. 20 Oct, T4 bf16: self-check passed
+#     (max prob diff 0.0125) but 3-4.5 s per record (no native bf16; GEMMA_DTYPE=float16 is untested).
 # Creates (if missing) the execution role, a private bucket, then model -> endpoint config -> endpoint, and waits.
 # The endpoint bills per hour while it exists: deploy/teardown.sh deletes it.
 # Code, taxonomy and schemas come from the bundle the run trained on; policy and calibration from the run dir.
@@ -15,7 +15,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 if [ -n "${GEMMA_ONLY:-}" ]; then
   RUN=${1:-reports/gemma_tpu/colab_v13} BUNDLE=${2:-colab/colab_bundle_fast.zip}
-  NAME=${WAF_ENDPOINT:-waf-gemma-v13} INSTANCE=${INSTANCE:-ml.g4dn.xlarge} FALLBACK=ml.g6.xlarge
+  NAME=${WAF_ENDPOINT:-waf-gemma-v13} INSTANCE=${INSTANCE:-ml.g6.xlarge} FALLBACK=ml.g4dn.xlarge
 else
   RUN=${1:-reports/colab_a100v10} BUNDLE=${2:-colab/colab_bundle_fast_v10.zip}
   NAME=${WAF_ENDPOINT:-qwen35-waf-v10} INSTANCE=${INSTANCE:-$([ -n "${ENSEMBLE:-}" ] && echo ml.g6e.xlarge || echo ml.g6.xlarge)} FALLBACK=ml.g5.xlarge
@@ -137,4 +137,15 @@ for INSTANCE in ${INSTANCES:-$INSTANCE $FALLBACK}; do
   echo "$REASON" | grep -q InsufficientInstanceCapacity || { say "FAILED: logs in CloudWatch /aws/sagemaker/Endpoints/$NAME"; exit 1; }
 done
 [ "$STATUS" = InService ] && [ "$NOW" = "$CFG" ] || { say "FAILED: no capacity on ${INSTANCES:-$INSTANCE $FALLBACK}"; exit 1; }
-say "InService: WAF_ENDPOINT=$NAME .venv/bin/python deploy/client.py datasets_ready/fast_test.jsonl --limit 20"
+# InService only means /ping answers: the model loads and self-checks after it (20 Oct: a failed self-check left an
+# InService endpoint whose every call timed out). Success = one self-check record gets a verdict.
+.venv/bin/python -c "import json, sys; print(json.dumps({'records': [json.loads(open(sys.argv[1]).readline())['telemetry']]}))" \
+  "$(ls "$PKG"/gemma/selfcheck.jsonl "$PKG"/code/selfcheck.jsonl 2>/dev/null | head -1)" > "$PKG/req.json"
+say "waiting for the model to load and answer (self-check runs first)"
+for _ in $(seq 30); do
+  aws sagemaker-runtime invoke-endpoint --region $REGION --endpoint-name $NAME --content-type application/json \
+    --body "fileb://$PKG/req.json" "$PKG/resp.json" >/dev/null 2>&1 && grep -q '"verdict"' "$PKG/resp.json" && break
+  sleep 30
+done
+grep -qs '"verdict"' "$PKG/resp.json" || { say "FAILED: InService but no answer: logs in CloudWatch /aws/sagemaker/Endpoints/$NAME"; exit 1; }
+say "InService and answering: WAF_ENDPOINT=$NAME .venv/bin/python deploy/client.py datasets_ready/fast_test.jsonl --limit 20"

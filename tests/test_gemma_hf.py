@@ -184,3 +184,22 @@ def test_gemma_only_endpoint_predict_isolates_malformed_records():
     res = INF.predict_fn(INF.input_fn(json.dumps({"records": [tels[0], "not telemetry", tels[1]]})), st)["results"]
     assert res[1]["decision"] is None and res[1]["error"]
     assert all(r["decision"] is not None and "probs" not in r and "id" not in r for r in (res[0], res[2]))
+
+
+def test_merged_text_only_model_equals_hooked_multimodal(tmp_path):
+    """training.gemma_tpu.merge: LoRA merged into a Gemma4ForConditionalGeneration, saved as a text-only
+    Gemma4ForCausalLM and reloaded, gives the hooked model's logits (towers dropped, tied head kept)."""
+    from transformers import Gemma4Config, Gemma4ForCausalLM, Gemma4ForConditionalGeneration
+    from training.gemma_tpu import merge as MG
+    cfg = Gemma4Config(text_config=_tiny().config.to_dict(), vision_config=None, audio_config=None)
+    torch.manual_seed(0)
+    cg = Gemma4ForConditionalGeneration(cfg).float().eval()
+    factors = HS.lora_factors(_tpu_layout_adapter(_tiny(), tmp_path / "lora.npz"))  # same text shapes
+    hooked = copy.deepcopy(cg)
+    HS.attach(hooked, factors)
+    assert MG.merge(cg, factors) == len(factors)
+    MG.text_only(cg).save_pretrained(tmp_path / "out")
+    lm = Gemma4ForCausalLM.from_pretrained(tmp_path / "out", dtype=torch.float32).eval()
+    ids = torch.randint(1, 300, (2, 11))
+    assert torch.allclose(lm(input_ids=ids).logits, hooked(input_ids=ids).logits, atol=1e-4)
+    assert not any("tower" in k or "embed_vision" in k or "embed_audio" in k for k in lm.state_dict())

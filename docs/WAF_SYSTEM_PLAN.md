@@ -1,21 +1,47 @@
 # Gemma WAF System Plan
 
-Proposal, 19 October 2026, revised after review the same day. The diagrams in `assets/waf-system/` are renders of the editable originals.
+Proposal, 19 October 2026, revised after review the same day, and again on 20 October 2026 (Gemma moved to a second tier; see Revision 20 October). The diagrams in `assets/waf-system/` are renders of the editable originals and still show the 19 October design with Gemma inline.
+
+## Revision 20 October 2026: Gemma is a second tier
+
+**Decision.** The trained Gemma 4 E2B model runs on vLLM as an asynchronous second tier. Nothing on the request path waits for it. The first build of this plan (`waf-system/`, same repository tree) measured it on a Colab L4 (300 `test_unseen` records):
+
+| Path | Records/s | Latency |
+| --- | --- | --- |
+| Hugging Face transformers, adapter hooked in (`GemmaScorer`), batch 1 / 4 / 8 / 16 | 1.19 / 1.08 / 1.04 / 1.12 | batch 1: p50 659 ms, p95 1.8 s, p99 5.5 s |
+| Hugging Face, text-only `Gemma4ForCausalLM` (repo scorer) | 1.60 | n/a |
+| vLLM 0.30.0, merged model, same two-pass method (repo script) | 4.38 | n/a |
+| vLLM 0.30.0 through the worker's `VllmScorer`, batch 1 / 16 / 64 records | 3.49 / 4.79 / 4.83 | batch 1: p50 270 ms, p95 441 ms, p99 686 ms |
+
+Parity holds on both paths (maximum probability difference to the TPU scores 0.0118 on HF and 0.0245 on vLLM; limit 0.05). On vLLM a single record takes 270 ms at the median and 686 ms at p99, and throughput saturates near 4.8 records/s because each record needs many small scoring requests. The p99 target of 200 ms for an inline model is out of reach with multi-token labels; whether single-token labels bring it within reach is a Phase 0 measurement. At 4.4 to 4.8 records/s a GPU cannot carry the planning inline share. Detection quality is identical on both runtimes (94.9% of attacks blocked, no false blocks, 3.3% abstain on the sample).
+
+**What changed in this plan**
+
+- The sensor queues gray-band requests, pre-filter hits, every CRS block and a random sample on the capped Valkey Stream. A worker scores them in batches and writes verdicts. BLOCK verdicts on the 15 block classes become evidence against the client. Three within ten minutes challenge the client for an hour; ten ban it for four hours (`config/decisions.yaml`). The sensor enforces these decisions on later requests. A single verdict never acts on an IP.
+- The model can no longer stop a first request. CRS, its tuning and virtual patches carry that job.
+- Parked, because they need a model fast enough for the request path: Phase 3 per-request class blocking, the Phase 4 veto, and the 250 ms inline deadline. The code keeps them behind `WAF_MODEL_INLINE`, off by default.
+- Single-token labels are an optimisation of the async tier's cost, no longer a gate to inline use.
+- The model-required route flag now means "queue every request of this route".
+
+**Findings from the build that correct this plan** (`waf-system/docs/FINDINGS.md`): Envoy 1.40 does not keep the raw request URI when it normalises the path; Coraza cannot inspect XML attributes (224 of 229 CRS regression failures); the policy threshold is 0.706, not 0.877; a sensor outage on a fail-closed route returns 504, not 503. Each is repeated where it applies below.
+
+**Built and tested by 20 October** (all with the fake scorer unless stated): combiner truth table, pre-filter, route catalog and its CI check, Coraza + CRS 4.25.2 engine (4,575 of 4,804 CRS regression tests pass at paranoia level 4), ext_proc server, the second-tier loop through real Envoy (attacks queued, scored, corroborated into a challenge that is then enforced), flow featurizer, redaction and review sampler, benchmark harness. Gemma v13 on vLLM and on HF was run on an L4. Not built: report-a-block endpoint, go-ftw in CI, `dns.log` featurizer, per-client queue caps, CrowdSec adapter, residential-ASN exemption.
 
 ## Summary
 
-OWASP CRS 4 on the Coraza engine checks every request inline. It is embedded in our own sensor behind an Envoy proxy. The fine-tuned Gemma 4 E2B classifier is a second opinion. Inline, it sees three kinds of request:
+OWASP CRS 4 on the Coraza engine checks every request inline. It is embedded in our own sensor behind an Envoy proxy. The fine-tuned Gemma 4 E2B classifier is a second tier on vLLM, never on the request path. The sensor queues, on a capped Valkey Stream:
 
 - requests CRS scores in the gray band;
-- requests a cheap deterministic pre-filter marks as suspect;
-- every request on routes the catalog marks model-required.
+- requests a cheap deterministic pre-filter marks as suspect (including every XML body);
+- every request CRS would block, and every request of a route the catalog marks model-required;
+- a random 0.1% sample of the rest.
 
-Out of band, it scores sampled traffic and network flows. Requests CRS would block are scored only out of band until Phase 4, when the model may overrule CRS. Before that, its answer could not change the action.
+Network flows join the same queue. A worker scores in batches and writes verdicts for review and dashboards. Corroborated BLOCK verdicts become per-client decisions (challenge, then ban) that the sensor enforces. The model cannot allow a request CRS blocked or lower a CRS score.
 
 Every layer is a maintained open-source project. We write four pieces; the full list with owners is in Components and owners:
 
-1. **waf-sensor** (Go): Coraza + CRS, the CrowdSec ban check, request capture, the pre-filter, and the decision combiner, a library inside it.
-2. **waf-model** (Python): the repo's scorer (`training/gemma_tpu/hf_scorer.py` plus `eval.policy.decide_from_probs`) behind gRPC, in an inline and an async pool.
+1. **waf-sensor** (Go): Coraza + CRS, the client-decision check (Valkey today, CrowdSec later), request capture, the pre-filter, the queue publisher and the decision combiner, a library inside it.
+2. **waf-model** (Python): the async worker (Valkey Stream in; verdicts and per-client decisions out) with a vLLM scorer that follows the repo's scoring method (`training/gemma_tpu/hf_scorer.py`, `colab/gemma_vllm.py`) and `eval.policy.decide_from_probs`. An inline gRPC `Score` service exists and is off.
 3. **Flow featurizer**: maps Zeek, Suricata or NetFlow records onto the model's flow features (`config/features.yaml`).
 4. **Feedback tooling**: redaction, review sampling into Label Studio, and the "report a wrong block" endpoint.
 
@@ -23,15 +49,15 @@ Every layer is a maintained open-source project. We write four pieces; the full 
 
 - **Fewer false blocks than CRS.** The repo's approximate CRS cross-check (regex rules only, 143 compiled) saw at least one rule fire on 49% of developer hard negatives and 12% of benign records. Those records are synthetic and built to resemble attacks, and "a rule fired" is not an anomaly-score block. Phase 0 measures real Coraza + CRS 4.25 at paranoia levels 1 and 2 on the same records and on real legitimate traffic.
 - **Detection CRS lacks.** On held-out synthetic data Gemma blocks 98.3% of attacks and wrongly blocks 0.10% of benign records (`reports/gemma_tpu/REPORT.md`). The comparison with CRS is fair only once both run on the same records.
-- **What it will not do inline.** It does not catch, inline, a request CRS misses that none of the three triggers selects. Those requests are found out of band, minutes later. A one-shot exploit both miss is the job of virtual patches (Operations).
+- **What it will not do.** It never stops a first request: it answers seconds to minutes later, and a client is acted on only after corroboration. A one-shot exploit CRS misses is the job of virtual patches (Operations).
 
 **Gemma is not ready to enforce yet**
 
 - It lets real CIC-IDS2017 port scans (0 of 500) and SSH/FTP brute force (0 of 470) through. That split bug is fixed, and `http_flood_app_dos` (CIC-2017 `DoS Hulk`, `DoS GoldenEye` and web-port `DDoS` at `conn_count_60s ≥ 200`, plus `proxy_nat_fanin` and `crawler_burst` benign lookalikes) is built and gated in the 42-class v12 dataset (`53,794` records), but not trained yet.
 - **Training and serving decode and parse requests differently.** Training data carries URL (depth 1–2), HTML-entity, form, JSON-unicode and chunked decoded views, and URL-decodes `http.query` and `http.cookies` values once (`data_pipeline/generate.py`); the serving path (`training.prepare.add_decoded_views`) produces only JWT and Base64 views, drops duplicate JSON keys (`json.loads` without `object_pairs_hook`), and needs HTTP/2 multi-`cookie` header joining.
-- **Unmeasured on real hardware and traffic.** Its GPU latency, its false-block rate on real traffic and its share of over-budget requests are unknown. The Qwen models put 4.2 to 5.6% of real browsing requests over budget under sensor contract 1.
+- **Too slow for the request path, unmeasured on real traffic.** On an L4 it scores 1.19 records/s on Hugging Face (batch 1: p50 659 ms, p99 5.5 s) and 4.38 on vLLM 0.30. Its false-decision rate on real traffic and its share of over-budget requests are still unknown. The Qwen models put 4.2 to 5.6% of real browsing requests over budget under sensor contract 1.
 
-Phase 0 (8 weeks) fixes these. It retrains once, with single-token pretrained vocabulary labels, before the model touches any decision.
+Phase 0 (8 weeks) fixes these. It retrains once, with single-token pretrained vocabulary labels: now a cost optimisation of the async tier (far fewer scoring requests per record), not a gate to inline use. No model decision is enforced before Phase 3.
 
 ## Goals, non-goals and service levels
 
@@ -39,8 +65,8 @@ The system must block web attacks with fewer false blocks than CRS alone. A WAF 
 
 **Goals**
 
-- Detect all 38 attack classes of the taxonomy (`config/taxonomy.yaml`; 37 in the current 1-epoch checkpoint, plus `http_flood_app_dos` in the gated 42-class v12 build): 13 L7 injection, 11 API/protocol, 4 AI/modern and 10 network-flow classes. Enforce on the 15 L7/API/AI classes that need no dynamic context once each passes its gate (Appendix A).
-- Cut CRS false positives on developer content, search text and many-cookie browsing traffic. Let the model overrule CRS only where it saw everything CRS matched.
+- Detect all 38 attack classes of the taxonomy (`config/taxonomy.yaml`; 37 in the current 1-epoch checkpoint, plus `http_flood_app_dos` in the gated 42-class v12 build): 13 L7 injection, 11 API/protocol, 4 AI/modern and 10 network-flow classes. Act on the 15 L7/API/AI classes that need no dynamic context once each passes its gate, as corroborated per-client decisions (Appendix A).
+- Cut CRS false positives on developer content, search text and many-cookie browsing traffic through tuning and exclusions, using the model's disagreements as the review queue. Overruling CRS inline (the veto) is parked: it needs a model fast enough for the request path.
 - Keep every verdict explainable: a fixed reason code, the CRS rule IDs, the model's class and calibrated confidence, and the model version. The model never writes free text into a decision.
 - Close the loop: reviewed false positives and misses flow back into the repo's data pipeline, the next training run and gated promotion.
 
@@ -49,6 +75,7 @@ The system must block web attacks with fewer false blocks than CRS alone. A WAF 
 - **Volumetric DDoS at L3/L4.** SYN floods and UDP amplification stay with the upstream provider or CDN. The model's flow classes only raise alerts for them, because their source addresses are spoofed or belong to reflectors.
 - **Authorization decisions.** BOLA stays with the application, which alone knows object ownership. BFLA belongs to the gateway's RBAC on verified roles, and mass assignment to schema validation. The model flags these classes; it does not enforce them.
 - **Response inspection by the model.** It reads requests and flows only. CRS outbound rules stay available but off at launch.
+- **Per-request blocking by the model.** It answers after the request has been served. Its output is evidence against a client, never a verdict on one request.
 - **Rules or text written by the model.** It ranks 42 fixed labels (38 attack + 4 benign; 41 in the current checkpoint); it never generates.
 - **Full bot management.** The challenge action is a proof-of-work page, not device fingerprinting.
 - **Production use of the Qwen3.5 v11 model.** It stays an offline comparison and an optional ensemble member.
@@ -58,14 +85,14 @@ The system must block web attacks with fewer false blocks than CRS alone. A WAF 
 | Measure | Target | Evidence today |
 | --- | --- | --- |
 | Added latency, rules layer (Envoy + Coraza + CRS) | p99 ≤ 10 ms; sensor CPU sized from Phase 0 load tests | Not measured for our stack. CrowdSec's out-of-process, Coraza-based CRS added +33 ms mean and +58 ms p90 per GET at 400 concurrent users, so this target needs proof |
-| Added latency, inline model path | p99 ≤ 200 ms; hard deadline 250 ms, then the rules-only verdict | Gemma not measured on a GPU. Qwen v10 on its SageMaker endpoint (A10G): 0.21 s median, 0.33 s p90 |
-| Share of requests the model sees inline | Set from Phase 1 shadow data. Planning figure: 5% of traffic, plus all traffic of model-required routes | Unknown. The 12% CRS fire rate above comes from synthetic records |
-| False blocks on real legitimate traffic (enforced classes) | ≤ 0.1% of requests | v10: 0.57% of open-appsec's 10,380 legitimate requests. Gemma: not measured |
+| Time from request to async verdict | p95 ≤ 60 s; alert at 5 minutes | Not measured under load. One L4 scores 4.38 records/s on vLLM. No model latency on the request path |
+| Share of requests queued for the model | Set from Phase 1 shadow data. Planning figure: 2% of traffic after per-client caps, plus a 0.1% sample | Unknown. The 12% CRS fire rate above comes from synthetic records |
+| Wrong actions on real legitimate traffic (CRS blocks and client decisions) | ≤ 0.1% of requests blocked; no legitimate client banned; reviewed challenges counted per class | v10: 0.57% of open-appsec's 10,380 legitimate requests. Gemma: not measured |
 | False blocks, benign held-out set | ≤ 0.2% | Gemma: 0.10% (test_unseen, attack-mass rule) |
 | Attack recall on held-out families and sources | ≥ 98% | Gemma: 98.3%; Qwen v11 + Gemma ensemble: 99.0% |
-| Requests too long for the model | ≤ 1% | Qwen v10/v11, contract 1: 4.2 to 5.6%. Gemma: not measured. Contract 2 is built in the 42-class v12 dataset (476 cookie-truncated records), not yet trained |
+| Requests too long for the model | ≤ 1% | Qwen v10/v11, contract 1: 4.2 to 5.6%. Gemma v13: 0 of 300 on `test_unseen` (L4 run). Contract 2 is built in the 42-class v12 dataset (476 cookie-truncated records) |
 | Data-plane availability | 99.95% monthly | The sensor runs with at least 3 replicas per zone, because fail-closed routes depend on it (Failure behaviour) |
-| Model-path availability | 99.5% monthly; an outage only removes the second opinion | n/a |
+| Async tier availability | 99.5% monthly; an outage stops new verdicts and decisions and leaves inline inspection untouched | n/a |
 
 All failure behaviour is collected in one table, in the Failure behaviour section.
 
@@ -73,7 +100,7 @@ All failure behaviour is collected in one table, in the Failure behaviour sectio
 
 ![Architecture: inline, out-of-band and learning planes](assets/waf-system/architecture.png)
 
-A request crosses only the top band. Gemma is called inline for gray-band requests, pre-filter hits and model-required routes; a timeout leaves the rules-only verdict. Everything below the top band runs off the request path.
+A request crosses only the top band. *The picture shows the 19 October design with Gemma inline; since 20 October the model box is the asynchronous second tier fed by the queue, and it answers only through verdict streams and per-client decisions.* Everything below the top band runs off the request path.
 
 ## Building blocks
 
@@ -85,9 +112,9 @@ Every layer is a maintained open-source project with a permissive or well-unders
 | Rule engine | [OWASP Coraza](https://github.com/corazawaf/coraza), embedded in waf-sensor | Apache-2.0 | Go library compatible with CRS v4. No Wasm overhead |
 | Rules | [OWASP CRS](https://github.com/coreruleset/coreruleset), LTS line | Apache-2.0 | Anomaly scoring, paranoia levels, exclusion plugins. Security fixes until Q3 2027 |
 | Classifier | Gemma 4 E2B-it + our LoRA | Apache-2.0 | Trained and evaluated in this repo |
-| Model runtime | [Transformers](https://github.com/huggingface/transformers) (`Gemma4ForCausalLM` + `torch.compile` + cached system-prompt `DynamicCache`) | Apache-2.0 | Single-token scoring is 100% prefill. Caching the static 140-token system prefix in `hf_scorer.py` (~20 lines of PyTorch) gives prefix caching with exact training parity, without vLLM's probability drift |
+| Model runtime | [vLLM](https://github.com/vllm-project/vllm) 0.30 on the merged text-only model (`hamedgls/waf-gemma4-e2b-v13`), prefix caching, single-token requests restricted to the target token | Apache-2.0 | 4.38 records/s on an L4 against 1.19 to 1.60 for Hugging Face transformers (20 Oct). Self-check difference to the TPU scores 0.0245 (limit 0.05). Transformers with the adapter hooked in stays as the reference and parity path |
 | GPU platform | Kubernetes with the [NVIDIA GPU Operator](https://github.com/NVIDIA/gpu-operator), [KEDA](https://github.com/kedacore/keda), [Karpenter](https://github.com/kubernetes-sigs/karpenter) | Apache-2.0 | One operator installs driver, device plugin and DCGM. KEDA (CNCF graduated) scales on queue depth |
-| IP reputation | [CrowdSec](https://github.com/crowdsecurity/crowdsec) local API + community blocklist | MIT | Shared blocklist and time-limited decisions our async scorer can write |
+| IP reputation and client decisions | [CrowdSec](https://github.com/crowdsecurity/crowdsec) local API + community blocklist (later); today Valkey keys `waf:decision:<client>` with a TTL | MIT; BSD-3-Clause | Shared blocklist, and time-limited decisions the async worker writes. The sensor reads them through one interface, so the store can change |
 | Rate limiting and async queue | [envoyproxy/ratelimit](https://github.com/envoyproxy/ratelimit) + [Valkey](https://github.com/valkey-io/valkey) (counters + Valkey Streams) | Apache-2.0; BSD-3-Clause | One Valkey cluster backs global per-IP rate limits, `client_requests_60s` counters and the `waf.telemetry.restricted` stream (`XADD`/`XREADGROUP`) for the async scorer. Kafka is deferred until >10k req/s |
 | Challenge page | [Anubis](https://github.com/TecharoHQ/anubis) | MIT | Mature proof-of-work proxy |
 | Network sensors | [Zeek](https://github.com/zeek/zeek) on taps; [GoFlow2](https://github.com/netsampler/goflow2) only where taps cannot exist | BSD-3 | One primary tap sensor matching CIC-IDS2017 payload byte semantics. Suricata is optional (only if the SOC already runs it) |
@@ -104,8 +131,8 @@ Every running piece has one owning role. Names replace the roles once they are a
 | Component | What it does | Built or run | Owner |
 | --- | --- | --- | --- |
 | Envoy, Envoy Gateway | Edge proxy, TLS, rate limits, `jwt_authn`, ext_proc | Run | Platform team |
-| waf-sensor | Coraza + CRS, ban check, capture, pre-filter, decision combiner (a library inside it) | Build, Go | Security engineering |
-| waf-model, inline and async pools | Gemma scoring and policy. The async pool reads Valkey Streams and writes IP decisions to CrowdSec, the only writer allowed | Build, Python | ML team |
+| waf-sensor | Coraza + CRS, client-decision check, capture, pre-filter, queue publisher, decision combiner (a library inside it) | Build, Go | Security engineering |
+| waf-model async worker | vLLM scoring and policy. Reads the Valkey Stream, writes verdicts and corroborated per-client decisions; the only writer of decisions | Build, Python | ML team |
 | Flow featurizer | Zeek (and router NetFlow where untapped) records to flow telemetry | Build, Python | ML team with network operations |
 | Route catalog and its CI check | `x-waf-*` route metadata, schema-checked on every change | Build | Each application team; schema by security engineering |
 | Redaction library | Strips secrets before every store except the review store | Build | Security engineering |
@@ -121,27 +148,30 @@ Every running piece has one owning role. Names replace the roles once they are a
 
 ![Inline request path: 5 steps, 1 decision](assets/waf-system/request-path.png)
 
-**When the model is needed inline**, highest priority first:
+**What goes to the model queue** (nothing waits for the answer), highest priority first:
 
-1. **A model-required route**, as the catalog marks it.
+1. **A model-required route**, as the catalog marks it: every request of the route is queued.
 2. **A pre-filter hit**, even at CRS score 0. These are cheap, deterministic triggers, and their share of traffic is measured in shadow:
    - a decoded view was produced (Base64, JWT, double URL-encoding)
    - a serialized-object or XML DOCTYPE marker
+   - an XML body: Coraza has no XPath, so CRS rules aimed at XML attributes never fire (224 of the 229 failures in the CRS regression suite at paranoia level 4)
    - a GraphQL body
    - a body on an admin route
 3. **The gray band**: some rules fired, below the CRS threshold.
+4. **Every CRS block**, to find the clients behind it and to review CRS false positives.
+5. **A random 0.1% sample** of everything else (the baseline for missed attacks and drift).
 
-Requests at or above the CRS threshold go only to async scoring until Phase 4: before vetoes exist, the model's answer cannot change a CRS block. Under load, the lowest priority is shed first. Per-client caps on model calls and body windows stop one client from filling the queue.
+Publishing never blocks a request: the stream is capped (`MAXLEN`), the publish buffer drops when full, and every drop is counted. Per-client caps on queued requests and body windows (so one client cannot fill the queue) and shedding lowest priority first are specified but not built. The timeout action of a model-required route (`timeout_action`) applies only if an inline model is enabled.
 
 **Envoy settings** (Envoy 1.40 through Envoy Gateway 1.9; one `EnvoyExtensionPolicy` with `extProc` per route class):
 
 - **Co-location.** `waf-sensor` runs as a sidecar in the Envoy pod over a Unix domain socket (`unix:///var/run/waf/sensor.sock`), avoiding loopback TCP/mTLS overhead and saving 1–3 ms at p99 on every request (HTTP/2 with mTLS applies when deployed as a separate service).
 - **Filter chain order.** `original_ip_detection` → `local_ratelimit` → `ratelimit` (Valkey) → `decompressor` (with a max inflation-ratio cap, or `415` on routes that do not accept request `Content-Encoding`, so compressed bodies cannot slip past Coraza and Gemma to be decompressed by the application) → `jwt_authn` (`allow_missing_or_failed: true`, writing verified claims and failure reason to `dynamic_metadata`) → `ext_proc` (`waf-sensor`) → `router`.
-- **Path normalisation.** Envoy normalises `:path` (`normalize_path: true`, `merge_slashes: true`, `path_with_escaped_slashes_action: REJECT_REQUEST`) before route matching so `/public/../admin` cannot select the `/public` route policy, while saving the raw wire URI in `x-envoy-original-path` for `waf-sensor` (`http.target`).
+- **Path normalisation.** Envoy normalises `:path` (`normalize_path: true`, `merge_slashes: true`, `path_with_escaped_slashes_action: REJECT_REQUEST`) before route matching, so `/public/../admin` cannot select the `/public` route policy. Envoy 1.40 does **not** keep the raw URI (tested 20 October: `GET /a/../b` reaches ext_proc as `:path=/b` with no `x-envoy-original-path`). The sensor, CRS and the model see the normalised path, as does the upstream; query strings stay raw. Training targets that carry raw `../` are a known distribution shift, to settle before the retrain: accept it, or normalise the training targets.
 - **Request body.** Request headers `SEND`; request body `BUFFERED`, with the route's accepted body limit as the buffer limit. A larger body is rejected with 413, so no byte reaches the application uninspected.
 - **Upload routes are the one exception.** They use `BUFFERED_PARTIAL`: the first 64 KiB is inspected, and file parts must have an allowed content type. The catalog names the uninspected remainder as an accepted risk, route by route.
-- **`message_timeout`: 300 ms.** The default of 200 ms is below the model deadline plus CRS time. waf-sensor enforces the 250 ms model deadline itself and always answers in time.
-- **Fail closed by default.** Only routes on the catalog's fail-open list (public GET/HEAD, static assets, health checks) fail open. Every fail-open pass is counted and alerted (Failure behaviour).
+- **`message_timeout`: 300 ms.** The sensor answers after CRS alone (1 to 5 ms in local tests); 300 ms is a ceiling that keeps a stuck sensor from holding requests. If an inline model is ever enabled, the sensor enforces its own 250 ms model deadline inside this.
+- **Fail closed by default.** Only routes on the catalog's fail-open list (public GET/HEAD, static assets, health checks) fail open, through a per-route `ExtProcPerRoute` override with `failure_mode_allow: true` (tested: static and health routes answer 200 with the sensor down). A sensor outage on a fail-closed route returns 504 in Envoy 1.40, not 503. Every fail-open pass is counted and alerted (Failure behaviour).
 - **Shadow phase.**
   - `observability_mode` (Envoy Gateway `shadowMode`) runs on all traffic and adds no latency, but it supports only a streamed body.
   - A detection-only canary on 5% of traffic therefore runs the real `BUFFERED` settings, so the enforcement path is tested before Phase 2.
@@ -154,7 +184,7 @@ Requests at or above the CRS threshold go only to async scoring until Phase 4: b
   - Challenge: 302 to the Anubis page on browser navigation requests (`GET`/`HEAD` with `Sec-Fetch-Mode: navigate` or `Accept: text/html`); state-changing (`POST`/`PUT`/`PATCH`/`DELETE`) or non-HTML API requests get 429 (or 403) so bodies and API clients are never redirected. `waf-sensor` verifies Anubis's signed clearance cookie (bound to `/24` or `/64`, User-Agent hash and TTL) so solved browsers do not loop; a clearance cookie never overrides a `BLOCK` verdict.
   - Allow: the request continues, and dynamic metadata carries the decision to the access log.
 - **Rate limits.** Local token buckets run before ext_proc, so a flood is cut before it reaches the sensor. Global per-IP buckets use `envoyproxy/ratelimit` with Valkey. Its image is pinned by digest, as it has had no versioned release since v1.4.0.
-- **IP bans.** waf-sensor is the only enforcer of IP decisions. It reads the CrowdSec local API in stream mode and caches the decisions locally. Floods at L3/L4 are the upstream provider's job.
+- **Client decisions.** waf-sensor is the only enforcer. It reads the decisions the async worker wrote: Valkey keys with a TTL today, the CrowdSec local API in stream mode later. A lookup is cached for 1 second per client and has a 20 ms ceiling; on a store error a 5-second circuit breaker answers "no decision", so a store outage adds no latency and never blocks anyone. A ban is checked before any inspection. Floods at L3/L4 are the upstream provider's job.
 
 **CRS settings** (Coraza 3.8.1 in waf-sensor; CRS 4.25 LTS, supported until Q3 2027; CRS 4.30, the newest, runs in staging only):
 
@@ -172,11 +202,11 @@ No failure silently removes inspection from a fail-closed route. The trade-off i
 
 | Component or event | Behaviour | Per-route override | Alert |
 | --- | --- | --- | --- |
-| waf-sensor unreachable, or slower than the 300 ms timeout | Fail-closed routes: 503. Fail-open routes: the request passes uninspected and is counted | The catalog's fail-open list | Fail-open passes above 0.1% of a route's requests for 5 minutes |
+| waf-sensor unreachable, or slower than the 300 ms timeout | Fail-closed routes: 504 (Envoy 1.40). Fail-open routes: the request passes uninspected and is counted | The catalog's fail-open list | Fail-open passes above 0.1% of a route's requests for 5 minutes |
 | waf-sensor CPU saturated | Local rate limits shed first; the sensor's admission cap returns a fast 503 on fail-closed routes | — | CPU above 70% for 10 minutes; the autoscaler adds replicas |
-| waf-model late (250 ms) or down | Rules-only verdict | Model-required routes may choose a challenge instead | Deadline misses above 1% of model calls for 5 minutes |
+| Async worker or GPU pool down, or lagging | Inline inspection is unchanged. No new verdicts or decisions; existing decisions expire by TTL | — | Stream lag above 5 minutes |
 | A model package fails its startup self-check | The pod never becomes ready; the previous version keeps serving | — | Any failure |
-| CrowdSec local API down | The sensor keeps its last decision cache; new bans wait | — | Decision stream older than 5 minutes |
+| Decision store unreachable (Valkey today, CrowdSec later) | The sensor treats it as "no decision" and a circuit breaker skips lookups for 5 seconds; no latency is added | — | Any lookup error |
 | Rate-limit or Valkey service down | Global limits and async Valkey Streams pause; local rate limits still apply; telemetry events buffer in the sensor up to a bound, then drop and are counted | — | Any error or dropped event |
 | ClickHouse or OTel Collector down | Inline traffic is unaffected. OTel Collector queues decision events on disk up to a bound | — | Exporter queue growth or any dropped event |
 | Route catalog change is invalid | CI rejects it; the sensor keeps the last good version | — | Rejected deploy |
@@ -198,7 +228,7 @@ Phase 0 moves every parser and decoder into one module used by the generator, th
 | --- | --- | --- |
 | `schema_version`, `mode` | Sensor | `L7_HTTP`; `HYBRID_CTX` when `context` is attached; `L4_FLOW` on the flow path |
 | `decision_stage`, `observed_until` | Sensor | `request_headers` or `request_headers_body`. `observed_until` is the fixed token `request_received`, as canonicalised in training (`subagents/orchestrator.py`) |
-| `http.method`, `http.target` | Envoy `:method`, `x-envoy-original-path` | Raw wire path and query before Envoy's route normalisation, never decoded or normalised |
+| `http.method`, `http.target` | Envoy `:method`, `:path` | Path as normalised by Envoy (the raw URI is not available), query raw; never decoded further |
 | `http.protocol` | Envoy stream info | Canonical tokens `HTTP/1.1`, `HTTP/2`, `HTTP/3` |
 | `http.headers` | ext_proc header map | Rendered the way training renders them: `Host` first (from `:authority` on HTTP/2), training's name case, duplicates kept, other pseudo-headers left out. Envoy lower-cases names, so the parity test checks this |
 | `http.query`, `http.cookies` | Parsed by waf-model from raw `http.target` and all `Cookie` headers joined with `"; "` | Ordered pairs, duplicates kept, values URL-decoded once (`parse_qsl` / `unquote`), matching `data_pipeline/generate.py` |
@@ -237,112 +267,126 @@ Training contexts were written by generator models, not by a sensor. The client 
 
 ## Model serving
 
-Phase 0 retrains Gemma with one distinct pretrained vocabulary token per class, so a single forward pass scores all 42 classes (38 attack + 4 benign; 41 in the current checkpoint). Unused `<|reserved_*|>` tokens cannot be used because `training/gemma_tpu/train_tunix.py` freezes `model.embedder.input_embedding` (the tied 262,144 × 1,536 embedding/output table), leaving unused reserved tokens with untrained, near-collinear rows. Instead, each class is mapped to a unique single-token word from Gemma's pretrained vocabulary (27 of 41 classes already have a unique first token after `{"threat_type":"` in `reports/gemma_tpu/data/meta.json`; the remaining colliding groups—such as `sqli_*`, `xss_*`/`xxe`, `bopla`/`bfla` and `benign_*`—use a distinct single-token prefix alias and map back to the canonical taxonomy name in `hf_scorer.py`).
-
-Because single-token scoring is 100% prefill (no token-by-token autoregressive decoding), it stays on Hugging Face transformers (`Gemma4ForCausalLM` + `torch.compile`) with a pre-computed `DynamicCache` for the static 140-token system prefix in `hf_scorer.py`. That gives prefix caching in ~20 lines of PyTorch with exact training parity, avoiding vLLM's probability drift (`0.249` max shift on Qwen v10).
+Gemma 4 E2B-it with our LoRA runs as the asynchronous second tier: a worker reads the restricted Valkey Stream in batches, scores on vLLM, and writes verdicts and corroborated per-client decisions. Measured on a Colab L4 on 20 October (300 `test_unseen` records): vLLM 0.30 scores 4.38 records/s, Hugging Face transformers 1.19 to 1.60. The Revision 20 October table has the full numbers. Capacity is planned from the vLLM figure.
 
 **The model.** [Gemma 4 E2B-it](https://raw.githubusercontent.com/huggingface/blog/main/gemma4.md), released 2 April 2026 under Apache-2.0.
 
 - 2.3B effective parameters, 5.1B counting the per-layer embeddings.
 - 35 layers; the last 20 reuse another layer's keys and values.
 - 128K context; we use 2,048 tokens.
-- Our adapter: LoRA rank 16, trained with Tunix on a TPU v5e-1 and stored as `lora.npz` in the qwix layout. Today `training/gemma_tpu/hf_scorer.py` loads `Gemma4ForConditionalGeneration` (including the unused vision and audio towers) and attaches 205 Python `register_forward_hook` closures; `tests/test_gemma_hf.py` proves the hooked model equals the merged weights in `float32` on CPU. In Phase 0, `hf_scorer.load` strips the vision and audio towers (`Gemma4ForCausalLM`, saving ~1.5 GB VRAM) and merges `(W.float() + scale * (B.float() @ A.float())).to(torch.bfloat16)` in `float32` before casting to `bfloat16` (avoiding `bfloat16` mantissa rounding on small LoRA deltas), verified against `selfcheck.jsonl` on the L4.
+- Our adapter: LoRA rank 16, trained with Tunix on a TPU v5e-1 and stored as `lora.npz` in the qwix layout. For vLLM it is merged into the base and exported text-only to the Hub bundle `hamedgls/waf-gemma4-e2b-v13` (`training/gemma_tpu/merge.py`). The bundle is self-contained: weights, the repo code the scorer imports (`waf/`), taxonomy, the frozen Gemma policy, `serving.json` (sensor contract) and the 8-record self-check. The Hugging Face reference path (`training/gemma_tpu/hf_scorer.py`) loads `Gemma4ForConditionalGeneration` with the unused vision and audio towers and attaches 205 Python `register_forward_hook` closures; `tests/test_gemma_hf.py` proves the hooked model equals the merged weights in `float32` on CPU. Merging in `float32` before casting to `bfloat16` avoids rounding of small LoRA deltas.
 
-**How the current adapter scores** (`hf_scorer.class_scores`):
+**How a record is scored** (the same method on both runtimes; vLLM: `colab/gemma_vllm.py`, ported to the worker's `VllmScorer`):
 
-1. **Pass 1** reads the prompt plus the answer prefix all classes share. It gives every class's first-token log-probability.
-2. **Pass 2** completes the multi-token class names, but only for classes within 12 nats of the best. Today it recomputes the whole prompt for each class it keeps.
-3. **The decision.** Summed log-probabilities go through a softmax at T = 1.038391, then the attack-mass rule and `decide_from_probs`.
+1. **Windows.** The sensor contract cuts the record into prompts that fit the token budget (Sensor and telemetry contract); the most attack-like window decides.
+2. **Pass 1** reads the prompt plus the answer prefix all classes share. It gives every class's first-token log-probability. On vLLM each of these is a one-token request restricted to the target token (`allowed_token_ids`, raw log-probs) over a prefix-cached prompt.
+3. **Pass 2** completes the multi-token class names, but only for classes within 12 nats of the best.
+4. **The decision.** Summed log-probabilities go through a softmax at the policy temperature (0.953563 for v13), then the attack-mass rule and `decide_from_probs` with the frozen policy `config/policy_gemma_v13.yaml` (threshold 0.705984).
 
 **Speed path.** Each step must pass the release gates, including full parity, before it serves.
 
-| Step | When | Change | Evidence and condition |
+| Step | Status | Change | Evidence and condition |
 | --- | --- | --- | --- |
-| 1 | Phase 0 | Retrain on the next build with single-token pretrained vocabulary labels; the same build carries the CIC split fix, `http_flood_app_dos`, contract 2 and the unified decoders. Serve on transformers 5.17 (the repo pin), bf16, text-only (`Gemma4ForCausalLM`), LoRA merged in fp32 then cast to bf16 at load, pre-computed static system-prefix `DynamicCache`, `torch.compile`, micro-batches of up to 8 | One pass instead of two, with the 140-token system prefix cached in ~20 lines of PyTorch and zero runtime drift. Recalibrate and rerun every gate |
-| 2 | Optional | FP8 weights and activations (supported on the L4), or Google's QAT W4A16 base | Scores change: recalibrate and rerun every gate |
-| 3 | Optional | vLLM 0.32 single-token scoring | Only if throughput needs it and it passes full parity. On Qwen v10, vLLM's generation path moved probabilities by up to 0.249 and changed 2 of 400 act-or-abstain decisions |
+| 1 | Measured 20 Oct | vLLM 0.30 on the merged model, prefix caching, single-token restricted requests | 4.38 records/s on an L4; self-check difference 0.0245; generation agrees with the scorer on clear records |
+| 2 | Phase 0, optional | Retrain with one distinct pretrained vocabulary token per class (unused `<|reserved_*|>` tokens cannot be used: `train_tunix.py` freezes the tied 262,144 × 1,536 embedding table, leaving them untrained), plus a cached static system prefix | One scoring request per window instead of the many of pass 1 and pass 2. The saving is an estimate until measured; recalibrate and rerun every gate. The 19 October plan counted 40 records/s per L4 for this: a target, not a measurement |
+| 3 | Optional | FP8 weights and activations (supported on the L4), or Google's QAT W4A16 base | Scores change: recalibrate and rerun every gate |
+| 4 | Only if steps 1 to 3 miss the cost target | A distilled encoder tier trained on the 55k records and reviewed production labels | Not started. It could also serve inline, which Gemma cannot |
 
-If single-token labels miss a gate, the fallback is the two-pass adapter with pass 2 reusing pass 1's `DynamicCache` (`reorder_cache` with explicit `position_ids` over the $\le 11$ remaining label tokens, verified exact to `4.77e-7` across Gemma 4's shared-KV layers). On Qwen v10, KV reuse took the scorer from 3.56 to 4.27 records/s on an L4 with all 400 top classes unchanged.
+vLLM 0.32 is the newest release; 0.30 is the one validated here. A retest on 0.32 belongs in Phase 0. On Qwen v10, vLLM's generation path moved probabilities by up to 0.249 and changed 2 of 400 act-or-abstain decisions; the single-token restricted method used here is the one that passed its self-check on Gemma, and the release parity gate decides again for every package.
 
 **Runtimes considered**
 
 | Runtime | Gemma 4 E2B + LoRA | Verdict |
 | --- | --- | --- |
-| Hugging Face transformers 5.17 (`Gemma4ForCausalLM` + `torch.compile` + cached system-prefix `DynamicCache`) | Yes; parity tested on CPU (`tests/test_gemma_hf.py`) | Production choice: exact parity, no second engine |
-| vLLM 0.32 | Yes | Optional benchmark only; PagedAttention buys little for 1-token prefill and drifted on Qwen v10 |
+| vLLM 0.30 (merged model, single-token restricted requests) | Yes; self-check passed on an L4 | Production choice for the async tier: 2.7× the transformers throughput |
+| Hugging Face transformers 5.17 (`Gemma4ForCausalLM` or the adapter hooked in) | Yes; parity tested on CPU (`tests/test_gemma_hf.py`) and on an L4 | Reference and parity path; 1.19 to 1.60 records/s |
 | SGLang 0.5.22 | LoRA off for the text model; the multimodal model assumes one MLP width, which E2B's double-wide shared layers may break | Not now |
 | Hugging Face TGI | Archived on 21 March 2026 | Avoid |
 | llama.cpp, OpenVINO, ONNX Runtime GenAI | E2B supported; the llama.cpp server returns no prompt log-probabilities | CPU fallback after single-token labels |
 
 **Deployment.**
 
-- **Two pools**: inline, and async with batches of 16 to 32 fed from Valkey Streams (`XREADGROUP`). An async backlog never delays an inline call.
-- **One pod per NVIDIA L4** (`g6.xlarge`: 24 GB GPU, 4 vCPU, 16 GiB).
-- **Kubernetes stack**: the NVIDIA GPU Operator, Karpenter for GPU nodes, and KEDA scaling on Valkey Stream lag / queue depth.
-- **Inline floor**: 4 replicas, two per zone in two zones.
+- **One async pool**, one pod per NVIDIA L4 (`g6.xlarge`: 24 GB GPU, 4 vCPU, 16 GiB). Batches of 16 to 32 from Valkey Streams (`XREADGROUP`); an entry a crashed worker left unprocessed is reclaimed after 60 seconds.
+- **Kubernetes stack**: the NVIDIA GPU Operator, Karpenter for GPU nodes, and KEDA scaling on Valkey Stream lag.
+- **Floor**: 2 replicas, one per zone. The pool may lag up to the 5-minute alert and may run on spot instances.
 - **No T4s**: they have no bf16, and Gemma 4 in fp16 is untested.
 
 **Package, parity and startup.**
 
-- **Package contents**: `lora.npz`, the frozen policy, `serving.json` (sensor contract, decoded views), the tokenizer fingerprint and the self-check records. `deploy/package_meta.py` builds this for Qwen; Gemma needs its own variant.
+- **Package contents**: the merged weights, the frozen policy, `serving.json` (sensor contract, decoded views), the tokenizer fingerprint and the self-check records. The Hub bundle above has them; `deploy/package_meta.py` builds the Qwen variant.
 - **Signing**: the package is signed with cosign and verified at load.
 - **Base weights**: a pinned revision mirrored to an internal bucket. No Hub access at runtime.
 - **Release parity gate**: scores on all of test and test_unseen (10,288 records in the 42-class build; 10,257 in v11), with the same decision on at least 99.9% of records. Any flip must sit within 0.05 of τ.
 - **Startup smoke test**: the 8-record self-check (same top class, probability shift under 0.05) runs at every start. The pod is ready only if it passes.
 
-**API.** gRPC `Score(telemetry, route_mode, deadline_ms)` returns the decision, the 42 probabilities (41 in the current checkpoint) and the time per stage. Health, readiness and Prometheus metrics sit on a side port.
+**Interfaces.**
+
+- **Queue**: the sensor writes to `waf.telemetry.restricted` one entry per request: `id`, `client` (the IP, IPv6 grouped by /64), `route`, `trigger`, `crs_score`, `crs_rules` and the raw `telemetry` JSON. The worker normalises it (query and cookie parsing, Host first) and scores.
+- **Outputs**: `waf.verdicts` (every scored item), `waf:evidence:<client>` (sorted set of request IDs, one window long), `waf:decision:<client>` (the action, with a TTL) and `waf.decisions.audit`.
+- **Inline gRPC** `Score(telemetry, pool, deadline_ms)` returns the decision, the class probabilities and the time per stage. It exists for a future inline-capable model and is off (`WAF_MODEL_INLINE`).
+- Health, readiness and Prometheus metrics sit on a side port (not built).
 
 **SageMaker today.**
 
-- **What exists.** `deploy/deploy.sh` deploys Qwen v11, or Qwen v11 and Gemma together (`ENSEMBLE=1`, `ml.g6e.xlarge` at $2.6054/h). The ensemble package has never been deployed.
-- **What is missing.** There is no Gemma-only package; writing one is Phase 0 work. A Gemma-only endpoint on `ml.g6.xlarge` would cost $1.1267/h, against $0.8048/h for EC2 `g6.xlarge`.
-- **Why it still matters.** The AWS account has no EC2 GPU quota, so SageMaker is the bridge until it does.
+- **What exists.** `deploy/deploy.sh` deploys Qwen v11, or Qwen v11 and Gemma together (`ENSEMBLE=1`, `ml.g6e.xlarge` at $2.6054/h), or Gemma alone (`GEMMA_ONLY=1`, `ml.g6.xlarge`, hosted on transformers, not vLLM). The ensemble package has never been deployed.
+- **Why it still matters.** The AWS account has no EC2 GPU quota, so SageMaker is the bridge until it does. A Gemma-only endpoint on `ml.g6.xlarge` costs $1.1267/h, against $0.8048/h for EC2 `g6.xlarge`. A vLLM worker on SageMaker is not built.
 
 **Qwen as a second member** raises held-out recall to 0.990 offline (`config/policy_ensemble.yaml`). It doubles GPU cost, and the ensemble has never run on a GPU. Not for launch.
 
 ## Decision layer
 
-CRS decides alone until Phase 3. Then Gemma gains authority one class at a time, and each step is earned on reviewed shadow data. The combiner is a pure function of three inputs, frozen in a signed `combiner.yaml` and pinned by a truth-table test.
+CRS decides every request alone. From Phase 3 the model's verdicts earn authority over clients, one class at a time, never over a single request; each step is earned on reviewed shadow data. The combiner is a pure function of four inputs, frozen in a signed `combiner.yaml` and pinned by a truth-table test (`sensor/combiner`).
 
 **Inputs**
 
-- **CRS result**: inbound anomaly score, matched rule IDs and their paranoia levels, and the variables each rule matched.
-- **Model decision**: from `eval.policy.decide_from_probs`. That is a verdict, the class, a calibrated confidence and a fixed reason code, plus the input facts: truncated or not, number of windows, cookies dropped. Gemma's frozen policy (`config/policy_gemma.yaml`) applies:
-  - temperature 1.038391
-  - the attack-mass rule, threshold τ 0.877
+- **CRS result**: inbound anomaly score, matched rule IDs and their paranoia levels, and the variables each rule matched. A match of an engine error rule (`200002`–`200005`: body parse error, strict multipart, argument overflow) counts as a score at the threshold.
+- **Client decision**: the action the async worker wrote for this client (`block`, `challenge`, `rate_limit`, or none), read from the decision store.
+- **Model decision (inline only, off)**: from `eval.policy.decide_from_probs`: a verdict, the class, a calibrated confidence and a fixed reason code, plus truncated or not, number of windows and cookies dropped. The async worker applies the same frozen policy (`config/policy_gemma_v13.yaml`) to every verdict it writes:
+  - temperature 0.953563
+  - the attack-mass rule, threshold τ 0.705984 (the 0.877 of the 19 October plan belonged to the earlier policy)
   - the flow envelope and the required-context table
   - a known scanner User-Agent turns a benign verdict into log-and-monitor, never a block
-- **Route policy** from the catalog: the enforcement mode, the fail mode, whether the route is model-required, and the action on a model timeout.
+- **Route policy** from the catalog: the enforcement mode (`enforce` or `detect`), the fail mode, whether the route is model-required, and the action on a model timeout (inline only).
 
-**The combiner by phase** (T = CRS threshold):
+**The combiner by phase** (T = CRS threshold). Every phase queues the requests listed under "What goes to the model queue".
 
-| Phase | CRS ≥ T | Gray band (0 < CRS < T) | Pre-filter hit or model-required route |
+| Phase | CRS ≥ T | Gray band, pre-filter hit, model-required route | Client with a decision |
 | --- | --- | --- | --- |
-| 1 Shadow | Logged (DetectionOnly); model async | Model in shadow | Model in shadow |
-| 2 CRS enforces | Block; model async | Allow; model log-only | Allow; model log-only |
-| 3 Gemma enforces | Block; model async | Class action if the model says an enforced attack class at ≥ τ, else allow | Same as the gray band |
-| 4 Veto and flows | Block, or allow when every veto condition holds | As Phase 3 | As Phase 3 |
+| 1 Shadow | Logged (DetectionOnly) | Allow; logged | Logged |
+| 2 CRS enforces | Block | Allow | Logged |
+| 3 Client decisions | Block | Allow; the client's verdicts corroborate into a decision | Ban: block before any inspection. Challenge or rate limit: applied to a request that would otherwise be allowed. A CRS block still wins |
+| 4 Inline (parked) | Block, or allow when every veto condition holds | Class action if the model says an enforced attack class at ≥ τ, else allow | As Phase 3 |
 
-**Veto conditions.** All must hold, or CRS stands:
+Phases 3 (per-request class actions) and 4 of the 19 October plan need an inline model. The code keeps them behind `WAF_MODEL_INLINE`, tested with a fake model, off by default.
+
+**How verdicts become decisions** (`config/decisions.yaml`, signed and reviewed like the combiner):
+
+- Only a BLOCK verdict on one of the 15 block classes counts as evidence. Log-only classes, ABSTAIN and ALLOW never do.
+- Evidence is a sorted set of request IDs per client, one window (10 minutes) long, so a redelivered queue entry counts once.
+- 3 pieces of evidence challenge the client for 1 hour; 10 ban it for 4 hours. A decision is never downgraded; a stronger one replaces it.
+- A challenge comes first because shared NAT and mobile addresses carry real users. Exempting residential and mobile ASNs from bans is specified for flows and not built for HTTP.
+- Phase 3 per class: at least 600 reviewed decisions for the class with no error, first at the challenge stage, then at the ban stage.
+
+**Veto conditions (parked).** They apply only with an inline-capable model. All must hold, or CRS stands:
 
 1. The model says benign at 0.99 or more.
 2. Every matched rule is on the veto list.
 3. The model saw the whole request: not truncated, one window, no cookies dropped.
-4. Every variable a CRS rule matched appears in the model input unabridged, and decoded where CRS decoded it.
+4. Every variable a CRS rule matched appears in the model input unabridged, and decoded where CRS decoded it. Until the decoder parity test exists, the sensor reports this as false, so no veto can fire.
 
-**Joining the veto list.** The list starts empty. A rule family joins after at least 600 reviewed matches with no wrong veto: at 0 errors in 600 that gives a 95% upper bound on the error rate of 0.5%. Engine body/parser error rules (`200001`–`200007`), protocol-enforcement rules (`920xxx`) and smuggling/protocol-attack rules (`921xxx`) never join.
+**Joining the veto list (parked).** The list starts empty. A rule family joins after at least 600 reviewed matches with no wrong veto: at 0 errors in 600 that gives a 95% upper bound on the error rate of 0.5%. Engine body/parser error rules (`200001`–`200007`), protocol-enforcement rules (`920xxx`) and smuggling/protocol-attack rules (`921xxx`) never join; the combiner config loader rejects them.
 
 **Abstaining for missing context** (a Phase 0 policy change). Today, if the attack-mass rule picks an attack class whose required context is missing, the policy abstains, even at attack mass 0.99. Payload text that tips the top class to `llm_prompt_injection` could exploit that. The new rule:
 
 - Take the best attack class whose context is present.
-- If no such class exists but attack mass is at least τ, the verdict is "suspicious". The gray band then challenges instead of allowing, and a CRS block stands.
+- If no such class exists but attack mass is at least τ, the verdict is "suspicious". The worker records it (`suspicious`) for review; it is not evidence against the client. Inline it would challenge in the gray band.
 - Probes that wrap real payloads in context-steering text join the robustness gate. v11 passed 100% of the existing classifier-injection probes.
 
 **Class actions.** Appendix A lists all 38 attack classes with their action:
 
-- **Block (403) from Phase 3**, each after its own gate: 15 classes needing no context. These are 11 injection classes plus path traversal, SSRF, GraphQL abuse and prototype pollution.
-- **Brute force and HTTP application floods** are rate-limited, then challenged (and banned via CrowdSec after corroboration for floods).
-- **External port scans** get time-limited CrowdSec bans after corroboration.
+- **Challenge, then ban (client decisions) from Phase 3**, each class after its own gate: 15 classes needing no context. These are 11 injection classes plus path traversal, SSRF, GraphQL abuse and prototype pollution.
+- **Brute force and HTTP application floods** are rate-limited, then challenged (and banned after corroboration for floods).
+- **External port scans** get time-limited bans after corroboration.
 - **Log only**: the 12 context classes, WebSocket/gRPC abuse and the classes that rest on synthetic-only features.
 - **Alert only**: SYN floods and UDP amplification, whose sources are spoofed or are reflectors.
 - **SOC alerts**: internal beaconing and DNS exfiltration.
@@ -351,14 +395,14 @@ CRS decides alone until Phase 3. Then Gemma gains authority one class at a time,
 
 **What the client sees.**
 
-- **Block**: a 403 with a request ID and a "report a wrong block" link.
+- **Block**: a 403 with a request ID and a "report a wrong block" link. A banned client gets it on every request for the ban's TTL.
 - **Challenge**: a 302 redirect to the Anubis proof-of-work page on browser navigation `GET`/`HEAD` requests, or a 429 on non-navigation API and state-changing requests.
 - **Rate limit**: a 429 with `Retry-After`.
 
 **Where it runs, and how it changes.**
 
-- The combiner is a library in waf-sensor, so the fallback works when waf-model is down.
-- A change to `combiner.yaml`, the veto list or `class_thresholds` goes through a reviewed pull request with two approvals.
+- The combiner is a library in waf-sensor, so inspection works when the async tier is down.
+- A change to `combiner.yaml`, `decisions.yaml`, the veto list or `class_thresholds` goes through a reviewed pull request with two approvals.
 - CI replays shadow logs through the change, with the same gates a model must pass.
 - The signed result is verified at load.
 
@@ -425,22 +469,23 @@ Every verdict is one decision event: who decided, on what evidence, with which m
 - **Traces.** OTel traces follow a sampled share of requests through Envoy, waf-sensor and waf-model, into Jaeger.
 - **Dashboards.** Grafana on ClickHouse and Prometheus. OpenSearch or Wazuh is an optional SIEM for the SOC.
 
-**Decision event** (one per request; fields are illustrative):
+**Decision event** (one per request; fields are illustrative). The model's verdict is not in it: it arrives later on `waf.verdicts` and joins by `request_id`.
 
 ```json
-{"request_id": "…", "ts": "…", "route": "api.orders.update", "client": "hmac:3f9c…",
- "crs": {"score": 8, "rules": ["942100", "942190"], "paranoia": 2},
- "model": {"called": true, "trigger": "gray_band", "threat_type": "sqli_classic", "confidence": 0.97,
-           "verdict": "BLOCK", "rule_hint": "ml_sqli_classic", "version": "champion@sha256:…",
-           "windows": 1, "truncated": false, "cookies_dropped": 0},
- "final": {"action": "drop_request", "reason": "ml_sqli_classic", "phase": 3, "mode": "enforce"},
- "latency_ms": {"crs": 1.4, "model_queue": 6, "model_score": 88, "total": 97}}
+{"request_id": "…", "route": "api.orders.update",
+ "crs": {"score": 3, "rules": ["942190"]},
+ "prefilter": ["graphql_body"], "async": "gray_band",
+ "final": {"action": "allow", "reason": "allow", "phase": 3},
+ "latency_ms": {"crs": 1.4, "total": 1.5}}
 ```
+
+A verdict on `waf.verdicts`: `{"id", "client", "route", "trigger", "crs_score", "verdict", "threat_type", "confidence", "rule_hint", "reason", "windows", "truncated", "score_ms", "model_version"}`. A decision on `waf.decisions.audit`: `{"client", "action", "ttl_s", "evidence", "class", "model_version"}`.
 
 **Retention and redaction, one rule per store.** The OWASP Logging Cheat Sheet rules out session IDs, tokens and passwords in logs.
 
 | Store | Content | Kept for | Who reads it |
 | --- | --- | --- | --- |
+| Valkey Streams `waf.verdicts` and `waf.decisions.audit` | Verdict and decision fields only (the client key is the grouped IP) | 7 days, then ClickHouse rollups | SOC, security engineering, ML team |
 | Valkey Stream `waf.telemetry.restricted` | Full telemetry of sampled/async items; TLS in transit, encrypted volume | 24 hours (capped stream) | Async scorer and review sampler only (Valkey ACLs) |
 | ClickHouse (`waf.decisions`) | Decision events, no request values; client IP as a keyed hash rotated monthly | 90 days in detail, 13 months as daily rollups | SOC, security engineering, ML team |
 | CrowdSec, rate-limit store | Raw client IP | Ban duration + 7 days | waf-sensor, async scorer |
@@ -458,7 +503,7 @@ IP addresses are treated as personal data. Legal review of this table is an open
 | Block rate per route | Above 3× its 7-day baseline for 15 minutes |
 | CRS-versus-model disagreement rate | Above 2× baseline for a day |
 | Model abstentions by reason | Above 2× baseline, or `over_token_budget` above 1% |
-| Model deadline misses | Above 1% of model calls for 5 minutes |
+| Async verdict lag | p95 above 60 s for 5 minutes |
 | GPU queue depth | Near its bound for 5 minutes |
 | Valkey Stream consumer lag | Above 5 minutes |
 | Startup self-check, signature check | Any failure |
@@ -498,11 +543,11 @@ Every disagreement becomes a candidate label. A new model ships only after it be
 | Hard-negative false blocks, test_unseen | 0.0 | 0.0 |
 | Real CIC-IDS2017 port scans, brute force and HTTP floods, the latest 20% held out (305 flows: 231 port scan/brute force + 74 flood) | Not measured on the fixed build; 0 of 970 before the fix | ≥ 90% |
 | Attack flows from a source absent from training (e.g. NF-UNSW-NB15 attack rows) | Not measured | Threshold agreed in Phase 0 and recorded in the progress log |
-| Legitimate replay: open-appsec 10,380, the WAF comparison corpus (1,040,242 requests), `prod_holdout` from Gate 1 on | Not measured | Blocks ≤ 0.1%; over budget ≤ 1% |
+| Legitimate replay through the worker and the decision policy: open-appsec 10,380, the WAF comparison corpus (1,040,242 requests), `prod_holdout` from Gate 1 on | Not measured | Blocks ≤ 0.1%; no legitimate client challenged more than once per replay window; over budget ≤ 1% |
 | GoTestWAF benign texts wrongly blocked | Not measured (v10: 13.5%) | ≤ 2% |
 | Robustness: out-of-taxonomy abstention; classifier-injection and context-steering probes | No Gemma scores yet (v11: 84%; 100%) | ≥ 84%; 100% |
 | Serving parity on all of test and test_unseen (10,288 records in the 42-class build; 10,257 in v11) | Not run | Same decision on ≥ 99.9%; any flip within 0.05 of τ |
-| Latency on the target GPU at target load | Not measured | Inline SLO |
+| Throughput on the target GPU (vLLM, L4) and async verdict lag at the planned queue rate | 4.38 records/s (20 Oct, 300 records, two-pass labels); lag not measured | Lag p95 ≤ 60 s at the Phase 1 queue rate; capacity table updated with the measured rate |
 
 **Minimum evidence.** Any precision gate on reviewed production actions needs at least 600 reviewed actions with no error. That gives a 95% upper bound on the error rate of 0.5%. A class that cannot reach 600 stays log-only.
 
@@ -521,11 +566,12 @@ Every byte the model reads is hostile. The model only ranks 42 labels (41 in the
 
 | Threat | Example | Mitigation |
 | --- | --- | --- |
-| Steering the classifier with payload text | Prompt-injection text around a real payload | Scoring is constrained to 42 fixed labels. Missing context leads to "suspicious", not to an abstention that allows. A veto needs the model to have seen everything CRS matched. Classifier-injection and context-steering probes sit in the release gates |
+| Steering the classifier with payload text | Prompt-injection text around a real payload | Scoring is constrained to 42 fixed labels. The model cannot allow a request CRS blocked or lower a CRS score: it only adds evidence against a client, and a single verdict acts on nothing. Missing context leads to "suspicious" (reviewed), not to a block. Classifier-injection and context-steering probes sit in the release gates |
 | Encoding and padding evasion | A payload after 128 KB of filler; Base64 inside JSON; compressed request body | Over-limit bodies are rejected with 413; unexpected `Content-Encoding` is rejected with 415 or decompressed with a ratio cap before `ext_proc`. Decoders are shared by training and serving (including duplicate JSON keys via `object_pairs_hook=list` and all HTTP/2 `cookie` headers). Run collapsing handles single-character filler. CRS reads the whole body; the model's partial view never overrules it |
-| Parser differentials | Envoy, Coraza and the application read a path or header differently | Envoy normalises `:path`, merges slashes and rejects escaped slashes before route matching, while preserving the raw wire URI in `x-envoy-original-path` for `http.target`. Invalid headers and ambiguous framing are rejected. The veto list never covers engine body-error (`200001`–`200007`), protocol (`920xxx`) or smuggling (`921xxx`) rules |
-| Exhausting the model | A flood of pre-filter or gray-band requests | Local rate limits before ext_proc. CRS blocks are not scored inline before Phase 4. Priority queues, per-client caps on calls and windows, and shedding to rules-only |
+| Parser differentials | Envoy, Coraza and the application read a path or header differently | Envoy normalises `:path`, merges slashes and rejects escaped slashes before route matching (Envoy 1.40 does not preserve the raw URI, so the model and CRS see the normalised path; the upstream receives the same one). Invalid headers and ambiguous framing are rejected. The veto list never covers engine body-error (`200001`–`200007`), protocol (`920xxx`) or smuggling (`921xxx`) rules |
+| Exhausting the model | A flood of pre-filter or gray-band requests | Local rate limits before ext_proc. The queue is capped, publishing never blocks a request, and every drop is counted. Per-client caps on queued requests and priority shedding are specified, not built. The async tier can lag without any effect on inline inspection |
 | Exhausting the sensor | CPU-heavy requests to push the sensor past its timeout | Local rate limits before ext_proc, body and argument limits, an admission cap. Fail-closed routes answer 503; they never pass uninspected |
+| Getting someone else challenged or banned | An attacker sends attack payloads through a shared NAT or proxy address, or from a spoofed-looking path, so that real users behind it are challenged | Challenge first (a person passes it), a ban needs 10 corroborating verdicts, every decision has a TTL and an audit record, decisions are sampled into review, and the kill switch clears them. Residential and mobile ASN exemption is not built |
 | Poisoning the feedback loop | An attacker reports their own blocked attack as a wrong block | Reports need review and never auto-label. Reports are rate-limited and challenged. Lineage by client keeps one actor from dominating a split |
 | Tampering with promotion or config | Moving the `champion` alias; adding a rule to the veto list | Signed packages verified at load. Two-person approval for `champion.yaml` moves and config changes. The same replay gates as a model. Audit log |
 | Supply chain | A swapped adapter or base model; a vulnerable image | Weights pinned by sha256 and mirrored internally. Images and model packages signed with cosign. SBOMs with Syft, scans with Grype, signatures enforced at admission by Kyverno. Trivy is avoided: its releases, Action tags and images shipped credential-stealing malware in March 2026 (CVE-2026-33634). CI actions pinned to commit SHAs |
@@ -546,12 +592,12 @@ On-call can switch the model off, put CRS in detection-only mode, or deploy an e
 
 | Control | Effect | Used when |
 | --- | --- | --- |
-| Kill switch 1: model off | Rules-only verdicts everywhere | Model drift, bad package, GPU outage |
+| Kill switch 1: model off | Stops queueing and ignores client decisions; rules-only verdicts everywhere. Existing decisions expire by TTL, or are flushed | Model drift, bad package, GPU outage, a wave of wrong decisions |
 | Kill switch 2: CRS detection-only, per route or global | Nothing blocks on that scope; everything is logged | A false-block storm |
 | Kill switch 3: sensor bypass for a route | The route fails open; every pass is counted | Sensor outage on a route that must stay up; a deliberate, logged decision |
 | Virtual patch | An emergency rule in a `virtual-patches` CRS plugin (CRS reserves IDs 9,500,000 to 9,999,999 for plugins), tested with go-ftw, deployed within 4 hours | A new exploit that CRS and the model both miss. Removed once covered |
 
-**Runbooks** for the security-engineering on-call: false-block storm, sensor overload, model deadline misses, drift alert, bypass report, kill switch use and recovery.
+**Runbooks** for the security-engineering on-call: false-block storm, sensor overload, async lag, wrong client decisions, drift alert, bypass report, kill switch use and recovery.
 
 **Edge placement.**
 
@@ -564,25 +610,25 @@ On-call can switch the model off, put CRS in detection-only mode, or deploy an e
 
 ## Capacity and cost
 
-GPU cost depends almost entirely on the scorer's per-GPU throughput. At 100 model calls per second, it is the difference between about 26 L4 GPUs and the 4-replica floor. Gemma's throughput on a GPU has not been measured; Phase 0 measures it first, and Phase 1 shadow data replaces every planning figure below.
+The model is off the request path, so GPU cost is set by the queue rate and the per-GPU throughput, and a lag of a few minutes is acceptable. Gemma's throughput on an L4 is measured: 1.19 records/s on Hugging Face and 4.38 on vLLM (20 October). Phase 0 measures the single-token variant; Phase 1 shadow data replaces every planning figure below.
 
-**Model calls per second** = peak requests/s × inline share × mean windows per request + async HTTP sample + flow records scored.
+**Model calls per second** = peak requests/s × queued share × mean windows per request + random sample + flow records scored.
 
-The inline share is the gray band plus pre-filter hits, plus all traffic of model-required routes. For example, take 1,000 requests/s at peak with a 5% planning share: 1,000 × 5% × 1.1 = 55 inline calls. Add a 1% async sample (10/s) and about 20 flow records/s, and the total is about 85 calls/s.
+The queued share is the gray band, pre-filter hits, CRS blocks and the model-required routes, after per-client caps (not built: until they are, a noisy client can queue every request). For example, take 1,000 requests/s at peak with a 2% planning share: 1,000 × 2% × 1.1 = 22 calls. Add the 0.1% sample (1/s) and about 20 flow records/s, and the total is about 41 calls/s.
 
-| Per-GPU throughput, NVIDIA L4 | Basis | L4 GPUs for 100 calls/s (load + 1 spare, floor of 4) | Per month, EC2 `g6.xlarge` | Per month, SageMaker `ml.g6.xlarge` | Per million calls, EC2, at full use |
+| Per-GPU throughput, NVIDIA L4 | Basis | L4 GPUs for 41 calls/s (load + 1 spare, floor of 2) | Per month, EC2 `g6.xlarge` | Per month, SageMaker `ml.g6.xlarge` | Per million calls, EC2, at full use |
 | --- | --- | --- | --- | --- | --- |
-| 4 calls/s | Qwen v10's Hugging Face scorer, measured on an L4 (3.56 to 4.27/s) | 26 | $15,275 | $21,385 | $55.89 |
-| 12 calls/s | Qwen v10 with vLLM generation on an L4 (12.07/s); failed parity, so a speed reference only | 10 | $5,875 | $8,225 | $18.63 |
-| 40 calls/s | Gemma with single-token labels: a target, not a measurement | 4 | $2,350 | $3,290 | $5.59 |
+| 1.19 records/s | Gemma on Hugging Face (`GemmaScorer`, batch 1), measured on an L4, 20 Oct | 36 | $21,150 | $29,610 | $187.86 |
+| 4.38 records/s | Gemma on vLLM 0.30, measured on an L4, 20 Oct (the worker's scorer reached 4.83 at batch 64); the planning figure | 11 | $6,463 | $9,047 | $51.04 |
+| 40 records/s | Gemma with single-token labels and a cached prefix: a target, not a measurement | 3 | $1,763 | $2,467 | $5.59 |
 
-The prices are on-demand in us-east-1, from the AWS Price List API: EC2 `g6.xlarge` $0.8048/h, SageMaker `ml.g6.xlarge` $1.1267/h. A month is 730 hours. The last column assumes full use and no spare. Savings plans and spot capacity (async pool only) lower these figures.
+The prices are on-demand in us-east-1, from the AWS Price List API: EC2 `g6.xlarge` $0.8048/h, SageMaker `ml.g6.xlarge` $1.1267/h. A month is 730 hours. The last column assumes full use and no spare. The async pool tolerates spot capacity, which lowers these figures.
 
 **Sizing rules**
 
-- **Inline pool**: sized for peak at the p99 target, never below 4 replicas (two per zone in two zones).
-- **Async pool**: sized for the daily average. It may lag up to the 5-minute alert threshold, scales on Valkey Stream lag, and can use spot instances.
-- **Sensor and Envoy CPU**: Coraza with CRS costs CPU on every request, and no published number fits our setup. The Phase 0 load test, at our real body-size mix, sets replica counts from measured CPU per request. The floor is 3 sensor replicas per zone.
+- **Async pool**: sized for the daily average of the queue rate. It may lag up to the 5-minute alert threshold, scales on Valkey Stream lag, can use spot instances, and never drops below 2 replicas (one per zone). The inline pool of the 19 October plan is gone.
+- **Levers if the cost is too high**: a lower queued share (tighter triggers, per-client caps, stop queueing a client that already has a decision), a lower sample rate, the single-token retrain, quantisation, and the distilled-encoder tier (Model serving, step 4).
+- **Sensor and Envoy CPU**: Coraza with CRS costs CPU on every request, and no published number fits our setup. In local tests CRS took 1 to 5 ms per request; the Phase 0 load test, at our real body-size mix, sets replica counts from measured CPU per request. The floor is 3 sensor replicas per zone.
 - **Training**: one Gemma epoch takes 45 minutes on a TPU v5e-1, a small line item next to serving.
 
 ## Rollout
@@ -593,20 +639,22 @@ The durations are proposals. Every phase rolls back by config alone: the CRS mod
 
 | Gate | Criteria | Evidence | Owner |
 | --- | --- | --- | --- |
-| 0 | Every offline release gate passes on the retrained model, including full parity and latency on the target GPU. Real Coraza + CRS 4.25 baseline measured on the same sets. Sensor CPU and latency met in a load test. GPU quota, or the SageMaker bridge, in place | Release-gate and load-test reports | ML team, security engineering |
+| 0 | Every offline release gate passes on the model package, including full parity and throughput on the target GPU (vLLM). Real Coraza + CRS 4.25 baseline measured on the same sets. Sensor CPU and latency met in a load test. GPU quota, or the SageMaker bridge, in place | Release-gate and load-test reports | ML team, security engineering |
 | 1 | 14 days of shadow data. The 5% buffered canary runs without errors. `prod_holdout` built. Reviewed shadow false blocks counted per class. CRS exclusions written and go-ftw tested | Shadow dashboards, review counts | Security engineering |
 | 2 | CRS false blocks on target for 14 days at blocking paranoia level 1, then 2. Per-class model precision measured in log-only mode | ClickHouse reports | Security engineering |
-| 3, per class | At least 600 reviewed model actions for the class with no error: first at the challenge stage, then at the block stage. No robustness regression | Review records | ML team |
-| 4 | Veto: at least 600 reviewed matches per rule family with no wrong veto. Flows: CIC and unseen-source gates passed, corroboration rules tested | Review records, release gates | Security engineering, SOC |
+| 3, per class | At least 600 reviewed client decisions for the class with no error: first at the challenge stage, then at the ban stage. No robustness regression | Review records | ML team |
+| 4 | Flows: CIC and unseen-source gates passed, corroboration rules tested. The veto and inline class actions are parked until an inline-capable model exists | Review records, release gates | Security engineering, SOC |
 
 ## Risks and open questions
 
-The largest risk is that Gemma never earns enforcement: too slow inline, too many false blocks on real traffic, or too few reviewed actions per class. Then it stays a second opinion out of band, and CRS with virtual patches carries the inline load. Every risk below has a fallback that keeps inspection on.
+The largest risk is that Gemma never earns enforcement: too many wrong client decisions on real traffic, too few reviewed decisions per class, or a GPU bill the queue rate cannot justify. Then it stays a reviewer's tool out of band, and CRS with virtual patches carries the request path, as it does from day one. Every risk below has a fallback that keeps inspection on.
 
 | Risk | Early signal | Fallback |
 | --- | --- | --- |
-| Gemma too slow inline | Phase 0 p99 above 200 ms at target load | Fewer inline triggers (model-required routes only), then async only |
-| Single-token labels lose accuracy | Release gates after the Phase 0 retrain | Keep the two-pass adapter with KV reuse in pass 2; accept a larger GPU pool |
+| Gemma too slow inline | Measured 20 Oct: L4 p50 659 ms at batch 1 on Hugging Face; 4.38 records/s on vLLM | Decided: second tier, asynchronous only. A distilled encoder is the route back to inline use |
+| Async lag or cost above plan | Stream lag, GPU count against the measured 4.38 records/s | Per-client caps and stop-queueing-after-decision, a lower sample rate, spot capacity, single-token retrain, quantisation, the distilled encoder |
+| The model cannot stop a one-shot attack | Bypass reports, GoTestWAF, red-team results | CRS tuning, virtual patches (4 hours), challenge on repeated probing |
+| Single-token labels lose accuracy | Release gates after the Phase 0 retrain | Keep the two-pass method on vLLM; accept a larger GPU pool |
 | Decoder parity not reached | Parity test on captured ext_proc requests | Train only on views the serving path produces, then rebuild and retrain |
 | Real-traffic false blocks above 0.1% | Replay corpora; reviewed shadow | The class stays log-only; per-class thresholds; hard-negative rounds from reviewed false positives |
 | Rare classes never reach 600 reviewed actions | Review counts per class | They stay log-only; CRS and virtual patches cover them |
@@ -628,6 +676,9 @@ The largest risk is that Gemma never earns enforcement: too slow inline, too man
 - [ ] Names for the owner roles in Components and owners, and an on-call rota.
 - [ ] CDN in front or not. This decides where TLS terminates, how the client IP is derived, and HTTP/3.
 - [ ] Request EC2 GPU quota, or stay on SageMaker?
+- [ ] Raw path: accept the path as Envoy normalises it (the raw URI is not available), or normalise the training targets before the retrain?
+- [ ] Build the distilled-encoder tier (Model serving, step 4) now, or only after Phase 0 measures the single-token retrain?
+- [ ] CrowdSec adapter for client decisions, and the source of residential and mobile ASN data for the ban exemption.
 - [ ] Legal sign-off on the retention table.
 - [ ] Taxonomy and data items in the repo (`docs/PLAN.md`):
   - `http_flood_app_dos` is built and gated in the 42-class v12 bundle (`53,794` records, 747 flood records); needs Phase 0 training and calibration (`csv_formula_injection` was decided on 20 Oct: an unescaped leading trigger character is sufficient)
@@ -636,27 +687,27 @@ The largest risk is that Gemma never earns enforcement: too slow inline, too man
 
 ## Appendix A: class actions
 
-All 38 attack classes with their enforcement action once they pass their gates. Context keys come from `config/policy_gemma.yaml`; benign classes always allow.
+All 38 attack classes with their action once they pass their gates. For the HTTP classes the action is a per-client decision after corroboration (`config/decisions.yaml`), never a verdict on one request. Context keys come from `config/policy_gemma.yaml`; benign classes always allow.
 
 | Class | Domain | Required context | Action | Note |
 | --- | --- | --- | --- | --- |
-| `sqli_classic` | L7 injection | — | Block (403) from Phase 3 | — |
-| `sqli_obfuscated` | L7 injection | — | Block (403) from Phase 3 | — |
-| `nosqli` | L7 injection | — | Block (403) from Phase 3 | — |
-| `xss_reflected_stored` | L7 injection | — | Block (403) from Phase 3 | — |
+| `sqli_classic` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `sqli_obfuscated` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `nosqli` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `xss_reflected_stored` | L7 injection | — | Challenge, then ban from Phase 3 | — |
 | `xss_dom_polyglot` | L7 injection | `sink_context` | Log only | Until the context parity check and a gated retrain |
-| `rce_cmd_injection` | L7 injection | — | Block (403) from Phase 3 | — |
-| `ssti` | L7 injection | — | Block (403) from Phase 3 | — |
-| `xxe` | L7 injection | — | Block (403) from Phase 3 | — |
-| `deserialization` | L7 injection | — | Block (403) from Phase 3 | — |
-| `crlf_header_injection` | L7 injection | — | Block (403) from Phase 3 | — |
-| `ldap_xpath_injection` | L7 injection | — | Block (403) from Phase 3 | — |
+| `rce_cmd_injection` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `ssti` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `xxe` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `deserialization` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `crlf_header_injection` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `ldap_xpath_injection` | L7 injection | — | Challenge, then ban from Phase 3 | — |
 | `csv_formula_injection` | L7 injection | `sink_context` | Log only | Leading trigger character suffices (decided 20 Oct); log-only until context parity check and gated retrain |
-| `malicious_file_upload_webshell` | L7 injection | — | Block (403) from Phase 3 | — |
-| `path_traversal_lfi` | API/protocol | — | Block (403) from Phase 3 | — |
-| `ssrf_cloud_metadata` | API/protocol | — | Block (403) from Phase 3 | — |
+| `malicious_file_upload_webshell` | L7 injection | — | Challenge, then ban from Phase 3 | — |
+| `path_traversal_lfi` | API/protocol | — | Challenge, then ban from Phase 3 | — |
+| `ssrf_cloud_metadata` | API/protocol | — | Challenge, then ban from Phase 3 | — |
 | `http_request_smuggling` | API/protocol | `parser_stack` | Log only | Envoy rejects ambiguous framing |
-| `graphql_abuse` | API/protocol | — | Block (403) from Phase 3 | — |
+| `graphql_abuse` | API/protocol | — | Challenge, then ban from Phase 3 | — |
 | `jwt_auth_bypass` | API/protocol | `verifier_config` | Log only | Envoy `jwt_authn` verifies tokens |
 | `bola_idor_enumeration` | API/protocol | `authz_context` | Log only | Out of scope: the application decides ownership |
 | `open_redirect_cors` | API/protocol | `browser_or_cors_config` | Log only | Until the context parity check and a gated retrain |
@@ -665,7 +716,7 @@ All 38 attack classes with their enforcement action once they pass their gates. 
 | `bfla_admin_function_probing` | API/protocol | `caller_role`, `route_required_role` | Log only | Gateway RBAC on verified roles enforces |
 | `race_condition_toctou_burst` | API/protocol | `route_semantics` | Log only | Until the context parity check and a gated retrain |
 | `llm_prompt_injection` | AI/modern | `trust_boundary` | Log only | Until the context parity check and a gated retrain |
-| `prototype_pollution` | AI/modern | — | Block (403) from Phase 3 | — |
+| `prototype_pollution` | AI/modern | — | Challenge, then ban from Phase 3 | — |
 | `web_cache_poisoning` | AI/modern | `cache_config` | Log only | Until the context parity check and a gated retrain |
 | `mcp_agentic_tool_abuse` | AI/modern | `tool_manifest` | Log only | Until the context parity check and a gated retrain |
 | `syn_flood_ddos` | Network flow | — | Alert only | Source addresses can be spoofed; mitigation is upstream |
@@ -688,7 +739,7 @@ The latest stable releases on 19 October 2026, read from each project's GitHub r
 | Envoy, Envoy Gateway | 1.40.0; 1.9.2 | ingress-nginx: retired in March 2026, no more security fixes. [HAProxy](https://github.com/haproxy/haproxy) 3.4 + [coraza-spoa](https://github.com/corazawaf/coraza-spoa) 0.9: kept as the fallback data plane |
 | Coraza | 3.8.1 | [coraza-proxy-wasm](https://github.com/corazawaf/coraza-proxy-wasm): last release July 2025; open issues report 5–10× slowdowns. [ModSecurity v3](https://github.com/owasp-modsecurity/ModSecurity) 3.0.17: mature but tied to nginx or Apache |
 | OWASP CRS | 4.25.2 LTS | 4.30.0, the newest, is not LTS: staging only |
-| Transformers (`Gemma4ForCausalLM` + `torch.compile` + cached prefix `DynamicCache`) | 5.17 (repo pin) | vLLM 0.32.0: deferred to optional benchmark; PagedAttention buys little for 1-token prefill and shifted Qwen v10 probabilities by up to 0.249. TGI: archived in March 2026. SGLang 0.5.22: Gemma 4 LoRA gaps |
+| vLLM (production); Transformers (`Gemma4ForCausalLM`, reference) | vLLM 0.30.0 (validated); 0.32.0 is the newest, retest in Phase 0. Transformers 5.17 (repo pin) | TGI: archived in March 2026. SGLang 0.5.22: Gemma 4 LoRA gaps. vLLM's generation path shifted Qwen v10 probabilities by up to 0.249; the restricted single-token method passed Gemma's self-check |
 | NVIDIA GPU Operator, KEDA, Karpenter | 26.7.2; 2.21.0; 1.15.0 | KServe 0.21: only if the platform team already runs it |
 | CrowdSec | 1.8.1 | Its AppSec WAF also runs CRS on Coraza, but we embed Coraza ourselves. Free blocklist tiers: 3,000 and about 15,000 IPs |
 | envoyproxy/ratelimit, Valkey (counters + Streams) | Pinned by commit digest; Valkey 9.0 | Redis: relicensed away from BSD in 2024; Valkey is the BSD-licensed fork. Kafka 4.3.1: deferred until sustained traffic exceeds ~10k req/s; Redpanda: BSL license |
@@ -707,6 +758,7 @@ The external facts come from the projects' GitHub sources and the AWS Price List
 
 **Repository** (`mora-waf/qwen35-waf-ml`, branch `master`)
 
+- `waf-system/` (sibling directory, built 20 October): the sensor, the async worker, tests and the benchmark harness. `waf-system/docs/FINDINGS.md`, `waf-system/reports/bench_L4.json`, `waf-system/reports/gemma_vllm_L4.json` and `waf-system/reports/crs_regress.json` hold the measurements this revision rests on.
 - `docs/PLAN.md`: the specification and progress log, with latency, real-traffic false positives and benchmark findings.
 - `reports/gemma_tpu/REPORT.md`, `config/policy_gemma.yaml`: Gemma results and its frozen policy.
 - `reports/ensemble/REPORT.json`: Qwen v11 + Gemma ensemble.

@@ -1,0 +1,167 @@
+{
+ "vllm": {
+  "pass": true,
+  "max_diff": 0.0163,
+  "rec_s": 4.37,
+  "n": 200,
+  "rows": [
+   {
+    "id": "haiku:ssrf_cloud_metadata:000004",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "haiku:ssrf_cloud_metadata:000061",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000002",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000026",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000033",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "haiku:benign_standard_traffic:009466",
+    "diff": 0.0163,
+    "same_top": true,
+    "tpu_tie": true
+   },
+   {
+    "id": "gen:flow:benign_high_rate_legit:000020",
+    "diff": 0.0025,
+    "same_top": true,
+    "tpu_tie": true
+   },
+   {
+    "id": "gen:flow:benign_standard_traffic:000357",
+    "diff": 0.0082,
+    "same_top": false,
+    "tpu_tie": true
+   }
+  ]
+ },
+ "vllm_generation": {
+  "agree_clear": true,
+  "rows": [
+   {
+    "id": "haiku:ssrf_cloud_metadata:000004",
+    "generated": "ssrf_cloud_metadata",
+    "tpu_top": "ssrf_cloud_metadata",
+    "tpu_tie": false
+   },
+   {
+    "id": "haiku:ssrf_cloud_metadata:000061",
+    "generated": "ssrf_cloud_metadata",
+    "tpu_top": "ssrf_cloud_metadata",
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000002",
+    "generated": "syn_flood_ddos",
+    "tpu_top": "syn_flood_ddos",
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000026",
+    "generated": "syn_flood_ddos",
+    "tpu_top": "syn_flood_ddos",
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000033",
+    "generated": "syn_flood_ddos",
+    "tpu_top": "syn_flood_ddos",
+    "tpu_tie": false
+   },
+   {
+    "id": "haiku:benign_standard_traffic:009466",
+    "generated": "benign_hard_negative_dev",
+    "tpu_top": "benign_hard_negative_dev",
+    "tpu_tie": true
+   },
+   {
+    "id": "gen:flow:benign_high_rate_legit:000020",
+    "generated": "http_flood_app_dos",
+    "tpu_top": "http_flood_app_dos",
+    "tpu_tie": true
+   },
+   {
+    "id": "gen:flow:benign_standard_traffic:000357",
+    "generated": "benign_high_rate_legit",
+    "tpu_top": "benign_high_rate_legit",
+    "tpu_tie": true
+   }
+  ]
+ },
+ "hf": {
+  "pass": true,
+  "max_diff": 0.0189,
+  "rec_s": 1.91,
+  "n": 200,
+  "rows": [
+   {
+    "id": "haiku:ssrf_cloud_metadata:000004",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "haiku:ssrf_cloud_metadata:000061",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000002",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000026",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "gen:flow:syn_flood_ddos:000033",
+    "diff": 0.0,
+    "same_top": true,
+    "tpu_tie": false
+   },
+   {
+    "id": "haiku:benign_standard_traffic:009466",
+    "diff": 0.0031,
+    "same_top": true,
+    "tpu_tie": true
+   },
+   {
+    "id": "gen:flow:benign_high_rate_legit:000020",
+    "diff": 0.0026,
+    "same_top": true,
+    "tpu_tie": true
+   },
+   {
+    "id": "gen:flow:benign_standard_traffic:000357",
+    "diff": 0.0189,
+    "same_top": true,
+    "tpu_tie": true
+   }
+  ]
+ }
+}

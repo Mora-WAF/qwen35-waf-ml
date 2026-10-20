@@ -55,7 +55,7 @@ def _load_gemma(gdir, st):
     T = _member_temperature(st["pol"], 1)
     checks = [json.loads(line) for line in open(gdir / "selfcheck.jsonl")]
     diff = HS.selfcheck(model, tok, checks, T, st["classes"], tol=SELFCHECK_A100_DIFF)
-    print(f"[selfcheck] gemma on HF vs TPU: max prob diff {diff:.4f}, same top class {len(checks)}/{len(checks)}", flush=True)
+    print(f"[selfcheck] gemma on HF vs TPU: max prob diff {diff:.4f} over {len(checks)} records", flush=True)
     return {"model": model, "tok": tok, "suf": GD.class_suffixes(tok, st["classes"]), "T": T, "selfcheck_max_diff": diff}
 
 

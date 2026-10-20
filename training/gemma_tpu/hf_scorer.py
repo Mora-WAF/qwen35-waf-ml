@@ -148,8 +148,10 @@ def load(npz, model_id=None, revision=None, device="cuda", dtype=torch.bfloat16)
 
 
 def selfcheck(model, tok, checks, temperature, classes, tol=0.05):
-    """checks: [{"telemetry", "scores"}] with the TPU scores of the same records. Asserts the same top class and a
-    calibrated-probability difference below tol on every record (the Qwen endpoint's rule); returns the max diff."""
+    """checks: [{"telemetry", "scores"}] with the TPU scores of the same records. Asserts a calibrated-probability
+    difference below tol on every record (the Qwen endpoint's rule) and the same top class wherever the TPU's top two
+    are at least tol apart: the hardest picks are near ties (v13: 0.498 / 0.498), whose argmax any other hardware may
+    flip (20 Oct, T4 bf16). Returns the max diff."""
     from training import prepare as P
     from training.gemma_tpu import data as GD
     ctrl = P.control_strings(tok)
@@ -159,8 +161,12 @@ def selfcheck(model, tok, checks, temperature, classes, tol=0.05):
     diffs = []
     for g, c in zip(got, checks):
         pg, pt = _probs(g, temperature), _probs(c["scores"], temperature)
-        assert int(pg.argmax()) == int(pt.argmax()), f"Gemma on HF disagrees with the TPU on {c.get('id')}"
+        top2 = np.sort(pt)[-2:]
+        assert int(pg.argmax()) == int(pt.argmax()) or top2[1] - top2[0] < tol, \
+            f"Gemma on HF disagrees with the TPU on {c.get('id')}"
         diffs.append(float(np.abs(pg - pt).max()))
+        print(f"[selfcheck] {c.get('id')}: max prob diff {diffs[-1]:.4f}, top class "
+              f"{'same' if int(pg.argmax()) == int(pt.argmax()) else 'flipped (TPU near tie)'}", flush=True)
     assert max(diffs) < tol, f"Gemma on HF drifts from the TPU scores: max probability difference {max(diffs):.4f}"
     return max(diffs)
 
