@@ -42,6 +42,9 @@ Always rebuild, then gate: the gate checks whatever files exist. Tests: `.venv/b
 `deploy/deploy.sh` → endpoint `qwen35-waf-v10` (us-east-1; `INSTANCE=ml.g5.xlarge` when g6 has no capacity; EC2 has
 0 GPU quota). Test with `.venv/bin/python deploy/client.py FILE.jsonl [--limit N] [--out F]`. It bills per hour while it
 exists: `deploy/teardown.sh` (endpoint, configs, models), `--all` also bucket and role. Details in `docs/PLAN.md`.
+Gemma v13 alone: `GEMMA_ONLY=1 deploy/deploy.sh` → endpoint `waf-gemma-v13` on `ml.g4dn.xlarge` (T4, cheapest GPU; falls
+back to g6 on no capacity), policy `config/policy_gemma_v13.yaml`; client/teardown take `WAF_ENDPOINT=waf-gemma-v13`.
+Not yet run on AWS: if the T4 fails the bf16 self-check, `GEMMA_DTYPE=float16` or `INSTANCE=ml.g6.xlarge`.
 
 ## Colab (the `colab` CLI is installed and authenticated)
 

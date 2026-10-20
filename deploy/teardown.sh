@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Delete the endpoint (stops billing), its endpoint configs and models. --all also removes the bucket and the role.
 set -uo pipefail
-REGION=us-east-1 NAME=qwen35-waf-v10
+REGION=us-east-1 NAME=${WAF_ENDPOINT:-qwen35-waf-v10}  # Gemma-only endpoint: WAF_ENDPOINT=waf-gemma-v13
 ACCOUNT=$(aws sts get-caller-identity --query Account --output text)
 aws sagemaker delete-endpoint --region $REGION --endpoint-name $NAME 2>/dev/null && echo "deleted endpoint $NAME"
 for c in $(aws sagemaker list-endpoint-configs --region $REGION --name-contains $NAME --query 'EndpointConfigs[].EndpointConfigName' --output text); do

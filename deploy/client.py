@@ -6,6 +6,7 @@ A real-time invocation must finish in 60 s, so records go in batches (default 8,
 """
 import argparse
 import json
+import os
 import subprocess
 import sys
 import tempfile
@@ -14,7 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from training.prepare import deserialize_telemetry  # noqa: E402
 
-ENDPOINT, REGION = "qwen35-waf-v10", "us-east-1"
+ENDPOINT, REGION = os.environ.get("WAF_ENDPOINT", "qwen35-waf-v10"), "us-east-1"  # Gemma-only: waf-gemma-v13
 
 
 def invoke(records):

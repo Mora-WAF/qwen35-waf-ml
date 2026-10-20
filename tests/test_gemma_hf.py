@@ -152,3 +152,35 @@ def test_score_records_decides_like_the_endpoint_on_real_benchmark_records():
             "telemetry": recs[-1]["telemetry"]}]
     (row,) = HS.robustness_scores(model, tok, rob, tax, float(pol["temperature"]), suf, contract=1, budget=900)
     assert row["split"] == "robustness" and row["label"] == "unknown" and len(row["scores"]) == len(classes)
+
+
+def test_gemma_only_endpoint_predict_isolates_malformed_records():
+    """deploy/sagemaker/inference.py Gemma-only package (deploy.sh GEMMA_ONLY=1): predict_fn scores through
+    score_records; a malformed record gets its own error, the others still get decisions."""
+    import json
+    import sys
+    from pathlib import Path
+    import yaml
+    from eval import policy as POL
+    from training import colab_helpers as H, prepare as P
+    from transformers import Gemma4ForCausalLM, Gemma4TextConfig
+    try:
+        tok = P.load_tokenizer()
+    except Exception as e:
+        pytest.skip(f"tokenizer not available: {e}")
+    root = Path(__file__).resolve().parent.parent
+    sys.path.insert(0, str(root / "deploy/sagemaker"))
+    import inference as INF
+    tax, _, _ = POL.load()
+    pol = yaml.safe_load(open(root / "config/policy_gemma_v13.yaml"))
+    cfg = Gemma4TextConfig(vocab_size=len(tok), hidden_size=32, intermediate_size=64, num_hidden_layers=8, num_attention_heads=2,
+                           num_key_value_heads=1, head_dim=16, global_head_dim=32, hidden_size_per_layer_input=4,
+                           vocab_size_per_layer_input=len(tok), num_kv_shared_layers=3, use_double_wide_mlp=True,
+                           layer_types=LAYER_TYPES, final_logit_softcapping=30.0, sliding_window=64, pad_token_id=tok.pad_token_id)
+    torch.manual_seed(0)
+    g = {"model": Gemma4ForCausalLM(cfg).float().eval(), "tok": tok, "suf": H.candidate_suffixes(tok, list(tax["classes"]))}
+    st = {"tax": tax, "pol": pol, "gemma": g, "gemma_only": True, "selfcheck_max_diff": 0.0}
+    tels = [json.loads(l)["telemetry"] for l in open(root / "reports/benchmarks/gotestwaf.jsonl")][:2]
+    res = INF.predict_fn(INF.input_fn(json.dumps({"records": [tels[0], "not telemetry", tels[1]]})), st)["results"]
+    assert res[1]["decision"] is None and res[1]["error"]
+    assert all(r["decision"] is not None and "probs" not in r and "id" not in r for r in (res[0], res[2]))

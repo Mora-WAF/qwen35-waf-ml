@@ -51,7 +51,7 @@ def _load_gemma(gdir, st):
     """The Gemma member of an ensemble package: base from the Hub + the TPU adapter as hooks, checked against its TPU
     scores (same top class, probability difference < SELFCHECK_A100_DIFF)."""
     from training.gemma_tpu import data as GD, hf_scorer as HS
-    model, tok = HS.load(str(gdir / "lora.npz"))
+    model, tok = HS.load(str(gdir / "lora.npz"), dtype=getattr(torch, os.environ.get("GEMMA_DTYPE", "bfloat16")))
     T = _member_temperature(st["pol"], 1)
     checks = [json.loads(line) for line in open(gdir / "selfcheck.jsonl")]
     diff = HS.selfcheck(model, tok, checks, T, st["classes"], tol=SELFCHECK_A100_DIFF)
@@ -60,6 +60,13 @@ def _load_gemma(gdir, st):
 
 
 def model_fn(model_dir, context=None):
+    if not os.path.isdir(os.path.join(model_dir, "adapter")):  # Gemma-only package (deploy.sh GEMMA_ONLY=1)
+        tax, pol, _ = POL.load(HERE)
+        assert "ensemble" not in pol, "Gemma-only package with an ensemble policy"
+        st = {"tax": tax, "pol": pol, "classes": list(tax["classes"]), "gemma_only": True}
+        st["gemma"] = _load_gemma(Path(model_dir) / "gemma", st)
+        st["selfcheck_max_diff"] = st["gemma"]["selfcheck_max_diff"]
+        return st
     from peft import PeftModel
     from transformers import AutoTokenizer, Qwen3_5ForConditionalGeneration
     adapter = os.path.join(model_dir, "adapter")
@@ -241,6 +248,8 @@ def predict_fn(data, st):
     windows); all prompts of the call are scored together; a record's decision comes from its most attack-like
     window (largest probability mass on attack classes)."""
     records, scoring, return_probs = (*data, False)[:3]
+    if st.get("gemma_only"):
+        return _predict_gemma(records, st, return_probs)
     out, pol, T = [None] * len(records), st["pol"], _member_temperature(st["pol"], 0)
     benign = [i for i, c in enumerate(st["classes"]) if st["tax"]["classes"][c]["is_benign"]]
     t0 = time.time()
@@ -298,6 +307,34 @@ def _gemma_probs(st, records, best):
     recs = [{"id": str(n), "telemetry": json.loads(json.dumps(records[n]))} for n in best]
     probs, _ = HS.record_probs(g["model"], g["tok"], recs, st["tax"], g["T"], g["suf"], contract=FIT_CONTRACT)
     return {int(k): v for k, v in probs.items()}
+
+
+def _predict_gemma(records, st, return_probs):
+    """Gemma-only endpoint: hf_scorer.score_records, the path the Gemma benchmarks were decided on (sensor windows by
+    Gemma's token budget, decoded views, frozen Gemma policy). Malformed telemetry fails alone, as in predict_fn."""
+    from training.gemma_tpu import hf_scorer as HS
+    g, t0 = st["gemma"], time.time()
+    recs = [{"id": str(n), "telemetry": json.loads(json.dumps(t))} for n, t in enumerate(records)]
+
+    def score(rs):
+        return HS.score_records(g["model"], g["tok"], rs, st["tax"], st["pol"], g["suf"], contract=FIT_CONTRACT)
+    try:
+        out = score(recs)
+    except Exception:  # find the bad record(s): score one by one
+        out = []
+        for r in recs:
+            try:
+                out += score([r])
+            except Exception as e:
+                out.append({"id": r["id"], "decision": None, "error": f"{type(e).__name__}: {e}"[:300]})
+    per = round((time.time() - t0) / max(1, len(recs)), 3)
+    for r in out:
+        r.pop("id")
+        r["latency_s"] = per
+        if not return_probs:
+            r.pop("probs", None), r.pop("temperature", None)
+    return {"results": out, "scoring": "gemma", "batch_s": round(time.time() - t0, 3),
+            "selfcheck_max_diff": st["selfcheck_max_diff"], "fit_contract": FIT_CONTRACT}
 
 
 def output_fn(pred, accept="application/json"):
