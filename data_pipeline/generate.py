@@ -494,6 +494,15 @@ FLOW_PROFILES = {
                                               dict(name="mixed_reset", h2_rst=(0.45, 0.85)),  # overlaps legitimate stream cancellation
                                               dict(name="low_rate_reset", pkts=(800, 5000), bytes_per_pkt=(200, 900), h2_rst=(0.3, 1.0), h2_rst_ms=(0.1, 40)),  # paced resets: neither latency nor ratio alone is the rule
                                               dict(name="multi_connection", conn=(20, 200), h2_rst=(0.5, 1.0))]),  # ratio overlaps benign cancels: latency is the evidence
+    # application-layer request floods (CIC-2017 Hulk / GoldenEye / LOIC are per-connection records: each connection is an
+    # ordinary short request; the evidence is the source's connection count to the same web host+port in the minute)
+    "http_flood_app_dos": dict(fwd_frac=(0.4, 0.6), ports=[80, 443, 8080], window="full_flow", dur=(0.005, 5), pkts=(5, 30), proto="tcp",
+                               syn_frac=(0.05, 0.25), bytes_per_pkt=(60, 700), dst_fanout=(1, 1),
+                               variants=[dict(name="keepalive_flood", dur=(5, 120), pkts=(20, 400), conn=(200, 2500)),  # GoldenEye-style: keep-alive, many requests per connection
+                                         dict(name="https_get_flood", ports=[443, 8443], bytes_per_pkt=(100, 1400), conn=(400, 20000)),
+                                         dict(name="post_body_flood", fwd_frac=(0.6, 0.85), bytes_per_pkt=(300, 1400), conn=(300, 8000)),
+                                         dict(name="aggregate_window", window="fixed_window", dur=(4, 6), pkts=(5000, 80000), syn_frac=(0.05, 0.2), conn=(500, 30000)),
+                                         dict(name="paced_flood", dur=(0.05, 20), conn=(200, 600))]),  # near the benign high tail: rate, not volume, is the evidence
     "benign_standard_traffic": dict(fwd_frac=(0.25, 0.6), ports=[443, 80, 8080, 22, 993, 5432], window="full_flow", dur=(1, 120), pkts=(10, 500), proto="tcp",
                                     syn_frac=(0.01, 0.05), bytes_per_pkt=(400, 1400), dst_fanout=(1, 2),
                                     variants=[  # benign UDP/DNS/QUIC/NTP so protocol and port are not attack-only
@@ -537,6 +546,9 @@ FLOW_PROFILES = {
                                        dict(name="dataset_fetch_windowed", ports=[443], pkts=(3000, 15000), bytes_per_pkt=(1200, 1460), fwd_frac=(0.05, 0.2), syn_frac=(0.0, 0.02)),
                                        # legitimate high stream-cancel rates: the lookalike of rapid reset
                                        dict(name="grpc_stream_cancel", ports=[443, 8443], pkts=(2000, 30000), bytes_per_pkt=(120, 700), fwd_frac=(0.45, 0.7), syn_frac=(0.0, 0.01), h2_rst=(0.2, 0.7), h2_cont=(0, 2), conn=(1, 8), h2_rst_ms=(1, 3000)),
+                                       # many short completed web connections from one source in the minute (the flood lookalike)
+                                       dict(name="proxy_nat_fanin", ports=[443, 80], window="full_flow", dur=(0.005, 30), pkts=(5, 60), bytes_per_pkt=(200, 1400), fwd_frac=(0.2, 0.45), syn_frac=(0.03, 0.2), conn=(100, 1200)),
+                                       dict(name="crawler_burst", ports=[443, 80, 8080], window="full_flow", dur=(0.01, 10), pkts=(6, 40), bytes_per_pkt=(150, 1400), fwd_frac=(0.25, 0.5), syn_frac=(0.05, 0.25), conn=(60, 500)),
                                        dict(name="h2_api_gateway_fanin", ports=[443], pkts=(4000, 40000), bytes_per_pkt=(150, 900), fwd_frac=(0.4, 0.65), syn_frac=(0.0, 0.01), h2_rst=(0.0, 0.3), h2_cont=(0, 6), conn=(1, 6), h2_rst_ms=(0.3, 2000))]),  # hedged requests: losers cancelled at once
 }
 # Window evidence per class: (connections to the same dst host+port in the minute, distinct dst ports on that host).
@@ -546,7 +558,7 @@ WINDOW_EVIDENCE = {
     "slowloris_slowhttp": ((60, 1200), (1, 1)), "port_scan_recon": ((1, 3), None),
     "credential_stuffing_bruteforce": ((40, 900), (1, 2)), "c2_beaconing_anomaly": ((1, 3), (1, 1)),
     "dns_tunneling_exfil": ((1, 6), (1, 1)), "tls_ja4_ua_spoofing": ((1, 12), (1, 1)),
-    "http2_rapid_reset_continuation": ((1, 30), (1, 1)),
+    "http2_rapid_reset_continuation": ((1, 30), (1, 1)), "http_flood_app_dos": ((300, 20000), (1, 2)),
     "benign_standard_traffic": ((1, 12), (1, 3)), "benign_high_rate_legit": ((1, 40), (1, 3)),
 }
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Deploy the classifier (v10 by default; v11: reports/colab_a100v11 colab/colab_bundle_fast.zip) to a SageMaker real-time endpoint (us-east-1, ml.g6.xlarge = L4 24 GB).
+# Deploy the classifier (v10 by default; v11: reports/colab_a100v11 colab/colab_bundle_fast_v11.zip) to a SageMaker real-time endpoint (us-east-1, ml.g6.xlarge = L4 24 GB).
 #   deploy/deploy.sh [RUN_DIR] [BUNDLE_ZIP]     defaults: reports/colab_a100v10, colab/colab_bundle_fast_v10.zip
-#   ENSEMBLE=1 deploy/deploy.sh reports/colab_a100v11 colab/colab_bundle_fast.zip   Qwen v11 + Gemma 4 E2B with
+#   ENSEMBLE=1 deploy/deploy.sh reports/colab_a100v11 colab/colab_bundle_fast_v11.zip   Qwen v11 + Gemma 4 E2B with
 #     config/policy_ensemble.yaml: both models on one GPU (~20 GB of weights), so ml.g6e.xlarge (L40S 48 GB) first;
 #     HF_TOKEN, if set here, goes into the container environment (google/gemma-4-E2B-it may need Hub access).
 # Creates (if missing) the execution role, a private bucket, then model -> endpoint config -> endpoint, and waits.

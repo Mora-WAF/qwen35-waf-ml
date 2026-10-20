@@ -28,7 +28,9 @@ OUT = ROOT / "data" / "flows"
 
 CIC_MAP = {"BENIGN": "benign_standard_traffic", "PortScan": "port_scan_recon",
            "DoS slowloris": "slowloris_slowhttp", "DoS Slowhttptest": "slowloris_slowhttp",
-           "FTP-Patator": "credential_stuffing_bruteforce", "SSH-Patator": "credential_stuffing_bruteforce"}
+           "FTP-Patator": "credential_stuffing_bruteforce", "SSH-Patator": "credential_stuffing_bruteforce",
+           # HTTP floods by tool (Hulk, GoldenEye; "DDoS" is LOIC's HTTP flood), all to the victim's web port
+           "DoS Hulk": "http_flood_app_dos", "DoS GoldenEye": "http_flood_app_dos", "DDoS": "http_flood_app_dos"}
 NF_MAP = {"Benign": "benign_standard_traffic", "scanning": "port_scan_recon",
           "password": "credential_stuffing_bruteforce"}
 FLAG_BITS = {"FIN Flag Count": 1, "SYN Flag Count": 2, "RST Flag Count": 4, "PSH Flag Count": 8,
@@ -126,7 +128,9 @@ def round_robin(df, group_col, cap, seed):
 
 # CIC-IDS2018 / CIC-DDoS2019: map to the CIC-2017 column schema so cic_features() (validated) applies unchanged
 IDS2018_MAP = {"Benign": "benign_standard_traffic", "DoS attacks-Slowloris": "slowloris_slowhttp",
-               "DoS attacks-SlowHTTPTest": "slowloris_slowhttp"}
+               "DoS attacks-SlowHTTPTest": "slowloris_slowhttp",
+               # no IP columns -> no window counts -> CONSISTENT drops them (counted): one flood flow looks like one request
+               "DoS attacks-Hulk": "http_flood_app_dos", "DoS attacks-GoldenEye": "http_flood_app_dos"}
 DDOS2019_MAP = {"BENIGN": "benign_standard_traffic", "Syn": "syn_flood_ddos",
                 **{f"DrDoS_{k}": "udp_amplification" for k in ("DNS", "NTP", "SSDP", "LDAP", "SNMP", "NetBIOS", "MSSQL")}}
 # A source label is kept only when the measured telemetry can show it (label-consistency; the Codex+Gemini final
@@ -138,10 +142,16 @@ DDOS2019_MAP = {"BENIGN": "benign_standard_traffic", "Syn": "syn_flood_ddos",
 #     udp_amplification is synthetic-only until a source shows both directions;
 #   CIC-IDS2018 "DoS attacks-SlowHTTPTest": all dst port 21, zero payload (FTP traffic, not slow HTTP).
 WEB_PORTS = {80, 443, 8000, 8080, 8443}
+FLOOD_MIN_CONN = 200  # connections a minute from one source to the same web host+port
 CONSISTENT = {
     "syn_flood_ddos": lambda f: f.get("ip_proto") == 6 and bool((f.get("tcp_flags_bitmask") or 0) & 2),
     "udp_amplification": lambda f: f.get("ip_proto") == 17 and (f.get("pkts_bwd") or 0) > 0,  # both directions seen
     "slowloris_slowhttp": lambda f: f.get("ip_proto") == 6 and f.get("dst_port") in WEB_PORTS,
+    # a single flood connection is an ordinary request: the flood is the window count. CIC-2017 web-port TCP (19 Oct):
+    # Hulk / GoldenEye / LOIC p1 9,362 / 312 / 1,348 connections a minute to the same host+port; benign p99 408,
+    # 2.6% >= 200 (benign keeps the overlap). 145 Hulk edge flows < 200 fail and are dropped.
+    "http_flood_app_dos": lambda f: (f.get("ip_proto") == 6 and f.get("dst_port") in WEB_PORTS
+                                     and (f.get("conn_count_60s") or 0) >= FLOOD_MIN_CONN),
     "credential_stuffing_bruteforce": lambda f: f.get("ip_proto") == 6,
     "port_scan_recon": lambda f: f.get("ip_proto") in (6, 17),
     "dns_tunneling_exfil": lambda f: f.get("dst_port") == 53,
@@ -302,9 +312,11 @@ def ingest(cap=3000, seed=1337):
     df = df[df.attack_label.isin(CIC_MAP)].copy()
     df["cls"] = df.attack_label.map(CIC_MAP)
     df["grp"] = "cic:" + df.source_ip + "->" + df.destination_ip
+    df["rr"] = df["grp"].where(df["cls"] != "http_flood_app_dos", df["grp"] + "|" + df["attack_label"])
     for cls, d in df.groupby("cls"):
         picked, rej = [], Counter()
-        for _, r in round_robin(d, "grp", cap * 2, seed).iterrows():  # 2x: room for rejects
+        # 2x: room for rejects; rr = lineage group, plus the tool for floods (Hulk would otherwise crowd out GoldenEye)
+        for _, r in round_robin(d, "rr", cap * 2, seed).iterrows():
             f, why = cic_features(r)
             if why:
                 rej[why] += 1

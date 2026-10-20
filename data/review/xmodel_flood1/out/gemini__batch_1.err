@@ -1,0 +1,16 @@
+ 60, pkts_per_s 2.82, bytes_per_s 414.
+- g00155: duration 37.8s, dst_port 443, pkts_bwd 30, pkts_fwd 72, pkts_per_s 2.70, bytes_per_s 207.
+- g00156: duration 42.8s, dst_port 443, pkts_bwd 14, pkts_fwd 43, pkts_per_s 1.33, bytes_per_s 97.2.
+- g00157: duration 3.03s, dst_port 80, pkts_bwd 0, pkts_fwd 3, bytes 0.
+- g00159: duration 35.8s, dst_port 443, pkts_bwd 20, pkts_fwd 41, pkts_per_s 1.70, bytes_per_s 228.
+- g00160: duration 109.7s, dst_port 80, pkts_bwd 3, pkts_fwd 4, pkts_per_s 0.064, bytes_per_s 3.2.
+- g00165: duration 117.0s, dst_port 80, pkts_bwd 2, pkts_fwd 2, pkts_per_s 0.034, bytes_per_s 0.14.
+- g00178: duration 186.9s, dst_port 443, pkts_bwd 77, pkts_fwd 54, pkts_per_s 0.70, bytes_per_s 97.4.
+
+Wait! Look at the characteristics of Cluster 3:
+Slow rates!
+Duration: 30s to 186s (except a few like 127, 132, 133, 157).
+Wait, why are 127, 132, 133, 157 short?
+Wait, are they part of the same attack tool run (e.g. slowloris / slowhttptest)?
+When Slowloris runs, it opens hundreds of connections (e.g. conn_count_60s: 200-1000 in these flows), sends very slowly (bytes_per_s < 500, often < 20 B/s), and some connections timeout or get reset immediately!
+Wait! Look at the definition of `slowloris_slow

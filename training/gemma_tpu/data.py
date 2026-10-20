@@ -170,12 +170,12 @@ def write_prompt_buckets(out, split, rows, labels, pad_id):
 
 
 def bench(names=("gotestwaf", "openappsec", "unsw"), robustness=False, out="reports/gemma_tpu/data_bench",
-          max_tokens=P.MAX_TOKENS, contract=1):  # contract: the sensor contract of the build Gemma trained on (v11: 1)
+          max_tokens=P.MAX_TOKENS, contract=1, src="datasets_ready"):  # contract: the sensor contract of the build Gemma trained on (v11: 1)
     tok = load_tokenizer()
     ctrl = P.control_strings(tok)
-    classes = list(yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"])
-    suf = class_suffixes(tok, classes)
     ref = json.loads((ROOT / "reports/gemma_tpu/data/meta.json").read_text())  # the trained model's export
+    classes = ref["classes"]  # the trained model's classes (v11-era Gemma: 41), not today's taxonomy
+    suf = class_suffixes(tok, classes)
     sha = hashlib.sha256(tok.chat_template.encode()).hexdigest()
     assert suf == ref["suffixes"] and sha == ref["chat_template_sha256"], "tokenizer differs from the training export"
     out = ROOT / out
@@ -192,7 +192,7 @@ def bench(names=("gotestwaf", "openappsec", "unsw"), robustness=False, out="repo
                                                                tok.pad_token_id), "records": len(recs), "windows": len(rows),
                                "over_budget": sum(m["windows"] == 0 for m in man.values())}
     if robustness:  # the robustness set (training-format records): ensemble robustness needs Gemma scores of it
-        rob = [json.loads(line) for line in open(ROOT / "datasets_ready/robustness_pilot.jsonl")]
+        rob = [json.loads(line) for line in open(ROOT / src / "robustness_pilot.jsonl")]
         rr = [{"id": r["id"], "telemetry": P.deserialize_telemetry(r["messages"][1]["content"])} for r in rob]
         rows_r, man_r = bench_rows(rr, ids_of, budget, contract)
         lab = {r["id"]: classes.index(r["metadata"]["threat_type"]) if r["metadata"]["threat_type"] in classes else -1 for r in rob}
@@ -211,11 +211,12 @@ if __name__ == "__main__":
         ap = argparse.ArgumentParser()
         ap.add_argument("cmd")
         ap.add_argument("--names", default="gotestwaf,openappsec,unsw")
-        ap.add_argument("--robustness", action="store_true", help="also datasets_ready/robustness_pilot.jsonl")
+        ap.add_argument("--robustness", action="store_true", help="also SRC/robustness_pilot.jsonl")
+        ap.add_argument("--src", default="datasets_ready", help="build the scored model trained on (v11: datasets_v11_backup)")
         ap.add_argument("--out", default="reports/gemma_tpu/data_bench")
         ap.add_argument("--fit-contract", type=int, default=1, help="sensor contract of the trained model's build (v11: 1)")
         a = ap.parse_args()
-        bench(a.names.split(","), a.robustness, a.out, contract=a.fit_contract)
+        bench(a.names.split(","), a.robustness, a.out, contract=a.fit_contract, src=a.src)
         sys.exit(0)
     ap = argparse.ArgumentParser()
     ap.add_argument("--prefix", default="fast_")

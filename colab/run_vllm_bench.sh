@@ -3,7 +3,7 @@
 #   colab/run_vllm_bench.sh [NAME] [GPU] [N]     defaults: vllmbench L4 400
 # new VM -> upload model package + N test records with their A100 scores -> pip -> merge -> hf -> vllm -> report
 # -> download reports/vllm_bench_<GPU>.json -> stop the VM (always, via the EXIT trap).
-# Env: RUN_DIR BUNDLE_ZIP (deploy.sh args, e.g. reports/colab_a100v11 colab/colab_bundle_fast.zip), FP_IN FP_OUT, STAGES.
+# Env: RUN_DIR BUNDLE_ZIP (deploy.sh args, e.g. reports/colab_a100v11 colab/colab_bundle_fast_v11.zip), FP_IN FP_OUT, STAGES.
 #      GEMMA_LORA GEMMA_POLICY GEMMA_SELFCHECK GEMMA_OUT: the Gemma adapter (8 MB parts), its frozen policy and the TPU
 #      selfcheck records for the gemma_fp stage (same records as fp, Gemma on HF transformers); GEMMA_ROBUST
 #      GEMMA_ROBUST_OUT: robustness probes ({id, split, kind, label, telemetry}) -> Gemma's raw class scores.

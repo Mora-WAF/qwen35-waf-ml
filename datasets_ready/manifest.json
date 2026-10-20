@@ -1,0 +1,362 @@
+{
+ "mode": "fast",
+ "per_class": 40,
+ "quota_fraction": 0.25,
+ "total": 54747,
+ "dropped_exact_dup": 77,
+ "dropped_label_conflicts": {},
+ "rejected_token_overflow": {
+  "graphql_abuse": 63,
+  "jwt_auth_bypass": 9,
+  "websocket_grpc_abuse": 37,
+  "benign_standard_traffic": 33,
+  "benign_high_rate_legit": 1
+ },
+ "files": {
+  "fast_train.jsonl": {
+   "records": 39158,
+   "sha256": "d7ecfebd2052bce7aec83efa05abd826a8c5d53bb9d8e31bfe7c7e50711dee18"
+  },
+  "fast_val.jsonl": {
+   "records": 4981,
+   "sha256": "a2fc114397a7d0b4f584b94739bfe56e11d1b8d6360b30019577dc02f9a33fac"
+  },
+  "fast_test.jsonl": {
+   "records": 4888,
+   "sha256": "8e633a77f1b678c34d2c2c0ae2cf351542545a8a1bc20d713000dd05c99eeb62"
+  },
+  "fast_test_unseen.jsonl": {
+   "records": 5720,
+   "sha256": "e9ed09fa836fb6e8078a2d07c9019c246df16d04e55362a8226939c89c03f35c"
+  }
+ },
+ "deficits": {
+  "_mixed_observed_synthetic": {
+   "slowloris_slowhttp": {
+    "observed_groups": 2,
+    "observed": 375,
+    "synthetic": 375,
+    "per_source": {
+     "cic_ids2017_mirror": 188,
+     "cic_ids2018": 187
+    }
+   },
+   "port_scan_recon": {
+    "observed_groups": 1,
+    "observed": 500,
+    "synthetic": 500,
+    "per_source": {
+     "cic_ids2017_mirror": 500
+    }
+   },
+   "credential_stuffing_bruteforce": {
+    "observed_groups": 1,
+    "observed": 500,
+    "synthetic": 500,
+    "per_source": {
+     "cic_ids2017_mirror": 500
+    }
+   },
+   "dns_tunneling_exfil": {
+    "observed_groups": 12,
+    "observed": 325,
+    "synthetic": 325,
+    "per_source": {
+     "cic_bell_dns_exf2021": 325
+    }
+   },
+   "http_flood_app_dos": {
+    "observed_groups": 1,
+    "observed": 375,
+    "synthetic": 375,
+    "per_source": {
+     "cic_ids2017_mirror": 375
+    }
+   },
+   "benign_standard_traffic": {
+    "observed_groups": 7283,
+    "observed": 2075,
+    "synthetic": 833,
+    "matched_per_source": {
+     "cic_ids2017_mirror": 1563,
+     "cic_ids2018": 187,
+     "cic_bell_dns_exf2021": 325
+    }
+   }
+  }
+ },
+ "haiku_jobs": {
+  "ssrf_cloud_metadata": {
+   "status": "ok",
+   "accepted": 1242,
+   "rejected": 0,
+   "quarantined_by_review": 22
+  },
+  "graphql_abuse": {
+   "status": "ok",
+   "accepted": 773,
+   "rejected": 0,
+   "quarantined_by_review": 275
+  },
+  "jwt_auth_bypass": {
+   "status": "ok",
+   "accepted": 1314,
+   "rejected": 0,
+   "quarantined_by_review": 270
+  },
+  "bola_idor_enumeration": {
+   "status": "ok",
+   "accepted": 1009,
+   "rejected": 0,
+   "quarantined_by_review": 27
+  },
+  "websocket_grpc_abuse": {
+   "status": "ok",
+   "accepted": 769,
+   "rejected": 0,
+   "quarantined_by_review": 309
+  },
+  "llm_prompt_injection": {
+   "status": "ok",
+   "accepted": 1093,
+   "rejected": 0,
+   "quarantined_by_review": 19
+  },
+  "prototype_pollution": {
+   "status": "ok",
+   "accepted": 911,
+   "rejected": 0,
+   "quarantined_by_review": 9
+  },
+  "web_cache_poisoning": {
+   "status": "ok",
+   "accepted": 844,
+   "rejected": 0,
+   "quarantined_by_review": 12
+  },
+  "deserialization": {
+   "status": "ok",
+   "accepted": 796,
+   "rejected": 0,
+   "quarantined_by_review": 96
+  },
+  "csv_formula_injection": {
+   "status": "ok",
+   "accepted": 645,
+   "rejected": 0,
+   "quarantined_by_review": 57
+  },
+  "bopla_mass_assignment": {
+   "status": "ok",
+   "accepted": 615,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "bfla_admin_function_probing": {
+   "status": "ok",
+   "accepted": 736,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "race_condition_toctou_burst": {
+   "status": "ok",
+   "accepted": 696,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "malicious_file_upload_webshell": {
+   "status": "ok",
+   "accepted": 773,
+   "rejected": 0,
+   "quarantined_by_review": 23
+  },
+  "mcp_agentic_tool_abuse": {
+   "status": "ok",
+   "accepted": 597,
+   "rejected": 0,
+   "quarantined_by_review": 19
+  },
+  "benign_hard_negative_dev": {
+   "status": "ok",
+   "accepted": 3480,
+   "rejected": 0,
+   "quarantined_by_review": 1240
+  },
+  "benign_hard_negative_search": {
+   "status": "ok",
+   "accepted": 1543,
+   "rejected": 0,
+   "quarantined_by_review": 277
+  },
+  "benign_standard_traffic": {
+   "status": "ok",
+   "accepted": 8672,
+   "rejected": 0,
+   "quarantined_by_review": 630
+  },
+  "xss_reflected_stored": {
+   "status": "ok",
+   "accepted": 197,
+   "rejected": 0,
+   "quarantined_by_review": 3
+  },
+  "xxe": {
+   "status": "ok",
+   "accepted": 150,
+   "rejected": 0,
+   "quarantined_by_review": 10
+  },
+  "benign_high_rate_legit": {
+   "status": "ok",
+   "accepted": 139,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "crlf_header_injection": {
+   "status": "ok",
+   "accepted": 375,
+   "rejected": 0,
+   "quarantined_by_review": 5
+  },
+  "http_request_smuggling": {
+   "status": "ok",
+   "accepted": 239,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "ldap_xpath_injection": {
+   "status": "ok",
+   "accepted": 380,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "nosqli": {
+   "status": "ok",
+   "accepted": 239,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "open_redirect_cors": {
+   "status": "ok",
+   "accepted": 199,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "path_traversal_lfi": {
+   "status": "ok",
+   "accepted": 354,
+   "rejected": 0,
+   "quarantined_by_review": 6
+  },
+  "rce_cmd_injection": {
+   "status": "ok",
+   "accepted": 440,
+   "rejected": 0,
+   "quarantined_by_review": 0
+  },
+  "ssti": {
+   "status": "ok",
+   "accepted": 260,
+   "rejected": 0,
+   "quarantined_by_review": 100
+  },
+  "xss_dom_polyglot": {
+   "status": "ok",
+   "accepted": 199,
+   "rejected": 0,
+   "quarantined_by_review": 1
+  },
+  "sqli_classic": {
+   "status": "ok",
+   "accepted": 73,
+   "rejected": 0,
+   "quarantined_by_review": 7
+  }
+ },
+ "cross_split_overlap": 0,
+ "lineage_overlap": 0,
+ "observed_campaign_blocks": {
+  "cic_ids2017_mirror/credential_stuffing_bruteforce": {
+   "to_train": 376,
+   "held_out": 94,
+   "held_out_split": [
+    "val_select"
+   ]
+  },
+  "cic_ids2017_mirror/http_flood_app_dos": {
+   "to_train": 298,
+   "held_out": 74,
+   "held_out_split": [
+    "val_select"
+   ]
+  },
+  "cic_ids2017_mirror/port_scan_recon": {
+   "to_train": 400,
+   "held_out": 100,
+   "held_out_split": [
+    "val_select"
+   ]
+  },
+  "cic_ids2017_mirror/slowloris_slowhttp": {
+   "to_train": 148,
+   "held_out": 37,
+   "held_out_split": [
+    "val_select"
+   ]
+  }
+ },
+ "unseen_source_benign_moved": {},
+ "observed_per_split": {
+  "cic_ids2017_mirror": {
+   "train": {
+    "attack": 1222,
+    "benign": 1249
+   },
+   "val_select": {
+    "attack": 305,
+    "benign": 78
+   },
+   "val_policy": {
+    "attack": 0,
+    "benign": 38
+   },
+   "test": {
+    "attack": 0,
+    "benign": 159
+   },
+   "val_calib": {
+    "attack": 0,
+    "benign": 35
+   }
+  },
+  "cic_ids2018": {
+   "train": {
+    "attack": 150,
+    "benign": 0
+   },
+   "test": {
+    "attack": 0,
+    "benign": 187
+   }
+  },
+  "cic_bell_dns_exf2021": {
+   "train": {
+    "attack": 267,
+    "benign": 325
+   },
+   "test": {
+    "attack": 29,
+    "benign": 0
+   },
+   "val_select": {
+    "attack": 29,
+    "benign": 0
+   }
+  }
+ },
+ "limitations": [
+  "CIC-IDS2017 attack classes are single campaigns (one attacker host): the build trains on the earlier 80% of each (capture order) and holds out the latest 20% (observed_campaign_blocks), a later-traffic test of the same campaign, weaker than an unseen source",
+  "synthetic flow/benign/haiku records are independent draws (own lineage group) but share per-class template families across splits; no unseen-family holdout in pilot",
+  "near-duplicate (non-exact) seed variants not yet clustered"
+ ]
+}

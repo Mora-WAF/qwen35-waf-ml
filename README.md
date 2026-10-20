@@ -2,7 +2,7 @@
 
 A dataset pipeline, a Colab fine-tuning notebook and an offline decision policy for a **Qwen3.5-4B
 WAF / NIDS classifier**. Given one sensor observation (an HTTP request, a network flow, or a request plus its
-context), the model answers with a single JSON object: `{"threat_type": "<one of 41 classes>"}`. A separate
+context), the model answers with a single JSON object: `{"threat_type": "<one of 42 classes>"}`. A separate
 calibrated policy turns that answer into a recommendation (allow, block, abstain). Nothing here acts on live
 traffic.
 
@@ -21,14 +21,14 @@ fixtures written by LLM workers. No traffic generators or exploit tooling are bu
 The progress log, every measured number and every known limitation are in [`docs/PLAN.md`](docs/PLAN.md)
 (the "Implementation progress" section). Read it before relying on any result.
 
-## Taxonomy (41 classes, `config/taxonomy.yaml`)
+## Taxonomy (42 classes, `config/taxonomy.yaml`; v10 / v11 were trained on the first 41)
 
 | Domain | Classes |
 |---|---|
 | L7 injection | SQLi classic / obfuscated, NoSQLi, XSS reflected-stored / DOM-polyglot, RCE command injection, SSTI, XXE, deserialization, CRLF header injection, LDAP/XPath injection, CSV formula injection, malicious file upload (webshell) |
 | L7 API / protocol | path traversal / LFI, SSRF (cloud metadata), HTTP request smuggling, GraphQL abuse, JWT auth bypass, BOLA/IDOR, BOPLA (mass assignment), BFLA (admin function probing), race condition (TOCTOU burst), open redirect / CORS, WebSocket / gRPC abuse |
 | L7 AI / modern | LLM prompt injection, MCP / agentic tool abuse, prototype pollution, web cache poisoning |
-| L4 network flow | SYN flood, UDP amplification, HTTP/2 rapid reset / CONTINUATION, slowloris / slow HTTP, credential stuffing / brute force, port scan, C2 beaconing, DNS tunnelling / exfiltration, TLS JA4 / user-agent spoofing |
+| L4 network flow | SYN flood, UDP amplification, HTTP request flood (application-layer DoS), HTTP/2 rapid reset / CONTINUATION, slowloris / slow HTTP, credential stuffing / brute force, port scan, C2 beaconing, DNS tunnelling / exfiltration, TLS JA4 / user-agent spoofing |
 | Benign | standard traffic, hard negatives (developer content), hard negatives (search text), high-rate legitimate traffic |
 
 Each class has a scope, exclusions (the boundary rules between neighbours), the evidence it requires,

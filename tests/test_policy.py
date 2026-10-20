@@ -189,3 +189,18 @@ def test_ensemble_merge_matches_members_and_drops_unshared_records(tmp_path):
         want = (CAL.softmax(sa[i], 1.2) + CAL.softmax(sb[i], 0.8)) / 2
         assert np.allclose(CAL.softmax(got[i]["scores"]), want, atol=1e-5)
     assert [m["temperature"] for m in head["ensemble"]["members"]] == [1.2, 0.8]
+
+
+def test_older_model_distribution_decides_under_an_appended_taxonomy():
+    """v10 / v11 score 41 classes; the taxonomy appended http_flood_app_dos (19 Oct). Their distributions are a prefix."""
+    import numpy as np
+    from eval.policy import decide_from_probs
+    classes = list(TAX["classes"])
+    assert classes[-1] == "http_flood_app_dos"
+    p = np.full(len(classes) - 1, 1e-4)
+    p[classes.index("sqli_classic")] = 1 - p.sum() + 1e-4
+    tel = {"mode": "L7_HTTP", "http": {"headers": []}}
+    d, diag, top = decide_from_probs(p, tel, TAX, CAL)
+    assert d["threat_type"] == "sqli_classic" and d["verdict"] == "BLOCK" and top[0][0] == "sqli_classic"
+    with pytest.raises(AssertionError):
+        decide_from_probs(np.ones(len(classes) + 1) / (len(classes) + 1), tel, TAX, CAL)

@@ -17,7 +17,8 @@ OUT = ROOT / "datasets_ready"
 
 # classes whose label is defined by repetition across connections (a cross-model audit rejected single
 # observed flows of this class without window evidence: 15 of 17)
-NEEDS_WINDOW = {"credential_stuffing_bruteforce", "port_scan_recon"}  # scans: distinct ports, also one-flow-blind
+NEEDS_WINDOW = {"credential_stuffing_bruteforce", "port_scan_recon",  # scans: distinct ports, also one-flow-blind
+                "http_flood_app_dos"}  # one flood connection is one ordinary request
 
 
 def taxonomy():

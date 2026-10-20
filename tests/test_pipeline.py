@@ -240,6 +240,26 @@ def test_flow_label_consistency():
     assert not CONSISTENT["udp_amplification"]({"ip_proto": 6})
     assert not CONSISTENT["udp_amplification"]({"ip_proto": 17, "pkts_fwd": 2, "pkts_bwd": 0})  # one-way spray
     assert not CONSISTENT["slowloris_slowhttp"]({"ip_proto": 6, "dst_port": 21})
+    # one flood connection is an ordinary request: the window count carries the label, and its absence fails it
+    assert CONSISTENT["http_flood_app_dos"]({"ip_proto": 6, "dst_port": 80, "conn_count_60s": 9362})
+    assert not CONSISTENT["http_flood_app_dos"]({"ip_proto": 6, "dst_port": 80, "conn_count_60s": 150})
+    assert not CONSISTENT["http_flood_app_dos"]({"ip_proto": 6, "dst_port": 80})  # CIC-2018: no IPs, no window
+    assert not CONSISTENT["http_flood_app_dos"]({"ip_proto": 6, "dst_port": 22, "conn_count_60s": 5000})
+
+
+def test_synthetic_http_floods_are_consistent_and_have_lookalikes():
+    from data_pipeline import flow_physics as P
+    from data_pipeline import generate as G
+    from data_pipeline.flows import CONSISTENT
+    for i in range(300):
+        tel, sc = G.synth_flow("http_flood_app_dos", i)
+        f = tel["flow"]["features"]
+        assert P.check(f, "http_flood_app_dos", "synthetic") == ([], []), (sc["variant"], f)
+        assert CONSISTENT["http_flood_app_dos"](f), (sc["variant"], f)
+    # benign fan-in reaches flood-level window counts: the count alone is not the label
+    look = [G.synth_flow("benign_high_rate_legit", i) for i in range(3000)]
+    hi = [t["flow"]["features"]["conn_count_60s"] for t, sc in look if sc["variant"] in ("proxy_nat_fanin", "crawler_burst")]
+    assert hi and max(hi) >= 400
 
 
 def test_calibration_recovers_temperature_and_respects_hn_constraint():

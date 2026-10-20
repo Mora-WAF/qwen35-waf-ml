@@ -1,0 +1,33 @@
+[run_tpu 00:52:55] new TPU session v12
+[colab] Creating session 'v12'...
+[colab] Session READY.
+[run_tpu 00:52:59] install tunix + qwix
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+torch-tpu 0.2.0rc4 requires libtpu>=0.0.50, but you have libtpu 0.0.44.1 which is incompatible.
+
+[colab] Uploaded '/tmp/tmp.CLgySjGqTo/data.part.00' to '/content/data.part.00'
+[colab] Uploaded '/tmp/tmp.CLgySjGqTo/data.part.01' to '/content/data.part.01'
+[colab] Uploaded '/tmp/tmp.CLgySjGqTo/data.sha256' to '/content/data.sha256'
+13
+
+[colab] Uploaded 'training/gemma_tpu/train_tunix.py' to '/content/train_tunix.py'
+[run_tpu 00:55:31] ACTION: run 'colab drivemount -s v12' in another terminal (waiting up to 15 min)
+[run_tpu 00:56:40] Drive mirror -> /content/drive/MyDrive/waf_gemma/colab_v12
+ok
+
+[run_tpu 00:56:45] launch train ()
+launched
+
+[run_tpu 00:56:51] 
+[run_tpu 01:01:54] 
+[run_tpu 01:06:58] 
+[run_tpu 01:12:10] {'step': 240, 'of': 2225, 'loss': 0.0354, 'elapsed_s': 749, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_use
+[run_tpu 01:17:14] {'step': 500, 'of': 2225, 'loss': 0.01798, 'elapsed_s': 1059, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_u
+[run_tpu 01:22:17] {'step': 760, 'of': 2225, 'loss': 0.01839, 'elapsed_s': 1366, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_u
+[run_tpu 01:27:20] {'step': 1020, 'of': 2225, 'loss': 0.01028, 'elapsed_s': 1682, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 01:32:23] {'step': 1260, 'of': 2225, 'loss': 0.01204, 'elapsed_s': 1969, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 01:37:26] {'step': 1520, 'of': 2225, 'loss': 0.00489, 'elapsed_s': 2278, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 01:42:29] {'step': 1760, 'of': 2225, 'loss': 0.00292, 'elapsed_s': 2572, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 01:47:31] {'step': 2020, 'of': 2225, 'loss': 0.00375, 'elapsed_s': 2881, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 01:52:35] {'step': 2220, 'of': 2225, 'loss': 0.00741, 'elapsed_s': 3115, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_
+[run_tpu 01:57:37] {'step': 2220, 'of': 2225, 'loss': 0.00741, 'elapsed_s': 3115, 'hbm_gb': {'bytes_in_use': 9.4, 'peak_bytes_in_

@@ -107,7 +107,7 @@ def _arrays(rows, split, classes, T):
 
 
 def report(members, merged, ens_policy, tax):
-    classes = list(tax)
+    classes = json.loads(open(ROOT / merged).readline())["classes"]  # the members' classes (a prefix of today's taxonomy)
     benign = np.array([tax[c]["is_benign"] for c in classes])
     hard = np.array([c.startswith("benign_hard_negative") for c in classes])
     epol = yaml.safe_load(open(ROOT / ens_policy))

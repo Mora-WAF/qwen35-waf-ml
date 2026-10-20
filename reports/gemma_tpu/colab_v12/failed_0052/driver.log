@@ -1,0 +1,41 @@
+[run_tpu 00:44:28] new TPU session v12
+[colab] Creating session 'v12'...
+[colab] Session READY.
+[run_tpu 00:44:32] install tunix + qwix
+ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.
+torch-tpu 0.2.0rc4 requires libtpu>=0.0.50, but you have libtpu 0.0.44.1 which is incompatible.
+
+[colab] Uploaded '/tmp/tmp.JQUodm1N3H/data.part.00' to '/content/data.part.00'
+[colab] Uploaded '/tmp/tmp.JQUodm1N3H/data.part.01' to '/content/data.part.01'
+[colab] Uploaded '/tmp/tmp.JQUodm1N3H/data.sha256' to '/content/data.sha256'
+13
+
+[colab] Uploaded 'training/gemma_tpu/train_tunix.py' to '/content/train_tunix.py'
+[run_tpu 00:46:56] Drive mirror -> /content/drive/MyDrive/waf_gemma/colab_v12
+ok
+
+[run_tpu 00:47:01] launch train ()
+launched
+
+[run_tpu 00:47:07] 
+[run_tpu 00:52:10] FULL_EXIT 1
+[run_tpu 00:52:10] run did not exit 0 (see full.log)
+synced
+
+[colab] Downloaded '/content/out/full.log' to 'reports/gemma_tpu/colab_v12/full.log'
+[colab] Download failed: File or directory not found: /content/out/train_log.jsonl
+[run_tpu 00:52:14] no train_log.jsonl
+[colab] Download failed: File or directory not found: /content/out/train_report.json
+[run_tpu 00:52:15] no train_report.json
+[colab] Download failed: File or directory not found: /content/out/lora.npz
+[run_tpu 00:52:16] no lora.npz
+[colab] Download failed: File or directory not found: /content/out/SCORES_val.jsonl
+[run_tpu 00:52:17] no SCORES_val.jsonl
+[colab] Download failed: File or directory not found: /content/out/SCORES_test.jsonl
+[run_tpu 00:52:25] no SCORES_test.jsonl
+[colab] Download failed: File or directory not found: /content/out/SCORES_test_unseen.jsonl
+[run_tpu 00:52:26] no SCORES_test_unseen.jsonl
+[run_tpu 00:52:26] done -> reports/gemma_tpu/colab_v12
+[colab] Stopping session 'v12'...
+[colab] Session terminated.
+[run_tpu 00:52:28] stopped v12

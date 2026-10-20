@@ -18,6 +18,10 @@ import sys
 import time
 from pathlib import Path
 
+# 20 Oct: the Colab TPU image ships torch_tpu; tunix -> metrax -> tensorboardX imports torch, whose backend autoload
+# rejects the libtpu version string ("0.0.44.1") that the tunix install brings. Torch is only needed on the CPU here.
+os.environ.setdefault("TORCH_DEVICE_BACKEND_AUTOLOAD", "0")
+
 import jax
 import jax.numpy as jnp
 import numpy as np

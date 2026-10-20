@@ -1,0 +1,79 @@
+/usr/local/lib/python3.13/dist-packages/jax/_src/cloud_tpu_init.py:88: UserWarning: Transparent hugepages are not enabled. TPU runtime startup and shutdown time should be significantly improved on TPU v5e and newer. If not already set, you may need to enable transparent hugepages in your VM image (sudo sh -c "echo always > /sys/kernel/mm/transparent_hugepage/enabled")
+  warnings.warn(
+Successfully renamed PrivateUse1 backend to 'tpu'. Device: device(type='tpu')
+Registered Python module for 'tpu'.
+Device type: tpu, Device index: default
+Initializing TPU distributed runtime
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/dist-packages/torch/__init__.py", line 3482, in _import_device_backends
+    entrypoint = backend_extension.load()
+  File "/usr/lib/python3.13/importlib/metadata/__init__.py", line 179, in load
+    module = import_module(match.group('module'))
+  File "/usr/lib/python3.13/importlib/__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1404, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1369, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1312, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "<frozen importlib._bootstrap>", line 1404, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1369, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1340, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1027, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/usr/local/lib/python3.13/dist-packages/torch_tpu/__init__.py", line 39, in <module>
+    from torch_tpu import _loader as _  # pylint: disable=g-import-not-at-top  # noqa: F401
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch_tpu/_loader.py", line 403, in <module>
+    load()
+    ~~~~^^
+  File "/usr/local/lib/python3.13/dist-packages/torch_tpu/_loader.py", line 392, in load
+    _init_device("tpu")  # INIT_DEVICE_OK=root usage
+    ~~~~~~~~~~~~^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch_tpu/_loader.py", line 374, in _init_device
+    device_d = _init_device_impl(device)
+  File "/usr/local/lib/python3.13/dist-packages/torch_tpu/_loader.py", line 310, in _init_device_impl
+    _set_libtpu_version()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/dist-packages/torch_tpu/_loader.py", line 172, in _set_libtpu_version
+    env.set_libtpu_version(version)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+RuntimeError: set_libtpu_version(): expected version string to be of the format <major>[.<minor>[.<patch>]][.dev<build>][<suffix>], got '0.0.44.1'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/content/train_tunix.py", line 344, in <module>
+    score(["val", "test", "test_unseen"], train())
+                                          ~~~~~^^
+  File "/content/train_tunix.py", line 222, in train
+    gd, lora, frozen, mesh = load_model()
+                             ~~~~~~~~~~^^
+  File "/content/train_tunix.py", line 48, in load_model
+    from tunix.models.gemma4 import model as gemma4_lib, params_safetensors
+  File "/usr/local/lib/python3.13/dist-packages/tunix/__init__.py", line 28, in <module>
+    from tunix.common.configs import CacheConfig
+  File "/usr/local/lib/python3.13/dist-packages/tunix/common/configs.py", line 31, in <module>
+    from tunix.sft import metrics_logger as sft_metrics_logger
+  File "/usr/local/lib/python3.13/dist-packages/tunix/sft/metrics_logger.py", line 25, in <module>
+    from metrax import logging as metrax_logging
+  File "/usr/local/lib/python3.13/dist-packages/metrax/logging/__init__.py", line 16, in <module>
+    from metrax.logging import tensorboard_backend
+  File "/usr/local/lib/python3.13/dist-packages/metrax/logging/tensorboard_backend.py", line 20, in <module>
+    from tensorboardX import writer
+  File "/usr/local/lib/python3.13/dist-packages/tensorboardX/__init__.py", line 4, in <module>
+    from .global_writer import GlobalSummaryWriter
+  File "/usr/local/lib/python3.13/dist-packages/tensorboardX/global_writer.py", line 4, in <module>
+    from .writer import SummaryWriter
+  File "/usr/local/lib/python3.13/dist-packages/tensorboardX/writer.py", line 43, in <module>
+    import torch
+  File "/usr/local/lib/python3.13/dist-packages/torch/__init__.py", line 3529, in <module>
+    _import_device_backends()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/__init__.py", line 3486, in _import_device_backends
+    raise RuntimeError(
+    ...<2 lines>...
+    ) from err
+RuntimeError: Failed to load the backend extension: torch_tpu. You can disable extension auto-loading with TORCH_DEVICE_BACKEND_AUTOLOAD=0.
+FULL_EXIT 1

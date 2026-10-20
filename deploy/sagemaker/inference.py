@@ -1,6 +1,6 @@
 """SageMaker handler (Hugging Face inference toolkit): the evaluated scoring path behind a real-time endpoint.
 
-Same path as the evaluated model: telemetry -> training.prepare messages -> summed completion log-prob of all 41 classes
+Same path as the evaluated model: telemetry -> training.prepare messages -> summed completion log-prob of every class in the bundle's taxonomy
 (colab_helpers.batch_class_logprobs by default, the per-record class_logprobs' scores without prompt recomputation)
 -> softmax(scores / T) -> eval.policy.decide_from_probs with the frozen policy.
 model_fn loads the pinned base from the Hugging Face Hub, merges the rsLoRA adapter shipped in model.tar.gz and

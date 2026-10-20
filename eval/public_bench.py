@@ -54,7 +54,8 @@ GTW_TYPES = {"SQL Injection": ["sqli_classic", "sqli_obfuscated"], "XSS": ["xss_
 OAS_TYPES = {"sqli": GTW_TYPES["SQL Injection"], "xss": GTW_TYPES["XSS"], "cmdexe": ["rce_cmd_injection"],
              "traversal": ["path_traversal_lfi"], "xxe": ["xxe"], "log4shell": ATTACK, "shellshock": ATTACK}
 UNSW_TYPES = {"Reconnaissance": ["port_scan_recon"],
-              "DoS": ["syn_flood_ddos", "udp_amplification", "slowloris_slowhttp", "http2_rapid_reset_continuation"]}
+              "DoS": ["syn_flood_ddos", "udp_amplification", "slowloris_slowhttp", "http2_rapid_reset_continuation",
+                      "http_flood_app_dos"]}
 SOAP = ('<?xml version="1.0" encoding="UTF-8"?>\n<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"\n'
         '\txmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n'
         '\t<soapenv:Header>\n\t\t<ns1:RequestHeader soapenv:actor="http://schemas.xmlsoap.org/soap/actor/next"\n'
@@ -489,11 +490,13 @@ def gemma_results(name, scores, manifest, policy, dst):
     tax, _, _ = POL.load()
     pol = yaml.safe_load(open(ROOT / policy))
     T = float(pol["temperature"])
-    benign = np.array([v["is_benign"] for v in tax["classes"].values()])
+    classes = list(tax["classes"])
     man = json.load(open(manifest))
     win = defaultdict(list)
     f = open(scores)
-    assert json.loads(f.readline())["classes"] == list(tax["classes"])
+    head = json.loads(f.readline())["classes"]
+    assert head == classes[:len(head)]  # the scored model's classes: a prefix of today's taxonomy (v11-era Gemma: 41)
+    benign = np.array([tax["classes"][c]["is_benign"] for c in head])
     for x in map(json.loads, f):
         rid, _, k = x["id"].rpartition("#")
         win[rid].append(CAL.softmax(x["scores"], T))

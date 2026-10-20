@@ -22,6 +22,7 @@ CLASS_INPUTS = {
     "credential_stuffing_bruteforce": ("ip_proto",),
     "port_scan_recon": ("ip_proto",),
     "dns_tunneling_exfil": ("dst_port",),
+    "http_flood_app_dos": ("ip_proto", "dst_port", "conn_count_60s"),
 }
 
 

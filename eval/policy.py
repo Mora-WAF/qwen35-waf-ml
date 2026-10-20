@@ -159,8 +159,10 @@ def decide_from_probs(p, tel, tax, pol):
     (deploy/sagemaker/inference.predict_fn) and by the offline re-decisions (eval.public_bench), so both stay one path.
     Returns (decision, diagnostics, top 3 [[class, p], ...])."""
     import numpy as np
-    classes = list(tax["classes"])
     p = np.asarray(p, dtype=np.float64)
+    # the taxonomy only appends classes (19 Oct: http_flood_app_dos): a v10 / v11 model's distribution covers a prefix
+    classes = list(tax["classes"])[:len(p)]
+    assert len(classes) == len(p), f"distribution has {len(p)} classes, taxonomy {len(tax['classes'])}"
     benign = np.array([tax["classes"][c]["is_benign"] for c in classes])
     conf, i = decision_view(p[None], benign, pol.get("act_on", "top_class"))
     raw = json.dumps({"threat_type": classes[int(i[0])]}, separators=(",", ":"))

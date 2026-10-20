@@ -2,9 +2,6 @@
  "cic_ids2017_mirror": {
   "rows": 2827677,
   "unmapped": {
-   "DoS Hulk": 230123,
-   "DDoS": 128025,
-   "DoS GoldenEye": 10293,
    "Bot": 1956,
    "Web Attack \u2013 Brute Force": 1507,
    "Web Attack \u2013 XSS": 652,
@@ -28,6 +25,12 @@
      "negative_iat": 1
     },
     "groups": 1
+   },
+   "http_flood_app_dos": {
+    "available": 368441,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 2
    },
    "port_scan_recon": {
     "available": 158804,
@@ -77,13 +80,16 @@
  },
  "cic_ids2018": {
   "rows": 2097149,
-  "unmapped": {
-   "DoS attacks-GoldenEye": 41508,
-   "DoS attacks-Hulk": 461912
-  },
+  "unmapped": {},
   "classes": {
    "benign_standard_traffic": {
     "available": 1442849,
+    "accepted": 3000,
+    "rejected": {},
+    "groups": 2
+   },
+   "http_flood_app_dos": {
+    "available": 503420,
     "accepted": 3000,
     "rejected": {},
     "groups": 2
@@ -146,7 +152,11 @@
   }
  },
  "label_inconsistent_dropped": {
+  "cic_ids2017_mirror:DDoS": 3,
+  "cic_ids2017_mirror:DoS Hulk": 2,
   "nf_ton_iot_v2_mirror:password": 4,
+  "cic_ids2018:DoS attacks-Hulk": 1500,
+  "cic_ids2018:DoS attacks-GoldenEye": 1500,
   "cic_ids2018:DoS attacks-SlowHTTPTest": 1500,
   "cic_ddos2019_mirror:Syn": 3000,
   "cic_ddos2019_mirror:DrDoS_LDAP": 293,

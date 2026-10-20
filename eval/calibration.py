@@ -128,7 +128,8 @@ def main(path, max_hn_fir=0.01, write_policy=False, max_recall_loss=0.005, out="
     classes = rows[0]["classes"]
     rows = rows[1:]
     tax = yaml.safe_load(open(ROOT / "config/taxonomy.yaml"))["classes"]
-    assert classes == list(tax), "score file was produced with a different taxonomy order"
+    # a later taxonomy only appends classes (19 Oct: http_flood_app_dos), so a v10 / v11 score file is a prefix of it
+    assert classes == list(tax)[:len(classes)], "score file was produced with a different taxonomy order"
     benign = np.array([tax[c]["is_benign"] for c in classes])
     hard_neg = np.array([c.startswith("benign_hard_negative") for c in classes])
     idx = {c: i for i, c in enumerate(classes)}

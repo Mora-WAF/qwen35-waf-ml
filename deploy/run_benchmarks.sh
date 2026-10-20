@@ -10,12 +10,12 @@
 #   report  (this machine)       Gemma results, ensemble results, re-decisions, per-tag reports, comparisons, the
 #                                ensemble's robustness, v11 robustness with the envelope fix
 #   usage: deploy/run_benchmarks.sh prep|gpu|qwen|gemma|report
-# Needs: datasets_ready/ = the v11 build (fast_train.jsonl, robustness_pilot.jsonl), colab/colab_bundle_fast.zip = the
-# v11 bundle, reports/benchmarks/openappsec.jsonl (local only: captured traffic with AWS keys), the colab CLI, and Hub
+# Needs: datasets_v11_backup/ = the v11 build (fast_train.jsonl, robustness_pilot.jsonl), colab/colab_bundle_fast_v11.zip =
+# the v11 bundle (datasets_ready/ and colab_bundle_fast.zip hold the next build since 19 Oct, 23:00), reports/benchmarks/openappsec.jsonl (local only: captured traffic with AWS keys), the colab CLI, and Hub
 # access to google/gemma-4-E2B-it on the Colab account (the TPU run downloaded it the same way).
 set -euo pipefail
 cd "$(dirname "$0")/.."
-PY=.venv/bin/python B=reports/benchmarks
+PY=.venv/bin/python B=reports/benchmarks V11_DATA=datasets_v11_backup V11_BUNDLE=colab/colab_bundle_fast_v11.zip
 FP_IN=$B/bench_in.jsonl.gz FP_OUT=$B/bench_v11.fp_out.jsonl GEMMA_TGZ=reports/gemma_tpu/colab/gemma_data_bench.tgz
 GEMMA_OUT=$B/bench_gemma.fp_out.jsonl GEMMA_SELFCHECK=$B/gemma_selfcheck.jsonl ROBUST_IN=$B/robust_in.jsonl
 GEMMA_ROBUST_HF=reports/gemma_tpu/SCORES_robustness_hf.jsonl GEMMA_ROBUST_TPU=reports/gemma_tpu/colab_bench/SCORES_robustness.jsonl
@@ -23,24 +23,24 @@ say() { echo "[run_benchmarks $(date +%T)] $*"; }
 case "${1:-}" in
 prep)
   for n in gotestwaf openappsec unsw; do [ -f "$B/$n.jsonl" ] || { say "missing $B/$n.jsonl (eval.public_bench build $n)"; exit 1; }; done
-  $PY -m eval.public_bench retag datasets_ready/fast_train.jsonl --key in_train_v11
+  $PY -m eval.public_bench retag $V11_DATA/fast_train.jsonl --key in_train_v11
   $PY -m eval.public_bench pack gotestwaf openappsec unsw --out "$FP_IN"
-  $PY -m training.gemma_tpu.hf_scorer selfcheck-records colab/colab_bundle_fast.zip reports/gemma_tpu/SCORES_fast.jsonl "$GEMMA_SELFCHECK"
-  $PY -m training.gemma_tpu.hf_scorer robustness-input datasets_ready/robustness_pilot.jsonl "$ROBUST_IN"
-  $PY -m training.gemma_tpu.data bench --names gotestwaf,openappsec,unsw --robustness  # for the TPU alternative
+  $PY -m training.gemma_tpu.hf_scorer selfcheck-records $V11_BUNDLE reports/gemma_tpu/SCORES_fast.jsonl "$GEMMA_SELFCHECK"
+  $PY -m training.gemma_tpu.hf_scorer robustness-input $V11_DATA/robustness_pilot.jsonl "$ROBUST_IN"
+  $PY -m training.gemma_tpu.data bench --names gotestwaf,openappsec,unsw --robustness --src $V11_DATA  # for the TPU alternative
   tar -czf "$GEMMA_TGZ" -C reports/gemma_tpu/data_bench .
   say "prep done: $FP_IN, $GEMMA_SELFCHECK, $ROBUST_IN, $GEMMA_TGZ ($(du -h "$GEMMA_TGZ" | cut -f1))";;
 gpu)
   [ -f "$FP_IN" ] && [ -f "$GEMMA_SELFCHECK" ] || { say "run prep first"; exit 1; }
   GEMMA_LORA=reports/gemma_tpu/colab_full/lora.npz GEMMA_POLICY=config/policy_gemma.yaml GEMMA_SELFCHECK=$GEMMA_SELFCHECK \
     GEMMA_OUT=$GEMMA_OUT GEMMA_ROBUST=$ROBUST_IN GEMMA_ROBUST_OUT=$GEMMA_ROBUST_HF \
-    RUN_DIR=reports/colab_a100v11 BUNDLE_ZIP=colab/colab_bundle_fast.zip FP_IN=$FP_IN FP_OUT=$FP_OUT \
+    RUN_DIR=reports/colab_a100v11 BUNDLE_ZIP=$V11_BUNDLE FP_IN=$FP_IN FP_OUT=$FP_OUT \
     STAGES="merge:2400 fp:21600 gemma_fp:21600" colab/run_vllm_bench.sh benchv11 L4
   $PY -m eval.public_bench unpack "$FP_OUT" --tag v11
   $PY -m eval.public_bench unpack "$GEMMA_OUT" --tag gemma;;
 qwen)
   [ -f "$FP_IN" ] || { say "run prep first"; exit 1; }
-  RUN_DIR=reports/colab_a100v11 BUNDLE_ZIP=colab/colab_bundle_fast.zip FP_IN=$FP_IN FP_OUT=$FP_OUT \
+  RUN_DIR=reports/colab_a100v11 BUNDLE_ZIP=$V11_BUNDLE FP_IN=$FP_IN FP_OUT=$FP_OUT \
     STAGES="merge:2400 fp:21600" colab/run_vllm_bench.sh benchv11 L4
   $PY -m eval.public_bench unpack "$FP_OUT" --tag v11;;
 gemma)

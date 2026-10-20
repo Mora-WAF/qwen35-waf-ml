@@ -1,0 +1,167 @@
+{
+ "models": [
+  "codex",
+  "gemini"
+ ],
+ "items": 240,
+ "answered": {
+  "codex": 240,
+  "gemini": 240
+ },
+ "agreement_35class": {
+  "codex": 0.967,
+  "gemini": 0.654
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 0.992,
+  "gemini": 0.842
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {
+   "codex": 0.88,
+   "gemini": 0.63
+  },
+  "benign_standard_traffic": {},
+  "bfla_admin_function_probing": {},
+  "bola_idor_enumeration": {},
+  "bopla_mass_assignment": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {},
+  "crlf_header_injection": {},
+  "csv_formula_injection": {},
+  "deserialization": {},
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http2_rapid_reset_continuation": {},
+  "http_flood_app_dos": {
+   "codex": 1.0,
+   "gemini": 0.52
+  },
+  "http_request_smuggling": {},
+  "jwt_auth_bypass": {},
+  "ldap_xpath_injection": {},
+  "llm_prompt_injection": {},
+  "malicious_file_upload_webshell": {},
+  "mcp_agentic_tool_abuse": {},
+  "nosqli": {},
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {},
+  "port_scan_recon": {},
+  "prototype_pollution": {},
+  "race_condition_toctou_burst": {},
+  "rce_cmd_injection": {},
+  "slowloris_slowhttp": {
+   "codex": 0.98,
+   "gemini": 0.48
+  },
+  "sqli_classic": {},
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {},
+  "ssti": {},
+  "syn_flood_ddos": {
+   "codex": 1.0,
+   "gemini": 0.98
+  },
+  "tls_ja4_ua_spoofing": {},
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {},
+  "xss_dom_polyglot": {},
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 7,
+ "contested_by_class": {
+  "benign_high_rate_legit": 6,
+  "slowloris_slowhttp": 1
+ },
+ "contested": [
+  {
+   "rid": "g00000",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000347",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "http_flood_app_dos"
+   }
+  },
+  {
+   "rid": "g00006",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000571",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "http_flood_app_dos"
+   }
+  },
+  {
+   "rid": "g00026",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000521",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "http_flood_app_dos"
+   }
+  },
+  {
+   "rid": "g00028",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000112",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00050",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000004",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  },
+  {
+   "rid": "g00057",
+   "label": "benign_high_rate_legit",
+   "id": "gen:flow:benign_high_rate_legit:000088",
+   "provenance": "synthetic",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "http2_rapid_reset_continuation",
+    "gemini": "http2_rapid_reset_continuation"
+   }
+  },
+  {
+   "rid": "g00161",
+   "label": "slowloris_slowhttp",
+   "id": "obs:cic_ids2018:Thursday-15-02-2018:32978",
+   "provenance": "observed",
+   "generator": "deterministic",
+   "haiku_review": "n/a",
+   "votes": {
+    "codex": "benign_standard_traffic",
+    "gemini": "benign_standard_traffic"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

@@ -1,0 +1,427 @@
+{
+ "models": [
+  "codex",
+  "gemini"
+ ],
+ "items": 960,
+ "answered": {
+  "codex": 960,
+  "gemini": 960
+ },
+ "agreement_35class": {
+  "codex": 0.914,
+  "gemini": 0.945
+ },
+ "agreement_attack_vs_benign": {
+  "codex": 1.0,
+  "gemini": 0.998
+ },
+ "per_class": {
+  "benign_hard_negative_dev": {},
+  "benign_hard_negative_search": {},
+  "benign_high_rate_legit": {},
+  "benign_standard_traffic": {
+   "codex": 0.84,
+   "gemini": 0.89
+  },
+  "bfla_admin_function_probing": {},
+  "bola_idor_enumeration": {},
+  "bopla_mass_assignment": {},
+  "c2_beaconing_anomaly": {},
+  "credential_stuffing_bruteforce": {},
+  "crlf_header_injection": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "csv_formula_injection": {},
+  "deserialization": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "dns_tunneling_exfil": {},
+  "graphql_abuse": {},
+  "http2_rapid_reset_continuation": {},
+  "http_flood_app_dos": {},
+  "http_request_smuggling": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "jwt_auth_bypass": {},
+  "ldap_xpath_injection": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "llm_prompt_injection": {},
+  "malicious_file_upload_webshell": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "mcp_agentic_tool_abuse": {},
+  "nosqli": {},
+  "open_redirect_cors": {},
+  "path_traversal_lfi": {
+   "codex": 0.94,
+   "gemini": 1.0
+  },
+  "port_scan_recon": {},
+  "prototype_pollution": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "race_condition_toctou_burst": {},
+  "rce_cmd_injection": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "slowloris_slowhttp": {},
+  "sqli_classic": {},
+  "sqli_obfuscated": {},
+  "ssrf_cloud_metadata": {
+   "codex": 1.0,
+   "gemini": 1.0
+  },
+  "ssti": {
+   "codex": 1.0,
+   "gemini": 0.97
+  },
+  "syn_flood_ddos": {},
+  "tls_ja4_ua_spoofing": {},
+  "udp_amplification": {},
+  "web_cache_poisoning": {},
+  "websocket_grpc_abuse": {},
+  "xss_dom_polyglot": {},
+  "xss_reflected_stored": {},
+  "xxe": {}
+ },
+ "contested_by_all_external": 36,
+ "contested_by_class": {
+  "benign_standard_traffic": 36
+ },
+ "contested": [
+  {
+   "rid": "h00560",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx92_deserialization.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00566",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx92_deserialization.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00569",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx92_deserialization.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00570",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx92_deserialization.jsonl:10",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00572",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx92_deserialization.jsonl:12",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00573",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx92_deserialization.jsonl:13",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00577",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx92_deserialization.jsonl:17",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00604",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx94_rce_cmd_injection.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00608",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx94_rce_cmd_injection.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00619",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vcx94_rce_cmd_injection.jsonl:19",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00680",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm90a_rce_cmd_injection.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00681",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm90a_rce_cmd_injection.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00682",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm90a_rce_cmd_injection.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00683",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm90a_rce_cmd_injection.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00684",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm90a_rce_cmd_injection.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00689",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm90a_rce_cmd_injection.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00693",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm90b_rce_cmd_injection.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00728",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm92a_deserialization.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00733",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm92b_deserialization.jsonl:3",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00737",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm92b_deserialization.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00738",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm92b_deserialization.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00760",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94a_rce_cmd_injection.jsonl:0",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00761",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94a_rce_cmd_injection.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00764",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94a_rce_cmd_injection.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00765",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94a_rce_cmd_injection.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00766",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94a_rce_cmd_injection.jsonl:6",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "rce_cmd_injection"
+   }
+  },
+  {
+   "rid": "h00767",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94a_rce_cmd_injection.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00768",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94a_rce_cmd_injection.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00771",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94b_rce_cmd_injection.jsonl:1",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00772",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94b_rce_cmd_injection.jsonl:2",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00774",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94b_rce_cmd_injection.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00775",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94b_rce_cmd_injection.jsonl:5",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00777",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94b_rce_cmd_injection.jsonl:7",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00778",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94b_rce_cmd_injection.jsonl:8",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00779",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vgm94b_rce_cmd_injection.jsonl:9",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  },
+  {
+   "rid": "h00924",
+   "label": "benign_standard_traffic",
+   "ref": "benign_standard_traffic.vsn72_ssti.jsonl:4",
+   "votes": {
+    "codex": "benign_hard_negative_dev",
+    "gemini": "benign_hard_negative_dev"
+   }
+  }
+ ],
+ "caveat": "external models see the same brief; disagreement marks items to inspect, not wrong labels"
+}

@@ -60,7 +60,7 @@ classes:
     quota: 3500
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Command separators or substitution injected into input passed to a shell or process execution, including server-side include (SSI) exec directives in SSI-parsed pages."
+    scope: "Command separators or substitution injected into input passed to a shell or process execution, server-side code injection where input is evaluated as interpreter code (PHP, Node.js, Perl, Ruby), and server-side include (SSI) exec directives in SSI-parsed pages."
     exclusions: ["Traversal without command syntax belongs to path_traversal_lfi", "Template expression evaluation belongs to ssti", "Command text in help pages or docs", "Executable files delivered by upload belong to malicious_file_upload_webshell", "Shell commands in an AI agent tool call belong to mcp_agentic_tool_abuse"]
     required_evidence: ["Input field reaching a shell or exec sink per trusted app context", "Command separator or substitution tokens in the raw value", "Observed execution output or timing when available"]
     precedence: {over: [], rule: "none"}
@@ -120,7 +120,7 @@ classes:
     quota: 1500
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Spreadsheet formula prefixes in stored or exported fields that execute when opened in a spreadsheet."
+    scope: "Spreadsheet formula trigger characters (equals, plus, minus, at, tab or carriage return) leading a stored or exported field that reaches a spreadsheet without escaping. Full formula syntax is not required: the unescaped leading trigger is the vulnerability (OWASP CSV injection guidance), so plain text after a trigger still counts when the export does not escape it."
     exclusions: ["Negative numbers or dashes in ordinary text", "Script tags rendered in a browser belong to xss_reflected_stored"]
     required_evidence: ["Field value starting with a formula trigger such as equals, plus, minus, or at", "Export or downstream spreadsheet consumption context", "Stored field and export pipeline identity"]
     precedence: {over: [], rule: "none"}
@@ -140,7 +140,7 @@ classes:
     quota: 4000
     is_benign: false
     input_modes: [L7_HTTP, HYBRID_CTX]
-    scope: "Directory traversal or local file inclusion that reads or includes files outside the intended path."
+    scope: "Directory traversal or file inclusion that reads or includes files outside the intended path: local files, stream wrappers, or a remote URL loaded by an include parameter (remote file inclusion)."
     exclusions: ["Command execution after traversal belongs to rce_cmd_injection", "Relative paths that stay inside the allowed root", "Traversal in an AI agent tool call belongs to mcp_agentic_tool_abuse"]
     required_evidence: ["Path-bearing parameter with traversal sequences in raw and decoded views", "Target file or include context in server path handling", "Response or error evidence when available"]
     precedence: {over: [], rule: "none"}
@@ -291,7 +291,7 @@ classes:
     is_benign: false
     input_modes: [L4_FLOW, HYBRID_CTX]
     scope: "SYN-dominant bursts and half-open connection patterns aimed at exhausting a target."
-    exclusions: ["Normal bursts with completed handshakes", "Sweeps across many destinations belong to port_scan_recon", "Stream resets or CONTINUATION floods over few established connections belong to http2_rapid_reset_continuation"]
+    exclusions: ["Normal bursts with completed handshakes", "Completed-handshake HTTP request floods belong to http_flood_app_dos", "Sweeps across many destinations belong to port_scan_recon", "Stream resets or CONTINUATION floods over few established connections belong to http2_rapid_reset_continuation"]
     required_evidence: ["Flow records with TCP flag bitmasks and flag counts", "Packet or flow rates validated against duration and direction", "Repeated timestamped observations of the burst window"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Load-balancer health checks opening many short handshakes", "Download surge after a scheduled software update"]
@@ -311,7 +311,7 @@ classes:
     is_benign: false
     input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
     scope: "Many connections held open with very slow partial requests or reads to exhaust server connection slots."
-    exclusions: ["Long-polling or streaming clients with steady activity", "High-volume SYN bursts belong to syn_flood_ddos"]
+    exclusions: ["Long-polling or streaming clients with steady activity", "High-volume SYN bursts belong to syn_flood_ddos", "Fast floods of complete requests belong to http_flood_app_dos"]
     required_evidence: ["Flow duration and byte rate per connection from full-flow aggregates", "Partial request framing or slow read pattern over time", "Per-connection IAT statistics with defined units"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Server-sent event stream kept open with periodic heartbeats", "Mobile client uploading a large file slowly on a poor network"]
@@ -411,7 +411,17 @@ classes:
     is_benign: true
     input_modes: [L4_FLOW, L7_HTTP, HYBRID_CTX]
     scope: "High-rate legitimate flows such as CDN, backup, sync, streaming, and load-test traffic that resemble flood or scan patterns, and legitimate HTTP request bursts that resemble a race or flood (parallel reads, client retries under one enforced idempotency key, batch jobs) with a single effect on state."
-    exclusions: ["Sustained floods with no legitimate service identity belong to syn_flood_ddos or udp_amplification", "Sweeps across unrelated hosts belong to port_scan_recon"]
+    exclusions: ["Sustained floods with no legitimate service identity belong to syn_flood_ddos, udp_amplification or http_flood_app_dos", "Sweeps across unrelated hosts belong to port_scan_recon"]
     required_evidence: ["Known service identity and destination population from trusted context", "Rates validated against duration and direction", "Repeated timestamped observations showing the expected pattern"]
     precedence: {over: [], rule: "none"}
     benign_counterexamples: ["Nightly backup pushing large volumes to a known storage endpoint", "CDN edge fetching origin objects at a high steady rate"]
+  http_flood_app_dos:
+    domain: L4_NETWORK_FLOW
+    quota: 3000
+    is_benign: false
+    input_modes: [L4_FLOW, HYBRID_CTX]
+    scope: "Application-layer (HTTP/HTTPS) request floods: one source opening hundreds to thousands of completed-handshake connections per minute to the same web host and port, or pushing requests at a rate the service was not provisioned for, to exhaust server or application capacity."
+    exclusions: ["SYN-dominant half-open bursts belong to syn_flood_ddos", "Slow partial requests that hold connections open belong to slowloris_slowhttp", "Stream resets or CONTINUATION floods over few established HTTP/2 connections belong to http2_rapid_reset_continuation", "Repeated login attempts against an authentication endpoint belong to credential_stuffing_bruteforce", "Load tests, crawlers, CDN or proxy fan-in at high rates with a legitimate service identity belong to benign_high_rate_legit"]
+    required_evidence: ["Window connection count from the source to the same destination host and web port", "Per-connection packet and byte counts showing completed request/response exchanges", "Rates validated against duration and direction"]
+    precedence: {over: [], rule: "none"}
+    benign_counterexamples: ["Scheduled load test from a known test runner against a staging host", "Reverse proxy or NAT gateway fanning many users into one origin"]

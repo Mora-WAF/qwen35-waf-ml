@@ -1,0 +1,160 @@
+# Focus specs for the OWASP CRS 921 / 931 / 933 / 934 rule families (user-written, 20 Oct).
+#
+# Fill in `focus` (and optionally `focus_domains`) for each entry you want generated; leave `focus: ""` to skip it.
+# Same style as the 18 Oct specs (data/jobs/*.focus_*.job.json): one or two sentences naming the evidence pattern
+# every record must show, the context fields that make it decidable, and what the benign twins look like.
+#
+# What happens with each filled entry:
+#   orchestrator jobs_focus CLASS COUNT FAMILIES ROUND "FOCUS" "DOMAIN;DOMAIN"  -> data/jobs/CLASS.ROUND.job.json
+#   in-session Sonnet 5.5 workers (medium effort)                             -> data/jobs/out/CLASS.ROUND.jsonl
+#                                                                                + benign twins (same count)
+#   orchestrator verify, Sol + Flash blind review (export_hn ROUND, xmodel_run both, apply_hn), rebuild, gate, audits
+#
+# `crs_rules` lists the rule ids and their CRS messages (pinned commit d5cb9da) for reference; the CRS regression
+# tests themselves are in ../raw_cache/coreruleset/d5cb9da4522c1a1e20e0e393bc992b506adb8c55/tests/regression/tests/.
+# Class mapping follows the existing conventions (eval/kev_coverage.py: CWE-98 remote file inclusion ->
+# path_traversal_lfi). Entries marked `scope_change` need the taxonomy scope widened before generation; the proposed
+# text is given and is applied when the round is launched (edit it here if you want different wording).
+#
+# Not mapped to any class (no taxonomy class fits; no entry): 921170 / 921180 / 921210 / 921220 HTTP parameter
+# pollution, 921230 Range header, 921240 mod_proxy, 921250 Cookie v1, 921421 / 921422 content-type outside the
+# MIME declaration, 934160 Node.js DoS, 934210 / 934220 ORM lookup-operator injection.
+
+defaults:
+  count: 40        # attack records per entry (+ the same number of benign twins)
+  families: 4      # distinct scenario families per entry
+
+entries:
+  - id: crs921_smuggling
+    round: vsn61
+    class: http_request_smuggling
+    crs_rules: {921110: "HTTP Request Smuggling Attack"}
+    focus: "HTTP request smuggling attempts with conflicting Content-Length and Transfer-Encoding, inconsistent duplicate lengths, or malformed chunk framing that creates different message boundaries at the proxy and origin; preserve raw framing bytes and trusted proxy/origin parser configuration so the ambiguity is decidable. Benign twins use one unambiguous framing convention with consistent lengths and complete bodies on the same routes."
+    focus_domains: ["API gateway", "e-commerce checkout", "SaaS reverse proxy", "university portal"]
+
+  - id: crs921_crlf
+    round: vsn62
+    class: crlf_header_injection
+    crs_rules:
+      921120: "HTTP Response Splitting Attack"
+      921130: "HTTP Response Splitting Attack"
+      921140: "HTTP Header Injection Attack via headers"
+      921150: "HTTP Header Injection Attack via payload (CR/LF detected)"
+      921151: "HTTP Header Injection Attack via payload (CR/LF detected)"
+      921160: "HTTP Header Injection Attack via payload (CR/LF and header-name detected)"
+      921190: "HTTP Splitting (CR/LF in request filename detected)"
+    focus: "CR/LF injection in header values, request filenames, or parameters copied into response headers, with raw and decoded values plus trusted decoding order and header-construction context showing an attempted new header or response boundary. Benign twins use ordinary filenames, redirect targets, and header values without injected line boundaries in the same fields."
+    focus_domains: ["download service", "login redirect service", "support ticket portal", "report export service"]
+
+  - id: crs921_ldap
+    round: vsn63
+    class: ldap_xpath_injection
+    crs_rules: {921200: "LDAP Injection Attack"}
+    focus: "LDAP filter injection through directory lookup or authentication fields, preserving filter operators, parentheses, wildcards, and escaping alongside trusted filter templates and parameter-to-filter bindings that show the input changes filter structure. Benign twins use ordinary directory identifiers or search terms in the same fields; keep this round limited to LDAP rather than XPath."
+    focus_domains: ["enterprise directory", "employee search portal", "university identity service", "VPN account portal"]
+
+  - id: crs931_rfi
+    round: vsn64
+    class: path_traversal_lfi
+    crs_rules:
+      931100: "Possible Remote File Inclusion (RFI) Attack: URL Parameter using IP Address"
+      931110: "Possible Remote File Inclusion (RFI) Attack: Common RFI Vulnerable Parameter Name used w/URL Payload"
+      931120: "Possible Remote File Inclusion (RFI) Attack: URL Payload Used w/Trailing Question Mark Character (?)"
+      931130: "Possible Remote File Inclusion (RFI) Attack: Off-Domain Reference/Link"
+      931131: "Possible Remote File Inclusion (RFI) Attack"
+    scope_change:
+      class: path_traversal_lfi
+      scope: "Directory traversal or file inclusion that reads or includes files outside the intended path: local files, stream wrappers, or a remote URL loaded by an include parameter (remote file inclusion)."
+    focus: "Remote file inclusion attempts using IP-address URLs, include-like parameter names, trailing question marks, or off-domain references, with trusted parameter-to-include bindings and remote-include configuration proving the URL is used as server-side include input. Use reserved synthetic destinations; benign twins select ordinary local templates or approved include resources on the same routes, rather than treating every external link or URL fetch as file inclusion."
+    focus_domains: ["PHP content management system", "legacy storefront", "university publishing portal", "partner reporting portal"]
+
+  - id: crs933_php_code
+    round: vsn65
+    class: rce_cmd_injection
+    crs_rules:
+      933100: "PHP Injection Attack: PHP Open Tag Found"
+      933120: "PHP Injection Attack: Configuration Directive Found"
+      933130: "PHP Injection Attack: Variables Found"
+      933131: "PHP Injection Attack: Variables Found"
+      933135: "PHP Injection Attack: Variable Access Found"
+      933150: "PHP Injection Attack: High-Risk PHP Function Name Found"
+      933151: "PHP Injection Attack: Medium-Risk PHP Function Name Found"
+      933152: "PHP Injection Attack: Medium-Risk PHP Function Name Found"
+      933153: "PHP Injection Attack: Medium-Risk PHP Function Name Found"
+      933160: "PHP Injection Attack: High-Risk PHP Function Call Found"
+      933161: "PHP Injection Attack: Low-Value PHP Function Call Found"
+      933180: "PHP Injection Attack: Variable Function Call Found"
+      933190: "PHP Injection Attack: PHP Closing Tag Found"
+      933210: "PHP Injection Attack: Variable Function Call Found"
+      933211: "PHP Injection Attack: Variable Function Call Found"
+    scope_change:
+      class: rce_cmd_injection
+      scope: "Command separators or substitution injected into input passed to a shell or process execution, server-side code injection where input is evaluated as interpreter code (PHP, Node.js, Perl, Ruby), and server-side include (SSI) exec directives in SSI-parsed pages."
+    focus: "PHP code injection through open or closing tags, directives, variable access, function names or calls, and variable-function syntax in input bound to an interpreter evaluation or executable template sink, with trusted PHP runtime, sink binding, and decoding context making execution intent decidable. Use inert synthetic snippets; benign twins supply ordinary field values or approved template identifiers, and isolated PHP tokens in documentation or non-executable text must not establish an attack."
+    focus_domains: ["PHP template editor", "legacy reporting application", "content management system", "PHP automation console"]
+
+  - id: crs933_upload
+    round: vsn66
+    class: malicious_file_upload_webshell
+    crs_rules:
+      933110: "PHP Injection Attack: PHP Script File Upload Found"
+      933111: "PHP Injection Attack: PHP Script File Upload Found"
+      933220: "PHP Injection Attack: PHP Session File Upload Attempt"
+    focus: "PHP script or session-file upload attempts with multipart filenames, part headers, and inert PHP-bearing content, plus trusted upload destination, extension handling, handler mappings, or session storage configuration showing an executable placement or session-file poisoning path. Benign twins upload permitted ordinary documents or images through the same fields; a PHP-looking filename alone without executable placement context is insufficient."
+    focus_domains: ["media upload portal", "support attachment service", "legacy PHP account portal", "content management asset library"]
+
+  - id: crs933_deserialization
+    round: vsn67
+    class: deserialization
+    crs_rules: {933170: "PHP Injection Attack: Serialized Object Injection"}
+    focus: "PHP serialized-object injection into request parameters, cookies, or bodies, preserving serialized object structure and class/property metadata with trusted decoding, unserialize sink, and available class behavior showing an attacker-controlled object reaches security-relevant object reconstruction. Keep fixtures inert and synthetic; benign twins use the application's expected scalar or array serialization without object-instantiation content on the same routes."
+    focus_domains: ["PHP shopping cart", "legacy session service", "PHP import portal", "PHP preferences service"]
+
+  - id: crs933_934_wrappers
+    round: vsn68
+    class: path_traversal_lfi
+    crs_rules:
+      933140: "PHP Injection Attack: I/O Stream Found"
+      933200: "PHP Injection Attack: Wrapper scheme detected"
+      934170: "PHP data scheme attack"
+    scope_change: {class: path_traversal_lfi, scope: "same as crs931_rfi"}
+    focus: "PHP stream-wrapper file inclusion or file-read attempts using php, data, filter, or archive wrapper forms, preserving wrapper nesting and encoding with trusted file sink bindings, allowed roots, and runtime wrapper settings that show access outside the intended file source. Use inert content and synthetic paths; benign twins select ordinary permitted files through the same fields, while wrapper strings in documentation or unrelated URL fields are not enough."
+    focus_domains: ["PHP document viewer", "legacy theme loader", "archive import portal", "PHP report renderer"]
+
+  - id: crs934_code
+    round: vsn69
+    class: rce_cmd_injection
+    crs_rules:
+      934100: "Node.js Injection Attack 1/2"
+      934101: "Node.js Injection Attack 2/2"
+      934140: "Perl Injection Attack"
+      934150: "Ruby Injection Attack"
+    scope_change: {class: rce_cmd_injection, scope: "same as crs933_php_code"}
+    focus: "Node.js, Perl, or Ruby code injection in fields passed to server-side interpreter evaluation, preserving language-specific call or interpolation syntax with trusted runtime identity, evaluation templates, input bindings, and decoding order that show input becomes code. Use inert synthetic expressions; benign twins supply ordinary values or approved expressions in the same fields, and language keywords in plain text or source browsing must not establish execution."
+    focus_domains: ["Node.js workflow service", "Perl reporting portal", "Ruby automation console", "server-side expression service"]
+
+  - id: crs934_ssrf
+    round: vsn70
+    class: ssrf_cloud_metadata
+    crs_rules:
+      934110: "Possible Server Side Request Forgery (SSRF) Attack: Cloud provider metadata URL in Parameter"
+      934120: "Possible Server Side Request Forgery (SSRF) Attack: URL Parameter using IP Address"
+      934190: "Possible Server Side Request Forgery (SSRF) Attack: Scheme-less localhost or internal hostname detected"
+    focus: "SSRF attempts supplying cloud metadata addresses, loopback or private IP literals, or scheme-less internal hostnames to server-side fetch parameters, with trusted fetch bindings, base-URL resolution, resolver results, address ranges, and destination policy showing an internal or metadata target. Use synthetic destinations and no live callbacks; benign twins fetch approved public resources through the same fields, and an IP literal alone or an ordinary internal link without a server fetch sink is insufficient."
+    focus_domains: ["webhook delivery console", "URL preview service", "remote image importer", "document conversion service"]
+
+  - id: crs934_prototype_pollution
+    round: vsn71
+    class: prototype_pollution
+    crs_rules: {934130: "JavaScript Prototype Pollution"}
+    focus: "JavaScript prototype pollution attempts through __proto__, constructor/prototype, or equivalent nested property paths in JSON, query strings, or form input, with trusted parsing and merge/property-assignment context showing attacker-controlled keys reach inherited prototype state. Benign twins update ordinary own properties on the same routes; merely mentioning reserved keys in documentation or storing them as inert data is insufficient."
+    focus_domains: ["Node.js settings API", "dashboard configuration service", "workflow configuration importer", "tenant preferences service"]
+
+  - id: crs934_ssti
+    round: vsn72
+    class: ssti
+    crs_rules:
+      934180: "SSTI Attack"
+      934200: "Server-Side Template Injection (SSTI) Attack"
+    focus: "Server-side template injection attempts using engine-specific expression, interpolation, or statement delimiters in fields compiled as template source, with trusted engine identity, source/data bindings, and rendering configuration distinguishing template evaluation from literal text. Use inert arithmetic or marker expressions; benign twins supply ordinary template text or field values on the same routes, and delimiters passed only as template data or used in client-side templates are insufficient."
+    focus_domains: ["email template service", "invoice renderer", "content publishing portal", "report template editor"]

@@ -35,7 +35,7 @@ Snapshot inspected on **15 October 2026**; these are stored results, not experim
 
 | Item | Evidence in this checkout |
 |---|---|
-| Taxonomy | **41 classes**, including four benign classes, in [taxonomy.yaml](../config/taxonomy.yaml) |
+| Taxonomy | **42 classes** (v10 / v11 trained on the first 41; `http_flood_app_dos` added 19 Oct), including four benign classes, in [taxonomy.yaml](../config/taxonomy.yaml) |
 | Last complete inspected dataset | **42,565 records**, `fast_` prefix, captured in the [documentation snapshot](assets/dataset-snapshot.json) |
 | Data gate | Stored report: passed, zero failures, in [pre_colab_gate.json](../reports/pre_colab_gate.json) |
 | Notebook smoke test | Stored T4 run passed, including reload and continuation, in [gpu_smoke_test.json](../reports/gpu_smoke_test.json) |
