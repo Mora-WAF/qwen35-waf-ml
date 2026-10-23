@@ -12,6 +12,7 @@ Proposal, 19 October 2026, revised after review the same day, and again on 20 Oc
 | Hugging Face, text-only `Gemma4ForCausalLM` (repo scorer) | 1.60 | n/a |
 | vLLM 0.30.0, merged model, same two-pass method (repo script) | 4.38 | n/a |
 | vLLM 0.30.0 through the worker's `VllmScorer`, batch 1 / 16 / 64 records | 3.49 / 4.79 / 4.83 | batch 1: p50 270 ms, p95 441 ms, p99 686 ms |
+| Same, fast request pattern (no retrain), batch 1 / 64 | 5.39 / 6.51 | batch 1: p50 172 ms, p99 559 ms; verdicts identical to the exact method on 300 records |
 
 Parity holds on both paths (maximum probability difference to the TPU scores 0.0118 on HF and 0.0245 on vLLM; limit 0.05). On vLLM a single record takes 270 ms at the median and 686 ms at p99, and throughput saturates near 4.8 records/s because each record needs many small scoring requests. The p99 target of 200 ms for an inline model is out of reach with multi-token labels; whether single-token labels bring it within reach is a Phase 0 measurement. At 4.4 to 4.8 records/s a GPU cannot carry the planning inline share. Detection quality is identical on both runtimes (94.9% of attacks blocked, no false blocks, 3.3% abstain on the sample).
 
@@ -24,6 +25,8 @@ Parity holds on both paths (maximum probability difference to the TPU scores 0.0
 - The model-required route flag now means "queue every request of this route".
 
 **Findings from the build that correct this plan** (`waf-system/docs/FINDINGS.md`): Envoy 1.40 does not keep the raw request URI when it normalises the path; Coraza cannot inspect XML attributes (224 of 229 CRS regression failures); the policy threshold is 0.706, not 0.877; a sensor outage on a fail-closed route returns 504, not 503. Each is repeated where it applies below.
+
+**Replay result (21 October, real model).** 10,465 queued requests from the open-appsec and GoTestWAF corpora scored by Gemma v13 on vLLM (`waf-system/reports/replay/REPORT.md`). Of 4,206 attacks, CRS alone blocks 85.2% inline; the model confirms 93% of those, catches 119 more asynchronously (2.8% of attacks, 19% of what CRS misses) and never sees 497 (11.8%), which carry no trigger. On legitimate traffic the model says BLOCK for 0.9 to 1.4% of requests and 15 to 27% of requests are queued (CRS tuning moves that number far more than anything else). With the BLOCK-share rule added below, simulated legitimate clients are almost never challenged (1 of 106 at 100 requests each, 0 of 11 at 1,000) while attackers are challenged after a median of 3 requests. CRS alone blocks 17.0% of legitimate requests untuned (6.7% with two standard exclusions) and costs 100 to 900 ms on cookie-heavy requests; the Phase 2 gate cannot pass without tuning.
 
 **Built and tested by 20 October** (all with the fake scorer unless stated): combiner truth table, pre-filter, route catalog and its CI check, Coraza + CRS 4.25.2 engine (4,575 of 4,804 CRS regression tests pass at paranoia level 4), ext_proc server, the second-tier loop through real Envoy (attacks queued, scored, corroborated into a challenge that is then enforced), flow featurizer, redaction and review sampler, benchmark harness. Gemma v13 on vLLM and on HF was run on an L4. Not built: report-a-block endpoint, go-ftw in CI, `dns.log` featurizer, per-client queue caps, CrowdSec adapter, residential-ASN exemption.
 
@@ -84,10 +87,10 @@ The system must block web attacks with fewer false blocks than CRS alone. A WAF 
 
 | Measure | Target | Evidence today |
 | --- | --- | --- |
-| Added latency, rules layer (Envoy + Coraza + CRS) | p99 ≤ 10 ms; sensor CPU sized from Phase 0 load tests | Not measured for our stack. CrowdSec's out-of-process, Coraza-based CRS added +33 ms mean and +58 ms p90 per GET at 400 concurrent users, so this target needs proof |
+| Added latency, rules layer (Envoy + Coraza + CRS) | p99 ≤ 10 ms; sensor CPU sized from Phase 0 load tests | Measured 20 Oct on a shared laptop: small benign request 10 ms p50 / 26 ms p99 through Envoy + sensor at saturation (Envoy alone 0.9 / 2.2 ms). Legitimate browsing requests with 5 to 10 KB of cookies cost 100 to 900 ms of CRS time with the default rules (replay p99 156 ms; 77 ms with cookies dropped as a rule target). The target does not hold untuned |
 | Time from request to async verdict | p95 ≤ 60 s; alert at 5 minutes | Not measured under load. One L4 scores 4.38 records/s on vLLM. No model latency on the request path |
 | Share of requests queued for the model | Set from Phase 1 shadow data. Planning figure: 2% of traffic after per-client caps, plus a 0.1% sample | Unknown. The 12% CRS fire rate above comes from synthetic records |
-| Wrong actions on real legitimate traffic (CRS blocks and client decisions) | ≤ 0.1% of requests blocked; no legitimate client banned; reviewed challenges counted per class | v10: 0.57% of open-appsec's 10,380 legitimate requests. Gemma: not measured |
+| Wrong actions on real legitimate traffic (CRS blocks and client decisions) | ≤ 0.1% of requests blocked; no legitimate client banned; reviewed challenges counted per class | CRS alone, replayed 20 Oct on 10,380 open-appsec legitimate requests: 17.0% blocked at PL1, 12.4% with `text/plain` allowed, 6.7% with cookies also dropped as a target; 52.8% at PL2. Gemma decisions: see Revision 20 October |
 | False blocks, benign held-out set | ≤ 0.2% | Gemma: 0.10% (test_unseen, attack-mass rule) |
 | Attack recall on held-out families and sources | ≥ 98% | Gemma: 98.3%; Qwen v11 + Gemma ensemble: 99.0% |
 | Requests too long for the model | ≤ 1% | Qwen v10/v11, contract 1: 4.2 to 5.6%. Gemma v13: 0 of 300 on `test_unseen` (L4 run). Contract 2 is built in the 42-class v12 dataset (476 cookie-truncated records) |
@@ -152,7 +155,7 @@ Every running piece has one owning role. Names replace the roles once they are a
 
 1. **A model-required route**, as the catalog marks it: every request of the route is queued.
 2. **A pre-filter hit**, even at CRS score 0. These are cheap, deterministic triggers, and their share of traffic is measured in shadow:
-   - a decoded view was produced (Base64, JWT, double URL-encoding)
+   - a decoded view that shows payload syntax: Base64 text containing shell, SQL or HTML metacharacters, a JWT, or a second URL decoding that reveals them (plain Base64 JSON cookies and nested redirect URLs do not count; on 10,521 legitimate requests that cut the two triggers from 9.9% and 9.1% to 1.7% and 0.1%)
    - a serialized-object or XML DOCTYPE marker
    - an XML body: Coraza has no XPath, so CRS rules aimed at XML attributes never fire (224 of the 229 failures in the CRS regression suite at paranoia level 4)
    - a GraphQL body
@@ -193,6 +196,7 @@ Publishing never blocks a request: the stream is capped (`MAXLEN`), the publish 
 - **Argument and parser limits.** Coraza 3.8's `SecArgumentsLimit` is 1,000 by default, which stops parsing further arguments unless a rule blocks on overflow. `coraza.conf` enables engine blocking rules `200001`–`200007` (`REQBODY_ERROR`, `MULTIPART_STRICT_ERROR`, `PCRE_LIMITS_EXCEEDED`, and argument-limit overflow) so malformed bodies and extra arguments are never skipped silently; Phase 0 verifies Coraza's behaviour with go-ftw.
 - **Rollout.** Phase 1 runs `SecRuleEngine DetectionOnly` with a detection paranoia level of 2. Phase 2 turns the engine on: the threshold starts high and steps down to 5, and the blocking paranoia level goes from 1 to 2.
 - **Early blocking.** `tx.early_blocking` stays off until tuning is done: it hides the later-phase matches tuning needs.
+- **Cookies and content types first.** The replay found the false blocks and most of the CPU in two places: analytics beacons posting `text/plain` (add it to `tx.allowed_request_content_type`) and tracking cookies (Akamai bot manager, OneTrust) matching injection rules. Phase 1 writes exclusions that drop `REQUEST_COOKIES` as a target of the SQLi, RCE, XSS, LFI, generic and PHP rule families, tested against the attack corpora (no detection loss on open-appsec or GoTestWAF, which carry no cookie attacks: add cookie-borne cases to the regression set before shipping). Envoy caps request header size so a 10 KB cookie cannot cost 900 ms.
 - **Exclusions** come from the official CRS 4 plugins (WordPress, Nextcloud, Drupal and others) where those applications run. Our runtime exclusions (`ctl:ruleRemoveTargetById`) go before CRS.
 - **Regression tests.** go-ftw tests every exclusion. Its quantitative mode counts false positives per rule and paranoia level on a benign corpus and gates CI against a baseline.
 
@@ -288,7 +292,8 @@ Gemma 4 E2B-it with our LoRA runs as the asynchronous second tier: a worker read
 | Step | Status | Change | Evidence and condition |
 | --- | --- | --- | --- |
 | 1 | Measured 20 Oct | vLLM 0.30 on the merged model, prefix caching, single-token restricted requests | 4.38 records/s on an L4; self-check difference 0.0245; generation agrees with the scorer on clear records |
-| 2 | Phase 0, optional | Retrain with one distinct pretrained vocabulary token per class (unused `<|reserved_*|>` tokens cannot be used: `train_tunix.py` freezes the tied 262,144 × 1,536 embedding table, leaving them untrained), plus a cached static system prefix | One scoring request per window instead of the many of pass 1 and pass 2. The saving is an estimate until measured; recalibrate and rerun every gate. The 19 October plan counted 40 records/s per L4 for this: a target, not a measurement |
+| 1b | Measured 20 Oct | Fewer requests with the same scores: drop the shared answer-prefix tokens, one top-64 request for pass 1 (exact fallback when an uncertain prompt could change the ranking), deduplicate pass 2; optionally skip pass 2 for the 26 classes whose first token is unique | 6.51 records/s (1.5x), 7.74 with the optional skip (1.8x); 0 of 300 decisions changed; maximum probability difference to the exact method 0.026 and 0.043; self-check to the TPU scores 0.0163 and 0.0245. Default: the first; the skip waits for a larger comparison |
+| 2 | Phase 0, optional; worth little after step 1b unless the cost target is missed | Retrain with one distinct pretrained vocabulary token per class (unused `<|reserved_*|>` tokens cannot be used: `train_tunix.py` freezes the tied 262,144 × 1,536 embedding table, leaving them untrained), plus a cached static system prefix | One scoring request per window instead of the many of pass 1 and pass 2. The saving is an estimate until measured; recalibrate and rerun every gate. The 19 October plan counted 40 records/s per L4 for this: a target, not a measurement |
 | 3 | Optional | FP8 weights and activations (supported on the L4), or Google's QAT W4A16 base | Scores change: recalibrate and rerun every gate |
 | 4 | Only if steps 1 to 3 miss the cost target | A distilled encoder tier trained on the 55k records and reviewed production labels | Not started. It could also serve inline, which Gemma cannot |
 
@@ -363,6 +368,7 @@ Phases 3 (per-request class actions) and 4 of the 19 October plan need an inline
 
 - Only a BLOCK verdict on one of the 15 block classes counts as evidence. Log-only classes, ABSTAIN and ALLOW never do.
 - Evidence is a sorted set of request IDs per client, one window (10 minutes) long, so a redelivered queue entry counts once.
+- BLOCK verdicts must also be at least 30% (`min_share`) of everything scored for the client in the window. Without it, a busy legitimate client collects 3 false BLOCKs in minutes (replay: 16 of 106 clients with 100 requests each); with it, 1 of 106.
 - 3 pieces of evidence challenge the client for 1 hour; 10 ban it for 4 hours. A decision is never downgraded; a stronger one replaces it.
 - A challenge comes first because shared NAT and mobile addresses carry real users. Exempting residential and mobile ASNs from bans is specified for flows and not built for HTTP.
 - Phase 3 per class: at least 600 reviewed decisions for the class with no error, first at the challenge stage, then at the ban stage.
@@ -614,7 +620,9 @@ The model is off the request path, so GPU cost is set by the queue rate and the 
 
 **Model calls per second** = peak requests/s × queued share × mean windows per request + random sample + flow records scored.
 
-The queued share is the gray band, pre-filter hits, CRS blocks and the model-required routes, after per-client caps (not built: until they are, a noisy client can queue every request). For example, take 1,000 requests/s at peak with a 2% planning share: 1,000 × 2% × 1.1 = 22 calls. Add the 0.1% sample (1/s) and about 20 flow records/s, and the total is about 41 calls/s.
+The queued share is the gray band, pre-filter hits, CRS blocks and the model-required routes, minus what the per-client cap (20 per client per 10 minutes) and the "client already has a decision" rule hold back. The replay measured it on real legitimate browsing traffic (open-appsec, 10,521 requests): **26.6%** at blocking PL1 untuned (CRS blocks 23.9%, pre-filter 2.6%), **15.0%** with the `text/plain` and cookie exclusions of the Findings. The 2% of the 19 October plan was a guess, and CRS tuning decides this number before anything else does.
+
+For example, take 1,000 requests/s at peak. At a 15% share: 1,000 × 15% × 1.1 = 165 calls, plus the 0.1% sample (1/s) and about 20 flow records/s, about 186 calls/s: 44 L4s on vLLM including one spare, about $26k a month on EC2. At the 2% the table below assumes, the total is about 41 calls/s. The table's rows are per-GPU throughputs; read its GPU column for 41 calls/s and scale it.
 
 | Per-GPU throughput, NVIDIA L4 | Basis | L4 GPUs for 41 calls/s (load + 1 spare, floor of 2) | Per month, EC2 `g6.xlarge` | Per month, SageMaker `ml.g6.xlarge` | Per million calls, EC2, at full use |
 | --- | --- | --- | --- | --- | --- |
@@ -653,6 +661,8 @@ The largest risk is that Gemma never earns enforcement: too many wrong client de
 | --- | --- | --- |
 | Gemma too slow inline | Measured 20 Oct: L4 p50 659 ms at batch 1 on Hugging Face; 4.38 records/s on vLLM | Decided: second tier, asynchronous only. A distilled encoder is the route back to inline use |
 | Async lag or cost above plan | Stream lag, GPU count against the measured 4.38 records/s | Per-client caps and stop-queueing-after-decision, a lower sample rate, spot capacity, single-token retrain, quantisation, the distilled encoder |
+| The model only sees what the triggers select | Replay: 79% of the 624 attacks CRS misses have no trigger (plain traversal and SQLi) | A cheap screening tier in front of Gemma: a distilled encoder scoring every request and queueing what it flags (Model serving, step 4). Broadening the trigger instead would queue 29% of legitimate traffic |
+| CRS untuned blocks or times out legitimate traffic | Replay: 17.0% of legitimate requests blocked at PL1, 300 ms of CRS time for a 6 KB cookie header | Cookie and content-type exclusions, header size cap, tuning before Phase 2; the Phase 2 gate cannot pass without them |
 | The model cannot stop a one-shot attack | Bypass reports, GoTestWAF, red-team results | CRS tuning, virtual patches (4 hours), challenge on repeated probing |
 | Single-token labels lose accuracy | Release gates after the Phase 0 retrain | Keep the two-pass method on vLLM; accept a larger GPU pool |
 | Decoder parity not reached | Parity test on captured ext_proc requests | Train only on views the serving path produces, then rebuild and retrain |

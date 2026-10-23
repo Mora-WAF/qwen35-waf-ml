@@ -184,6 +184,36 @@ Deployment and pipeline:
   7 records over budget) and `training/gemma_tpu/train_tunix.py` (probe/train/score; loss and scoring project only
   the K=20 answer positions) written, not run. The Colab TPU driver was not written (safety classifier).
 
+### 21 October ~02:00 — replay harness: CRS and the real model on real browsing traffic; no-retrain vLLM speedups (WAF system)
+
+- **Replay harness** (`waf-system/sensor/cmd/replay`, `replay/`): corpora through the real sensor pipeline with no Envoy,
+  queued items scored by Gemma v13 on a Colab L4 (VllmScorer fast path), report in `waf-system/reports/replay/REPORT.md`.
+  Corpora: open-appsec (10,380 legitimate + 3,538 attack) and GoTestWAF (809); the AWS keys in the captures were replaced by
+  same-shape surrogates before upload.
+- **CRS alone** (4.25.2 on Coraza 3.8.1): blocks 17.0% of legitimate requests at blocking PL1 (23.9% counting bodies the
+  corpus truncated), 52.8% at PL2; 12.4% with `text/plain` allowed; 6.7% with cookies also dropped as a target of the
+  injection rule families. Causes: analytics `text/plain` beacons (920420), Akamai/OneTrust cookies on 932270/942550/942100.
+  CRS time grows with header and cookie bytes: 1.6 to 2 ms for small attack requests, 100 to 900 ms for 5 to 10 KB of cookies.
+  Through Envoy at 32 connections a 6 KB cookie header gave 109 req/s and 94% 504/503 with default rules, 421 req/s all
+  200 with cookies dropped. The Phase 2 gate (CRS false blocks on target) cannot pass without these exclusions.
+- **Model on the queued items**: of 4,206 attacks CRS blocks 85.2%; the model confirms 93% of those, adds 119 asynchronously and
+  never sees 497 (no trigger). Model BLOCK on 1.36% of legitimate requests untuned, 0.87% tuned (mostly `sqli_obfuscated`,
+  `graphql_abuse`). Queue share on legitimate traffic 26.7% untuned, 15.2% tuned (the plan assumed 2%). Tightened the
+  pre-filter (Base64 and double-encoding now need payload syntax): legitimate hits 9.9% / 9.1% -> 1.7% / 0.1% for a loss of 4 of
+  132 queued CRS-missed attacks.
+- **Client decisions**: simulated clients, random grouping. The original rule (3 BLOCK verdicts in 10 minutes) challenged 16 of 106
+  legitimate clients at 100 requests each; added `min_share` 0.3 (BLOCK share of the client's scored items) -> 1 of 106, 0 of 11
+  at 1,000 requests, attackers unchanged (median 3 requests to first decision). Needs shadow data: real false BLOCKs cluster.
+- **vLLM without retraining** (L4, 300 records): fast request pattern 6.51 rec/s vs 4.22 exact (1.5x), 7.74 with the optional
+  skip of pass 2 for unique-first-token classes (1.8x); 0 of 300 decisions changed; self-check to the TPU scores 0.0163 / 0.0245.
+  Batch-1 p99 still 560 to 600 ms (not inline).
+- **Also built**: per-client queue cap (20 per 10 minutes) and no queueing for clients that already have a decision,
+  Prometheus metrics (sensor :9102, worker :9103), report-a-block endpoint (rate-limited, never labels), Envoy load test.
+- **Infrastructure**: Colab reclaimed idle-kernel runtimes ~20 minutes after start (three VMs lost); runners now keep a cell
+  running, download partial results and resume. Tests: Go all packages, 36 Python.
+- **Open**: 497 attacks reach neither CRS nor the model: a cheap screening tier (distilled encoder) is the proposed fix; CRS
+  tuning rounds from the replay; decoder unification, go-ftw, CrowdSec adapter, residential-ASN exemption, `dns.log` featurizer.
+
 ### 20 October ~22:30 — WAF system built (`../waf-system/`), Gemma benchmarked on an L4 and moved to a second tier
 
 - **Built** from `docs/WAF_SYSTEM_PLAN.md` in `waf-system/` (Go 1.26 through docker, Python 3.12): sensor (`combiner`,
